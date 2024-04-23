@@ -1,0 +1,540 @@
+{
+    "DeleteWhenMovingOverExistingFolder": {
+        "BuildType": "PROD",
+        "Version": "1.0.0.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "ExtendSaveConverterTimeout": {
+        "BuildType": "PROD",
+        "Version": "1.0.2638.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "NetworkTrackerWmiEvent": {
+        "BuildType": "PROD",
+        "Version": "1.0.2802.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "PerformCreateDeleteOptimization": {
+        "BuildType": "PROD",
+        "Version": "1.0.0.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "SkipJournalProcessingOnStartup": {
+        "BuildType": "PROD",
+        "Version": "1.0.2922.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "TempFileHandling": {
+        "BuildType": "PROD",
+        "Version": "1.0.0.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UseDedupingJournal": {
+        "BuildType": "PROD",
+        "Version": "1.0.2802.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "RecoverResourceWithNoMetadata": {
+        "BuildType": "PROD",
+        "Version": "1.0.3196.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "CorrectFileNameCaseOnCBFSGetFileInfo": {
+        "BuildType": "PROD",
+        "Version": "1.0.3204.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "PerformResourceNameValidation": {
+        "BuildType": "PROD",
+        "Version": "1.0.3342.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "EnableSelectiveSync": {
+        "BuildType": "PROD",
+        "Version": "1.0.3850.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "EnableSelectiveSyncWin": {
+        "BuildType": "PROD",
+        "Version": "1.0.3895.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "LimitPendingMetricCount": {
+        "BuildType": "PROD",
+        "Version": "1.0.3980.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UseAsyncFetchFolder": {
+        "BuildType": "PROD",
+        "Version": "1.0.3672.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "SynthesizeMovesOnPlaceholders": {
+        "BuildType": "PROD",
+        "Version": "1.0.4012.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UploadDiagnosticCrashLogsOnStartup": {
+        "BuildType": "PROD",
+        "Version": "1.0.4049.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "TransformFuseHiddenRenameToOperation": {
+        "BuildType": "PROD",
+        "Version": "1.0.4119.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "PerformAllowedCharsValidation": {
+        "BuildType": "PROD",
+        "Version": "1.0.4119.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UseTransactionalMetadataManager": {
+        "BuildType": "PROD",
+        "Version": "1.0.4211.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "DisallowDelayOnFutureJounralEntries": {
+        "BuildType": "PROD",
+        "Version": "1.0.4142.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "SkipFetchingConflictingResources": {
+        "BuildType": "PROD",
+        "Version": "1.0.4142.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "LogJournalReaderFailuresAsIncidence": {
+        "BuildType": "PROD",
+        "Version": "1.0.4463.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UnlockFileWhenUploadFailWithSignatureMismatch": {
+        "BuildType": "PROD",
+        "Version": "1.0.4463.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "JournalReaderResultHandlerEnabled": {
+        "BuildType": "PROD",
+        "Version": "1.0.4464.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "EnableUIErrorNotifications": {
+        "BuildType": "PROD",
+        "Version": "1.0.4464.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "SpecialJournalProcessingWhenDriveIsInReadOnlyMode": {
+        "BuildType": "PROD",
+        "Version": "1.0.4492.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UserControllingDriveLetter": {
+        "BuildType": "PROD",
+        "Version": "1.0.4542.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "GetFileIdFromUserContext": {
+        "BuildType": "PROD",
+        "Version": "1.0.4556.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UseGetFileInfoV2": {
+        "BuildType": "PROD",
+        "Version": "1.0.4819.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "DisableNativeLogging": {
+        "BuildType": "PROD",
+        "Version": "1.0.4890.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UseCachedProcessPathProvider": {
+        "BuildType": "PROD",
+        "Version": "1.0.4890.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "SkipUserProcessCheckOnAsyncFetchFolder": {
+        "BuildType": "PROD",
+        "Version": "1.0.4878.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UseAsyncFetchFolderForGetFileInfo": {
+        "BuildType": "PROD",
+        "Version": "1.0.4878.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "ThrottleFavoriteRefresh": {
+        "BuildType": "PROD",
+        "Version": "1.0.5189.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "ThrottleAsynFolderFetch": {
+        "BuildType": "PROD",
+        "Version": "1.0.5189.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UpdatePlaceholderStateWhenDeleted": {
+        "BuildType": "PROD",
+        "Version": "1.0.5228.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UseManagedConnectionForMetadataDb": {
+        "BuildType": "PROD",
+        "Version": "1.0.5228.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "DoNotRecoverTmpFiles": {
+        "BuildType": "PROD",
+        "Version": "1.0.5333.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "EnableCircularBufferMetricsReporter": {
+        "BuildType": "PROD",
+        "Version": "1.0.5533.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "PersistFavoritesData": {
+        "BuildType": "PROD",
+        "Version": "1.0.5533.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "SkipIdentifyingLocalOnlyFolder": {
+        "BuildType": "PROD",
+        "Version": "1.0.5612.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "PerformNonConsecutiveUpdatesEliding": {
+        "BuildType": "PROD",
+        "Version": "1.0.5689.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "SkipConflictResourceCleanForDuplicate": {
+        "BuildType": "PROD",
+        "Version": "1.0.5830.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "SkipOpenFileForNativeProcess": {
+        "BuildType": "PROD",
+        "Version": "1.0.5891.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "UseMetricsDeliveryService": {
+        "BuildType": "PROD",
+        "Version": "1.0.6470.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "EnableIpcLocalEdit": {
+        "BuildType": "PROD",
+        "Version": "1.0.7025.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "CheckSignatureDuringFetchFolder": {
+        "BuildType": "PROD",
+        "Version": "1.0.9207.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "DoNotUploadWhenInPlaceholderState": {
+        "BuildType": "PROD",
+        "Version": "1.0.9355.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "CheckDependencyBeforeUpdate": {
+        "BuildType": "PROD",
+        "Version": "1.0.10220.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    },
+    "DoNotClearCacheWhenNoInvalidToken": {
+        "BuildType": "PROD",
+        "Version": "1.0.10276.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "fortitudere",
+            "alvichan-test"
+        ]
+    },
+    "EnableFasterRemoteToLocalSync": {
+        "BuildType": "PROD",
+        "Version": "1.0.10802.0",
+        "Region": ["*"],
+        "SiteId": ["*"],
+        "ExcludeSystemType": ["MAC", "LINUX"]
+    },
+    "UseHttpClientForUnipartUpload": {
+        "BuildType": "PROD",
+        "Version": "1.0.10729.0",
+        "Region": ["*"],
+        "SiteId": ["*"],
+        "ExcludeSystemType": ["PC", "WS", "LINUX"]
+    },
+    "EnableTeamSpaces": {
+        "BuildType": "PROD",
+        "Version": "1.0.10729.0",
+        "Region": ["*"],
+        "SiteId": ["amazon"],
+        "ExcludeSystemType": ["LINUX"]
+    },
+    "EnableTeamSpacesFileProvider": {
+        "BuildType": "PROD",
+        "Version": "1.0.10968.0",
+        "Region": ["*"],
+        "SiteId": ["amazon"]
+    },   
+    "AllowQueryPermissionWithNoPrincipalId": {
+        "BuildType": "PROD",
+        "Version": "1.0.11604.0",
+        "Region": [
+            "*"
+        ],
+        "SiteId": [
+            "*"
+        ]
+    }
+}

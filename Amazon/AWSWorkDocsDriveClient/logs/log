@@ -1,0 +1,689 @@
+[2024-04-23 01:00:16,027][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:00:16,032][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:00:16,032][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:00:16,032][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:00:16,033][thread3008][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"be0f8d5f-33fc-4ba1-8dd4-7af0344b6ebe","Timestamp":"2024-04-23T01:00:16.032873Z"}
+[2024-04-23 01:00:16,033][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:00:46,091][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:00:46,091][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:00:46,091][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:00:46,091][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:00:46,091][thread2988][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"852706dd-bb05-4beb-97f4-e29004500eb1","Timestamp":"2024-04-23T01:00:46.091687Z"}
+[2024-04-23 01:00:46,092][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:01:16,173][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:01:16,174][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:01:16,174][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:01:16,174][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:01:16,174][thread3007][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"6f8e864b-7a84-4669-9c7f-b1330288dc31","Timestamp":"2024-04-23T01:01:16.174304Z"}
+[2024-04-23 01:01:16,174][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:01:46,201][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:01:46,201][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:01:46,201][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:01:46,201][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:01:46,201][thread3007][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"b26fa3cd-80ee-4fae-bcae-ab0e856502bf","Timestamp":"2024-04-23T01:01:46.201553Z"}
+[2024-04-23 01:01:46,201][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:02:16,205][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:02:16,205][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:02:16,205][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:02:16,205][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:02:16,206][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"d1f5b969-1ab6-46eb-98ec-69378f4f4cf8","Timestamp":"2024-04-23T01:02:16.205992Z"}
+[2024-04-23 01:02:16,206][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:02:46,227][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:02:46,227][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:02:46,227][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:02:46,227][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:02:46,227][thread2988][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"015483f4-6f64-4bf6-84f1-c834c7c8dc3a","Timestamp":"2024-04-23T01:02:46.227418Z"}
+[2024-04-23 01:02:46,227][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:03:16,317][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:03:16,318][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:03:16,318][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:03:16,318][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:03:16,318][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"c7b2866d-8c7f-44de-9de5-f9e6ca892399","Timestamp":"2024-04-23T01:03:16.318371Z"}
+[2024-04-23 01:03:16,318][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:03:36,089][thread2970][DEBUG][AmazonWorkDocsDriveUnixCommon.Metrics.MetricsDeliveryHelper] - Fetching new metrics token Region us-west-2
+[2024-04-23 01:03:38,124][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableCircularBufferMetricsReporter' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:03:38,124][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'CheckDependencyBeforeUpdate' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:03:38,124][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'DoNotClearCacheWhenNoInvalidToken' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:03:38,124][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableTeamSpacesFileProvider' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:03:38,124][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'AllowQueryPermissionWithNoPrincipalId' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:03:46,337][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:03:46,338][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:03:46,338][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:03:46,338][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:03:46,338][thread3008][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"bf47310c-ee17-4f3e-83f1-efffabb33ebd","Timestamp":"2024-04-23T01:03:46.338321Z"}
+[2024-04-23 01:03:46,338][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:04:09,446][thread3007][DEBUG][AmazonWorkDocsDriveFramework.Cache.FavoriteResourceRefresher] - Entering: RefreshResources, forceRecursive='False'
+[2024-04-23 01:04:09,446][thread3007][DEBUG][AmazonWorkDocsDriveFramework.Cache.FavoriteDataManager] - Entering: RefreshFavorites
+[2024-04-23 01:04:09,647][thread3007][INFO ][AmazonWorkDocsDriveFramework.StorageProvider.WorkDocs.WorkDocsStorageProvider] - Amazon.WorkDocs.Model.ListFavoritesRequest id:0b89baca-3364-479e-8ace-a50ca346fd4f parameters:{"AuthenticationToken":null,"Limit":50,"Marker":null,"ParentEntityId":null}
+[2024-04-23 01:04:09,648][thread3007][INFO ][AmazonWorkDocsDriveFramework.Cache.FavoriteResourceRefresher] - Syncing favorite resources is disabled...
+[2024-04-23 01:04:09,806][thread2971][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:04:09,808][thread2971][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:04:16,444][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:04:16,445][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:04:16,445][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:04:16,445][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:04:16,445][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"dfe84d94-44e6-4438-a65d-74505969281f","Timestamp":"2024-04-23T01:04:16.445433Z"}
+[2024-04-23 01:04:16,445][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:04:46,575][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:04:46,575][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:04:46,575][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:04:46,575][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:04:46,576][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ef0eda22-8f47-4553-8918-6c8cbe7ac59b","Timestamp":"2024-04-23T01:04:46.575758Z"}
+[2024-04-23 01:04:46,576][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:05:16,682][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:05:16,682][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:05:16,682][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:05:16,682][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:05:16,682][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"1ae95cc2-20d5-4e95-8add-205b4b7ec4e7","Timestamp":"2024-04-23T01:05:16.682791Z"}
+[2024-04-23 01:05:16,683][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:05:46,807][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:05:46,807][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:05:46,807][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:05:46,807][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:05:46,808][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"a2b6277f-e1f9-46cf-9f2c-d4a7171b85ca","Timestamp":"2024-04-23T01:05:46.80802Z"}
+[2024-04-23 01:05:46,808][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:06:16,894][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:06:16,894][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:06:16,894][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:06:16,894][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:06:16,895][thread2988][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"771266ac-ed99-427b-856a-70302197ee11","Timestamp":"2024-04-23T01:06:16.89508Z"}
+[2024-04-23 01:06:16,895][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:06:46,906][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:06:46,906][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:06:46,906][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:06:46,906][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:06:46,906][thread3007][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"c5553255-490c-4fde-bb37-8ef24c7cf1fc","Timestamp":"2024-04-23T01:06:46.906587Z"}
+[2024-04-23 01:06:46,906][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:07:16,906][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:07:16,906][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:07:16,906][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:07:16,906][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:07:16,906][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"98783f55-5a61-441c-8145-26fc7828ee54","Timestamp":"2024-04-23T01:07:16.906569Z"}
+[2024-04-23 01:07:16,906][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:07:46,906][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:07:46,906][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:07:46,906][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:07:46,906][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:07:46,907][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"4e04282e-d1c8-4885-b598-b65d233dc557","Timestamp":"2024-04-23T01:07:46.907008Z"}
+[2024-04-23 01:07:46,907][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:08:16,932][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:08:16,933][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:08:16,933][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:08:16,933][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:08:16,933][thread2955][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"b028962e-8671-4e35-8407-e63bf8642ae1","Timestamp":"2024-04-23T01:08:16.933311Z"}
+[2024-04-23 01:08:16,933][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:08:46,932][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:08:46,933][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:08:46,933][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:08:46,933][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:08:46,933][thread2971][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"9ccc58c9-9184-4fd8-930e-9043f81f16ad","Timestamp":"2024-04-23T01:08:46.933278Z"}
+[2024-04-23 01:08:46,933][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:09:09,807][thread2971][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:09:09,809][thread2971][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:09:16,977][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:09:16,978][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:09:16,978][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:09:16,978][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:09:16,978][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"6d4f29f9-880c-46d2-98c4-040c980aaee7","Timestamp":"2024-04-23T01:09:16.978366Z"}
+[2024-04-23 01:09:16,978][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:09:47,142][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:09:47,143][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:09:47,143][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:09:47,143][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:09:47,143][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ef82b204-5c69-4368-becb-467fab90a7d9","Timestamp":"2024-04-23T01:09:47.143504Z"}
+[2024-04-23 01:09:47,143][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:10:17,248][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:10:17,248][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:10:17,248][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:10:17,248][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:10:17,248][thread2988][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"6f7df066-e1fe-4e1e-86e0-65a1588d7088","Timestamp":"2024-04-23T01:10:17.248337Z"}
+[2024-04-23 01:10:17,248][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:10:47,381][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:10:47,381][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:10:47,382][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:10:47,382][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:10:47,382][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ce2151e6-cb6d-44d0-a248-58083198e774","Timestamp":"2024-04-23T01:10:47.382128Z"}
+[2024-04-23 01:10:47,382][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:11:17,383][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:11:17,383][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:11:17,383][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:11:17,383][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:11:17,384][thread2988][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ead20692-bbe1-4c2e-9ac7-86f510b2c609","Timestamp":"2024-04-23T01:11:17.383766Z"}
+[2024-04-23 01:11:17,384][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:11:47,484][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:11:47,484][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:11:47,484][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:11:47,484][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:11:47,485][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"b2d97392-7284-4c09-9c2d-ab7e3348cc64","Timestamp":"2024-04-23T01:11:47.484983Z"}
+[2024-04-23 01:11:47,485][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:12:17,592][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:12:17,593][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:12:17,593][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:12:17,593][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:12:17,593][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"8230c5b4-5a58-476d-be51-9e20213d2550","Timestamp":"2024-04-23T01:12:17.593267Z"}
+[2024-04-23 01:12:17,593][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:12:47,592][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:12:47,592][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:12:47,592][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:12:47,592][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:12:47,593][thread3037][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"305ad522-1130-400f-ba8f-d0fd251bb260","Timestamp":"2024-04-23T01:12:47.592865Z"}
+[2024-04-23 01:12:47,593][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:13:17,607][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:13:17,608][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:13:17,608][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:13:17,608][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:13:17,608][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"83c0952d-0bd3-4b14-93c1-b466176af28a","Timestamp":"2024-04-23T01:13:17.608197Z"}
+[2024-04-23 01:13:17,608][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:13:47,630][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:13:47,631][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:13:47,631][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:13:47,631][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:13:47,632][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"e8e65100-5739-438e-b64f-232d546a7bea","Timestamp":"2024-04-23T01:13:47.63171Z"}
+[2024-04-23 01:13:47,632][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:14:09,966][thread2912][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:14:09,967][thread2912][INFO ][AmazonWorkDocsDriveFramework.Data.DatabaseConnectionPool] - Opening database connection. Data Source='/Users/scottkeeler/.config/Amazon/AWSWorkDocsDriveClient/WorkDrive.sqlite'
+[2024-04-23 01:14:09,970][thread2912][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:14:17,757][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:14:17,757][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:14:17,757][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:14:17,757][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:14:17,758][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"3e6f2442-f9b7-4be5-a9ab-913b77a32fe8","Timestamp":"2024-04-23T01:14:17.757894Z"}
+[2024-04-23 01:14:17,758][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:14:47,876][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:14:47,876][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:14:47,876][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:14:47,876][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:14:47,877][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"648c212b-8d33-49b0-9603-2eec7a42e1a0","Timestamp":"2024-04-23T01:14:47.877014Z"}
+[2024-04-23 01:14:47,877][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:15:18,014][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:15:18,015][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:15:18,015][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:15:18,015][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:15:18,015][thread2971][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"afc4cf01-aed7-41dd-bdfa-5eebdcfd0ba9","Timestamp":"2024-04-23T01:15:18.015584Z"}
+[2024-04-23 01:15:18,015][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:15:48,064][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:15:48,068][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:15:48,068][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:15:48,068][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:15:48,068][thread3008][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"2ed73564-0262-4146-8870-0d5155a25be0","Timestamp":"2024-04-23T01:15:48.068669Z"}
+[2024-04-23 01:15:48,069][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:16:18,098][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:16:18,099][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:16:18,099][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:16:18,099][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:16:18,099][thread2988][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ab623c6f-4975-4aeb-a0ed-2a0b2b898f69","Timestamp":"2024-04-23T01:16:18.099784Z"}
+[2024-04-23 01:16:18,100][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:16:48,125][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:16:48,125][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:16:48,125][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:16:48,125][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:16:48,126][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"81d08efc-9084-45d9-9c5b-4d3c816b54eb","Timestamp":"2024-04-23T01:16:48.12591Z"}
+[2024-04-23 01:16:48,126][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:17:18,160][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:17:18,160][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:17:18,160][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:17:18,160][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:17:18,161][thread2988][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"d1e570ed-ee15-4d6b-b213-5fcdc394bfde","Timestamp":"2024-04-23T01:17:18.160985Z"}
+[2024-04-23 01:17:18,161][thread2988][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:17:48,214][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:17:48,215][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:17:48,215][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:17:48,215][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:17:48,216][thread3037][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"888e50bb-1c92-4e22-816a-00fd7b9aa82c","Timestamp":"2024-04-23T01:17:48.215657Z"}
+[2024-04-23 01:17:48,216][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:18:18,225][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:18:18,225][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:18:18,226][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:18:18,226][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:18:18,226][thread2955][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"b5d1e39a-8849-41a6-9811-e335e2db37e6","Timestamp":"2024-04-23T01:18:18.226415Z"}
+[2024-04-23 01:18:18,226][thread2955][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:18:21,008][thread2970][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableCircularBufferMetricsReporter' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:21,008][thread2970][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'CheckDependencyBeforeUpdate' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:21,008][thread2970][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'DoNotClearCacheWhenNoInvalidToken' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:21,008][thread2970][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableTeamSpacesFileProvider' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:21,008][thread2970][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'AllowQueryPermissionWithNoPrincipalId' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:38,071][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableCircularBufferMetricsReporter' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:38,072][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'CheckDependencyBeforeUpdate' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:38,072][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'DoNotClearCacheWhenNoInvalidToken' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:38,072][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableTeamSpacesFileProvider' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:38,072][thread3007][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'AllowQueryPermissionWithNoPrincipalId' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:18:48,226][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:18:48,226][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:18:48,226][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:18:48,226][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:18:48,227][thread3037][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"2e9ef9a5-8be0-429d-a503-d05f1f40ad46","Timestamp":"2024-04-23T01:18:48.226964Z"}
+[2024-04-23 01:18:48,227][thread3037][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:19:09,560][thread3008][DEBUG][AmazonWorkDocsDriveFramework.Cache.FavoriteResourceRefresher] - Entering: RefreshResources, forceRecursive='False'
+[2024-04-23 01:19:09,561][thread3008][DEBUG][AmazonWorkDocsDriveFramework.Cache.FavoriteDataManager] - Entering: RefreshFavorites
+[2024-04-23 01:19:09,799][thread3008][INFO ][AmazonWorkDocsDriveFramework.StorageProvider.WorkDocs.WorkDocsStorageProvider] - Amazon.WorkDocs.Model.ListFavoritesRequest id:3a561890-e65b-4a7a-b75a-f3ab7fdceffe parameters:{"AuthenticationToken":null,"Limit":50,"Marker":null,"ParentEntityId":null}
+[2024-04-23 01:19:09,799][thread3008][INFO ][AmazonWorkDocsDriveFramework.Cache.FavoriteResourceRefresher] - Syncing favorite resources is disabled...
+[2024-04-23 01:19:10,110][thread2955][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:19:10,110][thread2955][INFO ][AmazonWorkDocsDriveFramework.Data.DatabaseConnectionPool] - Opening database connection. Data Source='/Users/scottkeeler/.config/Amazon/AWSWorkDocsDriveClient/WorkDrive.sqlite'
+[2024-04-23 01:19:10,114][thread2955][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:19:18,276][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:19:18,276][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:19:18,277][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:19:18,277][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:19:18,277][thread3007][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"9c7f276a-d0ec-49b4-94f7-78623a1d5b39","Timestamp":"2024-04-23T01:19:18.277182Z"}
+[2024-04-23 01:19:18,277][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:19:48,405][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:19:48,406][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:19:48,406][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:19:48,406][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:19:48,407][thread3008][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"b152f3db-3c79-4cbe-beba-aff8fd2bea46","Timestamp":"2024-04-23T01:19:48.406875Z"}
+[2024-04-23 01:19:48,407][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:20:18,443][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:20:18,443][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:20:18,444][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:20:18,444][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:20:18,444][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"a7b36f0e-a769-45ac-ac6f-d6eb45a23374","Timestamp":"2024-04-23T01:20:18.444184Z"}
+[2024-04-23 01:20:18,444][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:20:48,525][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:20:48,525][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:20:48,525][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:20:48,525][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:20:48,526][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"06ac4e17-b1b1-413c-918b-afd431d332c6","Timestamp":"2024-04-23T01:20:48.525935Z"}
+[2024-04-23 01:20:48,526][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:21:18,537][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:21:18,537][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:21:18,537][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:21:18,537][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:21:18,537][thread3007][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"89f6b6d0-e3ec-4f97-8b5e-ed713145db08","Timestamp":"2024-04-23T01:21:18.537611Z"}
+[2024-04-23 01:21:18,537][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:21:32,710][thread3008][INFO ][AmazonWorkDocsDriveFramework.Logs.IncidenceLogManager] - Starting incidence logs upload ...
+[2024-04-23 01:21:32,715][thread3008][DEBUG][AmazonWorkDocsDriveFramework.Logs.LogArchiver] - Attempting to copy logs for Crash to folder /Users/scottkeeler/.config/Amazon/AWSWorkDocsDriveClient/logs/staging/gzqclqea.t7h.
+[2024-04-23 01:21:32,716][thread3008][WARN ][AmazonWorkDocsDriveFramework.Logs.LogArchiver] - No logs for Crash found.
+[2024-04-23 01:21:32,786][thread2912][DEBUG][AWSWorkDriveCommon.Logs.LogsUtility] - Will delete empty log file instead of archiving it, path='/Users/scottkeeler/.config/Amazon/AWSWorkDocsDriveClient/logs/incidence_log_2024042300'
+[2024-04-23 01:21:48,686][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:21:48,686][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:21:48,686][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:21:48,687][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:21:48,687][thread3008][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"c671a2d2-97c1-442a-907c-a399a5335d3d","Timestamp":"2024-04-23T01:21:48.68715Z"}
+[2024-04-23 01:21:48,687][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:22:18,834][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:22:18,834][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:22:18,834][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:22:18,834][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:22:18,834][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"0b2e84da-b723-49bb-bd16-9089cde839a4","Timestamp":"2024-04-23T01:22:18.834631Z"}
+[2024-04-23 01:22:18,834][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:22:48,981][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:22:48,982][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:22:48,982][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:22:48,982][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:22:48,982][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"df39368f-8b8a-44c8-b838-894f71675936","Timestamp":"2024-04-23T01:22:48.982347Z"}
+[2024-04-23 01:22:48,982][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:23:19,059][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:23:19,060][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:23:19,060][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:23:19,060][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:23:19,060][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"6d02aa35-7f4a-43f1-8501-b439714ea2a7","Timestamp":"2024-04-23T01:23:19.060587Z"}
+[2024-04-23 01:23:19,060][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:23:49,178][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:23:49,178][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:23:49,178][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:23:49,178][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:23:49,178][thread3055][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"46fe3242-0131-4c02-83d5-16e922c7f1bc","Timestamp":"2024-04-23T01:23:49.178734Z"}
+[2024-04-23 01:23:49,179][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:24:10,220][thread2955][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:24:10,222][thread2955][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:24:19,177][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:24:19,178][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:24:19,178][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:24:19,178][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:24:19,178][thread3056][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"efe9e6a0-dc47-48a7-bfc6-5c54ce0e04d2","Timestamp":"2024-04-23T01:24:19.178336Z"}
+[2024-04-23 01:24:19,178][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:24:49,297][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:24:49,298][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:24:49,298][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:24:49,298][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:24:49,299][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"c06b57cb-0c1a-4c6a-8ca5-678128a029af","Timestamp":"2024-04-23T01:24:49.298703Z"}
+[2024-04-23 01:24:49,299][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:25:19,429][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:25:19,429][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:25:19,430][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:25:19,430][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:25:19,430][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"62668e97-c895-4fea-bb2f-d46a85b9a749","Timestamp":"2024-04-23T01:25:19.43019Z"}
+[2024-04-23 01:25:19,430][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:25:49,494][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:25:49,495][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:25:49,495][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:25:49,495][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:25:49,495][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"e920e2a6-db49-4a26-aab4-7f2b700b2cce","Timestamp":"2024-04-23T01:25:49.495307Z"}
+[2024-04-23 01:25:49,495][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:26:19,504][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:26:19,504][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:26:19,504][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:26:19,504][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:26:19,504][thread3055][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"8fe2a6c2-3638-482a-a2a8-e7ddf7ebc031","Timestamp":"2024-04-23T01:26:19.504529Z"}
+[2024-04-23 01:26:19,504][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:26:49,591][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:26:49,591][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:26:49,591][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:26:49,591][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:26:49,591][thread3008][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"f772e4bc-ee16-481e-b8d4-316eea5ccba0","Timestamp":"2024-04-23T01:26:49.591432Z"}
+[2024-04-23 01:26:49,591][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:27:19,712][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:27:19,712][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:27:19,712][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:27:19,712][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:27:19,713][thread3055][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ad0edf6d-84e3-496d-bffc-6c053aa90156","Timestamp":"2024-04-23T01:27:19.712788Z"}
+[2024-04-23 01:27:19,713][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:27:49,737][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:27:49,737][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:27:49,737][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:27:49,738][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:27:49,738][thread3056][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ed5141a3-77e0-4ac2-b22d-81fe026a6ffc","Timestamp":"2024-04-23T01:27:49.738078Z"}
+[2024-04-23 01:27:49,738][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:28:19,778][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:28:19,779][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:28:19,779][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:28:19,779][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:28:19,779][thread2971][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"d5ae7737-b168-49ae-9cf7-697afab61aa6","Timestamp":"2024-04-23T01:28:19.779223Z"}
+[2024-04-23 01:28:19,779][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:28:49,837][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:28:49,838][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:28:49,838][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:28:49,838][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:28:49,839][thread3007][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"cb42df12-899b-44b1-ad84-031c091c2a18","Timestamp":"2024-04-23T01:28:49.839066Z"}
+[2024-04-23 01:28:49,839][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:29:10,311][thread3056][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:29:10,317][thread3056][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:29:19,836][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:29:19,837][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:29:19,838][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:29:19,838][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:29:19,838][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"2658a7d3-36d2-4973-b002-d07fc034e849","Timestamp":"2024-04-23T01:29:19.838263Z"}
+[2024-04-23 01:29:19,838][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:29:49,836][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:29:49,837][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:29:49,837][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:29:49,837][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:29:49,837][thread3008][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"46913d60-5c43-4591-94ae-2c7bac336bdb","Timestamp":"2024-04-23T01:29:49.837197Z"}
+[2024-04-23 01:29:49,837][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:30:19,895][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:30:19,896][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:30:19,896][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:30:19,896][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:30:19,896][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"e5e13d84-87d6-4f39-b72b-3f7ef262f8b0","Timestamp":"2024-04-23T01:30:19.896239Z"}
+[2024-04-23 01:30:19,896][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:30:49,894][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:30:49,895][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:30:49,895][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:30:49,895][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:30:49,895][thread3056][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"344ac3b3-3c30-471c-8162-b946a1cf1f4c","Timestamp":"2024-04-23T01:30:49.895314Z"}
+[2024-04-23 01:30:49,895][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:31:19,958][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:31:19,959][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:31:19,959][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:31:19,959][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:31:19,959][thread3003][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"9429affc-ce89-4068-951d-47f3b180a05f","Timestamp":"2024-04-23T01:31:19.959328Z"}
+[2024-04-23 01:31:19,959][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:31:50,024][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:31:50,025][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:31:50,025][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:31:50,025][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:31:50,025][thread3003][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"651970bf-1a9c-44e8-8aca-b920c5acc27c","Timestamp":"2024-04-23T01:31:50.02565Z"}
+[2024-04-23 01:31:50,025][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:32:20,023][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:32:20,023][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:32:20,023][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:32:20,023][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:32:20,024][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"1e24fa4d-400f-46a3-b4fa-7991e58560af","Timestamp":"2024-04-23T01:32:20.023941Z"}
+[2024-04-23 01:32:20,024][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:32:50,090][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:32:50,091][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:32:50,091][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:32:50,091][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:32:50,091][thread3007][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"c23f2346-d6c2-4682-b1e0-a6b16ac37169","Timestamp":"2024-04-23T01:32:50.091397Z"}
+[2024-04-23 01:32:50,091][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:33:20,137][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:33:20,137][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:33:20,138][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:33:20,138][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:33:20,138][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"dd9c0d89-b18f-475f-9d4b-4df7ef7d8d00","Timestamp":"2024-04-23T01:33:20.138157Z"}
+[2024-04-23 01:33:20,138][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:33:38,199][thread3003][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableCircularBufferMetricsReporter' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:33:38,199][thread3003][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'CheckDependencyBeforeUpdate' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:33:38,199][thread3003][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'DoNotClearCacheWhenNoInvalidToken' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:33:38,199][thread3003][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableTeamSpacesFileProvider' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:33:38,199][thread3003][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'AllowQueryPermissionWithNoPrincipalId' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:33:50,205][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:33:50,205][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:33:50,205][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:33:50,205][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:33:50,206][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"f6328ac6-51ee-4b1d-8f89-d40e4a2063c1","Timestamp":"2024-04-23T01:33:50.205861Z"}
+[2024-04-23 01:33:50,206][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:34:09,579][thread3038][DEBUG][AmazonWorkDocsDriveFramework.Cache.FavoriteResourceRefresher] - Entering: RefreshResources, forceRecursive='False'
+[2024-04-23 01:34:09,579][thread3038][DEBUG][AmazonWorkDocsDriveFramework.Cache.FavoriteDataManager] - Entering: RefreshFavorites
+[2024-04-23 01:34:09,954][thread3038][INFO ][AmazonWorkDocsDriveFramework.StorageProvider.WorkDocs.WorkDocsStorageProvider] - Amazon.WorkDocs.Model.ListFavoritesRequest id:bca03205-0e9e-42c0-b940-bfcb052f6d04 parameters:{"AuthenticationToken":null,"Limit":50,"Marker":null,"ParentEntityId":null}
+[2024-04-23 01:34:09,954][thread3038][INFO ][AmazonWorkDocsDriveFramework.Cache.FavoriteResourceRefresher] - Syncing favorite resources is disabled...
+[2024-04-23 01:34:10,327][thread2955][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:34:10,332][thread2955][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:34:20,273][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:34:20,273][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:34:20,274][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:34:20,274][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:34:20,274][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"6c435464-a623-4ea7-8f3b-5b5d2052faee","Timestamp":"2024-04-23T01:34:20.274119Z"}
+[2024-04-23 01:34:20,274][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:34:50,327][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:34:50,327][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:34:50,327][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:34:50,327][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:34:50,327][thread3056][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"68d9ab6e-e36f-4b43-9b46-f772663d40d9","Timestamp":"2024-04-23T01:34:50.327636Z"}
+[2024-04-23 01:34:50,327][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:35:20,380][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:35:20,380][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:35:20,380][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:35:20,380][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:35:20,381][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"c3eed447-d155-4e9d-88e2-6444b0e05663","Timestamp":"2024-04-23T01:35:20.380901Z"}
+[2024-04-23 01:35:20,381][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:35:50,450][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:35:50,450][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:35:50,450][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:35:50,450][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:35:50,451][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"2b259fdf-1165-4e0f-b7fe-9d963ff80225","Timestamp":"2024-04-23T01:35:50.450861Z"}
+[2024-04-23 01:35:50,451][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:36:20,496][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:36:20,496][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:36:20,496][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:36:20,496][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:36:20,497][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"e3644c95-4e91-4c4e-8d73-d64acbaf6886","Timestamp":"2024-04-23T01:36:20.496807Z"}
+[2024-04-23 01:36:20,497][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:36:50,533][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:36:50,534][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:36:50,534][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:36:50,534][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:36:50,534][thread3056][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"272c7ab7-b163-46b2-9ca6-a77d483400e9","Timestamp":"2024-04-23T01:36:50.534313Z"}
+[2024-04-23 01:36:50,534][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:37:20,533][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:37:20,534][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:37:20,534][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:37:20,534][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:37:20,534][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ba1a8e01-be74-400d-8b3e-0990db872556","Timestamp":"2024-04-23T01:37:20.53437Z"}
+[2024-04-23 01:37:20,534][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:37:50,603][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:37:50,604][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:37:50,604][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:37:50,604][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:37:50,605][thread3056][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ae4bddb7-0232-4041-87ee-2deb8d6345b3","Timestamp":"2024-04-23T01:37:50.604841Z"}
+[2024-04-23 01:37:50,605][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:38:20,618][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:38:20,619][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:38:20,619][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:38:20,619][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:38:20,619][thread3056][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"ee29b2bd-02fc-4106-8a2e-3dd54ca6c587","Timestamp":"2024-04-23T01:38:20.619332Z"}
+[2024-04-23 01:38:20,619][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:38:50,624][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:38:50,625][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:38:50,625][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:38:50,625][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:38:50,626][thread2990][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"814f6f80-bbbe-468d-a7bf-8cfd043fb100","Timestamp":"2024-04-23T01:38:50.626045Z"}
+[2024-04-23 01:38:50,626][thread2990][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:39:10,362][thread3056][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:39:10,366][thread3056][INFO ][AmazonWorkDocsDriveFramework.Data.DatabaseConnectionPool] - Opening database connection. Data Source='/Users/scottkeeler/.config/Amazon/AWSWorkDocsDriveClient/WorkDrive.sqlite'
+[2024-04-23 01:39:10,376][thread3056][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:39:20,670][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:39:20,670][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:39:20,670][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:39:20,670][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:39:20,670][thread3008][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"e03c068f-c7d6-43f4-b776-e940e6d3e938","Timestamp":"2024-04-23T01:39:20.670649Z"}
+[2024-04-23 01:39:20,670][thread3008][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:39:50,669][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:39:50,669][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:39:50,670][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:39:50,670][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:39:50,670][thread3055][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"b19d9a24-df06-4376-987f-ad814bbe2368","Timestamp":"2024-04-23T01:39:50.670089Z"}
+[2024-04-23 01:39:50,670][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:40:20,727][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:40:20,728][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:40:20,728][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:40:20,728][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:40:20,728][thread3003][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"bfc62f0b-95b6-491e-9e91-22a7a30faebf","Timestamp":"2024-04-23T01:40:20.7284Z"}
+[2024-04-23 01:40:20,728][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:40:50,797][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:40:50,798][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:40:50,798][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:40:50,798][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:40:50,798][thread3003][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"b3969fb4-4413-4a1c-93dc-7c4e1758329e","Timestamp":"2024-04-23T01:40:50.79832Z"}
+[2024-04-23 01:40:50,798][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:41:00,199][thread3056][INFO ][AmazonWorkDocsDriveFramework.StorageProvider.WorkDocs.Auth.WorkDocsAuthenticationManager] - WorkDocs.Auth - Refreshing access token...
+[2024-04-23 01:41:20,890][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:41:20,891][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:41:20,891][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:41:20,891][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:41:20,891][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"408d8d06-44fe-4dab-9840-19b4d88f09aa","Timestamp":"2024-04-23T01:41:20.891288Z"}
+[2024-04-23 01:41:20,891][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:41:50,966][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:41:50,967][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:41:50,967][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:41:50,967][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:41:50,967][thread2971][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"124cbb37-9478-4925-9b02-b4fff89bd333","Timestamp":"2024-04-23T01:41:50.967448Z"}
+[2024-04-23 01:41:50,967][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:42:21,036][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:42:21,037][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:42:21,037][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:42:21,037][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:42:21,037][thread3003][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"d5f3a6e3-380f-45f4-9932-b3d5c7758140","Timestamp":"2024-04-23T01:42:21.037271Z"}
+[2024-04-23 01:42:21,037][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:42:51,036][thread3070][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:42:51,036][thread3070][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:42:51,037][thread3070][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:42:51,037][thread3070][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:42:51,037][thread3070][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"21c5a2b0-678b-4823-89c4-0e0f64a1cafd","Timestamp":"2024-04-23T01:42:51.037132Z"}
+[2024-04-23 01:42:51,037][thread3070][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:43:21,108][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:43:21,109][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:43:21,109][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:43:21,109][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:43:21,109][thread2971][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"9a18c6eb-2fd8-4e2b-9919-b0d06cfb480f","Timestamp":"2024-04-23T01:43:21.109433Z"}
+[2024-04-23 01:43:21,109][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:43:51,181][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:43:51,181][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:43:51,181][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:43:51,181][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:43:51,181][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"e9cf6e2e-5160-4a3c-8a2a-decaba1cb464","Timestamp":"2024-04-23T01:43:51.181723Z"}
+[2024-04-23 01:43:51,181][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:44:10,435][thread3008][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:44:10,439][thread3008][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:44:21,179][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:44:21,180][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:44:21,181][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:44:21,181][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:44:21,181][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"0f40a326-0a81-429c-8657-051f71d15e24","Timestamp":"2024-04-23T01:44:21.181119Z"}
+[2024-04-23 01:44:21,181][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:44:51,178][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:44:51,179][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:44:51,179][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:44:51,179][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:44:51,180][thread3055][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"2c898d21-50cf-4be5-82e5-192bd05eed4a","Timestamp":"2024-04-23T01:44:51.179951Z"}
+[2024-04-23 01:44:51,180][thread3055][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:45:21,234][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:45:21,234][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:45:21,234][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:45:21,234][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:45:21,234][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"126806f9-e840-49ae-bf72-91a7a95165f4","Timestamp":"2024-04-23T01:45:21.234822Z"}
+[2024-04-23 01:45:21,234][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:45:51,298][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:45:51,299][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:45:51,299][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:45:51,299][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:45:51,299][thread2971][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"d45dbede-47f8-442e-9687-5908f31b2a05","Timestamp":"2024-04-23T01:45:51.299179Z"}
+[2024-04-23 01:45:51,299][thread2971][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:46:21,370][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:46:21,370][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:46:21,370][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:46:21,370][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:46:21,371][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"8ac24936-4b5e-49bf-b1e4-e24c754ef35e","Timestamp":"2024-04-23T01:46:21.37094Z"}
+[2024-04-23 01:46:21,371][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:46:51,429][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:46:51,430][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:46:51,430][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:46:51,430][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:46:51,430][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"0451a9ce-b097-4116-9b01-70e04b28352f","Timestamp":"2024-04-23T01:46:51.430322Z"}
+[2024-04-23 01:46:51,430][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:47:21,472][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:47:21,472][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:47:21,472][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:47:21,472][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:47:21,472][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"f38ce1e2-9abf-481f-be59-6524600bf18a","Timestamp":"2024-04-23T01:47:21.472642Z"}
+[2024-04-23 01:47:21,472][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:47:51,499][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:47:51,499][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:47:51,499][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:47:51,499][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:47:51,499][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"3afeb114-a48d-496e-a541-d6992aafe7fe","Timestamp":"2024-04-23T01:47:51.49971Z"}
+[2024-04-23 01:47:51,499][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:48:21,572][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:48:21,573][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:48:21,573][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:48:21,573][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:48:21,573][thread3056][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"338158ee-f8e4-4221-adf1-f044bfba3867","Timestamp":"2024-04-23T01:48:21.573191Z"}
+[2024-04-23 01:48:21,573][thread3056][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:48:36,233][thread2970][DEBUG][AmazonWorkDocsDriveUnixCommon.Metrics.MetricsDeliveryHelper] - Fetching new metrics token Region us-west-2
+[2024-04-23 01:48:38,301][thread3070][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableCircularBufferMetricsReporter' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:48:38,301][thread3070][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'CheckDependencyBeforeUpdate' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:48:38,301][thread3070][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'DoNotClearCacheWhenNoInvalidToken' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:48:38,301][thread3070][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'EnableTeamSpacesFileProvider' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:48:38,301][thread3070][ERROR][AmazonWorkDocsDriveFramework.FeatureManager.FeatureFetcher.HttpFeatureFetcher] - Feature 'AllowQueryPermissionWithNoPrincipalId' doesn't exist. Probably it's misspelled.
+[2024-04-23 01:48:51,644][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:48:51,644][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:48:51,644][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:48:51,644][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:48:51,644][thread3038][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"f91d0a04-4faf-40bd-9c27-846330c33460","Timestamp":"2024-04-23T01:48:51.644491Z"}
+[2024-04-23 01:48:51,644][thread3038][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:49:09,636][thread3070][DEBUG][AmazonWorkDocsDriveFramework.Cache.FavoriteResourceRefresher] - Entering: RefreshResources, forceRecursive='False'
+[2024-04-23 01:49:09,636][thread3070][DEBUG][AmazonWorkDocsDriveFramework.Cache.FavoriteDataManager] - Entering: RefreshFavorites
+[2024-04-23 01:49:10,445][thread3086][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Querying the DB for resource entries with state='PRESENT' ...
+[2024-04-23 01:49:10,446][thread3086][INFO ][AmazonWorkDocsDriveFramework.Cache.GarbageCollector] - GarbageCollector - Iterating over '8' resource entries...
+[2024-04-23 01:49:10,893][thread3070][INFO ][AmazonWorkDocsDriveFramework.StorageProvider.WorkDocs.WorkDocsStorageProvider] - Amazon.WorkDocs.Model.ListFavoritesRequest id:196d049b-0c3b-4f37-8b95-5c9377fca158 parameters:{"AuthenticationToken":null,"Limit":50,"Marker":null,"ParentEntityId":null}
+[2024-04-23 01:49:10,893][thread3070][INFO ][AmazonWorkDocsDriveFramework.Cache.FavoriteResourceRefresher] - Syncing favorite resources is disabled...
+[2024-04-23 01:49:21,664][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:49:21,664][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:49:21,664][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:49:21,664][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:49:21,664][thread3003][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"0019159a-93c0-47b8-ab4f-c6c23e70ff6c","Timestamp":"2024-04-23T01:49:21.66453Z"}
+[2024-04-23 01:49:21,664][thread3003][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:49:51,734][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:49:51,735][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:49:51,735][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:49:51,735][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:49:51,735][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"4da57436-a30d-47a4-be75-014603733017","Timestamp":"2024-04-23T01:49:51.73528Z"}
+[2024-04-23 01:49:51,735][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:50:21,799][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:50:21,800][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:50:21,800][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:50:21,800][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:50:21,800][thread2970][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"3c599e5c-7e26-4ff3-bd3e-f9436d3b4599","Timestamp":"2024-04-23T01:50:21.800829Z"}
+[2024-04-23 01:50:21,801][thread2970][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:50:51,847][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:50:51,847][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:50:51,847][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:50:51,847][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:50:51,848][thread2912][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"d7ec3742-1296-4a54-82b1-fc53f4c7c934","Timestamp":"2024-04-23T01:50:51.847896Z"}
+[2024-04-23 01:50:51,848][thread2912][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'
+[2024-04-23 01:51:21,890][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Reading entries from the journal, version: 1.0.11357.0-prod
+[2024-04-23 01:51:21,891][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Optimizing batch of size 0
+[2024-04-23 01:51:21,891][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.CompactCreatesAndUpdatesOptimizer] - Skipping optimization because feature is not enabled
+[2024-04-23 01:51:21,891][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReader] - Processing batch of size 0
+[2024-04-23 01:51:21,891][thread3007][INFO ][AmazonWorkDocsDriveFramework.StatusMonitor.SystemPopupNotificationObserver] - SystemNotificationObserver observer received update: {"DriveState":"UpToDate","JournalHandler":{"present":false,"value":null},"Id":"f664ac43-10f1-4b78-b33f-a8c9beb5a781","Timestamp":"2024-04-23T01:51:21.891248Z"}
+[2024-04-23 01:51:21,891][thread3007][INFO ][AmazonWorkDocsDriveFramework.Sync.JournalReaderResultHandler] - HandleSuccess - Is journal reader failure handler enable -> 'True'

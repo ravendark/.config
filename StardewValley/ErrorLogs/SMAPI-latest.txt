@@ -1,0 +1,103 @@
+[17:53:48 INFO  SMAPI] SMAPI 3.18.1 with Stardew Valley 1.5.6 (build 1.3.37.0) on macOS Unix 13.1.0
+[17:53:48 INFO  SMAPI] Mods go here: /Users/scottkeeler/Library/Application Support/Steam/steamapps/common/Stardew Valley/Contents/MacOS/Mods
+[17:53:48 TRACE SMAPI] Log started at 2023-01-30T01:53:48 UTC
+[17:53:51 DEBUG SMAPI] Waiting for game to launch...
+[17:53:52 TRACE game] NoFpsCap: This feature is not available
+[17:53:53 DEBUG SMAPI] Loading mod metadata...
+[17:53:53 TRACE SMAPI]   Ignored loose files: .DS_Store
+[17:53:53 DEBUG SMAPI] Loading mods...
+[17:53:53 TRACE SMAPI]    SMAPI 3.18.1 installer (from Mods/SMAPI 3.18.1 installer)...
+[17:53:53 TRACE SMAPI]       Failed: the SMAPI installer isn't a mod (you can delete this folder after running the installer file).
+[17:53:53 TRACE SMAPI]    Console Commands (from Mods/ConsoleCommands/ConsoleCommands.dll)...
+[17:53:54 TRACE SMAPI]    Save Backup (from Mods/SaveBackup/SaveBackup.dll)...
+[17:53:54 TRACE SMAPI]    Error Handler (from Mods/ErrorHandler/ErrorHandler.dll)...
+[17:53:54 TRACE SMAPI]       Detected game patcher in assembly ErrorHandler.dll.
+[17:53:54 TRACE SMAPI]    UI Info Suite 2 (from Mods/UIInfoSuite2/UIInfoSuite2.dll)...
+[17:53:54 TRACE SMAPI]    Automate (from Mods/Automate/Automate.dll)...
+[17:53:54 TRACE SMAPI]    Tractor Mod (from Mods/TractorMod/TractorMod.dll)...
+[17:53:54 TRACE SMAPI]    CJB Item Spawner (from Mods/CJBItemSpawner/CJBItemSpawner.dll)...
+[17:53:54 TRACE SMAPI]    Experience Bars (from Mods/ExperienceBars/ExperienceBars.dll)...
+[17:53:54 TRACE SMAPI]    Visible Fish (from Mods/VisibleFish/showFishInWater.dll)...
+[17:53:54 TRACE SMAPI]       Detected game patcher in assembly showFishInWater.dll.
+[17:53:54 INFO  SMAPI] Loaded 9 mods:
+[17:53:54 INFO  SMAPI]    Automate 1.28.2 by Pathoschild | Lets you automate crafting machines, fruit trees, and more by connecting them to chests.
+[17:53:54 INFO  SMAPI]    CJB Item Spawner 2.2.2 by CJBok and Pathoschild | Simple in-game item spawner!
+[17:53:54 INFO  SMAPI]    Console Commands 3.18.1 by SMAPI | Adds SMAPI console commands that let you manipulate the game.
+[17:53:54 INFO  SMAPI]    Error Handler 3.18.1 by SMAPI | Handles some common vanilla errors to log more useful info or avoid breaking the game.
+[17:53:54 INFO  SMAPI]    Experience Bars 1.4.4 by spacechase0 | Shows experience bars in the top-left corner.
+[17:53:54 INFO  SMAPI]    Save Backup 3.18.1 by SMAPI | Automatically backs up all your saves once per day into its folder.
+[17:53:54 INFO  SMAPI]    Tractor Mod 4.16.3 by Pathoschild | Lets you buy a tractor to more efficiently work with crops, clear twigs and rocks, etc.
+[17:53:54 INFO  SMAPI]    UI Info Suite 2 2.2.9 by Annosz | Adds a useful information to the user interface. Based on Cdaragorn's excellent UI Info Suite.
+[17:53:54 INFO  SMAPI]    Visible Fish 0.3.5 by shekurika | Shows fish in the water
+
+[17:53:54 INFO  SMAPI] Found 2 mods with warnings:
+[17:53:54 ERROR SMAPI]    Skipped mods
+[17:53:54 ERROR SMAPI]    --------------------------------------------------
+[17:53:54 ERROR SMAPI]       These mods could not be added to your game.
+
+[17:53:54 ERROR SMAPI]       - SMAPI 3.18.1 installer because the SMAPI installer isn't a mod (you can delete this folder after running the installer file).
+
+[17:53:54 INFO  SMAPI]    Patched game code
+[17:53:54 INFO  SMAPI]    --------------------------------------------------
+[17:53:54 INFO  SMAPI]       These mods directly change the game code. They're more likely to cause errors or bugs in-game; if
+[17:53:54 INFO  SMAPI]       your game has issues, try removing these first. Otherwise you can ignore this warning.
+
+[17:53:54 INFO  SMAPI]       - Visible Fish
+
+[17:53:54 DEBUG SMAPI] Launching mods...
+[17:53:54 TRACE Save Backup] Backed up to /Users/scottkeeler/Library/Application Support/Steam/steamapps/common/Stardew Valley/Contents/MacOS/save-backups/2023-01-30 - SMAPI 3.18.1 with Stardew Valley 1.5.6.zip.
+[17:53:54 TRACE SMAPI]    Found mod-provided API (Pathoschild.Stardew.Automate.Framework.AutomateAPI).
+[17:53:54 TRACE CJB Item Spawner] Started with menu key I.
+[17:53:54 TRACE SMAPI]    Found mod-provided API (ExperienceBars.Api).
+[17:53:54 DEBUG SMAPI] Mods loaded and ready!
+[17:53:54 TRACE SMAPI] Checking for updates...
+[17:53:55 TRACE game] setGameMode( 'titleScreenGameMode (0)' )
+[17:53:55 ALERT SMAPI] You can update SMAPI to 3.18.2: https://smapi.io
+[17:53:55 TRACE SMAPI]    Checking for updates to 6 mods...
+[17:53:55 TRACE SMAPI]    All mods up to date.
+[17:53:55 TRACE game] Steam logged on: True
+[17:53:55 TRACE game] Initializing GalaxySDK
+[17:53:55 TRACE game] Requesting Steam app ticket
+[17:53:55 TRACE SMAPI] Detecting common issues...
+[17:53:55 INFO  SMAPI] Type 'help' for help, or 'help <cmd>' for a command's usage
+[17:53:56 TRACE game] Signing into GalaxySDK
+[17:53:56 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:0 Width:1920 Height:1080}
+[17:53:57 TRACE game] Galaxy auth success
+[17:53:57 TRACE game] Galaxy signed in
+[17:53:57 TRACE game] Galaxy logged on
+[17:54:18 TRACE SMAPI] Synchronizing 'Find Save Games' task...
+[17:54:19 TRACE SMAPI]    task complete.
+[17:54:22 TRACE game] gameMode was 'titleScreenGameMode (0)', set to 'loadingMode (6)'.
+[17:54:22 TRACE SMAPI] Game loader synchronizing...
+[17:54:22 TRACE game] getLoadEnumerator('Inheritance_322844468')
+[17:54:22 TRACE game] regular stream detected...
+[17:54:22 TRACE SMAPI] Synchronizing 'Load_Deserialize' task...
+[17:54:24 TRACE SMAPI]    task complete.
+[17:54:24 TRACE SMAPI] Synchronizing 'Load_LoadForNewGame' task...
+[17:54:25 TRACE SMAPI]    task complete.
+[17:54:25 TRACE SMAPI] Synchronizing 'Load_Farmer' task...
+[17:54:25 TRACE SMAPI]    task complete.
+[17:54:25 TRACE SMAPI] Synchronizing 'Load_Locations' task...
+[17:54:25 TRACE SMAPI]    task complete.
+[17:54:25 TRACE game] gameMode was 'loadingMode (6)', set to 'playingGameMode (3)'.
+[17:54:25 TRACE game] getLoadEnumerator() exited, elapsed = '00:00:03.1201745'
+[17:54:25 TRACE game] setupEventCommands() registered '130' methods
+[17:54:25 TRACE SMAPI] Game loader done.
+[17:54:26 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:0 Width:1920 Height:1080}
+[17:54:26 TRACE SMAPI] Context: loaded save 'Inheritance_322844468', starting spring 12 Y1, locale set to . Single-player.
+[17:54:26 INFO  UI Info Suite 2] Setting up icon sheet
+[17:54:26 INFO  Visible Fish] Removed fishing treasure flags from player Raven successfully.
+[17:54:26 TRACE Visible Fish] assigned new FishManager so its hopefully not null :c
+[17:54:26 TRACE SMAPI] Tractor Mod loaded asset 'Mods/Pathoschild.TractorMod/tractor'.
+[17:54:26 TRACE SMAPI] Tractor Mod loaded asset 'Mods/Pathoschild.TractorMod/garage'.
+[17:54:41 TRACE game] Warping to Farm
+[17:54:41 TRACE Visible Fish] Warped to Farm
+[17:54:41 TRACE Visible Fish] Spawning fish in Farm.
+[17:54:41 TRACE Visible Fish] found 93 water tiles
+[17:54:41 TRACE Visible Fish] Attempted Spawns 17 Failed Spawns: 17
+[17:54:41 TRACE Visible Fish] More than 98% of spawned fish was trash or didn't have an aquarium sprite. Stop spawning fish in Farm.
+[17:55:10 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:0 Width:1920 Height:1080}
+[17:55:42 TRACE game] Window_ClientSizeChanged(); Window.ClientBounds={X:0 Y:0 Width:1920 Height:1080}
+[17:55:44 TRACE game] Disconnected: ClosedGame
+[17:55:44 TRACE SMAPI] Disposing...
+[17:55:44 TRACE SMAPI] Disposing the content coordinator. Content managers will no longer be usable after this point.

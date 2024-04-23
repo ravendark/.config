@@ -1,0 +1,8 @@
+Kext Version=Unknown
+version='1.0.10003.0-prod'
+utcTime='2023-07-27T20:20:08.3186050Z'
+locTime='2023-07-27T13:20:08.3176920-07:00'
+AmazonWorkDocsDriveUnixNativeBridge.Exceptions.FuseMountFailedException - AmazonWorkDocsDriveUnixNativeBridge.Exceptions.FuseMountFailedException: Unable to mount the fuse drive with return code: '1'
+  at AmazonWorkDocsDriveUnixNativeBridge.UnixWorkDriveFileSystem.Mount (System.Boolean enableNativeLogging, System.Int32 maxRetryOnMountError, System.Boolean enableMountErrorPrompt, System.Boolean restartAppInLastRetry, System.Action showCustomMountErrorPrompt) [0x0047f] in <c9d700691dbc44eeb81bb712aadfb636>:0 
+  at AmazonWorkDocsDriveUnixClient.WorkDriveClient.MountAndWait (AWSWorkDriveCommon.Util.Optional`1[T] unixIpcServer, System.Boolean enableNativeLogging, System.Int32 maxRetryOnMountError, System.Boolean enableMountErrorPrompt, System.Boolean restartAppInLastRety, System.Action showCustomMountErrorPrompt) [0x00043] in <d6ab37f843604d56be6edeb643259816>:0 
+  at AmazonWorkDocsDriveMacClient.AppDelegate+<>c__DisplayClass45_0.<DidFinishLaunching>b__0 (System.Object state) [0x0049a] in <8a7df1d41f7842d38e7779c5c5dd28b3>:0 
