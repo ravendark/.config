@@ -41,7 +41,6 @@ return {
           -- 'fileformat',
           'filetype'
         },
-        lualine_w = { 'getWords'},
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
       },
