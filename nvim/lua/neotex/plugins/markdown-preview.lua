@@ -13,7 +13,7 @@ return {
     -- create the custom open function
     vim.cmd([[
       function! OpenMarkdownPreview(url)
-        execute "silent! !brave " . a:url . " &"
+        execute "silent! !open -a safari " . a:url . " &"
       endfunction
     ]])
 
@@ -32,7 +32,7 @@ return {
     vim.g.mkdp_refresh_slow = 1
 
     -- specify browser path
-    vim.g.mkdp_path_to_chrome = "brave"
+    vim.g.mkdp_path_to_chrome = "open -a safari"
 
     -- set log level (debug, info, warn, error)
     vim.g.mkdp_log_level = 'debug'
