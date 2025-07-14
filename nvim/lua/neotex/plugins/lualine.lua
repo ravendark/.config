@@ -31,14 +31,14 @@ return {
           winbar = 1000,
         }
       },
-      sections = {
+    sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { 'filename' },
         lualine_x = {
-          -- { require('mcphub.extensions.lualine') },
-          -- 'encoding',
-          -- 'fileformat',
+    --      { require('mcphub.extensions.lualine') },
+          'encoding',
+          'fileformat',
           'filetype'
         },
         lualine_y = { 'progress' },
