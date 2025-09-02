@@ -35,6 +35,7 @@ return {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { 'filename' },
+        lualine_d = { wordcount, cond= is_prose },
         lualine_x = {
     --      { require('mcphub.extensions.lualine') },
           'encoding',
@@ -48,6 +49,7 @@ return {
         lualine_a = {},
         lualine_b = {},
         lualine_c = { 'filename' },
+        lualine_d = {},
         lualine_x = { 'location' },
         lualine_y = {},
         lualine_z = {}
