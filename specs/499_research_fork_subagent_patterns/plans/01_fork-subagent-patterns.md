@@ -1,7 +1,7 @@
 # Implementation Plan: Task #499
 
 - **Task**: 499 - Research FORK_SUBAGENT patterns and context: fork strategies
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/499_research_fork_subagent_patterns/reports/01_fork-subagent-patterns.md
@@ -64,7 +64,7 @@ No ROADMAP.md found.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Reconcile system-overview.md [NOT STARTED]
+### Phase 1: Reconcile system-overview.md [COMPLETED]
 
 **Goal**: Fix the contradictory assertion in system-overview.md to reflect actual usage patterns.
 
