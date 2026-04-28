@@ -343,10 +343,15 @@
           "path": "specs/500_add_context_fork_to_core_skills/plans/01_add-context-fork-skills.md",
           "type": "plan",
           "summary": "Plan to abandon task 500: research found that adding context: fork to core skills would break structured delegation architecture; task 499 already resolved the documentation gap"
+        },
+        {
+          "path": "specs/500_add_context_fork_to_core_skills/reports/02_web-fork-best-practices.md",
+          "type": "research",
+          "summary": "Web research correcting fork mechanics: context: fork makes SKILL.md body the subagent prompt (not broken), FORK_SUBAGENT only fires without subagent_type; task 500 should be revised not abandoned"
         }
       ],
       "session_id": "sess_1746493000_c4d8e2",
-      "next_artifact_number": 2,
+      "next_artifact_number": 3,
       "memory_candidates": [
         {
           "content": "All loaded extension skills (neovim-research, neovim-implementation, nix-research, nix-implementation) use the same Pattern A delegation as core skills -- explicit Task tool with subagent_type and multi-stage postflight. They do NOT use context: fork or agent: frontmatter. Only unloaded extension skills (e.g., slide-planning, slide-critic) use Pattern B with context: fork.",

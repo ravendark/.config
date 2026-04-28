@@ -45,7 +45,9 @@ next_project_number: 502
 - **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #499
-- **Research**: [500_add_context_fork_to_core_skills/reports/01_add-context-fork-skills.md]
+- **Research**:
+  - [500_add_context_fork_to_core_skills/reports/01_add-context-fork-skills.md]
+  - [500_add_context_fork_to_core_skills/reports/02_web-fork-best-practices.md]
 - **Plan**: [500_add_context_fork_to_core_skills/plans/01_add-context-fork-skills.md]
 
 **Description**: Based on research findings from task 499, update core delegating skills to use `context: fork` and `agent:` frontmatter fields for prompt cache efficiency. Currently only skill-meta uses `agent:` and only present-extension skills use `context: fork` -- the 8 core delegating skills (skill-researcher, skill-planner, skill-implementer, skill-reviser, skill-spawn, plus neovim-research, neovim-implementation, nix-research, nix-implementation) all delegate via explicit Task tool invocation without these fields. This creates a documentation-vs-reality gap (thin-wrapper-skill.md recommends fork+agent but core skills do not use them). Update skill frontmatter, verify subagent delegation still works correctly, update system-overview.md to reflect the new pattern, and ensure extension core copies stay synchronized.
