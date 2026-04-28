@@ -1284,6 +1284,40 @@
       "summary": "Thin wrapper skill pattern for delegation"
     },
     {
+      "path": "patterns/fork-patterns.md",
+      "line_count": 120,
+      "load_when": {
+        "agents": [
+          "meta-builder-agent",
+          "planner-agent",
+          "general-implementation-agent"
+        ],
+        "commands": [
+          "/meta",
+          "/plan",
+          "/implement"
+        ],
+        "task_types": [
+          "meta"
+        ]
+      },
+      "topics": [
+        "orchestration",
+        "performance"
+      ],
+      "domain": "core",
+      "keywords": [
+        "fork",
+        "cache",
+        "delegation",
+        "FORK_SUBAGENT",
+        "context",
+        "prompt"
+      ],
+      "subdomain": "patterns",
+      "summary": "Fork patterns reference: context: fork vs FORK_SUBAGENT, delegation decision matrix, cache sharing"
+    },
+    {
       "path": "processes/implementation-workflow.md",
       "line_count": 576,
       "load_when": {
