@@ -324,7 +324,7 @@
     {
       "project_number": 500,
       "project_name": "add_context_fork_to_core_skills",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Add context: fork frontmatter to core delegating skills (researcher, planner, implementer, reviser, spawn, neovim/nix variants) to align with documentation recommendations and enable prompt cache efficiency",
       "effort": "1-3 hours",
@@ -332,13 +332,36 @@
         499
       ],
       "created": "2026-04-25T20:12:09Z",
-      "last_updated": "2026-04-25T20:12:09Z",
-      "artifacts": []
+      "last_updated": "2026-04-28T22:42:52Z",
+      "artifacts": [
+        {
+          "path": "specs/500_add_context_fork_to_core_skills/reports/01_add-context-fork-skills.md",
+          "type": "research",
+          "summary": "Task 500 as originally described (add context: fork to core skills) would break structured delegation architecture; recommend abandoning or redefining as verification-only task"
+        }
+      ],
+      "session_id": "sess_1746492100_b5c1d3",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "All loaded extension skills (neovim-research, neovim-implementation, nix-research, nix-implementation) use the same Pattern A delegation as core skills -- explicit Task tool with subagent_type and multi-stage postflight. They do NOT use context: fork or agent: frontmatter. Only unloaded extension skills (e.g., slide-planning, slide-critic) use Pattern B with context: fork.",
+          "category": "INSIGHT",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "context-fork",
+            "extension-skills",
+            "pattern-a",
+            "pattern-b",
+            "delegation",
+            "thin-wrapper"
+          ]
+        }
+      ]
     },
     {
       "project_number": 501,
       "project_name": "optimize_team_mode_fork_cache_sharing",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Optimize team-mode skills (team-research, team-plan, team-implement) to maximize FORK_SUBAGENT parallel cache sharing benefits for teammates 2-N",
       "effort": "1-3 hours",
@@ -346,8 +369,43 @@
         499
       ],
       "created": "2026-04-25T20:12:09Z",
-      "last_updated": "2026-04-25T20:12:09Z",
-      "artifacts": []
+      "last_updated": "2026-04-28T22:44:59Z",
+      "artifacts": [
+        {
+          "path": "specs/501_optimize_team_mode_fork_cache_sharing/reports/01_team-mode-fork-cache.md",
+          "type": "research",
+          "summary": "Team-mode skills are already eligible for FORK_SUBAGENT cache sharing; optimization focuses on prompt restructuring, dynamic token multiplier calculation, and cache-aware metadata reporting."
+        }
+      ],
+      "session_id": "sess_1746492100_e7f2a4",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "TeammateTool spawns in team-mode skills do NOT specify subagent_type, making them eligible for CLAUDE_CODE_FORK_SUBAGENT=1 cache sharing. Teammates 2-N inherit the parent's prompt cache prefix, reducing input token cost by ~90%. Both CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and CLAUDE_CODE_FORK_SUBAGENT=1 must be enabled. The actual cache benefit depends on the byte-identical shared prefix ratio -- prompts should put shared content first and teammate-specific assignments last to maximize overlap.",
+          "category": "INSIGHT",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "team-mode",
+            "fork-subagent",
+            "cache-sharing",
+            "token-cost",
+            "prompt-prefix",
+            "TeammateTool"
+          ]
+        },
+        {
+          "content": "skill-team-research hardcodes team_size=4 in Stage 1 regardless of user-provided --team-size flag. The four fixed roles are: Primary (A), Alternatives (B), Critic (C), Horizons (D). The token_usage_multiplier is hardcoded at 5.0 in all team skill metadata but should be dynamically calculated.",
+          "category": "PATTERN",
+          "confidence": 0.75,
+          "suggested_keywords": [
+            "team-research",
+            "team-size",
+            "token-multiplier",
+            "hardcoded",
+            "metadata"
+          ]
+        }
+      ]
     }
   ],
   "completed_projects": [],
