@@ -16,8 +16,8 @@ next_project_number: 502
 - **492** [COMPLETED] -- Ensure /review creates ROADMAP.md if missing
 - **493** [COMPLETED] -- Add per-phase ROADMAP.md updates to planner (depends: 490)
 - **499** [COMPLETED] -- Research FORK_SUBAGENT patterns and context: fork optimization strategies
-- **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
-- **501** [RESEARCHED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
+- **500** [PLANNED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
+- **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **495** [NOT STARTED] -- Add multi-subagent continuation loop to skill-implementer
 - **496** [NOT STARTED] -- Add prior-implementation context injection to /research
 - **497** [NOT STARTED] -- Add per-phase plan item check-off to implementation agent (depends: 495)
@@ -42,10 +42,11 @@ next_project_number: 502
 
 ### 500. Add context: fork frontmatter to core delegating skills
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #499
 - **Research**: [500_add_context_fork_to_core_skills/reports/01_add-context-fork-skills.md]
+- **Plan**: [500_add_context_fork_to_core_skills/plans/01_add-context-fork-skills.md]
 
 **Description**: Based on research findings from task 499, update core delegating skills to use `context: fork` and `agent:` frontmatter fields for prompt cache efficiency. Currently only skill-meta uses `agent:` and only present-extension skills use `context: fork` -- the 8 core delegating skills (skill-researcher, skill-planner, skill-implementer, skill-reviser, skill-spawn, plus neovim-research, neovim-implementation, nix-research, nix-implementation) all delegate via explicit Task tool invocation without these fields. This creates a documentation-vs-reality gap (thin-wrapper-skill.md recommends fork+agent but core skills do not use them). Update skill frontmatter, verify subagent delegation still works correctly, update system-overview.md to reflect the new pattern, and ensure extension core copies stay synchronized.
 
@@ -53,10 +54,11 @@ next_project_number: 502
 
 ### 501. Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #499
 - **Research**: [501_optimize_team_mode_fork_cache_sharing/reports/01_team-mode-fork-cache.md]
+- **Plan**: [501_optimize_team_mode_fork_cache_sharing/plans/01_team-mode-fork-cache.md]
 
 **Description**: Optimize skill-team-research, skill-team-plan, and skill-team-implement to maximize CLAUDE_CODE_FORK_SUBAGENT parallel cache sharing benefits. With FORK_SUBAGENT=1, teammates 2-N sharing the parent's cached prefix get ~90% input token cost reduction. Investigate: (1) Whether teammate spawning currently inherits the prompt cache or starts fresh. (2) If restructuring teammate dispatch order or context preparation can improve cache hit rates. (3) Whether the default team_size=2 should be reconsidered given reduced costs per additional teammate. (4) Update team orchestration patterns and metadata to track cache savings. Files: `.claude/skills/skill-team-research/SKILL.md`, `.claude/skills/skill-team-plan/SKILL.md`, `.claude/skills/skill-team-implement/SKILL.md`, `.claude/context/patterns/team-orchestration.md`.
 

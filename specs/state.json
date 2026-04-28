@@ -324,7 +324,7 @@
     {
       "project_number": 500,
       "project_name": "add_context_fork_to_core_skills",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Add context: fork frontmatter to core delegating skills (researcher, planner, implementer, reviser, spawn, neovim/nix variants) to align with documentation recommendations and enable prompt cache efficiency",
       "effort": "1-3 hours",
@@ -332,15 +332,20 @@
         499
       ],
       "created": "2026-04-25T20:12:09Z",
-      "last_updated": "2026-04-28T22:42:52Z",
+      "last_updated": "2026-04-28T22:47:51Z",
       "artifacts": [
         {
           "path": "specs/500_add_context_fork_to_core_skills/reports/01_add-context-fork-skills.md",
           "type": "research",
           "summary": "Task 500 as originally described (add context: fork to core skills) would break structured delegation architecture; recommend abandoning or redefining as verification-only task"
+        },
+        {
+          "path": "specs/500_add_context_fork_to_core_skills/plans/01_add-context-fork-skills.md",
+          "type": "plan",
+          "summary": "Plan to abandon task 500: research found that adding context: fork to core skills would break structured delegation architecture; task 499 already resolved the documentation gap"
         }
       ],
-      "session_id": "sess_1746492100_b5c1d3",
+      "session_id": "sess_1746493000_c4d8e2",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -356,12 +361,31 @@
             "thin-wrapper"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 1,
+        "total_effort_hours": 1,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_add-context-fork-skills.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-04-28"
+          }
+        ]
+      }
     },
     {
       "project_number": 501,
       "project_name": "optimize_team_mode_fork_cache_sharing",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Optimize team-mode skills (team-research, team-plan, team-implement) to maximize FORK_SUBAGENT parallel cache sharing benefits for teammates 2-N",
       "effort": "1-3 hours",
@@ -369,15 +393,20 @@
         499
       ],
       "created": "2026-04-25T20:12:09Z",
-      "last_updated": "2026-04-28T22:44:59Z",
+      "last_updated": "2026-04-28T22:49:38Z",
       "artifacts": [
         {
           "path": "specs/501_optimize_team_mode_fork_cache_sharing/reports/01_team-mode-fork-cache.md",
           "type": "research",
           "summary": "Team-mode skills are already eligible for FORK_SUBAGENT cache sharing; optimization focuses on prompt restructuring, dynamic token multiplier calculation, and cache-aware metadata reporting."
+        },
+        {
+          "path": "specs/501_optimize_team_mode_fork_cache_sharing/plans/01_team-mode-fork-cache.md",
+          "type": "plan",
+          "summary": "4-phase plan to restructure team-mode prompts for FORK_SUBAGENT cache sharing, replace hardcoded token multiplier with dynamic formula, and update documentation"
         }
       ],
-      "session_id": "sess_1746492100_e7f2a4",
+      "session_id": "sess_1746493000_f6a1b7",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -405,7 +434,33 @@
             "metadata"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 4,
+        "total_effort_hours": 3,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_team-mode-fork-cache.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-04-28"
+          }
+        ]
+      }
     }
   ],
   "completed_projects": [],
