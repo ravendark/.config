@@ -503,13 +503,13 @@
     {
       "project_number": 502,
       "project_name": "create_core_extension_opencode",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Create core extension skeleton for .opencode/ mirroring .claude/extensions/core/ structure with EXTENSION.md, manifest.json, and directory skeleton. Core extension is the foundational layer that provides commands, skills, agents, rules, scripts, hooks, context, docs, templates, and systemd units as a dependency of all other extensions.",
       "effort": "3-6 hours",
       "dependencies": [],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-02T19:30:31Z",
+      "last_updated": "2026-05-02T19:40:35Z",
       "artifacts": [
         {
           "path": "specs/502_create_core_extension_opencode/reports/01_core-extension-skeleton.md",
@@ -520,12 +520,21 @@
           "path": "specs/502_create_core_extension_opencode/plans/01_create-core-extension-skeleton.md",
           "type": "plan",
           "summary": "Core extension skeleton implementation plan with 8 phases, 4.5 hours estimated"
+        },
+        {
+          "path": "specs/502_create_core_extension_opencode/summaries/implementation-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary with verification results and next steps"
         }
       ],
       "researching": "2026-05-02T18:53:24Z",
       "researched": "2026-05-02T19:04:10Z",
       "planning": "2026-05-02T19:21:40Z",
-      "planned": "2026-05-02T19:30:31Z"
+      "planned": "2026-05-02T19:30:31Z",
+      "implementing": "2026-05-02T19:31:37Z",
+      "completed": "2026-05-02T19:40:35Z",
+      "completion_summary": "Created core extension skeleton for OpenCode with 216 files across agents, commands, context, skills, scripts, hooks, rules, docs, templates, and systemd directories. Adapted manifest.json for OpenCode using opencode_md merge target with EXTENSION.md as source.",
+      "claudemd_suggestions": "Created new .opencode/extensions/core/ extension with manifest.json, EXTENSION.md, index-entries.json, and 216 files across 40+ directories. This is a new extension, not a modification of existing .claude/ files."
     },
     {
       "project_number": 503,

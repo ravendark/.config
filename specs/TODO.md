@@ -10,7 +10,7 @@ next_project_number: 502
 
 ### Pending
 
-- **502** [PLANNED] -- Create core extension for OpenCode (foundational)
+- **502** [COMPLETED] -- Create core extension for OpenCode (foundational)
 - **503** [NOT STARTED] -- Port missing core commands to OpenCode (depends: 502)
 - **504** [NOT STARTED] -- Port missing core skills to OpenCode (depends: 502)
 - **505** [NOT STARTED] -- Port missing core agents to OpenCode (depends: 502)
@@ -41,11 +41,12 @@ next_project_number: 502
 
 ### 502. Create core extension for OpenCode
 - **Effort**: 3-6 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: None
 - **Research**: [502_create_core_extension_opencode/reports/01_core-extension-skeleton.md]
 - **Plan**: [01_create-core-extension-skeleton.md](502_create_core_extension_opencode/plans/01_create-core-extension-skeleton.md)
+- **Summary**: [implementation-summary.md](502_create_core_extension_opencode/summaries/implementation-summary.md)
 
 **Description**: Create core extension skeleton for .opencode/ mirroring .claude/extensions/core/ structure with EXTENSION.md, manifest.json, and directory skeleton. Core extension is the foundational layer that provides commands, skills, agents, rules, scripts, hooks, context, docs, templates, and systemd units as a dependency of all other extensions. Without this, `<leader>ao` picker shows only extensions, not the full artifact system (commands, skills, agents, etc.).
 

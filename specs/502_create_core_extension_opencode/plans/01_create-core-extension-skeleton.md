@@ -60,7 +60,7 @@ Integrated findings from research report 01_core-extension-skeleton.md:
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Create manifest.json for OpenCode [NOT STARTED]
+### Phase 1: Create manifest.json for OpenCode [COMPLETED]
 
 **Goal**: Create the extension manifest adapted for OpenCode's extension system.
 
@@ -90,7 +90,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Create EXTENSION.md Documentation [NOT STARTED]
+### Phase 2: Create EXTENSION.md Documentation [COMPLETED]
 
 **Goal**: Create extension documentation file for merging into `.opencode/AGENTS.md`.
 
@@ -118,7 +118,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Create Directory Skeleton [NOT STARTED]
+### Phase 3: Create Directory Skeleton [COMPLETED]
 
 **Goal**: Create all required directories for the core extension.
 
@@ -170,7 +170,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Copy Agent, Command, and Skill Files [NOT STARTED]
+### Phase 4: Copy Agent, Command, and Skill Files [COMPLETED]
 
 **Goal**: Copy agent definitions, command files, and skill definitions from `.claude/extensions/core/`.
 
@@ -201,7 +201,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Copy Context Files [NOT STARTED]
+### Phase 5: Copy Context Files [COMPLETED]
 
 **Goal**: Copy all context files and directories from `.claude/extensions/core/context/`.
 
@@ -229,7 +229,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 6: Copy Rules, Hooks, Scripts, Templates, Docs, Systemd [NOT STARTED]
+### Phase 6: Copy Rules, Hooks, Scripts, Templates, Docs, Systemd [COMPLETED]
 
 **Goal**: Copy remaining file categories (rules, hooks, scripts, templates, docs, systemd) from source.
 
@@ -269,7 +269,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 7: Create index-entries.json [NOT STARTED]
+### Phase 7: Create index-entries.json [COMPLETED]
 
 **Goal**: Create context index entries for merging into `.opencode/context/index.json`.
 
@@ -300,7 +300,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 8: Verification and Testing [NOT STARTED]
+### Phase 8: Verification and Testing [COMPLETED]
 
 **Goal**: Verify the complete extension structure and test loading with OpenCode.
 
