@@ -6,17 +6,29 @@ next_project_number: 502
 
 ## Task Order
 
-*Updated 2026-04-25. 14 active tasks remaining.*
+*Updated 2026-05-02. 26 active tasks remaining.*
 
 ### Pending
 
+- **502** [NOT STARTED] -- Create core extension for OpenCode (foundational)
+- **503** [NOT STARTED] -- Port missing core commands to OpenCode (depends: 502)
+- **504** [NOT STARTED] -- Port missing core skills to OpenCode (depends: 502)
+- **505** [NOT STARTED] -- Port missing core agents to OpenCode (depends: 502)
+- **506** [NOT STARTED] -- Expand core context system for OpenCode (depends: 502)
+- **507** [NOT STARTED] -- Port missing core scripts to OpenCode (depends: 502)
+- **508** [NOT STARTED] -- Port missing core hooks to OpenCode (depends: 502)
+- **509** [NOT STARTED] -- Port missing core rules to OpenCode (depends: 502)
+- **510** [NOT STARTED] -- Sync settings.json for OpenCode parity (depends: 508)
+- **511** [NOT STARTED] -- Update AGENTS.md documentation (depends: 503, 504, 505, 506, 507, 508, 509)
+- **512** [NOT STARTED] -- Port missing domain extensions to OpenCode
+- **513** [NOT STARTED] -- Update extension loader Lua code for OpenCode parity (depends: 502)
 - **494** [COMPLETED] -- Simplify status transition rules to allow iterative workflows
 - **490** [COMPLETED] -- Wire --roadmap flag through /plan command
 - **491** [COMPLETED] -- Add ROADMAP.md preflight to /research command
 - **492** [COMPLETED] -- Ensure /review creates ROADMAP.md if missing
 - **493** [COMPLETED] -- Add per-phase ROADMAP.md updates to planner (depends: 490)
 - **499** [COMPLETED] -- Research FORK_SUBAGENT patterns and context: fork optimization strategies
-- **500** [PLANNED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
+- **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **495** [NOT STARTED] -- Add multi-subagent continuation loop to skill-implementer
 - **496** [NOT STARTED] -- Add prior-implementation context injection to /research
@@ -26,6 +38,126 @@ next_project_number: 502
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 502. Create core extension for OpenCode
+- **Effort**: 3-6 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: None
+
+**Description**: Create core extension skeleton for .opencode/ mirroring .claude/extensions/core/ structure with EXTENSION.md, manifest.json, and directory skeleton. Core extension is the foundational layer that provides commands, skills, agents, rules, scripts, hooks, context, docs, templates, and systemd units as a dependency of all other extensions. Without this, `<leader>ao` picker shows only extensions, not the full artifact system (commands, skills, agents, etc.).
+
+---
+
+### 503. Port missing core commands to OpenCode
+- **Effort**: 3-6 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #502
+
+**Description**: Port 6 missing commands from .claude/ to .opencode/: distill.md, learn.md, merge.md, project-overview.md, spawn.md, tag.md. Adapt Claude-specific references to OpenCode equivalents (.claude/ -> .opencode/, CLAUDE.md -> AGENTS.md, agents/ -> agent/subagents/).
+
+---
+
+### 504. Port missing core skills to OpenCode
+- **Effort**: 3-6 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #502
+
+**Description**: Port 8 missing skills from .claude/ to .opencode/: skill-memory, skill-project-overview, skill-reviser, skill-spawn, skill-team-implement, skill-team-plan, skill-team-research, skill-tag. Update all internal references and delegation paths for OpenCode.
+
+---
+
+### 505. Port missing core agents to OpenCode
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #502
+
+**Description**: Port 2 missing core agents to .opencode/agent/subagents/: reviser-agent.md, spawn-agent.md. Also verify extension agents (neovim-research/implementation, nix-research/implementation) are properly declared in extension manifests and installed when extensions load.
+
+---
+
+### 506. Expand core context system for OpenCode
+- **Effort**: 3-6 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #502
+
+**Description**: Expand .opencode/context/ to match .claude/context/ structure. Currently .opencode/context/ has only core/, index.json, index.md, project/, README.md. Need to add: guides/, meta/, reference/, repo/, processes/, troubleshooting/ subdirectories and their contents from .claude/extensions/core/context/.
+
+---
+
+### 507. Port missing core scripts to OpenCode
+- **Effort**: 3-6 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #502
+
+**Description**: Port missing utility scripts from .claude/scripts/ to .opencode/scripts/. Missing: check-extension-docs.sh, export-to-markdown.sh, install-extension.sh, uninstall-extension.sh, link-artifact-todo.sh, memory-retrieve.sh, migrate-directory-padding.sh, update-recommended-order.sh, validate-artifact.sh, validate-context-index.sh, validate-extension-index.sh, validate-index.sh, validate-wiring.sh, lint/lint-postflight-boundary.sh.
+
+---
+
+### 508. Port missing core hooks to OpenCode
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #502
+
+**Description**: Port 2 missing hooks from .claude/hooks/ to .opencode/hooks/: memory-nudge.sh, validate-plan-write.sh. Verify all 11 Claude hooks have OpenCode equivalents.
+
+---
+
+### 509. Port missing core rules to OpenCode
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #502
+
+**Description**: Port 2 missing rules from .claude/rules/ to .opencode/rules/: plan-format-enforcement.md, project-overview-detection.md. Verify all 7 Claude rules have OpenCode equivalents.
+
+---
+
+### 510. Sync settings.json for OpenCode parity
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #508
+
+**Description**: Update .opencode/settings.json to match .claude/settings.json feature parity. Missing: env section (SLASH_COMMAND_TOOL_CHAR_BUDGET), SessionStart '*' matcher for wezterm-clear-task-number, memory-nudge hook in Stop, Notification hook section. Adapt hook paths from .claude/ to .opencode/.
+
+---
+
+### 511. Update AGENTS.md documentation
+- **Effort**: 3-6 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: Task #503, Task #504, Task #505, Task #506, Task #507, Task #508, Task #509
+
+**Description**: Update .opencode/AGENTS.md to match .claude/CLAUDE.md documentation completeness. Missing sections: team mode skills table, context architecture (5-layer model), context imports section, multi-task creation standards, jq command safety patterns, syncprotect documentation, memory extension section with /distill commands, nix extension section, neovim extension section with patterns and context imports.
+
+---
+
+### 512. Port missing domain extensions to OpenCode
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Language**: meta
+- **Dependencies**: None
+
+**Description**: Port 3 missing domain extensions from .claude/extensions/ to .opencode/extensions/: founder/, present/, slidev/. These provide founder mode, presentation creation, and slidev support respectively.
+
+---
+
+### 513. Update extension loader Lua code for OpenCode parity
+- **Effort**: 3-6 hours
+- **Status**: [NOT STARTED]
+- **Language**: neovim
+- **Dependencies**: Task #502
+
+**Description**: Update OpenCode extension loader Lua code for feature parity with Claude extension loader. Verify that `<leader>ao` picker shows core/ agent system section when extensions are loaded, that extension loading installs agents to agent/subagents/, that manifest merge_targets use opencode_md key, and that the picker displays all artifact sections (commands, skills, agents, hooks, rules, scripts, context, docs) after core extension loads.
+
+---
 
 ### 499. Research FORK_SUBAGENT patterns and context: fork optimization strategies
 - **Effort**: 1-3 hours
@@ -42,12 +174,13 @@ next_project_number: 502
 
 ### 500. Add context: fork frontmatter to core delegating skills
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #499
 - **Research**:
   - [500_add_context_fork_to_core_skills/reports/01_add-context-fork-skills.md]
   - [500_add_context_fork_to_core_skills/reports/02_web-fork-best-practices.md]
+  - [500_add_context_fork_to_core_skills/reports/04_hybrid-architecture-analysis.md]
 - **Plan**:
   - [500_add_context_fork_to_core_skills/plans/01_add-context-fork-skills.md]
   - [500_add_context_fork_to_core_skills/plans/02_add-context-fork-skills.md]
