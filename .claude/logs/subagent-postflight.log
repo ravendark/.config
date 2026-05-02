@@ -20912,3 +20912,41 @@
 [2026-04-28T16:01:38-07:00] Task directory: specs/500_add_context_fork_to_core_skills
 [2026-04-28T16:01:38-07:00] Loop guard triggered: 3 >= 3
 [2026-04-28T16:01:38-07:00] Loop guard prevented continuation
+[2026-04-28T16:05:32-07:00] No postflight marker, allowing stop
+[2026-04-28T16:06:10-07:00] No postflight marker, allowing stop
+[2026-04-28T16:06:16-07:00] No postflight marker, allowing stop
+[2026-04-28T16:09:05-07:00] Postflight marker found at: specs/500_add_context_fork_to_core_skills/.postflight-pending
+[2026-04-28T16:09:05-07:00] Task directory: specs/500_add_context_fork_to_core_skills
+[2026-04-28T16:09:05-07:00] Loop guard initialized to 1
+[2026-04-28T16:09:05-07:00] Blocking stop: Postflight operations pending
+[2026-04-28T16:11:40-07:00] Postflight marker found at: specs/500_add_context_fork_to_core_skills/.postflight-pending
+[2026-04-28T16:11:40-07:00] Task directory: specs/500_add_context_fork_to_core_skills
+[2026-04-28T16:11:40-07:00] Loop guard incremented to 2
+[2026-04-28T16:11:40-07:00] Blocking stop: Postflight operations pending
+[2026-04-28T16:13:56-07:00] Postflight marker found at: specs/500_add_context_fork_to_core_skills/.postflight-pending
+[2026-04-28T16:13:56-07:00] Task directory: specs/500_add_context_fork_to_core_skills
+[2026-04-28T16:13:56-07:00] Loop guard incremented to 3
+[2026-04-28T16:13:56-07:00] Blocking stop: Postflight operations pending
+[2026-04-28T16:16:01-07:00] Postflight marker found at: specs/500_add_context_fork_to_core_skills/.postflight-pending
+[2026-04-28T16:16:02-07:00] Task directory: specs/500_add_context_fork_to_core_skills
+[2026-04-28T16:16:02-07:00] Loop guard triggered: 3 >= 3
+[2026-04-28T16:16:02-07:00] Loop guard prevented continuation
+[2026-04-28T16:16:35-07:00] No postflight marker, allowing stop
+[2026-04-28T16:16:50-07:00] No postflight marker, allowing stop
+[2026-04-28T16:23:18-07:00] Postflight marker found at: specs/500_add_context_fork_to_core_skills/.postflight-pending
+[2026-04-28T16:23:18-07:00] Task directory: specs/500_add_context_fork_to_core_skills
+[2026-04-28T16:23:18-07:00] Loop guard initialized to 1
+[2026-04-28T16:23:18-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-04-28T17:21:59-07:00] Postflight marker found at: specs/500_add_context_fork_to_core_skills/.postflight-pending
+[2026-04-28T17:21:59-07:00] Task directory: specs/500_add_context_fork_to_core_skills
+[2026-04-28T17:21:59-07:00] Loop guard incremented to 2
+[2026-04-28T17:21:59-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-04-28T17:22:03-07:00] Postflight marker found at: specs/500_add_context_fork_to_core_skills/.postflight-pending
+[2026-04-28T17:22:03-07:00] Task directory: specs/500_add_context_fork_to_core_skills
+[2026-04-28T17:22:03-07:00] Loop guard incremented to 3
+[2026-04-28T17:22:03-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-04-28T17:22:08-07:00] Postflight marker found at: specs/500_add_context_fork_to_core_skills/.postflight-pending
+[2026-04-28T17:22:08-07:00] Task directory: specs/500_add_context_fork_to_core_skills
+[2026-04-28T17:22:08-07:00] Loop guard triggered: 3 >= 3
+[2026-04-28T17:22:08-07:00] Loop guard prevented continuation
+[2026-04-28T18:48:08-07:00] No postflight marker, allowing stop
