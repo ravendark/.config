@@ -551,8 +551,8 @@ jq --arg num "$task_number" \
 
 - **Implementation Plan**: `specs/IMPROVED_STATUS_UPDATE_FIX_PLAN.md`
 - **Root Cause Investigation**: `specs/333_*/reports/root-cause-investigation-20260106.md`
-- **status-sync-manager**: `.claude/agent/subagents/status-sync-manager.md`
-- **git-workflow-manager**: `.claude/agent/subagents/git-workflow-manager.md`
+- **status-sync-manager**: `.opencode/agent/subagents/status-sync-manager.md`
+- **git-workflow-manager**: `.opencode/agent/subagents/git-workflow-manager.md`
 
 ### Working Examples
 

@@ -77,4 +77,4 @@ When updating task status:
 ## Schema Reference
 
 For complete field schemas, status values mapping, artifact linking formats, and directory creation patterns, see:
-- [State Management Schema](.claude/context/reference/state-management-schema.md)
+- [State Management Schema](.opencode/context/reference/state-management-schema.md)

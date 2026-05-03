@@ -330,8 +330,8 @@ jq '.next_project_number = (.next_project_number + 1) |
 
 ### References
 
-- **Task Command:** `.claude/command/task.md` (inline implementation)
-- **Task Standards:** `.claude/context/standards/tasks.md`
+- **Task Command:** `.opencode/command/task.md` (inline implementation)
+- **Task Standards:** `.opencode/context/standards/tasks.md`
 - **Original Implementation Plan:** `specs/task-command-improvement-plan.md`
 - **Fix Plan:** `specs/task-command-fix-plan.md`
 
@@ -397,12 +397,12 @@ When creating new checkpoint-based commands:
 
 ## References
 
-- **State Management:** `.claude/context/orchestration/state-management.md`
-- **Status Sync Skill:** `.claude/skills/skill-status-sync.md`
-- **Research Agent:** `.claude/agents/general-research-agent.md`
-- **Planner Agent:** `.claude/agents/planner-agent.md`
-- **Implementation Agent:** `.claude/agents/general-implementation-agent.md`
-- **Command Files:** `.claude/commands/{research,plan,revise,implement,task}.md`
+- **State Management:** `.opencode/context/orchestration/state-management.md`
+- **Status Sync Skill:** `.opencode/skills/skill-status-sync.md`
+- **Research Agent:** `.opencode/agents/general-research-agent.md`
+- **Planner Agent:** `.opencode/agents/planner-agent.md`
+- **Implementation Agent:** `.opencode/agents/general-implementation-agent.md`
+- **Command Files:** `.opencode/commands/{research,plan,revise,implement,task}.md`
 
 ## Validation
 

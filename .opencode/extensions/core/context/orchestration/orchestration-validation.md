@@ -230,4 +230,4 @@ validate_range() {
 - `orchestration-core.md` - Session tracking, delegation safety
 - `preflight-pattern.md` - Pre-delegation validation
 - `postflight-pattern.md` - Post-completion validation
-- `.claude/context/formats/subagent-return.md` - Full return schema
+- `.opencode/context/formats/subagent-return.md` - Full return schema

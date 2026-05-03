@@ -30,12 +30,12 @@ This agent has access to:
 Load these on-demand using @-references:
 
 **Always Load**:
-- `@.claude/context/standards/code-quality.md` - Code quality standards
-- `@.claude/context/repo/project-overview.md` - Project context
+- `@.opencode/context/standards/code-quality.md` - Code quality standards
+- `@.opencode/context/repo/project-overview.md` - Project context
 
 **Load For Web Code**:
-- `@.claude/extensions/web/context/project/web/standards/web-style-guide.md` - Web style guide
-- `@.claude/extensions/web/context/project/web/astro-framework.md` - Astro patterns
+- `@.opencode/extensions/web/context/project/web/standards/web-style-guide.md` - Web style guide
+- `@.opencode/extensions/web/context/project/web/astro-framework.md` - Astro patterns
 
 ## Review Checklist
 

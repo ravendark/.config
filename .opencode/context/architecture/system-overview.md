@@ -46,7 +46,7 @@ The agent system implements a three-layer delegation pattern separating concerns
 
 | Aspect | Command | Skill | Agent |
 |--------|---------|-------|-------|
-| **Location** | `.claude/commands/` | `.claude/skills/skill-*/SKILL.md` | `.claude/agents/*.md` |
+| **Location** | `.opencode/commands/` | `.opencode/skills/skill-*/SKILL.md` | `.opencode/agent/subagents/*.md` |
 | **User-facing** | Yes | No | No |
 | **Invocation** | `/command` syntax | Via Command routing | Via Task tool from Skill |
 | **Context loading** | None | Minimal | Full (lazy loading) |
@@ -84,7 +84,7 @@ routing:
 ---
 ```
 
-**Reference**: @.claude/docs/guides/creating-commands.md
+**Reference**: @.opencode/docs/guides/creating-commands.md
 
 ---
 
@@ -114,11 +114,11 @@ allowed-tools: Task, Bash, Edit, Read, Write
 - **Extension skills** (skill-{ext}-research, skill-{ext}-implementation, etc.): May optionally use `context: fork` + `agent:` frontmatter for simpler delegation when structured context injection is not needed. This is the standard thin-wrapper pattern documented in the template.
 - **skill-meta**: Uses `agent:` frontmatter (but not `context: fork`) as a hybrid pattern.
 
-In all cases, delegation happens via the **Task tool** (not the Skill tool). See @.claude/context/patterns/fork-patterns.md for the full decision matrix.
+In all cases, delegation happens via the **Task tool** (not the Skill tool). See @.opencode/context/patterns/fork-patterns.md for the full decision matrix.
 
-**Critical**: Skills delegate via Task tool, not Skill tool. Agents live in `.claude/agents/`, not `.claude/skills/`.
+**Critical**: Skills delegate via Task tool, not Skill tool. Agents live in `.opencode/agent/subagents/`, not `.opencode/skills/`.
 
-**Reference**: @.claude/context/patterns/thin-wrapper-skill.md
+**Reference**: @.opencode/context/patterns/thin-wrapper-skill.md
 
 ---
 
@@ -159,7 +159,7 @@ In all cases, delegation happens via the **Task tool** (not the Skill tool). See
 
 **Critical**: Never use "completed" as status value - triggers Claude stop behavior.
 
-**Reference**: @.claude/context/formats/subagent-return.md
+**Reference**: @.opencode/context/formats/subagent-return.md
 
 ---
 
@@ -290,7 +290,7 @@ User: "/research 259"
           │
           ▼
 ┌───────────────────┐
-│ 5. Agent loads    │  @.claude/context/project/lean4/...
+│ 5. Agent loads    │  @.opencode/context/project/lean4/...
 │    context        │  @specs/state.json
 │    on-demand      │  Task details from TODO.md
 └─────────┬─────────┘
@@ -354,7 +354,7 @@ All workflow commands follow a three-checkpoint pattern:
 | GATE OUT | Postflight validation | Validate return, link artifacts, update status to success variant |
 | COMMIT | Finalize | Git commit with session_id, return result to user |
 
-**Reference**: @.claude/context/checkpoints/
+**Reference**: @.opencode/context/checkpoints/
 
 ---
 
@@ -389,7 +389,7 @@ Tasks route to specialized skills/agents based on their `task_type` field:
 | `meta` | skill-researcher → general-research-agent | skill-planner → planner-agent | skill-implementer → general-implementation-agent |
 | _{extension}_ | _Extension-provided skill → extension agent_ | skill-planner → planner-agent | _Extension-provided skill → extension agent_ |
 
-**Note**: Extensions (e.g., nix, lean4, latex, typst) add task type routing entries. See `.claude/extensions/*/manifest.json`.
+**Note**: Extensions (e.g., nix, lean4, latex, typst) add task type routing entries. See `.opencode/extensions/*/manifest.json`.
 
 ---
 
@@ -410,7 +410,7 @@ Complete mapping of all commands to their skill and agent paths:
 | `/task` | Direct | skill-orchestrator | (inline execution) | C |
 | `/refresh` | Direct | skill-refresh | (no agent) | B |
 
-**Note**: Additional commands (/convert) available via extensions in `.claude/extensions/`.
+**Note**: Additional commands (/convert) available via extensions in `.opencode/extensions/`.
 
 **Pattern Legend**:
 - **A**: Delegating skill with internal postflight (spawns subagent)
@@ -477,21 +477,21 @@ Prevent infinite delegation loops with depth tracking:
 ## Related Documentation
 
 ### User-Facing Documentation
-- @.claude/docs/architecture/system-overview.md - Simplified architecture overview for users
+- @.opencode/docs/architecture/system-overview.md - Simplified architecture overview for users
 
 ### Detailed Patterns
-- @.claude/context/orchestration/orchestration-core.md - Delegation, routing, session tracking
-- @.claude/context/orchestration/orchestration-validation.md - Return validation patterns
-- @.claude/context/orchestration/architecture.md - Three-layer detailed explanation
+- @.opencode/context/orchestration/orchestration-core.md - Delegation, routing, session tracking
+- @.opencode/context/orchestration/orchestration-validation.md - Return validation patterns
+- @.opencode/context/orchestration/architecture.md - Three-layer detailed explanation
 
 ### Templates
-- @.claude/context/patterns/thin-wrapper-skill.md - Skill delegation pattern
-- @.claude/context/templates/subagent-template.md - Agent template
-- @.claude/context/templates/command-template.md - Command template
+- @.opencode/context/patterns/thin-wrapper-skill.md - Skill delegation pattern
+- @.opencode/context/templates/subagent-template.md - Agent template
+- @.opencode/context/templates/command-template.md - Command template
 
 ### Return Formats
-- @.claude/context/formats/subagent-return.md - Agent return schema
-- @.claude/context/formats/return-metadata-file.md - File-based return pattern
+- @.opencode/context/formats/subagent-return.md - Agent return schema
+- @.opencode/context/formats/return-metadata-file.md - File-based return pattern
 
 ### Anti-Patterns
-- @.claude/context/patterns/anti-stop-patterns.md - Patterns that cause workflow early stop
+- @.opencode/context/patterns/anti-stop-patterns.md - Patterns that cause workflow early stop

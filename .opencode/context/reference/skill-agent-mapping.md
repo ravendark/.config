@@ -1,6 +1,6 @@
 # Skill-Agent Mapping Reference
 
-Complete reference for skill-to-agent routing and delegation. For quick overview, see CLAUDE.md.
+Complete reference for skill-to-agent routing and delegation. For quick overview, see AGENTS.md.
 
 ## Core Skills
 
@@ -103,7 +103,7 @@ Agents declare preferred models via `model:` frontmatter field:
 | general-implementation-agent | (default) | Faster for execution |
 | meta-builder-agent | (default) | Faster for file operations |
 
-See `.claude/docs/reference/standards/agent-frontmatter-standard.md` for model enforcement details.
+See `.opencode/docs/reference/standards/agent-frontmatter-standard.md` for model enforcement details.
 
 ## Routing Decision Flow
 
@@ -144,7 +144,7 @@ Command invoked with task N
 Extensions are loaded via:
 
 1. **Extension picker**: Opens extension selector
-2. **@-reference**: `@.claude/extensions/lean/context/...` auto-loads extension
+2. **@-reference**: `@.opencode/extensions/lean/context/...` auto-loads extension
 3. **Context discovery**: Agents query `index.json` which includes merged extension entries
 
 ### Merging Process

@@ -59,10 +59,10 @@ Skill receives invocation
 
 ## Skill File Structure
 
-Skills are located in `.claude/skills/skill-{name}/SKILL.md`:
+Skills are located in `.opencode/skills/skill-{name}/SKILL.md`:
 
 ```
-.claude/skills/
+.opencode/skills/
 ├── skill-researcher/
 │   └── SKILL.md
 ├── skill-lean-research/
@@ -89,7 +89,7 @@ allowed-tools: Task
 context: fork
 agent: {target-agent-name}
 # Original context (now loaded by subagent):
-#   - .claude/context/path/to/context.md
+#   - .opencode/context/path/to/context.md
 # Original tools (now used by subagent):
 #   - Read, Write, Edit, Glob, Grep, etc.
 ---
@@ -105,7 +105,7 @@ agent: {target-agent-name}
 | `context` | `fork` | Signals NOT to load context eagerly |
 | `agent` | `{name}-agent` | Target agent to invoke |
 
-**Note on `context: fork`**: This frontmatter shows the **extension skill pattern** (Pattern B). Extension skills use `context: fork` + `agent:` for simple delegation, where the agent loads its own context. Core skills (skill-researcher, skill-planner, skill-implementer, etc.) use a different pattern: they omit `context: fork` and call Task with explicit `subagent_type` to inject structured context (session_id, delegation_depth, memory_context). See @.claude/context/patterns/fork-patterns.md for the full decision matrix.
+**Note on `context: fork`**: This frontmatter shows the **extension skill pattern** (Pattern B). Extension skills use `context: fork` + `agent:` for simple delegation, where the agent loads its own context. Core skills (skill-researcher, skill-planner, skill-implementer, etc.) use a different pattern: they omit `context: fork` and call Task with explicit `subagent_type` to inject structured context (session_id, delegation_depth, memory_context). See @.opencode/context/patterns/fork-patterns.md for the full decision matrix.
 
 ### Body Structure
 
@@ -157,12 +157,12 @@ This skill activates when:
 ### Step 1: Create Skill Directory
 
 ```bash
-mkdir -p .claude/skills/skill-{name}
+mkdir -p .opencode/skills/skill-{name}
 ```
 
 ### Step 2: Create SKILL.md
 
-Create `.claude/skills/skill-{name}/SKILL.md`:
+Create `.opencode/skills/skill-{name}/SKILL.md`:
 
 ```yaml
 ---
@@ -315,7 +315,7 @@ allowed-tools: Task
 context: fork
 agent: rust-research-agent
 # Original context (now loaded by subagent):
-#   - .claude/context/project/rust/tools.md
+#   - .opencode/context/project/rust/tools.md
 # Original tools (now used by subagent):
 #   - Read, Write, Glob, Grep, WebSearch, WebFetch
 ---
@@ -403,7 +403,7 @@ Return validated result to caller without modification.
 
 ## Return Format
 
-See `.claude/context/formats/subagent-return.md` for full specification.
+See `.opencode/context/formats/subagent-return.md` for full specification.
 
 Expected successful return:
 ```json
@@ -463,7 +463,7 @@ Before finalizing a new skill, verify:
 - [ ] Error handling covers common cases
 
 ### Integration
-- [ ] Corresponding agent exists in `.claude/agents/`
+- [ ] Corresponding agent exists in `.opencode/agents/`
 - [ ] Skill name follows `skill-{purpose}` pattern
 - [ ] No duplicate skills for same use case
 
@@ -477,8 +477,8 @@ Before finalizing a new skill, verify:
 ```yaml
 ---
 context:
-  - .claude/context/patterns/complex-patterns.md
-  - .claude/context/project/domain/domain-knowledge.md
+  - .opencode/context/patterns/complex-patterns.md
+  - .opencode/context/project/domain/domain-knowledge.md
 ---
 ```
 
@@ -488,7 +488,7 @@ context:
 context: fork
 agent: my-agent
 # Original context (now loaded by subagent):
-#   - .claude/context/patterns/complex-patterns.md
+#   - .opencode/context/patterns/complex-patterns.md
 ---
 ```
 
@@ -527,8 +527,8 @@ allowed-tools: Task
 - [Component Selection](component-selection.md) - When to create a skill
 - [Creating Agents](creating-agents.md) - Creating the agent that skill delegates to
 - [Creating Commands](creating-commands.md) - Creating commands that invoke skills
-- `.claude/context/templates/thin-wrapper-skill.md` - Skill template
-- `.claude/context/formats/subagent-return.md` - Return format schema
+- `.opencode/context/templates/thin-wrapper-skill.md` - Skill template
+- `.opencode/context/formats/subagent-return.md` - Return format schema
 
 ---
 

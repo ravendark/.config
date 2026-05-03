@@ -577,7 +577,7 @@ Load for: /meta command and meta-builder-agent workflows
 **Loading Strategy for meta-builder-agent**:
 - **Interactive mode**: Load component-selection.md during interview Stage 2
 - **Prompt mode**: Load component-selection.md for analysis
-- **Analyze mode**: Load CLAUDE.md and index.md for system inventory
+- **Analyze mode**: Load AGENTS.md and index.md for system inventory
 - Load creating-*.md guides when specific component types are being discussed
 - Never load during routing (Stages 1-3)
 
@@ -639,7 +639,7 @@ See `.opencode/agents/meta-builder-agent.md` for complete stage-by-stage context
 
 Quick reference:
 - Interactive/Prompt modes: component-selection.md + on-demand component guides
-- Analyze mode: CLAUDE.md + index.md (read-only analysis)
+- Analyze mode: AGENTS.md + index.md (read-only analysis)
 - All modes: subagent-return.md (always)
 
 ---

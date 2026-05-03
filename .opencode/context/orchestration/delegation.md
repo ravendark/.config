@@ -458,7 +458,7 @@ Standardized error codes for consistent error handling:
   "artifacts": [
     {
       "type": "implementation",
-      "path": ".claude/context/standards/delegation.md",
+      "path": ".opencode/context/standards/delegation.md",
       "summary": "Consolidated delegation standard"
     }
   ],
@@ -710,8 +710,8 @@ The status-sync-manager subagent now supports these additional operations:
 
 ## Related Documentation
 
-- Status Management: `.claude/context/orchestration/state-management.md`
-- Artifact Formats: `.claude/rules/artifact-formats.md`
+- Status Management: `.opencode/context/orchestration/state-management.md`
+- Artifact Formats: `.opencode/rules/artifact-formats.md`
 # Delegation Guide
 
 ## Session ID Tracking

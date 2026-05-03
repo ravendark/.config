@@ -16,7 +16,7 @@ Before creating a command, understand:
 - [Component Selection](component-selection.md)
 - [Creating Skills](creating-skills.md)
 - [Creating Agents](creating-agents.md)
-- `.claude/context/workflows/command-lifecycle.md`
+- `.opencode/context/workflows/command-lifecycle.md`
 
 ## When to Create a Command
 
@@ -28,17 +28,17 @@ Create a new command when:
 Do NOT create a command when:
 - An existing command can handle the use case with an additional flag
 - The work is internal to a skill or agent
-- The operation is a one-off script that can live in `.claude/scripts/`
+- The operation is a one-off script that can live in `.opencode/scripts/`
 
 ## Step-by-Step Process
 
 ### Step 1: Choose a Name and Check for Conflicts
 
-Commands are invoked as `/<name>`. Pick a short, verb-oriented name. Check `.claude/commands/` for existing conflicts.
+Commands are invoked as `/<name>`. Pick a short, verb-oriented name. Check `.opencode/commands/` for existing conflicts.
 
 ### Step 2: Start from the Command Template
 
-Copy `.claude/docs/templates/command-template.md` to `.claude/commands/<name>.md` and replace the placeholders.
+Copy `.opencode/docs/templates/command-template.md` to `.opencode/commands/<name>.md` and replace the placeholders.
 
 ### Step 3: Define Frontmatter
 
@@ -122,7 +122,7 @@ List every artifact the command creates, using absolute paths with placeholders:
 - `specs/{NNN}_{SLUG}/plans/MM_{short-slug}.md` - Implementation plan
 ```
 
-See `.claude/rules/artifact-formats.md` for naming conventions.
+See `.opencode/rules/artifact-formats.md` for naming conventions.
 
 ### Step 6: Add Error Handling
 
@@ -136,13 +136,13 @@ Document the recovery paths:
 - **Timeout**: Mark phase [PARTIAL] in plan, next invocation resumes
 ```
 
-See `.claude/rules/error-handling.md` for the general patterns.
+See `.opencode/rules/error-handling.md` for the general patterns.
 
 ### Step 7: Register the Command
 
-1. Add the command to the command reference table in `.claude/README.md`
-2. Add the command to the command reference table in `.claude/CLAUDE.md`
-3. If the command introduces a new skill or agent, update the skill-to-agent mapping in `.claude/context/reference/skill-agent-mapping.md`
+1. Add the command to the command reference table in `.opencode/README.md`
+2. Add the command to the command reference table in `.opencode/AGENTS.md`
+3. If the command introduces a new skill or agent, update the skill-to-agent mapping in `.opencode/context/reference/skill-agent-mapping.md`
 
 ### Step 8: Test
 
@@ -162,10 +162,10 @@ Test the command with:
 
 | Command | Why read it |
 |---------|-------------|
-| `.claude/commands/task.md` | Simple argument-mode dispatch |
-| `.claude/commands/research.md` | Multi-task routing and skill delegation |
-| `.claude/commands/implement.md` | Resume support and phase-level progress |
-| `.claude/commands/todo.md` | Direct skill execution (no agent delegation) |
+| `.opencode/commands/task.md` | Simple argument-mode dispatch |
+| `.opencode/commands/research.md` | Multi-task routing and skill delegation |
+| `.opencode/commands/implement.md` | Resume support and phase-level progress |
+| `.opencode/commands/todo.md` | Direct skill execution (no agent delegation) |
 
 ## Related Documentation
 
@@ -173,6 +173,6 @@ Test the command with:
 - [Creating Skills](creating-skills.md)
 - [Creating Agents](creating-agents.md)
 - [Component Selection](component-selection.md)
-- `.claude/context/workflows/command-lifecycle.md`
-- `.claude/rules/artifact-formats.md`
-- `.claude/rules/state-management.md`
+- `.opencode/context/workflows/command-lifecycle.md`
+- `.opencode/rules/artifact-formats.md`
+- `.opencode/rules/state-management.md`

@@ -1,6 +1,6 @@
 ---
 name: skill-meta
-description: Interactive system builder. Invoke for /meta command to create tasks for .claude/ system changes.
+description: Interactive system builder. Invoke for /meta command to create tasks for .opencode/ system changes.
 allowed-tools: Task, Bash, Edit, Read, Write
 agent: meta-builder-agent
 ---
@@ -16,9 +16,9 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
+- Path: `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/patterns/file-metadata-exchange.md` - File I/O helpers
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -26,14 +26,14 @@ Note: This skill is a thin wrapper with internal postflight. Context is loaded b
 
 This skill activates when:
 - /meta command is invoked (with any arguments)
-- User requests system building or task creation for .claude/ changes
+- User requests system building or task creation for .opencode/ changes
 - System analysis is requested (--analyze flag)
 
 ---
 
 ## Anti-Bypass Constraint
 
-**PROHIBITION**: This skill and its delegated agent (meta-builder-agent) MUST NOT write to `.claude/` paths using Write or Edit tools. The /meta workflow creates TASKS only. All `.claude/` file modifications happen through the /implement lifecycle with proper skill delegation.
+**PROHIBITION**: This skill and its delegated agent (meta-builder-agent) MUST NOT write to `.opencode/` paths using Write or Edit tools. The /meta workflow creates TASKS only. All `.opencode/` file modifications happen through the /implement lifecycle with proper skill delegation.
 
 **Detected by**: PostToolUse hook `validate-meta-write.sh` provides corrective context if bypass is attempted.
 
@@ -96,8 +96,8 @@ Parameters:
 ```
 
 **DO NOT** use `Skill(meta-builder-agent)` - this will FAIL.
-Agents live in `.claude/agents/`, not `.claude/skills/`.
-The Skill tool can only invoke skills from `.claude/skills/`.
+Agents live in `.opencode/agent/subagents/`, not `.opencode/skills/`.
+The Skill tool can only invoke skills from `.opencode/skills/`.
 
 The subagent will:
 - Load component guides on-demand based on mode
@@ -124,7 +124,7 @@ Return validated result to caller without modification.
 
 ## Return Format
 
-See `.claude/context/formats/return-metadata-file.md` for full specification.
+See `.opencode/context/formats/return-metadata-file.md` for full specification.
 
 ### Expected Return: Interactive Mode (tasks created)
 
@@ -224,7 +224,7 @@ Return partial status if subagent times out (default 7200s for interactive sessi
 
 After the agent returns, this skill MUST NOT:
 
-1. **Edit .claude/ files** - All system building is done by agent
+1. **Edit .opencode/ files** - All system building is done by agent
 2. **Create task directories** - Task creation is done by agent
 3. **Run analysis commands** - Analysis is agent work
 4. **Write documentation** - Artifact creation is agent work
@@ -234,4 +234,4 @@ The postflight phase is LIMITED TO:
 - Reading agent return
 - Git commit (if tasks were created)
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md

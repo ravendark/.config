@@ -126,8 +126,8 @@ git commit -m "task N: complete research"
 ## Context References
 
 Commands reference but do not load:
-- `.claude/context/checkpoints/` - Checkpoint patterns
-- `.claude/context/routing.md` - Language routing
-- `.claude/context/validation.md` - Return validation
+- `.opencode/context/checkpoints/` - Checkpoint patterns
+- `.opencode/context/routing.md` - Language routing
+- `.opencode/context/validation.md` - Return validation
 
 Context is loaded by skills/agents, not commands.

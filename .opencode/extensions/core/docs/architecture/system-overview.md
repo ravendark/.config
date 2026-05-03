@@ -18,7 +18,7 @@ The agent system uses a three-layer architecture that separates user interaction
     ┌─────────────────────────────────────────────────────┐
     │                   LAYER 1: COMMANDS                  │
     │                                                      │
-    │   .claude/commands/                                  │
+    │   .opencode/commands/                                  │
     │   ├── research.md      Parse arguments              │
     │   ├── plan.md          Route by language            │
     │   ├── implement.md     Minimal logic                │
@@ -30,7 +30,7 @@ The agent system uses a three-layer architecture that separates user interaction
     ┌─────────────────────────────────────────────────────┐
     │                   LAYER 2: SKILLS                    │
     │                                                      │
-    │   .claude/skills/skill-*/SKILL.md                   │
+    │   .opencode/skills/skill-*/SKILL.md                   │
     │   ├── skill-researcher/        Validate inputs      │
     │   ├── skill-planner/           Prepare context      │
     │   ├── skill-planner/           Invoke agents        │
@@ -42,7 +42,7 @@ The agent system uses a three-layer architecture that separates user interaction
     ┌─────────────────────────────────────────────────────┐
     │                   LAYER 3: AGENTS                    │
     │                                                      │
-    │   .claude/agents/*.md                               │
+    │   .opencode/agents/*.md                               │
     │   ├── general-research-agent.md  Full execution     │
     │   ├── general-implementation-agent.md Create artifacts│
     │   ├── planner-agent.md         Return JSON          │
@@ -67,7 +67,7 @@ The agent system uses a three-layer architecture that separates user interaction
 
 ### Commands (Layer 1)
 
-**Location**: `.claude/commands/`
+**Location**: `.opencode/commands/`
 
 Commands are user-facing entry points invoked via `/command` syntax. They:
 - Parse user arguments
@@ -94,7 +94,7 @@ Commands are user-facing entry points invoked via `/command` syntax. They:
 
 ### Skills (Layer 2)
 
-**Location**: `.claude/skills/skill-*/SKILL.md`
+**Location**: `.opencode/skills/skill-*/SKILL.md`
 
 Skills are thin wrappers that validate inputs and delegate to agents. They:
 - Validate task exists and arguments are correct
@@ -114,11 +114,11 @@ Skills are thin wrappers that validate inputs and delegate to agents. They:
 | skill-git-workflow | (direct execution) | Create scoped git commits |
 | skill-spawn | spawn-agent | Analyze blockers and spawn new tasks |
 
-**Note**: Additional skills are available via extensions in `.claude/extensions/`. See [CLAUDE.md](../../CLAUDE.md) for the complete skill-to-agent mapping.
+**Note**: Additional skills are available via extensions in `.opencode/extensions/`. See [AGENTS.md](../../AGENTS.md) for the complete skill-to-agent mapping.
 
 ### Agents (Layer 3)
 
-**Location**: `.claude/agents/`
+**Location**: `.opencode/agents/`
 
 Agents are execution components that do the actual work. They:
 - Load context on-demand
@@ -195,7 +195,7 @@ Tasks route to specialized skills based on their `task_type` field:
 
 The task type is automatically detected from task description or can be set explicitly.
 
-**Note**: Additional task types (nix, latex, typst, python, etc.) are available via extensions in `.claude/extensions/`.
+**Note**: Additional task types (nix, latex, typst, python, etc.) are available via extensions in `.opencode/extensions/`.
 
 ---
 
@@ -218,7 +218,7 @@ Updates use two-phase commit:
 ## File Structure
 
 ```
-.claude/
+.opencode/
 ├── commands/           # Layer 1: User commands
 │   ├── research.md
 │   ├── plan.md
@@ -251,19 +251,19 @@ Updates use two-phase commit:
 
 To add support for a new language (e.g., Rust):
 
-1. Create skill: `.claude/skills/skill-rust-research/SKILL.md`
-2. Create agent: `.claude/agents/rust-research-agent.md`
+1. Create skill: `.opencode/skills/skill-rust-research/SKILL.md`
+2. Create agent: `.opencode/agents/rust-research-agent.md`
 3. Update routing in existing commands
 
 ### Adding New Commands
 
 To add a new command (e.g., /analyze):
 
-1. Create command: `.claude/commands/analyze.md`
-2. Create skill: `.claude/skills/skill-analyzer/SKILL.md`
-3. Create agent: `.claude/agents/analyzer-agent.md`
+1. Create command: `.opencode/commands/analyze.md`
+2. Create skill: `.opencode/skills/skill-analyzer/SKILL.md`
+3. Create agent: `.opencode/agents/analyzer-agent.md`
 
-See the guides in `.claude/docs/guides/` for detailed instructions.
+See the guides in `.opencode/docs/guides/` for detailed instructions.
 
 ---
 
@@ -284,7 +284,7 @@ See the guides in `.claude/docs/guides/` for detailed instructions.
 ### Architecture Details
 
 - [README.md](../../README.md) - Detailed system architecture
-- [CLAUDE.md](../../CLAUDE.md) - Quick reference entry point
+- [AGENTS.md](../../AGENTS.md) - Quick reference entry point
 
 ### Agent-Facing Documentation
 

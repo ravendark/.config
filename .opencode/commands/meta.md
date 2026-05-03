@@ -7,21 +7,21 @@ model: opus
 
 # /meta Command
 
-Interactive system builder that delegates to `skill-meta` for creating TASKS for .claude/ system changes. This command NEVER implements changes directly - it only creates tasks.
+Interactive system builder that delegates to `skill-meta` for creating TASKS for .opencode/ system changes. This command NEVER implements changes directly - it only creates tasks.
 
-**Reference Implementation**: This command is the reference implementation for the multi-task creation standard. See `.claude/docs/reference/standards/multi-task-creation-standard.md` for the complete standard specification.
+**Reference Implementation**: This command is the reference implementation for the multi-task creation standard. See `.opencode/docs/reference/standards/multi-task-creation-standard.md` for the complete standard specification.
 
 ## Arguments
 
 - No args: Start interactive interview (7 stages)
 - `PROMPT` - Direct analysis of change request (abbreviated flow)
-- `--analyze` - Analyze existing .claude/ structure (read-only)
+- `--analyze` - Analyze existing .opencode/ structure (read-only)
 
 ## Constraints
 
 **FORBIDDEN** - This command MUST NOT:
 - Directly create commands, skills, rules, or context files
-- Directly modify CLAUDE.md or README.md
+- Directly modify AGENTS.md or README.md
 - Implement any work without user confirmation
 - Write any files outside specs/
 
@@ -33,15 +33,15 @@ Interactive system builder that delegates to `skill-meta` for creating TASKS for
 
 ## Anti-Bypass Constraint
 
-**PROHIBITION**: The /meta command and its delegated agents MUST NOT create or modify files in `.claude/` directly using Write or Edit tools. All `.claude/` file creation and modification MUST happen through the standard task lifecycle: /meta creates tasks, then /research -> /plan -> /implement executes them via the Skill tool delegation chain.
+**PROHIBITION**: The /meta command and its delegated agents MUST NOT create or modify files in `.opencode/` directly using Write or Edit tools. All `.opencode/` file creation and modification MUST happen through the standard task lifecycle: /meta creates tasks, then /research -> /plan -> /implement executes them via the Skill tool delegation chain.
 
-**Scope**: This prohibition covers all paths under `.claude/` including:
-- `.claude/commands/*`
-- `.claude/skills/*`
-- `.claude/agents/*`
-- `.claude/rules/*`
-- `.claude/context/*`
-- `*/CLAUDE.md`
+**Scope**: This prohibition covers all paths under `.opencode/` including:
+- `.opencode/commands/*`
+- `.opencode/skills/*`
+- `.opencode/agent/subagents/*`
+- `.opencode/rules/*`
+- `.opencode/context/*`
+- `*/AGENTS.md`
 
 **Exclusion**: Writes to `specs/` paths (TODO.md, state.json, task directories) are legitimate and expected.
 
@@ -145,7 +145,7 @@ Next Steps:
 ### Analysis Output
 
 ```
-## Current .claude/ Structure
+## Current .opencode/ Structure
 
 **Commands ({N})**:
 - /{command} - {description}
@@ -209,7 +209,7 @@ agent: {agent-name}
 
 ### Agent Template Reference
 
-See `.claude/docs/guides/creating-agents.md` for full 8-stage workflow template.
+See `.opencode/docs/guides/creating-agents.md` for full 8-stage workflow template.
 
 ## Standards Reference
 

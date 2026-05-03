@@ -41,7 +41,7 @@ This design ensures users always see what was found before any tasks are created
 
 **fix-it-task**: Combines all FIX: and NOTE: tags into a single task describing fixes needed. Includes file paths and line references. Only offered if FIX: or NOTE: tags exist.
 
-**learn-it-task**: Groups NOTE: tags by target context directory. Creates tasks to update `.claude/context/` files based on the learnings. Only offered if NOTE: tags exist.
+**learn-it-task**: Groups NOTE: tags by target context directory. Creates tasks to update `.opencode/context/` files based on the learnings. Only offered if NOTE: tags exist.
 
 **todo-task**: One task per selected TODO: tag (or grouped by topic). Preserves original text as task description. Language detected from source file type.
 
@@ -201,7 +201,7 @@ Selected tasks are created in TODO.md and state.json.
 
 ### NOTE: Tags (3)
 - `docs/guide.tex:89` - Document this pattern
-- `.claude/agents/foo.md:12` - Update context routing
+- `.opencode/agents/foo.md:12` - Update context routing
 
 ### TODO: Tags (7)
 - `src/components/Modal.js:67` - Add LSP configuration
@@ -275,12 +275,12 @@ No task types selected. No tasks created.
 /fix-it docs/04-Metalogic.tex
 
 # Scan multiple paths
-/fix-it src/ .claude/agents/
+/fix-it src/ .opencode/agents/
 ```
 
 ## Standards Reference
 
-This command implements the multi-task creation pattern. See `.claude/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
+This command implements the multi-task creation pattern. See `.opencode/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
 
 **Compliance Level**: Full (all required components)
 

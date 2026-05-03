@@ -6,7 +6,7 @@
 
 ## Overview
 
-Agent files in `.claude/agents/` use YAML frontmatter to declare metadata that the Claude Code system and invoking skills use for agent selection, model enforcement, and capability discovery.
+Agent files in `.opencode/agents/` use YAML frontmatter to declare metadata that the Claude Code system and invoking skills use for agent selection, model enforcement, and capability discovery.
 
 ## Required Fields
 
@@ -178,7 +178,7 @@ model: opus
 
 To add model enforcement to existing agents:
 
-1. Open agent file (e.g., `.claude/agents/general-research-agent.md`)
+1. Open agent file (e.g., `.opencode/agents/general-research-agent.md`)
 2. Add `model: opus` to frontmatter (default for all agents)
 3. Document rationale in agent comments
 
@@ -186,6 +186,6 @@ No other changes are required - the Task tool will respect the model field when 
 
 ## Related Documentation
 
-- [Creating Agents Guide](.claude/docs/guides/creating-agents.md)
-- [Agent Template](.claude/docs/templates/agent-template.md)
-- [Context Discovery Patterns](.claude/context/patterns/context-discovery.md)
+- [Creating Agents Guide](.opencode/docs/guides/creating-agents.md)
+- [Agent Template](.opencode/docs/templates/agent-template.md)
+- [Context Discovery Patterns](.opencode/context/patterns/context-discovery.md)

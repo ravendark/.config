@@ -67,10 +67,10 @@ All agents MUST return valid JSON. Plain text responses cause validation failure
 
 ## Agent File Location
 
-Agents are located in `.claude/agents/{name}-agent.md`:
+Agents are located in `.opencode/agents/{name}-agent.md`:
 
 ```
-.claude/agents/
+.opencode/agents/
 ├── general-research-agent.md
 
 ├── planner-agent.md
@@ -79,7 +79,7 @@ Agents are located in `.claude/agents/{name}-agent.md`:
 └── meta-builder-agent.md
 ```
 
-**Note**: Additional agents (latex, typst, filetypes) are available via extensions in `.claude/extensions/`.
+**Note**: Additional agents (latex, typst, filetypes) are available via extensions in `.opencode/extensions/`.
 
 ---
 
@@ -124,11 +124,11 @@ This agent has access to:
 Load these on-demand using @-references:
 
 **Always Load**:
-- `@.claude/context/formats/subagent-return.md` - Return format schema
+- `@.opencode/context/formats/subagent-return.md` - Return format schema
 
 **Load When Creating Artifacts**:
-- `@.claude/context/formats/report-format.md` (for research)
-- `@.claude/context/standards/plan.md` (for planning)
+- `@.opencode/context/formats/report-format.md` (for research)
+- `@.opencode/context/standards/plan.md` (for planning)
 ```
 
 ### 8-Stage Workflow Section
@@ -202,7 +202,7 @@ Release resources and log completion.
 
 ### Step 1: Create Agent File
 
-Create `.claude/agents/{name}-agent.md`:
+Create `.opencode/agents/{name}-agent.md`:
 
 ```markdown
 # {Name} Agent
@@ -249,12 +249,12 @@ List context files to load on-demand:
 ## Context References
 
 **Always Load**:
-- `@.claude/context/formats/subagent-return.md`
+- `@.opencode/context/formats/subagent-return.md`
 
 **Load When Needed**:
-- `@.claude/context/formats/report-format.md` (for research)
-- `@.claude/context/standards/plan.md` (for planning)
-- `@.claude/context/project/{domain}/tools/tool-guide.md` (for domain tools)
+- `@.opencode/context/formats/report-format.md` (for research)
+- `@.opencode/context/standards/plan.md` (for planning)
+- `@.opencode/context/project/{domain}/tools/tool-guide.md` (for domain tools)
 ```
 
 ### Step 4: Implement 8-Stage Workflow
@@ -594,7 +594,7 @@ Before finalizing a new agent, verify:
 - [ ] Each error case returns appropriate status
 
 ### Integration
-- [ ] Corresponding skill exists in `.claude/skills/`
+- [ ] Corresponding skill exists in `.opencode/skills/`
 - [ ] Agent name follows `{domain}-{purpose}-agent` pattern
 - [ ] Skill's `agent:` field matches this agent name
 
@@ -671,7 +671,7 @@ Research completed successfully. Found 5 patterns. See report at ...
 | `general-implementation-agent` | General file implementation | skill-implementer |
 | `meta-builder-agent` | System building and task creation | skill-meta |
 
-**Note**: Additional agents (latex, typst, filetypes) are available via extensions in `.claude/extensions/`.
+**Note**: Additional agents (latex, typst, filetypes) are available via extensions in `.opencode/extensions/`.
 
 ---
 
@@ -680,8 +680,8 @@ Research completed successfully. Found 5 patterns. See report at ...
 - [Component Selection](component-selection.md) - When to create an agent
 - [Creating Skills](creating-skills.md) - Creating the skill that invokes agent
 - [Creating Commands](creating-commands.md) - Creating commands that invoke skills
-- `.claude/context/formats/subagent-return.md` - Return format schema
-- `.claude/docs/templates/agent-template.md` - Agent template
+- `.opencode/context/formats/subagent-return.md` - Return format schema
+- `.opencode/docs/templates/agent-template.md` - Agent template
 
 ---
 

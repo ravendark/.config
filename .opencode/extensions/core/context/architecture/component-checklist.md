@@ -98,7 +98,7 @@ routing:
 - [ ] Routing explanation (which skill handles which language)
 - [ ] Error handling (invalid arguments, task not found)
 
-**File location**: `.claude/commands/{command-name}.md`
+**File location**: `.opencode/commands/{command-name}.md`
 
 ---
 
@@ -130,7 +130,7 @@ agent: {agent-name}
 
 **Critical**: Always use Task tool to invoke agents.
 
-**File location**: `.claude/skills/skill-{name}/SKILL.md`
+**File location**: `.opencode/skills/skill-{name}/SKILL.md`
 
 ---
 
@@ -168,7 +168,7 @@ description: {One-line description}
 10. Assume your return ends the workflow (orchestrator continues with postflight)
 ```
 
-**File location**: `.claude/agents/{name}-agent.md`
+**File location**: `.opencode/agents/{name}-agent.md`
 
 ---
 
@@ -179,17 +179,17 @@ description: {One-line description}
 When: Creating entirely new command workflow (e.g., /analyze)
 
 **Creates**:
-1. Command: `.claude/commands/analyze.md`
-2. Skill: `.claude/skills/skill-analyzer/SKILL.md`
-3. Agent: `.claude/agents/analyzer-agent.md`
+1. Command: `.opencode/commands/analyze.md`
+2. Skill: `.opencode/skills/skill-analyzer/SKILL.md`
+3. Agent: `.opencode/agents/analyzer-agent.md`
 
 ### Pattern 2: New Language Support
 
 When: Adding support for a new language (e.g., Rust)
 
 **Creates**:
-1. Skill: `.claude/skills/skill-rust-research/SKILL.md`
-2. Agent: `.claude/agents/rust-research-agent.md`
+1. Skill: `.opencode/skills/skill-rust-research/SKILL.md`
+2. Agent: `.opencode/agents/rust-research-agent.md`
 
 **Uses existing**: `/research` command routes by language
 
@@ -198,7 +198,7 @@ When: Adding support for a new language (e.g., Rust)
 When: Adding specialized execution for existing workflow
 
 **Creates**:
-1. Agent: `.claude/agents/database-implementation-agent.md`
+1. Agent: `.opencode/agents/database-implementation-agent.md`
 
 **Uses existing**: `skill-implementer` routes to it
 
@@ -207,7 +207,7 @@ When: Adding specialized execution for existing workflow
 When: Need atomic operation without full agent
 
 **Creates**:
-1. Skill: `.claude/skills/skill-status-sync/SKILL.md`
+1. Skill: `.opencode/skills/skill-status-sync/SKILL.md`
 
 **Pattern**: Skill uses direct tools (Bash, Edit, Read) instead of delegating to agent
 
@@ -265,31 +265,31 @@ After creating a component, verify:
 ### Command Validation
 ```bash
 # Check file exists
-ls -la .claude/commands/{name}.md
+ls -la .opencode/commands/{name}.md
 
 # Check frontmatter is valid YAML
-head -20 .claude/commands/{name}.md
+head -20 .opencode/commands/{name}.md
 ```
 
 ### Skill Validation
 ```bash
 # Check directory and file exist
-ls -la .claude/skills/skill-{name}/SKILL.md
+ls -la .opencode/skills/skill-{name}/SKILL.md
 
 # Verify uses Task tool, not Skill tool
-grep -n "Task tool" .claude/skills/skill-{name}/SKILL.md
+grep -n "Task tool" .opencode/skills/skill-{name}/SKILL.md
 ```
 
 ### Agent Validation
 ```bash
 # Check file exists
-ls -la .claude/agents/{name}-agent.md
+ls -la .opencode/agents/{name}-agent.md
 
 # Verify frontmatter present
-head -10 .claude/agents/{name}-agent.md
+head -10 .opencode/agents/{name}-agent.md
 
 # Verify anti-stop patterns included
-grep "completed.*triggers" .claude/agents/{name}-agent.md
+grep "completed.*triggers" .opencode/agents/{name}-agent.md
 ```
 
 ---
@@ -356,8 +356,8 @@ mkdir -p specs/{NNN}_{SLUG}/reports/  # when agent writes report
 
 ## Related Documentation
 
-- @.claude/docs/guides/component-selection.md - User-facing decision guide
-- @.claude/docs/guides/creating-commands.md - Command creation details
-- @.claude/docs/guides/creating-skills.md - Skill creation details
-- @.claude/docs/guides/creating-agents.md - Agent creation details
-- @.claude/context/patterns/anti-stop-patterns.md - Patterns to avoid
+- @.opencode/docs/guides/component-selection.md - User-facing decision guide
+- @.opencode/docs/guides/creating-commands.md - Command creation details
+- @.opencode/docs/guides/creating-skills.md - Skill creation details
+- @.opencode/docs/guides/creating-agents.md - Agent creation details
+- @.opencode/context/patterns/anti-stop-patterns.md - Patterns to avoid

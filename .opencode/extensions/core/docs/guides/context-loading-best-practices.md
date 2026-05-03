@@ -62,7 +62,7 @@ Context loading directly impacts:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
     - "core/orchestration/state-management.md"
@@ -90,7 +90,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: eager
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
     - "core/orchestration/state-management.md"
@@ -119,7 +119,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
     - "core/orchestration/state-management.md"
@@ -155,7 +155,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
   optional:
@@ -185,7 +185,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
   sections:
@@ -279,7 +279,7 @@ Examples file:
 
 **Recommended Structure**:
 ```
-.claude/context/
+.opencode/context/
 ├── core/                      # Core system context
 │   ├── orchestration/         # Orchestration patterns (8 files)
 │   ├── formats/               # File format specs (7 files)
@@ -320,7 +320,7 @@ Examples file:
 ```yaml
 context_loading:
   strategy: lazy                          # lazy | eager | conditional
-  index: ".claude/context/index.json"     # Context index file
+  index: ".opencode/context/index.json"     # Context index file
   required: []                            # Always load these files
   optional: []                            # Load if needed
   conditional: []                         # Load based on conditions
@@ -343,7 +343,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"      # Always needed
     - "core/orchestration/state-management.md" # Always needed
@@ -364,7 +364,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
   conditional:
@@ -423,7 +423,7 @@ Example (Lean implementation):
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   cache:
     enabled: true
     ttl: 3600  # Cache for 1 hour
@@ -515,8 +515,8 @@ Orchestrator → subagent delegation:
 **Example**:
 ```bash
 # Find files with 0 references
-for file in .claude/context/**/*.md; do
-  ref_count=$(grep -r "$(basename $file)" .claude/command .claude/agent | wc -l)
+for file in .opencode/context/**/*.md; do
+  ref_count=$(grep -r "$(basename $file)" .opencode/command .opencode/agent | wc -l)
   if [ $ref_count -eq 0 ]; then
     echo "UNUSED: $file"
   fi
@@ -539,10 +539,10 @@ done
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   telemetry:
     enabled: true
-    log_file: ".claude/logs/context-loading.log"
+    log_file: ".opencode/logs/context-loading.log"
     metrics:
       - context_size
       - loading_time
@@ -568,7 +568,7 @@ echo "" >> specs/tmp/context-sizes.txt
 
 for dir in orchestration formats standards workflows templates; do
   echo "## $dir/" >> specs/tmp/context-sizes.txt
-  find .claude/context/$dir -name "*.md" -exec wc -l {} + | \
+  find .opencode/context/$dir -name "*.md" -exec wc -l {} + | \
     sort -n >> specs/tmp/context-sizes.txt
   echo "" >> specs/tmp/context-sizes.txt
 done
@@ -605,7 +605,7 @@ cat specs/tmp/context-sizes.txt
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
     - "core/orchestration/state-management.md"
@@ -635,7 +635,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
     - "core/orchestration/state-management.md"
@@ -661,7 +661,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
     - "core/orchestration/state-management.md"
@@ -690,7 +690,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
     - "core/orchestration/state-management.md"
@@ -716,7 +716,7 @@ context_loading:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/orchestration/delegation.md"
     - "core/orchestration/state-management.md"
@@ -746,10 +746,10 @@ context_loading:
 **Diagnosis**:
 ```bash
 # Run validation script
-bash .claude/scripts/validate-context-refs.sh
+bash .opencode/scripts/validate-context-refs.sh
 
 # Check for broken references manually
-grep -r "core/system/" .claude/command .claude/agent
+grep -r "core/system/" .opencode/command .opencode/agent
 ```
 
 **Solutions**:
@@ -769,10 +769,10 @@ grep -r "core/system/" .claude/command .claude/agent
 **Diagnosis**:
 ```bash
 # Check context file sizes
-find .claude/context -name "*.md" -exec wc -l {} + | sort -n
+find .opencode/context -name "*.md" -exec wc -l {} + | sort -n
 
 # Check context loading configuration
-grep -A 20 "context_loading:" .claude/command/*.md
+grep -A 20 "context_loading:" .opencode/command/*.md
 ```
 
 **Solutions**:
@@ -793,18 +793,18 @@ grep -A 20 "context_loading:" .claude/command/*.md
 **Diagnosis**:
 ```bash
 # Check file permissions
-ls -la .claude/context/**/*.md
+ls -la .opencode/context/**/*.md
 
 # Check file existence
-for file in $(grep -rh '"core/[^"]*\.md"' .claude/command | sed 's/.*"\(core\/[^"]*\.md\)".*/\1/'); do
-  if [ ! -f ".claude/context/$file" ]; then
+for file in $(grep -rh '"core/[^"]*\.md"' .opencode/command | sed 's/.*"\(core\/[^"]*\.md\)".*/\1/'); do
+  if [ ! -f ".opencode/context/$file" ]; then
     echo "MISSING: $file"
   fi
 done
 ```
 
 **Solutions**:
-1. Fix file permissions: `chmod 644 .claude/context/**/*.md`
+1. Fix file permissions: `chmod 644 .opencode/context/**/*.md`
 2. Restore missing files from git history
 3. Update references to correct paths
 
@@ -820,10 +820,10 @@ done
 **Diagnosis**:
 ```bash
 # Measure loading time
-time grep -r "core/orchestration/delegation.md" .claude/command
+time grep -r "core/orchestration/delegation.md" .opencode/command
 
 # Check file sizes
-find .claude/context -name "*.md" -exec wc -l {} + | sort -n | tail -10
+find .opencode/context -name "*.md" -exec wc -l {} + | sort -n | tail -10
 ```
 
 **Solutions**:
@@ -841,29 +841,29 @@ find .claude/context -name "*.md" -exec wc -l {} + | sort -n | tail -10
 
 **Validate all references**:
 ```bash
-bash .claude/scripts/validate-context-refs.sh
+bash .opencode/scripts/validate-context-refs.sh
 ```
 
 **Count broken references**:
 ```bash
-grep -r "core/system/" .claude/command .claude/agent | grep -v "status-markers.md" | wc -l
+grep -r "core/system/" .opencode/command .opencode/agent | grep -v "status-markers.md" | wc -l
 ```
 
 **List large files**:
 ```bash
-find .claude/context -name "*.md" -exec wc -l {} + | sort -n | tail -10
+find .opencode/context -name "*.md" -exec wc -l {} + | sort -n | tail -10
 ```
 
 **Check context loading configurations**:
 ```bash
-grep -A 20 "context_loading:" .claude/command/*.md .claude/agent/subagents/*.md
+grep -A 20 "context_loading:" .opencode/command/*.md .opencode/agent/subagents/*.md
 ```
 
 **Generate context inventory**:
 ```bash
 for dir in orchestration formats standards workflows templates; do
-  count=$(find .claude/context/$dir -name "*.md" | wc -l)
-  lines=$(find .claude/context/$dir -name "*.md" -exec wc -l {} + | tail -1 | awk '{print $1}')
+  count=$(find .opencode/context/$dir -name "*.md" | wc -l)
+  lines=$(find .opencode/context/$dir -name "*.md" -exec wc -l {} + | tail -1 | awk '{print $1}')
   echo "$dir/: $count files, $lines lines"
 done
 ```
@@ -885,9 +885,9 @@ done
 
 **Quick Reference**:
 
-- **Validation script**: `.claude/scripts/validate-context-refs.sh`
+- **Validation script**: `.opencode/scripts/validate-context-refs.sh`
 - **Update script**: `update-context-refs.sh`
-- **Context index**: `.claude/context/index.json`
+- **Context index**: `.opencode/context/index.json`
 - **Max context sizes**: Research (50k), Planning (40k), Implementation (30k)
 - **File size limits**: Standards (700), Formats (600), Templates (400)
 

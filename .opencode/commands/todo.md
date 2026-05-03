@@ -258,13 +258,13 @@ Track:
 - `exact` - Matched via `(Task {N})` reference in ROADMAP.md
 - `summary` - Matched via completion_summary content search (optional, future enhancement)
 
-### 3.6. Scan Meta Tasks for CLAUDE.md Suggestions
+### 3.6. Scan Meta Tasks for AGENTS.md Suggestions
 
 Meta tasks use `claudemd_suggestions` instead of ROADMAP.md updates. This step collects suggestions for user review.
 
 **Step 3.6.1: Extract claudemd_suggestions from meta tasks**:
 ```bash
-# Initialize CLAUDE.md suggestion tracking
+# Initialize AGENTS.md suggestion tracking
 claudemd_suggestions=()
 claudemd_add_count=0
 claudemd_update_count=0
@@ -325,7 +325,7 @@ for task in "${meta_tasks[@]}"; do
     claudemd_suggestions+=("$suggestion")
   else
     # Meta task without claudemd_suggestions - note for output
-    # These are treated as implicit "none" (no CLAUDE.md changes suggested)
+    # These are treated as implicit "none" (no AGENTS.md changes suggested)
     ((claudemd_none_count++))
   fi
 done
@@ -387,7 +387,7 @@ Total roadmap items to update: {N}
   - Exact matches: {N}
 - Abandoned: {N}
 
-CLAUDE.md suggestions (from meta tasks):
+AGENTS.md suggestions (from meta tasks):
 
 Task #{N4} ({project_name}) [meta]:
   Action: ADD
@@ -408,7 +408,7 @@ Task #{N6} ({project_name}) [meta]:
   Action: NONE
   Rationale: {rationale}
 
-Total CLAUDE.md suggestions: {N}
+Total AGENTS.md suggestions: {N}
 - Add: {N}
 - Update: {N}
 - Remove: {N}
@@ -425,9 +425,9 @@ Run without --dry-run to archive.
 
 If no roadmap matches were found (from Step 3.5), omit the "Roadmap updates" section.
 
-If no CLAUDE.md suggestions were found (from Step 3.6), omit the "CLAUDE.md suggestions" section.
+If no AGENTS.md suggestions were found (from Step 3.6), omit the "AGENTS.md suggestions" section.
 
-If CLAUDE.md suggestions exist, the "Note: Interactive selection..." line is always shown in dry-run.
+If AGENTS.md suggestions exist, the "Note: Interactive selection..." line is always shown in dry-run.
 
 Exit here if dry run.
 
@@ -641,7 +641,7 @@ Track misplaced operations for output reporting:
 
 ### 5.5. Update Roadmap for Archived Tasks
 
-**Context**: Load @.claude/context/patterns/roadmap-update.md for matching strategy.
+**Context**: Load @.opencode/context/patterns/roadmap-update.md for matching strategy.
 
 For each archived task with roadmap matches (from Step 3.5):
 
@@ -716,7 +716,7 @@ Track roadmap operations for output reporting:
 - One edit per item (no batch edits to same line)
 - Never remove existing content
 
-### 5.6. Interactive CLAUDE.md Suggestion Selection for Meta Tasks
+### 5.6. Interactive AGENTS.md Suggestion Selection for Meta Tasks
 
 For meta tasks with `claudemd_suggestions` (from Step 3.6), use interactive selection to apply suggestions via the Edit tool.
 
@@ -741,8 +741,8 @@ If `actionable_suggestions[]` has any entries:
 
 ```json
 {
-  "question": "Found {N} CLAUDE.md suggestions from meta tasks. Which should be applied?",
-  "header": "CLAUDE.md Updates",
+  "question": "Found {N} AGENTS.md suggestions from meta tasks. Which should be applied?",
+  "header": "AGENTS.md Updates",
   "multiSelect": true,
   "options": [
     {"label": "Task #{N1}: {ACTION} to {section}", "description": "{rationale}"},
@@ -783,7 +783,7 @@ content=$(echo "$suggestion" | jq -r '.content // empty')
 removes=$(echo "$suggestion" | jq -r '.removes // empty')
 ```
 
-2. Read current `.claude/CLAUDE.md` content
+2. Read current `.opencode/AGENTS.md` content
 
 3. Apply Edit based on action type:
 
@@ -819,7 +819,7 @@ fi
 **Step 5.6.4: Display results of applied changes**:
 
 ```
-CLAUDE.md suggestions applied: {N}
+AGENTS.md suggestions applied: {N}
 - Task #{N1}: Added {section}
 - Task #{N2}: Updated {section}
 - Task #{N3}: Removed {section}
@@ -830,7 +830,7 @@ Failed to apply {N} suggestions:
 - Task #{N5}: Text to remove not found in file
 
 {If "Skip all" was selected:}
-CLAUDE.md suggestions skipped by user: {N}
+AGENTS.md suggestions skipped by user: {N}
 The following suggestions are available for manual review:
 - Task #{N1}: ADD to {section} - {rationale}
 - Task #{N2}: UPDATE {section} - {rationale}
@@ -841,7 +841,7 @@ The following suggestions are available for manual review:
 For meta tasks with action "none" (or missing `claudemd_suggestions`), output brief acknowledgment:
 
 ```
-Meta tasks with no CLAUDE.md changes:
+Meta tasks with no AGENTS.md changes:
 - Task #{N1} ({project_name}): {rationale}
 - Task #{N2} ({project_name}): No claudemd_suggestions field
 ```
@@ -1093,8 +1093,8 @@ Cleanup: {O} orphans tracked, {P} misplaced moved
 {If roadmap updated:}
 Roadmap: {R} items updated
 
-{If CLAUDE.md suggestions:}
-CLAUDE.md: {applied}/{total} suggestions applied
+{If AGENTS.md suggestions:}
+AGENTS.md: {applied}/{total} suggestions applied
 
 Active tasks remaining: {N}
 
@@ -1111,19 +1111,19 @@ Next Steps:
 | Directories | directories_moved > 0 |
 | Cleanup | orphans_tracked > 0 OR misplaced_moved > 0 |
 | Roadmap | roadmap items updated |
-| CLAUDE.md | claudemd_suggestions processed |
+| AGENTS.md | claudemd_suggestions processed |
 
 If no roadmap items were updated (no matches found in Step 3.5):
 - Omit the "Roadmap updated" section
 
-If no CLAUDE.md suggestions were collected (no meta tasks or all had "none" action):
-- Omit the "CLAUDE.md suggestions applied/failed/skipped" sections
+If no AGENTS.md suggestions were collected (no meta tasks or all had "none" action):
+- Omit the "AGENTS.md suggestions applied/failed/skipped" sections
 
-If all CLAUDE.md suggestions were successfully applied:
-- Omit the "CLAUDE.md suggestions failed" section
+If all AGENTS.md suggestions were successfully applied:
+- Omit the "AGENTS.md suggestions failed" section
 
 If no suggestions were skipped (all selected or "Skip all" not chosen):
-- Omit the "CLAUDE.md suggestions skipped" section
+- Omit the "AGENTS.md suggestions skipped" section
 
 ## Notes
 
@@ -1244,10 +1244,10 @@ The summary should:
 - Focus on outcomes, not process
 - Be specific enough to enable roadmap matching
 
-### Interactive CLAUDE.md Application
+### Interactive AGENTS.md Application
 
 **Overview**:
-Meta tasks use `claudemd_suggestions` to propose documentation changes. Unlike ROADMAP.md updates (which are automatic), CLAUDE.md suggestions use interactive selection.
+Meta tasks use `claudemd_suggestions` to propose documentation changes. Unlike ROADMAP.md updates (which are automatic), AGENTS.md suggestions use interactive selection.
 
 **Workflow**:
 1. Actionable suggestions (ADD/UPDATE/REMOVE) are collected from completed meta tasks
@@ -1293,4 +1293,4 @@ If an Edit operation fails (section not found, text mismatch), the failure is lo
    jq 'del(.array[] | select(.status == "completed"))'
    ```
 
-**Reference**: See `.claude/context/patterns/jq-escaping-workarounds.md` for comprehensive patterns.
+**Reference**: See `.opencode/context/patterns/jq-escaping-workarounds.md` for comprehensive patterns.

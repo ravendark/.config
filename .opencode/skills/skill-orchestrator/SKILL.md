@@ -12,9 +12,9 @@ Central routing intelligence for the task management system.
 ## Context Loading
 
 Load context on-demand when needed:
-- `@.claude/context/orchestration/orchestration-core.md` - Routing, delegation, session tracking
-- `@.claude/context/orchestration/state-management.md` - Task lookup and status validation
-- `@.claude/context/index.json` - Full context discovery index
+- `@.opencode/context/orchestration/orchestration-core.md` - Routing, delegation, session tracking
+- `@.opencode/context/orchestration/state-management.md` - Task lookup and status validation
+- `@.opencode/context/index.json` - Full context discovery index
 
 ## Trigger Conditions
 
@@ -45,7 +45,7 @@ Route to appropriate skill based on task type:
 | meta | skill-researcher | skill-implementer |
 | markdown | skill-researcher | skill-implementer |
 
-**Note**: Additional languages (latex, typst) are available via extensions in `.claude/extensions/`.
+**Note**: Additional languages (latex, typst) are available via extensions in `.opencode/extensions/`.
 
 ### 3. Status Validation
 
@@ -125,4 +125,4 @@ The orchestrator is a **routing-only** skill. It:
 - Routes to appropriate skill based on task_type
 - Passes through the routed skill's return
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md

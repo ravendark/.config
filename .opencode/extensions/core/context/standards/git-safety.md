@@ -548,8 +548,8 @@ cat file1   # Should show original content
 
 When removing .bak files and adding git safety:
 
-- [ ] Search for `.bak` creation: `grep -r "\.bak" .claude/`
-- [ ] Search for `backup` keyword: `grep -r "backup" .claude/`
+- [ ] Search for `.bak` creation: `grep -r "\.bak" .opencode/`
+- [ ] Search for `backup` keyword: `grep -r "backup" .opencode/`
 - [ ] For each backup location:
   - [ ] Add CreateSafetyCommit stage before operation
   - [ ] Remove .bak file creation code
@@ -565,7 +565,7 @@ When removing .bak files and adding git safety:
 
 ## References
 
-- **Command Structure**: `.claude/context/standards/command-structure.md`
-- **Subagent Structure**: `.claude/context/standards/subagent-structure.md`
-- **Error Handling**: `.claude/context/standards/error-handling.md`
-- **Example**: `.claude/command/todo.md` (after Phase 4 conversion)
+- **Command Structure**: `.opencode/context/standards/command-structure.md`
+- **Subagent Structure**: `.opencode/context/standards/subagent-structure.md`
+- **Error Handling**: `.opencode/context/standards/error-handling.md`
+- **Example**: `.opencode/command/todo.md` (after Phase 4 conversion)

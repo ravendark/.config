@@ -75,7 +75,7 @@ Primary Tool → Alternative 1 → Alternative 2 → Continue with partial
 ```
 
 **Extension Fallback Tables**:
-- Lean: `.claude/extensions/lean/context/project/lean4/patterns/mcp-fallback-table.md`
+- Lean: `.opencode/extensions/lean/context/project/lean4/patterns/mcp-fallback-table.md`
 - Other extensions: Check `{extension}/context/*/patterns/` for fallback tables
 
 ### Step 4: Write Partial Status

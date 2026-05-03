@@ -104,7 +104,7 @@ Please verify my project setup by:
 
 ## Setting Up Claude Agent Commands (Optional)
 
-The repository includes a `.claude/` agent system that provides enhanced task management and workflow commands for Claude Code.
+The repository includes a `.opencode/` agent system that provides enhanced task management and workflow commands for Claude Code.
 
 ### What the Agent System Provides
 
@@ -305,7 +305,7 @@ claude auth login
 ### Documentation
 
 - **[Architecture](../../README.md)** - System architecture overview
-- **[CLAUDE.md](../../CLAUDE.md)** - Quick reference for the agent system
+- **[AGENTS.md](../../AGENTS.md)** - Quick reference for the agent system
 - **[Commands Reference](../commands/README.md)** - Full command documentation
 
 ### Project Documentation
@@ -319,4 +319,4 @@ claude auth login
 
 ---
 
-[Back to Docs](../README.md) | [Copy .claude/ Directory](copy-claude-directory.md)
+[Back to Docs](../README.md) | [Copy .opencode/ Directory](copy-claude-directory.md)

@@ -8,23 +8,23 @@ Extensions provide task-type-specific and domain-specific capabilities to the co
 
 ## Two-Layer Architecture
 
-The extension system splits across an extension loader (Layer 1) that manages which files exist in the `.claude/` runtime, and the `.claude/` agent system (Layer 2) that Claude Code reads. The loader copies files from extension sources into the runtime on load, merges context index entries, and calls `generate_claudemd()` to rebuild `.claude/CLAUDE.md`. On unload, it removes those files and regenerates. Claude Code has no knowledge of the extension system itself -- it only sees the resulting runtime.
+The extension system splits across an extension loader (Layer 1) that manages which files exist in the `.opencode/` runtime, and the `.opencode/` agent system (Layer 2) that Claude Code reads. The loader copies files from extension sources into the runtime on load, merges context index entries, and calls `generate_claudemd()` to rebuild `.opencode/AGENTS.md`. On unload, it removes those files and regenerates. Claude Code has no knowledge of the extension system itself -- it only sees the resulting runtime.
 
 For complete architecture details, see [Extension System Architecture](../../docs/architecture/extension-system.md).
 
 ### Source vs Loaded Vocabulary
 
-> **Extension source**: Files in `.claude/extensions/*/` -- edit these when developing extensions.
+> **Extension source**: Files in `.opencode/extensions/*/` -- edit these when developing extensions.
 >
-> **Loaded runtime**: Files in `.claude/{agents,skills,rules,...}/` -- copies made by the loader.
+> **Loaded runtime**: Files in `.opencode/{agents,skills,rules,...}/` -- copies made by the loader.
 > Do not edit runtime files directly; they are overwritten on reload.
 
 ## Extension Structure
 
-Each extension lives under `.claude/extensions/{name}/` with three key files:
+Each extension lives under `.opencode/extensions/{name}/` with three key files:
 - `manifest.json` -- Extension metadata and file inventory
-- `EXTENSION.md` -- Content included in CLAUDE.md via `generate_claudemd()`
-- `index-entries.json` -- Context discovery entries merged into `.claude/context/index.json`
+- `EXTENSION.md` -- Content included in AGENTS.md via `generate_claudemd()`
+- `index-entries.json` -- Context discovery entries merged into `.opencode/context/index.json`
 
 For the full directory layout including agents, skills, rules, context, and optional resource directories, see [Extension System Architecture](../../docs/architecture/extension-system.md).
 
@@ -59,12 +59,12 @@ For the full directory layout including agents, skills, rules, context, and opti
   "merge_targets": {
     "claudemd": {
       "source": "EXTENSION.md",
-      "target": ".claude/CLAUDE.md",
+      "target": ".opencode/AGENTS.md",
       "section_id": "extension_python"
     },
     "index": {
       "source": "index-entries.json",
-      "target": ".claude/context/index.json"
+      "target": ".opencode/context/index.json"
     }
   }
 }
@@ -91,7 +91,7 @@ Extensions are loaded via the extension picker. The loader reads each extension'
 
 ### 1. Context Index Merging
 
-Extension context entries from `index-entries.json` are merged into `.claude/context/index.json`:
+Extension context entries from `index-entries.json` are merged into `.opencode/context/index.json`:
 
 ```json
 {
@@ -108,16 +108,16 @@ Extension context entries from `index-entries.json` are merged into `.claude/con
 }
 ```
 
-### 2. CLAUDE.md Generation
+### 2. AGENTS.md Generation
 
-`.claude/CLAUDE.md` is a computed artifact. When an extension is loaded or unloaded, the loader regenerates CLAUDE.md by concatenating the CLAUDE.md source from every currently loaded extension. The `section_id` field in `merge_targets.claudemd` is used for tracking which sections to remove on unload, not for locating a content placement point.
+`.opencode/AGENTS.md` is a computed artifact. When an extension is loaded or unloaded, the loader regenerates AGENTS.md by concatenating the AGENTS.md source from every currently loaded extension. The `section_id` field in `merge_targets.claudemd` is used for tracking which sections to remove on unload, not for locating a content placement point.
 
-### CLAUDE.md Source Files: merge-sources/claudemd.md vs EXTENSION.md
+### AGENTS.md Source Files: merge-sources/claudemd.md vs EXTENSION.md
 
-There are two patterns for providing CLAUDE.md content:
+There are two patterns for providing AGENTS.md content:
 
 - **Standard extensions** (all domain extensions): use `EXTENSION.md` at the extension root. The manifest specifies `"source": "EXTENSION.md"` in `merge_targets.claudemd`.
-- **Core extension** (`.claude/extensions/core/`): uses `merge-sources/claudemd.md` as its CLAUDE.md source. This allows the core extension to maintain its CLAUDE.md content separately from a potential top-level `EXTENSION.md`. The manifest specifies `"source": "merge-sources/claudemd.md"`.
+- **Core extension** (`.opencode/extensions/core/`): uses `merge-sources/claudemd.md` as its AGENTS.md source. This allows the core extension to maintain its AGENTS.md content separately from a potential top-level `EXTENSION.md`. The manifest specifies `"source": "merge-sources/claudemd.md"`.
 
 When `generate_claudemd()` runs, it reads each loaded extension's `merge_targets.claudemd.source` file and concatenates them: core first, then all other extensions in sorted order.
 
@@ -125,8 +125,8 @@ When `generate_claudemd()` runs, it reads each loaded extension's `merge_targets
 
 The `copy_context_dirs()` function in `loader.lua` handles two types of entries in `provides.context`:
 
-1. **Directory names** (common case): `"project/latex"` -- copies the entire directory tree from the extension source to `.claude/context/project/latex/`
-2. **Individual file paths**: `"project/latex/specific-file.md"` -- copies a single file to `.claude/context/project/latex/specific-file.md`
+1. **Directory names** (common case): `"project/latex"` -- copies the entire directory tree from the extension source to `.opencode/context/project/latex/`
+2. **Individual file paths**: `"project/latex/specific-file.md"` -- copies a single file to `.opencode/context/project/latex/specific-file.md`
 
 The function detects which case applies by checking `vim.fn.isdirectory()` first, then falling back to `vim.fn.filereadable()` for individual files.
 
@@ -135,7 +135,7 @@ The function detects which case applies by checking `vim.fn.isdirectory()` first
 For a complete step-by-step creation guide with file templates, agent templates, skill templates, and testing checklists, see [Creating Extensions](../../docs/guides/creating-extensions.md).
 
 **Quick checklist**:
-1. `mkdir -p .claude/extensions/{name}/{agents,skills,rules,context/project/{domain}}`
+1. `mkdir -p .opencode/extensions/{name}/{agents,skills,rules,context/project/{domain}}`
 2. Create `manifest.json` (see Manifest Format above)
 3. Create `EXTENSION.md` with routing tables and skill-agent mapping
 4. Create `index-entries.json` with context load conditions
@@ -209,7 +209,7 @@ Extensions that only provide shared resources (no agents, commands, or routing) 
   "merge_targets": {
     "index": {
       "source": "index-entries.json",
-      "target": ".claude/context/index.json"
+      "target": ".opencode/context/index.json"
     }
   }
 }

@@ -12,9 +12,9 @@ Blocker analysis and task decomposition agent for the /spawn workflow. Analyzes 
 
 ## Context References
 
-- `@.claude/context/formats/return-metadata-file.md` - Metadata file schema (always load)
-- `@.claude/CLAUDE.md` - Project configuration and conventions
-- `@.claude/context/standards/tasks.md` - Task structure guidelines
+- `@.opencode/context/formats/return-metadata-file.md` - Metadata file schema (always load)
+- `@.opencode/AGENTS.md` - Project configuration and conventions
+- `@.opencode/context/standards/tasks.md` - Task structure guidelines
 
 ## Execution Flow
 

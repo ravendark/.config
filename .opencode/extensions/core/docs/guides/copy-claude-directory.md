@@ -1,14 +1,14 @@
-# Copy .claude/ Directory Guide
+# Copy .opencode/ Directory Guide
 
 [Back to Docs](../README.md) | [User Installation](user-installation.md) | [Commands Reference](../commands/README.md)
 
-Instructions for copying the `.claude/` agent system directory to a new project.
+Instructions for copying the `.opencode/` agent system directory to a new project.
 
 ---
 
-## What is the .claude/ System?
+## What is the .opencode/ System?
 
-The `.claude/` directory provides an agent system for Claude Code that enhances your development workflow with:
+The `.opencode/` directory provides an agent system for Claude Code that enhances your development workflow with:
 
 - **Task Management Commands**: `/task`, `/research`, `/plan`, `/implement` - structured workflow for development tasks
 - **Specialized Skills**: Language-specific agents available via extensions (LaTeX, Typst, and more)
@@ -38,7 +38,7 @@ Before proceeding, ensure you have:
 
 3. **A target project directory**
    - This should be the root directory where you run Claude Code
-   - The `.claude/` directory will be placed here
+   - The `.opencode/` directory will be placed here
 
 ---
 
@@ -49,8 +49,8 @@ Before proceeding, ensure you have:
 These are the essential files for the system to function:
 
 ```
-.claude/
-├── CLAUDE.md                    # Main configuration
+.opencode/
+├── AGENTS.md                    # Main configuration
 ├── commands/                    # Slash commands
 ├── skills/                      # Skill definitions
 ├── agents/                      # Agent definitions
@@ -93,7 +93,7 @@ For a fresh installation, initialize these files:
 
 After copying, customize these files for your project:
 
-### 1. CLAUDE.md
+### 1. AGENTS.md
 
 Update the project structure section to match your project:
 
@@ -128,7 +128,7 @@ Extension rules apply to specific file patterns (e.g., `src/**/*.py`). Adjust pa
 
 To add a new domain (e.g., for a specific framework):
 
-1. Create directory: `.claude/context/project/your-domain/`
+1. Create directory: `.opencode/context/project/your-domain/`
 2. Add context files following the existing patterns
 3. Create domain-specific agents if needed
 4. Update routing in `skill-orchestrator/SKILL.md`
@@ -143,7 +143,7 @@ To support a new language type:
 2. Create `skill-{language}-research/SKILL.md`
 3. Create `skill-{language}-implementation/SKILL.md`
 4. Create corresponding agent files
-5. Update `CLAUDE.md` documentation
+5. Update `AGENTS.md` documentation
 
 ---
 
@@ -158,7 +158,7 @@ cd /tmp
 # Clone the repository (replace with your source)
 git clone https://github.com/your-repo.git source-repo
 
-# Copy .claude/ to your project directory
+# Copy .opencode/ to your project directory
 cp -r source-repo/.claude /path/to/your/project/
 
 # Initialize specs directory
@@ -196,7 +196,7 @@ After copying, verify the installation:
 ### 1. Check Directory Structure
 
 ```bash
-ls -la .claude/
+ls -la .opencode/
 ```
 
 You should see:
@@ -245,7 +245,7 @@ After installation:
 
 1. Ensure you restarted Claude Code
 2. Verify you're in the correct directory
-3. Check that `.claude/commands/` contains `.md` files
+3. Check that `.opencode/commands/` contains `.md` files
 
 ### Language routing issues
 

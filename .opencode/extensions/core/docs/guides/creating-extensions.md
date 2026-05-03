@@ -2,13 +2,13 @@
 
 [Back to Docs](../README.md) | [Extension System](../architecture/extension-system.md) | [Adding Domains](adding-domains.md)
 
-Step-by-step guide for creating a new domain extension for the .claude/ system.
+Step-by-step guide for creating a new domain extension for the .opencode/ system.
 
 ---
 
 ## Overview
 
-Extensions are self-contained packages that add domain-specific support (agents, skills, rules, context) to the .claude/ system. Extensions can be loaded/unloaded via the extension picker without modifying core files. Extensions can optionally declare dependencies on other extensions for shared resources.
+Extensions are self-contained packages that add domain-specific support (agents, skills, rules, context) to the .opencode/ system. Extensions can be loaded/unloaded via the extension picker without modifying core files. Extensions can optionally declare dependencies on other extensions for shared resources.
 
 **When to Create an Extension**:
 - Adding support for a new language/framework (Rust, React, Go)
@@ -22,19 +22,19 @@ Extensions are self-contained packages that add domain-specific support (agents,
 ### 1. Create Extension Directory
 
 ```bash
-mkdir -p .claude/extensions/your-domain/{agents,skills,rules,context/project/your-domain}
+mkdir -p .opencode/extensions/your-domain/{agents,skills,rules,context/project/your-domain}
 ```
 
 ### 2. Create Required Files
 
 ```bash
 # Required files
-touch .claude/extensions/your-domain/manifest.json
-touch .claude/extensions/your-domain/EXTENSION.md
-touch .claude/extensions/your-domain/README.md
+touch .opencode/extensions/your-domain/manifest.json
+touch .opencode/extensions/your-domain/EXTENSION.md
+touch .opencode/extensions/your-domain/README.md
 
 # Optional but recommended
-touch .claude/extensions/your-domain/index-entries.json
+touch .opencode/extensions/your-domain/index-entries.json
 ```
 
 ### 3. Populate Files
@@ -89,12 +89,12 @@ Follow the templates below for each file type.
   "merge_targets": {
     "claudemd": {
       "source": "EXTENSION.md",
-      "target": ".claude/CLAUDE.md",
+      "target": ".opencode/AGENTS.md",
       "section_id": "extension_your_domain"
     },
     "index": {
       "source": "index-entries.json",
-      "target": ".claude/context/index.json"
+      "target": ".opencode/context/index.json"
     }
   },
   "mcp_servers": {}
@@ -111,14 +111,14 @@ Follow the templates below for each file type.
 | `task_type` | No | Language code for orchestrator routing (omit for resource-only extensions) |
 | `dependencies` | No | Extensions that must load first (auto-loaded silently) |
 | `provides` | Yes | Lists all files/directories provided |
-| `merge_targets` | Yes | Defines CLAUDE.md and index.json merging |
+| `merge_targets` | Yes | Defines AGENTS.md and index.json merging |
 | `mcp_servers` | No | MCP server configs to merge |
 
 For the complete manifest schema with all field descriptions and examples, see [Extension System Architecture](../architecture/extension-system.md#manifest-schema).
 
 ### EXTENSION.md (Required)
 
-Content included in CLAUDE.md via `generate_claudemd()` when loaded:
+Content included in AGENTS.md via `generate_claudemd()` when loaded:
 
 ```markdown
 ## Your Domain Extension
@@ -147,9 +147,9 @@ This project includes [Your Domain] support via the your-domain extension.
 
 ### README.md (Required)
 
-Every extension must provide a `README.md` file in its root directory. This is the user-facing overview of the extension, distinct from `EXTENSION.md` (which is included in `.claude/CLAUDE.md` via `generate_claudemd()` when the extension is loaded).
+Every extension must provide a `README.md` file in its root directory. This is the user-facing overview of the extension, distinct from `EXTENSION.md` (which is included in `.opencode/AGENTS.md` via `generate_claudemd()` when the extension is loaded).
 
-Start from the canonical template: `.claude/templates/extension-readme-template.md`.
+Start from the canonical template: `.opencode/templates/extension-readme-template.md`.
 
 The template includes a **section-applicability matrix** that distinguishes simple extensions (latex, python, typst, z3) from complex extensions (filetypes, lean, formal, nix, web, epidemiology). Simple extensions omit sections they do not need (MCP Setup, Workflow diagram, Output Artifacts) and produce README files under ~120 lines. Complex extensions use the full structure.
 
@@ -169,7 +169,7 @@ The template includes a **section-applicability matrix** that distinguishes simp
 - Key Patterns
 - Tool Dependencies
 
-The doc-lint script at `.claude/scripts/check-extension-docs.sh` flags missing `README.md` files during verification.
+The doc-lint script at `.opencode/scripts/check-extension-docs.sh` flags missing `README.md` files during verification.
 
 ### index-entries.json (Recommended)
 
@@ -229,7 +229,7 @@ Extensions that provide only shared context (no agents, skills, commands, or rou
     "scripts": [], "hooks": []
   },
   "merge_targets": {
-    "index": { "source": "index-entries.json", "target": ".claude/context/index.json" }
+    "index": { "source": "index-entries.json", "target": ".opencode/context/index.json" }
   }
 }
 ```
@@ -238,7 +238,7 @@ Consuming extensions declare the dependency: `"dependencies": ["slidev"]`. When 
 
 **Key characteristics**:
 - No `task_type` field (no routing)
-- No `EXTENSION.md` or `claudemd` merge target (nothing included in CLAUDE.md)
+- No `EXTENSION.md` or `claudemd` merge target (nothing included in AGENTS.md)
 - Only `provides.context` populated
 - Loaded automatically as a dependency, not typically selected directly
 
@@ -270,12 +270,12 @@ Research agent for [Your Domain] tasks. Invoked by `skill-your-domain-research` 
 Load these on-demand using @-references:
 
 **Always Load**:
-- `@.claude/context/project/your-domain/README.md`
-- `@.claude/context/project/your-domain/domain/overview.md`
+- `@.opencode/context/project/your-domain/README.md`
+- `@.opencode/context/project/your-domain/domain/overview.md`
 
 **Load for Specific Topics**:
-- `@.claude/context/project/your-domain/tools/tool-guide.md` - When researching tool usage
-- `@.claude/context/project/your-domain/patterns/*.md` - When researching patterns
+- `@.opencode/context/project/your-domain/tools/tool-guide.md` - When researching tool usage
+- `@.opencode/context/project/your-domain/patterns/*.md` - When researching patterns
 
 ## Research Strategy
 
@@ -340,11 +340,11 @@ Implementation agent for [Your Domain] tasks. Invoked by `skill-your-domain-impl
 Load these on-demand using @-references:
 
 **Always Load**:
-- `@.claude/context/project/your-domain/standards/style-guide.md`
+- `@.opencode/context/project/your-domain/standards/style-guide.md`
 
 **Load as Needed**:
-- `@.claude/context/project/your-domain/patterns/*.md` - For implementation patterns
-- `@.claude/context/project/your-domain/templates/*.md` - For boilerplate
+- `@.opencode/context/project/your-domain/patterns/*.md` - For implementation patterns
+- `@.opencode/context/project/your-domain/templates/*.md` - For boilerplate
 
 ## Verification Commands
 
@@ -534,8 +534,8 @@ Applies to: `path/to/your/files/**/*.ext`
 ## Related Context
 
 Load for detailed patterns:
-- `@.claude/context/project/your-domain/standards/style-guide.md`
-- `@.claude/context/project/your-domain/patterns/common-pattern.md`
+- `@.opencode/context/project/your-domain/standards/style-guide.md`
+- `@.opencode/context/project/your-domain/patterns/common-pattern.md`
 ```
 
 ---
@@ -601,22 +601,22 @@ Press the extension picker and select your extension from the picker.
 
 ```bash
 # Check agents
-ls .claude/agents/your-domain-*-agent.md
+ls .opencode/agents/your-domain-*-agent.md
 
 # Check skills
-ls .claude/skills/skill-your-domain-*/SKILL.md
+ls .opencode/skills/skill-your-domain-*/SKILL.md
 
 # Check rules
-ls .claude/rules/your-domain.md
+ls .opencode/rules/your-domain.md
 
 # Check context
-ls .claude/context/project/your-domain/
+ls .opencode/context/project/your-domain/
 
-# Check CLAUDE.md content was included
-grep "Your Domain Extension" .claude/CLAUDE.md
+# Check AGENTS.md content was included
+grep "Your Domain Extension" .opencode/AGENTS.md
 
 # Check index entries
-grep "your-domain" .claude/context/index.json
+grep "your-domain" .opencode/context/index.json
 ```
 
 ### 3. Test Routing
@@ -642,7 +642,7 @@ Press the extension picker and select your extension again to unload.
 
 Verify:
 - All copied files are removed
-- CLAUDE.md section is removed
+- AGENTS.md section is removed
 - Index entries are removed
 
 ---
@@ -653,12 +653,12 @@ Verify:
 
 1. Check manifest.json exists and is valid JSON:
    ```bash
-   cat .claude/extensions/your-domain/manifest.json | jq .
+   cat .opencode/extensions/your-domain/manifest.json | jq .
    ```
 
 2. Verify extension directory is in the correct location:
    ```bash
-   ls .claude/extensions/your-domain/
+   ls .opencode/extensions/your-domain/
    ```
 
 ### Load Fails with Conflicts
@@ -671,23 +671,23 @@ The loader detected existing files that would be overwritten and showed a confir
 
 ### Routing Not Working After Load
 
-1. Check CLAUDE.md includes your extension content:
+1. Check AGENTS.md includes your extension content:
    ```bash
-   grep "Your Domain Extension" .claude/CLAUDE.md
+   grep "Your Domain Extension" .opencode/AGENTS.md
    ```
 
 2. Verify orchestrator knows about your language routing (check `task_type` in manifest and routing entries)
 
 3. Check skill files exist:
    ```bash
-   ls .claude/skills/skill-your-domain-*/SKILL.md
+   ls .opencode/skills/skill-your-domain-*/SKILL.md
    ```
 
 ### Context Not Loading
 
 1. Verify index entries were added:
    ```bash
-   jq '.entries[] | select(.path | contains("your-domain"))' .claude/context/index.json
+   jq '.entries[] | select(.path | contains("your-domain"))' .opencode/context/index.json
    ```
 
 2. Check agent references correct context paths
@@ -698,9 +698,9 @@ The loader detected existing files that would be overwritten and showed a confir
 
 Refer to existing extensions for complete examples:
 
-- `.claude/extensions/latex/` - LaTeX document development
-- `.claude/extensions/lean/` - Lean theorem prover
-- `.claude/extensions/typst/` - Typst document preparation
+- `.opencode/extensions/latex/` - LaTeX document development
+- `.opencode/extensions/lean/` - Lean theorem prover
+- `.opencode/extensions/typst/` - Typst document preparation
 
 ---
 

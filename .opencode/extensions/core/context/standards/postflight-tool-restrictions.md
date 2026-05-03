@@ -64,7 +64,7 @@ The postflight phase **MUST NOT** perform any work that belongs in the agent, in
 | Edit on `*.py` | Source modification is agent work |
 | Edit on `*.ts`, `*.tsx`, `*.js` | Source modification is agent work |
 | Edit on `*.md` outside `specs/` | Documentation is agent work |
-| Edit on `.claude/**/*` (non-specs) | System modification is agent work |
+| Edit on `.opencode/**/*` (non-specs) | System modification is agent work |
 
 ### Bash Command Restrictions
 
@@ -84,7 +84,7 @@ The postflight phase **MUST NOT** perform any work that belongs in the agent, in
 | Prohibited Pattern | Reason |
 |--------------------|--------|
 | Write to source files | Implementation is agent work |
-| Write to `.claude/` (except specs/) | System modification is agent work |
+| Write to `.opencode/` (except specs/) | System modification is agent work |
 | Write to summaries | Agent creates summary |
 
 ---
@@ -180,7 +180,7 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md
 ```
 
 ---
@@ -202,6 +202,6 @@ Run as part of `validate-all-standards.sh --postflight` category.
 
 ## Related Documentation
 
-- @.claude/context/patterns/thin-wrapper-skill.md - Thin wrapper pattern
-- @.claude/context/patterns/skill-lifecycle.md - Complete skill lifecycle
-- @.claude/context/formats/return-metadata-file.md - Metadata schema
+- @.opencode/context/patterns/thin-wrapper-skill.md - Thin wrapper pattern
+- @.opencode/context/patterns/skill-lifecycle.md - Complete skill lifecycle
+- @.opencode/context/formats/return-metadata-file.md - Metadata schema

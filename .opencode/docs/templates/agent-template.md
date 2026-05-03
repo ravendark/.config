@@ -10,9 +10,9 @@ model: opus
 
 ## Context References
 
-- `@.claude/context/formats/return-metadata-file.md` - Metadata schema (always load)
-- `@.claude/context/formats/summary-format.md` - Summary structure (when writing summaries)
-- `@.claude/context/patterns/context-discovery.md` - Query pattern for adaptive context loading
+- `@.opencode/context/formats/return-metadata-file.md` - Metadata schema (always load)
+- `@.opencode/context/formats/summary-format.md` - Summary structure (when writing summaries)
+- `@.opencode/context/patterns/context-discovery.md` - Query pattern for adaptive context loading
 
 ## Execution Flow
 
@@ -42,7 +42,7 @@ The heart of the agent: research, planning, implementation, etc. Keep this stage
 
 ### Stage 4: Write Artifacts
 
-Create artifacts in `specs/{NNN}_{SLUG}/` subdirectories using the `MM_{short-slug}.md` naming convention. See `.claude/rules/artifact-formats.md` for the complete naming rules.
+Create artifacts in `specs/{NNN}_{SLUG}/` subdirectories using the `MM_{short-slug}.md` naming convention. See `.opencode/rules/artifact-formats.md` for the complete naming rules.
 
 ### Stage 5: Validate Artifacts
 
@@ -69,7 +69,7 @@ Return 3-6 bullet points summarizing the work done. The skill's postflight step 
 
 ## Error Handling
 
-See `.claude/rules/error-handling.md` for general patterns. Agent-specific requirements:
+See `.opencode/rules/error-handling.md` for general patterns. Agent-specific requirements:
 - **Timeout**: Mark current phase `[PARTIAL]` in plan file, save progress, write partial metadata
 - **Tool failure**: Retry once, then return partial with error description
 - **Invalid delegation context**: Write `failed` status to metadata file and return

@@ -213,5 +213,5 @@ Command files MUST execute this preflight in Stage 1.5 after Stage 1 (ParseAndVa
 ## References
 
 - `specs/workflow-command-refactor-plan.md` - Root cause analysis
-- `.claude/context/orchestration/state-management.md` - State management patterns
-- `.claude/agent/subagents/status-sync-manager.md` - Status sync manager specification
+- `.opencode/context/orchestration/state-management.md` - State management patterns
+- `.opencode/agent/subagents/status-sync-manager.md` - Status sync manager specification

@@ -141,7 +141,7 @@ rm -f "specs/${padded_num}_${task_slug}/.return-meta.json"
 
 ## Related Documentation
 
-- @.claude/context/formats/return-metadata-file.md - Full schema specification
-- @.claude/context/patterns/file-metadata-exchange.md - Read/write patterns
-- @.claude/context/patterns/anti-stop-patterns.md - Forbidden status values
-- @.claude/context/formats/subagent-return.md - Console return alternative
+- @.opencode/context/formats/return-metadata-file.md - Full schema specification
+- @.opencode/context/patterns/file-metadata-exchange.md - Read/write patterns
+- @.opencode/context/patterns/anti-stop-patterns.md - Forbidden status values
+- @.opencode/context/formats/subagent-return.md - Console return alternative

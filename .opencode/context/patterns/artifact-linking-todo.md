@@ -2,7 +2,7 @@
 
 Canonical four-case logic for linking artifacts in TODO.md task entries. Skills reference this pattern instead of carrying inline instructions.
 
-**Automation**: This logic is implemented by `.claude/scripts/link-artifact-todo.sh`. Core skills call the script in their Stage 8 postflight. The four-case logic below remains as reference documentation.
+**Automation**: This logic is implemented by `.opencode/scripts/link-artifact-todo.sh`. Core skills call the script in their Stage 8 postflight. The four-case logic below remains as reference documentation.
 
 ## Parameterization Map
 
@@ -104,11 +104,11 @@ Skills should replace their inline four-case instructions with:
 ```markdown
 **Update TODO.md**: Link artifact using count-aware format.
 
-Apply the four-case Edit logic from `@.claude/context/patterns/artifact-linking-todo.md`
+Apply the four-case Edit logic from `@.opencode/context/patterns/artifact-linking-todo.md`
 with `field_name={field_name}`, `next_field={next_field}`.
 ```
 
 ## Cross-References
 
-- `.claude/rules/state-management.md` -- Artifact Linking Format rules
-- `.claude/context/reference/state-management-schema.md` -- Count-Aware Linking detection patterns
+- `.opencode/rules/state-management.md` -- Artifact Linking Format rules
+- `.opencode/context/reference/state-management-schema.md` -- Count-Aware Linking detection patterns

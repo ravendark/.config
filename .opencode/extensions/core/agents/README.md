@@ -9,14 +9,14 @@ Agent definitions for the Claude Code system. Agents perform execution work for 
 | general-research-agent.md | General web/codebase research with web search capabilities |
 | general-implementation-agent.md | General file implementation and editing |
 | planner-agent.md | Implementation plan creation and task planning |
-| meta-builder-agent.md | System building for .claude/ architecture changes |
+| meta-builder-agent.md | System building for .opencode/ architecture changes |
 | code-reviewer-agent.md | Code quality assessment and review |
 | reviser-agent.md | Plan revision and task description updates |
 | spawn-agent.md | Blocker analysis and task decomposition |
 
 ## Agent Structure
 
-All agents follow the minimal frontmatter format (see `.claude/docs/reference/standards/agent-frontmatter-standard.md`):
+All agents follow the minimal frontmatter format (see `.opencode/docs/reference/standards/agent-frontmatter-standard.md`):
 
 ```yaml
 ---
@@ -37,4 +37,4 @@ Agents are invoked by skills, not directly by users. The orchestrator skill rout
 ## Navigation
 
 - [Parent Directory](../README.md)
-- [CLAUDE.md](../CLAUDE.md) - Quick reference
+- [AGENTS.md](../AGENTS.md) - Quick reference

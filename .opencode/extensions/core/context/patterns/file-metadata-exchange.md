@@ -294,7 +294,7 @@ fi
 
 ## Related Documentation
 
-- `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- `.claude/context/patterns/postflight-control.md` - Postflight marker protocol
-- `.claude/rules/state-management.md` - State update patterns
-- `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping issues (Task 599)
+- `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- `.opencode/context/patterns/postflight-control.md` - Postflight marker protocol
+- `.opencode/rules/state-management.md` - State update patterns
+- `.opencode/context/patterns/jq-escaping-workarounds.md` - jq escaping issues (Task 599)

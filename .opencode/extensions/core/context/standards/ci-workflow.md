@@ -45,9 +45,9 @@ The marker can appear anywhere in the commit message:
 | Research reports (.md) | No | No build impact |
 | Implementation plans (.md) | No | No build impact |
 | TODO.md / state.json | No | Task management only |
-| CLAUDE.md updates | No | Configuration only |
-| Context files (.claude/context/) | No | Documentation only |
-| Skills/agents (.claude/skills/, .claude/agents/) | No | Orchestration only |
+| AGENTS.md updates | No | Configuration only |
+| Context files (.opencode/context/) | No | Documentation only |
+| Skills/agents (.opencode/skills/, .opencode/agents/) | No | Orchestration only |
 
 ## Task Lifecycle CI Triggers
 
@@ -136,5 +136,5 @@ To restore default CI behavior (run on every push):
 ## References
 
 - `.github/workflows/ci.yml` - CI workflow configuration
-- `.claude/skills/skill-git-workflow/SKILL.md` - Git commit skill with trigger_ci
-- `.claude/context/standards/git-integration.md` - Git integration patterns
+- `.opencode/skills/skill-git-workflow/SKILL.md` - Git commit skill with trigger_ci
+- `.opencode/context/standards/git-integration.md` - Git integration patterns

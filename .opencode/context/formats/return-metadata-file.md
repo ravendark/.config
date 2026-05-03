@@ -77,7 +77,7 @@ Example: `specs/1_setup_lsp_config/.return-meta.json`
 
 **Early Metadata Pattern**: Agents should write metadata with `status: "in_progress"` at the START
 of execution (Stage 0), then update to the final status on completion. This ensures metadata exists
-even if the agent is interrupted. See `.claude/context/patterns/early-metadata-pattern.md`.
+even if the agent is interrupted. See `.opencode/context/patterns/early-metadata-pattern.md`.
 
 ### artifacts (required)
 
@@ -149,7 +149,7 @@ Contains fields needed for task completion processing. Skills extract this data 
 |-------|------|----------|-------------|
 | `completion_summary` | string | Yes | 1-3 sentence description of what was accomplished |
 | `roadmap_items` | array of strings | No | Explicit ROADMAP.md item texts this task addresses (non-meta tasks only) |
-| `claudemd_suggestions` | string | Yes (meta only) | Description of .claude/ changes made, or `"none"` if no .claude/ files modified |
+| `claudemd_suggestions` | string | Yes (meta only) | Description of .opencode/ changes made, or `"none"` if no .opencode/ files modified |
 
 **Notes**:
 - `completion_summary` is mandatory for all `implemented` status returns
@@ -419,9 +419,9 @@ For other scenarios (meta tasks, blocked), combine the schema fields above. Meta
 
 ## Related Documentation
 
-- `.claude/context/formats/subagent-return.md` - Original console-based format
-- `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- `.claude/context/patterns/file-metadata-exchange.md` - File I/O patterns
-- `.claude/context/patterns/early-metadata-pattern.md` - Early metadata creation pattern
-- `.claude/rules/state-management.md` - State update patterns
-- `.claude/rules/error-handling.md` - Error types including mcp_abort_error and delegation_interrupted
+- `.opencode/context/formats/subagent-return.md` - Original console-based format
+- `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- `.opencode/context/patterns/file-metadata-exchange.md` - File I/O patterns
+- `.opencode/context/patterns/early-metadata-pattern.md` - Early metadata creation pattern
+- `.opencode/rules/state-management.md` - State update patterns
+- `.opencode/rules/error-handling.md` - Error types including mcp_abort_error and delegation_interrupted

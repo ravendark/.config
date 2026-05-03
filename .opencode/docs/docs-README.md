@@ -1,20 +1,20 @@
 # Claude Agent System Documentation
 
-[Project Root](../../README.md) | [Architecture](../README.md) | [CLAUDE.md](../CLAUDE.md)
+[Project Root](../../README.md) | [Architecture](../README.md) | [AGENTS.md](../AGENTS.md)
 
-This directory contains the documentation for the `.claude/` agent system. The system provides structured task management, research workflows, and implementation automation for project development. For comprehensive system details, see [architecture/system-overview.md](architecture/system-overview.md).
+This directory contains the documentation for the `.opencode/` agent system. The system provides structured task management, research workflows, and implementation automation for project development. For comprehensive system details, see [architecture/system-overview.md](architecture/system-overview.md).
 
 ---
 
 ## Documentation Map
 
 ```
-.claude/docs/
+.opencode/docs/
 ├── README.md                    # This file - documentation hub
 ├── guides/                      # How-to guides
 │   ├── user-guide.md           # Comprehensive command workflows guide
 │   ├── user-installation.md    # Quick-start for new users
-│   ├── copy-claude-directory.md # Copy .claude/ to another project
+│   ├── copy-claude-directory.md # Copy .opencode/ to another project
 │   ├── component-selection.md  # When to create command vs skill vs agent
 │   ├── creating-commands.md    # How to create commands
 │   ├── creating-skills.md      # How to create skills
@@ -41,7 +41,7 @@ This directory contains the documentation for the `.claude/` agent system. The s
 
 ## System Architecture
 
-The `.claude/` directory implements a three-layer architecture: Commands, Skills, and Agents, with checkpoint-based execution and task-type-specific routing. All system details, including the task lifecycle, state management, and git integration patterns, are documented in [architecture/system-overview.md](architecture/system-overview.md).
+The `.opencode/` directory implements a three-layer architecture: Commands, Skills, and Agents, with checkpoint-based execution and task-type-specific routing. All system details, including the task lifecycle, state management, and git integration patterns, are documented in [architecture/system-overview.md](architecture/system-overview.md).
 
 ---
 
@@ -50,7 +50,7 @@ The `.claude/` directory implements a three-layer architecture: Commands, Skills
 ### Getting Started
 - [User Installation Guide](guides/user-installation.md) - Install Claude Code, set up the agent system, and learn the basics
 - [Command Workflows User Guide](guides/user-guide.md) - Comprehensive guide to all commands with examples and troubleshooting
-- [Copy .claude/ Directory](guides/copy-claude-directory.md) - Install the agent system in another project
+- [Copy .opencode/ Directory](guides/copy-claude-directory.md) - Install the agent system in another project
 ### Component Development
 - [Component Selection](guides/component-selection.md) - Decision tree for creating commands, skills, or agents
 - [Creating Commands](guides/creating-commands.md) - Define new user-invocable operations
@@ -84,7 +84,7 @@ Reusable templates for creating new system components are available in [template
 ## Related Documentation
 
 ### Core References
-- [CLAUDE.md](../CLAUDE.md) - Quick reference entry point with command syntax and workflow summaries
+- [AGENTS.md](../AGENTS.md) - Quick reference entry point with command syntax and workflow summaries
 - [README.md](../README.md) - Detailed system architecture and component specifications
 
 ### Project Documentation
@@ -92,4 +92,4 @@ Reusable templates for creating new system components are available in [template
 
 ---
 
-[Project Root](../../README.md) | [Architecture](../README.md) | [CLAUDE.md](../CLAUDE.md)
+[Project Root](../../README.md) | [Architecture](../README.md) | [AGENTS.md](../AGENTS.md)

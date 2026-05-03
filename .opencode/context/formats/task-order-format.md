@@ -291,6 +291,6 @@ When creating a new Task Order section:
 
 ## Related
 
-- @.claude/context/formats/roadmap-format.md - ROADMAP.md structure
-- @.claude/rules/state-management.md - Task status management
-- @.claude/rules/artifact-formats.md - Status marker definitions
+- @.opencode/context/formats/roadmap-format.md - ROADMAP.md structure
+- @.opencode/rules/state-management.md - Task status management
+- @.opencode/rules/artifact-formats.md - Status marker definitions

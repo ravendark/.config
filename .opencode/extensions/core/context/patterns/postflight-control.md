@@ -115,7 +115,7 @@ fi
 
 ## SubagentStop Hook Behavior
 
-The hook at `.claude/hooks/subagent-postflight.sh`:
+The hook at `.opencode/hooks/subagent-postflight.sh`:
 
 1. **Searches for marker file**: Uses `find specs -maxdepth 3 -name ".postflight-pending"` to locate task-scoped markers
 2. **Falls back to global marker**: For backward compatibility, checks `specs/.postflight-pending` if no task-scoped marker found
@@ -193,7 +193,7 @@ Return a brief 3-6 bullet summary (NO JSON).
 ### View Hook Logs
 
 ```bash
-cat .claude/logs/subagent-postflight.log
+cat .opencode/logs/subagent-postflight.log
 ```
 
 ### Check Marker State
@@ -269,7 +269,7 @@ find specs -maxdepth 3 -name ".postflight-loop-guard" -delete
 
 ## Related Documentation
 
-- `.claude/hooks/subagent-postflight.sh` - Hook script implementation
-- `.claude/settings.json` - Hook configuration
-- `.claude/context/patterns/file-metadata-exchange.md` - Metadata file protocol
-- `.claude/context/troubleshooting/workflow-interruptions.md` - Full troubleshooting guide
+- `.opencode/hooks/subagent-postflight.sh` - Hook script implementation
+- `.opencode/settings.json` - Hook configuration
+- `.opencode/context/patterns/file-metadata-exchange.md` - Metadata file protocol
+- `.opencode/context/troubleshooting/workflow-interruptions.md` - Full troubleshooting guide

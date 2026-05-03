@@ -241,7 +241,7 @@ jq --arg path "$artifact_path" \
 
 ## Postflight Scripts
 
-Reusable shell scripts are available in `.claude/scripts/` that encapsulate correct jq patterns:
+Reusable shell scripts are available in `.opencode/scripts/` that encapsulate correct jq patterns:
 
 | Script | Purpose |
 |--------|---------|
@@ -251,12 +251,12 @@ Reusable shell scripts are available in `.claude/scripts/` that encapsulate corr
 
 Example usage:
 ```bash
-.claude/scripts/postflight-plan.sh 607 "specs/607_task/plans/02_implementation-plan.md" "9-phase implementation plan"
+.opencode/scripts/postflight-plan.sh 607 "specs/607_task/plans/02_implementation-plan.md" "9-phase implementation plan"
 ```
 
 ## References
 
 - Claude Code Issue #1132: Bash tool escaping bug
-- `.claude/context/patterns/inline-status-update.md` - Status update patterns
-- `.claude/rules/state-management.md` - State management rules
-- `.claude/scripts/postflight-*.sh` - Reusable postflight scripts
+- `.opencode/context/patterns/inline-status-update.md` - Status update patterns
+- `.opencode/rules/state-management.md` - State management rules
+- `.opencode/scripts/postflight-*.sh` - Reusable postflight scripts

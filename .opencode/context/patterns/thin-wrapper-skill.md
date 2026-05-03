@@ -92,7 +92,7 @@ Parameters:
 ```
 
 **DO NOT** use `Skill({agent-name})` - this will FAIL.
-Agents live in `.claude/agents/`, not `.claude/skills/`.
+Agents live in `.opencode/agent/subagents/`, not `.opencode/skills/`.
 
 ### 3b. Self-Execution Fallback
 
@@ -212,7 +212,7 @@ The skill body passes simpler instructions to the agent without a full structure
 
 **Why `context: fork`**: Extension skills are thin wrappers with minimal postflight. The `context: fork` field prevents context files from being loaded into the skill's session, since the agent loads its own context.
 
-**Note**: `context: fork` and `CLAUDE_CODE_FORK_SUBAGENT=1` are independent. See @.claude/context/patterns/fork-patterns.md for the full decision matrix and cache sharing mechanics.
+**Note**: `context: fork` and `CLAUDE_CODE_FORK_SUBAGENT=1` are independent. See @.opencode/context/patterns/fork-patterns.md for the full decision matrix and cache sharing mechanics.
 
 ---
 
@@ -238,7 +238,7 @@ Extension skills follow the standard thin wrapper pattern, delegating to extensi
 
 ## Postflight Boundary Restrictions
 
-After the subagent returns, thin wrapper skills MUST NOT perform implementation work. See @.claude/context/standards/postflight-tool-restrictions.md for:
+After the subagent returns, thin wrapper skills MUST NOT perform implementation work. See @.opencode/context/standards/postflight-tool-restrictions.md for:
 - Allowed tools (Read metadata, jq state updates, Edit TODO.md, git commit)
 - Prohibited tools (Edit source files, build commands, MCP tools)
 - MUST NOT section template to include in skills
@@ -247,8 +247,8 @@ After the subagent returns, thin wrapper skills MUST NOT perform implementation 
 
 ## Related Documentation
 
-- @.claude/context/templates/thin-wrapper-skill.md - Full template
-- @.claude/context/patterns/skill-lifecycle.md - Complete skill lifecycle
-- @.claude/context/formats/subagent-return.md - Return format
-- @.claude/context/standards/postflight-tool-restrictions.md - Postflight boundary rules
-- @.claude/docs/guides/creating-skills.md - Step-by-step guide
+- @.opencode/context/templates/thin-wrapper-skill.md - Full template
+- @.opencode/context/patterns/skill-lifecycle.md - Complete skill lifecycle
+- @.opencode/context/formats/subagent-return.md - Return format
+- @.opencode/context/standards/postflight-tool-restrictions.md - Postflight boundary rules
+- @.opencode/docs/guides/creating-skills.md - Step-by-step guide

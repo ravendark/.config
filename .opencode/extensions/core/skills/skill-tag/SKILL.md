@@ -399,6 +399,6 @@ Resolution: Use a different increment type or check tag history.
 
 1. **Frontmatter flag**: `user-only: true` in skill YAML
 2. **Documentation**: Clear CRITICAL warnings in this file
-3. **No agent mapping**: Not listed in Skill-to-Agent Mapping table in CLAUDE.md
+3. **No agent mapping**: Not listed in Skill-to-Agent Mapping table in AGENTS.md
 
 **Rationale**: Deployment timing is a business decision that requires human judgment. Agents prepare code changes but never control when those changes go to production.

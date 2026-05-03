@@ -8,7 +8,7 @@ Extensions provide task-type-specific and domain-specific capabilities to the co
 
 ## Two-Layer Architecture
 
-The extension system splits across an extension loader (Layer 1) that manages which files exist in the `.opencode/` runtime, and the `.opencode/` agent system (Layer 2) that OpenCode reads. The loader copies files from extension sources into the runtime on load, merges context index entries, and calls `generate_claudemd()` to rebuild `.opencode/CLAUDE.md`. On unload, it removes those files and regenerates. OpenCode has no knowledge of the extension system itself -- it only sees the resulting runtime.
+The extension system splits across an extension loader (Layer 1) that manages which files exist in the `.opencode/` runtime, and the `.opencode/` agent system (Layer 2) that OpenCode reads. The loader copies files from extension sources into the runtime on load, merges context index entries, and calls `generate_claudemd()` to rebuild `.opencode/AGENTS.md`. On unload, it removes those files and regenerates. OpenCode has no knowledge of the extension system itself -- it only sees the resulting runtime.
 
 For complete architecture details, see [Extension System Architecture](../../docs/architecture/extension-system.md).
 
@@ -23,7 +23,7 @@ For complete architecture details, see [Extension System Architecture](../../doc
 
 Each extension lives under `.opencode/extensions/{name}/` with three key files:
 - `manifest.json` -- Extension metadata and file inventory
-- `EXTENSION.md` -- Content included in CLAUDE.md via `generate_claudemd()`
+- `EXTENSION.md` -- Content included in AGENTS.md via `generate_claudemd()`
 - `index-entries.json` -- Context discovery entries merged into `.opencode/context/index.json`
 
 For the full directory layout including agents, skills, rules, context, and optional resource directories, see [Extension System Architecture](../../docs/architecture/extension-system.md).
@@ -59,7 +59,7 @@ For the full directory layout including agents, skills, rules, context, and opti
   "merge_targets": {
     "claudemd": {
       "source": "EXTENSION.md",
-      "target": ".opencode/CLAUDE.md",
+      "target": ".opencode/AGENTS.md",
       "section_id": "extension_python"
     },
     "index": {
@@ -108,16 +108,16 @@ Extension context entries from `index-entries.json` are merged into `.opencode/c
 }
 ```
 
-### 2. CLAUDE.md Generation
+### 2. AGENTS.md Generation
 
-`.opencode/CLAUDE.md` is a computed artifact. When an extension is loaded or unloaded, the loader regenerates CLAUDE.md by concatenating the CLAUDE.md source from every currently loaded extension. The `section_id` field in `merge_targets.claudemd` is used for tracking which sections to remove on unload, not for locating a content placement point.
+`.opencode/AGENTS.md` is a computed artifact. When an extension is loaded or unloaded, the loader regenerates AGENTS.md by concatenating the AGENTS.md source from every currently loaded extension. The `section_id` field in `merge_targets.claudemd` is used for tracking which sections to remove on unload, not for locating a content placement point.
 
-### CLAUDE.md Source Files: merge-sources/claudemd.md vs EXTENSION.md
+### AGENTS.md Source Files: merge-sources/claudemd.md vs EXTENSION.md
 
-There are two patterns for providing CLAUDE.md content:
+There are two patterns for providing AGENTS.md content:
 
 - **Standard extensions** (all domain extensions): use `EXTENSION.md` at the extension root. The manifest specifies `"source": "EXTENSION.md"` in `merge_targets.claudemd`.
-- **Core extension** (`.opencode/extensions/core/`): uses `merge-sources/claudemd.md` as its CLAUDE.md source. This allows the core extension to maintain its CLAUDE.md content separately from a potential top-level `EXTENSION.md`. The manifest specifies `"source": "merge-sources/claudemd.md"`.
+- **Core extension** (`.opencode/extensions/core/`): uses `merge-sources/claudemd.md` as its AGENTS.md source. This allows the core extension to maintain its AGENTS.md content separately from a potential top-level `EXTENSION.md`. The manifest specifies `"source": "merge-sources/claudemd.md"`.
 
 When `generate_claudemd()` runs, it reads each loaded extension's `merge_targets.claudemd.source` file and concatenates them: core first, then all other extensions in sorted order.
 

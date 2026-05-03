@@ -7,7 +7,7 @@ model: opus
 
 # /refresh Command
 
-Comprehensive cleanup of Claude Code resources - terminate orphaned processes and clean up ~/.claude/ directory.
+Comprehensive cleanup of Claude Code resources - terminate orphaned processes and clean up ~/.opencode/ directory.
 
 ## Syntax
 
@@ -31,7 +31,7 @@ Identifies and terminates orphaned Claude Code processes (detached processes wit
 
 ### Directory Cleanup
 
-Cleans accumulated files in ~/.claude/:
+Cleans accumulated files in ~/.opencode/:
 
 | Directory | Contents |
 |-----------|----------|
@@ -126,7 +126,7 @@ All 3 Claude processes are active sessions.
 Claude Code Directory Cleanup
 =============================
 
-Target: ~/.claude/
+Target: ~/.opencode/
 
 Current total size: 7.3 GB
 
@@ -185,4 +185,4 @@ Some processes may require elevated permissions to terminate. Run as root if nee
 
 ### Large cleanup size
 
-If ~/.claude/ is very large (>5GB), consider starting with the "2 days" option to preserve recent work, then progressively clean older files.
+If ~/.opencode/ is very large (>5GB), consider starting with the "2 days" option to preserve recent work, then progressively clean older files.

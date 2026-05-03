@@ -773,7 +773,7 @@ def parseConfig (json : Json) : Except ParseError Config :=
 
 ### Error Log Format
 
-**File**: `.claude/logs/errors.json`
+**File**: `.opencode/logs/errors.json`
 
 **Structure**:
 ```json
@@ -1038,15 +1038,15 @@ validation:
 ## References
 
 **Related Standards**:
-- `.claude/context/standards/patterns.md` - Error handling patterns
-- `.claude/context/standards/code.md` - Code error handling
-- `.claude/context/standards/git-safety.md` - Git error handling
-- `.claude/context/standards/subagent-structure.md` - Subagent error handling
-- `.claude/context/standards/command-structure.md` - Command error handling
+- `.opencode/context/standards/patterns.md` - Error handling patterns
+- `.opencode/context/standards/code.md` - Code error handling
+- `.opencode/context/standards/git-safety.md` - Git error handling
+- `.opencode/context/standards/subagent-structure.md` - Subagent error handling
+- `.opencode/context/standards/command-structure.md` - Command error handling
 
 **Examples**:
-- `.claude/command/research.md` - Command error handling
-- `.claude/agents/` - Agent error handling examples
+- `.opencode/command/research.md` - Command error handling
+- `.opencode/agent/subagents/` - Agent error handling examples
 
 ---
 

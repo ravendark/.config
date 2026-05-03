@@ -185,7 +185,7 @@ The `memory_candidates` array on task entries accumulates structured memory cand
 
 **Responsibility Split**:
 - **`/implement` (Producer)**: Reports what was changed factually
-- **`/todo` (Consumer)**: Evaluates content and decides what warrants CLAUDE.md updates
+- **`/todo` (Consumer)**: Evaluates content and decides what warrants AGENTS.md updates
 
 ### Dependencies Field
 
@@ -357,9 +357,9 @@ The `## Recommended Order` section in TODO.md provides a topologically-sorted li
 ### Utility Script
 
 ```bash
-.claude/scripts/update-recommended-order.sh add TASK_NUM
-.claude/scripts/update-recommended-order.sh remove TASK_NUM
-.claude/scripts/update-recommended-order.sh refresh
+.opencode/scripts/update-recommended-order.sh add TASK_NUM
+.opencode/scripts/update-recommended-order.sh remove TASK_NUM
+.opencode/scripts/update-recommended-order.sh refresh
 ```
 
 ## Examples
@@ -408,7 +408,7 @@ The `## Recommended Order` section in TODO.md provides a topologically-sorted li
     }
   ],
   "completion_summary": "Created /merge command with platform auto-detection.",
-  "claudemd_suggestions": "Added merge.md command, updated CLAUDE.md command reference"
+  "claudemd_suggestions": "Added merge.md command, updated AGENTS.md command reference"
 }
 ```
 

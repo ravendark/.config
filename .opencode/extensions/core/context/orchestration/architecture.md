@@ -33,7 +33,7 @@ This pattern enables:
 
 ### Layer 1: Orchestrator (Pure Router)
 
-**File**: `.claude/agent/orchestrator.md`  
+**File**: `.opencode/agent/orchestrator.md`  
 **Responsibility**: Route user commands to appropriate command files  
 **Input**: Raw user command string  
 **Output**: Delegation to Layer 2 (command file)
@@ -50,7 +50,7 @@ User: /plan 196
   ↓
 Orchestrator: Identify command = "plan"
   ↓
-Orchestrator: Route to .claude/command/plan.md
+Orchestrator: Route to .opencode/command/plan.md
   ↓
 Delegate to Layer 2
 ```
@@ -75,7 +75,7 @@ Delegate to Layer 2
 
 User command: "/implement 259"
 Command identified: "implement"
-Target: .claude/command/implement.md
+Target: .opencode/command/implement.md
 Delegation depth: 0 → 1
 ```
 
@@ -83,7 +83,7 @@ Delegation depth: 0 → 1
 
 ### Layer 2: Command File (Argument Parsing Agent)
 
-**Files**: `.claude/command/*.md`  
+**Files**: `.opencode/command/*.md`  
 **Responsibility**: Parse arguments, validate inputs, orchestrate workflow  
 **Input**: Raw command arguments from orchestrator  
 **Output**: Delegation to Layer 3 (execution subagents)
@@ -171,7 +171,7 @@ Command File: Return to orchestrator
 
 ### Layer 3: Execution Subagents (Work Executors)
 
-**Files**: `.claude/agent/subagents/*.md`  
+**Files**: `.opencode/agent/subagents/*.md`  
 **Responsibility**: Execute specialized work, return standardized results  
 **Input**: Delegation context from Layer 2  
 **Output**: Standardized return format (see formats/subagent-return.md)
@@ -249,7 +249,7 @@ Command File: Return to orchestrator
 │                                                              │
 │ Input: "/plan 196"                                          │
 │ Action: Identify command = "plan"                           │
-│ Output: Delegate to .claude/command/plan.md              │
+│ Output: Delegate to .opencode/command/plan.md              │
 │ Delegation Depth: 0 → 1                                     │
 └─────────────────────────────────────────────────────────────┘
                             ↓
@@ -385,7 +385,7 @@ project uses `state.json` as the single source of truth for task metadata, enabl
 **Pattern**:
 ```bash
 # Read (fast, direct query)
-task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .claude/state.json)
+task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .opencode/state.json)
 
 # Write (delegated to status-sync-manager)
 Delegate to status-sync-manager with:
@@ -652,7 +652,7 @@ Delegate to planner
 ## Orchestrator
 User: /plan 196
 Identify command = "plan"
-Delegate to .claude/command/plan.md with args = ["196"]
+Delegate to .opencode/command/plan.md with args = ["196"]
 ```
 
 ### ❌ Mistake 2: Command Executes Work Directly

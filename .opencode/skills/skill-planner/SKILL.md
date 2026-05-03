@@ -3,8 +3,8 @@ name: skill-planner
 description: Create phased implementation plans from research findings. Invoke when a task needs an implementation plan.
 allowed-tools: Task, Bash, Edit, Read, Write
 # Original context (now loaded by subagent):
-#   - .claude/context/formats/plan-format.md
-#   - .claude/context/workflows/task-breakdown.md
+#   - .opencode/context/formats/plan-format.md
+#   - .opencode/context/workflows/task-breakdown.md
 # Original tools (now used by subagent):
 #   - Read, Write, Edit, Glob, Grep
 ---
@@ -20,10 +20,10 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
-- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/patterns/file-metadata-exchange.md` - File I/O helpers
+- Path: `.opencode/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -76,7 +76,7 @@ Update task status to "planning" BEFORE invoking subagent.
 The centralized script handles state.json, TODO.md task entry status marker, and TODO.md Task Order status marker atomically:
 
 ```bash
-bash .claude/scripts/update-task-status.sh preflight $task_number plan $session_id
+bash .opencode/scripts/update-task-status.sh preflight $task_number plan $session_id
 ```
 
 If the script exits non-zero, stop execution and return error. Exit code 2 indicates state.json failure; exit code 3 indicates TODO.md failure.
@@ -148,7 +148,7 @@ Retrieve relevant memories from the memory system to inject into the delegation 
 ```bash
 # Check clean_flag
 if [ "$clean_flag" != "true" ]; then
-  memory_context=$(bash .claude/scripts/memory-retrieve.sh "$description" "$task_type" "" 2>/dev/null) || memory_context=""
+  memory_context=$(bash .opencode/scripts/memory-retrieve.sh "$description" "$task_type" "" 2>/dev/null) || memory_context=""
 fi
 
 # memory_context will be empty string if:
@@ -209,7 +209,7 @@ Prepare delegation context for the subagent:
 Read the plan format file and prepare it for injection into the subagent prompt. This ensures the subagent always has the full format specification in its context, regardless of whether it reads the file itself.
 
 ```bash
-format_content=$(cat .claude/context/formats/plan-format.md)
+format_content=$(cat .opencode/context/formats/plan-format.md)
 ```
 
 The format content will be included as a delimited section in the Stage 5 prompt (see below).
@@ -309,7 +309,7 @@ If subagent status is "planned" and `artifact_path` is non-empty, validate the p
 ```bash
 if [ "$status" = "planned" ] && [ -n "$artifact_path" ] && [ -f "$artifact_path" ]; then
     echo "Validating plan artifact..."
-    if ! bash .claude/scripts/validate-artifact.sh "$artifact_path" plan --fix; then
+    if ! bash .opencode/scripts/validate-artifact.sh "$artifact_path" plan --fix; then
         echo "WARNING: Plan artifact has format issues (non-blocking). Review output above."
     fi
 fi
@@ -324,7 +324,7 @@ fi
 If subagent status is "planned", update state.json and TODO.md atomically using the centralized script:
 
 ```bash
-bash .claude/scripts/update-task-status.sh postflight $task_number plan $session_id
+bash .opencode/scripts/update-task-status.sh postflight $task_number plan $session_id
 ```
 
 If the script exits non-zero, log a warning but continue with artifact linking and git commit (postflight errors are non-blocking).
@@ -358,7 +358,7 @@ fi
 **Update TODO.md**: Link artifact using the automated script:
 
 ```bash
-bash .claude/scripts/link-artifact-todo.sh $task_number '**Plan**' '**Description**' "$artifact_path"
+bash .opencode/scripts/link-artifact-todo.sh $task_number '**Plan**' '**Description**' "$artifact_path"
 ```
 
 If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -463,7 +463,7 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md
 
 ---
 

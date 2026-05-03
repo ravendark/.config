@@ -177,7 +177,7 @@ When $ARGUMENTS contains a description (no flags).
    **Part C - Update Recommended Order section** (non-blocking):
    ```bash
    # Update Recommended Order section (non-blocking)
-   if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
+   if source "$PROJECT_ROOT/.opencode/scripts/update-recommended-order.sh" 2>/dev/null; then
        add_to_recommended_order "$next_num" || echo "Note: Failed to update Recommended Order"
    fi
    ```
@@ -552,7 +552,7 @@ Review complete. No follow-up tasks created.
 
 ### Standards Reference (--review mode)
 
-This mode implements the multi-task creation pattern. See `.claude/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
+This mode implements the multi-task creation pattern. See `.opencode/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
 
 **Compliance Level**: Partial (simplified for follow-up tasks)
 

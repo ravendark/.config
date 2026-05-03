@@ -1,8 +1,8 @@
 # Command Workflows User Guide
 
-[Back to Docs](../README.md) | [CLAUDE.md](../../CLAUDE.md) | [Architecture](../architecture/system-overview.md)
+[Back to Docs](../README.md) | [AGENTS.md](../../AGENTS.md) | [Architecture](../architecture/system-overview.md)
 
-A comprehensive guide to using the `.claude/` task management system commands for project development.
+A comprehensive guide to using the `.opencode/` task management system commands for project development.
 
 **Last Updated**: 2026-01-28
 
@@ -33,7 +33,7 @@ A comprehensive guide to using the `.claude/` task management system commands fo
 
 ## Quick Start
 
-The `.claude/` system provides structured task management for development workflows. The core cycle is:
+The `.opencode/` system provides structured task management for development workflows. The core cycle is:
 
 ```
 /task "Description" -> /research N -> /plan N -> /implement N -> /todo
@@ -112,7 +112,7 @@ Create and manage tasks.
 ```
 
 **Language Detection**: The system automatically detects task language from keywords:
-- `meta`, `agent`, `command`, `skill`, `.claude/` -> `meta`
+- `meta`, `agent`, `command`, `skill`, `.opencode/` -> `meta`
 - Extension-specific keywords -> extension task type (when loaded)
 - Otherwise -> `general`
 
@@ -299,7 +299,7 @@ Archive completed and abandoned tasks.
 2. Moves task directories to `specs/archive/`
 3. Updates `specs/TODO.md` and `specs/state.json`
 4. For non-meta tasks: Annotates `ROADMAP.md` with completion notes
-5. For meta tasks: Displays CLAUDE.md modification suggestions for review
+5. For meta tasks: Displays AGENTS.md modification suggestions for review
 
 **Example Output**:
 ```
@@ -351,7 +351,7 @@ Clean Claude Code resources.
 
 **Actions**:
 1. Terminates orphaned processes
-2. Cleans old files in `~/.claude/` directories
+2. Cleans old files in `~/.opencode/` directories
 3. Interactive age threshold selection:
    - 8 hours (recent files)
    - 2 days (older files)
@@ -392,7 +392,7 @@ Specialized utilities for specific tasks.
 
 ### /meta Command
 
-Interactive system builder for `.claude/` changes.
+Interactive system builder for `.opencode/` changes.
 
 ```
 /meta [PROMPT] | --analyze
@@ -528,7 +528,7 @@ Convert documents between formats.
 
 | Task Type | Detection Keywords | Research Tools | Implementation |
 |----------|-------------------|----------------|----------------|
-| `meta` | agent, command, skill, .claude/ | Read, Grep, Glob | Write, Edit |
+| `meta` | agent, command, skill, .opencode/ | Read, Grep, Glob | Write, Edit |
 | `markdown` | docs, readme, documentation | WebSearch, Read | Write, Edit |
 | `general` | (default) | WebSearch, Read | Write, Edit, Bash |
 | Extension types | (per extension keywords) | (per extension) | (per extension) |
@@ -590,10 +590,10 @@ Convert documents between formats.
 ### Getting Help
 
 - **Architecture docs**: See [system-overview.md](../architecture/system-overview.md)
-- **Command details**: Check individual command files in `.claude/commands/`
+- **Command details**: Check individual command files in `.opencode/commands/`
 - **Examples**: See [examples/](../examples/) for workflow walkthroughs
-- **CLAUDE.md**: Quick reference at [../../CLAUDE.md](../../CLAUDE.md)
+- **AGENTS.md**: Quick reference at [../../AGENTS.md](../../AGENTS.md)
 
 ---
 
-[Back to Docs](../README.md) | [CLAUDE.md](../../CLAUDE.md) | [Architecture](../architecture/system-overview.md)
+[Back to Docs](../README.md) | [AGENTS.md](../../AGENTS.md) | [Architecture](../architecture/system-overview.md)

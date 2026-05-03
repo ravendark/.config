@@ -19,7 +19,7 @@ This document provides guidelines for generating new commands, skills, and agent
 Before generating any component:
 
 1. **Verify need** - Check no existing component handles the use case
-2. **Determine component type(s)** - Use @.claude/context/architecture/component-checklist.md
+2. **Determine component type(s)** - Use @.opencode/context/architecture/component-checklist.md
 3. **Identify dependencies** - What other components are needed?
 4. **Review templates** - Load appropriate templates from core/templates/
 
@@ -251,7 +251,7 @@ This agent has access to:
 Load these on-demand using @-references:
 
 **Always Load**:
-- `@.claude/context/formats/subagent-return.md` - Return format schema
+- `@.opencode/context/formats/subagent-return.md` - Return format schema
 
 **Load When Needed**:
 - `@{path/to/context}` - {When to load}
@@ -382,7 +382,7 @@ When generating any component, reference these critical patterns:
 | "Work is finished" | "Plan created. Ready for implementation." |
 | "All done" | "Operation concluded. Orchestrator continues." |
 
-**Full reference**: @.claude/context/patterns/anti-stop-patterns.md
+**Full reference**: @.opencode/context/patterns/anti-stop-patterns.md
 
 ---
 
@@ -393,13 +393,13 @@ After generating a component, verify:
 ### 1. File Location
 ```bash
 # Command
-ls .claude/commands/{name}.md
+ls .opencode/commands/{name}.md
 
 # Skill
-ls .claude/skills/skill-{name}/SKILL.md
+ls .opencode/skills/skill-{name}/SKILL.md
 
 # Agent
-ls .claude/agents/{name}-agent.md
+ls .opencode/agent/subagents/{name}-agent.md
 ```
 
 ### 2. Frontmatter Validity
@@ -411,13 +411,13 @@ head -20 {file_path}
 ### 3. Anti-Stop Compliance
 ```bash
 # Should return 0 matches for generated agent
-grep '"status": "completed"' .claude/agents/{name}-agent.md
+grep '"status": "completed"' .opencode/agent/subagents/{name}-agent.md
 ```
 
 ### 4. Task Tool Usage (Skills)
 ```bash
 # Should find Task tool reference
-grep -i "task tool" .claude/skills/skill-{name}/SKILL.md
+grep -i "task tool" .opencode/skills/skill-{name}/SKILL.md
 ```
 
 ---
@@ -446,9 +446,9 @@ When generating components, ensure integration with:
 
 ## Related Documentation
 
-- @.claude/context/architecture/system-overview.md - Architecture overview
-- @.claude/context/architecture/component-checklist.md - When to create what
-- @.claude/context/templates/thin-wrapper-skill.md - Skill template
-- @.claude/context/templates/subagent-template.md - Agent template
-- @.claude/context/patterns/anti-stop-patterns.md - Critical patterns
-- @.claude/context/formats/subagent-return.md - Return format
+- @.opencode/context/architecture/system-overview.md - Architecture overview
+- @.opencode/context/architecture/component-checklist.md - When to create what
+- @.opencode/context/templates/thin-wrapper-skill.md - Skill template
+- @.opencode/context/templates/subagent-template.md - Agent template
+- @.opencode/context/patterns/anti-stop-patterns.md - Critical patterns
+- @.opencode/context/formats/subagent-return.md - Return format

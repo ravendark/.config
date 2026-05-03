@@ -1,6 +1,6 @@
 # Skill-Agent Mapping Reference
 
-Complete reference for skill-to-agent routing and delegation. For quick overview, see CLAUDE.md.
+Complete reference for skill-to-agent routing and delegation. For quick overview, see AGENTS.md.
 
 ## Core Skills
 

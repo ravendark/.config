@@ -183,7 +183,7 @@ line=$(grep -n "^### $task_number\." specs/TODO.md | cut -d: -f1)
 
 ### Adding Artifact Links
 
-Use count-aware artifact linking format per `.claude/rules/state-management.md` "Artifact Linking Format".
+Use count-aware artifact linking format per `.opencode/rules/state-management.md` "Artifact Linking Format".
 
 **Detection and insertion logic**:
 
@@ -272,7 +272,7 @@ fi
 
 ## References
 
-- jq escaping workarounds: `@.claude/context/patterns/jq-escaping-workarounds.md`
-- Skill lifecycle pattern: `@.claude/context/patterns/skill-lifecycle.md`
-- State management rules: `@.claude/rules/state-management.md`
-- Artifact formats: `@.claude/rules/artifact-formats.md`
+- jq escaping workarounds: `@.opencode/context/patterns/jq-escaping-workarounds.md`
+- Skill lifecycle pattern: `@.opencode/context/patterns/skill-lifecycle.md`
+- State management rules: `@.opencode/rules/state-management.md`
+- Artifact formats: `@.opencode/rules/artifact-formats.md`

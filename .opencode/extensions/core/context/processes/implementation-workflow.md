@@ -71,7 +71,7 @@ grep -A 20 "^### ${task_number}\." specs/TODO.md | grep "Language" | sed 's/\*\*
 | `general` | `implementer` | File operations, git |
 | _{extension}_ | _Extension-provided agent_ | _Defined by extension manifest_ |
 
-**Note**: Additional languages (latex, typst) available via extensions in `.claude/extensions/`.
+**Note**: Additional languages (latex, typst) available via extensions in `.opencode/extensions/`.
 
 **Critical**: Language extraction MUST occur before routing. Incorrect routing bypasses task-type-specific tooling.
 
@@ -173,7 +173,7 @@ grep -A 20 "^### ${task_number}\." specs/TODO.md | grep "Language" | sed 's/\*\*
 **Process**:
 1. Create implementation files (code, docs, configs):
    - Paths vary by language and task
-   - Markdown: `docs/**/*.md`, `.claude/**/*.md`
+   - Markdown: `docs/**/*.md`, `.opencode/**/*.md`
    - Config: `**/*.json`, `**/*.yaml`, etc.
    - Extension-specific paths defined by extension context
 2. If multi-file output (>1 file modified/created):
@@ -405,20 +405,20 @@ On timeout or failure:
 ### Routing Stage (Command)
 
 Load minimal context for routing decisions:
-- `.claude/context/orchestration/routing.md` (routing logic)
+- `.opencode/context/orchestration/routing.md` (routing logic)
 
 ### Execution Stage (Implementer)
 
-Implementation agents load context on-demand per `.claude/context/index.json`:
-- `.claude/context/formats/subagent-return.md` (return format)
-- `.claude/rules/state-management.md` (status transitions)
-- `.claude/rules/artifact-formats.md` (artifact naming)
+Implementation agents load context on-demand per `.opencode/context/index.json`:
+- `.opencode/context/formats/subagent-return.md` (return format)
+- `.opencode/rules/state-management.md` (status transitions)
+- `.opencode/rules/artifact-formats.md` (artifact naming)
 - Task entry via `grep -A 50 "^### ${task_number}\." TODO.md` (~2KB vs 109KB full file)
 - `state.json` (project state)
 - Plan file if exists (for phase tracking and resume)
 
 **Language-specific context**:
-- Extension context loaded based on task language (see `.claude/extensions/*/context/`)
+- Extension context loaded based on task language (see `.opencode/extensions/*/context/`)
 - If markdown: (no additional context)
 
 **Optimization**: Task extraction reduces context from 109KB (full TODO.md) to ~2KB (task entry only), 98% reduction.
@@ -567,8 +567,8 @@ Load context on-demand:
 
 ## References
 
-- **Command**: `.claude/commands/implement.md`
-- **Agent**: `.claude/agents/general-implementation-agent.md`
-- **Return Format**: `.claude/context/formats/subagent-return.md`
-- **Artifact Formats**: `.claude/rules/artifact-formats.md`
-- **Delegation**: `.claude/context/orchestration/delegation.md`
+- **Command**: `.opencode/commands/implement.md`
+- **Agent**: `.opencode/agents/general-implementation-agent.md`
+- **Return Format**: `.opencode/context/formats/subagent-return.md`
+- **Artifact Formats**: `.opencode/rules/artifact-formats.md`
+- **Delegation**: `.opencode/context/orchestration/delegation.md`

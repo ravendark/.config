@@ -15,10 +15,10 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
-- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/patterns/file-metadata-exchange.md` - File I/O helpers
+- Path: `.opencode/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -71,7 +71,7 @@ Update task status to "implementing" BEFORE invoking subagent.
 Run the centralized status update script, which atomically updates state.json, TODO.md (task entry + Task Order), and the plan file:
 
 ```bash
-bash .claude/scripts/update-task-status.sh preflight "$task_number" implement "$session_id"
+bash .opencode/scripts/update-task-status.sh preflight "$task_number" implement "$session_id"
 ```
 
 **Note**: The script handles all three updates (state.json status/timestamps/session_id, TODO.md `[PLANNED]` -> `[IMPLEMENTING]` in both task entry and Task Order, and plan file status -> `[IMPLEMENTING]`) in a single call. No additional Edit or jq operations are needed.
@@ -143,7 +143,7 @@ Retrieve relevant memories from the memory system to inject into the delegation 
 ```bash
 # Check clean_flag
 if [ "$clean_flag" != "true" ]; then
-  memory_context=$(bash .claude/scripts/memory-retrieve.sh "$description" "$task_type" "" 2>/dev/null) || memory_context=""
+  memory_context=$(bash .opencode/scripts/memory-retrieve.sh "$description" "$task_type" "" 2>/dev/null) || memory_context=""
 fi
 
 # memory_context will be empty string if:
@@ -194,7 +194,7 @@ Prepare delegation context for the subagent:
 Read the summary format file and prepare it for injection into the subagent prompt. This ensures the subagent always has the full format specification in its context, regardless of whether it reads the file itself.
 
 ```bash
-format_content=$(cat .claude/context/formats/summary-format.md)
+format_content=$(cat .opencode/context/formats/summary-format.md)
 ```
 
 The format content will be included as a delimited section in the Stage 5 prompt (see below).
@@ -309,7 +309,7 @@ If subagent status indicates success ("implemented" or "partial") and `artifact_
 if [ "$status" = "implemented" ] || [ "$status" = "partial" ]; then
     if [ -n "$artifact_path" ] && [ -f "$artifact_path" ]; then
         echo "Validating summary artifact..."
-        if ! bash .claude/scripts/validate-artifact.sh "$artifact_path" summary --fix; then
+        if ! bash .opencode/scripts/validate-artifact.sh "$artifact_path" summary --fix; then
             echo "WARNING: Summary artifact has format issues (non-blocking). Review output above."
         fi
     fi
@@ -326,7 +326,7 @@ fi
 
 **Step 1**: Run the centralized status update script to update state.json (status -> "completed", timestamps), TODO.md (`[IMPLEMENTING]` -> `[COMPLETED]` in task entry + Task Order), and plan file (status -> `[COMPLETED]`):
 ```bash
-bash .claude/scripts/update-task-status.sh postflight "$task_number" implement "$session_id"
+bash .opencode/scripts/update-task-status.sh postflight "$task_number" implement "$session_id"
 ```
 
 **Step 2**: Add completion_summary to state.json (implementer-specific, not covered by centralized script):
@@ -370,7 +370,7 @@ fi
 
 **Step 5**: Remove from Recommended Order section (non-blocking, not covered by centralized script):
 ```bash
-if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
+if source "$PROJECT_ROOT/.opencode/scripts/update-recommended-order.sh" 2>/dev/null; then
     remove_from_recommended_order "$task_number" || echo "Note: Failed to update Recommended Order"
 fi
 ```
@@ -392,7 +392,7 @@ TODO.md stays as `[IMPLEMENTING]`.
 
 **Update plan file** (if exists): Update the Status field to `[PARTIAL]`:
 ```bash
-.claude/scripts/update-plan-status.sh "$task_number" "$project_name" "PARTIAL"
+.opencode/scripts/update-plan-status.sh "$task_number" "$project_name" "PARTIAL"
 ```
 
 **On failed**: Keep status as "implementing" for retry. Do not update plan file (leave as `[IMPLEMENTING]` for retry).
@@ -424,7 +424,7 @@ fi
 **Update TODO.md** (if implemented): Link artifact using the automated script:
 
 ```bash
-bash .claude/scripts/link-artifact-todo.sh $task_number '**Summary**' '**Description**' "$artifact_path"
+bash .opencode/scripts/link-artifact-todo.sh $task_number '**Summary**' '**Description**' "$artifact_path"
 ```
 
 If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -518,4 +518,4 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md

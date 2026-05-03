@@ -371,7 +371,7 @@ task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
 
 # Check extension routing for implement (skill_name starts empty)
 skill_name=""
-for manifest in .claude/extensions/*/manifest.json; do
+for manifest in .opencode/extensions/*/manifest.json; do
   if [ -f "$manifest" ]; then
     ext_skill=$(jq -r --arg tt "$task_type" \
       '.routing.implement[$tt] // empty' "$manifest")
@@ -385,7 +385,7 @@ done
 # Fallback: if compound key (contains ":"), try base task_type
 if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
   base_type=$(echo "$task_type" | cut -d: -f1)
-  for manifest in .claude/extensions/*/manifest.json; do
+  for manifest in .opencode/extensions/*/manifest.json; do
     if [ -f "$manifest" ]; then
       ext_skill=$(jq -r --arg tt "$base_type" \
         '.routing.implement[$tt] // empty' "$manifest")
@@ -411,7 +411,7 @@ skill_name=${skill_name:-"skill-implementer"}
 | `general`, `meta`, `markdown` | `skill-implementer` (default) |
 | `formal`, `logic`, `math`, `physics` | `skill-implementer` (default) |
 
-**Extension Skills Location**: Extension skills are located in `.claude/extensions/{ext}/skills/`. Claude Code discovers these skills via extension manifest `routing.implement` entries.
+**Extension Skills Location**: Extension skills are located in `.opencode/extensions/{ext}/skills/`. Claude Code discovers these skills via extension manifest `routing.implement` entries.
 
 **Skill Selection Logic**:
 ```
@@ -506,7 +506,7 @@ The skill will spawn the appropriate agent(s) which execute plan phases (in para
        # Check if plan file has [COMPLETED] status
        if ! grep -qE '^\*\*Status\*\*: \[COMPLETED\]|^\- \*\*Status\*\*: \[COMPLETED\]' "$plan_file"; then
            echo "WARNING: Plan file status not updated to [COMPLETED]. Applying defensive correction."
-           .claude/scripts/update-plan-status.sh "$task_number" "$project_name" "COMPLETED"
+           .opencode/scripts/update-plan-status.sh "$task_number" "$project_name" "COMPLETED"
        fi
    fi
    ```

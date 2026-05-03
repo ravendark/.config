@@ -16,7 +16,7 @@ A user runs `/research 427` to research task 427 (documenting the command/skill/
 User Input: /research 427
        |
        v
-[Layer 1: Command] .claude/commands/research.md
+[Layer 1: Command] .opencode/commands/research.md
        |
        | Frontmatter specifies: agent: orchestrator
        v
@@ -58,7 +58,7 @@ Output: Research report created at specs/427_document.../reports/01_research-fin
 /research 427
 ```
 
-Claude Code reads `.claude/commands/research.md` and sees:
+Claude Code reads `.opencode/commands/research.md` and sees:
 
 ```yaml
 ---
@@ -174,15 +174,15 @@ Based on language = "meta":
 
 ```
 Step 1: Codebase Exploration
-- Glob(".claude/skills/**/SKILL.md") -> 9 skills found
-- Glob(".claude/agents/*.md") -> 6 agents found
-- Glob(".claude/commands/*.md") -> 9 commands found
+- Glob(".opencode/skills/**/SKILL.md") -> 9 skills found
+- Glob(".opencode/agents/*.md") -> 6 agents found
+- Glob(".opencode/commands/*.md") -> 9 commands found
 - Read key files to understand patterns
 
 Step 2: Context File Review
-- Read .claude/context/templates/thin-wrapper-skill.md
-- Read .claude/context/formats/subagent-return.md
-- Read .claude/context/orchestration/orchestration-core.md
+- Read .opencode/context/templates/thin-wrapper-skill.md
+- Read .opencode/context/formats/subagent-return.md
+- Read .opencode/context/orchestration/orchestration-core.md
 
 Step 3: Synthesize Findings
 - 8 key patterns identified
@@ -466,7 +466,7 @@ The three-layer architecture provides:
 - [Component Selection](../guides/component-selection.md) - When to create each component
 - [Creating Skills](../guides/creating-skills.md) - Skill creation guide
 - [Creating Agents](../guides/creating-agents.md) - Agent creation guide
-- `.claude/context/formats/subagent-return.md` - Return format schema
+- `.opencode/context/formats/subagent-return.md` - Return format schema
 
 ---
 

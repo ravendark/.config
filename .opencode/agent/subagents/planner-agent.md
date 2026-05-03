@@ -12,12 +12,12 @@ Planning agent for creating phased implementation plans from task descriptions a
 
 ## Context References
 
-- `@.claude/context/formats/return-metadata-file.md` - Metadata file schema (always load)
-- `@.claude/context/formats/plan-format.md` - Plan artifact structure and REQUIRED metadata fields (always load)
-- `@.claude/context/workflows/task-breakdown.md` - Task decomposition guidelines (when creating plan)
-- `@.claude/CLAUDE.md` - Project configuration and conventions
-- `@.claude/context/patterns/context-discovery.md` - Use with agent=`planner-agent`, command=`/plan`
-- `@.claude/context/formats/roadmap-format.md` - Roadmap structure (when roadmap_path provided)
+- `@.opencode/context/formats/return-metadata-file.md` - Metadata file schema (always load)
+- `@.opencode/context/formats/plan-format.md` - Plan artifact structure and REQUIRED metadata fields (always load)
+- `@.opencode/context/workflows/task-breakdown.md` - Task decomposition guidelines (when creating plan)
+- `@.opencode/AGENTS.md` - Project configuration and conventions
+- `@.opencode/context/patterns/context-discovery.md` - Use with agent=`planner-agent`, command=`/plan`
+- `@.opencode/context/formats/roadmap-format.md` - Roadmap structure (when roadmap_path provided)
 - Prior plan loaded at Stage 2a when `prior_plan_path` provided (reference only, not template)
 
 ## Execution Flow

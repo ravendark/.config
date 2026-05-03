@@ -187,7 +187,7 @@ git commit -m "errors: fix {N} errors (task {M})"
 
 ## Standards Reference
 
-This command implements the multi-task creation pattern. See `.claude/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
+This command implements the multi-task creation pattern. See `.opencode/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
 
 **Compliance Level**: Partial (intentionally simplified)
 

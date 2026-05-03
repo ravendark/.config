@@ -123,7 +123,7 @@ The orchestrator validates **structural correctness** and **safety constraints**
 - Business logic correctness
 - Domain-specific rules
 
-**Implementation**: See `.claude/command/*.md` Stage 3 for executable validation logic
+**Implementation**: See `.opencode/command/*.md` Stage 3 for executable validation logic
 
 ## Error Handling
 
@@ -385,13 +385,13 @@ validate_subtask_count() {
 
 This standard defines validation rules for subagent returns, including return format validation and artifact verification.
 
-**ENFORCEMENT**: These validation rules are ENFORCED by command files (`.claude/command/*.md`) in Stage 3 (ValidateReturn). All subagent returns are validated before relaying results to the user. Validation failures result in immediate error reporting to the user and workflow termination.
+**ENFORCEMENT**: These validation rules are ENFORCED by command files (`.opencode/command/*.md`) in Stage 3 (ValidateReturn). All subagent returns are validated before relaying results to the user. Validation failures result in immediate error reporting to the user and workflow termination.
 
 **IMPLEMENTATION**: See command files for executable validation logic:
-- `.claude/command/research.md` Stage 3 (ValidateReturn)
-- `.claude/command/plan.md` Stage 3 (ValidateReturn)
-- `.claude/command/revise.md` Stage 3 (ValidateReturn)
-- `.claude/command/implement.md` Stage 3 (ValidateReturn)
+- `.opencode/command/research.md` Stage 3 (ValidateReturn)
+- `.opencode/command/plan.md` Stage 3 (ValidateReturn)
+- `.opencode/command/revise.md` Stage 3 (ValidateReturn)
+- `.opencode/command/implement.md` Stage 3 (ValidateReturn)
 
 **ARCHITECTURE NOTE**: In orchestrator v7.0 (pure router architecture), validation moved from orchestrator Stage 4 to command files Stage 3. This reflects the architectural shift from centralized orchestrator to distributed command files.
 
@@ -691,8 +691,8 @@ These validation rules are now ACTIVELY ENFORCED by command files Stage 3 (Valid
 
 ## See Also
 
-- **Command Files Stage 3**: `.claude/commands/*.md` Stage 3 (ValidateReturn) - Executable validation logic
-- Delegation Guide: `.claude/context/orchestration/delegation.md`
-- Subagent Return Format: `.claude/context/formats/subagent-return.md`
-- State Management: `.claude/context/orchestration/state-management.md`
-- Routing Logic: `.claude/context/orchestration/routing.md`
+- **Command Files Stage 3**: `.opencode/commands/*.md` Stage 3 (ValidateReturn) - Executable validation logic
+- Delegation Guide: `.opencode/context/orchestration/delegation.md`
+- Subagent Return Format: `.opencode/context/formats/subagent-return.md`
+- State Management: `.opencode/context/orchestration/state-management.md`
+- Routing Logic: `.opencode/context/orchestration/routing.md`

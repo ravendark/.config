@@ -336,7 +336,7 @@ task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
 
 # Check extension routing for research (skill_name starts empty)
 skill_name=""
-for manifest in .claude/extensions/*/manifest.json; do
+for manifest in .opencode/extensions/*/manifest.json; do
   if [ -f "$manifest" ]; then
     ext_skill=$(jq -r --arg tt "$task_type" \
       '.routing.research[$tt] // empty' "$manifest")
@@ -350,7 +350,7 @@ done
 # Fallback: if compound key (contains ":"), try base task_type
 if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
   base_type=$(echo "$task_type" | cut -d: -f1)
-  for manifest in .claude/extensions/*/manifest.json; do
+  for manifest in .opencode/extensions/*/manifest.json; do
     if [ -f "$manifest" ]; then
       ext_skill=$(jq -r --arg tt "$base_type" \
         '.routing.research[$tt] // empty' "$manifest")
@@ -434,7 +434,7 @@ The skill will spawn the appropriate agent(s) to conduct research and create a r
 
    if [ "$current_status" = "researched" | not ]; then
        echo "WARNING: state.json status is '$current_status', expected 'researched'. Applying defensive correction."
-       bash .claude/scripts/update-task-status.sh postflight "$task_number" research "$session_id"
+       bash .opencode/scripts/update-task-status.sh postflight "$task_number" research "$session_id"
    fi
    ```
 

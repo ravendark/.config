@@ -22,9 +22,9 @@ Layer 3: Agents           Full execution agents that do the actual work
 
 | Component | Location | Purpose | User-Facing? |
 |-----------|----------|---------|--------------|
-| Command | `.claude/commands/` | User invocation point | Yes |
-| Skill | `.claude/skills/skill-*/SKILL.md` | Routing and validation | No |
-| Agent | `.claude/agents/*.md` | Execution and artifact creation | No |
+| Command | `.opencode/commands/` | User invocation point | Yes |
+| Skill | `.opencode/skills/skill-*/SKILL.md` | Routing and validation | No |
+| Agent | `.opencode/agents/*.md` | Execution and artifact creation | No |
 
 ---
 
@@ -235,7 +235,7 @@ Creates: Agent only (skill routes to it)
 ## File Location Reference
 
 ```
-.claude/
+.opencode/
 ├── commands/                    # Layer 1: User commands
 │   └── {command-name}.md
 ├── skills/                      # Layer 2: Execution skills

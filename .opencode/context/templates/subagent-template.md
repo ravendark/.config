@@ -1,10 +1,10 @@
 # Subagent Template
 
-Canonical template for subagents invoked via the Task tool. See `.claude/context/templates/agent-template.md` for the primary agent template - all subagents share the same structure.
+Canonical template for subagents invoked via the Task tool. See `.opencode/context/templates/agent-template.md` for the primary agent template - all subagents share the same structure.
 
 ## Frontmatter
 
-Subagents use the minimal agent frontmatter defined in `.claude/docs/reference/standards/agent-frontmatter-standard.md`:
+Subagents use the minimal agent frontmatter defined in `.opencode/docs/reference/standards/agent-frontmatter-standard.md`:
 
 ```yaml
 ---
@@ -43,7 +43,7 @@ The subagent parses this context and extracts the fields it needs. Subagent-spec
 
 Subagents write metadata to disk and return a brief text summary to the parent skill. The skill reads the metadata file in its postflight stage.
 
-See `.claude/context/formats/subagent-return.md` for the complete return-format specification.
+See `.opencode/context/formats/subagent-return.md` for the complete return-format specification.
 
 ## Depth Limits
 
@@ -51,8 +51,8 @@ Subagents enforce `delegation_depth < 3` to prevent runaway recursion. A subagen
 
 ## Related Context
 
-- `.claude/context/templates/agent-template.md` - Primary agent template
-- `.claude/context/formats/subagent-return.md` - Return format specification
-- `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- `.claude/context/orchestration/delegation.md` - Delegation safety patterns
-- `.claude/docs/reference/standards/agent-frontmatter-standard.md` - Frontmatter standard
+- `.opencode/context/templates/agent-template.md` - Primary agent template
+- `.opencode/context/formats/subagent-return.md` - Return format specification
+- `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- `.opencode/context/orchestration/delegation.md` - Delegation safety patterns
+- `.opencode/docs/reference/standards/agent-frontmatter-standard.md` - Frontmatter standard

@@ -16,8 +16,8 @@ Direct execution skill for analyzing a repository and creating a task with resea
 Reference (do not load eagerly):
 - Path: `@specs/TODO.md` - Current task list
 - Path: `@specs/state.json` - Machine state
-- Path: `@.claude/context/repo/update-project.md` - Generation guide (template reference)
-- Path: `@.claude/context/repo/project-overview.md` - Current project overview
+- Path: `@.opencode/context/repo/update-project.md` - Generation guide (template reference)
+- Path: `@.opencode/context/repo/project-overview.md` - Current project overview
 
 ---
 
@@ -31,10 +31,10 @@ session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 
 ### Step 2: Check Current State
 
-Read `.claude/context/repo/project-overview.md` and check if it begins with `<!-- GENERIC TEMPLATE`:
+Read `.opencode/context/repo/project-overview.md` and check if it begins with `<!-- GENERIC TEMPLATE`:
 
 ```bash
-head -1 .claude/context/repo/project-overview.md 2>/dev/null
+head -1 .opencode/context/repo/project-overview.md 2>/dev/null
 ```
 
 If file does not exist or contains the generic template marker, proceed with full generation workflow.
@@ -56,7 +56,7 @@ Use AskUserQuestion:
 
 If "Cancel" selected, display message and exit:
 ```
-Project overview generation cancelled. Current file preserved at .claude/context/repo/project-overview.md
+Project overview generation cancelled. Current file preserved at .opencode/context/repo/project-overview.md
 ```
 
 ### Step 3: Stage 1 - Auto-Scan Repository
@@ -84,7 +84,7 @@ Count files by extension to identify primary languages:
 find . -type f -name '*.*' \
   -not -path './.git/*' \
   -not -path './node_modules/*' \
-  -not -path './.claude/*' \
+  -not -path './.opencode/*' \
   -not -path './specs/*' \
   | sed 's/.*\.//' | sort | uniq -c | sort -rn | head -10
 ```
@@ -352,7 +352,7 @@ Write research artifact at `${task_dir}/reports/01_project-overview-scan.md`:
 
 ## Recommendations
 
-This report provides all information needed to generate `.claude/context/repo/project-overview.md` using the template in `.claude/context/repo/update-project.md`.
+This report provides all information needed to generate `.opencode/context/repo/project-overview.md` using the template in `.opencode/context/repo/update-project.md`.
 
 Run `/plan {N}` to create an implementation plan, then `/implement {N}` to generate the file.
 ```
@@ -390,13 +390,13 @@ Prepend new task entry to the Tasks section in TODO.md:
 
 Use the link-artifact-todo.sh script if available:
 ```bash
-.claude/scripts/link-artifact-todo.sh "$next_num" "Research" "specs/${padded_num}_${task_slug}/reports/01_project-overview-scan.md"
+.opencode/scripts/link-artifact-todo.sh "$next_num" "Research" "specs/${padded_num}_${task_slug}/reports/01_project-overview-scan.md"
 ```
 
 #### 5.6: Git Commit
 
 ```bash
-git add specs/ .claude/
+git add specs/ .opencode/
 git commit -m "task ${next_num}: create and complete research
 
 Session: ${session_id}"
@@ -425,7 +425,7 @@ Alternatively, if you want to skip the plan step:
 
 - The skill intentionally does NOT write project-overview.md directly
 - It creates a task in [RESEARCHED] status, ready for /plan and /implement
-- The task type is "meta" since it modifies .claude/ content
+- The task type is "meta" since it modifies .opencode/ content
 - The auto-scan uses simple bash commands (ls, find, file checks) to keep execution fast
 - The interactive interview uses AskUserQuestion for multi-turn dialogue
 - If the user cancels at any point, no task is created

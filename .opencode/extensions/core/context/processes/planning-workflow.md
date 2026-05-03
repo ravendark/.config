@@ -175,7 +175,7 @@ This document describes the complete planning workflow executed by the planner s
    - Success criteria clear
 
 **Plan Template Compliance**:
-All plans must follow `.claude/context/standards/plan.md` template exactly.
+All plans must follow `.opencode/context/standards/plan.md` template exactly.
 
 **Checkpoint**: Plan document created
 
@@ -370,15 +370,15 @@ Revise plans when:
 ### Routing Stage (Command)
 
 Load minimal context for routing decisions:
-- `.claude/context/orchestration/routing.md` (routing logic)
+- `.opencode/context/orchestration/routing.md` (routing logic)
 
 ### Execution Stage (Planner)
 
-Planner loads context on-demand per `.claude/context/index.json`:
-- `.claude/context/formats/subagent-return.md` (return format)
-- `.claude/rules/state-management.md` (status transitions)
-- `.claude/rules/artifact-formats.md` (artifact naming)
-- `.claude/context/formats/plan-format.md` (plan template)
+Planner loads context on-demand per `.opencode/context/index.json`:
+- `.opencode/context/formats/subagent-return.md` (return format)
+- `.opencode/rules/state-management.md` (status transitions)
+- `.opencode/rules/artifact-formats.md` (artifact naming)
+- `.opencode/context/formats/plan-format.md` (plan template)
 - Task entry via `grep -A 50 "^### ${task_number}\." TODO.md` (~2KB vs 109KB full file)
 - `state.json` (project state)
 - Research artifacts if linked in TODO.md
@@ -465,7 +465,7 @@ Error: {git_error}
 
 ### Plan Template Compliance
 
-All plans must follow `.claude/context/standards/plan.md` template:
+All plans must follow `.opencode/context/standards/plan.md` template:
 - Metadata section with all required fields
 - Phase breakdown with [NOT STARTED] markers
 - Acceptance criteria per phase
@@ -532,8 +532,8 @@ Load context on-demand:
 
 ## References
 
-- **Command**: `.claude/commands/plan.md`
-- **Agent**: `.claude/agents/planner-agent.md`
-- **Plan Format**: `.claude/context/formats/plan-format.md`
-- **Return Format**: `.claude/context/formats/subagent-return.md`
-- **Artifact Formats**: `.claude/rules/artifact-formats.md`
+- **Command**: `.opencode/commands/plan.md`
+- **Agent**: `.opencode/agents/planner-agent.md`
+- **Plan Format**: `.opencode/context/formats/plan-format.md`
+- **Return Format**: `.opencode/context/formats/subagent-return.md`
+- **Artifact Formats**: `.opencode/rules/artifact-formats.md`

@@ -1,16 +1,7 @@
 ---
 name: orchestrator
 description: "Read-only repository assistant for answering questions about the project"
-mode: primary
-temperature: 0.3
-tools:
-  read: true
-  write: false
-  edit: false
-  glob: true
-  grep: true
-  bash: false
-  task: false
+model: sonnet
 ---
 
 # Chat Agent

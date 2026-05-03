@@ -13,9 +13,9 @@ Thin wrapper that delegates blocker analysis to `spawn-agent` subagent, then han
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -347,7 +347,7 @@ Use Edit tool to insert each task entry at the top of the Tasks section (after `
 **Refresh Recommended Order section** (non-blocking):
 ```bash
 # Refresh Recommended Order section to include spawned tasks (non-blocking)
-if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
+if source "$PROJECT_ROOT/.opencode/scripts/update-recommended-order.sh" 2>/dev/null; then
     refresh_recommended_order || echo "Note: Failed to refresh Recommended Order"
 fi
 ```
@@ -487,7 +487,7 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md
 
 ---
 

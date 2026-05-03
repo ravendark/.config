@@ -23,7 +23,7 @@ The `/fix-it` command recognizes four tag types in source code comments:
 
 **Dependency behavior**: When NOTE: tags exist and both fix-it and learn-it tasks are selected, the learn-it task is created first and the fix-it task depends on it. This ensures proper workflow: learn-it extracts knowledge to context files (NOTE: tags remain in source), then fix-it addresses the code changes and removes both NOTE: and FIX: tags.
 
-**QUESTION: language detection**: Unlike other tag types, QUESTION: tags use **content-based language detection** instead of file-type detection. The question text is analyzed for domain keywords (e.g., theorem/proof/lemma -> latex, .claude/command/agent -> meta, api/endpoint/route -> web), defaulting to "general" for ambiguous cases. This ensures research questions are routed to the appropriate research agent based on what is being asked, not where the question was written.
+**QUESTION: language detection**: Unlike other tag types, QUESTION: tags use **content-based language detection** instead of file-type detection. The question text is analyzed for domain keywords (e.g., theorem/proof/lemma -> latex, .opencode/command/agent -> meta, api/endpoint/route -> web), defaulting to "general" for ambiguous cases. This ensures research questions are routed to the appropriate research agent based on what is being asked, not where the question was written.
 
 ---
 
@@ -33,7 +33,7 @@ The `/fix-it` command recognizes four tag types in source code comments:
 User Input: /fix-it src/
        |
        v
-[Layer 1: Command] .claude/commands/fix-it.md
+[Layer 1: Command] .opencode/commands/fix-it.md
        |
        | Frontmatter specifies: allowed-tools: Skill
        v
@@ -65,7 +65,7 @@ Output: Created N tasks from M tags
 /fix-it src/
 ```
 
-Claude Code reads `.claude/commands/fix-it.md` and sees:
+Claude Code reads `.opencode/commands/fix-it.md` and sees:
 
 ```yaml
 ---
@@ -476,11 +476,11 @@ NOTE: tags are special because they can create both fix-it and learn-it tasks. T
 
 | Source File Pattern | Target Context Directory |
 |--------------------|-------------------------|
-| `.claude/agents/*.md` | `.claude/context/agents/` |
-| `.claude/skills/*/SKILL.md` | `.claude/context/skills/` |
-| `.claude/commands/*.md` | `.claude/context/commands/` |
-| `src/**/*.py` | `.claude/context/project/{domain}/` |
-| `docs/*.tex` | `.claude/context/project/logic/` |
+| `.opencode/agents/*.md` | `.opencode/context/agents/` |
+| `.opencode/skills/*/SKILL.md` | `.opencode/context/skills/` |
+| `.opencode/commands/*.md` | `.opencode/context/commands/` |
+| `src/**/*.py` | `.opencode/context/project/{domain}/` |
+| `docs/*.tex` | `.opencode/context/project/logic/` |
 
 ---
 
@@ -639,8 +639,8 @@ The `/fix-it` command provides:
 - [Research Flow Example](research-flow-example.md) - End-to-end research flow
 - [Creating Commands](../guides/creating-commands.md) - Command creation guide
 - [Creating Skills](../guides/creating-skills.md) - Skill creation guide (direct execution pattern)
-- `.claude/commands/fix-it.md` - Command definition
-- `.claude/skills/skill-fix-it/SKILL.md` - Skill definition (direct execution, no agent)
+- `.opencode/commands/fix-it.md` - Command definition
+- `.opencode/skills/skill-fix-it/SKILL.md` - Skill definition (direct execution, no agent)
 
 ---
 

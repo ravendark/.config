@@ -197,7 +197,7 @@ next_project_number: 502
 
 ### 514. Systematic OpenCode cleanup and validation
 - **Effort**: 3-6 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Language**: meta
 - **Dependencies**: Task #503, Task #504, Task #505, Task #506, Task #507, Task #508, Task #509, Task #510, Task #511, Task #512, Task #513
 - **Research**: [specs/OC_514_systematic_opencode_cleanup/reports/01_cleanup-audit.md]

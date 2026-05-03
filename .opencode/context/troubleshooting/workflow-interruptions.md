@@ -29,13 +29,13 @@ The solution implemented uses:
 **Diagnostic Steps**:
 ```bash
 # Check if hook is configured
-jq '.hooks.SubagentStop' .claude/settings.json
+jq '.hooks.SubagentStop' .opencode/settings.json
 
 # Check if hook script exists and is executable
-ls -la .claude/hooks/subagent-postflight.sh
+ls -la .opencode/hooks/subagent-postflight.sh
 
 # Check hook logs
-cat .claude/logs/subagent-postflight.log
+cat .opencode/logs/subagent-postflight.log
 ```
 
 **Fix**:
@@ -65,7 +65,7 @@ EOF
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/subagent-postflight.sh"
+            "command": "bash .opencode/hooks/subagent-postflight.sh"
           }
         ]
       }
@@ -145,7 +145,7 @@ ls -la "specs/${task_num}_${task_slug}/.return-meta.json"
    - "Return brief text summary, NOT JSON"
 
 2. Verify agent loaded correct context:
-   - `@.claude/context/formats/return-metadata-file.md`
+   - `@.opencode/context/formats/return-metadata-file.md`
 
 ---
 
@@ -166,7 +166,7 @@ ls -la "specs/${task_num}_${task_slug}/.return-meta.json"
 2. Update context references in agent:
 ```markdown
 **Always Load**:
-- `@.claude/context/formats/return-metadata-file.md` - Metadata file schema
+- `@.opencode/context/formats/return-metadata-file.md` - Metadata file schema
 ```
 
 ---
@@ -191,7 +191,7 @@ grep -A 5 "### 259\." specs/TODO.md | head -6
 
 **Fix**:
 1. Check skill is reading metadata file correctly
-2. Verify jq commands are correct (see `.claude/context/patterns/file-metadata-exchange.md`)
+2. Verify jq commands are correct (see `.opencode/context/patterns/file-metadata-exchange.md`)
 3. Ensure skill has Write tool access for TODO.md updates
 
 ---
@@ -229,19 +229,19 @@ Session: {session_id}
 **Diagnostic Steps**:
 ```bash
 # Check hook configuration
-jq '.hooks.SubagentStop' .claude/settings.json
+jq '.hooks.SubagentStop' .opencode/settings.json
 
 # Check hook script permissions
-ls -la .claude/hooks/subagent-postflight.sh
+ls -la .opencode/hooks/subagent-postflight.sh
 
 # Check hook output
-bash .claude/hooks/subagent-postflight.sh
+bash .opencode/hooks/subagent-postflight.sh
 ```
 
 **Fix**:
 1. Ensure hook is executable:
 ```bash
-chmod +x .claude/hooks/subagent-postflight.sh
+chmod +x .opencode/hooks/subagent-postflight.sh
 ```
 
 2. Verify settings.json configuration includes SubagentStop hook
@@ -291,10 +291,10 @@ If one skill is failing but others work:
 
 2. **Revert skill file** to previous version:
 ```bash
-git checkout HEAD~1 -- .claude/skills/skill-problematic/SKILL.md
+git checkout HEAD~1 -- .opencode/skills/skill-problematic/SKILL.md
 ```
 
-3. **Document workaround** in CLAUDE.md:
+3. **Document workaround** in AGENTS.md:
 ```markdown
 **Known Issue**: skill-problematic uses old pattern, requires manual continue
 ```
@@ -305,14 +305,14 @@ git checkout HEAD~1 -- .claude/skills/skill-problematic/SKILL.md
 
 ### Enable Hook Logging
 
-The hook script writes logs to `.claude/logs/subagent-postflight.log`:
+The hook script writes logs to `.opencode/logs/subagent-postflight.log`:
 
 ```bash
 # View recent log entries
-tail -50 .claude/logs/subagent-postflight.log
+tail -50 .opencode/logs/subagent-postflight.log
 
 # Watch logs in real-time
-tail -f .claude/logs/subagent-postflight.log
+tail -f .opencode/logs/subagent-postflight.log
 ```
 
 ### Log Format
@@ -328,8 +328,8 @@ tail -f .claude/logs/subagent-postflight.log
 
 ## Related Documentation
 
-- `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
-- `.claude/hooks/subagent-postflight.sh` - Hook script implementation
-- `.claude/settings.json` - Hook configuration
+- `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- `.opencode/context/patterns/file-metadata-exchange.md` - File I/O helpers
+- `.opencode/hooks/subagent-postflight.sh` - Hook script implementation
+- `.opencode/settings.json` - Hook configuration

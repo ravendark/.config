@@ -19,8 +19,8 @@
 - **Research Inputs**: None
 - **Artifacts**: plans/MM_{short-slug}.md
 - **Standards**:
-  - .claude/rules/artifact-formats.md
-  - .claude/rules/state-management.md
+  - .opencode/rules/artifact-formats.md
+  - .opencode/rules/state-management.md
 - **Type**: markdown
 ```
 

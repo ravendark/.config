@@ -4,26 +4,26 @@ description: Orchestrate multi-agent research with wave-based parallel execution
 allowed-tools: Task, Bash, Edit, Read, Write
 # This skill uses TeammateTool for team coordination (available when CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)
 # Context loaded by lead during synthesis:
-#   - .claude/context/patterns/team-orchestration.md
-#   - .claude/context/formats/team-metadata-extension.md
-#   - .claude/context/reference/team-wave-helpers.md
+#   - .opencode/context/patterns/team-orchestration.md
+#   - .opencode/context/formats/team-metadata-extension.md
+#   - .opencode/context/reference/team-wave-helpers.md
 ---
 
 # Team Research Skill
 
 Multi-agent research with wave-based parallelization. Spawns 2-4 teammates to investigate complementary angles, then synthesizes findings into a unified report.
 
-**Task-Type-Aware Routing**: Teammates are spawned with task-type-appropriate prompts and tools. Meta tasks focus on .claude/ system patterns; general tasks use web search and codebase exploration.
+**Task-Type-Aware Routing**: Teammates are spawned with task-type-appropriate prompts and tools. Meta tasks focus on .opencode/ system patterns; general tasks use web search and codebase exploration.
 
 **IMPORTANT**: This skill requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` environment variable. If team creation fails, gracefully degrades to single-agent research via skill-researcher.
 
 ## Context References
 
 Reference (load as needed during synthesis):
-- Path: `.claude/context/patterns/team-orchestration.md` - Wave coordination patterns
-- Path: `.claude/context/formats/team-metadata-extension.md` - Team result schema
-- Path: `.claude/context/formats/return-metadata-file.md` - Base metadata schema
-- Path: `.claude/context/reference/team-wave-helpers.md` - Reusable wave patterns
+- Path: `.opencode/context/patterns/team-orchestration.md` - Wave coordination patterns
+- Path: `.opencode/context/formats/team-metadata-extension.md` - Team result schema
+- Path: `.opencode/context/formats/return-metadata-file.md` - Base metadata schema
+- Path: `.opencode/context/reference/team-wave-helpers.md` - Reusable wave patterns
 
 ## Trigger Conditions
 
@@ -177,8 +177,8 @@ Determine task-type-specific configuration for teammate prompts:
 # Route by task type
 case "$task_type" in
   "meta")
-    # Meta tasks - focus on .claude/ system patterns
-    context_refs="@.claude/CLAUDE.md, @.claude/context/index.json"
+    # Meta tasks - focus on .opencode/ system patterns
+    context_refs="@.opencode/AGENTS.md, @.opencode/context/index.json"
     available_tools="Read, Grep, Glob"
     ;;
   *)
@@ -475,7 +475,7 @@ jq --arg path "specs/${padded_num}_${project_name}/reports/${run_padded}_team-re
 **Link artifact in TODO.md**: Use the `link-artifact-todo.sh` script (REQUIRED -- do NOT manually edit artifact links in TODO.md):
 
 ```bash
-bash .claude/scripts/link-artifact-todo.sh $task_number '**Research**' '**Plan**' "$artifact_path"
+bash .opencode/scripts/link-artifact-todo.sh $task_number '**Research**' '**Plan**' "$artifact_path"
 ```
 
 The script produces bracket-only `[path]` format. Never use markdown `[name](path)` format for artifact links. If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -538,7 +538,7 @@ git commit -m "task ${task_number}: complete team research (${team_size} teammat
 Session: ${session_id}
 ```
 
-**Note**: Use targeted staging, NOT `git add -A`. See `.claude/context/standards/git-staging-scope.md`.
+**Note**: Use targeted staging, NOT `git add -A`. See `.opencode/context/standards/git-staging-scope.md`.
 
 ---
 
@@ -630,4 +630,4 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md

@@ -15,7 +15,7 @@ This file describes the repository structure for agent context. When extensions 
 This repository uses a two-layer extension system:
 
 - **Layer 1 -- Editor loader**: Manages which agent files, skills, rules, and context exist in the agent runtime directory. The extension picker triggers the loader, which copies files from extension sources into the runtime and regenerates the main configuration file.
-- **Layer 2 -- Agent system** (`.claude/` or `.opencode/`): The runtime read by the AI coding assistant. Contains only the files that have been loaded by the editor loader. The assistant does not know about the extension system; it sees a standard directory structure.
+- **Layer 2 -- Agent system** (`.opencode/` or `.opencode/`): The runtime read by the AI coding assistant. Contains only the files that have been loaded by the editor loader. The assistant does not know about the extension system; it sees a standard directory structure.
 
 See `.opencode/docs/architecture/extension-system.md` for the full two-layer architecture documentation.
 
@@ -30,8 +30,8 @@ specs/                       # Task management
     ├── plans/
     └── summaries/
 
-.claude/                     # Claude Code configuration
-├── CLAUDE.md               # Main reference
+.opencode/                     # Claude Code configuration
+├── AGENTS.md               # Main reference
 ├── commands/               # Slash commands
 ├── skills/                 # Skill definitions
 ├── agents/                 # Agent definitions
@@ -65,6 +65,6 @@ See `.opencode/extensions/*/manifest.json` for available extensions, their capab
 
 ## Related Documentation
 
-- `.opencode/CLAUDE.md` - Agent system configuration
+- `.opencode/AGENTS.md` - Agent system configuration
 - `.opencode/extensions/` - Extension modules with project-specific context
-- `CLAUDE.md` (project root) - Project-specific coding standards
+- `AGENTS.md` (project root) - Project-specific coding standards

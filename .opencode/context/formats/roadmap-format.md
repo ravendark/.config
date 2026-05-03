@@ -62,4 +62,4 @@ Example:
 
 ## Related
 
-- @.claude/context/patterns/roadmap-update.md - Update process
+- @.opencode/context/patterns/roadmap-update.md - Update process

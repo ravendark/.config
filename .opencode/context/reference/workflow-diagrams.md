@@ -1,6 +1,6 @@
 # Workflow Diagrams Reference
 
-Process diagrams for research, planning, and implementation workflows. For behavioral rules (command lifecycle), see `.claude/rules/workflows.md`.
+Process diagrams for research, planning, and implementation workflows. For behavioral rules (command lifecycle), see `.opencode/rules/workflows.md`.
 
 ## Research Workflow
 

@@ -10,22 +10,22 @@ Context is discovered from three independent sources, loaded in parallel:
 
 | Layer | Index | Path Prefix | Description |
 |-------|-------|-------------|-------------|
-| Agent context | `.claude/context/index.json` | `.claude/context/` | Core patterns + extension context (merged by loader) |
+| Agent context | `.opencode/context/index.json` | `.opencode/context/` | Core patterns + extension context (merged by loader) |
 | Project context | `.context/index.json` | `.context/` | User-defined project conventions (may be empty) |
 | Project memory | `.memory/` (no index) | `.memory/` | Learned facts, loaded directly as files |
 
-Extension context is merged INTO `.claude/context/index.json` by the extension loader. There is no separate extension query.
+Extension context is merged INTO `.opencode/context/index.json` by the extension loader. There is no separate extension query.
 
 ## Layer 1: Agent Context
 
-All paths in `.claude/context/index.json` are relative to `.claude/context/`.
+All paths in `.opencode/context/index.json` are relative to `.opencode/context/`.
 
 ### Query by Agent Name
 
 ```bash
 jq -r '.entries[] |
   select(.load_when.agents[]? == "planner-agent") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Query by Language
@@ -33,7 +33,7 @@ jq -r '.entries[] |
 ```bash
 jq -r '.entries[] |
   select(.load_when.task_types[]? == "meta") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Query by Command
@@ -41,7 +41,7 @@ jq -r '.entries[] |
 ```bash
 jq -r '.entries[] |
   select(.load_when.commands[]? == "/implement") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Query by Domain
@@ -49,7 +49,7 @@ jq -r '.entries[] |
 ```bash
 jq -r '.entries[] |
   select(.domain == "core") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Query Always-Load Files
@@ -57,7 +57,7 @@ jq -r '.entries[] |
 ```bash
 jq -r '.entries[] |
   select(.load_when.always == true) |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Exclude Deprecated Files
@@ -66,7 +66,7 @@ jq -r '.entries[] |
 jq -r '.entries[] |
   select(.deprecated == true | not) |
   select(.load_when.agents[]? == "planner-agent") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Query by Topic or Keyword
@@ -75,12 +75,12 @@ jq -r '.entries[] |
 # By topic
 jq -r '.entries[] |
   select(.topics[]? == "delegation") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 
 # By keyword (case-insensitive)
 jq -r '.entries[] |
   select(.keywords[]? | test("jq"; "i")) |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ## Layer 2: Project Context
@@ -111,7 +111,7 @@ Query all three layers to build a complete context set:
 # Layer 1: Agent context (core + extensions)
 jq -r --arg a "planner-agent" '.entries[] |
   select(.load_when.agents[]? == $a) |
-  ".claude/context/" + .path' .claude/context/index.json
+  ".opencode/context/" + .path' .opencode/context/index.json
 
 # Layer 2: Project context (if any)
 if [ -f .context/index.json ]; then
@@ -131,7 +131,7 @@ fi
 ```bash
 jq -r '.entries[] |
   select(.load_when.agents[]? == "planner-agent") |
-  "\(.line_count)\t\(.path)"' .claude/context/index.json
+  "\(.line_count)\t\(.path)"' .opencode/context/index.json
 ```
 
 ### Filter by Line Count Budget
@@ -140,7 +140,7 @@ jq -r '.entries[] |
 jq -r '.entries[] |
   select(.load_when.task_types[]? == "meta") |
   select(.line_count < 300) |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Calculate Total Context Budget
@@ -148,7 +148,7 @@ jq -r '.entries[] |
 ```bash
 jq '[.entries[] |
   select(.load_when.agents[]? == "planner-agent") |
-  .line_count] | add' .claude/context/index.json
+  .line_count] | add' .opencode/context/index.json
 ```
 
 ## Combined Queries
@@ -170,7 +170,7 @@ jq -r --arg agent "general-implementation-agent" \
     any(.load_when.commands[]?; . == $cmd)
   ) |
   select(.deprecated == true | not) |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 **Priority Order**:
@@ -193,7 +193,7 @@ jq -r '.entries[] |
     any(.load_when.task_types[]?; . == "meta")
   ) |
   select(.deprecated == true | not) |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Command with Budget Limit
@@ -202,7 +202,7 @@ jq -r '.entries[] |
 jq -r '.entries[] |
   select(.load_when.commands[]? == "/implement") |
   select(.line_count < 500) |
-  "\(.path) (\(.line_count) lines)"' .claude/context/index.json
+  "\(.path) (\(.line_count) lines)"' .opencode/context/index.json
 ```
 
 ## Priority Loading Strategy
@@ -220,7 +220,7 @@ jq -r '.entries[] |
 
 ```bash
 # Run validation script
-.claude/scripts/validate-index.sh .claude/context/index.json
+.opencode/scripts/validate-index.sh .opencode/context/index.json
 
 # Outputs:
 # - Orphaned entries (empty load_when without always:true)
@@ -232,8 +232,8 @@ jq -r '.entries[] |
 ### Check All Paths Exist (Manual)
 
 ```bash
-jq -r '.entries[].path' .claude/context/index.json | while read p; do
-  [ -f ".claude/context/$p" ] || echo "MISSING: $p"
+jq -r '.entries[].path' .opencode/context/index.json | while read p; do
+  [ -f ".opencode/context/$p" ] || echo "MISSING: $p"
 done
 ```
 
@@ -258,7 +258,7 @@ jq '[.entries[] | select(
     . == "/plan" or . == "/implement" or . == "/research" or
     . == "/task" or . == "/revise" or . == "/review" or
     . == "/errors" or . == "/todo" or . == "/spawn")
-)] | length' .claude/context/index.json
+)] | length' .opencode/context/index.json
 # Should return 0
 ```
 
@@ -277,7 +277,7 @@ jq '[.entries[] | select(
   (.load_when.task_types | length) == 0 and
   (.load_when.commands | length) == 0 and
   (.load_when.always == true | not)
-)] | length' .claude/context/index.json
+)] | length' .opencode/context/index.json
 # Should return 0
 ```
 

@@ -88,7 +88,7 @@ export WEZTERM_NOTIFY_ENABLED=0
 
 ### Hook Registration
 
-Hooks are registered in `.claude/settings.json`:
+Hooks are registered in `.opencode/settings.json`:
 
 ```json
 {

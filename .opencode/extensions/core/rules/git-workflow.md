@@ -1,5 +1,5 @@
 ---
-paths: ["specs/**/*", ".claude/**/*"]
+paths: ["specs/**/*", ".opencode/**/*"]
 ---
 
 # Git Workflow Rules

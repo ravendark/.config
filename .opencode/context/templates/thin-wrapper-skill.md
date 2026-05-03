@@ -7,7 +7,7 @@
 
 ## Overview
 
-**Template scope**: This template shows the **extension skill pattern** (Pattern B) using `context: fork` + `agent:` frontmatter. Core workflow skills (skill-researcher, skill-planner, skill-implementer, etc.) use Pattern A: explicit Task tool with `subagent_type` and no `context: fork`. See @.claude/context/patterns/fork-patterns.md for the decision matrix on which pattern to use.
+**Template scope**: This template shows the **extension skill pattern** (Pattern B) using `context: fork` + `agent:` frontmatter. Core workflow skills (skill-researcher, skill-planner, skill-implementer, etc.) use Pattern A: explicit Task tool with `subagent_type` and no `context: fork`. See @.opencode/context/patterns/fork-patterns.md for the decision matrix on which pattern to use.
 
 This template defines the minimal structure for skills that use the `context: fork` pattern. These skills act as thin wrappers that:
 1. Validate inputs
@@ -125,8 +125,8 @@ Parameters:
 ```
 
 **DO NOT** use `Skill({agent-name})` - this will FAIL.
-Agents live in `.claude/agents/`, not `.claude/skills/`.
-The Skill tool can only invoke skills from `.claude/skills/`.
+Agents live in `.opencode/agent/subagents/`, not `.opencode/skills/`.
+The Skill tool can only invoke skills from `.opencode/skills/`.
 
 ### 4. Return Validation
 
@@ -184,7 +184,7 @@ If validation fails:
 
 Skills return the subagent's return verbatim (pass-through).
 
-See `.claude/context/formats/subagent-return.md` for full specification.
+See `.opencode/context/formats/subagent-return.md` for full specification.
 
 ---
 

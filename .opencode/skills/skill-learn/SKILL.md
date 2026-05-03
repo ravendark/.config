@@ -620,7 +620,7 @@ Increment: `next_num = next_num + 1`
 ```
 if majority of tags from .lean files -> "lean"
 elif majority from .tex files -> "latex"
-elif majority from .claude/ files -> "meta"
+elif majority from .opencode/ files -> "meta"
 else -> "general"
 ```
 
@@ -717,7 +717,7 @@ For each selected TODO item individually:
 .tex  -> "latex"
 .md   -> "markdown"
 .py/.sh -> "general"
-.claude/* -> "meta"
+.opencode/* -> "meta"
 ```
 
 #### 8.5: Research-Tasks (if selected)
@@ -985,7 +985,7 @@ Non-blocking:
 
 ## Standards Reference
 
-This skill implements the multi-task creation pattern. See `.claude/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
+This skill implements the multi-task creation pattern. See `.opencode/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
 
 **Compliance Level**: Full (all required components)
 

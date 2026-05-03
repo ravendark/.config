@@ -314,7 +314,7 @@ Increment: `next_num = next_num + 1`
 ```
 if majority of tags from .lean files -> "lean"
 elif majority from .tex files -> "latex"
-elif majority from .claude/ files -> "meta"
+elif majority from .opencode/ files -> "meta"
 else -> "general"
 ```
 
@@ -411,7 +411,7 @@ For each selected TODO item individually:
 .tex  -> "latex"
 .md   -> "markdown"
 .py/.sh -> "general"
-.claude/* -> "meta"
+.opencode/* -> "meta"
 ```
 
 #### 8.5: Research-Tasks (if selected)
@@ -543,4 +543,4 @@ See `rules/error-handling.md` for general patterns. Skill-specific behaviors:
 
 ## Standards Reference
 
-Implements the multi-task creation pattern (full compliance). See `.claude/docs/reference/standards/multi-task-creation-standard.md`.
+Implements the multi-task creation pattern (full compliance). See `.opencode/docs/reference/standards/multi-task-creation-standard.md`.

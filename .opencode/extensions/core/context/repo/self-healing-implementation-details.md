@@ -10,7 +10,7 @@
 
 This document contains detailed implementation pseudocode, data extraction functions, and testing scenarios for the self-healing infrastructure. For user-facing documentation, see:
 
-- **Schema Reference**: `.claude/context/reference/state-management-schema.md`
+- **Schema Reference**: `.opencode/context/reference/state-management-schema.md`
 
 ---
 
@@ -227,7 +227,7 @@ def ensure_state_json():
     log_info("Self-healing: state.json missing or invalid, creating from template")
     
     # 1. Load template
-    template_path = ".claude/context/templates/state-template.json"
+    template_path = ".opencode/context/templates/state-template.json"
     if not file_exists(template_path):
         log_error("Self-healing failed: Template missing")
         return create_minimal_state()  # Fallback
@@ -391,7 +391,7 @@ def create_minimal_state():
         log_warning("Self-healing: Created minimal state.json (degraded mode)")
         log_warning("  - Template file missing, using fallback minimal structure")
         log_warning("  - To restore full functionality, restore template from git:")
-        log_warning("    git checkout HEAD -- .claude/context/templates/state-template.json")
+        log_warning("    git checkout HEAD -- .opencode/context/templates/state-template.json")
     except Exception as e:
         log_error(f"Critical: Cannot create even minimal state.json: {e}")
         raise IOError(f"Self-healing completely failed: {e}")
@@ -415,7 +415,7 @@ rm specs/state.json
 # Expected behavior:
 # 1. Command detects missing state.json in preflight
 # 2. Calls ensure_state_json()
-# 3. Loads template from .claude/context/templates/state-template.json
+# 3. Loads template from .opencode/context/templates/state-template.json
 # 4. Parses specs/TODO.md (must exist)
 # 5. Extracts task data (37 tasks found)
 # 6. Populates template fields
@@ -438,7 +438,7 @@ cat specs/state.json | jq '.recent_activities[0].activity'
 
 ```bash
 # Setup: Remove template file (use git to recover later)
-rm .claude/context/templates/state-template.json
+rm .opencode/context/templates/state-template.json
 
 # Execute: Run command
 /research 197
@@ -460,7 +460,7 @@ cat specs/state.json | jq '.active_projects | length'
 # Should show: 0 (minimal state has empty arrays)
 
 # Cleanup: Restore template from git
-git checkout HEAD -- .claude/context/templates/state-template.json
+git checkout HEAD -- .opencode/context/templates/state-template.json
 ```
 
 ### Test Case 3: Missing specs/TODO.md (Failure)
@@ -545,7 +545,7 @@ cat specs/state.json | jq '.recent_activities[0].activity'
 
 ```
 [INFO] Self-healing: state.json missing, creating from template
-[INFO] Self-healing: Loaded template from .claude/context/templates/state-template.json
+[INFO] Self-healing: Loaded template from .opencode/context/templates/state-template.json
 [INFO] Self-healing: Parsed specs/TODO.md successfully (37 tasks found)
 [INFO] Self-healing: Extracted 4 active projects, 2 completed projects
 [INFO] Self-healing: Calculated repository health (score: 85)
@@ -563,14 +563,14 @@ cat specs/state.json | jq '.recent_activities[0].activity'
 [WARN] Self-healing: Created minimal state.json (degraded mode)
 [WARN]   - Template file missing, using fallback minimal structure
 [WARN]   - To restore full functionality, restore template from git:
-[WARN]     git checkout HEAD -- .claude/context/templates/state-template.json
+[WARN]     git checkout HEAD -- .opencode/context/templates/state-template.json
 ```
 
 ### Failed Self-Healing
 
 ```
 [WARN] Self-healing: state.json missing, creating from template
-[INFO] Self-healing: Loaded template from .claude/context/templates/state-template.json
+[INFO] Self-healing: Loaded template from .opencode/context/templates/state-template.json
 [ERROR] Cannot auto-create state.json: specs/TODO.md missing
 [ERROR] Required file specs/TODO.md not found. Self-healing can only create state.json when specs/TODO.md exists.
 
@@ -583,12 +583,12 @@ Recovery steps:
 2. Or restore from backup if available
 
 3. Create new specs/TODO.md following the standard format
-   Template: .claude/context/templates/todo-template.md
+   Template: .opencode/context/templates/todo-template.md
 ```
 
 ---
 
 ## Related Documentation
 
-- **Schema Reference**: `.claude/context/reference/state-management-schema.md`
-- **State Management Rules**: `.claude/rules/state-management.md`
+- **Schema Reference**: `.opencode/context/reference/state-management-schema.md`
+- **State Management Rules**: `.opencode/rules/state-management.md`

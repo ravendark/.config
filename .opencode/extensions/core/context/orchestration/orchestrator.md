@@ -120,7 +120,7 @@ It does NOT handle:
 **Purpose**: Delegate to target agent
 
 **Actions**:
-- Load agent file (.claude/agent/subagents/{agent}.md)
+- Load agent file (.opencode/agent/subagents/{agent}.md)
 - Invoke agent with delegation context
 - Wait for agent return (with timeout)
 
@@ -377,10 +377,10 @@ Agents own workflows, orchestrator just coordinates
 
 ## Related Documentation
 
-- `.claude/context/orchestration/routing.md` - Routing rules and language mapping
-- `.claude/context/orchestration/delegation.md` - Delegation safety patterns
-- `.claude/context/orchestration/validation.md` - Validation philosophy
-- `.claude/context/formats/subagent-return.md` - Return format standard
+- `.opencode/context/orchestration/routing.md` - Routing rules and language mapping
+- `.opencode/context/orchestration/delegation.md` - Delegation safety patterns
+- `.opencode/context/orchestration/validation.md` - Validation philosophy
+- `.opencode/context/formats/subagent-return.md` - Return format standard
 # Orchestrator Guide - Examples and Troubleshooting
 
 **Created**: 2025-12-29 (Task 245 Phase 5)  
@@ -393,9 +393,9 @@ Agents own workflows, orchestrator just coordinates
 This guide provides detailed examples and troubleshooting information for the orchestrator router pattern. The orchestrator itself is simplified to ~80 lines focusing on routing logic. This guide contains the supporting documentation.
 
 **Related Files**:
-- `.claude/context/orchestration/routing.md` - Command-to-Agent mapping
-- `.claude/context/orchestration/delegation.md` - Delegation safety
-- `.claude/context/formats/subagent-return.md` - Return validation
+- `.opencode/context/orchestration/routing.md` - Command-to-Agent mapping
+- `.opencode/context/orchestration/delegation.md` - Delegation safety
+- `.opencode/context/formats/subagent-return.md` - Return validation
 
 ---
 
@@ -814,7 +814,7 @@ If validation fails:
 User: /research 197
 
 Orchestrator:
-1. Load command file: .claude/command/research.md
+1. Load command file: .opencode/command/research.md
 2. Extract task_type from state.json: "general"
 3. Route to: general-research-agent
 4. Generate session_id: sess_1703606400_a1b2c3
@@ -832,7 +832,7 @@ Orchestrator:
 User: /implement 191
 
 Orchestrator:
-1. Load command file: .claude/command/implement.md
+1. Load command file: .opencode/command/implement.md
 2. Extract language from TODO.md: "markdown"
 3. Check for plan: Yes (plan-001.md)
 4. Route to: task-executor
@@ -852,7 +852,7 @@ Orchestrator:
 User: /implement 192 (complex delegation chain)
 
 Orchestrator:
-1. Load command file: .claude/command/implement.md
+1. Load command file: .opencode/command/implement.md
 2. Route to: task-executor
 3. task-executor delegates to: implementer
 4. implementer delegates to: git-workflow-manager
@@ -866,7 +866,7 @@ Orchestrator:
 
 ## Related Documentation
 
-- **Routing Guide**: `.claude/context/orchestration/routing.md`
-- **Delegation Guide**: `.claude/context/orchestration/delegation.md`
-- **Return Format**: `.claude/context/formats/subagent-return.md`
-- **Command Lifecycle**: `.claude/context/workflows/command-lifecycle.md`
+- **Routing Guide**: `.opencode/context/orchestration/routing.md`
+- **Delegation Guide**: `.opencode/context/orchestration/delegation.md`
+- **Return Format**: `.opencode/context/formats/subagent-return.md`
+- **Command Lifecycle**: `.opencode/context/workflows/command-lifecycle.md`

@@ -1,6 +1,6 @@
 # Documentation Standards
 
-Standards for documentation files in the `.claude/` directory and `docs/` directory. These standards ensure documentation is clear, concise, accurate, and optimized for AI agent consumption.
+Standards for documentation files in the `.opencode/` directory and `docs/` directory. These standards ensure documentation is clear, concise, accurate, and optimized for AI agent consumption.
 
 ## Core Principles
 
@@ -14,7 +14,7 @@ Standards for documentation files in the `.claude/` directory and `docs/` direct
 
 ### General Rule
 
-All documentation files in `.claude/` use **lowercase kebab-case** with `.md` extension.
+All documentation files in `.opencode/` use **lowercase kebab-case** with `.md` extension.
 
 **Correct**:
 - `documentation-standards.md`
@@ -82,7 +82,7 @@ All documentation files in `.claude/` use **lowercase kebab-case** with `.md` ex
 - Use Unicode box-drawing characters: `├──`, `└──`, `│`
 - Example:
   ```
-  .claude/
+  .opencode/
   ├── commands/
   │   ├── task.md
   │   └── research.md
@@ -99,7 +99,7 @@ All documentation files in `.claude/` use **lowercase kebab-case** with `.md` ex
 
 ### docs/ Subdirectories
 
-Every subdirectory of `.claude/docs/` **must** contain a `README.md` file.
+Every subdirectory of `.opencode/docs/` **must** contain a `README.md` file.
 
 **Purpose**: Navigation guide and organizational documentation
 
@@ -117,7 +117,7 @@ Every subdirectory of `.claude/docs/` **must** contain a `README.md` file.
 
 ### context/ Subdirectories
 
-README.md files are **optional** in `.claude/context/` subdirectories.
+README.md files are **optional** in `.opencode/context/` subdirectories.
 
 **When to include**:
 - Directories with 3+ files
@@ -209,7 +209,7 @@ Do not create standalone quick reference documents or reference card sections.
 
 ### Version History Sections
 
-Version history sections are **forbidden** in all `.claude/` documentation.
+Version history sections are **forbidden** in all `.opencode/` documentation.
 
 **Rationale**:
 - Version history is useless cruft that clutters documentation

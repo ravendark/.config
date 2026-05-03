@@ -71,8 +71,8 @@ max_delegation_depth: 3
   
   <step_3>
     Load task context from state.json:
-    task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .claude/state.json)
-    task_title=$(jq -r ".tasks[] | select(.number == $task_number) | .title" .claude/state.json)
+    task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .opencode/state.json)
+    task_title=$(jq -r ".tasks[] | select(.number == $task_number) | .title" .opencode/state.json)
   </step_3>
   
   <step_4>
@@ -180,8 +180,8 @@ max_delegation_depth: 3
 <state_management>
   <reads>
     # Fast, direct queries via jq
-    task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .claude/state.json)
-    task_title=$(jq -r ".tasks[] | select(.number == $task_number) | .title" .claude/state.json)
+    task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .opencode/state.json)
+    task_title=$(jq -r ".tasks[] | select(.number == $task_number) | .title" .opencode/state.json)
   </reads>
   
   <writes>
@@ -538,7 +538,7 @@ Benefit: Clear separation, easy to test, flexible composition
   
   <step_2>
     Load task context from state.json:
-    task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .claude/state.json)
+    task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .opencode/state.json)
     
     If task not found: Return "Task {task_number} not found"
   </step_2>
@@ -684,7 +684,7 @@ Benefit: Clear separation, easy to test, flexible composition
 <state_management>
   <read>
     # Fast, direct query via jq
-    task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .claude/state.json)
+    task_status=$(jq -r ".tasks[] | select(.number == $task_number) | .status" .opencode/state.json)
     
     # No delegation needed for reads
   </read>
@@ -816,8 +816,8 @@ Benefit: Clear separation, easy to test, flexible composition
 <state_management>
   <write>
     # Direct write to state.json
-    jq ".tasks[] | select(.number == $task_number) | .status = \"completed\"" .claude/state.json > tmp.json
-    mv tmp.json .claude/state.json
+    jq ".tasks[] | select(.number == $task_number) | .status = \"completed\"" .opencode/state.json > tmp.json
+    mv tmp.json .opencode/state.json
   </write>
 </state_management>
 ```

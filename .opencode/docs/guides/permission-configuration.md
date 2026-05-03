@@ -133,7 +133,7 @@ permissions:
 - read: ["**/*.md"]
 
 # Multiple patterns
-- read: ["**/*.md", "**/*.lua", ".claude/**/*"]
+- read: ["**/*.md", "**/*.lua", ".opencode/**/*"]
 ```
 
 ### Bash Command Patterns
@@ -171,7 +171,7 @@ tools:
 permissions:
   allow:
     # Read access to documentation and code
-    - read: ["**/*.md", ".claude/**/*", "docs/**/*", "**/*.lua"]
+    - read: ["**/*.md", ".opencode/**/*", "docs/**/*", "**/*.lua"]
     
     # Write access to research outputs
     - write: ["specs/**/*", "docs/research/**/*"]
@@ -203,7 +203,7 @@ tools:
 permissions:
   allow:
     # Read access to specs and documentation
-    - read: ["**/*.md", ".claude/**/*", "docs/**/*"]
+    - read: ["**/*.md", ".opencode/**/*", "docs/**/*"]
     
     # Write access to plans
     - write: ["specs/**/*"]
@@ -270,7 +270,7 @@ tools:
 permissions:
   allow:
     # Read access to domain codebase
-    - read: ["**/*.py", "**/*.md", ".claude/**/*"]
+    - read: ["**/*.py", "**/*.md", ".opencode/**/*"]
 
     # Write access to domain files
     - write: ["**/*.py", "specs/**/*"]
@@ -405,7 +405,7 @@ deny:
 
 ### Identifying Denials
 
-Permission denials are logged to `.claude/logs/errors.json`:
+Permission denials are logged to `.opencode/logs/errors.json`:
 
 ```json
 {
@@ -446,7 +446,7 @@ Permission denials are logged to `.claude/logs/errors.json`:
 
 ### Debugging Workflow
 
-1. **Check error log**: Review `.claude/logs/errors.json` for denial details
+1. **Check error log**: Review `.opencode/logs/errors.json` for denial details
 2. **Review agent frontmatter**: Check allow and deny lists
 3. **Verify pattern match**: Test glob pattern against denied path
 4. **Assess legitimacy**: Is this operation needed for agent function?
@@ -478,7 +478,7 @@ permissions:
 ```yaml
 permissions:
   allow:
-    - read: ["**/*.md", ".claude/**/*"]
+    - read: ["**/*.md", ".opencode/**/*"]
     - write: ["specs/**/*"]
     - bash: ["git", "date"]
   deny:
@@ -597,13 +597,13 @@ permissions:
 **Solution**:
 1. Review recent permission changes in git history:
    ```bash
-   git log -p -- .claude/agents/{agent}.md
+   git log -p -- .opencode/agents/{agent}.md
    ```
 2. Identify removed permission
 3. Assess if removal was intentional
 4. If unintentional, restore permission:
    ```bash
-   git checkout HEAD~1 -- .claude/agents/{agent}.md
+   git checkout HEAD~1 -- .opencode/agents/{agent}.md
    ```
 5. Test agent operation
 6. Document decision
@@ -630,7 +630,7 @@ Before committing permission changes:
 /research 123  # or appropriate command
 
 # Check for permission denials
-grep "permission_denied" .claude/logs/errors.json
+grep "permission_denied" .opencode/logs/errors.json
 
 # Test dangerous operation is blocked
 # (should fail with permission denied)
@@ -662,7 +662,7 @@ permissions:
 # Expand as needed
 permissions:
   allow:
-    - read: ["**/*.md", ".claude/**/*"]
+    - read: ["**/*.md", ".opencode/**/*"]
     - write: ["specs/**/*"]
     - bash: ["git", "grep", "find"]
 ```
@@ -719,10 +719,10 @@ Regularly review denial logs:
 
 ```bash
 # Check recent denials
-jq '.[] | select(.error_type == "permission_denied")' .claude/logs/errors.json
+jq '.[] | select(.error_type == "permission_denied")' .opencode/logs/errors.json
 
 # Group by agent
-jq 'group_by(.agent) | map({agent: .[0].agent, count: length})' .claude/logs/errors.json
+jq 'group_by(.agent) | map({agent: .[0].agent, count: length})' .opencode/logs/errors.json
 ```
 
 ### 6. Test Rollback Scenarios
@@ -750,9 +750,9 @@ git status
 
 ## Related Documentation
 
-- [Frontmatter Standard](.claude/context/formats/frontmatter.md) - Agent frontmatter format
-- [Delegation](.claude/context/orchestration/delegation.md) - Agent delegation patterns
-- [State Management](.claude/context/orchestration/state-management.md) - State file management
+- [Frontmatter Standard](.opencode/context/formats/frontmatter.md) - Agent frontmatter format
+- [Delegation](.opencode/context/orchestration/delegation.md) - Agent delegation patterns
+- [State Management](.opencode/context/orchestration/state-management.md) - State file management
 
 ---
 
@@ -768,7 +768,7 @@ git status
 
 If you encounter permission issues not covered in this guide, please:
 
-1. Document the issue in `.claude/logs/errors.json`
+1. Document the issue in `.opencode/logs/errors.json`
 2. Create a task with `/task` command
 3. Include permission denial details
 4. Suggest solution if known

@@ -64,7 +64,7 @@ fi
 
 ### 2.5. Roadmap Integration
 
-**Context**: Load @.claude/context/formats/roadmap-format.md for parsing patterns.
+**Context**: Load @.opencode/context/formats/roadmap-format.md for parsing patterns.
 
 **Ensure specs/ROADMAP.md exists** before parsing. If the file does not exist, create it with the default template:
 ```markdown
@@ -117,7 +117,7 @@ Build `roadmap_state` structure:
 
 ### 2.5.2. Cross-Reference Roadmap with Project State
 
-**Context**: Load @.claude/context/patterns/roadmap-update.md for matching strategy.
+**Context**: Load @.opencode/context/patterns/roadmap-update.md for matching strategy.
 
 Cross-reference roadmap items with project state to identify completed work:
 
@@ -212,7 +212,7 @@ For high-confidence matches, update ROADMAP.md to mark items as complete.
 
 ### 2.6. Parse Task Order
 
-**Context**: Load @.claude/context/formats/task-order-format.md for parsing patterns.
+**Context**: Load @.opencode/context/formats/task-order-format.md for parsing patterns.
 
 Read `specs/TODO.md` and extract the Task Order section if present.
 
@@ -721,7 +721,7 @@ When "Keep as grouped tasks" is selected, create one task per group:
 | File pattern | Task Type |
 |--------------|-----------|
 | `*.lua` | general |
-| `*.md`, `*.json`, `.claude/**` | meta |
+| `*.md`, `*.json`, `.opencode/**` | meta |
 | `*.tex` | latex |
 | `*.typ` | typst |
 | Other | general |
@@ -836,8 +836,8 @@ fi
 ### 6. Update Registries (if applicable)
 
 If reviewing specific domains, update relevant registries:
-- `.claude/docs/registries/lean-files.md`
-- `.claude/docs/registries/documentation.md`
+- `.opencode/docs/registries/lean-files.md`
+- `.opencode/docs/registries/documentation.md`
 
 ### 6.5. Prune Task Order
 
@@ -1518,7 +1518,7 @@ This ensures review report, state tracking, task state, and roadmap updates are 
 
 ## Standards Reference
 
-This command implements the multi-task creation pattern. See `.claude/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
+This command implements the multi-task creation pattern. See `.opencode/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
 
 **Compliance Level**: Partial (required components, limited optional)
 

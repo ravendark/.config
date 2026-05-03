@@ -1,11 +1,11 @@
 # Artifact Templates Reference
 
 Template structures for error reports. For research reports, implementation plans, and summaries, see the authoritative format files:
-- `.claude/context/formats/report-format.md`
-- `.claude/context/formats/plan-format.md`
-- `.claude/context/formats/summary-format.md`
+- `.opencode/context/formats/report-format.md`
+- `.opencode/context/formats/plan-format.md`
+- `.opencode/context/formats/summary-format.md`
 
-For behavioral rules (naming conventions, versioning), see `.claude/rules/artifact-formats.md`.
+For behavioral rules (naming conventions, versioning), see `.opencode/rules/artifact-formats.md`.
 
 ## Error Reports
 

@@ -5,7 +5,7 @@
 
 Task management and automation framework for software development. This README provides a navigation hub to the system's documentation.
 
-For quick reference loaded every session, see [CLAUDE.md](CLAUDE.md).
+For quick reference loaded every session, see [AGENTS.md](AGENTS.md).
 
 ---
 
@@ -21,7 +21,7 @@ For quick reference loaded every session, see [CLAUDE.md](CLAUDE.md).
 | `/review` | `/review` | Analyze codebase |
 | `/todo` | `/todo` | Archive completed tasks |
 | `/errors` | `/errors` | Analyze error patterns |
-| `/meta` | `/meta` | System builder for .claude/ |
+| `/meta` | `/meta` | System builder for .opencode/ |
 | `/fix-it` | `/fix-it [PATH...]` | Scan for FIX:/NOTE:/TODO:/QUESTION: tags |
 | `/refresh` | `/refresh` | Clean orphaned processes |
 | `/spawn` | `/spawn N` | Spawn tasks to unblock |
@@ -41,7 +41,7 @@ Full command documentation: [docs/guides/user-guide.md](docs/guides/user-guide.m
                                 v
     ┌─────────────────────────────────────────────────────────┐
     │                      COMMANDS                            │
-    │   .claude/commands/*.md                                  │
+    │   .opencode/commands/*.md                                  │
     │   Parse arguments, route by task_type, checkpoint flow   │
     └─────────────────────────────────────────────────────────┘
                                 |
@@ -49,7 +49,7 @@ Full command documentation: [docs/guides/user-guide.md](docs/guides/user-guide.m
                                 v
     ┌─────────────────────────────────────────────────────────┐
     │                       SKILLS                             │
-    │   .claude/skills/skill-*/SKILL.md                        │
+    │   .opencode/skills/skill-*/SKILL.md                        │
     │   Validate inputs, prepare context, invoke agents        │
     └─────────────────────────────────────────────────────────┘
                                 |
@@ -57,7 +57,7 @@ Full command documentation: [docs/guides/user-guide.md](docs/guides/user-guide.m
                                 v
     ┌─────────────────────────────────────────────────────────┐
     │                       AGENTS                             │
-    │   .claude/agents/*.md                                    │
+    │   .opencode/agents/*.md                                    │
     │   Full execution, create artifacts, return JSON          │
     └─────────────────────────────────────────────────────────┘
 ```
@@ -75,14 +75,14 @@ Full command documentation: [docs/guides/user-guide.md](docs/guides/user-guide.m
 
 ## Core Components
 
-### Commands (`.claude/commands/`)
+### Commands (`.opencode/commands/`)
 
 User-invocable operations with checkpoint-based execution:
 - **Preflight**: Validate inputs, update status
 - **Delegate**: Route to skill/agent
 - **Postflight**: Update status, commit
 
-### Skills (`.claude/skills/`)
+### Skills (`.opencode/skills/`)
 
 | Skill | Agent | Purpose |
 |-------|-------|---------|
@@ -92,9 +92,9 @@ User-invocable operations with checkpoint-based execution:
 | skill-meta | meta-builder-agent | System building |
 | skill-status-sync | (direct) | Atomic status updates |
 
-**Note**: This is a subset of core skills. See [CLAUDE.md](CLAUDE.md) for the complete skill-to-agent mapping including team mode, git workflow, and orchestrator skills.
+**Note**: This is a subset of core skills. See [AGENTS.md](AGENTS.md) for the complete skill-to-agent mapping including team mode, git workflow, and orchestrator skills.
 
-### Agents (`.claude/agents/`)
+### Agents (`.opencode/agents/`)
 
 | Agent | Purpose |
 |-------|---------|
@@ -110,9 +110,9 @@ User-invocable operations with checkpoint-based execution:
 
 ## Extensions
 
-The extension system provides task-type-specific support. Extensions are loaded via the extension picker. The core agent system itself is packaged as a real extension (`core`) that installs all base commands, agents, rules, skills, scripts, hooks, context, docs, and templates into the target `.claude/` directory.
+The extension system provides task-type-specific support. Extensions are loaded via the extension picker. The core agent system itself is packaged as a real extension (`core`) that installs all base commands, agents, rules, skills, scripts, hooks, context, docs, and templates into the target `.opencode/` directory.
 
-**Available Extensions** (`.claude/extensions/`):
+**Available Extensions** (`.opencode/extensions/`):
 
 | Extension | Domain | Provides |
 |-----------|--------|----------|
@@ -131,7 +131,7 @@ The extension system provides task-type-specific support. Extensions are loaded 
 | present | Grant writing | Grant proposal development |
 | memory | Knowledge management | Learning and memory patterns |
 
-The `core` extension is the foundational layer. All other extensions declare `"dependencies": ["core"]` to ensure it is loaded first. Core files live in `.claude/extensions/core/` and are installed to the standard `.claude/` layout when loaded. Sync (`Load Core Agent System`) sources core artifacts from `extensions/core/` in the global repository.
+The `core` extension is the foundational layer. All other extensions declare `"dependencies": ["core"]` to ensure it is loaded first. Core files live in `.opencode/extensions/core/` and are installed to the standard `.opencode/` layout when loaded. Sync (`Load Core Agent System`) sources core artifacts from `extensions/core/` in the global repository.
 
 **Extension documentation**: [docs/architecture/extension-system.md](docs/architecture/extension-system.md)
 
@@ -164,7 +164,7 @@ Creating extensions: [docs/guides/creating-extensions.md](docs/guides/creating-e
 
 ## Context Organization
 
-Context files are discovered via `.claude/context/index.json`:
+Context files are discovered via `.opencode/context/index.json`:
 
 | Directory | Contains |
 |-----------|----------|
@@ -220,7 +220,7 @@ Clean up Claude Code resources:
 | `/refresh --dry-run` | Preview changes |
 | `/refresh --force` | Execute immediately (8-hour default) |
 
-**Cleanable directories**: `~/.claude/{projects,debug,file-history,todos,session-env,telemetry,cache}/`
+**Cleanable directories**: `~/.opencode/{projects,debug,file-history,todos,session-env,telemetry,cache}/`
 
 ### MCP Configuration
 
@@ -242,7 +242,7 @@ Error recovery patterns: [rules/error-handling.md](rules/error-handling.md)
 
 | File | Purpose |
 |------|---------|
-| [CLAUDE.md](CLAUDE.md) | Quick reference (loaded every session) |
+| [AGENTS.md](AGENTS.md) | Quick reference (loaded every session) |
 | [docs/README.md](docs/README.md) | Documentation hub |
 | [context/README.md](context/README.md) | Context organization |
 | [extensions/README.md](extensions/README.md) | Extension overview |

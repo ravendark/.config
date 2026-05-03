@@ -262,7 +262,7 @@ rm -f "specs/OC_${padded_num}_${task_slug}/.return-meta.json"
   ],
   "completion_data": {
     "completion_summary": "Created new-agent.md with full specification including tools, execution flow, and error handling.",
-    "readme_suggestions": "Added new-agent to Skill-to-Agent Mapping table in CLAUDE.md"
+    "readme_suggestions": "Added new-agent to Skill-to-Agent Mapping table in AGENTS.md"
   },
   "next_steps": "Review agent and test invocation",
   "metadata": {

@@ -255,6 +255,6 @@ Add this to agent execution flow after Stage 1 (Parse Delegation Context):
 
 ## Related Documentation
 
-- `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- `.claude/context/patterns/checkpoint-execution.md` - Checkpoint pattern
-- `.claude/rules/error-handling.md` - Error logging patterns
+- `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- `.opencode/context/patterns/checkpoint-execution.md` - Checkpoint pattern
+- `.opencode/rules/error-handling.md` - Error logging patterns

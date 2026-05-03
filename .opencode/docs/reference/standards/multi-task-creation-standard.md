@@ -375,7 +375,7 @@ The `/meta` command and `meta-builder-agent` implement all 8 components plus enh
 **Enhanced Stages** (added for Task Minimization Principle):
 - **Stage 3.5 (AnalyzeTopics)**: Extracts topic indicators, clusters by shared terms/components, presents consolidation picker
 
-See `.claude/agents/meta-builder-agent.md` for complete implementation details.
+See `.opencode/agents/meta-builder-agent.md` for complete implementation details.
 
 ## Current Compliance Status
 
@@ -413,7 +413,7 @@ See `.claude/agents/meta-builder-agent.md` for complete implementation details.
 
 ## Related Documentation
 
-- `.claude/rules/state-management.md` - Dependencies field schema
-- `.claude/agents/meta-builder-agent.md` - Reference implementation
-- `.claude/commands/fix-it.md` - Topic grouping example
-- `.claude/commands/review.md` - Issue grouping example
+- `.opencode/rules/state-management.md` - Dependencies field schema
+- `.opencode/agents/meta-builder-agent.md` - Reference implementation
+- `.opencode/commands/fix-it.md` - Topic grouping example
+- `.opencode/commands/review.md` - Issue grouping example

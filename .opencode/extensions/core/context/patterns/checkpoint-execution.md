@@ -72,7 +72,7 @@ session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 | meta | skill-researcher | skill-planner | skill-implementer |
 | _{extension}_ | _Extension-provided_ | skill-planner | _Extension-provided_ |
 
-**Note**: Extensions add task type routing entries. See `.claude/extensions/*/manifest.json`.
+**Note**: Extensions add task type routing entries. See `.opencode/extensions/*/manifest.json`.
 
 ---
 
@@ -188,8 +188,8 @@ so that:
 - Task is not incorrectly marked as failed or completed
 - Partial progress is preserved
 
-See `.claude/context/patterns/early-metadata-pattern.md` for details on how agents create
-early metadata, and `.claude/rules/error-handling.md` for the `delegation_interrupted` error type.
+See `.opencode/context/patterns/early-metadata-pattern.md` for details on how agents create
+early metadata, and `.opencode/rules/error-handling.md` for the `delegation_interrupted` error type.
 
 ### GATE OUT Failure
 - Missing artifacts: Log warning, return partial
@@ -212,14 +212,14 @@ Skills that manage lifecycle include checkpoints inline:
 
 ### 0. Preflight (GATE IN)
 Update task status before starting work.
-See: @.claude/context/checkpoints/checkpoint-gate-in.md
+See: @.opencode/context/checkpoints/checkpoint-gate-in.md
 
 ### 1-4. Agent Delegation (DELEGATE)
 Invoke subagent and execute work.
 
 ### 5. Postflight (GATE OUT)
 Update task status after completion.
-See: @.claude/context/checkpoints/checkpoint-gate-out.md
+See: @.opencode/context/checkpoints/checkpoint-gate-out.md
 
 ### 6. Return
 Return result (COMMIT happens in caller).
@@ -244,9 +244,9 @@ Session ID links all operations in a single command execution:
 
 ## Related Documentation
 
-- @.claude/context/checkpoints/ - Detailed checkpoint specifications
-- @.claude/context/patterns/skill-lifecycle.md - Skill lifecycle pattern
-- @.claude/context/patterns/inline-status-update.md - Status update patterns
-- @.claude/context/patterns/early-metadata-pattern.md - Early metadata creation for interruption recovery
-- @.claude/rules/git-workflow.md - Git commit conventions
-- @.claude/rules/error-handling.md - Error types including delegation_interrupted
+- @.opencode/context/checkpoints/ - Detailed checkpoint specifications
+- @.opencode/context/patterns/skill-lifecycle.md - Skill lifecycle pattern
+- @.opencode/context/patterns/inline-status-update.md - Status update patterns
+- @.opencode/context/patterns/early-metadata-pattern.md - Early metadata creation for interruption recovery
+- @.opencode/rules/git-workflow.md - Git commit conventions
+- @.opencode/rules/error-handling.md - Error types including delegation_interrupted

@@ -3,7 +3,7 @@ name: skill-researcher
 description: Conduct general research using web search, documentation, and codebase exploration. Invoke for general research tasks.
 allowed-tools: Task, Bash, Edit, Read, Write
 # Original context (now loaded by subagent):
-#   - .claude/context/formats/report-format.md
+#   - .opencode/context/formats/report-format.md
 # Original tools (now used by subagent):
 #   - Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
 ---
@@ -19,10 +19,10 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
-- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/patterns/file-metadata-exchange.md` - File I/O helpers
+- Path: `.opencode/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -68,7 +68,7 @@ description=$(echo "$task_data" | jq -r '.description // ""')
 Update task status to "researching" BEFORE invoking subagent.
 
 ```bash
-.claude/scripts/update-task-status.sh preflight "$task_number" research "$session_id"
+.opencode/scripts/update-task-status.sh preflight "$task_number" research "$session_id"
 ```
 
 This atomically updates state.json (status, timestamps, session_id), TODO.md task entry, and TODO.md Task Order section. If the script exits non-zero, abort and keep current status.
@@ -130,7 +130,7 @@ Retrieve relevant memories from the memory system to inject into the delegation 
 ```bash
 # Check clean_flag
 if [ "$clean_flag" != "true" ]; then
-  memory_context=$(bash .claude/scripts/memory-retrieve.sh "$description" "$task_type" "$focus_prompt" 2>/dev/null) || memory_context=""
+  memory_context=$(bash .opencode/scripts/memory-retrieve.sh "$description" "$task_type" "$focus_prompt" 2>/dev/null) || memory_context=""
 fi
 
 # memory_context will be empty string if:
@@ -180,7 +180,7 @@ Prepare delegation context for the subagent:
 Read the report format file and prepare it for injection into the subagent prompt. This ensures the subagent always has the full format specification in its context, regardless of whether it reads the file itself.
 
 ```bash
-format_content=$(cat .claude/context/formats/report-format.md)
+format_content=$(cat .opencode/context/formats/report-format.md)
 ```
 
 The format content will be included as a delimited section in the Stage 5 prompt (see below).
@@ -280,7 +280,7 @@ If subagent status is "researched" and `artifact_path` is non-empty, validate th
 ```bash
 if [ "$status" = "researched" ] && [ -n "$artifact_path" ] && [ -f "$artifact_path" ]; then
     echo "Validating report artifact..."
-    if ! bash .claude/scripts/validate-artifact.sh "$artifact_path" report --fix; then
+    if ! bash .opencode/scripts/validate-artifact.sh "$artifact_path" report --fix; then
         echo "WARNING: Report artifact has format issues (non-blocking). Review output above."
     fi
 fi
@@ -297,7 +297,7 @@ If status is "researched", update status and increment artifact number:
 ```bash
 # Step 1: Update status (state.json, TODO.md task entry, TODO.md Task Order)
 if [ "$status" = "researched" ]; then
-  .claude/scripts/update-task-status.sh postflight "$task_number" research "$session_id"
+  .opencode/scripts/update-task-status.sh postflight "$task_number" research "$session_id"
 fi
 
 # Step 2: Increment next_artifact_number (research advances the sequence)
@@ -355,7 +355,7 @@ fi
 **Link artifact in TODO.md**: Use the `link-artifact-todo.sh` script (REQUIRED -- do NOT manually edit artifact links in TODO.md):
 
 ```bash
-bash .claude/scripts/link-artifact-todo.sh $task_number '**Research**' '**Plan**' "$artifact_path"
+bash .opencode/scripts/link-artifact-todo.sh $task_number '**Research**' '**Plan**' "$artifact_path"
 ```
 
 The script produces bracket-only `[path]` format. Never use markdown `[name](path)` format for artifact links. If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -422,7 +422,7 @@ The postflight phase is LIMITED TO:
 - Linking artifacts in state.json
 - Cleanup of temp/marker files
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md
 
 ---
 

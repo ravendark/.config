@@ -52,7 +52,7 @@ Gather information about the project by examining:
 
 ### Step 2: Write project-overview.md
 
-Create the file at `.claude/context/repo/project-overview.md` using the template below.
+Create the file at `.opencode/context/repo/project-overview.md` using the template below.
 
 ## Template
 
@@ -83,7 +83,7 @@ project-root/
 ├── tests/                  # {Description}
 ├── docs/                   # {Description}
 ├── specs/                  # Task management (from agent system)
-└── .claude/                # Agent system configuration
+└── .opencode/                # Agent system configuration
 ```
 
 ## Core Components

@@ -1,16 +1,16 @@
 # Meta Guide: /meta Command Reference
 
-Reference guide for the `/meta` command -- the interactive system builder that creates **tasks** for `.claude/` system changes. This guide documents the actual deployed system behavior.
+Reference guide for the `/meta` command -- the interactive system builder that creates **tasks** for `.opencode/` system changes. This guide documents the actual deployed system behavior.
 
 ## Overview
 
-The `/meta` command creates structured tasks in TODO.md and state.json for modifying the `.claude/` agent architecture. It never implements changes directly -- it only plans what needs to change and creates task entries for the standard `/research` -> `/plan` -> `/implement` lifecycle.
+The `/meta` command creates structured tasks in TODO.md and state.json for modifying the `.opencode/` agent architecture. It never implements changes directly -- it only plans what needs to change and creates task entries for the standard `/research` -> `/plan` -> `/implement` lifecycle.
 
 **Delegation chain**: `/meta` command -> `skill-meta` -> `meta-builder-agent` -> TODO.md + state.json
 
 **Critical distinction**: `/meta` does NOT create commands, skills, agents, rules, or context files. It creates *tasks* that describe those changes. Actual file creation happens later during `/implement`.
 
-**Multi-task creation standard**: `/meta` is the reference implementation for the multi-task creation standard (all 8 components). See `.claude/docs/reference/standards/multi-task-creation-standard.md`.
+**Multi-task creation standard**: `/meta` is the reference implementation for the multi-task creation standard (all 8 components). See `.opencode/docs/reference/standards/multi-task-creation-standard.md`.
 
 ## Modes
 
@@ -44,7 +44,7 @@ The interactive mode executes these stages in order. Each user-facing choice use
 
 ### Stage 0: DetectExistingSystem
 
-Scans the `.claude/` directory to count existing components (commands, skills, agents, rules) and active tasks. Displays the inventory so both user and agent have context about the current system state.
+Scans the `.opencode/` directory to count existing components (commands, skills, agents, rules) and active tasks. Displays the inventory so both user and agent have context about the current system state.
 
 ### Stage 1: InitiateInterview
 
@@ -54,13 +54,13 @@ Explains the process (5-10 minutes), what the user will get (task entries, depen
 
 Two questions via AskUserQuestion:
 1. **Purpose**: What do you want to accomplish? Options include adding commands, skills/agents, fixing existing components, creating documentation, or something else.
-2. **Scope**: What part of the `.claude/` system is affected?
+2. **Scope**: What part of the `.opencode/` system is affected?
 
 Context files are loaded on-demand based on the user's selections (e.g., `creating-commands.md` if adding a command).
 
 ### Stage 2.5: DetectDomainType
 
-Classifies the task type based on keywords. Since `/meta` is inherently about `.claude/` system changes, this almost always produces `task_type = "meta"`. This stage is vestigial -- the classification is largely redundant given the command's scope.
+Classifies the task type based on keywords. Since `/meta` is inherently about `.opencode/` system changes, this almost always produces `task_type = "meta"`. This stage is vestigial -- the classification is largely redundant given the command's scope.
 
 ### Stage 3: IdentifyUseCases
 
@@ -236,7 +236,7 @@ The `meta-builder-agent` is only invoked by `/meta` itself -- it is not used dur
 
 4. **No effort/model flags**: `/meta` does not support `--fast`, `--hard`, `--team`, `--haiku`, `--sonnet`, or `--opus` flags. It always runs in its default mode.
 
-5. **DetectDomainType is vestigial**: Stage 2.5 classifies tasks as "meta" vs "general" based on keywords, but since `/meta` is inherently about `.claude/` changes, the result is almost always "meta."
+5. **DetectDomainType is vestigial**: Stage 2.5 classifies tasks as "meta" vs "general" based on keywords, but since `/meta` is inherently about `.opencode/` changes, the result is almost always "meta."
 
 ## Future Extensions
 
@@ -252,8 +252,8 @@ The `meta-builder-agent` is only invoked by `/meta` itself -- it is not used dur
 
 | File | Purpose |
 |------|---------|
-| `.claude/commands/meta.md` | Command entry point with mode detection |
-| `.claude/skills/skill-meta/SKILL.md` | Skill wrapper with delegation context |
-| `.claude/agents/meta-builder-agent.md` | Full agent specification (source of truth) |
-| `.claude/docs/reference/standards/multi-task-creation-standard.md` | Multi-task creation standard |
-| `.claude/docs/guides/component-selection.md` | Component selection guide (loaded during interview) |
+| `.opencode/commands/meta.md` | Command entry point with mode detection |
+| `.opencode/skills/skill-meta/SKILL.md` | Skill wrapper with delegation context |
+| `.opencode/agent/subagents/meta-builder-agent.md` | Full agent specification (source of truth) |
+| `.opencode/docs/reference/standards/multi-task-creation-standard.md` | Multi-task creation standard |
+| `.opencode/docs/guides/component-selection.md` | Component selection guide (loaded during interview) |

@@ -331,6 +331,6 @@ Command files MUST execute this postflight in Stage 3.5 after Stage 3 (ValidateR
 ## References
 
 - `specs/workflow-command-refactor-plan.md` - Root cause analysis
-- `.claude/context/orchestration/state-management.md` - State management patterns
-- `.claude/agent/subagents/status-sync-manager.md` - Status sync manager specification
-- `.claude/agent/subagents/git-workflow-manager.md` - Git workflow manager specification
+- `.opencode/context/orchestration/state-management.md` - State management patterns
+- `.opencode/agent/subagents/status-sync-manager.md` - Status sync manager specification
+- `.opencode/agent/subagents/git-workflow-manager.md` - Git workflow manager specification

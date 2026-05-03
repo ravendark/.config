@@ -2,7 +2,7 @@
 
 Task management and agent orchestration system for Neovim configuration development. This system provides structured workflows for research, planning, and implementation across multiple languages and domains.
 
-> **Port of CLAUDE.md**: This documentation was ported from `.claude/CLAUDE.md` on 2026-05-02 to maintain parity between the two systems.
+> **Port of AGENTS.md**: This documentation was ported from `.opencode/AGENTS.md` on 2026-05-02 to maintain parity between the two systems.
 
 ## Quick Reference
 
@@ -482,15 +482,15 @@ Domain knowledge files (load as needed):
 
 | File | Purpose |
 |------|---------|
-| @.claude/context/project/neovim/domain/neovim-api.md | Neovim Lua API reference |
-| @.claude/context/project/neovim/patterns/plugin-spec.md | Plugin specification patterns |
-| @.claude/context/project/neovim/tools/lazy-nvim-guide.md | lazy.nvim configuration guide |
+| @.opencode/context/project/neovim/domain/neovim-api.md | Neovim Lua API reference |
+| @.opencode/context/project/neovim/patterns/plugin-spec.md | Plugin specification patterns |
+| @.opencode/context/project/neovim/tools/lazy-nvim-guide.md | lazy.nvim configuration guide |
 
 ## Command Migration Notes
 
 ### `/fix` renamed to `/fix-it`
 
-The `/fix` command has been renamed to `/fix-it` to align with the .claude/ agent system naming convention. The new command includes:
+The `/fix` command has been renamed to `/fix-it` to align with the .opencode/ agent system naming convention. The new command includes:
 - Support for `QUESTION:` tags (research tasks)
 - Topic grouping for TODO and QUESTION items
 - Dependency handling between learn-it and fix-it tasks

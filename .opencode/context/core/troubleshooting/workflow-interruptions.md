@@ -294,7 +294,7 @@ If one skill is failing but others work:
 git checkout HEAD~1 -- .opencode/skills/skill-problematic/SKILL.md
 ```
 
-3. **Document workaround** in CLAUDE.md:
+3. **Document workaround** in AGENTS.md:
 ```markdown
 **Known Issue**: skill-problematic uses old pattern, requires manual continue
 ```

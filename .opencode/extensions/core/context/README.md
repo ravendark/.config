@@ -8,7 +8,7 @@
 ## Directory Structure
 
 ```
-.claude/context/
+.opencode/context/
 ├── orchestration/              # System orchestration
 ├── formats/                    # Output formats and structures
 ├── standards/                  # Quality standards
@@ -192,11 +192,11 @@ The `index.json` file enables automated context discovery:
 
 ```bash
 # Find context for an agent
-jq -r '.entries[] | select(.load_when.agents[]? == "planner-agent") | .path' .claude/context/index.json
+jq -r '.entries[] | select(.load_when.agents[]? == "planner-agent") | .path' .opencode/context/index.json
 
 # Find context by topic
-jq -r '.entries[] | select(.topics[]? == "routing") | .path' .claude/context/index.json
+jq -r '.entries[] | select(.topics[]? == "routing") | .path' .opencode/context/index.json
 
 # Get line counts for budget
-jq -r '.entries[] | select(.load_when.agents[]? == "planner-agent") | "\(.line_count)\t\(.path)"' .claude/context/index.json
+jq -r '.entries[] | select(.load_when.agents[]? == "planner-agent") | "\(.line_count)\t\(.path)"' .opencode/context/index.json
 ```

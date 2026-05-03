@@ -1,7 +1,7 @@
 <!--
 Extension README Template
 
-This template is derived from .claude/extensions/founder/README.md with a
+This template is derived from .opencode/extensions/founder/README.md with a
 section-applicability matrix for simple vs. complex extensions.
 
 Section Applicability Matrix:

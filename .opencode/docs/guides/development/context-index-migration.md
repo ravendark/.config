@@ -26,7 +26,7 @@ The context discovery system uses a machine-readable `index.json` format that en
 ## File Locations
 
 ```
-.claude/context/
+.opencode/context/
 ├── index.json           # Machine-readable context discovery (primary)
 └── index.schema.json    # JSON Schema definition for validation
 ```
@@ -68,7 +68,7 @@ The context discovery system uses a machine-readable `index.json` format that en
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `path` | string | Relative path from `.claude/context/` |
+| `path` | string | Relative path from `.opencode/context/` |
 | `domain` | string | `core`, `project`, or `system` |
 | `summary` | string | Brief description (max 200 chars) |
 | `line_count` | integer | Line count for budget calculation |
@@ -105,7 +105,7 @@ When adding a new context file:
 
 ```bash
 # Get line count
-wc -l < .claude/context/path/to/new-file.md
+wc -l < .opencode/context/path/to/new-file.md
 ```
 
 Add entry to `index.json`:
@@ -162,7 +162,7 @@ Use index.json for automated context discovery:
 # Find context files for this agent
 jq -r '.entries[] |
   select(.load_when.agents[]? == "agent-name") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 \`\`\`
 ```
 
@@ -171,7 +171,7 @@ jq -r '.entries[] |
 Run validation script to check index.json:
 
 ```bash
-.claude/scripts/validate-context-index.sh
+.opencode/scripts/validate-context-index.sh
 ```
 
 Checks performed:
@@ -189,7 +189,7 @@ Checks performed:
 ```bash
 jq -r '.entries[] |
   select(.load_when.agents[]? == "general-research-agent") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Find Language Context
@@ -197,7 +197,7 @@ jq -r '.entries[] |
 ```bash
 jq -r '.entries[] |
   select(.load_when.task_types[]? == "python") |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ### Calculate Context Budget
@@ -205,7 +205,7 @@ jq -r '.entries[] |
 ```bash
 jq '[.entries[] |
   select(.load_when.agents[]? == "planner-agent") |
-  .line_count] | add' .claude/context/index.json
+  .line_count] | add' .opencode/context/index.json
 ```
 
 ### Find Non-Deprecated Files
@@ -213,7 +213,7 @@ jq '[.entries[] |
 ```bash
 jq -r '.entries[] |
   select(.deprecated == true | not) |
-  .path' .claude/context/index.json
+  .path' .opencode/context/index.json
 ```
 
 ## Troubleshooting
@@ -230,7 +230,7 @@ Check that:
 Run validation with fix option:
 
 ```bash
-.claude/scripts/validate-context-index.sh --fix
+.opencode/scripts/validate-context-index.sh --fix
 ```
 
 ### Schema Validation Fails
@@ -239,10 +239,10 @@ Use JSON Schema validator:
 
 ```bash
 # If ajv-cli is available
-ajv validate -s .claude/context/index.schema.json -d .claude/context/index.json
+ajv validate -s .opencode/context/index.schema.json -d .opencode/context/index.json
 ```
 
 ## Related Documentation
 
-- [Context Discovery Patterns](.claude/context/patterns/context-discovery.md)
-- [Agent Frontmatter Standard](.claude/docs/reference/standards/agent-frontmatter-standard.md)
+- [Context Discovery Patterns](.opencode/context/patterns/context-discovery.md)
+- [Agent Frontmatter Standard](.opencode/docs/reference/standards/agent-frontmatter-standard.md)

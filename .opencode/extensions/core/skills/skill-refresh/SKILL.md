@@ -1,6 +1,6 @@
 ---
 name: skill-refresh
-description: Manage Claude Code resources - terminate orphaned processes and clean up ~/.claude/ directory
+description: Manage Claude Code resources - terminate orphaned processes and clean up ~/.opencode/ directory
 allowed-tools: Bash, AskUserQuestion
 ---
 
@@ -8,7 +8,7 @@ allowed-tools: Bash, AskUserQuestion
 
 Direct execution skill for managing Claude Code resources. Performs two operations:
 1. **Process cleanup**: Identify and terminate orphaned Claude Code processes
-2. **Directory cleanup**: Clean up accumulated files in ~/.claude/
+2. **Directory cleanup**: Clean up accumulated files in ~/.opencode/
 
 This skill executes inline without spawning a subagent.
 
@@ -37,7 +37,7 @@ fi
 Execute process cleanup script:
 
 ```bash
-.claude/scripts/claude-refresh.sh $( [ "$force" = true ] && echo "--force" )
+.opencode/scripts/claude-refresh.sh $( [ "$force" = true ] && echo "--force" )
 ```
 
 Store process cleanup output for display.
@@ -90,15 +90,15 @@ fi
 
 ### Step 4: Clean Stale Backup Files
 
-Scan for and remove any `.backup` files left over from the deprecated backup mechanism in `.claude/`:
+Scan for and remove any `.backup` files left over from the deprecated backup mechanism in `.opencode/`:
 
 ```bash
 echo ""
 echo "=== Cleaning Stale Backup Files ==="
 echo ""
 
-# Find .backup files in .claude/ directory
-backup_files=$(find .claude/ -name "*.backup" -type f 2>/dev/null)
+# Find .backup files in .opencode/ directory
+backup_files=$(find .opencode/ -name "*.backup" -type f 2>/dev/null)
 
 if [ -n "$backup_files" ]; then
     backup_count=$(echo "$backup_files" | wc -l)
@@ -119,11 +119,11 @@ fi
 Show current directory status without cleaning yet:
 
 ```bash
-.claude/scripts/claude-cleanup.sh
+.opencode/scripts/claude-cleanup.sh
 ```
 
 This displays:
-- Current ~/.claude/ directory size
+- Current ~/.opencode/ directory size
 - Breakdown by directory
 - Space that can be reclaimed
 
@@ -138,7 +138,7 @@ echo ""
 echo "=== DRY RUN MODE ==="
 echo "Showing 8-hour cleanup preview..."
 echo ""
-.claude/scripts/claude-cleanup.sh --dry-run --age 8
+.opencode/scripts/claude-cleanup.sh --dry-run --age 8
 ```
 
 Exit after showing preview.
@@ -151,7 +151,7 @@ If `--force` is set:
 echo ""
 echo "=== EXECUTING CLEANUP (8-hour default) ==="
 echo ""
-.claude/scripts/claude-cleanup.sh --force --age 8
+.opencode/scripts/claude-cleanup.sh --force --age 8
 ```
 
 Show results and exit.
@@ -202,13 +202,13 @@ All files are either protected or recently modified.
 ```bash
 case "$selection" in
   "8 hours (default)")
-    .claude/scripts/claude-cleanup.sh --force --age 8
+    .opencode/scripts/claude-cleanup.sh --force --age 8
     ;;
   "2 days")
-    .claude/scripts/claude-cleanup.sh --force --age 48
+    .opencode/scripts/claude-cleanup.sh --force --age 48
     ;;
   "Clean slate")
-    .claude/scripts/claude-cleanup.sh --force --age 0
+    .opencode/scripts/claude-cleanup.sh --force --age 0
     ;;
 esac
 ```
@@ -236,7 +236,7 @@ All 3 Claude processes are active sessions.
 Claude Code Directory Cleanup
 =============================
 
-Target: ~/.claude/
+Target: ~/.opencode/
 
 Current total size: 7.3 GB
 
@@ -331,7 +331,7 @@ Files modified within the last hour are **never deleted**, regardless of age thr
 
 If scripts don't exist:
 ```
-Error: Cleanup scripts not found at .claude/scripts/
+Error: Cleanup scripts not found at .opencode/scripts/
 Please ensure claude-refresh.sh and claude-cleanup.sh are installed.
 ```
 
@@ -344,10 +344,10 @@ Failed files: 5
 Successfully deleted: 5572 files
 ```
 
-### No ~/.claude/ Directory
+### No ~/.opencode/ Directory
 
 If directory doesn't exist:
 ```
-Error: ~/.claude/ directory not found.
+Error: ~/.opencode/ directory not found.
 Nothing to clean up.
 ```

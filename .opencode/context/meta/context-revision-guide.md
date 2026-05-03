@@ -62,35 +62,35 @@ Split an existing file when:
 
 ## Context File Types and Revision Patterns
 
-### Core Standards (`.claude/context/standards/`)
+### Core Standards (`.opencode/context/standards/`)
 
 **When to revise**: System-wide standard changes
 **Examples**: `xml-structure.md`, `documentation-standards.md`, `task-management.md`
 **Revision pattern**: Update in place (rarely changes)
 **Frequency**: Low (quarterly or less)
 
-### Core Templates (`.claude/context/templates/`)
+### Core Templates (`.opencode/context/templates/`)
 
 **When to revise**: Template structure changes
 **Examples**: `agent-template.md`, `command-template.md`, `thin-wrapper-skill.md`
 **Revision pattern**: Update in place, add version notes
 **Frequency**: Medium (monthly)
 
-### Core Workflows (`.claude/context/workflows/`)
+### Core Workflows (`.opencode/context/workflows/`)
 
 **When to revise**: Workflow pattern changes
 **Examples**: `command-lifecycle.md`, `status-transitions.md`, `preflight-postflight.md`
 **Revision pattern**: Update in place, document changes
 **Frequency**: Medium (monthly)
 
-### Project Meta (`.claude/context/meta/`)
+### Project Meta (`.opencode/context/meta/`)
 
 **When to revise**: Meta-system patterns evolve
 **Examples**: `meta-guide.md`, `domain-patterns.md`, `context-revision-guide.md`
 **Revision pattern**: Update frequently, split if >200 lines
 **Frequency**: High (weekly)
 
-### Project Domain (`.claude/context/project/{domain}/`)
+### Project Domain (`.opencode/context/project/{domain}/`)
 
 **When to revise**: Domain knowledge expands
 **Examples**: Domain-specific tool guides, pattern files, API references
@@ -158,7 +158,7 @@ Split an existing file when:
 **Situation**: Adding a new domain extension (e.g., Typst)
 **Action**: Create new extension directory
 **Steps**:
-1. Create `.claude/extensions/typst/` with manifest.json
+1. Create `.opencode/extensions/typst/` with manifest.json
 2. Create domain-specific context files
 3. Add index entries via `index-entries.json`
 4. Register routing in manifest

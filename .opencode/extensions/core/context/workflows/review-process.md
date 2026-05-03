@@ -20,7 +20,7 @@ The `/review` command performs comprehensive repository analysis and updates pro
 
 ## Workflow Stages
 
-The /review command follows the standard 8-stage workflow defined in @.claude/context/workflows/command-lifecycle.md with review-specific adaptations:
+The /review command follows the standard 8-stage workflow defined in @.opencode/context/workflows/command-lifecycle.md with review-specific adaptations:
 
 **Stage 1 (Preflight)**: Load registries, validate scope, read next_project_number, generate project path
 **Stage 2 (PrepareDelegation)**: Generate session_id, set delegation context for reviewer subagent
@@ -31,7 +31,7 @@ The /review command follows the standard 8-stage workflow defined in @.claude/co
 **Stage 7 (Postflight)**: Replace placeholders in review summary, delegate to status-sync-manager for atomic updates, create review task entry, git commit
 **Stage 8 (ReturnSuccess)**: Return brief summary and artifact path to user
 
-See @.claude/command/review.md for complete stage specifications.
+See @.opencode/command/review.md for complete stage specifications.
 
 ## Review-Specific Workflow Details
 
@@ -56,7 +56,7 @@ Create tasks via /task command for identified work:
 
 ### Artifact Management
 
-Follows @.claude/context/orchestration/state-management.md:
+Follows @.opencode/context/orchestration/state-management.md:
 - Lazy directory creation (project root created when writing first file)
 - Only summaries/ subdirectory created (not reports/ or plans/)
 - Review summary artifact triggers project state.json creation via status-sync-manager
@@ -119,7 +119,7 @@ Follows @.claude/context/orchestration/state-management.md:
 
 ## Review Summary Format
 
-Review summaries follow @.claude/context/formats/summary-format.md:
+Review summaries follow @.opencode/context/formats/summary-format.md:
 - Metadata: Status [COMPLETED], timestamps, priority
 - Overview: 2-3 sentences (<100 tokens)
 - What Changed: Registry updates performed

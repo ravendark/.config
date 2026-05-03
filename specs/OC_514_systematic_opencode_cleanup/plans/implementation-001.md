@@ -57,7 +57,7 @@ This plan integrates findings from `reports/01_cleanup-audit.md` which identifie
 
 ## Implementation Phases
 
-### Phase 1: Fix orchestrator.md Frontmatter [NOT STARTED]
+### Phase 1: Fix orchestrator.md Frontmatter [COMPLETED]
 
 **Goal**: Correct the non-standard frontmatter in the orchestrator agent definition
 
@@ -78,7 +78,7 @@ This plan integrates findings from `reports/01_cleanup-audit.md` which identifie
 
 ---
 
-### Phase 2: Update Core Agent Files [NOT STARTED]
+### Phase 2: Update Core Agent Files [COMPLETED]
 
 **Goal**: Fix `.claude/` and `CLAUDE.md` references in all core agent definitions
 
@@ -107,7 +107,7 @@ rg "\.claude/" .opencode/agent/subagents/ --type md | wc -l
 
 ---
 
-### Phase 3: Update Skill Files [NOT STARTED]
+### Phase 3: Update Skill Files [COMPLETED]
 
 **Goal**: Fix script paths and context references in all skill definitions
 
@@ -145,7 +145,7 @@ rg "\.claude/" .opencode/skills/ --type md | wc -l
 
 ---
 
-### Phase 4: Update Commands [NOT STARTED]
+### Phase 4: Update Commands [COMPLETED]
 
 **Goal**: Fix references in all command definitions
 
@@ -181,7 +181,7 @@ rg "\.claude/" .opencode/commands/ --type md | wc -l
 
 ---
 
-### Phase 5: Update Context Files [NOT STARTED]
+### Phase 5: Update Context Files [COMPLETED]
 
 **Goal**: Fix references in context formats, standards, patterns, and templates
 
@@ -209,7 +209,7 @@ rg "\.claude/" .opencode/context/ --type md | wc -l
 
 ---
 
-### Phase 6: Update Documentation [NOT STARTED]
+### Phase 6: Update Documentation [COMPLETED]
 
 **Goal**: Fix references in guides, architecture docs, and main AGENTS.md
 
@@ -242,7 +242,7 @@ rg "\.claude/" .opencode/docs/ --type md | wc -l
 
 ---
 
-### Phase 7: Handle Extension Core Duplicates [NOT STARTED]
+### Phase 7: Handle Extension Core Duplicates [COMPLETED]
 
 **Goal**: Update duplicate files in extensions/core/ to match main files
 
@@ -271,7 +271,7 @@ rg "\.claude/" .opencode/extensions/core/ --type md | wc -l
 
 ---
 
-### Phase 8: Final Verification and Validation [NOT STARTED]
+### Phase 8: Final Verification and Validation [PARTIAL]
 
 **Goal**: Comprehensive verification that all references are updated
 

@@ -2,11 +2,11 @@
 
 **Purpose**: Canonical agent structure used by `meta-builder-agent` when generating new agents via the `/meta` command.
 
-For the user-facing tutorial version of this template, see `.claude/docs/templates/agent-template.md` and `.claude/docs/guides/creating-agents.md`.
+For the user-facing tutorial version of this template, see `.opencode/docs/templates/agent-template.md` and `.opencode/docs/guides/creating-agents.md`.
 
 ## Frontmatter Standard
 
-All agents use the minimal frontmatter format defined in `.claude/docs/reference/standards/agent-frontmatter-standard.md`:
+All agents use the minimal frontmatter format defined in `.opencode/docs/reference/standards/agent-frontmatter-standard.md`:
 
 ```yaml
 ---
@@ -40,7 +40,7 @@ Every agent body follows this canonical structure:
 
 ## Context References
 
-- `@.claude/context/formats/return-metadata-file.md` - Always load
+- `@.opencode/context/formats/return-metadata-file.md` - Always load
 - <domain-specific @-references>
 
 ## Execution Flow
@@ -71,7 +71,7 @@ Return 3-6 bullet points, NOT JSON.
 
 ## Error Handling
 
-See `.claude/rules/error-handling.md`. Agent-specific overrides documented here.
+See `.opencode/rules/error-handling.md`. Agent-specific overrides documented here.
 
 ## Critical Requirements
 
@@ -94,7 +94,7 @@ See `.claude/rules/error-handling.md`. Agent-specific overrides documented here.
 
 - Typical model: `opus`
 - Primary artifact: `specs/{NNN}_{SLUG}/plans/MM_{short-slug}.md`
-- Plan format: see `.claude/rules/plan-format-enforcement.md`
+- Plan format: see `.opencode/rules/plan-format-enforcement.md`
 - Status transitions: `planning` -> `planned`
 
 ### Implementation Agent
@@ -107,8 +107,8 @@ See `.claude/rules/error-handling.md`. Agent-specific overrides documented here.
 
 ## Related Context
 
-- `.claude/context/formats/return-metadata-file.md` - Metadata schema
-- `.claude/context/formats/subagent-return.md` - Return format spec
-- `.claude/context/patterns/context-discovery.md` - Context query pattern
-- `.claude/docs/reference/standards/agent-frontmatter-standard.md` - Frontmatter standard
-- `.claude/docs/guides/creating-agents.md` - User-facing creation guide
+- `.opencode/context/formats/return-metadata-file.md` - Metadata schema
+- `.opencode/context/formats/subagent-return.md` - Return format spec
+- `.opencode/context/patterns/context-discovery.md` - Context query pattern
+- `.opencode/docs/reference/standards/agent-frontmatter-standard.md` - Frontmatter standard
+- `.opencode/docs/guides/creating-agents.md` - User-facing creation guide

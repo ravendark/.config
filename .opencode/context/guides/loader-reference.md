@@ -100,7 +100,7 @@ function M.copy_systemd(manifest, source_dir, target_dir)
 function M.copy_root_files(manifest, source_dir, target_dir)
   -- manifest.provides.root_files = array of filenames
   -- source reads from extension's root-files/ subdirectory
-  -- target goes directly into target_dir/ (e.g., .claude/settings.json)
+  -- target goes directly into target_dir/ (e.g., .opencode/settings.json)
   -- returns: copied_files[], created_dirs[]
 
 --- Copy data directories (merge-copy semantics)
@@ -137,7 +137,7 @@ The extension loading system consists of 8 Lua source files:
 | `merge.lua` | Merge strategies. `generate_claudemd()`, `append_index_entries()`, `remove_index_entries_tracked()`, `remove_orphaned_index_entries()`, `merge_settings()`, `unmerge_settings()`, `inject_section()`, `remove_section()`. |
 | `state.lua` | State tracking via `extensions.json`. `read()`, `write()`, `mark_loaded()`, `mark_unloaded()`, `is_loaded()`, `needs_update()`, `get_installed_files()`, `get_installed_dirs()`, `get_merged_sections()`, `get_data_skeleton_files()`, `list_loaded()`, `get_extension_info()`. |
 | `manifest.lua` | Extension discovery and manifest validation. `get_extension()`, `list_extensions()`. Validates required fields (`name`, `version`, `description`) and known `provides` categories. |
-| `config.lua` | Configuration presets. `M.create(opts)` for custom config, `M.claude()` preset for `.claude/` target, `M.opencode()` preset for `.opencode/` target. |
+| `config.lua` | Configuration presets. `M.create(opts)` for custom config, `M.claude()` preset for `.opencode/` target, `M.opencode()` preset for `.opencode/` target. |
 | `picker.lua` | Telescope picker UI. Provides the extension browser launched from the extension picker. Reads manager API from `init.lua` to show status, details, and trigger load/unload. |
 | `verify.lua` | Post-load integrity checks. `verify_extension()` confirms all manifested files were actually copied to target, index entries exist in `index.json`, and settings entries were merged. `notify_results()` reports failures to the user. |
 

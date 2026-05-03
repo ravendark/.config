@@ -4,9 +4,9 @@ description: Orchestrate multi-agent implementation with parallel phase executio
 allowed-tools: Task, Bash, Edit, Read, Write, Glob
 # This skill uses TeammateTool for team coordination (available when CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)
 # Context loaded by lead during coordination:
-#   - .claude/context/patterns/team-orchestration.md
-#   - .claude/context/formats/team-metadata-extension.md
-#   - .claude/context/reference/team-wave-helpers.md
+#   - .opencode/context/patterns/team-orchestration.md
+#   - .opencode/context/formats/team-metadata-extension.md
+#   - .opencode/context/reference/team-wave-helpers.md
 ---
 
 # Team Implement Skill
@@ -18,10 +18,10 @@ Multi-agent implementation with wave-based phase parallelization. Analyzes phase
 ## Context References
 
 Reference (load as needed during coordination):
-- Path: `.claude/context/patterns/team-orchestration.md` - Wave coordination patterns
-- Path: `.claude/context/formats/team-metadata-extension.md` - Team result schema
-- Path: `.claude/context/formats/return-metadata-file.md` - Base metadata schema
-- Path: `.claude/context/reference/team-wave-helpers.md` - Reusable wave patterns
+- Path: `.opencode/context/patterns/team-orchestration.md` - Wave coordination patterns
+- Path: `.opencode/context/formats/team-metadata-extension.md` - Team result schema
+- Path: `.opencode/context/formats/return-metadata-file.md` - Base metadata schema
+- Path: `.opencode/context/reference/team-wave-helpers.md` - Reusable wave patterns
 
 ## Trigger Conditions
 
@@ -498,7 +498,7 @@ jq --arg path "specs/${padded_num}_${project_name}/summaries/${run_padded}_imple
 **Update TODO.md**: Link artifact using the automated script:
 
 ```bash
-bash .claude/scripts/link-artifact-todo.sh $task_number '**Summary**' '**Description**' "$artifact_path"
+bash .opencode/scripts/link-artifact-todo.sh $task_number '**Summary**' '**Description**' "$artifact_path"
 ```
 
 If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -531,7 +531,7 @@ Write team execution metadata:
   },
   "completion_data": {
     "completion_summary": "Brief description of what was implemented",
-    "claudemd_suggestions": "Changes to .claude/ (meta tasks) or 'none'"
+    "claudemd_suggestions": "Changes to .opencode/ (meta tasks) or 'none'"
   },
   "metadata": {
     "session_id": "{session_id}",
@@ -674,7 +674,7 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md
 
 ---
 

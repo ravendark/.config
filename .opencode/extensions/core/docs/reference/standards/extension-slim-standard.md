@@ -2,7 +2,7 @@
 
 ## Purpose
 
-EXTENSION.md files are injected into CLAUDE.md context when loaded via the extension picker. Large EXTENSION.md files waste context window budget on documentation that agents rarely need during routing. This standard defines maximum size and required content for EXTENSION.md files.
+EXTENSION.md files are injected into AGENTS.md context when loaded via the extension picker. Large EXTENSION.md files waste context window budget on documentation that agents rarely need during routing. This standard defines maximum size and required content for EXTENSION.md files.
 
 ## Size Limit
 
@@ -44,7 +44,7 @@ The following content types do NOT belong in EXTENSION.md:
 New context files go in the extension's existing context directory structure:
 
 ```
-.claude/extensions/{ext}/
+.opencode/extensions/{ext}/
   context/project/{ext}/
     domain/       # Domain knowledge, reference tables
     patterns/     # Workflow patterns, usage examples

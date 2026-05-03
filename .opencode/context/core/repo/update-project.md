@@ -83,7 +83,7 @@ project-root/
 ├── tests/                  # {Description}
 ├── docs/                   # {Description}
 ├── specs/                  # Task management (from agent system)
-└── .claude/                # Agent system configuration
+└── .opencode/                # Agent system configuration
 ```
 
 ## Core Components

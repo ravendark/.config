@@ -92,7 +92,7 @@ Use continuation-oriented language that implies the workflow continues:
 
 The return format specification explicitly lists allowed status values and explains why "completed" was removed.
 
-**Location**: `.claude/context/formats/subagent-return.md`
+**Location**: `.opencode/context/formats/subagent-return.md`
 
 ### 2. Agent MUST NOT Sections
 
@@ -110,13 +110,13 @@ Each agent file's Critical Requirements section includes anti-stop rules:
 
 The status sync skill uses direct execution (Bash, Edit, Read) for atomic status updates. It demonstrates correct anti-stop patterns in its return format documentation.
 
-**Location**: `.claude/skills/skill-status-sync/SKILL.md`
+**Location**: `.opencode/skills/skill-status-sync/SKILL.md`
 
 ### 4. meta-builder-agent (New Component Enforcement)
 
 When /meta creates new agents or skills, it must apply anti-stop patterns to the generated templates.
 
-**Location**: `.claude/agents/meta-builder-agent.md`
+**Location**: `.opencode/agent/subagents/meta-builder-agent.md`
 
 ## Validation
 
@@ -126,16 +126,16 @@ Verify no forbidden patterns exist:
 
 ```bash
 # Check for "completed" status in agent return schemas
-grep '"status": "completed' .claude/agents/*.md
+grep '"status": "completed' .opencode/agent/subagents/*.md
 
 # Check for "Task complete" in skill files
-grep -r "Task complete" .claude/skills/
+grep -r "Task complete" .opencode/skills/
 
 # Check for "completed|partial|failed" pattern (old format)
-grep '"completed|partial|failed"' .claude/agents/*.md
+grep '"completed|partial|failed"' .opencode/agent/subagents/*.md
 
 # Verify anti-stop language is present
-grep "triggers Claude stop behavior" .claude/agents/*.md | wc -l
+grep "triggers Claude stop behavior" .opencode/agent/subagents/*.md | wc -l
 # Expected: 6 (one per agent file)
 ```
 
@@ -145,7 +145,7 @@ Add to CI/pre-commit hook:
 
 ```bash
 # Fail if any agent uses "completed" status
-if grep -q '"status": "completed' .claude/agents/*.md; then
+if grep -q '"status": "completed' .opencode/agent/subagents/*.md; then
   echo "ERROR: Agent files contain forbidden 'completed' status value"
   exit 1
 fi

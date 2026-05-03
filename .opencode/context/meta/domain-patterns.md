@@ -107,7 +107,7 @@ extensions/{ext}/
 - Package managers and registries
 - Domain-specific documentation sources
 
-See `.claude/extensions/*/manifest.json` for concrete examples (nvim, nix, core).
+See `.opencode/extensions/*/manifest.json` for concrete examples (nvim, nix, core).
 
 ---
 
@@ -121,7 +121,7 @@ See `.claude/extensions/*/manifest.json` for concrete examples (nvim, nix, core)
 
 ### Extension Domain Indicators
 
-Extension-specific indicators are defined in the extension's manifest and context. Each extension declares its own task_type, routing entries, and context files. See `.claude/extensions/*/manifest.json`.
+Extension-specific indicators are defined in the extension's manifest and context. Each extension declares its own task_type, routing entries, and context files. See `.opencode/extensions/*/manifest.json`.
 
 ---
 
@@ -138,6 +138,6 @@ Extension-specific indicators are defined in the extension's manifest and contex
 
 ## Related Resources
 
-- **Meta Guide**: `.claude/context/meta/meta-guide.md`
-- **Extension Development**: `.claude/context/guides/extension-development.md`
-- **Context Revision Guide**: `.claude/context/meta/context-revision-guide.md`
+- **Meta Guide**: `.opencode/context/meta/meta-guide.md`
+- **Extension Development**: `.opencode/context/guides/extension-development.md`
+- **Context Revision Guide**: `.opencode/context/meta/context-revision-guide.md`

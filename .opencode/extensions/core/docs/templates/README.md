@@ -21,7 +21,7 @@ This directory contains templates for creating new commands and agents in the Cl
 - File size requirements (<300 lines)
 
 **Usage**:
-1. Copy `command-template.md` to `.claude/commands/<command-name>.md`
+1. Copy `command-template.md` to `.opencode/commands/<command-name>.md`
 2. Replace all `<placeholders>` with actual values
 3. Fill in all sections (Purpose, Usage, Workflow, etc.)
 4. Ensure frontmatter specifies correct agent
@@ -30,7 +30,7 @@ This directory contains templates for creating new commands and agents in the Cl
 
 ### Skill Template (Thin Wrapper Pattern)
 
-**File**: `.claude/context/templates/thin-wrapper-skill.md`
+**File**: `.opencode/context/templates/thin-wrapper-skill.md`
 **Purpose**: Template for creating new skill files
 **Use When**: Adding a new skill that delegates to an agent
 **Guide**: See [Creating Skills](../guides/creating-skills.md) for step-by-step instructions
@@ -42,7 +42,7 @@ This directory contains templates for creating new commands and agents in the Cl
 - Return format validation
 
 **Usage**:
-1. Create `.claude/skills/skill-<name>/SKILL.md`
+1. Create `.opencode/skills/skill-<name>/SKILL.md`
 2. Use `context: fork` and specify target agent
 3. Implement 5-step validation and delegation flow
 4. Validate return matches subagent-return.md
@@ -63,7 +63,7 @@ This directory contains templates for creating new commands and agents in the Cl
 - Validation checklist
 
 **Usage**:
-1. Copy `agent-template.md` to `.claude/agents/<agent-name>.md`
+1. Copy `agent-template.md` to `.opencode/agents/<agent-name>.md`
 2. Replace all `<placeholders>` with actual values
 3. Implement all 8 workflow stages
 4. **Ensure Stage 7 is fully implemented** (critical for reliability)
@@ -86,7 +86,7 @@ agent: <agent-name>
 
 **Requirements**:
 - Agent name must match agent file (without `.md` extension)
-- Agent file must exist in `.claude/skills/`
+- Agent file must exist in `.opencode/skills/`
 - Frontmatter must be at top of file (before any content)
 
 **Example**:
@@ -130,7 +130,7 @@ All agents must implement the complete 8-stage workflow:
 
 All agents must use lazy-loading pattern:
 
-1. Load `.claude/context/index.json` first
+1. Load `.opencode/context/index.json` first
 2. Discover available context files from index
 3. Load only required context files on-demand
 4. Load context after routing (not during)
@@ -139,10 +139,10 @@ All agents must use lazy-loading pattern:
 ```markdown
 ## Stage 2: Context Loading
 
-1. Read `.claude/context/index.json`
+1. Read `.opencode/context/index.json`
 2. Load required context:
-   - `.claude/context/standards/agent-workflow.md`
-   - `.claude/context/agents/research-context.md`
+   - `.opencode/context/standards/agent-workflow.md`
+   - `.opencode/context/agents/research-context.md`
 3. Parse context for relevant information
 ```
 
@@ -333,8 +333,8 @@ Analyzes code for potential issues and suggests improvements.
 - [Creating Agents](../guides/creating-agents.md) - Step-by-step agent creation
 
 ### Standards
-- **Return Format**: `.claude/context/formats/subagent-return.md`
-- **Skill Template**: `.claude/context/templates/thin-wrapper-skill.md`
+- **Return Format**: `.opencode/context/formats/subagent-return.md`
+- **Skill Template**: `.opencode/context/templates/thin-wrapper-skill.md`
 
 ---
 

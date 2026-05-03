@@ -3,10 +3,10 @@
 **IMPORTANT - FILE-BASED METADATA EXCHANGE (v2)**:
 As of Task 600, agents write metadata to files instead of returning JSON to the console. This enables reliable structured data exchange without console pollution. The schema below is now written to `specs/{NNN}_{SLUG}/.return-meta.json`, NOT returned as console output.
 
-See `.claude/context/formats/return-metadata-file.md` for the file-based protocol.
+See `.opencode/context/formats/return-metadata-file.md` for the file-based protocol.
 
 **CRITICAL WARNING - ANTI-STOP PATTERN**:
-Do NOT use `"status": "completed"` - it triggers Claude to stop execution prematurely. Use contextual values like `"researched"`, `"planned"`, `"implemented"` instead. See `.claude/context/patterns/anti-stop-patterns.md` for full documentation.
+Do NOT use `"status": "completed"` - it triggers Claude to stop execution prematurely. Use contextual values like `"researched"`, `"planned"`, `"implemented"` instead. See `.opencode/context/patterns/anti-stop-patterns.md` for full documentation.
 
 ## Overview
 
@@ -319,5 +319,5 @@ Recommendation: Fix researcher subagent return format
 
 - **Enforcement point**: Orchestrator Stage 3 (RegisterAndDelegate)
 - **Validation point**: Orchestrator Stage 4 (ValidateReturn)
-- **Documentation**: See `.claude/context/workflows/delegation-guide.md`
+- **Documentation**: See `.opencode/context/workflows/delegation-guide.md`
 - **Impact**: Fixes critical validation failures affecting ALL workflow commands

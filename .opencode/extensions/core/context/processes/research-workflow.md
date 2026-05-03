@@ -29,7 +29,7 @@ This document describes the complete research workflow executed by the researche
 **Agent**: Extension-provided research agent
 **Tools**: Defined by extension manifest
 
-Extension-specific research tools and workflows are loaded from extension context when the extension is active. See `.claude/extensions/*/context/` for details.
+Extension-specific research tools and workflows are loaded from extension context when the extension is active. See `.opencode/extensions/*/context/` for details.
 
 ---
 
@@ -122,7 +122,7 @@ grep -A 20 "^### ${task_number}\." specs/TODO.md | grep "Language" | sed 's/\*\*
 
 **Action**: Conduct research using extension-provided tools and workflows
 
-Extension research agents follow the same general pattern but use domain-specific tools, search strategies, and synthesis patterns defined in their extension context. See `.claude/extensions/*/context/` for extension-specific research workflows.
+Extension research agents follow the same general pattern but use domain-specific tools, search strategies, and synthesis patterns defined in their extension context. See `.opencode/extensions/*/context/` for extension-specific research workflows.
 
 **Checkpoint**: Research conducted
 
@@ -366,19 +366,19 @@ Sub-topics:
 ### Routing Stage (Command)
 
 Load minimal context for routing decisions:
-- `.claude/context/orchestration/routing.md` (routing logic)
+- `.opencode/context/orchestration/routing.md` (routing logic)
 
 ### Execution Stage (Researcher)
 
-Research agents load context on-demand per `.claude/context/index.json`:
-- `.claude/context/formats/subagent-return.md` (return format)
-- `.claude/rules/state-management.md` (status transitions)
-- `.claude/rules/artifact-formats.md` (artifact naming)
+Research agents load context on-demand per `.opencode/context/index.json`:
+- `.opencode/context/formats/subagent-return.md` (return format)
+- `.opencode/rules/state-management.md` (status transitions)
+- `.opencode/rules/artifact-formats.md` (artifact naming)
 - Task entry via `grep -A 50 "^### ${task_number}\." TODO.md` (~2KB vs 109KB full file)
 - `state.json` (project state)
 
 **Language-specific context**:
-- Extension context loaded based on task language (see `.claude/extensions/*/context/`)
+- Extension context loaded based on task language (see `.opencode/extensions/*/context/`)
 - If markdown: (no additional context)
 
 **Optimization**: Task extraction reduces context from 109KB to ~2KB, 98% reduction.
@@ -521,7 +521,7 @@ grep -A 50 "^### ${task_number}\." specs/TODO.md > specs/tmp/task-${task_number}
 
 ## Extension-Specific Research Tools
 
-Extension-provided research agents may have access to additional tools beyond the core set. These are defined in the extension's manifest and context files. See `.claude/extensions/*/manifest.json` for tool availability per extension.
+Extension-provided research agents may have access to additional tools beyond the core set. These are defined in the extension's manifest and context files. See `.opencode/extensions/*/manifest.json` for tool availability per extension.
 
 ---
 
@@ -557,8 +557,8 @@ Use most appropriate tool for each research task:
 
 ## References
 
-- **Command**: `.claude/commands/research.md`
-- **Agent**: `.claude/agents/general-research-agent.md`
-- **Return Format**: `.claude/context/formats/subagent-return.md`
-- **Artifact Formats**: `.claude/rules/artifact-formats.md`
-- **Extension Context**: `.claude/extensions/*/context/` (task-type-specific)
+- **Command**: `.opencode/commands/research.md`
+- **Agent**: `.opencode/agents/general-research-agent.md`
+- **Return Format**: `.opencode/context/formats/subagent-return.md`
+- **Artifact Formats**: `.opencode/rules/artifact-formats.md`
+- **Extension Context**: `.opencode/extensions/*/context/` (task-type-specific)

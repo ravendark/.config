@@ -99,7 +99,7 @@ The skill spawns the reviser-agent, handles postflight (status update, artifact 
 
    if [ "$current_status" = "planned" | not ]; then
        echo "WARNING: state.json status is '$current_status', expected 'planned'. Applying defensive correction."
-       bash .claude/scripts/update-task-status.sh postflight "$task_number" plan "$session_id"
+       bash .opencode/scripts/update-task-status.sh postflight "$task_number" plan "$session_id"
    fi
    ```
 

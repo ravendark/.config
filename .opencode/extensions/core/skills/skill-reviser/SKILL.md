@@ -15,11 +15,11 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
-- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
-- Path: `.claude/context/formats/plan-format.md` - Plan file format specification
+- Path: `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/patterns/file-metadata-exchange.md` - File I/O helpers
+- Path: `.opencode/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.opencode/context/formats/plan-format.md` - Plan file format specification
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -182,7 +182,7 @@ fi
 Read the plan format file and prepare it for injection into the subagent prompt. This ensures the subagent always has the full format specification in its context.
 
 ```bash
-format_content=$(cat .claude/context/formats/plan-format.md)
+format_content=$(cat .opencode/context/formats/plan-format.md)
 ```
 
 The format content will be included as a delimited section in the Stage 5 prompt.
@@ -298,7 +298,7 @@ If subagent status is "planned" and `artifact_path` is non-empty, validate the p
 ```bash
 if [ "$status" = "planned" ] && [ -n "$artifact_path" ] && [ -f "$artifact_path" ]; then
     echo "Validating plan artifact..."
-    if ! bash .claude/scripts/validate-artifact.sh "$artifact_path" plan --fix; then
+    if ! bash .opencode/scripts/validate-artifact.sh "$artifact_path" plan --fix; then
         echo "WARNING: Plan artifact has format issues (non-blocking). Review output above."
     fi
 fi
@@ -313,7 +313,7 @@ fi
 Update task status to "planned" using the centralized script:
 
 ```bash
-bash .claude/scripts/update-task-status.sh postflight $task_number plan $session_id
+bash .opencode/scripts/update-task-status.sh postflight $task_number plan $session_id
 ```
 
 If the script exits non-zero, log error but continue (status update is best-effort for revise).
@@ -363,7 +363,7 @@ fi
 **Update TODO.md**: Link artifact using the automated script:
 
 ```bash
-bash .claude/scripts/link-artifact-todo.sh $task_number '**Plan**' '**Description**' "$artifact_path"
+bash .opencode/scripts/link-artifact-todo.sh $task_number '**Plan**' '**Description**' "$artifact_path"
 ```
 
 If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -480,7 +480,7 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.claude/context/standards/postflight-tool-restrictions.md
+Reference: @.opencode/context/standards/postflight-tool-restrictions.md
 
 ---
 

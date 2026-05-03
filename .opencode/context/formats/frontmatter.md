@@ -2,7 +2,7 @@
 
 **Created**: 2025-12-29  
 **Purpose**: Comprehensive standard for subagent YAML frontmatter configuration  
-**Scope**: All subagent files in `.claude/agent/subagents/`
+**Scope**: All subagent files in `.opencode/agent/subagents/`
 
 ---
 
@@ -276,7 +276,7 @@ tools:
 ```yaml
 permissions:
   allow:
-    - read: ["**/*.md", ".claude/**/*"]
+    - read: ["**/*.md", ".opencode/**/*"]
     - write: ["specs/**/*"]
     - bash: ["grep", "find", "wc"]
   deny:
@@ -349,7 +349,7 @@ deny:
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/workflows/command-lifecycle.md"
     - "formats/subagent-return.md"
@@ -363,7 +363,7 @@ context_loading:
 - **eager**: Load all context files upfront
 - **filtered**: Load based on categories/tags
 
-**File Paths**: Relative to `.claude/context/` directory
+**File Paths**: Relative to `.opencode/context/` directory
 
 **Guidelines**:
 - Use lazy strategy for efficiency
@@ -462,14 +462,14 @@ All frontmatter MUST pass three validation tiers:
 
 ### Validation Script
 
-Use `.claude/scripts/validate_frontmatter.py` for automated validation:
+Use `.opencode/scripts/validate_frontmatter.py` for automated validation:
 
 ```bash
 # Validate single file
-python3 .claude/scripts/validate_frontmatter.py .claude/agent/subagents/researcher.md
+python3 .opencode/scripts/validate_frontmatter.py .opencode/agent/subagents/researcher.md
 
 # Validate all subagents
-python3 .claude/scripts/validate_frontmatter.py --all
+python3 .opencode/scripts/validate_frontmatter.py --all
 ```
 
 ---
@@ -497,7 +497,7 @@ tools:
   - glob
 permissions:
   allow:
-    - read: ["**/*.md", ".claude/**/*", "docs/**/*"]
+    - read: ["**/*.md", ".opencode/**/*", "docs/**/*"]
     - write: ["specs/**/*"]
     - bash: ["grep", "find", "wc", "date", "mkdir"]
   deny:
@@ -506,7 +506,7 @@ permissions:
     - read: [".env", "**/*.key", "**/*.pem"]
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/workflows/command-lifecycle.md"
     - "formats/subagent-return.md"
@@ -553,7 +553,7 @@ permissions:
     - write: [".git/config", ".git/HEAD"]
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/workflows/command-lifecycle.md"
     - "formats/subagent-return.md"
@@ -610,7 +610,7 @@ Prefer lazy loading with index-based discovery for efficiency.
 ```yaml
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
 ```
 
 **Bad**:
@@ -701,6 +701,6 @@ temperature: 0.7  # Too high for implementation
 
 ## Related Documentation
 
-See `.claude/context/index.json` for navigation to all context files.
+See `.opencode/context/index.json` for navigation to all context files.
 
 ---

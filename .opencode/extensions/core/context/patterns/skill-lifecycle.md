@@ -70,7 +70,7 @@ Note: skill-status-sync is for standalone use only. Workflow skills now handle t
 ### 0. Preflight Status Update
 
 Update task status before starting work.
-See: @.claude/context/patterns/inline-status-update.md
+See: @.opencode/context/patterns/inline-status-update.md
 
 ### 1. Input Validation
 ### 2. Context Preparation
@@ -80,7 +80,7 @@ See: @.claude/context/patterns/inline-status-update.md
 ### 5. Postflight Status Update
 
 Update task status after successful completion.
-See: @.claude/context/patterns/inline-status-update.md
+See: @.opencode/context/patterns/inline-status-update.md
 
 ### 6. Return Propagation
 ```
@@ -153,11 +153,11 @@ After agent delegation completes, skills must respect postflight boundary restri
 - **Allowed**: Read metadata, jq state updates, Edit TODO.md/state.json, git commit
 - **Prohibited**: Edit source files, build/test commands, MCP tools, analysis
 
-All agent-delegating skills must include a MUST NOT section. See @.claude/context/standards/postflight-tool-restrictions.md for complete rules.
+All agent-delegating skills must include a MUST NOT section. See @.opencode/context/standards/postflight-tool-restrictions.md for complete rules.
 
 ## References
 
-- Inline patterns: `@.claude/context/patterns/inline-status-update.md`
-- Anti-stop patterns: `@.claude/context/patterns/anti-stop-patterns.md`
-- Subagent return format: `@.claude/context/formats/subagent-return.md`
-- Postflight restrictions: `@.claude/context/standards/postflight-tool-restrictions.md`
+- Inline patterns: `@.opencode/context/patterns/inline-status-update.md`
+- Anti-stop patterns: `@.opencode/context/patterns/anti-stop-patterns.md`
+- Subagent return format: `@.opencode/context/formats/subagent-return.md`
+- Postflight restrictions: `@.opencode/context/standards/postflight-tool-restrictions.md`

@@ -362,8 +362,8 @@ language_config = {
     "implementation_agent": "general-implementation-agent",
     "default_model": "sonnet",
     "context_references": [
-      "@.claude/CLAUDE.md",
-      "@.claude/context/index.json"
+      "@.opencode/AGENTS.md",
+      "@.opencode/context/index.json"
     ],
     "blocked_tools": [],
     "research_tools": ["Read", "Grep", "Glob"],
@@ -395,6 +395,6 @@ language_config = {
 
 ## Related Files
 
-- `.claude/context/patterns/team-orchestration.md` - Overall coordination
-- `.claude/context/formats/team-metadata-extension.md` - Result schema
-- `.claude/skills/skill-team-*/SKILL.md` - Skill implementations
+- `.opencode/context/patterns/team-orchestration.md` - Overall coordination
+- `.opencode/context/formats/team-metadata-extension.md` - Result schema
+- `.opencode/skills/skill-team-*/SKILL.md` - Skill implementations

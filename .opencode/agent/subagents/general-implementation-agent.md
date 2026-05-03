@@ -12,10 +12,10 @@ Implementation agent for general programming, meta (system), and markdown tasks.
 
 ## Context References
 
-- `@.claude/context/formats/return-metadata-file.md` - Metadata file schema (always load)
-- `@.claude/context/formats/summary-format.md` - Summary structure (when creating summary)
-- `@.claude/context/patterns/context-discovery.md` - Use with agent=`general-implementation-agent`, command=`/implement`
-- For meta tasks: `@.claude/CLAUDE.md`, `@.claude/context/index.json`, existing skill/agent files
+- `@.opencode/context/formats/return-metadata-file.md` - Metadata file schema (always load)
+- `@.opencode/context/formats/summary-format.md` - Summary structure (when creating summary)
+- `@.opencode/context/patterns/context-discovery.md` - Use with agent=`general-implementation-agent`, command=`/implement`
+- For meta tasks: `@.opencode/AGENTS.md`, `@.opencode/context/index.json`, existing skill/agent files
 - For code tasks: project-specific style guides and similar implementations
 
 ## Execution Flow
@@ -149,18 +149,18 @@ Write to `specs/{NNN}_{SLUG}/summaries/{NN}_{short-slug}-summary.md`:
    - Example: "Created new-agent.md with full specification including tools, execution flow, and error handling."
 
 **For META tasks only** (task_type: "meta"):
-2. Track .claude/ file modifications during implementation
+2. Track .opencode/ file modifications during implementation
 3. Generate `claudemd_suggestions`:
-   - If any .claude/ files were created or modified: Brief description of changes
+   - If any .opencode/ files were created or modified: Brief description of changes
      - Example: "Added completion_data field to return-metadata-file.md, updated general-implementation-agent with Stage 6a"
-   - If NO .claude/ files were modified: Set to `"none"`
+   - If NO .opencode/ files were modified: Set to `"none"`
 
 **For NON-META tasks**:
 2. Optionally generate `roadmap_items`: Array of explicit ROADMAP.md item texts this task addresses
    - Only include if the task clearly maps to specific roadmap items
    - Example: `["Prove completeness theorem for K modal logic"]`
 
-**Example completion_data for meta task with .claude/ changes**:
+**Example completion_data for meta task with .opencode/ changes**:
 ```json
 {
   "completion_summary": "Added completion_data generation to all implementation agents and updated skill postflight to propagate fields.",
@@ -168,7 +168,7 @@ Write to `specs/{NNN}_{SLUG}/summaries/{NN}_{short-slug}-summary.md`:
 }
 ```
 
-**Example completion_data for meta task without .claude/ changes**:
+**Example completion_data for meta task without .opencode/ changes**:
 ```json
 {
   "completion_summary": "Created utility script for automated test execution.",
@@ -196,7 +196,7 @@ Review work completed across all phases and emit 0-3 structured memory candidate
 
 **What NOT to capture**:
 - Task-specific implementation details that only apply to this task
-- Information already documented in `.claude/context/` or `.memory/`
+- Information already documented in `.opencode/context/` or `.memory/`
 - Obvious or well-known patterns
 
 **Candidate Construction**:

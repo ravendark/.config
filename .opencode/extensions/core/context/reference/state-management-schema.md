@@ -1,6 +1,6 @@
 # State Management Schema Reference
 
-Complete schema reference for state.json, TODO.md, and artifact formats. For behavioral rules (transitions, update patterns), see `.claude/rules/state-management.md`.
+Complete schema reference for state.json, TODO.md, and artifact formats. For behavioral rules (transitions, update patterns), see `.opencode/rules/state-management.md`.
 
 ## state.json Full Structure
 
@@ -26,7 +26,7 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
       ],
       "completion_summary": "1-3 sentence description of what was accomplished",
       "roadmap_items": ["Optional explicit roadmap item text to match"],
-      "claudemd_suggestions": "Description of .claude/ changes (meta tasks only)"
+      "claudemd_suggestions": "Description of .opencode/ changes (meta tasks only)"
     }
   ],
   "repository_health": {
@@ -105,10 +105,10 @@ The `task_type` field is the unified routing field for all tasks. It replaces th
 | Task Type | Description |
 |-----------|-------------|
 | `general` | General programming, web research |
-| `meta` | System building, .claude/ modifications |
+| `meta` | System building, .opencode/ modifications |
 | `markdown` | Documentation tasks |
 
-**Extension Task Types** (when extensions loaded): See `.claude/extensions/*/manifest.json`.
+**Extension Task Types** (when extensions loaded): See `.opencode/extensions/*/manifest.json`.
 
 ### Unified Artifact Numbering (next_artifact_number)
 
@@ -163,7 +163,7 @@ artifact_number=$((count + 1))
 |-------|------|----------|-------------|
 | `completion_summary` | string | Yes (when completed) | 1-3 sentence summary of accomplishment |
 | `roadmap_items` | array | No | Explicit ROADMAP.md item texts (non-meta only) |
-| `claudemd_suggestions` | string | Yes (meta only) | .claude/ changes made, or "none" |
+| `claudemd_suggestions` | string | Yes (meta only) | .opencode/ changes made, or "none" |
 | `memory_candidates` | array | No | Structured memory candidates emitted by agents (see below) |
 
 ### Memory Candidates Field
@@ -185,7 +185,7 @@ The `memory_candidates` array on task entries accumulates structured memory cand
 
 **Responsibility Split**:
 - **`/implement` (Producer)**: Reports what was changed factually
-- **`/todo` (Consumer)**: Evaluates content and decides what warrants CLAUDE.md updates
+- **`/todo` (Consumer)**: Evaluates content and decides what warrants AGENTS.md updates
 
 ### Dependencies Field
 
@@ -305,7 +305,7 @@ Links use bracket-only format `[path]` (not markdown `[text](url)` format).
 - **Existing inline**: Line matches `- **{Type}**: \[.*\]` (has link on same line)
 - **Existing multi-line**: Line matches `- **{Type}**:$` (ends with colon, no link)
 
-**Implementation Reference**: For the full four-case Edit tool logic used by skills during postflight, see `.claude/context/patterns/artifact-linking-todo.md`.
+**Implementation Reference**: For the full four-case Edit tool logic used by skills during postflight, see `.opencode/context/patterns/artifact-linking-todo.md`.
 
 ## Directory Creation
 
@@ -357,9 +357,9 @@ The `## Recommended Order` section in TODO.md provides a topologically-sorted li
 ### Utility Script
 
 ```bash
-.claude/scripts/update-recommended-order.sh add TASK_NUM
-.claude/scripts/update-recommended-order.sh remove TASK_NUM
-.claude/scripts/update-recommended-order.sh refresh
+.opencode/scripts/update-recommended-order.sh add TASK_NUM
+.opencode/scripts/update-recommended-order.sh remove TASK_NUM
+.opencode/scripts/update-recommended-order.sh refresh
 ```
 
 ## Examples
@@ -403,12 +403,12 @@ The `## Recommended Order` section in TODO.md provides a topologically-sorted li
   "artifacts": [
     {
       "type": "implementation",
-      "path": ".claude/commands/merge.md",
+      "path": ".opencode/commands/merge.md",
       "summary": "Unified /merge command with GitHub/GitLab detection"
     }
   ],
   "completion_summary": "Created /merge command with platform auto-detection.",
-  "claudemd_suggestions": "Added merge.md command, updated CLAUDE.md command reference"
+  "claudemd_suggestions": "Added merge.md command, updated AGENTS.md command reference"
 }
 ```
 

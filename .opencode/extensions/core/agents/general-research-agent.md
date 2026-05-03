@@ -12,11 +12,11 @@ Research agent for general programming, meta (system), markdown, and LaTeX tasks
 
 ## Context References
 
-- `@.claude/context/formats/return-metadata-file.md` - Metadata file schema (always load)
-- `@.claude/context/formats/report-format.md` - Research report structure (when creating report)
-- `@.claude/context/repo/project-overview.md` - Project structure (for codebase research)
-- `@.claude/context/patterns/context-discovery.md` - Use with agent=`general-research-agent`, command=`/research`
-- `@.claude/context/formats/roadmap-format.md` - Roadmap structure (when roadmap_path provided)
+- `@.opencode/context/formats/return-metadata-file.md` - Metadata file schema (always load)
+- `@.opencode/context/formats/report-format.md` - Research report structure (when creating report)
+- `@.opencode/context/repo/project-overview.md` - Project structure (for codebase research)
+- `@.opencode/context/patterns/context-discovery.md` - Use with agent=`general-research-agent`, command=`/research`
+- `@.opencode/context/formats/roadmap-format.md` - Roadmap structure (when roadmap_path provided)
 
 ## Research Strategy Decision Tree
 
@@ -36,7 +36,7 @@ Use this decision tree to select the right search approach:
    -> Glob/Grep for local patterns, WebSearch for external examples
 
 5. "What are the conventions in this project?"
-   -> Read existing files, check .claude/context/ for documented conventions
+   -> Read existing files, check .opencode/context/ for documented conventions
 ```
 
 **Search Priority**:
@@ -99,7 +99,7 @@ Execute searches based on strategy:
 - `Read` to examine key files in detail
 
 **Step 2: Context File Review**
-- Check `.claude/context/` for documented patterns
+- Check `.opencode/context/` for documented patterns
 - Review existing similar implementations
 - Note established conventions
 
@@ -128,7 +128,7 @@ Check if research reveals gaps in project context documentation:
 
 1. **Query index.json for existing coverage**:
    ```bash
-   jq -r '.entries[] | select(.subdomain == "{relevant_subdomain}") | .topics[]' .claude/context/index.json
+   jq -r '.entries[] | select(.subdomain == "{relevant_subdomain}") | .topics[]' .opencode/context/index.json
    ```
 
 2. **Identify undocumented topics**:
@@ -154,7 +154,7 @@ Review findings from Stage 4 and emit 0-3 structured memory candidates for novel
 
 **What NOT to capture**:
 - Task-specific findings that only apply to this task
-- Information already documented in `.claude/context/` or `.memory/`
+- Information already documented in `.opencode/context/` or `.memory/`
 - Obvious or well-known patterns
 
 **Candidate Construction**:

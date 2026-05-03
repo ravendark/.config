@@ -71,7 +71,7 @@ routing:  # Optional
   default: {default_agent}
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "formats/subagent-return.md"
     - "{command_specific_context}"
@@ -214,7 +214,7 @@ permissions:
     - write: ["{protected_paths}"]
 context_loading:
   strategy: lazy
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "{required_context_1}"
     - "{required_context_2}"
@@ -350,7 +350,7 @@ max_tokens: 2000
 timeout: 60
 context_loading:
   strategy: minimal
-  index: ".claude/context/index.json"
+  index: ".opencode/context/index.json"
   required:
     - "core/standards/command-structure.md"
     - "system/routing-guide.md"
@@ -699,9 +699,9 @@ Use this checklist when creating or reviewing XML-structured agents:
 
 - **Research**: Stanford/Anthropic studies on XML-structured prompts
 - **Examples**: 
-  - Commands: `.claude/command/review.md`, `todo.md`, `errors.md`
-  - Subagents: `.claude/agent/subagents/planner.md`, `implementer.md`
-  - Orchestrator: `.claude/agent/orchestrator.md` (after Phase 2)
+  - Commands: `.opencode/command/review.md`, `todo.md`, `errors.md`
+  - Subagents: `.opencode/agent/subagents/planner.md`, `implementer.md`
+  - Orchestrator: `.opencode/agent/orchestrator.md` (after Phase 2)
 - **Standards**: 
-  - Command structure: `.claude/context/standards/command-structure.md`
-  - Subagent structure: `.claude/context/standards/subagent-structure.md`
+  - Command structure: `.opencode/context/standards/command-structure.md`
+  - Subagent structure: `.opencode/context/standards/subagent-structure.md`

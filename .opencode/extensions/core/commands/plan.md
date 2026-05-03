@@ -340,7 +340,7 @@ task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
 
 # Check extension routing for plan (skill_name starts empty)
 skill_name=""
-for manifest in .claude/extensions/*/manifest.json; do
+for manifest in .opencode/extensions/*/manifest.json; do
   if [ -f "$manifest" ]; then
     ext_skill=$(jq -r --arg tt "$task_type" \
       '.routing.plan[$tt] // empty' "$manifest")
@@ -354,7 +354,7 @@ done
 # Fallback: if compound key (contains ":"), try base task_type
 if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
   base_type=$(echo "$task_type" | cut -d: -f1)
-  for manifest in .claude/extensions/*/manifest.json; do
+  for manifest in .opencode/extensions/*/manifest.json; do
     if [ -f "$manifest" ]; then
       ext_skill=$(jq -r --arg tt "$base_type" \
         '.routing.plan[$tt] // empty' "$manifest")
@@ -440,7 +440,7 @@ The skill spawns agent(s) which analyze task requirements and research findings,
 
    if [ "$current_status" = "planned" | not ]; then
        echo "WARNING: state.json status is '$current_status', expected 'planned'. Applying defensive correction."
-       bash .claude/scripts/update-task-status.sh postflight "$task_number" plan "$session_id"
+       bash .opencode/scripts/update-task-status.sh postflight "$task_number" plan "$session_id"
    fi
    ```
 

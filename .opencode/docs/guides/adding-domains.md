@@ -2,13 +2,13 @@
 
 [Back to Docs](../README.md) | [Extension System](../architecture/extension-system.md) | [Creating Extensions](creating-extensions.md)
 
-Step-by-step guide for adding new domain contexts, agents, and skills to the .claude/ system.
+Step-by-step guide for adding new domain contexts, agents, and skills to the .opencode/ system.
 
 ---
 
 ## Choosing Your Approach
 
-The .claude/ system supports two approaches for adding domain support:
+The .opencode/ system supports two approaches for adding domain support:
 
 | Approach | Use When | Portability | Complexity |
 |----------|----------|-------------|------------|
@@ -36,14 +36,14 @@ Is this the repository's PRIMARY domain?
 
 ## Extension Approach (Recommended)
 
-For most new domains, create an extension. Extensions live in `.claude/extensions/{domain}/` and are loaded via the the extension picker.
+For most new domains, create an extension. Extensions live in `.opencode/extensions/{domain}/` and are loaded via the the extension picker.
 
 ### Directory Structure
 
 ```
-.claude/extensions/your-domain/
+.opencode/extensions/your-domain/
 ├── manifest.json              # Extension metadata (required)
-├── EXTENSION.md               # CLAUDE.md merge content (required)
+├── EXTENSION.md               # AGENTS.md merge content (required)
 ├── index-entries.json         # Context index entries (optional)
 ├── settings-fragment.json     # MCP server configs (optional)
 ├── agents/                    # Domain agents
@@ -97,12 +97,12 @@ The manifest declares what the extension provides:
   "merge_targets": {
     "claudemd": {
       "source": "EXTENSION.md",
-      "target": ".claude/CLAUDE.md",
+      "target": ".opencode/AGENTS.md",
       "section_id": "extension_your_domain"
     },
     "index": {
       "source": "index-entries.json",
-      "target": ".claude/context/index.json"
+      "target": ".opencode/context/index.json"
     }
   },
   "mcp_servers": {}
@@ -111,7 +111,7 @@ The manifest declares what the extension provides:
 
 ### EXTENSION.md Format
 
-Content injected into CLAUDE.md when extension is loaded:
+Content injected into AGENTS.md when extension is loaded:
 
 ```markdown
 ## Your Domain Extension
@@ -165,18 +165,18 @@ Extensions are managed via the extension picker:
 2. **Unloading**: Open the extension picker, select loaded extension, copied files are removed
 
 When loaded:
-- Agents copied to `.claude/agents/`
-- Skills copied to `.claude/skills/`
-- Rules copied to `.claude/rules/`
-- Commands copied to `.claude/commands/`
-- Context copied to `.claude/context/`
-- EXTENSION.md section injected into CLAUDE.md
+- Agents copied to `.opencode/agents/`
+- Skills copied to `.opencode/skills/`
+- Rules copied to `.opencode/rules/`
+- Commands copied to `.opencode/commands/`
+- Context copied to `.opencode/context/`
+- EXTENSION.md section injected into AGENTS.md
 - Index entries appended to index.json
 - Settings merged into settings.json
 
 When unloaded:
 - All copied files removed
-- CLAUDE.md section removed
+- AGENTS.md section removed
 - Index entries removed
 - Settings unmerged
 
@@ -210,7 +210,7 @@ Each task type routes to specialized skills, which delegate to specialized agent
 Create the context directory structure:
 
 ```bash
-mkdir -p .claude/context/project/your-domain/{domain,patterns,standards,tools,templates}
+mkdir -p .opencode/context/project/your-domain/{domain,patterns,standards,tools,templates}
 ```
 
 #### Required Files
@@ -242,7 +242,7 @@ Domain knowledge for [Your Domain] development.
 
 ### Step 2: Create Domain Agents
 
-Create research and implementation agents in `.claude/agents/`:
+Create research and implementation agents in `.opencode/agents/`:
 
 **your-domain-research-agent.md**:
 ```markdown
@@ -258,8 +258,8 @@ Research agent for [Your Domain] tasks. Invoked by `skill-your-domain-research`.
 
 ## Context References
 Load these on-demand:
-- `@.claude/context/project/your-domain/README.md`
-- `@.claude/context/project/your-domain/domain/overview.md`
+- `@.opencode/context/project/your-domain/README.md`
+- `@.opencode/context/project/your-domain/domain/overview.md`
 
 ## Execution Flow
 [Standard research agent stages]
@@ -279,8 +279,8 @@ Implementation agent for [Your Domain] tasks. Invoked by `skill-your-domain-impl
 
 ## Context References
 Load these on-demand:
-- `@.claude/context/project/your-domain/standards/style-guide.md`
-- `@.claude/context/project/your-domain/patterns/common-pattern.md`
+- `@.opencode/context/project/your-domain/standards/style-guide.md`
+- `@.opencode/context/project/your-domain/patterns/common-pattern.md`
 
 ## Verification Commands
 ```bash
@@ -293,7 +293,7 @@ your-tool --check
 
 ### Step 3: Create Domain Skills
 
-Create skill wrappers in `.claude/skills/`:
+Create skill wrappers in `.opencode/skills/`:
 
 **skill-your-domain-research/SKILL.md**:
 ```markdown
@@ -337,7 +337,7 @@ Thin wrapper that delegates to `your-domain-implementation-agent`.
 
 ### Step 4: Create Domain Rule
 
-Create a rule file in `.claude/rules/`:
+Create a rule file in `.opencode/rules/`:
 
 **your-domain.md**:
 ```markdown
@@ -355,14 +355,14 @@ Applies to: `your-path/**/*.ext`
 
 ## Related Context
 Load for detailed patterns:
-- `@.claude/context/project/your-domain/standards/style-guide.md`
+- `@.opencode/context/project/your-domain/standards/style-guide.md`
 ```
 
 ### Step 5: Update Routing
 
 #### Update skill-orchestrator
 
-Edit `.claude/skills/skill-orchestrator/SKILL.md`:
+Edit `.opencode/skills/skill-orchestrator/SKILL.md`:
 
 ```markdown
 ### Task-Type-Based Routing
@@ -374,7 +374,7 @@ Edit `.claude/skills/skill-orchestrator/SKILL.md`:
 | general | skill-researcher | skill-implementer |
 ```
 
-#### Update CLAUDE.md
+#### Update AGENTS.md
 
 Add to Task-Type-Based Routing table:
 ```markdown
@@ -389,12 +389,12 @@ Add to Skill-to-Agent Mapping:
 
 Add to Rules References:
 ```markdown
-- @.claude/rules/your-domain.md - [Your Domain] development (your-path/**)
+- @.opencode/rules/your-domain.md - [Your Domain] development (your-path/**)
 ```
 
 ### Step 6: Update Context Index
 
-Add entries to `.claude/context/index.json`:
+Add entries to `.opencode/context/index.json`:
 
 ```json
 {
@@ -435,7 +435,7 @@ Add entries to `.claude/context/index.json`:
 - [ ] Implementation skill created
 - [ ] Rule file created
 - [ ] Orchestrator routing updated
-- [ ] CLAUDE.md updated
+- [ ] AGENTS.md updated
 - [ ] Context index updated
 - [ ] Test with `/task "Test" --task-type your-domain`
 

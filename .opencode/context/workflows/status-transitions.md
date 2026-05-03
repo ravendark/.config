@@ -10,7 +10,7 @@
 
 ---
 
-**Note**: For complete status marker definitions, see `.claude/context/standards/status-markers.md` (authoritative source).
+**Note**: For complete status marker definitions, see `.opencode/context/standards/status-markers.md` (authoritative source).
 
 ## Status Markers (Quick Reference)
 

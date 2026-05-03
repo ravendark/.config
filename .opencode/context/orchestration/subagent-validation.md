@@ -309,5 +309,5 @@ This standardized validation provides:
 ## References
 
 - `specs/workflow-command-refactor-plan.md` - Root cause analysis
-- `.claude/context/formats/subagent-return.md` - Return format specification
-- `.claude/context/orchestration/delegation.md` - Delegation patterns
+- `.opencode/context/formats/subagent-return.md` - Return format specification
+- `.opencode/context/orchestration/delegation.md` - Delegation patterns

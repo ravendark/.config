@@ -313,10 +313,10 @@ Any non-terminal status -> [BLOCKED] | [ABANDONED] | [EXPANDED]
 
 ## Related Documentation
 
-- `.claude/skills/skill-status-sync/` - Atomic status updates (**primary reference for writes**)
-- `.claude/context/standards/status-markers.md` - Complete status definitions
-- `.claude/context/patterns/inline-status-update.md` - jq patterns for direct updates
-- `.claude/commands/` - Command file implementations
+- `.opencode/skills/skill-status-sync/` - Atomic status updates (**primary reference for writes**)
+- `.opencode/context/standards/status-markers.md` - Complete status definitions
+- `.opencode/context/patterns/inline-status-update.md` - jq patterns for direct updates
+- `.opencode/commands/` - Command file implementations
 
 ---
 
