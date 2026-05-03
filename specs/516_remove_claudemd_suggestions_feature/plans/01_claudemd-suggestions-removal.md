@@ -111,7 +111,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Remove from /todo Command [NOT STARTED]
+### Phase 2: Remove from /todo Command [COMPLETED]
 
 **Goal**: Remove all `claudemd_suggestions` handling from the /todo command and its mirrors.
 
