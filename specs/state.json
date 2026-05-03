@@ -5,12 +5,13 @@
     {
       "project_number": 517,
       "project_name": "fix_opencode_mcp_tools_unavailable_lean",
-      "status": "planned",
+      "status": "completed",
       "task_type": "general",
       "created": "2026-05-03T04:04:09Z",
-      "last_updated": "2026-05-03T04:14:09Z",
-      "session_id": "sess_1746242300_plan517",
+      "last_updated": "2026-05-03T04:30:00Z",
+      "session_id": "sess_1746243000_impl517",
       "next_artifact_number": 2,
+      "completion_summary": "Added lean-lsp MCP server to global OpenCode config (via Home Manager dotfiles), enabled MCP tools for lean agents in per-project config, and updated all agent prompts and permissions from Claude Code naming convention (mcp__lean-lsp__) to OpenCode convention (lean-lsp_). Fixed incorrect package manager (npx -> uvx). Verified server connects successfully.",
       "memory_candidates": [
         {
           "content": "OpenCode and Claude Code use completely different MCP server configuration formats. Claude Code uses mcpServers key in settings.json with {command, args} objects. OpenCode uses mcp key in opencode.json with {type: local, command: [array]} objects. Tool naming also differs: Claude Code uses mcp__servername__toolname double-underscore convention, OpenCode uses servername_toolname single-underscore.",
@@ -25,6 +26,47 @@
             "claude-code",
             "lean-lsp"
           ]
+        },
+        {
+          "content": "OpenCode MCP tool naming convention: tools are named as 'servername_toolname' (single underscore separator), defined in Go source as fmt.Sprintf(\"%s_%s\", b.mcpName, b.tool.Name). This differs from Claude Code's 'mcp__servername__toolname' (double underscore with mcp prefix). When configuring OpenCode agents, use 'servername_*' glob patterns for tool enablement, and reference tools as 'servername_toolname' in agent prompts.",
+          "category": "PATTERN",
+          "source_artifact": "specs/517_fix_opencode_mcp_tools_unavailable_lean/summaries/01_opencode-mcp-config-summary.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "mcp",
+            "tool-naming",
+            "lean-lsp",
+            "convention",
+            "config"
+          ]
+        },
+        {
+          "content": "The global OpenCode config at ~/.config/opencode/opencode.json is managed by Home Manager via a Nix module at ~/.dotfiles/modules/opencode.nix, sourcing from ~/.dotfiles/config/opencode.json. Edits must be made to the dotfiles source, not the symlinked target, followed by 'home-manager switch --flake . -b backup' to apply changes.",
+          "category": "CONFIG",
+          "source_artifact": "specs/517_fix_opencode_mcp_tools_unavailable_lean/summaries/01_opencode-mcp-config-summary.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "opencode",
+            "home-manager",
+            "nix",
+            "dotfiles",
+            "config",
+            "symlink"
+          ]
+        },
+        {
+          "content": "The lean-lsp-mcp package is a Python package installed via uvx (not npm/npx). The correct MCP server command for OpenCode config is [\"uvx\", \"lean-lsp-mcp\"], not [\"npx\", \"-y\", \"lean-lsp-mcp@latest\"]. The Claude Code .mcp.json also uses uvx for this server.",
+          "category": "CONFIG",
+          "source_artifact": "specs/517_fix_opencode_mcp_tools_unavailable_lean/summaries/01_opencode-mcp-config-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "lean-lsp-mcp",
+            "uvx",
+            "python",
+            "mcp-server",
+            "package-manager"
+          ]
         }
       ],
       "artifacts": [
@@ -37,6 +79,11 @@
           "path": "specs/517_fix_opencode_mcp_tools_unavailable_lean/plans/01_opencode-mcp-config.md",
           "type": "plan",
           "summary": "4-phase plan to add lean-lsp MCP server to opencode config"
+        },
+        {
+          "path": "specs/517_fix_opencode_mcp_tools_unavailable_lean/summaries/01_opencode-mcp-config-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for opencode MCP lean-lsp configuration"
         }
       ]
     },
