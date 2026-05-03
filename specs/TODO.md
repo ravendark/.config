@@ -54,10 +54,11 @@ next_project_number: 502
 
 ### 503. Port missing core commands to OpenCode
 - **Effort**: 3-6 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Language**: meta
 - **Dependencies**: Task #502
 - **Research**: [specs/OC_503_port_missing_core_commands/reports/01_missing-commands-analysis.md]
+- **Plan**: [specs/OC_503_port_missing_core_commands/plans/implementation-001.md]
 
 **Description**: Port 6 missing commands from .claude/ to .opencode/: distill.md, learn.md, merge.md, project-overview.md, spawn.md, tag.md. Adapt Claude-specific references to OpenCode equivalents (.claude/ -> .opencode/, CLAUDE.md -> AGENTS.md, agents/ -> agent/subagents/).
 
