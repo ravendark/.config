@@ -28,7 +28,6 @@ description: {brief description of agent purpose}
 ---
 name: general-research-agent
 description: Research general tasks using web search and codebase exploration
-model: opus
 ---
 ```
 
@@ -104,7 +103,6 @@ If multiple flags of the same dimension are provided, the last one wins. These f
 ---
 name: general-research-agent
 description: Research general tasks using web search and codebase exploration
-model: opus
 ---
 ```
 
@@ -114,7 +112,6 @@ model: opus
 ---
 name: lean-research-agent
 description: Research and prove Lean4 theorems
-model: opus
 ---
 ```
 
@@ -140,7 +137,6 @@ Agent frontmatter is validated during:
 ---
 name: general-research-agent
 description: Research general tasks using web search and codebase exploration
-model: opus
 ---
 ```
 
@@ -150,7 +146,6 @@ model: opus
 ---
 name: general-implementation-agent
 description: Implement general, meta, and markdown tasks from plans
-model: opus
 ---
 ```
 
@@ -160,7 +155,6 @@ model: opus
 ---
 name: planner-agent
 description: Create phased implementation plans from research findings
-model: opus
 ---
 ```
 
@@ -170,7 +164,6 @@ model: opus
 ---
 name: lean-research-agent
 description: Research and prove Lean4 theorems using Mathlib
-model: opus
 ---
 ```
 

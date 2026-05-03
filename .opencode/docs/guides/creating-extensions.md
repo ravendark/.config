@@ -256,7 +256,6 @@ Create `agents/your-domain-research-agent.md`:
 ---
 name: your-domain-research-agent
 description: Research [Your Domain] tasks
-model: opus
 ---
 
 # Your Domain Research Agent

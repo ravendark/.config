@@ -1,7 +1,6 @@
 ---
 name: code-reviewer-agent
 description: Review code for security, performance, and maintainability
-model: opus
 ---
 
 # Code Reviewer Agent

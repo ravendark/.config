@@ -49,7 +49,6 @@ All commands use this frontmatter format:
 description: <one-line description>
 allowed-tools: <comma-separated tool list>
 argument-hint: "<required>" [--flag]
-model: opus
 ---
 ```
 

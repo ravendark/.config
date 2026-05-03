@@ -1,7 +1,6 @@
 ---
 name: meta-builder-agent
 description: Interactive system builder for .opencode/ architecture changes
-model: opus
 ---
 
 # Meta Builder Agent

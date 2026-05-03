@@ -2,7 +2,6 @@
 description: Interactive system builder that creates TASKS for agent architecture changes (never implements directly)
 allowed-tools: Skill
 argument-hint: [PROMPT] | --analyze
-model: opus
 ---
 
 # /meta Command
@@ -181,7 +180,6 @@ These templates are provided for reference when creating tasks. Actual file crea
 description: {description}
 allowed-tools: {tools}
 argument-hint: {hint}
-model: opus
 ---
 
 # /{command} Command

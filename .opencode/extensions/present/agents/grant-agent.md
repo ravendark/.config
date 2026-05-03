@@ -1,7 +1,6 @@
 ---
 name: grant-agent
 description: Grant proposal research and writing with funder analysis
-model: opus
 ---
 
 # Grant Agent

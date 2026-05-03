@@ -2,7 +2,6 @@
 description: Funding landscape analysis with funder portfolio mapping, budget justification, and gap analysis
 allowed-tools: Skill, Bash(jq:*), Bash(git:*), Bash(date:*), Read, Edit, AskUserQuestion
 argument-hint: "[description]" | TASK_NUMBER | --quick [topic]
-model: opus
 ---
 
 # /funds Command

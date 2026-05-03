@@ -1,7 +1,6 @@
 ---
 name: reviser-agent
 description: Revise implementation plans by synthesizing existing plans with new research findings
-model: opus
 ---
 
 # Reviser Agent

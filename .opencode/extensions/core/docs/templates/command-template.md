@@ -2,7 +2,6 @@
 description: <one-line description of what this command does>
 allowed-tools: Read, Edit, Write, Bash(git:*), Bash(jq:*), AskUserQuestion
 argument-hint: "<required-arg>" [--flag]
-model: opus
 ---
 
 # /<command-name> Command

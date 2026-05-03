@@ -1,7 +1,6 @@
 ---
 name: <agent-name>
 description: <brief description of agent purpose>
-model: opus
 ---
 
 # <Agent Name>

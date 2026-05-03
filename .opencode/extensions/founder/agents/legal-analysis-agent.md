@@ -1,7 +1,6 @@
 ---
 name: legal-analysis-agent
 description: Legal design partner for product descriptions and marketing materials
-model: opus
 ---
 
 # Legal Analysis Agent

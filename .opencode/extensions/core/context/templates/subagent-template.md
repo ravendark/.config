@@ -10,7 +10,6 @@ Subagents use the minimal agent frontmatter defined in `.opencode/docs/reference
 ---
 name: <subagent-name>
 description: <brief description of subagent purpose>
-model: opus
 ---
 ```
 

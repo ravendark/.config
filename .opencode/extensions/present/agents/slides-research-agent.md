@@ -1,7 +1,6 @@
 ---
 name: slides-research-agent
 description: Research talk material synthesis for academic presentations
-model: opus
 ---
 
 # Slides Research Agent

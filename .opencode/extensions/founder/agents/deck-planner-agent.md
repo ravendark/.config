@@ -1,7 +1,6 @@
 ---
 name: deck-planner-agent
 description: Pitch deck planning with interactive pattern, theme, content, and ordering selection using library
-model: opus
 ---
 
 # Deck Planner Agent

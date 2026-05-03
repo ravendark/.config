@@ -2,7 +2,6 @@
 description: Grant budget spreadsheet generation with forcing questions and task integration
 allowed-tools: Skill, Bash(jq:*), Bash(git:*), Bash(date:*), Read, Edit, AskUserQuestion
 argument-hint: "[description]" | TASK_NUMBER | /path/to/file.md | --quick [mode]
-model: opus
 ---
 
 # /budget Command

@@ -1,7 +1,6 @@
 ---
 name: funds-agent
 description: Funding landscape analysis with funder portfolio mapping and budget verification
-model: opus
 ---
 
 # Funds Agent

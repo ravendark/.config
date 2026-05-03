@@ -1,7 +1,6 @@
 ---
 name: spawn-agent
 description: Analyzes blocked tasks, researches blockers, and proposes minimal new tasks to overcome the blocker
-model: opus
 ---
 
 # Spawn Agent

@@ -1,7 +1,6 @@
 ---
 name: pptx-assembly-agent
 description: PowerPoint presentation assembly from slide-mapped research reports
-model: opus
 ---
 
 # PPTX Assembly Agent

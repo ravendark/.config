@@ -2,7 +2,6 @@
 description: Create new version of implementation plan, or update task description if no plan exists
 allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit, Glob
 argument-hint: TASK_NUMBER [REASON]
-model: opus
 ---
 
 # /revise Command

@@ -22,7 +22,6 @@ All agents follow the minimal frontmatter format (see `.opencode/docs/reference/
 ---
 name: agent-name
 description: Brief description of agent purpose
-model: opus
 ---
 ```
 
