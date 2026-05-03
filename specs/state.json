@@ -575,7 +575,7 @@
     {
       "project_number": 504,
       "project_name": "port_missing_core_skills",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Port 8 missing skills from .claude/ to .opencode/: skill-memory, skill-project-overview, skill-reviser, skill-spawn, skill-team-implement, skill-team-plan, skill-team-research, skill-tag. Update all internal references and delegation paths for OpenCode.",
       "effort": "3-6 hours",
@@ -583,21 +583,28 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T00:40:36Z",
+      "last_updated": "2026-05-03T00:44:10Z",
       "artifacts": [
         {
           "path": "specs/OC_504_port_missing_core_skills/reports/01_missing-skills-analysis.md",
           "type": "research",
           "summary": "Comprehensive analysis of 8 skills to port from .claude/ to .opencode/, with path adaptations and comparison of existing versions"
+        },
+        {
+          "path": "specs/OC_504_port_missing_core_skills/plans/implementation-001.md",
+          "type": "plan",
+          "summary": "6-phase implementation plan for porting 4 missing core skills from .claude/ to .opencode/"
         }
       ],
       "researching": "2026-05-03T00:36:21Z",
-      "researched": "2026-05-03T00:40:36Z"
+      "researched": "2026-05-03T00:40:36Z",
+      "planning": "2026-05-03T00:41:42Z",
+      "planned": "2026-05-03T00:44:10Z"
     },
     {
       "project_number": 505,
       "project_name": "port_missing_core_agents",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Port 2 missing core agents to .opencode/agent/subagents/: reviser-agent.md, spawn-agent.md. Also verify extension agents (neovim-research/implementation, nix-research/implementation) are properly declared in extension manifests and installed when extensions load.",
       "effort": "1-3 hours",
@@ -605,21 +612,28 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T00:40:41Z",
+      "last_updated": "2026-05-03T00:44:15Z",
       "artifacts": [
         {
           "path": "specs/OC_505_port_missing_core_agents/reports/01_missing-agents-analysis.md",
           "type": "research",
           "summary": "Comprehensive analysis of missing core agents with path mapping documentation and extension agent verification"
+        },
+        {
+          "path": "specs/OC_505_port_missing_core_agents/plans/implementation-001.md",
+          "type": "plan",
+          "summary": "4-phase implementation plan for porting reviser-agent.md with path adaptations and extension agent verification"
         }
       ],
       "researching": "2026-05-03T00:36:24Z",
-      "researched": "2026-05-03T00:40:41Z"
+      "researched": "2026-05-03T00:40:41Z",
+      "planning": "2026-05-03T00:41:44Z",
+      "planned": "2026-05-03T00:44:15Z"
     },
     {
       "project_number": 506,
       "project_name": "expand_core_context_system",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Expand .opencode/context/ to match .claude/context/ structure. Currently .opencode/context/ has only core/, index.json, index.md, project/, README.md. Need to add: guides/, meta/, reference/, repo/, processes/, troubleshooting/ subdirectories and their contents from .claude/extensions/core/context/.",
       "effort": "3-6 hours",
@@ -627,21 +641,28 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T00:40:47Z",
+      "last_updated": "2026-05-03T00:44:19Z",
       "artifacts": [
         {
           "path": "specs/OC_506_expand_core_context_system/reports/01_context-gap-analysis.md",
           "type": "research",
           "summary": "Comprehensive gap analysis identifying 6 missing directories and 18 files to copy from .claude/extensions/core/context/ to .opencode/context/core/"
+        },
+        {
+          "path": "specs/OC_506_expand_core_context_system/plans/implementation-001.md",
+          "type": "plan",
+          "summary": "4-phase implementation plan for expanding .opencode/context/core/ with 6 directories and 18 files"
         }
       ],
       "researching": "2026-05-03T00:36:26Z",
-      "researched": "2026-05-03T00:40:47Z"
+      "researched": "2026-05-03T00:40:47Z",
+      "planning": "2026-05-03T00:41:47Z",
+      "planned": "2026-05-03T00:44:19Z"
     },
     {
       "project_number": 507,
       "project_name": "port_missing_core_scripts",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Port missing utility scripts from .claude/scripts/ to .opencode/scripts/. Missing: check-extension-docs.sh, claude-cleanup.sh (-> opencode-cleanup.sh exists), export-to-markdown.sh, install-extension.sh, uninstall-extension.sh, link-artifact-todo.sh, memory-retrieve.sh, migrate-directory-padding.sh, update-recommended-order.sh, validate-artifact.sh, validate-context-index.sh, validate-extension-index.sh, validate-index.sh, validate-wiring.sh, lint/lint-postflight-boundary.sh.",
       "effort": "3-6 hours",
@@ -649,21 +670,28 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T00:40:53Z",
+      "last_updated": "2026-05-03T00:44:24Z",
       "artifacts": [
         {
           "path": "specs/OC_507_port_missing_core_scripts/reports/01_missing-scripts-analysis.md",
           "type": "research",
           "summary": "Comprehensive analysis of 14 scripts to port, including path adaptations, dependencies, and porting priorities"
+        },
+        {
+          "path": "specs/OC_507_port_missing_core_scripts/plans/implementation-001.md",
+          "type": "plan",
+          "summary": "Implementation plan with 3 phases for porting 14 scripts from .claude/scripts/ to .opencode/scripts/"
         }
       ],
       "researching": "2026-05-03T00:36:29Z",
-      "researched": "2026-05-03T00:40:53Z"
+      "researched": "2026-05-03T00:40:53Z",
+      "planning": "2026-05-03T00:41:50Z",
+      "planned": "2026-05-03T00:44:24Z"
     },
     {
       "project_number": 508,
       "project_name": "port_missing_core_hooks",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Port 2 missing hooks from .claude/hooks/ to .opencode/hooks/: memory-nudge.sh, validate-plan-write.sh. Verify all 11 Claude hooks have OpenCode equivalents.",
       "effort": "1-2 hours",
@@ -671,21 +699,28 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T00:40:58Z",
+      "last_updated": "2026-05-03T00:44:27Z",
       "artifacts": [
         {
           "path": "specs/OC_508_port_missing_core_hooks/reports/01_missing-hooks-analysis.md",
           "type": "research",
           "summary": "Comprehensive hook gap analysis: 2 missing hooks identified (memory-nudge.sh, validate-plan-write.sh), 1 dependency script needed (validate-artifact.sh), settings.json configuration differences documented"
+        },
+        {
+          "path": "specs/OC_508_port_missing_core_hooks/plans/implementation-001.md",
+          "type": "plan",
+          "summary": "4-phase implementation plan for porting 2 hooks and 1 dependency script from .claude/ to .opencode/"
         }
       ],
       "researching": "2026-05-03T00:36:31Z",
-      "researched": "2026-05-03T00:40:58Z"
+      "researched": "2026-05-03T00:40:58Z",
+      "planning": "2026-05-03T00:41:53Z",
+      "planned": "2026-05-03T00:44:27Z"
     },
     {
       "project_number": 509,
       "project_name": "port_missing_core_rules",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Port 2 missing rules from .claude/rules/ to .opencode/rules/: plan-format-enforcement.md, project-overview-detection.md. Verify all 7 Claude rules have OpenCode equivalents.",
       "effort": "1-2 hours",
@@ -693,16 +728,23 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T00:41:05Z",
+      "last_updated": "2026-05-03T00:44:34Z",
       "artifacts": [
         {
           "path": "specs/OC_509_port_missing_core_rules/reports/01_missing-rules-analysis.md",
           "type": "research",
           "summary": "Research report analyzing 9 Claude rules vs 6 OpenCode rules, identifying 2 core rules to port (plan-format-enforcement, project-overview-detection) and verifying 5 existing equivalents"
+        },
+        {
+          "path": "specs/OC_509_port_missing_core_rules/plans/implementation-001.md",
+          "type": "plan",
+          "summary": "Implementation plan with 3 phases for porting 2 missing core rules from .claude/rules/ to .opencode/rules/"
         }
       ],
       "researching": "2026-05-03T00:36:34Z",
-      "researched": "2026-05-03T00:41:05Z"
+      "researched": "2026-05-03T00:41:05Z",
+      "planning": "2026-05-03T00:41:55Z",
+      "planned": "2026-05-03T00:44:34Z"
     },
     {
       "project_number": 510,
