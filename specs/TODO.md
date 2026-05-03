@@ -23,8 +23,9 @@ next_project_number: 518
 
 ### 517. Fix MCP tools unavailable in opencode for Lean tasks
 - **Effort**: TBD
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: general
+- **Research**: [517_fix_opencode_mcp_tools_unavailable_lean/reports/01_opencode-mcp-tools.md]
 
 **Description**: Fix MCP tools (lean-lsp) being unavailable when using opencode to implement Lean tasks. The model attempts to call mcp__lean-lsp__lean_goal but gets error "Model tried to call unavailable tool 'mcp__lean-lsp__lean_goal'. Available tools: invalid, bash, read, glob, grep, edit, write, webfetch, websearch, codesearch, skill." The MCP servers need to be made available to opencode so that Lean LSP tools (lean_goal, lean_diagnostic_messages, lean_hover_info, etc.) work during implementation.
 

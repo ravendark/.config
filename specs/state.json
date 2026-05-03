@@ -5,10 +5,35 @@
     {
       "project_number": 517,
       "project_name": "fix_opencode_mcp_tools_unavailable_lean",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "general",
       "created": "2026-05-03T04:04:09Z",
-      "last_updated": "2026-05-03T04:04:09Z"
+      "last_updated": "2026-05-03T04:11:08Z",
+      "session_id": "sess_1746241800_res517",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "OpenCode and Claude Code use completely different MCP server configuration formats. Claude Code uses mcpServers key in settings.json with {command, args} objects. OpenCode uses mcp key in opencode.json with {type: local, command: [array]} objects. Tool naming also differs: Claude Code uses mcp__servername__toolname double-underscore convention, OpenCode uses servername_toolname single-underscore.",
+          "category": "PATTERN",
+          "source_artifact": "specs/517_fix_opencode_mcp_tools_unavailable_lean/reports/01_opencode-mcp-tools.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode",
+            "mcp",
+            "configuration",
+            "tool-naming",
+            "claude-code",
+            "lean-lsp"
+          ]
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "specs/517_fix_opencode_mcp_tools_unavailable_lean/reports/01_opencode-mcp-tools.md",
+          "type": "research",
+          "summary": "Research on opencode MCP configuration for lean-lsp tools"
+        }
+      ]
     },
     {
       "project_number": 516,
