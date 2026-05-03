@@ -21031,3 +21031,51 @@
 [2026-05-02T21:13:56-07:00] Task directory: specs/517_fix_opencode_mcp_tools_unavailable_lean
 [2026-05-02T21:13:56-07:00] Loop guard triggered: 3 >= 3
 [2026-05-02T21:13:56-07:00] Loop guard prevented continuation
+[2026-05-02T21:25:29-07:00] Postflight marker found at: specs/517_fix_opencode_mcp_tools_unavailable_lean/.postflight-pending
+[2026-05-02T21:25:29-07:00] Task directory: specs/517_fix_opencode_mcp_tools_unavailable_lean
+[2026-05-02T21:25:29-07:00] Loop guard initialized to 1
+[2026-05-02T21:25:29-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:26:21-07:00] Postflight marker found at: specs/517_fix_opencode_mcp_tools_unavailable_lean/.postflight-pending
+[2026-05-02T21:26:21-07:00] Task directory: specs/517_fix_opencode_mcp_tools_unavailable_lean
+[2026-05-02T21:26:21-07:00] Loop guard incremented to 2
+[2026-05-02T21:26:21-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:26:36-07:00] Postflight marker found at: specs/517_fix_opencode_mcp_tools_unavailable_lean/.postflight-pending
+[2026-05-02T21:26:36-07:00] Task directory: specs/517_fix_opencode_mcp_tools_unavailable_lean
+[2026-05-02T21:26:36-07:00] Loop guard incremented to 3
+[2026-05-02T21:26:36-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:26:46-07:00] Postflight marker found at: specs/517_fix_opencode_mcp_tools_unavailable_lean/.postflight-pending
+[2026-05-02T21:26:46-07:00] Task directory: specs/517_fix_opencode_mcp_tools_unavailable_lean
+[2026-05-02T21:26:46-07:00] Loop guard triggered: 3 >= 3
+[2026-05-02T21:26:46-07:00] Loop guard prevented continuation
+[2026-05-02T21:32:24-07:00] Postflight marker found at: specs/516_remove_claudemd_suggestions_feature/.postflight-pending
+[2026-05-02T21:32:24-07:00] Task directory: specs/516_remove_claudemd_suggestions_feature
+[2026-05-02T21:32:24-07:00] Loop guard initialized to 1
+[2026-05-02T21:32:24-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:33:15-07:00] Postflight marker found at: specs/516_remove_claudemd_suggestions_feature/.postflight-pending
+[2026-05-02T21:33:15-07:00] Task directory: specs/516_remove_claudemd_suggestions_feature
+[2026-05-02T21:33:15-07:00] Loop guard incremented to 2
+[2026-05-02T21:33:15-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:33:19-07:00] Postflight marker found at: specs/516_remove_claudemd_suggestions_feature/.postflight-pending
+[2026-05-02T21:33:19-07:00] Task directory: specs/516_remove_claudemd_suggestions_feature
+[2026-05-02T21:33:19-07:00] Loop guard incremented to 3
+[2026-05-02T21:33:19-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:33:27-07:00] Postflight marker found at: specs/516_remove_claudemd_suggestions_feature/.postflight-pending
+[2026-05-02T21:33:27-07:00] Task directory: specs/516_remove_claudemd_suggestions_feature
+[2026-05-02T21:33:27-07:00] Loop guard triggered: 3 >= 3
+[2026-05-02T21:33:27-07:00] Loop guard prevented continuation
+[2026-05-02T21:37:10-07:00] Postflight marker found at: specs/516_remove_claudemd_suggestions_feature/.postflight-pending
+[2026-05-02T21:37:10-07:00] Task directory: specs/516_remove_claudemd_suggestions_feature
+[2026-05-02T21:37:10-07:00] Loop guard initialized to 1
+[2026-05-02T21:37:10-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:37:12-07:00] Postflight marker found at: specs/516_remove_claudemd_suggestions_feature/.postflight-pending
+[2026-05-02T21:37:12-07:00] Task directory: specs/516_remove_claudemd_suggestions_feature
+[2026-05-02T21:37:12-07:00] Loop guard incremented to 2
+[2026-05-02T21:37:12-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:37:16-07:00] Postflight marker found at: specs/516_remove_claudemd_suggestions_feature/.postflight-pending
+[2026-05-02T21:37:16-07:00] Task directory: specs/516_remove_claudemd_suggestions_feature
+[2026-05-02T21:37:16-07:00] Loop guard incremented to 3
+[2026-05-02T21:37:16-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T21:37:22-07:00] Postflight marker found at: specs/516_remove_claudemd_suggestions_feature/.postflight-pending
+[2026-05-02T21:37:22-07:00] Task directory: specs/516_remove_claudemd_suggestions_feature
+[2026-05-02T21:37:22-07:00] Loop guard triggered: 3 >= 3
+[2026-05-02T21:37:22-07:00] Loop guard prevented continuation
