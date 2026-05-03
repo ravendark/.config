@@ -5,11 +5,11 @@
     {
       "project_number": 515,
       "project_name": "fix_opencode_crash_spawn_agent_tools_format",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-03T03:30:47Z",
-      "last_updated": "2026-05-03T03:42:16Z",
-      "session_id": "sess_1746240800_plan515",
+      "last_updated": "2026-05-03T03:53:44Z",
+      "session_id": "sess_1746241100_impl515",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -25,6 +25,20 @@
             "agent-porting",
             "yaml-format"
           ]
+        },
+        {
+          "content": "OpenCode runtime crashes on startup if any .md file in .opencode/agent/subagents/ contains a tools field as a YAML array. The runtime auto-scans all subagent files and expects tools as an object format or omitted entirely. Claude Code agents use tools as YAML arrays of capitalized names. When porting agent definitions between systems, the tools field must be stripped or converted.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/515_fix_opencode_crash_spawn_agent_tools_format/summaries/01_fix-opencode-tools-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode",
+            "crash",
+            "tools",
+            "frontmatter",
+            "YAML",
+            "porting"
+          ]
         }
       ],
       "artifacts": [
@@ -37,8 +51,15 @@
           "path": "specs/515_fix_opencode_crash_spawn_agent_tools_format/plans/01_fix-opencode-tools-format.md",
           "type": "plan",
           "summary": "Implementation plan with 2 phases covering frontmatter documentation update, opencode.lua commit, and verification"
+        },
+        {
+          "path": "specs/515_fix_opencode_crash_spawn_agent_tools_format/summaries/01_fix-opencode-tools-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for frontmatter documentation update and cross-system porting guide"
         }
-      ]
+      ],
+      "completion_summary": "Updated opencode frontmatter documentation to mark tools field as optional, added crash warning for YAML array format, and added cross-system porting guide between Claude Code and opencode agent definitions.",
+      "claudemd_suggestions": "Updated .opencode/context/formats/frontmatter.md: tools field changed from Required to Optional, added cross-system porting warning section, updated examples and best practices"
     },
     {
       "project_number": 494,

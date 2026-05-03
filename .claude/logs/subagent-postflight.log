@@ -20983,3 +20983,19 @@
 [2026-05-02T20:42:03-07:00] Task directory: specs/515_fix_opencode_crash_spawn_agent_tools_format
 [2026-05-02T20:42:03-07:00] Loop guard triggered: 3 >= 3
 [2026-05-02T20:42:03-07:00] Loop guard prevented continuation
+[2026-05-02T20:53:18-07:00] Postflight marker found at: specs/515_fix_opencode_crash_spawn_agent_tools_format/.postflight-pending
+[2026-05-02T20:53:18-07:00] Task directory: specs/515_fix_opencode_crash_spawn_agent_tools_format
+[2026-05-02T20:53:18-07:00] Loop guard initialized to 1
+[2026-05-02T20:53:18-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T20:53:22-07:00] Postflight marker found at: specs/515_fix_opencode_crash_spawn_agent_tools_format/.postflight-pending
+[2026-05-02T20:53:22-07:00] Task directory: specs/515_fix_opencode_crash_spawn_agent_tools_format
+[2026-05-02T20:53:22-07:00] Loop guard incremented to 2
+[2026-05-02T20:53:22-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T20:53:24-07:00] Postflight marker found at: specs/515_fix_opencode_crash_spawn_agent_tools_format/.postflight-pending
+[2026-05-02T20:53:24-07:00] Task directory: specs/515_fix_opencode_crash_spawn_agent_tools_format
+[2026-05-02T20:53:24-07:00] Loop guard incremented to 3
+[2026-05-02T20:53:24-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-02T20:53:32-07:00] Postflight marker found at: specs/515_fix_opencode_crash_spawn_agent_tools_format/.postflight-pending
+[2026-05-02T20:53:32-07:00] Task directory: specs/515_fix_opencode_crash_spawn_agent_tools_format
+[2026-05-02T20:53:32-07:00] Loop guard triggered: 3 >= 3
+[2026-05-02T20:53:32-07:00] Loop guard prevented continuation
