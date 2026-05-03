@@ -197,9 +197,10 @@ next_project_number: 502
 
 ### 514. Systematic OpenCode cleanup and validation
 - **Effort**: 3-6 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Language**: meta
 - **Dependencies**: Task #503, Task #504, Task #505, Task #506, Task #507, Task #508, Task #509, Task #510, Task #511, Task #512, Task #513
+- **Research**: [specs/OC_514_systematic_opencode_cleanup/reports/01_cleanup-audit.md]
 
 **Description**: Systematically fix remaining .claude/ and CLAUDE.md references in .opencode/ agent system. Fix 248 .claude/ path references and 38 CLAUDE.md references. Validate all agent frontmatter for consistency. Fix spawn-agent.md tools array format issue in both agent/subagents/ and extensions/core/agents/. Verify all extension manifests have proper dependencies.
 

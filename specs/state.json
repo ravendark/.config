@@ -898,7 +898,7 @@
     {
       "project_number": 514,
       "project_name": "systematic_opencode_cleanup",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Systematically fix remaining .claude/ and CLAUDE.md references in .opencode/ agent system. Fix 248 .claude/ path references and 38 CLAUDE.md references. Also validate all agent frontmatter and fix any inconsistencies.",
       "effort": "3-6 hours",
@@ -916,8 +916,16 @@
         513
       ],
       "created": "2026-05-03T01:57:27Z",
-      "last_updated": "2026-05-03T01:57:27Z",
-      "artifacts": []
+      "last_updated": "2026-05-03T02:03:14Z",
+      "artifacts": [
+        {
+          "path": "specs/OC_514_systematic_opencode_cleanup/reports/01_cleanup-audit.md",
+          "type": "research",
+          "summary": "Comprehensive audit report with 2142 .claude/ references, 247 CLAUDE.md references, frontmatter validation results, and phased fix recommendations"
+        }
+      ],
+      "researching": "2026-05-03T01:58:59Z",
+      "researched": "2026-05-03T02:03:14Z"
     }
   ],
   "completed_projects": [],
