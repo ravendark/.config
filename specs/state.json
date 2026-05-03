@@ -5,11 +5,11 @@
     {
       "project_number": 517,
       "project_name": "fix_opencode_mcp_tools_unavailable_lean",
-      "status": "researched",
+      "status": "planned",
       "task_type": "general",
       "created": "2026-05-03T04:04:09Z",
-      "last_updated": "2026-05-03T04:11:08Z",
-      "session_id": "sess_1746241800_res517",
+      "last_updated": "2026-05-03T04:14:09Z",
+      "session_id": "sess_1746242300_plan517",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -32,6 +32,11 @@
           "path": "specs/517_fix_opencode_mcp_tools_unavailable_lean/reports/01_opencode-mcp-tools.md",
           "type": "research",
           "summary": "Research on opencode MCP configuration for lean-lsp tools"
+        },
+        {
+          "path": "specs/517_fix_opencode_mcp_tools_unavailable_lean/plans/01_opencode-mcp-config.md",
+          "type": "plan",
+          "summary": "4-phase plan to add lean-lsp MCP server to opencode config"
         }
       ]
     },
