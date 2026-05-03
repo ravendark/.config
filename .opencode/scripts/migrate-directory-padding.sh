@@ -11,7 +11,7 @@
 # Examples:
 #   ./migrate-directory-padding.sh --dry-run
 #   ./migrate-directory-padding.sh
-#   ./migrate-directory-padding.sh --specs-dir .opencode/specs
+#   ./migrate-directory-padding.sh --specs-dir .claude/specs
 
 set -euo pipefail
 

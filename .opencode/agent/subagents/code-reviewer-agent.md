@@ -1,13 +1,7 @@
 ---
 name: code-reviewer-agent
 description: Review code for security, performance, and maintainability
-mode: subagent
-temperature: 0.1
-tools:
-  read: true
-  glob: true
-  grep: true
-  task: false
+model: opus
 ---
 
 # Code Reviewer Agent
@@ -36,16 +30,12 @@ This agent has access to:
 Load these on-demand using @-references:
 
 **Always Load**:
-- `@.opencode/context/core/standards/code-quality.md` - Code quality standards
-- `@.opencode/context/project/repo/project-overview.md` - Project context
-
-**Load For Neovim Code**:
-- `@.opencode/context/project/neovim/standards/lua-style-guide.md` - Lua style guide
-- `@.opencode/context/project/neovim/lua-patterns.md` - Lua patterns
+- `@.claude/context/standards/code-quality.md` - Code quality standards
+- `@.claude/context/repo/project-overview.md` - Project context
 
 **Load For Web Code**:
-- `@.opencode/context/project/web/standards/web-style-guide.md` - Web style guide
-- `@.opencode/context/project/web/astro-framework.md` - Astro patterns
+- `@.claude/extensions/web/context/project/web/standards/web-style-guide.md` - Web style guide
+- `@.claude/extensions/web/context/project/web/astro-framework.md` - Astro patterns
 
 ## Review Checklist
 
@@ -74,7 +64,7 @@ Load these on-demand using @-references:
 ### Standards Compliance
 
 - [ ] Follows project patterns
-- [ ] Follows language-specific conventions
+- [ ] Follows task-type-specific conventions
 - [ ] Build passes
 - [ ] TypeScript strict mode compliant (if applicable)
 

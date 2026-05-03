@@ -2,7 +2,7 @@
 # WezTerm tab notification hook for Claude Code completion
 # Sets CLAUDE_STATUS user variable via OSC 1337 when Claude stops
 #
-# Integration: Called from Stop hook in .opencode/settings.json
+# Integration: Called from Stop hook in .claude/settings.json
 # Requirements: wezterm with user variable support, jq for JSON parsing
 #
 # Configuration:

@@ -12,18 +12,18 @@ Revision agent for synthesizing existing implementation plans with new research 
 
 ## Context References
 
-- `@.opencode/context/formats/return-metadata-file.md` - Metadata file schema (always load)
-- `@.opencode/context/formats/plan-format.md` - Plan artifact structure and REQUIRED metadata fields (always load)
-- `@.opencode/context/workflows/task-breakdown.md` - Task decomposition guidelines (when revising plan)
-- `@.opencode/AGENTS.md` - Project configuration and conventions
-- `@.opencode/context/patterns/context-discovery.md` - Use with agent=`reviser-agent`, command=`/revise`
-- `@.opencode/context/formats/roadmap-format.md` - Roadmap structure (when roadmap_path provided)
+- `@.claude/context/formats/return-metadata-file.md` - Metadata file schema (always load)
+- `@.claude/context/formats/plan-format.md` - Plan artifact structure and REQUIRED metadata fields (always load)
+- `@.claude/context/workflows/task-breakdown.md` - Task decomposition guidelines (when revising plan)
+- `@.claude/CLAUDE.md` - Project configuration and conventions
+- `@.claude/context/patterns/context-discovery.md` - Use with agent=`reviser-agent`, command=`/revise`
+- `@.claude/context/formats/roadmap-format.md` - Roadmap structure (when roadmap_path provided)
 
 ## Execution Flow
 
 ### Stage 0: Initialize Early Metadata
 
-**CRITICAL**: Create `specs/OC_{NNN}_{SLUG}/.return-meta.json` with `"status": "in_progress"` BEFORE any substantive work. Use `agent_type: "reviser-agent"` and `delegation_path: ["orchestrator", "revise", "reviser-agent"]`. See `return-metadata-file.md` for full schema.
+**CRITICAL**: Create `specs/{NNN}_{SLUG}/.return-meta.json` with `"status": "in_progress"` BEFORE any substantive work. Use `agent_type: "reviser-agent"` and `delegation_path: ["orchestrator", "revise", "reviser-agent"]`. See `return-metadata-file.md` for full schema.
 
 ### Stage 1: Parse Delegation Context
 
@@ -91,8 +91,8 @@ Create a revised plan that integrates existing plan with new research:
    - Add `reports_integrated` listing all report filenames integrated into this plan
 
 6. **Write the revised plan**: Follow plan-format.md structure exactly.
-   - Create directory if needed: `mkdir -p specs/OC_{NNN}_{SLUG}/plans/`
-   - Write to `specs/OC_{NNN}_{SLUG}/plans/{NN}_{short-slug}.md`
+   - Create directory if needed: `mkdir -p specs/{NNN}_{SLUG}/plans/`
+   - Write to `specs/{NNN}_{SLUG}/plans/{NN}_{short-slug}.md`
    - The revised plan replaces the previous plan (new file, same round number)
    - Set `- **Status**: [NOT STARTED]` for incomplete phases
    - Include a `### Research Integration` section listing newly integrated reports
@@ -111,7 +111,7 @@ When no plan exists, update the task description:
 
 ### Stage 6: Write Metadata File
 
-Write to `specs/OC_{NNN}_{SLUG}/.return-meta.json`:
+Write to `specs/{NNN}_{SLUG}/.return-meta.json`:
 
 **For Plan Revision:**
 ```json
@@ -119,7 +119,7 @@ Write to `specs/OC_{NNN}_{SLUG}/.return-meta.json`:
   "status": "planned",
   "artifacts": [{
     "type": "plan",
-    "path": "specs/OC_{NNN}_{SLUG}/plans/{NN}_{short-slug}.md",
+    "path": "specs/{NNN}_{SLUG}/plans/{NN}_{short-slug}.md",
     "summary": "Revised plan integrating new research findings"
   }],
   "next_steps": "Run /implement {N} to execute the revised plan",
@@ -171,7 +171,7 @@ See `rules/error-handling.md` for general error patterns. Agent-specific behavio
 
 **MUST DO**:
 1. Create early metadata at Stage 0 before any substantive work
-2. Write final metadata to `specs/OC_{NNN}_{SLUG}/.return-meta.json`
+2. Write final metadata to `specs/{NNN}_{SLUG}/.return-meta.json`
 3. Return brief text summary (3-6 bullets), NOT JSON
 4. Include session_id from delegation context in metadata
 5. Follow plan-format.md structure exactly for revised plans

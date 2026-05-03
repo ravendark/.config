@@ -11,7 +11,7 @@ Direct execution skill for atomic status synchronization across TODO.md and stat
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/core/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 
 ## Standalone Use Only
 
@@ -98,7 +98,7 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg status "{target_status}" \
   '(.active_projects[] | select(.project_number == {task_number})) |= . + {
     status: $status,
     last_updated: $ts
-  }' specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
 3. **Update TODO.md status marker**:
@@ -129,7 +129,7 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg status "{target_status}" \
   '(.active_projects[] | select(.project_number == {task_number})) |= . + {
     status: $status,
     last_updated: $ts
-  }' specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
 2. **Add artifacts to state.json** (for each artifact):
@@ -141,13 +141,13 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg status "{target_status}" \
 jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
   '(.active_projects[] | select(.project_number == {task_number})) |= . + {
     last_updated: $ts
-  }' specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 
 # Step 2: Add artifact (append to array)
 jq --arg path "{artifact_path}" \
    --arg type "{artifact_type}" \
   '(.active_projects[] | select(.project_number == {task_number})).artifacts += [{"path": $path, "type": $type}]' \
-  specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
+  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
 3. **Update TODO.md status marker**:
@@ -191,22 +191,24 @@ fi
 jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
   '(.active_projects[] | select(.project_number == {task_number})) |= . + {
     last_updated: $ts
-  }' specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 
 # Step 2: Add artifact (append to array)
 jq --arg path "{artifact_path}" \
    --arg type "{artifact_type}" \
   '(.active_projects[] | select(.project_number == {task_number})).artifacts += [{"path": $path, "type": $type}]' \
-  specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
+  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
 3. **Add link to TODO.md** using Edit tool:
 
 | Type | Format in TODO.md |
 |------|-------------------|
-| research | `- **Research**: [research-{NNN}.md]({path})` |
-| plan | `- **Plan**: [implementation-{NNN}.md]({path})` |
-| summary | `- **Summary**: [implementation-summary-{DATE}.md]({path})` |
+| research | Count-aware format (see "Artifact Linking Format" in state-management.md) |
+| plan | Count-aware format (see "Artifact Linking Format" in state-management.md) |
+| summary | Count-aware format (see "Artifact Linking Format" in state-management.md) |
+
+**Count-Aware Logic**: Use inline format for 1 artifact, multi-line list for 2+. See state-management.md for detection patterns and insertion examples.
 
 **Insertion order**:
 - research: after Language line

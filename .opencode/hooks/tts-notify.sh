@@ -2,7 +2,7 @@
 # TTS notification hook for Claude Code events
 # Announces WezTerm tab number via Piper TTS when Claude stops or needs input
 #
-# Integration: Called from Stop and Notification hooks in .opencode/settings.json
+# Integration: Called from Stop and Notification hooks in .claude/settings.json
 # Requirements: piper-tts, aplay (alsa-utils), jq, wezterm
 #
 # Supported Events:
@@ -41,8 +41,8 @@ if [[ -n "$STDIN_JSON" ]] && command -v jq &>/dev/null; then
 fi
 
 # State files
-LAST_NOTIFY_FILE="/tmp/opencode-tts-last-notify"
-LOG_FILE="/tmp/opencode-tts-notify.log"
+LAST_NOTIFY_FILE="specs/tmp/claude-tts-last-notify"
+LOG_FILE="specs/tmp/claude-tts-notify.log"
 
 # Helper: log message
 log() {
@@ -57,6 +57,22 @@ exit_success() {
 
 # Check if TTS is disabled
 if [[ "$TTS_ENABLED" != "1" ]]; then
+    exit_success
+fi
+
+# Guard: suppress TTS for subagent contexts
+# agent_id is present in hook stdin JSON only for subagents
+if [[ -n "$STDIN_JSON" ]] && command -v jq &>/dev/null; then
+    AGENT_ID=$(echo "$STDIN_JSON" | jq -r '.agent_id // empty' 2>/dev/null || echo "")
+    if [[ -n "$AGENT_ID" ]]; then
+        log "Subagent detected (agent_id=$AGENT_ID) - suppressing TTS"
+        exit_success
+    fi
+fi
+
+# Guard: filter non-actionable notification types
+if [[ "$NOTIFICATION_TYPE" == "auth_success" ]]; then
+    log "Non-actionable notification type ($NOTIFICATION_TYPE) - suppressing TTS"
     exit_success
 fi
 
@@ -115,18 +131,35 @@ if [[ -n "${WEZTERM_PANE:-}" ]] && command -v wezterm &>/dev/null; then
     fi
 fi
 
+# Detect if running inside a git worktree (sub-agent session)
+IS_WORKTREE=false
+if command -v git &>/dev/null; then
+    GIT_DIR=$(git rev-parse --git-dir 2>/dev/null)
+    GIT_COMMON_DIR=$(git rev-parse --git-common-dir 2>/dev/null)
+    # In main worktree: both return same path (typically ".git")
+    # In linked worktree: git-dir returns ".git/worktrees/<name>", common-dir returns main ".git"
+    if [[ -n "$GIT_DIR" ]] && [[ -n "$GIT_COMMON_DIR" ]] && [[ "$GIT_DIR" != "$GIT_COMMON_DIR" ]]; then
+        IS_WORKTREE=true
+    fi
+fi
+
 # Build message based on event type
 TAB_PREFIX="${TAB_LABEL%: }"  # Strip ": " suffix if present
 if [[ -z "$TAB_PREFIX" ]]; then
     TAB_PREFIX="Tab"  # Fallback if tab detection failed
 fi
 
-MESSAGE="$TAB_PREFIX"
+# Append "worker" suffix for worktree (sub-agent) sessions
+if [[ "$IS_WORKTREE" == "true" ]]; then
+    MESSAGE="$TAB_PREFIX worker"
+else
+    MESSAGE="$TAB_PREFIX"
+fi
 
 # Speak using piper with paplay (background, tolerant of errors)
 if command -v paplay &>/dev/null; then
     # paplay available (PulseAudio) - need to write to temp file first
-    TEMP_WAV="/tmp/opencode-tts-$$.wav"
+    TEMP_WAV="specs/tmp/claude-tts-$$.wav"
     (timeout 10s bash -c "echo '$MESSAGE' | piper --model '$PIPER_MODEL' --output_file '$TEMP_WAV' 2>/dev/null && paplay '$TEMP_WAV' 2>/dev/null; rm -f '$TEMP_WAV'" &) || true
 elif command -v aplay &>/dev/null; then
     # aplay available (ALSA)
@@ -139,6 +172,6 @@ fi
 # Update cooldown timestamp
 date +%s > "$LAST_NOTIFY_FILE"
 
-log "Notification sent: $MESSAGE"
+log "Notification sent: $MESSAGE (worktree=$IS_WORKTREE)"
 
 exit_success

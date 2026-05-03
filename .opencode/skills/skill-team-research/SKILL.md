@@ -4,26 +4,26 @@ description: Orchestrate multi-agent research with wave-based parallel execution
 allowed-tools: Task, Bash, Edit, Read, Write
 # This skill uses TeammateTool for team coordination (available when CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)
 # Context loaded by lead during synthesis:
-#   - .opencode/context/core/patterns/team-orchestration.md
-#   - .opencode/context/core/formats/team-metadata-extension.md
-#   - .opencode/context/core/reference/team-wave-helpers.md
+#   - .claude/context/patterns/team-orchestration.md
+#   - .claude/context/formats/team-metadata-extension.md
+#   - .claude/context/reference/team-wave-helpers.md
 ---
 
 # Team Research Skill
 
 Multi-agent research with wave-based parallelization. Spawns 2-4 teammates to investigate complementary angles, then synthesizes findings into a unified report.
 
-**Task-Type-Aware Routing**: Teammates are spawned with task-type-appropriate prompts and tools. Meta tasks focus on .opencode/ system patterns; general tasks use web search and codebase exploration.
+**Task-Type-Aware Routing**: Teammates are spawned with task-type-appropriate prompts and tools. Meta tasks focus on .claude/ system patterns; general tasks use web search and codebase exploration.
 
 **IMPORTANT**: This skill requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` environment variable. If team creation fails, gracefully degrades to single-agent research via skill-researcher.
 
 ## Context References
 
 Reference (load as needed during synthesis):
-- Path: `.opencode/context/core/patterns/team-orchestration.md` - Wave coordination patterns
-- Path: `.opencode/context/core/formats/team-metadata-extension.md` - Team result schema
-- Path: `.opencode/context/core/formats/return-metadata-file.md` - Base metadata schema
-- Path: `.opencode/context/core/reference/team-wave-helpers.md` - Reusable wave patterns
+- Path: `.claude/context/patterns/team-orchestration.md` - Wave coordination patterns
+- Path: `.claude/context/formats/team-metadata-extension.md` - Team result schema
+- Path: `.claude/context/formats/return-metadata-file.md` - Base metadata schema
+- Path: `.claude/context/reference/team-wave-helpers.md` - Reusable wave patterns
 
 ## Trigger Conditions
 
@@ -101,9 +101,9 @@ Create marker file to prevent premature termination:
 
 ```bash
 padded_num=$(printf "%03d" "$task_number")
-mkdir -p "specs/OC_${padded_num}_${project_name}"
+mkdir -p "specs/${padded_num}_${project_name}"
 
-cat > "specs/OC_${padded_num}_${project_name}/.postflight-pending" << EOF
+cat > "specs/${padded_num}_${project_name}/.postflight-pending" << EOF
 {
   "session_id": "${session_id}",
   "skill": "skill-team-research",
@@ -157,7 +157,7 @@ artifact_number=$(jq -r --argjson num "$task_number" \
 # Fallback for legacy tasks: count existing artifacts
 if [ "$artifact_number" = "null" ] || [ -z "$artifact_number" ]; then
   padded_num=$(printf "%03d" "$task_number")
-  count=$(ls "specs/OC_${padded_num}_${project_name}/reports/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
+  count=$(ls "specs/${padded_num}_${project_name}/reports/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
   artifact_number=$((count + 1))
 fi
 
@@ -177,8 +177,8 @@ Determine task-type-specific configuration for teammate prompts:
 # Route by task type
 case "$task_type" in
   "meta")
-    # Meta tasks - focus on .opencode/ system patterns
-    context_refs="@.opencode/AGENTS.md, @.opencode/context/index.json"
+    # Meta tasks - focus on .claude/ system patterns
+    context_refs="@.claude/CLAUDE.md, @.claude/context/index.json"
     available_tools="Read, Grep, Glob"
     ;;
   *)
@@ -225,7 +225,7 @@ Challenge assumptions and provide specific examples.
 Consider {focus_prompt} if provided.
 
 Output your findings to:
-specs/OC_{NNN}_{SLUG}/reports/{run_padded}_teammate-a-findings.md
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-a-findings.md
 
 Format: Markdown with clear sections for:
 - Key Findings
@@ -248,7 +248,7 @@ Look for existing solutions we could adapt.
 Do NOT duplicate Teammate A's focus on primary approaches.
 
 Output your findings to:
-specs/OC_{NNN}_{SLUG}/reports/{run_padded}_teammate-b-findings.md
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-b-findings.md
 
 Format: Same as Teammate A
 ```
@@ -273,7 +273,7 @@ Focus on:
 Do NOT duplicate risk analysis (implementation risks). Focus on research quality and completeness.
 
 Output your findings to:
-specs/OC_{NNN}_{SLUG}/reports/{run_padded}_teammate-c-findings.md
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-c-findings.md
 
 Format: Same as Teammate A
 ```
@@ -302,7 +302,7 @@ Focus on:
 Think outside the box. Challenge conventional approaches where a better path exists.
 
 Output your findings to:
-specs/OC_{NNN}_{SLUG}/reports/{run_padded}_teammate-d-findings.md
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-d-findings.md
 
 Format: Same as Teammate A
 ```
@@ -349,7 +349,7 @@ padded_num=$(printf "%03d" "$task_number")
 
 for teammate in a b c d; do
   # Use run-scoped path
-  file="specs/OC_${padded_num}_${project_name}/reports/${run_padded}_teammate-${teammate}-findings.md"
+  file="specs/${padded_num}_${project_name}/reports/${run_padded}_teammate-${teammate}-findings.md"
   if [ -f "$file" ]; then
     # Parse findings
     # Extract confidence level
@@ -433,7 +433,7 @@ Write synthesized report:
 {Sources cited by teammates}
 ```
 
-Output to: `specs/OC_{NNN}_{SLUG}/reports/{RR}_team-research.md`
+Output to: `specs/{NNN}_{SLUG}/reports/{RR}_team-research.md`
 
 ---
 
@@ -464,8 +464,8 @@ jq '(.active_projects[] | select(.project_number == '$task_number')).next_artifa
 
 **Link artifact in state.json**:
 ```bash
-padded_num=$(printf "%03d" "$task_number"
-jq --arg path "specs/OC_${padded_num}_${project_name}/reports/${run_padded}_team-research.md" \
+padded_num=$(printf "%03d" "$task_number")
+jq --arg path "specs/${padded_num}_${project_name}/reports/${run_padded}_team-research.md" \
    --arg type "research" \
    --arg summary "Team research with ${team_size} teammates" \
   '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
@@ -475,7 +475,7 @@ jq --arg path "specs/OC_${padded_num}_${project_name}/reports/${run_padded}_team
 **Link artifact in TODO.md**: Use the `link-artifact-todo.sh` script (REQUIRED -- do NOT manually edit artifact links in TODO.md):
 
 ```bash
-bash .opencode/scripts/link-artifact-todo.sh $task_number '**Research**' '**Plan**' "$artifact_path"
+bash .claude/scripts/link-artifact-todo.sh $task_number '**Research**' '**Plan**' "$artifact_path"
 ```
 
 The script produces bracket-only `[path]` format. Never use markdown `[name](path)` format for artifact links. If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -493,7 +493,7 @@ Write team execution metadata:
   "artifacts": [
     {
       "type": "research",
-      "path": "specs/OC_{NNN}_{SLUG}/reports/{RR}_team-research.md",
+      "path": "specs/{NNN}_{SLUG}/reports/{RR}_team-research.md",
       "summary": "Synthesized research from {team_size} teammates"
     }
   ],
@@ -527,10 +527,10 @@ Write team execution metadata:
 Commit using targeted staging (prevents race conditions with concurrent agents):
 
 ```bash
-padded_num=$(printf "%03d" "$task_number"
+padded_num=$(printf "%03d" "$task_number")
 git add \
-  "specs/OC_${padded_num}_${project_name}/reports/" \
-  "specs/OC_${padded_num}_${project_name}/.return-meta.json" \
+  "specs/${padded_num}_${project_name}/reports/" \
+  "specs/${padded_num}_${project_name}/.return-meta.json" \
   "specs/TODO.md" \
   "specs/state.json"
 git commit -m "task ${task_number}: complete team research (${team_size} teammates)
@@ -538,7 +538,7 @@ git commit -m "task ${task_number}: complete team research (${team_size} teammat
 Session: ${session_id}
 ```
 
-**Note**: Use targeted staging, NOT `git add -A`. See `.opencode/context/core/standards/git-staging-scope.md`.
+**Note**: Use targeted staging, NOT `git add -A`. See `.claude/context/standards/git-staging-scope.md`.
 
 ---
 
@@ -547,9 +547,9 @@ Session: ${session_id}
 Remove marker and temporary files:
 
 ```bash
-padded_num=$(printf "%03d" "$task_number"
-rm -f "specs/OC_${padded_num}_${project_name}/.postflight-pending"
-rm -f "specs/OC_${padded_num}_${project_name}/.return-meta.json"
+padded_num=$(printf "%03d" "$task_number")
+rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
+rm -f "specs/${padded_num}_${project_name}/.return-meta.json"
 # Keep teammate findings files for reference
 ```
 
@@ -565,7 +565,7 @@ Team research completed for task {N}:
 - Teammate A: Primary approach findings (high confidence)
 - Teammate B: Alternative patterns identified (medium confidence)
 - {N} conflicts found and resolved
-- Synthesized report at specs/OC_{NNN}_{SLUG}/reports/{RR}_team-research.md
+- Synthesized report at specs/{NNN}_{SLUG}/reports/{RR}_team-research.md
 - Status updated to [RESEARCHED]
 ```
 
@@ -605,7 +605,7 @@ Team research completed for task 412:
 - Teammate B: Prior art analysis (medium confidence)
 - Teammate C: Risk analysis (high confidence)
 - 1 conflict resolved (approach preference)
-- Synthesized report at specs/OC_412_task_name/reports/01_team-research.md
+- Synthesized report at specs/412_task_name/reports/01_team-research.md
 - Status updated to [RESEARCHED]
 - Changes committed with session sess_...
 ```
@@ -630,4 +630,4 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.opencode/context/core/standards/postflight-tool-restrictions.md
+Reference: @.claude/context/standards/postflight-tool-restrictions.md

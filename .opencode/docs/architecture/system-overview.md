@@ -1,64 +1,64 @@
-# OpenCode System Architecture Overview
+# System Architecture Overview
 
-**Last Verified**: 2026-02-28
+**Last Verified**: 2026-01-19
 
-This document provides a high-level overview of the Logos/Theory agent system architecture for users and developers.
+This document provides a high-level overview of the agent system architecture for users and developers.
 
 ---
 
 ## Three-Layer Architecture
 
-The Logos/Theory agent system uses a three-layer architecture that separates user interaction, routing, and execution:
+The agent system uses a three-layer architecture that separates user interaction, routing, and execution:
 
 ```
                            USER
                              |
                              | /command args
                              v
-    +-----------------------------------------------------+
-    |                   LAYER 1: COMMANDS                  |
-    |                                                      |
-    |   .opencode/commands/                                |
-    |   ├── research.md      Parse arguments              |
-    |   ├── plan.md          Route by language            |
-    |   ├── implement.md     Minimal logic                |
-    |   └── ...                                            |
-    +-----------------------------------------------------+
+    ┌─────────────────────────────────────────────────────┐
+    │                   LAYER 1: COMMANDS                  │
+    │                                                      │
+    │   .claude/commands/                                  │
+    │   ├── research.md      Parse arguments              │
+    │   ├── plan.md          Route by language            │
+    │   ├── implement.md     Minimal logic                │
+    │   └── ...                                            │
+    └─────────────────────────────────────────────────────┘
                              |
                              | Delegation context
                              v
-    +-----------------------------------------------------+
-    |                   LAYER 2: SKILLS                    |
-    |                                                      |
-    |   .opencode/skills/skill-*/SKILL.md                 |
-    |   ├── skill-lean-research/     Validate inputs      |
-    |   ├── skill-researcher/        Prepare context      |
-    |   ├── skill-planner/           Invoke agents        |
-    |   └── ...                                            |
-    +-----------------------------------------------------+
+    ┌─────────────────────────────────────────────────────┐
+    │                   LAYER 2: SKILLS                    │
+    │                                                      │
+    │   .claude/skills/skill-*/SKILL.md                   │
+    │   ├── skill-researcher/        Validate inputs      │
+    │   ├── skill-planner/           Prepare context      │
+    │   ├── skill-planner/           Invoke agents        │
+    │   └── ...                                            │
+    └─────────────────────────────────────────────────────┘
                              |
                              | Task tool invocation
                              v
-    +-----------------------------------------------------+
-    |                   LAYER 3: AGENTS                    |
-    |                                                      |
-    |   .opencode/agent/subagents/*.md                    |
-    |   ├── lean-research-agent.md   Full execution       |
-    |   ├── general-research-agent.md  Create artifacts   |
-    |   ├── planner-agent.md         Return JSON          |
-    |   └── ...                                            |
-    +-----------------------------------------------------+
+    ┌─────────────────────────────────────────────────────┐
+    │                   LAYER 3: AGENTS                    │
+    │                                                      │
+    │   .claude/agents/*.md                               │
+    │   ├── general-research-agent.md  Full execution     │
+    │   ├── general-implementation-agent.md Create artifacts│
+    │   ├── planner-agent.md         Return JSON          │
+    │   └── ...                                            │
+    └─────────────────────────────────────────────────────┘
                              |
                              | Artifacts
                              v
-    +-----------------------------------------------------+
-    |                     ARTIFACTS                        |
-    |                                                      |
-    |   specs/OC_NNN_{SLUG}/                               |
-    |   ├── reports/research-001.md                       |
-    |   ├── plans/implementation-001.md                 |
-    |   └── summaries/implementation-summary-{DATE}.md    |
-    +-----------------------------------------------------+
+    ┌─────────────────────────────────────────────────────┐
+    │                     ARTIFACTS                        │
+    │                                                      │
+    │   specs/{NNN}_{SLUG}/                                  │
+    │   ├── reports/01_{short-slug}.md                    │
+    │   ├── plans/02_{short-slug}.md                      │
+    │   └── summaries/03_{short-slug}-summary.md          │
+    └─────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -67,7 +67,7 @@ The Logos/Theory agent system uses a three-layer architecture that separates use
 
 ### Commands (Layer 1)
 
-**Location**: `.opencode/commands/`
+**Location**: `.claude/commands/`
 
 Commands are user-facing entry points invoked via `/command` syntax. They:
 - Parse user arguments
@@ -86,10 +86,15 @@ Commands are user-facing entry points invoked via `/command` syntax. They:
 | `/errors` | Analyze errors |
 | `/todo` | Archive completed tasks |
 | `/meta` | System builder |
+| `/fix-it` | Scan for FIX:/NOTE:/TODO:/QUESTION: tags |
+| `/refresh` | Clean orphaned processes and old files |
+| `/tag` | Create semantic version tag (user-only) |
+| `/spawn` | Spawn new tasks to unblock blocked task |
+| `/merge` | Create pull/merge request |
 
 ### Skills (Layer 2)
 
-**Location**: `.opencode/skills/skill-*/SKILL.md`
+**Location**: `.claude/skills/skill-*/SKILL.md`
 
 Skills are thin wrappers that validate inputs and delegate to agents. They:
 - Validate task exists and arguments are correct
@@ -100,15 +105,20 @@ Skills are thin wrappers that validate inputs and delegate to agents. They:
 **Key skills**:
 | Skill | Agent | Purpose |
 |-------|-------|---------|
-| skill-lean-research | lean-research-agent | Lean 4/Mathlib research |
 | skill-researcher | general-research-agent | General web/codebase research |
 | skill-planner | planner-agent | Create implementation plans |
 | skill-implementer | general-implementation-agent | General file implementation |
-| skill-lean-implementation | lean-implementation-agent | Lean proof implementation |
+| skill-meta | meta-builder-agent | System building and task creation |
+| skill-status-sync | (direct execution) | Atomic status updates |
+| skill-orchestrator | (direct execution) | Route commands to appropriate workflows |
+| skill-git-workflow | (direct execution) | Create scoped git commits |
+| skill-spawn | spawn-agent | Analyze blockers and spawn new tasks |
+
+**Note**: Additional skills are available via extensions in `.claude/extensions/`. See [CLAUDE.md](../../CLAUDE.md) for the complete skill-to-agent mapping.
 
 ### Agents (Layer 3)
 
-**Location**: `.opencode/agent/subagents/`
+**Location**: `.claude/agents/`
 
 Agents are execution components that do the actual work. They:
 - Load context on-demand
@@ -120,24 +130,24 @@ Agents are execution components that do the actual work. They:
 
 ## Execution Flow Example
 
-When you run `/research OC_259`:
+When you run `/research 1`:
 
 ```
 1. Command: research.md
-   - Parse: task_number = OC_259
-   - Lookup: language = "lean" (from state.json)
-   - Route: skill-lean-research
+   - Parse: task_number = 1
+   - Lookup: task_type = "general" (from state.json)
+   - Route: skill-researcher
 
-2. Skill: skill-lean-research
+2. Skill: skill-researcher
    - Generate session_id: sess_1736700000_abc123
    - Validate: task exists, status allows research
    - Prepare: delegation context
-   - Invoke: lean-research-agent via Task tool
+   - Invoke: general-research-agent via Task tool
 
-3. Agent: lean-research-agent
-   - Load: Lean 4 context files
-   - Execute: Use MCP tools (lean_leansearch, etc.)
-   - Create: specs/OC_259_{slug}/reports/research-001.md
+3. Agent: general-research-agent
+   - Load: relevant context files
+   - Execute: Search documentation, analyze codebase
+   - Create: specs/001_{slug}/reports/01_{short-slug}.md
    - Return: {"status": "researched", "artifacts": [...]}
 
 4. Postflight:
@@ -173,19 +183,19 @@ This ensures:
 
 ---
 
-## Language-Based Routing
+## Task-Type-Based Routing
 
-Tasks route to specialized skills based on their `language` field:
+Tasks route to specialized skills based on their `task_type` field:
 
-| Language | Research | Implementation |
+| Task Type | Research | Implementation |
 |----------|----------|----------------|
-| `lean` | skill-lean-research | skill-lean-implementation |
 | `general` | skill-researcher | skill-implementer |
 | `meta` | skill-researcher | skill-implementer |
-| `latex` | skill-researcher | skill-latex-implementation |
-| `typst` | skill-typst-research | skill-typst-implementation |
+| `markdown` | skill-researcher | skill-implementer |
 
-The language is automatically detected from task description or can be set explicitly.
+The task type is automatically detected from task description or can be set explicitly.
+
+**Note**: Additional task types (nix, latex, typst, python, etc.) are available via extensions in `.claude/extensions/`.
 
 ---
 
@@ -208,20 +218,18 @@ Updates use two-phase commit:
 ## File Structure
 
 ```
-.opencode/
+.claude/
 ├── commands/           # Layer 1: User commands
 │   ├── research.md
 │   ├── plan.md
 │   └── ...
 ├── skills/             # Layer 2: Skills
-│   ├── skill-lean-research/
+│   ├── skill-researcher/
 │   │   └── SKILL.md
 │   └── ...
-├── agent/              # Layer 3: Agents
-│   ├── orchestrator.md          # Primary agent
-│   └── subagents/                 # Execution agents
-│       ├── lean-research-agent.md
-│       └── ...
+├── agents/             # Layer 3: Agents
+│   ├── general-research-agent.md
+│   └── ...
 ├── rules/              # Automatic behavior rules
 ├── context/            # Domain knowledge
 │   └── core/
@@ -241,21 +249,21 @@ Updates use two-phase commit:
 
 ### Adding New Language Support
 
-To add support for a new language (e.g., Python):
+To add support for a new language (e.g., Rust):
 
-1. Create skill: `.opencode/skills/skill-python-research/SKILL.md`
-2. Create agent: `.opencode/agent/subagents/python-research-agent.md`
+1. Create skill: `.claude/skills/skill-rust-research/SKILL.md`
+2. Create agent: `.claude/agents/rust-research-agent.md`
 3. Update routing in existing commands
 
 ### Adding New Commands
 
 To add a new command (e.g., /analyze):
 
-1. Create command: `.opencode/commands/analyze.md`
-2. Create skill: `.opencode/skills/skill-analyzer/SKILL.md`
-3. Create agent: `.opencode/agent/subagents/analyzer-agent.md`
+1. Create command: `.claude/commands/analyze.md`
+2. Create skill: `.claude/skills/skill-analyzer/SKILL.md`
+3. Create agent: `.claude/agents/analyzer-agent.md`
 
-See the guides in `.opencode/docs/guides/` for detailed instructions.
+See the guides in `.claude/docs/guides/` for detailed instructions.
 
 ---
 
@@ -273,12 +281,11 @@ See the guides in `.opencode/docs/guides/` for detailed instructions.
 - [User Installation Guide](../guides/user-installation.md) - Getting started
 - [README](../README.md) - Documentation hub
 
+### Architecture Details
+
+- [README.md](../../README.md) - Detailed system architecture
+- [CLAUDE.md](../../CLAUDE.md) - Quick reference entry point
+
 ### Agent-Facing Documentation
 
-- [Context Index](../../context/index.md) - Full context loading guide
-
----
-
-**Document Version**: 1.0
-**Created**: 2026-02-28
-**Maintained By**: Logos/Theory Development Team
+- [Agent System Overview](../../context/architecture/system-overview.md) - Detailed architecture for agents (includes skill patterns, command mapping matrix)

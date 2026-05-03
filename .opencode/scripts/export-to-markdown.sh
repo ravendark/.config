@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# export-to-markdown.sh - Export .opencode/ directory to single consolidated markdown file
+# export-to-markdown.sh - Export .claude/ directory to single consolidated markdown file
 #
 # Usage: ./export-to-markdown.sh [OPTIONS]
 #
 # Options:
-#   -o, --output FILE    Output file path (default: docs/opencode-directory-export.md)
+#   -o, --output FILE    Output file path (default: docs/claude-directory-export.md)
 #   --help, -h           Show this help message
 #
 # Features:
@@ -20,8 +20,8 @@ set -euo pipefail
 # Configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-OPENCODE_DIR="$PROJECT_ROOT/.opencode"
-DEFAULT_OUTPUT="$PROJECT_ROOT/docs/opencode-directory-export.md"
+CLAUDE_DIR="$PROJECT_ROOT/.claude"
+DEFAULT_OUTPUT="$PROJECT_ROOT/docs/claude-directory-export.md"
 
 # Exclusion patterns (from research findings)
 EXCLUDE_PATTERNS=(
@@ -47,10 +47,10 @@ while [[ $# -gt 0 ]]; do
         --help|-h)
             echo "Usage: $0 [OPTIONS]"
             echo ""
-            echo "Export .opencode/ directory to single consolidated markdown file."
+            echo "Export .claude/ directory to single consolidated markdown file."
             echo ""
             echo "Options:"
-            echo "  -o, --output FILE    Output file path (default: docs/opencode-directory-export.md)"
+            echo "  -o, --output FILE    Output file path (default: docs/claude-directory-export.md)"
             echo "  --help, -h           Show this help message"
             echo ""
             echo "Features:"
@@ -79,7 +79,7 @@ should_exclude() {
     local file="$1"
     local basename
     basename=$(basename "$file")
-    local relpath="${file#$OPENCODE_DIR/}"
+    local relpath="${file#$CLAUDE_DIR/}"
 
     for pattern in "${EXCLUDE_PATTERNS[@]}"; do
         # Handle glob patterns
@@ -171,14 +171,14 @@ discover_files() {
         if ! should_exclude "$file"; then
             files+=("$file")
         fi
-    done < <(find "$OPENCODE_DIR" -type f -print0 2>/dev/null | sort -z)
+    done < <(find "$CLAUDE_DIR" -type f -print0 2>/dev/null | sort -z)
 
     # Sort: root files first, then alphabetically by directory
     local root_files=()
     local dir_files=()
 
     for file in "${files[@]}"; do
-        local relpath="${file#$OPENCODE_DIR/}"
+        local relpath="${file#$CLAUDE_DIR/}"
         if [[ "$relpath" != */* ]]; then
             root_files+=("$file")
         else
@@ -208,7 +208,7 @@ generate_toc() {
     echo ""
 
     for file in "${files[@]}"; do
-        local relpath="${file#$OPENCODE_DIR/}"
+        local relpath="${file#$CLAUDE_DIR/}"
         local dir
         dir=$(dirname "$relpath")
         local basename
@@ -247,7 +247,7 @@ generate_toc() {
 # Process a single file and output to markdown
 process_file() {
     local file="$1"
-    local relpath="${file#$OPENCODE_DIR/}"
+    local relpath="${file#$CLAUDE_DIR/}"
     local file_type
     file_type=$(get_file_type "$file")
 
@@ -278,8 +278,8 @@ process_file() {
 
 # Main export function
 main() {
-    echo "Exporting .opencode/ directory to markdown..."
-    echo "Source: $OPENCODE_DIR"
+    echo "Exporting .claude/ directory to markdown..."
+    echo "Source: $CLAUDE_DIR"
     echo "Output: $OUTPUT"
     echo ""
 
@@ -299,11 +299,11 @@ main() {
 
     # Start output file
     {
-        echo "# .opencode/ Directory Export"
+        echo "# .claude/ Directory Export"
         echo ""
         echo "**Generated**: $(date -Iseconds)"
         echo ""
-        echo "**Source**: \`.opencode/\` directory"
+        echo "**Source**: \`.claude/\` directory"
         echo ""
         echo "**File count**: $file_count"
         echo ""

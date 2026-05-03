@@ -1,217 +1,209 @@
 ---
 description: Analyze errors and create fix plans
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), TaskCreate, TaskUpdate, Task
+argument-hint: [--fix TASK_NUMBER]
+model: opus
 ---
 
-# Command: /errors
+# /errors Command
 
-**Purpose**: Analyze errors.json, identify patterns, and create fix plans  
-**Layer**: 2 (Command File - Argument Parsing Agent)  
-**Delegates To**: Task (for creating fix tasks)
+Analyze errors.json, identify patterns, and create fix plans.
 
----
+## Arguments
 
-## Argument Parsing
+- No args: Analyze all errors and suggest fixes
+- `--fix N` - Implement fixes for specific error task
 
-<argument_parsing>
-  <step_1>
-    Parse arguments:
-    - No args: Analysis mode
-    - --fix OC_N or --fix N: Fix mode for specific task number (strip OC_ prefix for state.json lookup)
+## Execution (Analysis Mode - Default)
 
-    Extract fix_task_number if --fix flag present; strip OC_ prefix to get integer
-  </step_1>
-</argument_parsing>
+### 1. Load Error Data
 
----
+Read specs/errors.json:
+```json
+{
+  "errors": [
+    {
+      "id": "err_001",
+      "timestamp": "ISO_DATE",
+      "type": "delegation_hang|timeout|build_error|...",
+      "severity": "critical|high|medium|low",
+      "message": "Error description",
+      "context": {
+        "command": "/implement",
+        "task": 259,
+        "agent": "implementer",
+        "file": "path/to/file"
+      },
+      "fix_status": "unfixed|in_progress|fixed",
+      "recurrence_count": 1
+    }
+  ]
+}
+```
 
-## Workflow Execution
+### 2. Analyze Patterns
 
-<analysis_mode>
-  <step_1>
-    <action>Load Error Data</action>
-    <process>
-      Read specs/errors.json if exists, initialize if missing:
-      ```json
-      {
-        "errors": [],
-        "_schema_version": "1.0.0"
-      }
-      ```
-      
-      Extract error array and metadata.
-    </process>
-  </step_1>
+Group errors by:
+- **Type**: delegation_hang, timeout, build_error, etc.
+- **Severity**: critical, high, medium, low
+- **Recurrence**: How often each error repeats
+- **Context**: Which commands/agents trigger them
 
-  <step_2>
-    <action>Analyze Patterns</action>
-    <process>
-      Group errors by:
-      - Type: delegation_hang, timeout, build_error, etc.
-      - Severity: critical, high, medium, low
-      - Recurrence: How often each error repeats
-      - Context: Which commands/agents trigger them
-      
-      Identify:
-      - Most frequent error types
-      - Highest severity unfixed errors
-      - Patterns suggesting root causes
-      - Quick wins (easy fixes)
-    </process>
-  </step_2>
+Identify:
+- Most frequent error types
+- Highest severity unfixed errors
+- Patterns suggesting root causes
+- Quick wins (easy fixes)
 
-  <step_3>
-    <action>Create Analysis Report</action>
-    <process>
-      Write to specs/errors/analysis-{DATE}.md
-      
-      Include sections:
-      - Summary (total, unfixed, fixed counts)
-      - Summary by type table
-      - Critical errors (unfixed)
-      - Pattern analysis
-      - Recommended fix plan (prioritized)
-      - Suggested tasks
-    </process>
-  </step_3>
+### 3. Create Analysis Report
 
-  <step_4>
-    <action>Create Fix Tasks</action>
-    <process>
-      For significant error patterns:
-      
-      Use TodoWrite to create tasks:
-      ```
-      /task "Fix: {error description} ({N} occurrences)"
-      ```
-      
-      Track created task numbers in report.
-    </process>
-  </step_4>
+Write to `specs/errors/analysis-{DATE}.md`:
 
-  <step_5>
-    <action>Output Results</action>
-    <process>
-      Display summary:
-      - Report location
-      - Error statistics
-      - Top patterns
-      - Created tasks
-      
-      Return to orchestrator
-    </process>
-  </step_5>
-</analysis_mode>
+```markdown
+# Error Analysis Report
 
-<fix_mode>
-  <step_1>
-    <action>Load Fix Task</action>
-    <process>
-      Read task {fix_task_number} from specs/state.json
-      Verify it's an error-fix task by checking title for "Fix:"
-      
-      Extract task metadata (description, context).
-    </process>
-  </step_1>
+**Date**: {ISO_DATE}
+**Total errors**: {N}
+**Unfixed**: {N}
+**Fixed**: {N}
 
-  <step_2>
-    <action>Identify Related Errors</action>
-    <process>
-      Find errors in errors.json linked to this task:
-      - By task number in context
-      - By matching task description patterns
-      - By error type mentioned in task
-      
-      Build list of errors to fix.
-    </process>
-  </step_2>
+## Summary by Type
 
-  <step_3>
-    <action>Delegate to Task Creation</action>
-    <process>
-      For each error pattern needing fix:
-      
-      Delegate to Task to create subtask:
-      ```
-      Delegate to Task with:
-      - description: "Fix error: {error_type} - {error_message}"
-      - priority: based on error severity
-      - context: error details and fix approach
-      ```
-    </process>
-  </step_3>
+| Type | Count | Unfixed | Severity |
+|------|-------|---------|----------|
+| delegation_hang | {N} | {N} | high |
+| timeout | {N} | {N} | medium |
+| build_error | {N} | {N} | high |
 
-  <step_4>
-    <action>Update Error Status</action>
-    <process>
-      For errors being addressed:
-      Update errors.json entries:
-      ```json
-      {
-        "fix_status": "in_progress",
-        "fix_task": {fix_task_number},
-        "fix_date": "ISO_DATE"
-      }
-      ```
-      
-      Use jq for safe updates.
-    </process>
-  </step_4>
+## Critical Errors (Unfixed)
 
-  <step_5>
-    <action>Git Commit</action>
-    <process>
-      ```bash
-      git add specs/
-      git commit -m "errors: create fix tasks for task {fix_task_number}"
-      ```
-    </process>
-  </step_5>
+### {Error Type}: {Message}
+**ID**: err_{N}
+**Occurrences**: {N}
+**Last seen**: {date}
+**Context**: {command} on task {N}
 
-  <step_6>
-    <action>Output Results</action>
-    <process>
-      Display fix summary:
-      - Task being fixed
-      - Errors identified
-      - Fix tasks created
-      - Next steps
-      
-      Return to orchestrator
-    </process>
-  </step_6>
-</fix_mode>
-</workflow_execution>
+**Root cause analysis**:
+{Analysis of why this happens}
 
----
+**Recommended fix**:
+{Steps to fix}
 
-## Error Handling
+**Estimated effort**: {time}
 
-<error_handling>
-  <argument_errors>
-    - Invalid task number -> Return error with guidance
-    - Task not found -> Return error message
-  </argument_errors>
-  
-  <execution_errors>
-    - jq failures -> Return error with technical details
-    - File permission errors -> Return error with guidance
-    - Git commit failures -> Log warning, continue
-    - TodoWrite failures -> Log error, continue with analysis
-  </execution_errors>
-</error_handling>
+## Pattern Analysis
 
----
+### Pattern 1: {Name}
+**Errors involved**: err_{N1}, err_{N2}
+**Common factor**: {what they share}
+**Root cause**: {underlying issue}
+**Fix approach**: {how to address}
 
-## State Management
+## Recommended Fix Plan
 
-<state_management>
-  <reads>
-    specs/errors.json
-    specs/state.json
-  </reads>
-  
-  <writes>
-    specs/errors/analysis-{DATE}.md
-    specs/errors.json (status updates)
-  </writes>
-</state_management>
+### Priority 1: {High-impact fixes}
+1. {Fix description} - addresses {N} errors
+2. {Fix description} - addresses {N} errors
+
+### Priority 2: {Medium-impact fixes}
+...
+
+### Priority 3: {Low-impact/preventive}
+...
+
+## Suggested Tasks
+
+Create these tasks to address errors:
+1. Task: "Fix {error type}" - High priority
+2. Task: "Fix {error type}" - Medium priority
+```
+
+### 4. Create Fix Tasks
+
+For significant error patterns, create tasks:
+
+```
+/task "Fix: {error description} ({N} occurrences)"
+```
+
+Note task numbers in report.
+
+### 5. Output
+
+```
+Error Analysis Complete
+
+Report: specs/errors/analysis-{DATE}.md
+
+Errors: {N} total
+- Critical unfixed: {N}
+- High unfixed: {N}
+
+Tasks created: {N}
+- Task #{N1}: {title}
+- Task #{N2}: {title}
+
+Next: /implement {N}
+```
+
+## Execution (Fix Mode - --fix N)
+
+### 1. Load Fix Task
+
+Read task {N} from state.json
+Verify it's an error-fix task
+
+### 2. Identify Related Errors
+
+Find errors in errors.json linked to this task
+or matching the task description
+
+### 3. Execute Fixes
+
+For each error:
+1. Analyze root cause
+2. Implement fix
+3. Update error status to "in_progress"
+4. Verify fix works
+5. Update error status to "fixed"
+
+### 4. Update errors.json
+
+Mark fixed errors:
+```json
+{
+  "fix_status": "fixed",
+  "fixed_date": "ISO_DATE",
+  "fix_task": N
+}
+```
+
+### 5. Git Commit
+
+```bash
+git add -A
+git commit -m "errors: fix {N} errors (task {M})"
+```
+
+## Standards Reference
+
+This command implements the multi-task creation pattern. See `.claude/docs/reference/standards/multi-task-creation-standard.md` for the complete standard.
+
+**Compliance Level**: Partial (intentionally simplified)
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Discovery | Yes | Error patterns from errors.json |
+| Selection | No | Automatic task creation |
+| Grouping | Partial | Groups by error type/severity |
+| Dependencies | No | Not implemented |
+| Ordering | No | Sequential creation |
+| Visualization | No | Not implemented |
+| Confirmation | No | Automatic mode |
+| State Updates | Yes | Standard task creation |
+
+**Rationale**: The `/errors` command intentionally uses automatic task creation without interactive selection. This design prioritizes quick error triage - when errors are detected, immediate task creation is more valuable than manual curation.
+
+**Gap**: No interactive selection or dependency support.
+
+**Future Enhancement**: Add `--interactive` flag for manual selection mode when desired.

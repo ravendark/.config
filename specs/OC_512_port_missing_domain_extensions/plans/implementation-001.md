@@ -1,7 +1,7 @@
 # Implementation Plan: Task #512
 
 - **Task**: 512 - port_missing_domain_extensions
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 6-8 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/OC_512_port_missing_domain_extensions/reports/research-001.md
@@ -57,7 +57,7 @@ Research findings establish the scope:
 
 ## Implementation Phases
 
-### Phase 1: Port slidev Extension [NOT STARTED]
+### Phase 1: Port slidev Extension [COMPLETED]
 
 **Goal**: Port resource-only slidev extension (19 files, ~1,000 lines)
 
@@ -86,7 +86,7 @@ Research findings establish the scope:
 
 ---
 
-### Phase 2: Port present Extension [NOT STARTED]
+### Phase 2: Port present Extension [COMPLETED]
 
 **Goal**: Port present extension (95 files, ~12,000 lines, 9 agents, 7 skills, 5 commands)
 
@@ -123,7 +123,7 @@ Research findings establish the scope:
 
 ---
 
-### Phase 3: Port founder Extension [NOT STARTED]
+### Phase 3: Port founder Extension [COMPLETED]
 
 **Goal**: Port founder extension (121 files, ~24,000 lines, 16 agents, 15 skills, 9 commands)
 
@@ -160,7 +160,7 @@ Research findings establish the scope:
 
 ---
 
-### Phase 4: Verification and Cross-Reference Update [NOT STARTED]
+### Phase 4: Verification and Cross-Reference Update [COMPLETED]
 
 **Goal**: Verify complete port and fix any remaining references
 
@@ -196,7 +196,7 @@ jq '.language // .task_type' .opencode/extensions/*/manifest.json
 
 ---
 
-### Phase 5: Documentation Update [NOT STARTED]
+### Phase 5: Documentation Update [COMPLETED]
 
 **Goal**: Update task status and create completion summary
 

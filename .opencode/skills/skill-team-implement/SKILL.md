@@ -4,9 +4,9 @@ description: Orchestrate multi-agent implementation with parallel phase executio
 allowed-tools: Task, Bash, Edit, Read, Write, Glob
 # This skill uses TeammateTool for team coordination (available when CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)
 # Context loaded by lead during coordination:
-#   - .opencode/context/core/patterns/team-orchestration.md
-#   - .opencode/context/core/formats/team-metadata-extension.md
-#   - .opencode/context/core/reference/team-wave-helpers.md
+#   - .claude/context/patterns/team-orchestration.md
+#   - .claude/context/formats/team-metadata-extension.md
+#   - .claude/context/reference/team-wave-helpers.md
 ---
 
 # Team Implement Skill
@@ -18,10 +18,10 @@ Multi-agent implementation with wave-based phase parallelization. Analyzes phase
 ## Context References
 
 Reference (load as needed during coordination):
-- Path: `.opencode/context/core/patterns/team-orchestration.md` - Wave coordination patterns
-- Path: `.opencode/context/core/formats/team-metadata-extension.md` - Team result schema
-- Path: `.opencode/context/core/formats/return-metadata-file.md` - Base metadata schema
-- Path: `.opencode/context/core/reference/team-wave-helpers.md` - Reusable wave patterns
+- Path: `.claude/context/patterns/team-orchestration.md` - Wave coordination patterns
+- Path: `.claude/context/formats/team-metadata-extension.md` - Team result schema
+- Path: `.claude/context/formats/return-metadata-file.md` - Base metadata schema
+- Path: `.claude/context/reference/team-wave-helpers.md` - Reusable wave patterns
 
 ## Trigger Conditions
 
@@ -114,9 +114,9 @@ Create marker file to prevent premature termination:
 
 ```bash
 padded_num=$(printf "%03d" "$task_number")
-mkdir -p "specs/OC_${padded_num}_${project_name}"
+mkdir -p "specs/${padded_num}_${project_name}"
 
-cat > "specs/OC_${padded_num}_${project_name}/.postflight-pending" << EOF
+cat > "specs/${padded_num}_${project_name}/.postflight-pending" << EOF
 {
   "session_id": "${session_id}",
   "skill": "skill-team-implement",
@@ -177,7 +177,7 @@ fi
 # Fallback for legacy tasks: count existing summary artifacts
 if [ "$next_num" = "null" ] || [ -z "$next_num" ]; then
   padded_num=$(printf "%03d" "$task_number")
-  count=$(ls "specs/OC_${padded_num}_${project_name}/summaries/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
+  count=$(ls "specs/${padded_num}_${project_name}/summaries/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
   artifact_number=$((count + 1))
 fi
 
@@ -300,7 +300,7 @@ Implement phase {P} of task {task_number}: {phase_name}
 2. Execute steps in order
 3. Verify completion with criteria
 4. Update phase status in plan file to [COMPLETED]
-5. Write results to: specs/OC_{NNN}_{SLUG}/phases/{RR}_phase-{P}-results.md
+5. Write results to: specs/{NNN}_{SLUG}/phases/{RR}_phase-{P}-results.md
 
 ## On Error
 If build/test fails:
@@ -389,7 +389,7 @@ Analyze and fix the error in task {task_number} phase {P}:
 5. If fixed: Mark phase [COMPLETED]
 6. If not fixable: Document issue and mark [BLOCKED]
 
-Output diagnosis to: specs/OC_{NNN}_{SLUG}/debug/{RR}_phase-{P}-debug.md
+Output diagnosis to: specs/{NNN}_{SLUG}/debug/{RR}_phase-{P}-debug.md
 ```
 
 ---
@@ -401,7 +401,7 @@ After each wave completes, commit progress:
 ```bash
 padded_num=$(printf "%03d" "$task_number")
 git add \
-  "specs/OC_${padded_num}_${project_name}/" \
+  "specs/${padded_num}_${project_name}/" \
   "specs/TODO.md" \
   "$plan_path"
 git commit -m "task ${task_number}: complete wave ${wave_num} (phases ${phase_list})
@@ -464,7 +464,7 @@ After all waves complete, write summary:
 {Any issues, blockers, or follow-up items}
 ```
 
-Output to: `specs/OC_{NNN}_{SLUG}/summaries/{RR}_implementation-summary.md`
+Output to: `specs/{NNN}_{SLUG}/summaries/{RR}_implementation-summary.md`
 
 ---
 
@@ -488,7 +488,7 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
 **Link artifact**:
 ```bash
 padded_num=$(printf "%03d" "$task_number")
-jq --arg path "specs/OC_${padded_num}_${project_name}/summaries/${run_padded}_implementation-summary.md" \
+jq --arg path "specs/${padded_num}_${project_name}/summaries/${run_padded}_implementation-summary.md" \
    --arg type "summary" \
    --arg summary "Team implementation with ${team_size} max concurrent teammates" \
   '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
@@ -498,7 +498,7 @@ jq --arg path "specs/OC_${padded_num}_${project_name}/summaries/${run_padded}_im
 **Update TODO.md**: Link artifact using the automated script:
 
 ```bash
-bash .opencode/scripts/link-artifact-todo.sh $task_number '**Summary**' '**Description**' "$artifact_path"
+bash .claude/scripts/link-artifact-todo.sh $task_number '**Summary**' '**Description**' "$artifact_path"
 ```
 
 If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -516,7 +516,7 @@ Write team execution metadata:
   "artifacts": [
     {
       "type": "summary",
-      "path": "specs/OC_{NNN}_{SLUG}/summaries/{RR}_implementation-summary.md",
+      "path": "specs/{NNN}_{SLUG}/summaries/{RR}_implementation-summary.md",
       "summary": "Implementation summary with wave execution details"
     }
   ],
@@ -531,7 +531,7 @@ Write team execution metadata:
   },
   "completion_data": {
     "completion_summary": "Brief description of what was implemented",
-    "claudemd_suggestions": "Changes to .opencode/ (meta tasks) or 'none'"
+    "claudemd_suggestions": "Changes to .claude/ (meta tasks) or 'none'"
   },
   "metadata": {
     "session_id": "{session_id}",
@@ -551,8 +551,8 @@ Final commit with summary:
 ```bash
 padded_num=$(printf "%03d" "$task_number")
 git add \
-  "specs/OC_${padded_num}_${project_name}/summaries/" \
-  "specs/OC_${padded_num}_${project_name}/.return-meta.json" \
+  "specs/${padded_num}_${project_name}/summaries/" \
+  "specs/${padded_num}_${project_name}/.return-meta.json" \
   "specs/TODO.md" \
   "specs/state.json" \
   "$plan_path"
@@ -569,8 +569,8 @@ Remove marker and temporary files:
 
 ```bash
 padded_num=$(printf "%03d" "$task_number")
-rm -f "specs/OC_${padded_num}_${project_name}/.postflight-pending"
-rm -f "specs/OC_${padded_num}_${project_name}/.return-meta.json"
+rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
+rm -f "specs/${padded_num}_${project_name}/.return-meta.json"
 # Keep phase results and debug files for reference
 ```
 
@@ -588,7 +588,7 @@ Team implementation completed for task {N}:
 - Wave 3: Phase 6 (sequential)
 - {debugger_count} debugger invocations for error recovery
 - All {phase_count} phases completed
-- Summary at specs/OC_{NNN}_{SLUG}/summaries/{RR}_implementation-summary.md
+- Summary at specs/{NNN}_{SLUG}/summaries/{RR}_implementation-summary.md
 - Status updated to [COMPLETED]
 ```
 
@@ -634,7 +634,7 @@ Team implementation completed for task 412:
 - Wave 3: Phase 5, 6 completed in parallel
 - 1 debugger invocation for build error (resolved)
 - All 6 phases completed
-- Summary at specs/OC_412_task_name/summaries/01_implementation-summary.md
+- Summary at specs/412_task_name/summaries/01_implementation-summary.md
 - Status updated to [COMPLETED]
 - Changes committed with session sess_...
 ```
@@ -674,7 +674,7 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.opencode/context/core/standards/postflight-tool-restrictions.md
+Reference: @.claude/context/standards/postflight-tool-restrictions.md
 
 ---
 

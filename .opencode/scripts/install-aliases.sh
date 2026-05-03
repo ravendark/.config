@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
-# install-aliases.sh - Install OpenCode refresh and cleanup aliases
+# install-aliases.sh - Install Claude Code refresh and cleanup aliases
 #
 # This script adds helpful aliases to your shell configuration:
-#   - opencode-refresh: Show orphaned process status
-#   - opencode-refresh-force: Force terminate orphaned processes
-#   - opencode-cleanup: Preview directory cleanup (dry-run)
-#   - opencode-cleanup-force: Force cleanup with 8-hour threshold
-#   - opencode-cleanup-all: Clean everything except safety margin
+#   - claude-refresh: Show orphaned process status
+#   - claude-refresh-force: Force terminate orphaned processes
+#   - claude-cleanup: Preview directory cleanup (dry-run)
+#   - claude-cleanup-force: Force cleanup with 8-hour threshold
+#   - claude-cleanup-all: Clean everything except safety margin
 #
 # Usage: ./install-aliases.sh [--uninstall]
 
@@ -43,31 +43,31 @@ detect_shell_config() {
 
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REFRESH_SCRIPT="$SCRIPT_DIR/opencode-refresh.sh"
-CLEANUP_SCRIPT="$SCRIPT_DIR/opencode-cleanup.sh"
+REFRESH_SCRIPT="$SCRIPT_DIR/claude-refresh.sh"
+CLEANUP_SCRIPT="$SCRIPT_DIR/claude-cleanup.sh"
 
 # Alias block markers
-ALIAS_START="# >>> OpenCode refresh aliases >>>"
-ALIAS_END="# <<< OpenCode refresh aliases <<<"
+ALIAS_START="# >>> Claude Code refresh aliases >>>"
+ALIAS_END="# <<< Claude Code refresh aliases <<<"
 
 # Generate alias block
 generate_aliases() {
     cat << EOF
 $ALIAS_START
 # Show orphaned process status
-alias opencode-refresh='$REFRESH_SCRIPT'
+alias claude-refresh='$REFRESH_SCRIPT'
 
 # Force terminate orphaned processes
-alias opencode-refresh-force='$REFRESH_SCRIPT --force'
+alias claude-refresh-force='$REFRESH_SCRIPT --force'
 
-# Comprehensive ~/.opencode/ directory cleanup (dry-run preview)
-alias opencode-cleanup='$CLEANUP_SCRIPT --dry-run'
+# Comprehensive ~/.claude/ directory cleanup (dry-run preview)
+alias claude-cleanup='$CLEANUP_SCRIPT --dry-run'
 
 # Force cleanup with 8-hour default
-alias opencode-cleanup-force='$CLEANUP_SCRIPT --force --age 8'
+alias claude-cleanup-force='$CLEANUP_SCRIPT --force --age 8'
 
 # Clean slate - remove everything except safety margin (interactive confirmation)
-alias opencode-cleanup-all='$CLEANUP_SCRIPT --age 0'
+alias claude-cleanup-all='$CLEANUP_SCRIPT --age 0'
 $ALIAS_END
 EOF
 }
@@ -78,7 +78,7 @@ check_installed() {
     if grep -q "$ALIAS_START" "$config" 2>/dev/null; then
         return 0  # installed (new style)
     fi
-    if grep -q "OpenCode cleanup aliases" "$config" 2>/dev/null; then
+    if grep -q "Claude Code cleanup aliases" "$config" 2>/dev/null; then
         return 0  # installed (old style)
     fi
     return 1  # not installed
@@ -100,11 +100,11 @@ install_aliases() {
     echo "Aliases installed in $config"
     echo ""
     echo "Available aliases:"
-    echo "  opencode-refresh        - Show orphaned process status"
-    echo "  opencode-refresh-force  - Force terminate orphaned processes"
-    echo "  opencode-cleanup        - Preview directory cleanup (dry-run)"
-    echo "  opencode-cleanup-force  - Force cleanup with 8-hour threshold"
-    echo "  opencode-cleanup-all    - Clean everything except safety margin"
+    echo "  claude-refresh        - Show orphaned process status"
+    echo "  claude-refresh-force  - Force terminate orphaned processes"
+    echo "  claude-cleanup        - Preview directory cleanup (dry-run)"
+    echo "  claude-cleanup-force  - Force cleanup with 8-hour threshold"
+    echo "  claude-cleanup-all    - Clean everything except safety margin"
     echo ""
     echo "Run 'source $config' or start a new shell to use the aliases."
 }
@@ -122,7 +122,7 @@ uninstall_aliases() {
     sed -i "/$ALIAS_START/,/$ALIAS_END/d" "$config"
 
     # Remove old style alias block (for migration)
-    sed -i '/# >>> OpenCode cleanup aliases >>>/,/# <<< OpenCode cleanup aliases <<</d' "$config"
+    sed -i '/# >>> Claude Code cleanup aliases >>>/,/# <<< Claude Code cleanup aliases <<</d' "$config"
 
     echo "Aliases removed from $config"
 }
@@ -137,7 +137,7 @@ for arg in "$@"; do
         --help|-h)
             echo "Usage: $0 [--uninstall]"
             echo ""
-            echo "Installs OpenCode refresh aliases to your shell config."
+            echo "Installs Claude Code refresh aliases to your shell config."
             echo ""
             echo "Options:"
             echo "  --uninstall  Remove previously installed aliases"

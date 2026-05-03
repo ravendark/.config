@@ -72,4 +72,4 @@ model: opus
 **Agents MUST NOT invoke /tag**. This is enforced by:
 - `user-only: true` in skill frontmatter
 - Explicit prohibition in agent rules
-- No agent mapping in AGENTS.md
+- No agent mapping in CLAUDE.md

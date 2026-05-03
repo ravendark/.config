@@ -18,15 +18,15 @@ Blocker analysis and task decomposition agent for the /spawn workflow. Analyzes 
 
 ## Context References
 
-- `@.opencode/context/formats/return-metadata-file.md` - Metadata file schema (always load)
-- `@.opencode/AGENTS.md` - Project configuration and conventions
-- `@.opencode/context/standards/tasks.md` - Task structure guidelines
+- `@.claude/context/formats/return-metadata-file.md` - Metadata file schema (always load)
+- `@.claude/CLAUDE.md` - Project configuration and conventions
+- `@.claude/context/standards/tasks.md` - Task structure guidelines
 
 ## Execution Flow
 
 ### Stage 0: Write Early Metadata
 
-**CRITICAL**: Create `specs/OC_{NNN}_{SLUG}/.return-meta.json` with `"status": "in_progress"` BEFORE any substantive work. Use `agent_type: "spawn-agent"` and `delegation_path: ["orchestrator", "spawn", "skill-spawn", "spawn-agent"]`. See `return-metadata-file.md` for full schema.
+**CRITICAL**: Create `specs/{NNN}_{SLUG}/.return-meta.json` with `"status": "in_progress"` BEFORE any substantive work. Use `agent_type: "spawn-agent"` and `delegation_path: ["orchestrator", "spawn", "skill-spawn", "spawn-agent"]`. See `return-metadata-file.md` for full schema.
 
 ### Stage 1: Load Context
 
@@ -34,7 +34,7 @@ Extract standard delegation fields (see `return-metadata-file.md` for schema). A
 - `task_data` - Full task object from state.json (includes status, task_type, description, effort)
 - `blocker_prompt` - Optional user description of what is blocking
 - `plan_path` - Path to latest plan (or null)
-- Report path: `specs/OC_{NNN}_{SLUG}/reports/{NN}_spawn-analysis.md` (using `artifact_number` for `{NN}`)
+- Report path: `specs/{NNN}_{SLUG}/reports/{NN}_spawn-analysis.md` (using `artifact_number` for `{NN}`)
 
 **Load task artifacts**:
 - Read plan file if provided: identify which phase is blocked and why
@@ -96,9 +96,9 @@ Apply the **Task Minimization Principle**:
 
 **Path Construction**:
 - Use `artifact_number` from delegation context for `{NN}` prefix (not hardcoded 02)
-- Report path: `specs/OC_{NNN}_{SLUG}/reports/{NN}_spawn-analysis.md`
+- Report path: `specs/{NNN}_{SLUG}/reports/{NN}_spawn-analysis.md`
 
-Write to `specs/OC_{NNN}_{SLUG}/reports/{NN}_spawn-analysis.md`:
+Write to `specs/{NNN}_{SLUG}/reports/{NN}_spawn-analysis.md`:
 
 ```markdown
 # Blocker Analysis: Task #{N}
@@ -144,7 +144,7 @@ The blocker will be resolved because: {explanation of how completing these tasks
 
 ### Stage 5: Write Return File
 
-Write to `specs/OC_{NNN}_{SLUG}/.spawn-return.json`:
+Write to `specs/{NNN}_{SLUG}/.spawn-return.json`:
 
 ```json
 {
@@ -169,7 +169,7 @@ Write to `specs/OC_{NNN}_{SLUG}/.spawn-return.json`:
   "dependency_order": [0, 1],
   "parent_task_number": N,
   "analysis_summary": "One sentence describing what is blocking and how the new tasks resolve it",
-  "report_path": "specs/OC_{NNN}_{SLUG}/reports/02_spawn-analysis.md"
+  "report_path": "specs/{NNN}_{SLUG}/reports/02_spawn-analysis.md"
 }
 ```
 
@@ -193,7 +193,7 @@ Write to `specs/OC_{NNN}_{SLUG}/.spawn-return.json`:
 
 ### Stage 6: Update Early Metadata to Final Status
 
-Update `specs/OC_{NNN}_{SLUG}/.return-meta.json` with status `researched`. Agent-specific metadata fields: `proposed_task_count`. Set `next_steps` to `"Skill postflight will create tasks from .spawn-return.json"`.
+Update `specs/{NNN}_{SLUG}/.return-meta.json` with status `researched`. Agent-specific metadata fields: `proposed_task_count`. Set `next_steps` to `"Skill postflight will create tasks from .spawn-return.json"`.
 
 ### Stage 7: Return Brief Text Summary
 
@@ -224,4 +224,4 @@ See `rules/error-handling.md` for general error patterns. Agent-specific behavio
 4. Create circular dependencies
 5. Use status value "completed" (triggers Claude stop behavior)
 6. Skip Stage 0 early metadata creation
-7. Write to files outside `specs/OC_{NNN}_{SLUG}/` directory
+7. Write to files outside `specs/{NNN}_{SLUG}/` directory

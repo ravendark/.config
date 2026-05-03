@@ -4,9 +4,9 @@ description: Orchestrate multi-agent planning with parallel plan generation. Spa
 allowed-tools: Task, Bash, Edit, Read, Write
 # This skill uses TeammateTool for team coordination (available when CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)
 # Context loaded by lead during synthesis:
-#   - .opencode/context/core/patterns/team-orchestration.md
-#   - .opencode/context/core/formats/team-metadata-extension.md
-#   - .opencode/context/core/reference/team-wave-helpers.md
+#   - .claude/context/patterns/team-orchestration.md
+#   - .claude/context/formats/team-metadata-extension.md
+#   - .claude/context/reference/team-wave-helpers.md
 ---
 
 # Team Plan Skill
@@ -18,10 +18,10 @@ Multi-agent planning with wave-based parallelization. Spawns 2-3 teammates to ge
 ## Context References
 
 Reference (load as needed during synthesis):
-- Path: `.opencode/context/core/patterns/team-orchestration.md` - Wave coordination patterns
-- Path: `.opencode/context/core/formats/team-metadata-extension.md` - Team result schema
-- Path: `.opencode/context/core/formats/return-metadata-file.md` - Base metadata schema
-- Path: `.opencode/context/core/reference/team-wave-helpers.md` - Reusable wave patterns
+- Path: `.claude/context/patterns/team-orchestration.md` - Wave coordination patterns
+- Path: `.claude/context/formats/team-metadata-extension.md` - Team result schema
+- Path: `.claude/context/formats/return-metadata-file.md` - Base metadata schema
+- Path: `.claude/context/reference/team-wave-helpers.md` - Reusable wave patterns
 
 ## Trigger Conditions
 
@@ -108,9 +108,9 @@ Create marker file to prevent premature termination:
 
 ```bash
 padded_num=$(printf "%03d" "$task_number")
-mkdir -p "specs/OC_${padded_num}_${project_name}"
+mkdir -p "specs/${padded_num}_${project_name}"
 
-cat > "specs/OC_${padded_num}_${project_name}/.postflight-pending" << EOF
+cat > "specs/${padded_num}_${project_name}/.postflight-pending" << EOF
 {
   "session_id": "${session_id}",
   "skill": "skill-team-plan",
@@ -171,7 +171,7 @@ fi
 # Fallback for legacy tasks: count existing plan artifacts
 if [ "$next_num" = "null" ] || [ -z "$next_num" ]; then
   padded_num=$(printf "%03d" "$task_number")
-  count=$(ls "specs/OC_${padded_num}_${project_name}/plans/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
+  count=$(ls "specs/${padded_num}_${project_name}/plans/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
   artifact_number=$((count + 1))
 fi
 
@@ -227,7 +227,7 @@ Research findings:
 {research_content}
 
 Output your plan to:
-specs/OC_{NNN}_{SLUG}/plans/{run_padded}_candidate-a.md
+specs/{NNN}_{SLUG}/plans/{run_padded}_candidate-a.md
 
 Format: Standard implementation plan format with:
 - Overview
@@ -257,7 +257,7 @@ Do NOT duplicate Teammate A's exact phase structure.
 Provide a meaningfully different approach.
 
 Output your plan to:
-specs/OC_{NNN}_{SLUG}/plans/{run_padded}_candidate-b.md
+specs/{NNN}_{SLUG}/plans/{run_padded}_candidate-b.md
 
 Format: Same as Teammate A
 ```
@@ -281,7 +281,7 @@ Research findings:
 {research_content}
 
 Output your analysis to:
-specs/OC_{NNN}_{SLUG}/plans/{run_padded}_risk-analysis.md
+specs/{NNN}_{SLUG}/plans/{run_padded}_risk-analysis.md
 
 Format: Risk analysis with dependency graph and critical path
 ```
@@ -325,7 +325,7 @@ teammate_results=[]
 padded_num=$(printf "%03d" "$task_number")
 
 for candidate in a b; do
-  file="specs/OC_${padded_num}_${project_name}/plans/${run_padded}_candidate-${candidate}.md"
+  file="specs/${padded_num}_${project_name}/plans/${run_padded}_candidate-${candidate}.md"
   if [ -f "$file" ]; then
     teammate_results+=("...")
   fi
@@ -333,7 +333,7 @@ done
 
 # Also check for risk analysis if team_size >= 3
 if [ "$team_size" -ge 3 ]; then
-  file="specs/OC_${padded_num}_${project_name}/plans/${run_padded}_risk-analysis.md"
+  file="specs/${padded_num}_${project_name}/plans/${run_padded}_risk-analysis.md"
   if [ -f "$file" ]; then
     teammate_results+=("...")
   fi
@@ -437,7 +437,7 @@ Write synthesized plan:
 | B | Alternative plan | completed |
 ```
 
-Output to: `specs/OC_{NNN}_{SLUG}/plans/{RR}_implementation-plan.md`
+Output to: `specs/{NNN}_{SLUG}/plans/{RR}_implementation-plan.md`
 
 ---
 
@@ -461,7 +461,7 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
 **Link artifact**:
 ```bash
 padded_num=$(printf "%03d" "$task_number")
-jq --arg path "specs/OC_${padded_num}_${project_name}/plans/${run_padded}_implementation-plan.md" \
+jq --arg path "specs/${padded_num}_${project_name}/plans/${run_padded}_implementation-plan.md" \
    --arg type "plan" \
    --arg summary "Team planning with ${team_size} teammates and trade-off analysis" \
   '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
@@ -471,7 +471,7 @@ jq --arg path "specs/OC_${padded_num}_${project_name}/plans/${run_padded}_implem
 **Update TODO.md**: Link artifact using the automated script:
 
 ```bash
-bash .opencode/scripts/link-artifact-todo.sh $task_number '**Plan**' '**Description**' "$artifact_path"
+bash .claude/scripts/link-artifact-todo.sh $task_number '**Plan**' '**Description**' "$artifact_path"
 ```
 
 If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -489,7 +489,7 @@ Write team execution metadata:
   "artifacts": [
     {
       "type": "plan",
-      "path": "specs/OC_{NNN}_{SLUG}/plans/{RR}_implementation-plan.md",
+      "path": "specs/{NNN}_{SLUG}/plans/{RR}_implementation-plan.md",
       "summary": "Implementation plan with trade-off analysis"
     }
   ],
@@ -520,8 +520,8 @@ Commit using targeted staging:
 ```bash
 padded_num=$(printf "%03d" "$task_number")
 git add \
-  "specs/OC_${padded_num}_${project_name}/plans/" \
-  "specs/OC_${padded_num}_${project_name}/.return-meta.json" \
+  "specs/${padded_num}_${project_name}/plans/" \
+  "specs/${padded_num}_${project_name}/.return-meta.json" \
   "specs/TODO.md" \
   "specs/state.json"
 git commit -m "task ${task_number}: complete team planning (${team_size} teammates)
@@ -537,8 +537,8 @@ Remove marker and temporary files:
 
 ```bash
 padded_num=$(printf "%03d" "$task_number")
-rm -f "specs/OC_${padded_num}_${project_name}/.postflight-pending"
-rm -f "specs/OC_${padded_num}_${project_name}/.return-meta.json"
+rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
+rm -f "specs/${padded_num}_${project_name}/.return-meta.json"
 # Keep candidate plans for reference
 ```
 
@@ -554,7 +554,7 @@ Team planning completed for task {N}:
 - Teammate A: Incremental delivery plan ({N} phases)
 - Teammate B: Alternative approach ({N} phases)
 - Trade-off analysis completed
-- Final plan at specs/OC_{NNN}_{SLUG}/plans/{RR}_implementation-plan.md
+- Final plan at specs/{NNN}_{SLUG}/plans/{RR}_implementation-plan.md
 - Status updated to [PLANNED]
 ```
 
@@ -588,7 +588,7 @@ Team planning completed for task 412:
 - Teammate A: Incremental plan (4 phases, 8-12 hours)
 - Teammate B: Alternative plan (3 phases, 6-10 hours)
 - Selected: Hybrid approach favoring Candidate A structure with B's parallelization
-- Final plan at specs/OC_412_task_name/plans/01_implementation-plan.md
+- Final plan at specs/412_task_name/plans/01_implementation-plan.md
 - Status updated to [PLANNED]
 - Changes committed with session sess_...
 ```
@@ -613,4 +613,4 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.opencode/context/core/standards/postflight-tool-restrictions.md
+Reference: @.claude/context/standards/postflight-tool-restrictions.md

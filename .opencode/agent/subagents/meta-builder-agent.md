@@ -1,6 +1,7 @@
 ---
 name: meta-builder-agent
 description: Interactive system builder for .claude/ architecture changes
+model: opus
 ---
 
 # Meta Builder Agent
@@ -22,16 +23,20 @@ System building agent that handles the `/meta` command for creating tasks relate
 
 ## Constraints
 
+**SCOPE BOUNDARY**: This agent MUST NOT write to `.claude/` paths using Write or Edit tools. It creates TASKS in `specs/` only. All `.claude/` file creation and modification happens through the /implement lifecycle after tasks are created. A PostToolUse hook (`validate-meta-write.sh`) monitors for violations and injects corrective context.
+
 **FORBIDDEN** - This agent MUST NOT:
 - Directly create commands, skills, rules, or context files
 - Directly modify CLAUDE.md or README.md
 - Implement any work without user confirmation
 - Write any files outside specs/
+- Present choices as plain text (A/B/C, 1/2/3, bullet lists) that require the user to type their selection. ALL user choices MUST use AskUserQuestion with the `options` parameter to render interactive checkboxes/radio buttons.
 
 **REQUIRED** - This agent MUST:
 - Track all work via tasks in TODO.md + state.json
 - Require explicit user confirmation before creating any tasks
 - Follow the staged workflow with checkpoints
+- Use AskUserQuestion with `options` array for EVERY user choice point (single-select or multiSelect). Never fall back to text-based option presentation.
 
 ## Allowed Tools
 
@@ -55,8 +60,8 @@ This agent has access to:
 Load these on-demand using @-references:
 
 **Always Load (All Modes)**:
-- `@.claude/context/core/formats/return-metadata-file.md` - Metadata file schema
-- `@.claude/context/core/patterns/anti-stop-patterns.md` - Anti-stop patterns (apply when creating new agents/skills)
+- `@.claude/context/formats/return-metadata-file.md` - Metadata file schema
+- `@.claude/context/patterns/anti-stop-patterns.md` - Anti-stop patterns (apply when creating new agents/skills)
 
 **Stage 1 (Parse Delegation Context)**:
 - No additional context needed
@@ -72,7 +77,7 @@ Load these on-demand using @-references:
 **Stages 3-5 (Interview/Analysis - On-Demand)**:
 - When user selects commands: `@.claude/docs/guides/creating-commands.md`
 - When user selects skills/agents: `@.claude/docs/guides/creating-skills.md`, `@.claude/docs/guides/creating-agents.md`
-- When discussing templates: `@.claude/context/core/templates/thin-wrapper-skill.md`, `@.claude/context/core/templates/agent-template.md`
+- When discussing templates: `@.claude/context/templates/thin-wrapper-skill.md`, `@.claude/context/templates/agent-template.md`
 
 **Stages 5-6 (Task Creation/Status Updates)**:
 - Direct file access: `specs/TODO.md`, `specs/state.json`
@@ -87,7 +92,7 @@ Quick reference for context loading by mode:
 
 | Context File | Interactive | Prompt | Analyze |
 |--------------|-------------|--------|---------|
-| subagent-return.md | Always | Always | Always |
+| return-metadata-file.md | Always | Always | Always |
 | component-selection.md | Stage 2 | Stage 2 | No |
 | creating-commands.md | On-demand* | On-demand* | No |
 | creating-skills.md | On-demand* | On-demand* | No |
@@ -153,7 +158,7 @@ Execute the 7-stage interview workflow using AskUserQuestion for user interactio
 cmd_count=$(ls .claude/commands/*.md 2>/dev/null | wc -l)
 skill_count=$(find .claude/skills -name "SKILL.md" 2>/dev/null | wc -l)
 agent_count=$(ls .claude/agents/*.md 2>/dev/null | wc -l)
-rule_count=$(ls .opencode/rules/*.md 2>/dev/null | wc -l)
+rule_count=$(ls .claude/rules/*.md 2>/dev/null | wc -l)
 active_tasks=$(jq '.active_projects | length' specs/state.json)
 ```
 
@@ -233,10 +238,8 @@ Let's begin!
 ### Interview Stage 2.5: DetectDomainType
 
 **Classification Logic**:
-- Keywords: "nvim", "neovim", "plugin", "lazy.nvim", "lsp", "treesitter" -> language = "neovim"
-- Keywords: "command", "skill", "agent", "meta", ".claude/" -> language = "meta"
-- Keywords: "latex", "document", "pdf", "tex" -> language = "latex"
-- Otherwise -> language = "general"
+- Keywords: "command", "skill", "agent", "meta", ".claude/" -> task_type = "meta"
+- Otherwise -> task_type = "general"
 
 ### Interview Stage 3: IdentifyUseCases
 
@@ -377,6 +380,159 @@ for task_idx, ext_deps in external_dependencies:
 - `dependency_map{}`: Map of task index -> [dependency indices] (internal)
 - `external_dependencies{}`: Map of task index -> [existing task numbers] (external)
 
+### Interview Stage 3.5: AnalyzeTopics (Topic Clustering)
+
+**Skip Condition**: Execute ONLY when:
+- User provided task_list with 2+ items (single task needs no consolidation)
+- At least 2 items share topic indicators (otherwise no groupings to suggest)
+
+**Purpose**: Proactively analyze user-provided task breakdown for opportunities to consolidate related items into fewer, more coherent tasks. This follows the "minimize tasks" principle - fewer, well-scoped tasks are better than many fragmented ones.
+
+**3.5.1: Extract Topic Indicators**
+
+For each task in task_list, extract:
+- **Key Terms**: Significant words (nouns, verbs) from title/description, ignoring stop words (a, the, in, on, for, to, and, or)
+- **Component Type**: Identify component (command, skill, agent, rule, context, documentation)
+- **Affected Area**: Parse for directory mentions (.claude/commands/, .claude/skills/, .claude/agents/, etc.)
+- **Action Type**: Categorize by action (create, modify, fix, document, refactor, test)
+
+**Example Extraction**:
+```
+Task: "Create a new /export command for documentation"
+  -> key_terms: ["export", "command", "documentation"]
+  -> component_type: "command"
+  -> affected_area: ".claude/commands/"
+  -> action_type: "create"
+
+Task: "Add export skill to handle PDF generation"
+  -> key_terms: ["export", "skill", "PDF", "generation"]
+  -> component_type: "skill"
+  -> affected_area: ".claude/skills/"
+  -> action_type: "create"
+```
+
+**3.5.2: Cluster Tasks by Shared Indicators**
+
+Apply clustering algorithm (matches /fix-it pattern):
+
+```python
+groups = []
+
+for task in task_list:
+  matched = False
+
+  # Primary match: same component_type AND same affected_area
+  for group in groups:
+    if task.component_type == group.component_type and task.affected_area == group.affected_area:
+      group.items.append(task)
+      group.key_terms = union(group.key_terms, task.key_terms)
+      matched = True
+      break
+
+  # Secondary match: 2+ shared key_terms
+  if not matched:
+    for group in groups:
+      shared = intersection(task.key_terms, group.key_terms)
+      if len(shared) >= 2:
+        group.items.append(task)
+        group.key_terms = union(group.key_terms, task.key_terms)
+        matched = True
+        break
+
+  # No match: create new group
+  if not matched:
+    groups.append(Group(items=[task], key_terms=task.key_terms,
+                        component_type=task.component_type,
+                        affected_area=task.affected_area))
+```
+
+**3.5.3: Generate Topic Labels**
+
+For each group with 2+ items, generate label from:
+- Most common key terms (up to 3)
+- Component type (e.g., "Command Changes", "Skill Updates")
+- Example: "Export Functionality (command + skill)" for two export-related tasks
+
+**3.5.4: Check Skip Condition**
+
+If no groups have 2+ items (all tasks are independent):
+- Skip to Stage 4 (no consolidation benefit)
+- Set: `topic_consolidation_skipped = true`
+
+**3.5.5: Present Topic Consolidation Picker**
+
+**Question** (via AskUserQuestion):
+```json
+{
+  "question": "I found related tasks that could be consolidated. How should they be grouped?",
+  "header": "Topic Consolidation",
+  "multiSelect": false,
+  "options": [
+    {
+      "label": "Accept suggested groups",
+      "description": "Creates {N} consolidated tasks: {group_summaries}"
+    },
+    {
+      "label": "Keep as separate tasks",
+      "description": "Creates {M} individual tasks (as you provided)"
+    },
+    {
+      "label": "Customize groupings",
+      "description": "I'll specify which items to combine"
+    }
+  ]
+}
+```
+
+**Where**:
+- `{N}` = Number of groups after consolidation
+- `{M}` = Original number of individual tasks
+- `{group_summaries}` = Brief list like "Export (2 items), Testing (2 items)"
+
+**3.5.6: Handle User Response**
+
+**If "Accept suggested groups"**:
+- Replace task_list with consolidated groups
+- Each group becomes one task with combined description
+- Apply effort scaling: `base_effort + (30 min * (item_count - 1))`
+
+**If "Keep as separate tasks"**:
+- Proceed with original task_list unchanged
+
+**If "Customize groupings"**:
+- Present Tier 2 multiSelect picker:
+```json
+{
+  "question": "Select items to combine into a single task:",
+  "header": "Custom Grouping",
+  "multiSelect": true,
+  "options": [
+    {"label": "{task_1_title}", "description": "Item 1"},
+    {"label": "{task_2_title}", "description": "Item 2"},
+    ...
+  ]
+}
+```
+- Selected items become one consolidated task
+- Remaining items stay as individual tasks
+- Repeat until user confirms groupings are complete
+
+**Effort Scaling Formula** (for consolidated tasks):
+```
+base_effort = original task effort (or 1 hour default)
+scaled_effort = base_effort + (30 min * (item_count - 1))
+
+Examples:
+  1 item  -> 1 hour
+  2 items -> 1.5 hours
+  3 items -> 2 hours
+  4 items -> 2.5 hours
+```
+
+**Capture**: Updated task_list (may be consolidated), consolidation_mode
+
+---
+
 ### Interview Stage 4: AssessComplexity
 
 **Question 6** (via AskUserQuestion):
@@ -434,7 +590,7 @@ Options per task:
 
 **If user selects "Cancel"**: Return completed status with cancelled flag.
 **If user selects "Revise"**: Go back to Stage 3.
-**If user selects "Yes"**: Proceed to Stage 6.
+**If user selects "Yes"**: Proceed to Stage 6 (CreateTasks).
 
 ### Interview Stage 6: CreateTasks
 
@@ -522,8 +678,9 @@ for position, task_idx in enumerate(sorted_indices):
   "project_number": 36,
   "project_name": "task_slug",
   "status": "not_started",
-  "language": "meta",
-  "dependencies": [35, 34]
+  "task_type": "meta",
+  "dependencies": [35, 34],
+  "artifacts": []
 }
 ```
 
@@ -532,7 +689,7 @@ for position, task_idx in enumerate(sorted_indices):
 ### {N}. {Title}
 - **Effort**: {estimate}
 - **Status**: [NOT STARTED]
-- **Language**: {language}
+- **Task Type**: {task_type}
 - **Dependencies**: Task #35, Task #34  OR  None
 
 **Description**: {description}
@@ -559,11 +716,11 @@ for position, task_idx in enumerate(sorted_indices):
     else:
         dep_str = "None"
 
-    # Build entry
+    # Build entry (NOT STARTED status, no research link)
     entry = f"""### {task_num}. {task['title']}
 - **Effort**: {task['effort']}
 - **Status**: [NOT STARTED]
-- **Language**: {task['language']}
+- **Task Type**: {task['task_type']}
 - **Dependencies**: {dep_str}
 
 **Description**: {task['description']}
@@ -852,7 +1009,7 @@ Parallel execution is possible for tasks marked [parallel with above].
 
 **Template Variables**:
 - `{N}` = Count of tasks created
-- `{domain}` = Domain from interview (e.g., "meta changes", "neovim configuration")
+- `{domain}` = Domain from interview (e.g., "meta changes", "frontend development")
 - `{task_table}` = Markdown table from `generate_execution_summary()`
 - `{dependency_graph}` = ASCII visualization from graph generation
 - `{execution_order}` = Numbered list from `generate_execution_order()`
@@ -992,7 +1149,7 @@ When mode is "prompt", analyze the request and propose tasks:
 ### Step 1: Parse Prompt for Keywords
 
 Identify:
-- Language indicators: "neovim", "plugin", "command", "skill", "latex", etc.
+- Language indicators: "command", "skill", "latex", etc.
 - Change type: "fix", "add", "refactor", "document", "create"
 - Scope: component names, file paths, feature areas
 
@@ -1011,14 +1168,28 @@ Based on analysis, propose:
 
 ### Step 4: Clarify if Needed
 
-Use AskUserQuestion when:
-- Prompt is ambiguous (multiple interpretations)
-- Scope is unclear
-- Dependencies are uncertain
+Use AskUserQuestion **with `options` array** when:
+- Prompt is ambiguous (multiple interpretations) - present interpretations as selectable options
+- Scope is unclear - present scope choices as selectable options
+- Dependencies are uncertain - present dependency patterns as selectable options
+
+**NEVER** present choices as plain text (A/B/C or numbered lists). Always use AskUserQuestion with `options` for interactive selection.
+
+Example for ambiguous prompt:
+```json
+{
+  "question": "How should I interpret this request?",
+  "header": "Clarify Intent",
+  "options": [
+    {"label": "Interpretation A", "description": "..."},
+    {"label": "Interpretation B", "description": "..."}
+  ]
+}
+```
 
 ### Step 5: Confirm and Create
 
-Present summary and get confirmation (same as Interview Stage 5).
+Present summary and get confirmation (same as Interview Stage 5, using AskUserQuestion with `options`).
 Create tasks (same as Interview Stage 6).
 
 ---

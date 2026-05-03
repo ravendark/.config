@@ -15,11 +15,11 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.opencode/context/core/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.opencode/context/core/patterns/postflight-control.md` - Marker file protocol
-- Path: `.opencode/context/core/patterns/file-metadata-exchange.md` - File I/O helpers
-- Path: `.opencode/context/core/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
-- Path: `.opencode/context/core/formats/plan-format.md` - Plan file format specification
+- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
+- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.claude/context/formats/plan-format.md` - Plan file format specification
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -75,9 +75,9 @@ Create the marker file to prevent premature termination:
 ```bash
 # Ensure task directory exists
 padded_num=$(printf "%03d" "$task_number")
-mkdir -p "specs/OC_${padded_num}_${project_name}"
+mkdir -p "specs/${padded_num}_${project_name}"
 
-cat > "specs/OC_${padded_num}_${project_name}/.postflight-pending" << EOF
+cat > "specs/${padded_num}_${project_name}/.postflight-pending" << EOF
 {
   "session_id": "${session_id}",
   "skill": "skill-reviser",
@@ -113,7 +113,7 @@ fi
 # Fallback for legacy tasks: count existing plan artifacts
 if [ "$next_num" = "null" ] || [ -z "$next_num" ]; then
   padded_num=$(printf "%03d" "$task_number")
-  count=$(ls "specs/OC_${padded_num}_${project_name}/plans/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
+  count=$(ls "specs/${padded_num}_${project_name}/plans/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
   artifact_number=$((count + 1))
 fi
 
@@ -131,7 +131,7 @@ Discover existing plan and new research reports:
 **4a. Find existing plan:**
 ```bash
 padded_num=$(printf "%03d" "$task_number")
-plan_dir="specs/OC_${padded_num}_${project_name}/plans"
+plan_dir="specs/${padded_num}_${project_name}/plans"
 existing_plan=$(ls -1t "$plan_dir"/*.md 2>/dev/null | head -1)
 ```
 
@@ -140,7 +140,7 @@ existing_plan=$(ls -1t "$plan_dir"/*.md 2>/dev/null | head -1)
 Use BOTH `reports_integrated` from state.json and file modification time comparison:
 
 ```bash
-reports_dir="specs/OC_${padded_num}_${project_name}/reports"
+reports_dir="specs/${padded_num}_${project_name}/reports"
 new_reports=()
 
 if [ -n "$existing_plan" ]; then
@@ -182,7 +182,7 @@ fi
 Read the plan format file and prepare it for injection into the subagent prompt. This ensures the subagent always has the full format specification in its context.
 
 ```bash
-format_content=$(cat .opencode/context/core/formats/plan-format.md)
+format_content=$(cat .claude/context/formats/plan-format.md)
 ```
 
 The format content will be included as a delimited section in the Stage 5 prompt.
@@ -212,7 +212,7 @@ Prepare delegation context:
   "new_research_paths": ["{path to report1}", "{path to report2}"],
   "revision_reason": "{optional user reason}",
   "roadmap_path": "specs/ROADMAP.md",
-  "metadata_file_path": "specs/OC_{NNN}_{SLUG}/.return-meta.json"
+  "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json"
 }
 ```
 
@@ -249,7 +249,7 @@ The subagent will:
 - Determine revision mode (plan revision or description update)
 - Load existing plan and new research reports
 - Synthesize revised plan or update description
-- Write metadata to `specs/OC_{NNN}_{SLUG}/.return-meta.json`
+- Write metadata to `specs/{NNN}_{SLUG}/.return-meta.json`
 - Return a brief text summary (NOT JSON)
 
 ---
@@ -275,7 +275,7 @@ subagent or inline (Stage 5b). Do NOT skip these stages for any reason.
 Read the metadata file:
 
 ```bash
-metadata_file="specs/OC_${padded_num}_${project_name}/.return-meta.json"
+metadata_file="specs/${padded_num}_${project_name}/.return-meta.json"
 
 if [ -f "$metadata_file" ] && jq empty "$metadata_file" 2>/dev/null; then
     status=$(jq -r '.status' "$metadata_file")
@@ -298,7 +298,7 @@ If subagent status is "planned" and `artifact_path` is non-empty, validate the p
 ```bash
 if [ "$status" = "planned" ] && [ -n "$artifact_path" ] && [ -f "$artifact_path" ]; then
     echo "Validating plan artifact..."
-    if ! bash .opencode/scripts/validate-artifact.sh "$artifact_path" plan --fix; then
+    if ! bash .claude/scripts/validate-artifact.sh "$artifact_path" plan --fix; then
         echo "WARNING: Plan artifact has format issues (non-blocking). Review output above."
     fi
 fi
@@ -313,7 +313,7 @@ fi
 Update task status to "planned" using the centralized script:
 
 ```bash
-bash .opencode/scripts/update-task-status.sh postflight $task_number plan $session_id
+bash .claude/scripts/update-task-status.sh postflight $task_number plan $session_id
 ```
 
 If the script exits non-zero, log error but continue (status update is best-effort for revise).
@@ -363,7 +363,7 @@ fi
 **Update TODO.md**: Link artifact using the automated script:
 
 ```bash
-bash .opencode/scripts/link-artifact-todo.sh $task_number '**Plan**' '**Description**' "$artifact_path"
+bash .claude/scripts/link-artifact-todo.sh $task_number '**Plan**' '**Description**' "$artifact_path"
 ```
 
 If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
@@ -405,9 +405,9 @@ Commit failure is non-blocking (log and continue).
 Remove marker and metadata files:
 
 ```bash
-rm -f "specs/OC_${padded_num}_${project_name}/.postflight-pending"
-rm -f "specs/OC_${padded_num}_${project_name}/.postflight-loop-guard"
-rm -f "specs/OC_${padded_num}_${project_name}/.return-meta.json"
+rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
+rm -f "specs/${padded_num}_${project_name}/.postflight-loop-guard"
+rm -f "specs/${padded_num}_${project_name}/.return-meta.json"
 ```
 
 ---
@@ -421,7 +421,7 @@ Return a brief text summary (NOT JSON). Example:
 Plan revised for task {N}:
 - Preserved {X} completed phases, revised {Y} phases
 - Integrated {Z} new research reports
-- Created revised plan at specs/OC_{NNN}_{SLUG}/plans/MM_{short-slug}.md
+- Created revised plan at specs/{NNN}_{SLUG}/plans/MM_{short-slug}.md
 - Status updated to [PLANNED]
 - Changes committed with session {session_id}
 ```
@@ -480,7 +480,7 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.opencode/context/core/standards/postflight-tool-restrictions.md
+Reference: @.claude/context/standards/postflight-tool-restrictions.md
 
 ---
 

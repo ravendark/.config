@@ -1,22 +1,22 @@
 #!/usr/bin/env bash
-# install-extension.sh - Install an extension
+# install-extension.sh - Install a Claude Code extension
 #
 # Usage: install-extension.sh <extension-directory>
 #
 # This script reads an extension's manifest.json and performs:
-# 1. Merges index-entries.json into main .opencode/context/index.json
-# 2. Creates symlinks for skills from extension to .opencode/skills/
-# 3. Creates symlinks for agents from extension to .opencode/agent/subagents/
+# 1. Merges index-entries.json into main .claude/context/index.json
+# 2. Creates symlinks for skills from extension to .claude/skills/
+# 3. Creates symlinks for agents from extension to .claude/agents/
 # 4. Validates the result
 #
 # Example:
-#   bash .opencode/scripts/install-extension.sh .opencode/extensions/z3
+#   bash .claude/scripts/install-extension.sh .claude/extensions/z3
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-OPENCODE_DIR="$PROJECT_ROOT/.opencode"
+CLAUDE_DIR="$PROJECT_ROOT/.claude"
 
 # Colors for output
 RED='\033[0;31m'
@@ -39,7 +39,7 @@ log_error() {
 # Validate arguments
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <extension-directory>"
-  echo "Example: $0 .opencode/extensions/z3"
+  echo "Example: $0 .claude/extensions/z3"
   exit 1
 fi
 
@@ -75,7 +75,7 @@ log_info "Installing extension: $EXT_NAME"
 # Function to create symlinks for commands
 install_commands() {
   local commands_dir="$EXT_DIR/commands"
-  local target_dir="$OPENCODE_DIR/commands"
+  local target_dir="$CLAUDE_DIR/commands"
 
   if [ ! -d "$commands_dir" ]; then
     log_info "No commands directory found, skipping command symlinks"
@@ -111,7 +111,7 @@ install_commands() {
 # Function to create symlinks for skills
 install_skills() {
   local skills_dir="$EXT_DIR/skills"
-  local target_dir="$OPENCODE_DIR/skills"
+  local target_dir="$CLAUDE_DIR/skills"
 
   if [ ! -d "$skills_dir" ]; then
     log_info "No skills directory found, skipping skill symlinks"
@@ -147,7 +147,7 @@ install_skills() {
 # Function to create symlinks for agents
 install_agents() {
   local agents_dir="$EXT_DIR/agents"
-  local target_dir="$OPENCODE_DIR/agent/subagents"
+  local target_dir="$CLAUDE_DIR/agents"
 
   if [ ! -d "$agents_dir" ]; then
     log_info "No agents directory found, skipping agent symlinks"
@@ -165,7 +165,7 @@ install_agents() {
         log_warn "Agent file exists (not a symlink): $agent_name"
       else
         # Create symlink
-        local rel_path="../../extensions/$EXT_NAME/agents/$agent_name"
+        local rel_path="../extensions/$EXT_NAME/agents/$agent_name"
         ln -s "$rel_path" "$target"
         log_info "Created agent symlink: $agent_name -> $rel_path"
       fi
@@ -176,7 +176,7 @@ install_agents() {
 # Function to merge index entries
 merge_index_entries() {
   local index_file="$EXT_DIR/index-entries.json"
-  local main_index="$OPENCODE_DIR/context/index.json"
+  local main_index="$CLAUDE_DIR/context/index.json"
 
   if [ ! -f "$index_file" ]; then
     log_info "No index-entries.json found, skipping context index merge"
@@ -272,7 +272,7 @@ merge_index_entries() {
 
 # Function to validate index after merge
 validate_index() {
-  local main_index="$OPENCODE_DIR/context/index.json"
+  local main_index="$CLAUDE_DIR/context/index.json"
   local validation_script="$SCRIPT_DIR/validate-index.sh"
 
   if [ -x "$validation_script" ]; then

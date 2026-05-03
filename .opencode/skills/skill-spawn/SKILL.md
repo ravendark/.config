@@ -13,9 +13,9 @@ Thin wrapper that delegates blocker analysis to `spawn-agent` subagent, then han
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.opencode/context/patterns/postflight-control.md` - Marker file protocol
-- Path: `.opencode/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -54,7 +54,7 @@ fi
 project_name=$(echo "$task_data" | jq -r '.project_name')
 task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
 status=$(echo "$task_data" | jq -r '.status')
-description=$(echo "$task_data" | jq -r '.description // ""
+description=$(echo "$task_data" | jq -r '.description // ""')
 ```
 
 ---
@@ -95,9 +95,9 @@ new_string: - **Status**: [BLOCKED]
 Create the marker file to prevent premature termination:
 
 ```bash
-mkdir -p "specs/OC_${padded_num}_${project_name}"
+mkdir -p "specs/${padded_num}_${project_name}"
 
-cat > "specs/OC_${padded_num}_${project_name}/.postflight-pending" << EOF
+cat > "specs/${padded_num}_${project_name}/.postflight-pending" << EOF
 {
   "session_id": "${session_id}",
   "skill": "skill-spawn",
@@ -118,8 +118,8 @@ Find the latest plan path (if exists):
 
 ```bash
 plan_path=""
-if [ -d "specs/OC_${padded_num}_${project_name}/plans" ]; then
-  plan_path=$(ls -t "specs/OC_${padded_num}_${project_name}/plans/"*.md 2>/dev/null | head -1)
+if [ -d "specs/${padded_num}_${project_name}/plans" ]; then
+  plan_path=$(ls -t "specs/${padded_num}_${project_name}/plans/"*.md 2>/dev/null | head -1)
 fi
 ```
 
@@ -142,7 +142,7 @@ Prepare delegation context for the subagent:
   },
   "blocker_prompt": "{optional user description}",
   "plan_path": "{path to latest plan or null}",
-  "metadata_file_path": "specs/OC_{NNN}_{SLUG}/.return-meta.json"
+  "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json"
 }
 ```
 
@@ -194,7 +194,7 @@ subagent or inline (Stage 6b). Do NOT skip these stages for any reason.
 Read the spawn return file:
 
 ```bash
-spawn_file="specs/OC_${padded_num}_${project_name}/.spawn-return.json"
+spawn_file="specs/${padded_num}_${project_name}/.spawn-return.json"
 
 if [ -f "$spawn_file" ] && jq empty "$spawn_file" 2>/dev/null; then
     new_tasks=$(jq -r '.new_tasks' "$spawn_file")
@@ -258,7 +258,7 @@ for idx in $(echo "$dependency_order" | jq -r '.[]'); do
     task_slug=$(echo "$task_title" | tr '[:upper:]' '[:lower:]' | tr ' ' '_' | sed 's/[^a-z0-9_]//g')
 
     # Create directory with research artifact stub
-    mkdir -p "specs/OC_${new_padded}_${task_slug}/reports"
+    mkdir -p "specs/${new_padded}_${task_slug}/reports"
 
     # Copy spawn analysis as initial research for first task
     # (or create stub pointing to parent's spawn analysis)
@@ -347,7 +347,7 @@ Use Edit tool to insert each task entry at the top of the Tasks section (after `
 **Refresh Recommended Order section** (non-blocking):
 ```bash
 # Refresh Recommended Order section to include spawned tasks (non-blocking)
-if source "$PROJECT_ROOT/.opencode/scripts/update-recommended-order.sh" 2>/dev/null; then
+if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
     refresh_recommended_order || echo "Note: Failed to refresh Recommended Order"
 fi
 ```
@@ -418,10 +418,10 @@ Commit failure is non-blocking (log and continue).
 Remove temporary files:
 
 ```bash
-rm -f "specs/OC_${padded_num}_${project_name}/.postflight-pending"
-rm -f "specs/OC_${padded_num}_${project_name}/.postflight-loop-guard"
-rm -f "specs/OC_${padded_num}_${project_name}/.spawn-return.json"
-rm -f "specs/OC_${padded_num}_${project_name}/.return-meta.json"
+rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
+rm -f "specs/${padded_num}_${project_name}/.postflight-loop-guard"
+rm -f "specs/${padded_num}_${project_name}/.spawn-return.json"
+rm -f "specs/${padded_num}_${project_name}/.return-meta.json"
 ```
 
 ---
@@ -487,7 +487,7 @@ The postflight phase is LIMITED TO:
 - Git commit
 - Cleanup of temp/marker files
 
-Reference: @.opencode/context/standards/postflight-tool-restrictions.md
+Reference: @.claude/context/standards/postflight-tool-restrictions.md
 
 ---
 

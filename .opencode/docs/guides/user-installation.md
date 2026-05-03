@@ -1,87 +1,127 @@
 # User Installation Guide
 
-[Back to Docs](../README.md)
+[Back to Docs](../README.md) | [Detailed Installation](../../../docs/installation/README.md)
 
-A quick-start guide for installing opencode and using it to work with Logos/Theory.
+A quick-start guide for installing Claude Code and using it with your project.
 
 ---
 
 ## What This Guide Covers
 
 This guide helps you:
-1. Set up the Logos/Theory project
-2. Install Lean 4 and Mathlib
-3. Work with Lean 4 proofs
-4. Understand the opencode agent system
+1. Install Claude Code (Anthropic's AI CLI)
+2. Set up your project
+3. Set up Claude agent commands (optional)
+4. Work with your project files
+5. Set up GitHub CLI for issue reporting
 
 **New to the terminal?** See your operating system's documentation for terminal basics.
 
 ---
 
-## Installing Lean 4
+## Installing Claude Code
 
-Logos/Theory requires Lean 4 and Mathlib. Install elan (Lean version manager):
+Claude Code is Anthropic's command-line interface for AI-assisted development.
 
+### Quick Installation
+
+**macOS:**
 ```bash
-# macOS/Linux
-curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh
-
-# Windows - download from https://github.com/leanprover/elan/releases
+brew install anthropics/claude/claude-code
 ```
 
-After installation, restart your terminal and verify:
+**Windows (PowerShell as Administrator):**
+```powershell
+irm https://raw.githubusercontent.com/anthropics/claude-code/main/install.ps1 | iex
+```
+
+**Linux:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/anthropics/claude-code/main/install.sh | sh
+```
+
+### Verify Installation
 
 ```bash
-elan --version
-lake --version
+claude --version
+```
+
+You should see a version number.
+
+---
+
+## Authentication
+
+Before using Claude Code, authenticate with your Anthropic account:
+
+```bash
+claude auth login
+```
+
+This opens a browser window. Log in with your Anthropic account and authorize Claude Code.
+
+**Verify authentication:**
+```bash
+claude auth status
 ```
 
 ---
 
-## Setting Up Logos/Theory
+## Setting Up Your Project with Claude Code
 
-### Step 1: Clone the Repository
-
-```bash
-mkdir -p ~/Documents/Projects
-cd ~/Documents/Projects
-git clone https://github.com/benbrastmckie/Logos.git
-cd Logos/Theory
-```
-
-### Step 2: Build the Project
+### Step 1: Navigate to Your Project
 
 ```bash
-cd ~/Documents/Projects/Logos/Theory
-lake build
+cd /path/to/your/project
 ```
 
-This may take several minutes on first build as it downloads Mathlib cache.
-
-### Step 3: Verify Setup
-
-Test the Lean setup:
+### Step 2: Initialize Git (if not already done)
 
 ```bash
-lake build
+git init
+git add .
+git commit -m "Initial commit"
 ```
 
-Should complete without errors.
+### Step 3: Start Claude Code
+
+```bash
+claude
+```
+
+### Step 4: Verify Setup
+
+Ask Claude:
+
+```
+Please verify my project setup by:
+1. Checking the overall structure of the project
+2. Identifying the build system or package manager in use
+3. Confirming the source modules are properly organized
+```
 
 ---
 
-## Using the OpenCode Agent System
+## Setting Up Claude Agent Commands (Optional)
 
-The Logos/Theory repository includes a `.opencode/` agent system that provides enhanced task management and workflow commands.
+The repository includes a `.claude/` agent system that provides enhanced task management and workflow commands for Claude Code.
 
 ### What the Agent System Provides
 
 - **Task Management**: Create, track, and archive development tasks
 - **Structured Workflow**: `/research` -> `/plan` -> `/implement` cycle
-- **Specialized Skills**: Language-specific agents for Lean 4 development
-- **Context Files**: Domain knowledge for logic, semantics, and theorem proving
-- **State Persistence**: Track progress across sessions
-- **Lean MCP Tools**: Integration with lean-lsp for proof assistance
+- **Specialized Skills**: Language-specific agents via extensions
+- **Context Files**: Domain knowledge loaded per task type
+- **State Persistence**: Track progress across Claude Code sessions
+
+### After Installation
+
+1. **Restart Claude Code** - Exit and restart for commands to be available
+2. **Test the setup** - Try creating a test task:
+   ```
+   /task "Test task"
+   ```
+3. **Learn the commands** - See the Commands Reference
 
 ### Available Commands
 
@@ -93,60 +133,60 @@ The Logos/Theory repository includes a `.opencode/` agent system that provides e
 | `/implement` | Execute implementation |
 | `/todo` | Archive completed tasks |
 
-For complete documentation, see the [User Guide](user-guide.md).
+For complete documentation, see the [Commands Reference](../commands/README.md).
 
 ---
 
-## Working with Lean 4 Proofs
+## Working with Your Project
 
-Once Logos/Theory is set up, use the agent system to assist with theorem proving.
+Once your project is set up, use Claude Code to assist with development.
 
 ### Explore the Codebase
 
-Ask about the project structure:
+In Claude Code, ask:
 
 ```
-Show me the structure of the Theories/ directory and explain
-the organization of the modal logic system.
+Show me the structure of my project and explain
+how the modules are organized.
 ```
 
-### Working on Proofs
+Claude will:
+1. Navigate the source directory structure
+2. Explain the project organization
+3. Show how configuration and modules are structured
 
-Ask for help with specific proofs:
+### Working on Code
+
+Ask Claude to help with specific tasks:
 
 ```
-Help me understand the proof of Deduction Theorem in
-Theories/Modal/Logic.lean
+Help me understand how the authentication module is
+configured in src/auth/config.py
 ```
 
 Or:
 
 ```
-I'm trying to prove a modal logic theorem. Can you help me
-find relevant lemmas in Mathlib using leansearch?
+I want to add a new module for data processing. Can you help me
+find popular libraries and set one up?
 ```
-
-### Using Lean MCP Tools
-
-The agent system has access to specialized Lean tools:
-
-| Tool | Purpose |
-|------|---------|
-| `lean_goal` | See proof state at a position |
-| `lean_hover_info` | Get type signatures |
-| `lean_leansearch` | Search Mathlib by natural language |
-| `lean_loogle` | Search by type signature |
-| `lake build` | Check for compiler errors (via Bash) |
-
-**Note**: Some MCP tools are blocked due to known bugs. See `.opencode/context/core/patterns/blocked-mcp-tools.md` for details.
 
 ---
 
 ## GitHub CLI Setup
 
-The GitHub CLI (`gh`) allows creating issues and pull requests. This is helpful for reporting bugs or contributing.
+The GitHub CLI (`gh`) allows Claude Code to create issues and pull requests. This is helpful for reporting bugs or contributing.
 
 ### Installing GitHub CLI
+
+Ask Claude:
+
+```
+Please install the GitHub CLI (gh) for my system and help me
+authenticate with GitHub.
+```
+
+**Or manually:**
 
 **macOS:**
 ```bash
@@ -178,84 +218,54 @@ gh auth status
 
 ---
 
-## Opening Issues on Logos/Theory
-
-When you encounter bugs or have suggestions, you can create issues.
-
-### Using the Agent System
-
-```
-I'm getting an error when building the project.
-Help me create an issue on the Logos/Theory repository
-with the error details.
-```
-
-### Manual Issue Creation
-
-```bash
-gh issue create --repo benbrastmckie/Logos \
-  --title "Brief description" \
-  --body "Detailed description of the issue"
-```
-
-### What to Include in Issues
-
-- Lean version (`lean --version`)
-- Lake version (`lake --version`)
-- Operating system
-- Steps to reproduce
-- Expected vs actual behavior
-- Error messages (if any)
-
----
-
 ## Example Workflows
 
 ### Complete First-Time Setup
 
 ```bash
-# Install Lean 4 (see commands above)
-elan --version
+# Install Claude Code (see platform commands above)
+claude --version
 
-# Clone and set up project
-mkdir -p ~/Documents/Projects && cd ~/Documents/Projects
-git clone https://github.com/benbrastmckie/Logos.git
-cd Logos/Theory
+# Authenticate
+claude auth login
 
-# Build (first time takes a while)
-lake build
+# Navigate to your project
+cd /path/to/your/project
+
+# Start Claude
+claude
 ```
 
-Then use the agent system:
+In Claude Code:
 ```
 Please help me:
-1. Verify the Lean 4 setup is working
-2. Explore the Theories/ directory structure
-3. Run diagnostics on a sample proof file
+1. Verify my project is properly structured
+2. Explore the source directory and identify modules
+3. Check for any common issues or improvements
 ```
 
-### Working with Existing Proofs
-
-```bash
-cd ~/Documents/Projects/Logos/Theory
-# Launch your AI assistant with the project
-```
-
-Ask about the project:
-```
-Review Theories/Modal/Logic.lean and explain the key theorems
-and how they relate to Kripke semantics.
-```
-
-### Debugging Build Issues
+### Adding a New Dependency
 
 ```bash
-cd ~/Documents/Projects/Logos/Theory
-# Launch your AI assistant
+cd /path/to/your/project
+claude
+```
+
+Ask Claude:
+```
+Help me add a logging library to my project with
+proper configuration and usage examples.
+```
+
+### Debugging Issues
+
+```bash
+cd /path/to/your/project
+claude
 ```
 
 ```
-I ran lake build and got an error.
+I'm getting an error when the project builds.
 Please diagnose the issue and suggest fixes.
 ```
 
@@ -263,28 +273,30 @@ Please diagnose the issue and suggest fixes.
 
 ## Troubleshooting
 
-### Lean/Lake Issues
+### Claude Code Issues
 
-**"lake: command not found":**
-- Ensure elan is installed
-- Restart terminal after elan installation
-- Check: `elan show` to see installed toolchains
+**"Command not found":**
+- Restart your terminal
+- Check installation: `which claude`
+- Reinstall using platform instructions
+
+**Authentication failed:**
+```bash
+claude auth logout
+claude auth login
+```
+
+### Project Issues
+
+**Dependencies not loading:**
+- Run your package manager's sync/install command
+- Check for errors in the build output
+- Verify dependency specifications are correct
 
 **Build errors:**
-- Run `lake clean` then `lake build`
-- Ensure you're using the correct Lean version (check `lean-toolchain`)
-- Download Mathlib cache: `lake exe cache get`
-
-**Slow builds:**
-- First builds are slow due to Mathlib compilation
-- Use `lake exe cache get` to download prebuilt cache
-
-### Lean LSP Issues
-
-**MCP tools not working:**
-- Ensure the lean-lsp MCP server is configured
-- Check your AI assistant settings for MCP configuration
-- Verify Lean project builds successfully first
+- Check build configuration files for syntax errors
+- Ensure all required tools are installed
+- Review build logs for detailed error messages
 
 ---
 
@@ -292,14 +304,13 @@ Please diagnose the issue and suggest fixes.
 
 ### Documentation
 
-- **[Architecture](../architecture/system-overview.md)** - System architecture overview
-- **[User Guide](user-guide.md)** - Comprehensive command reference
-- **[README.md](../../README.md)** - Quick reference
+- **[Architecture](../../README.md)** - System architecture overview
+- **[CLAUDE.md](../../CLAUDE.md)** - Quick reference for the agent system
+- **[Commands Reference](../commands/README.md)** - Full command documentation
 
 ### Project Documentation
 
-- **[docs/](../../../docs/)** - Project documentation
-- **[Theories/](../../../Theories/)** - Lean 4 source code
+- **Project source** - See your project's directory structure
 
 ### Contributing
 
@@ -308,4 +319,4 @@ Please diagnose the issue and suggest fixes.
 
 ---
 
-[Back to Docs](../README.md)
+[Back to Docs](../README.md) | [Copy .claude/ Directory](copy-claude-directory.md)

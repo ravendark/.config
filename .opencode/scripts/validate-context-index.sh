@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 #
-# validate-context-index.sh - Validate .opencode/context/index.json
+# validate-context-index.sh - Validate .claude/context/index.json
 #
 # Usage: ./validate-context-index.sh [--fix]
 #
-# Schema: .opencode/context/index.schema.json defines the JSON Schema for index.json.
+# Schema: .claude/context/index.schema.json defines the JSON Schema for index.json.
 #         This script performs structural validation independently of ajv.
 #
 # Checks:
@@ -20,8 +20,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-INDEX_FILE="$PROJECT_ROOT/.opencode/context/index.json"
-CONTEXT_DIR="$PROJECT_ROOT/.opencode/context"
+INDEX_FILE="$PROJECT_ROOT/.claude/context/index.json"
+CONTEXT_DIR="$PROJECT_ROOT/.claude/context"
 
 FIX_MODE=false
 if [[ "${1:-}" == "--fix" ]]; then

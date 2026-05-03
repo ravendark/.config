@@ -1,6 +1,6 @@
 # Creating Agents Guide
 
-This guide explains how to create new agents in the Logos/Theory agent system that handle full workflow execution and artifact creation.
+This guide explains how to create new agents in the agent system that handle full workflow execution and artifact creation.
 
 ---
 
@@ -67,17 +67,19 @@ All agents MUST return valid JSON. Plain text responses cause validation failure
 
 ## Agent File Location
 
-Agents are located in `.opencode/agent/subagents/{name}-agent.md`:
+Agents are located in `.claude/agents/{name}-agent.md`:
 
 ```
-.opencode/agent/subagents/
+.claude/agents/
 ├── general-research-agent.md
-├── lean-research-agent.md
+
 ├── planner-agent.md
 ├── general-implementation-agent.md
-├── lean-implementation-agent.md
-└── latex-implementation-agent.md
+
+└── meta-builder-agent.md
 ```
+
+**Note**: Additional agents (latex, typst, filetypes) are available via extensions in `.claude/extensions/`.
 
 ---
 
@@ -122,11 +124,11 @@ This agent has access to:
 Load these on-demand using @-references:
 
 **Always Load**:
-- `@.opencode/context/core/formats/subagent-return.md` - Return format schema
+- `@.claude/context/formats/subagent-return.md` - Return format schema
 
 **Load When Creating Artifacts**:
-- `@.opencode/context/core/formats/plan-format.md` (for planning)
-- `@.opencode/context/core/formats/report-format.md` (for research)
+- `@.claude/context/formats/report-format.md` (for research)
+- `@.claude/context/standards/plan.md` (for planning)
 ```
 
 ### 8-Stage Workflow Section
@@ -142,10 +144,10 @@ Extract from input:
 ```json
 {
   "task_context": {
-    "task_number": OC_412,
+    "task_number": 412,
     "task_name": "create_agent",
     "description": "...",
-    "language": "meta"
+    "task_type": "meta"
   },
   "metadata": {
     "session_id": "sess_...",
@@ -173,7 +175,7 @@ Based on task language and purpose:
 ### Stage 5: Artifact Creation
 
 Create directory and write artifacts:
-- Path: `specs/OC_NNN_{SLUG}/{type}/`
+- Path: `specs/{NNN}_{SLUG}/{type}/`
 - Verify artifacts are non-empty
 
 ### Stage 6: Return Structured JSON
@@ -200,7 +202,7 @@ Release resources and log completion.
 
 ### Step 1: Create Agent File
 
-Create `.opencode/agent/subagents/{name}-agent.md`:
+Create `.claude/agents/{name}-agent.md`:
 
 ```markdown
 # {Name} Agent
@@ -247,12 +249,12 @@ List context files to load on-demand:
 ## Context References
 
 **Always Load**:
-- `@.opencode/context/core/formats/subagent-return.md`
+- `@.claude/context/formats/subagent-return.md`
 
 **Load When Needed**:
-- `@.opencode/context/core/formats/report-format.md` (for research)
-- `@.opencode/context/core/formats/plan-format.md` (for planning)
-- `@.opencode/context/project/lean4/tools/mcp-tools-guide.md` (for Lean)
+- `@.claude/context/formats/report-format.md` (for research)
+- `@.claude/context/standards/plan.md` (for planning)
+- `@.claude/context/project/{domain}/tools/tool-guide.md` (for domain tools)
 ```
 
 ### Step 4: Implement 8-Stage Workflow
@@ -268,17 +270,17 @@ Extract from input:
 ```json
 {
   "task_context": {
-    "task_number": OC_450,
-    "task_name": "add_async_support",
-    "description": "Add async/await support to API client",
-    "language": "python"
+    "task_number": 450,
+    "task_name": "add_async_runtime",
+    "description": "Add async runtime support to API client",
+    "task_type": "rust"
   },
   "metadata": {
     "session_id": "sess_1736700000_abc123",
     "delegation_depth": 1,
     "delegation_path": ["orchestrator", "research", "{name}-agent"]
   },
-  "focus_prompt": "asyncio best practices"
+  "focus_prompt": "tokio best practices"
 }
 ```
 ```
@@ -288,12 +290,12 @@ Extract from input:
 ```markdown
 ### Stage 2: Context Loading
 
-Load context based on task language:
+Load context based on task task_type:
 
-| Language | Context Files |
+| Task Type | Context Files |
 |----------|---------------|
-| python | `project/python/tools.md` |
-| lean | `project/lean4/tools/mcp-tools-guide.md` |
+| rust | `project/rust/tools.md` |
+| {domain} | `project/{domain}/tools/tool-guide.md` |
 | general | `project/repo/project-overview.md` |
 ```
 
@@ -331,7 +333,7 @@ Format outputs according to standards:
 - Include findings, recommendations, risks
 
 **Implementation Summary**:
-- Follow `plan-format.md` structure
+- Follow `summary.md` structure
 - List files modified, verification results
 ```
 
@@ -342,13 +344,13 @@ Format outputs according to standards:
 
 Create directory structure:
 ```
-specs/OC_NNN_{SLUG}/
+specs/{NNN}_{SLUG}/
 ├── reports/
-│   └── research-NNN.md
+│   └── MM_{short-slug}.md
 ├── plans/
-│   └── implementation-NNN.md
+│   └── MM_{short-slug}.md
 └── summaries/
-    └── implementation-summary-{DATE}.md
+    └── MM_{short-slug}-summary.md
 ```
 
 Write artifacts and verify:
@@ -371,7 +373,7 @@ Return ONLY valid JSON matching this schema:
   "artifacts": [
     {
       "type": "report|plan|summary|implementation",
-      "path": "specs/OC_NNN_{SLUG}/{type}/{file}.md",
+      "path": "specs/{NNN}_{SLUG}/{type}/{file}.md",
       "summary": "Brief artifact description"
     }
   ],
@@ -416,7 +418,7 @@ This stage is mandatory. Missing status updates cause synchronization issues.
 
 4. **Create Git Commit** (if appropriate):
    - Stage artifact files
-   - Commit with message: `task OC_N: {action}`
+   - Commit with message: `task {N}: {action}`
 
 **Error Handling**:
 - Artifact validation failure -> Return failed status
@@ -480,7 +482,7 @@ Include complete examples:
   "artifacts": [
     {
       "type": "report",
-      "path": "specs/OC_412_create_agent/reports/research-001.md",
+      "path": "specs/412_create_agent/reports/01_create-agent-research.md",
       "summary": "Research report with 8 findings"
     }
   ],
@@ -492,7 +494,7 @@ Include complete examples:
     "delegation_path": ["orchestrator", "research", "general-research-agent"],
     "findings_count": 8
   },
-  "next_steps": "Run /plan OC_412 to create implementation plan"
+  "next_steps": "Run /plan 412 to create implementation plan"
 }
 ```
 
@@ -501,7 +503,7 @@ Include complete examples:
 ```json
 {
   "status": "failed",
-  "summary": "Research failed: Task OC_999 not found in state.json.",
+  "summary": "Research failed: Task 999 not found in state.json.",
   "artifacts": [],
   "metadata": {
     "session_id": "sess_1736689200_xyz789",
@@ -513,7 +515,7 @@ Include complete examples:
   "errors": [
     {
       "type": "validation",
-      "message": "Task OC_999 not found in state.json",
+      "message": "Task 999 not found in state.json",
       "recoverable": false,
       "recommendation": "Verify task number with /task --sync"
     }
@@ -592,7 +594,7 @@ Before finalizing a new agent, verify:
 - [ ] Each error case returns appropriate status
 
 ### Integration
-- [ ] Corresponding skill exists in `.opencode/skills/`
+- [ ] Corresponding skill exists in `.claude/skills/`
 - [ ] Agent name follows `{domain}-{purpose}-agent` pattern
 - [ ] Skill's `agent:` field matches this agent name
 
@@ -665,11 +667,11 @@ Research completed successfully. Found 5 patterns. See report at ...
 | Agent | Purpose | Invoked By |
 |-------|---------|------------|
 | `general-research-agent` | Web/codebase research | skill-researcher |
-| `lean-research-agent` | Lean 4/Mathlib research | skill-lean-research |
 | `planner-agent` | Implementation planning | skill-planner |
 | `general-implementation-agent` | General file implementation | skill-implementer |
-| `lean-implementation-agent` | Lean proof implementation | skill-lean-implementation |
-| `latex-implementation-agent` | LaTeX document implementation | skill-latex-implementation |
+| `meta-builder-agent` | System building and task creation | skill-meta |
+
+**Note**: Additional agents (latex, typst, filetypes) are available via extensions in `.claude/extensions/`.
 
 ---
 
@@ -678,10 +680,11 @@ Research completed successfully. Found 5 patterns. See report at ...
 - [Component Selection](component-selection.md) - When to create an agent
 - [Creating Skills](creating-skills.md) - Creating the skill that invokes agent
 - [Creating Commands](creating-commands.md) - Creating commands that invoke skills
-- `.opencode/context/core/formats/subagent-return.md` - Return format schema
+- `.claude/context/formats/subagent-return.md` - Return format schema
+- `.claude/docs/templates/agent-template.md` - Agent template
 
 ---
 
 **Document Version**: 1.0
-**Created**: 2026-02-28
-**Maintained By**: Logos/Theory Development Team
+**Created**: 2026-01-12
+**Maintained By**: Development Team

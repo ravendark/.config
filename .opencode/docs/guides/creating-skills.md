@@ -1,6 +1,6 @@
 # Creating Skills Guide
 
-This guide explains how to create new skills in the Logos/Theory agent system using the thin wrapper pattern.
+This guide explains how to create new skills in the agent system using the thin wrapper pattern.
 
 ---
 
@@ -59,10 +59,10 @@ Skill receives invocation
 
 ## Skill File Structure
 
-Skills are located in `.opencode/skills/skill-{name}/SKILL.md`:
+Skills are located in `.claude/skills/skill-{name}/SKILL.md`:
 
 ```
-.opencode/skills/
+.claude/skills/
 ├── skill-researcher/
 │   └── SKILL.md
 ├── skill-lean-research/
@@ -89,7 +89,7 @@ allowed-tools: Task
 context: fork
 agent: {target-agent-name}
 # Original context (now loaded by subagent):
-#   - .opencode/context/path/to/context.md
+#   - .claude/context/path/to/context.md
 # Original tools (now used by subagent):
 #   - Read, Write, Edit, Glob, Grep, etc.
 ---
@@ -105,7 +105,7 @@ agent: {target-agent-name}
 | `context` | `fork` | Signals NOT to load context eagerly |
 | `agent` | `{name}-agent` | Target agent to invoke |
 
-**Critical**: `context: fork` is essential for token efficiency. Without it, context would be loaded into the skill's conversation, wasting tokens.
+**Note on `context: fork`**: This frontmatter shows the **extension skill pattern** (Pattern B). Extension skills use `context: fork` + `agent:` for simple delegation, where the agent loads its own context. Core skills (skill-researcher, skill-planner, skill-implementer, etc.) use a different pattern: they omit `context: fork` and call Task with explicit `subagent_type` to inject structured context (session_id, delegation_depth, memory_context). See @.claude/context/patterns/fork-patterns.md for the full decision matrix.
 
 ### Body Structure
 
@@ -157,12 +157,12 @@ This skill activates when:
 ### Step 1: Create Skill Directory
 
 ```bash
-mkdir -p .opencode/skills/skill-{name}
+mkdir -p .claude/skills/skill-{name}
 ```
 
 ### Step 2: Create SKILL.md
 
-Create `.opencode/skills/skill-{name}/SKILL.md`:
+Create `.claude/skills/skill-{name}/SKILL.md`:
 
 ```yaml
 ---
@@ -182,9 +182,9 @@ Specify when this skill should be used:
 ## Trigger Conditions
 
 This skill activates when:
-- Task language is "python"
-- Research involves Python packages or APIs
-- Python-specific tooling is needed
+- Task language is "rust"
+- Research involves Rust crates or APIs
+- Rust-specific tooling is needed
 ```
 
 ### Step 4: Implement Input Validation
@@ -210,7 +210,7 @@ if [ -z "$task_data" ]; then
 fi
 
 # Extract fields
-language=$(echo "$task_data" | jq -r '.language // "general"')
+language=$(echo "$task_data" | jq -r '.task_type // "general"')
 status=$(echo "$task_data" | jq -r '.status')
 project_name=$(echo "$task_data" | jq -r '.project_name')
 description=$(echo "$task_data" | jq -r '.description // ""')
@@ -236,7 +236,7 @@ Prepare delegation context:
     "task_number": N,
     "task_name": "{project_name}",
     "description": "{description}",
-    "language": "{language}"
+    "task_type": "{task_type}"
   },
   "focus_prompt": "{optional focus}"
 }
@@ -305,31 +305,31 @@ Return partial status if subagent times out (default 3600s).
 
 ## Complete Example
 
-Here is a complete skill for Python research:
+Here is a complete skill for Rust research:
 
 ```yaml
 ---
-name: skill-python-research
-description: Research Python packages and APIs for implementation tasks. Invoke for Python-language research.
+name: skill-rust-research
+description: Research Rust crates and APIs for implementation tasks. Invoke for Rust-language research.
 allowed-tools: Task
 context: fork
-agent: python-research-agent
+agent: rust-research-agent
 # Original context (now loaded by subagent):
-#   - .opencode/context/project/python/tools.md
+#   - .claude/context/project/rust/tools.md
 # Original tools (now used by subagent):
 #   - Read, Write, Glob, Grep, WebSearch, WebFetch
 ---
 
-# Python Research Skill
+# Rust Research Skill
 
-Thin wrapper that delegates Python research to `python-research-agent` subagent.
+Thin wrapper that delegates Rust research to `rust-research-agent` subagent.
 
 ## Trigger Conditions
 
 This skill activates when:
-- Task language is "python"
-- Research involves Python packages, APIs, or frameworks
-- Python-specific tooling documentation is needed
+- Task language is "rust"
+- Research involves Rust crates, APIs, or frameworks
+- Rust-specific tooling documentation is needed
 
 ---
 
@@ -361,30 +361,30 @@ Prepare delegation context:
 {
   "session_id": "sess_{timestamp}_{random}",
   "delegation_depth": 1,
-  "delegation_path": ["orchestrator", "research", "skill-python-research"],
+  "delegation_path": ["orchestrator", "research", "skill-rust-research"],
   "timeout": 3600,
   "task_context": {
     "task_number": 450,
-    "task_name": "add_async_support",
-    "description": "Add async/await support to API client",
-    "language": "python"
+    "task_name": "add_async_runtime",
+    "description": "Add async runtime support to API client",
+    "task_type": "rust"
   },
-  "focus_prompt": "asyncio best practices"
+  "focus_prompt": "tokio best practices"
 }
 ```
 
 ### 3. Invoke Subagent
 
-Invoke `python-research-agent` via Task tool with:
-- Task context (number, name, description, language)
+Invoke `rust-research-agent` via Task tool with:
+- Task context (number, name, description, task_type)
 - Delegation context (session_id, depth, path)
 - Focus prompt (if provided)
 
 The subagent will:
-- Search for Python-specific documentation
-- Analyze package dependencies
-- Review asyncio patterns and best practices
-- Create research report in `specs/OC_NNN_{SLUG}/reports/`
+- Search for Rust-specific documentation
+- Analyze crate dependencies
+- Review tokio patterns and best practices
+- Create research report in `specs/{NNN}_{SLUG}/reports/`
 - Return standardized JSON result
 
 ### 4. Return Validation
@@ -403,27 +403,27 @@ Return validated result to caller without modification.
 
 ## Return Format
 
-See `.opencode/context/core/formats/subagent-return.md` for full specification.
+See `.claude/context/formats/subagent-return.md` for full specification.
 
 Expected successful return:
 ```json
 {
   "status": "completed",
-  "summary": "Research completed with 6 findings on asyncio patterns",
+  "summary": "Research completed with 6 findings on tokio patterns",
   "artifacts": [
     {
       "type": "research",
-      "path": "specs/OC_450_add_async_support/reports/research-001.md",
-      "summary": "Python asyncio research report"
+      "path": "specs/450_add_async_runtime/reports/01_tokio-patterns.md",
+      "summary": "Rust tokio research report"
     }
   ],
   "metadata": {
     "session_id": "sess_1736700000_abc123",
-    "agent_type": "python-research-agent",
+    "agent_type": "rust-research-agent",
     "delegation_depth": 1,
-    "delegation_path": ["orchestrator", "research", "python-research-agent"]
+    "delegation_path": ["orchestrator", "research", "rust-research-agent"]
   },
-  "next_steps": "Run /plan OC_450 to create implementation plan"
+  "next_steps": "Run /plan 450 to create implementation plan"
 }
 ```
 
@@ -463,7 +463,7 @@ Before finalizing a new skill, verify:
 - [ ] Error handling covers common cases
 
 ### Integration
-- [ ] Corresponding agent exists in `.opencode/agent/subagents/`
+- [ ] Corresponding agent exists in `.claude/agents/`
 - [ ] Skill name follows `skill-{purpose}` pattern
 - [ ] No duplicate skills for same use case
 
@@ -477,8 +477,8 @@ Before finalizing a new skill, verify:
 ```yaml
 ---
 context:
-  - .opencode/context/core/patterns/complex-patterns.md
-  - .opencode/context/project/domain/domain-knowledge.md
+  - .claude/context/patterns/complex-patterns.md
+  - .claude/context/project/domain/domain-knowledge.md
 ---
 ```
 
@@ -488,7 +488,7 @@ context:
 context: fork
 agent: my-agent
 # Original context (now loaded by subagent):
-#   - .opencode/context/core/patterns/complex-patterns.md
+#   - .claude/context/patterns/complex-patterns.md
 ---
 ```
 
@@ -527,10 +527,11 @@ allowed-tools: Task
 - [Component Selection](component-selection.md) - When to create a skill
 - [Creating Agents](creating-agents.md) - Creating the agent that skill delegates to
 - [Creating Commands](creating-commands.md) - Creating commands that invoke skills
-- `.opencode/context/core/formats/subagent-return.md` - Return format schema
+- `.claude/context/templates/thin-wrapper-skill.md` - Skill template
+- `.claude/context/formats/subagent-return.md` - Return format schema
 
 ---
 
 **Document Version**: 1.0
-**Created**: 2026-02-28
-**Maintained By**: Logos/Theory Development Team
+**Created**: 2026-01-12
+**Maintained By**: Development Team

@@ -71,7 +71,7 @@ Recover from blocked implementations by analyzing the blocker, decomposing it in
    ```bash
    project_name=$(echo "$task_data" | jq -r '.project_name')
    task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
-   description=$(echo "$task_data" | jq -r '.description // ""
+   description=$(echo "$task_data" | jq -r '.description // ""')
    ```
 
 6. **Extract Blocker Prompt**
@@ -90,8 +90,8 @@ Recover from blocked implementations by analyzing the blocker, decomposing it in
    ```bash
    padded_num=$(printf "%03d" "$task_number")
    plan_path=""
-   if [ -d "specs/OC_${padded_num}_${project_name}/plans" ]; then
-     plan_path=$(ls -t "specs/OC_${padded_num}_${project_name}/plans/"*.md 2>/dev/null | head -1)
+   if [ -d "specs/${padded_num}_${project_name}/plans" ]; then
+     plan_path=$(ls -t "specs/${padded_num}_${project_name}/plans/"*.md 2>/dev/null | head -1)
    fi
    ```
 
@@ -149,7 +149,7 @@ The skill will:
 3. **Validate Artifacts**
    Check spawn analysis report exists:
    ```bash
-   report_path="specs/OC_${padded_num}_${project_name}/reports/02_spawn-analysis.md"
+   report_path="specs/${padded_num}_${project_name}/reports/02_spawn-analysis.md"
    [ -f "$report_path" ] || echo "Warning: Spawn analysis report not found"
    ```
 
@@ -185,7 +185,7 @@ Spawned Tasks:
     - Dependencies: Task #{X}
     - Effort: {estimate}
 
-Analysis: specs/OC_{NNN}_{SLUG}/reports/02_spawn-analysis.md
+Analysis: specs/{NNN}_{SLUG}/reports/02_spawn-analysis.md
 
 Dependency Graph:
   #{X} (foundational)

@@ -100,7 +100,7 @@ check_index_file() {
 
     # Check for cross-system references
     local cross_refs
-    cross_refs=$(jq -r ".entries[].path | select(contains(\".${other_system}/\") or contains(\"${other_system}/\"))" "$file" 2>/dev/null || true)
+    cross_refs=$(jq -r '.entries[].path | select(contains(".'$other_system'/") or contains("'$other_system'/"))' "$file" 2>/dev/null || true)
 
     if [[ -n "$cross_refs" ]]; then
         log_error "$file: Contains cross-system references to .$other_system:"

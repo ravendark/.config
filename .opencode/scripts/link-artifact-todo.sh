@@ -2,10 +2,10 @@
 # link-artifact-todo.sh - Automate TODO.md artifact linking
 #
 # Implements the four-case artifact linking logic from
-# .opencode/context/patterns/artifact-linking-todo.md
+# .claude/context/patterns/artifact-linking-todo.md
 #
 # Usage:
-#   .opencode/scripts/link-artifact-todo.sh <task_number> <field_name> <next_field> <artifact_path> [--dry-run]
+#   .claude/scripts/link-artifact-todo.sh <task_number> <field_name> <next_field> <artifact_path> [--dry-run]
 #
 # Arguments:
 #   task_number    - Task number (integer)

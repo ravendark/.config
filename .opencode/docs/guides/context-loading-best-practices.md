@@ -1,391 +1,896 @@
 # Context Loading Best Practices Guide
 
-**Version**: 1.0
-**Last Updated**: 2026-03-04
-**Applies to**: OpenCode skill developers and agent system architects
+**Version**: 1.0  
+**Created**: 2026-01-06 (Task 327)  
+**Purpose**: Best practices for context loading strategy in .opencode systems
 
-## Introduction
+---
 
-Context loading determines how information is made available to AI agents during task execution. The choice between loading strategies directly impacts agent performance, output quality, and system reliability. This guide documents the two primary context loading models used in the OpenCode system: the **Push** model for critical context and the **Pull** model for optional reference material.
+## Table of Contents
 
-When agents lack necessary context, they may produce inconsistent outputs, deviate from established formats, or require additional tool calls to fetch information. Conversely, loading too much context wastes tokens and increases latency. The Push vs Pull strategy addresses this by distinguishing between context that MUST be available (Push) and context that MAY be referenced (Pull).
+1. [Introduction](#introduction)
+2. [Loading Strategies](#loading-strategies)
+3. [File Organization](#file-organization)
+4. [Context Configuration](#context-configuration)
+5. [Optimization Techniques](#optimization-techniques)
+6. [Monitoring and Metrics](#monitoring-and-metrics)
+7. [Common Patterns](#common-patterns)
+8. [Troubleshooting](#troubleshooting)
 
-## Push Model: Critical Context Injection
+---
 
-### Definition
+## 1. Introduction
 
-The Push model injects critical context directly into agent prompts via XML `<context_injection>` blocks declared in SKILL.md files. This context is loaded automatically before any agent execution begins.
+### Why Context Loading Matters
 
-### When to Use
+Context loading directly impacts:
+- **Performance**: Large context = slower processing, higher costs
+- **Accuracy**: Too little context = missing information, errors
+- **Reliability**: Broken references = silent failures
+- **Maintainability**: Clear patterns = easier debugging
 
-Use the Push model when:
+### Key Principles
 
-- Context is **required** for correct operation
-- Context defines **strict formats** or **standards** that must be followed
-- Context controls **workflow state transitions**
-- Context provides **safety-critical** delegation patterns
-- Missing the context would cause **incorrect behavior**
+1. **Load only what you need** - Minimize context window usage
+2. **Load when you need it** - Lazy loading over eager loading
+3. **Validate all references** - Broken references fail silently
+4. **Document loading patterns** - Make intent explicit
+5. **Monitor context usage** - Track and optimize over time
 
-### XML Structure
+### Context Budget Guidelines
 
-```xml
-<context_injection>
-  <file path=".opencode/context/core/formats/plan-format.md" variable="plan_format" />
-  <file path=".opencode/context/core/standards/status-markers.md" variable="status_markers" />
-</context_injection>
+- **Routing Stage** (Orchestrator Stages 1-3): <10% context window
+  - Use frontmatter only, no context file loading
+  - Make routing decisions based on command metadata
+  
+- **Execution Stage** (Agent Stage 4+): <90% context window
+  - Load only files needed for specific workflow
+  - Use conditional loading based on task type
+  - Prefer summary files over full documentation
 
-<execution>
-  <stage id="1" name="LoadContext">
-    <action>Read context files defined in <context_injection></action>
-  </stage>
-  <stage id="2" name="Delegate">
-    <action>Inject context into agent prompt using {variable_name}</action>
-  </stage>
-</execution>
+---
+
+## 2. Loading Strategies
+
+### 2.1 Lazy Loading (Recommended)
+
+**When to use**: Default strategy for most agents and commands
+
+**How it works**: Load context files only when needed, on-demand
+
+**Example**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+  optional:
+    - "core/standards/git-safety.md"  # Only if git operations needed
+  max_context_size: 30000
 ```
 
-### Execution Flow
+**Benefits**:
+- Minimal context window usage
+- Faster initial loading
+- Lower token costs
 
-1. **Declaration**: SKILL.md defines `<context_injection>` block with file paths and variable names
-2. **Loading**: Skill executor reads files and stores content in named variables
-3. **Injection**: Variables are substituted into agent prompts via `{variable_name}` syntax
-4. **Execution**: Agent receives complete context at start, no additional reads needed
+**Drawbacks**:
+- May need multiple loads during execution
+- Requires careful planning of required vs optional
 
-### Benefits
+### 2.2 Eager Loading
 
-- **Reliability**: Agents cannot "forget" to load critical context
-- **Consistency**: All agents receive identical versions of standards
-- **Performance**: Eliminates redundant tool calls during execution
-- **Maintainability**: Context dependencies are explicitly declared
-- **Debugging**: Clear visibility into what context each skill requires
+**When to use**: When you know all context is needed upfront
 
-## Pull Model: On-Demand Context Loading
+**How it works**: Load all context files at initialization
 
-### Definition
+**Example**:
+```yaml
+context_loading:
+  strategy: eager
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+    - "core/standards/git-safety.md"
+    - "core/formats/plan-format.md"
+  max_context_size: 50000
+```
 
-The Pull model loads context on-demand via @-references in agent prompts or skill files. Context is only fetched when explicitly requested by an agent or user.
+**Benefits**:
+- All context available immediately
+- No mid-execution loading delays
+- Simpler to reason about
 
-### When to Use
+**Drawbacks**:
+- Higher initial context usage
+- May load unnecessary files
+- Higher token costs
 
-Use the Pull model when:
+### 2.3 Conditional Loading
 
-- Context is **optional reference material**
-- Context provides **background information** but is not strictly required
-- Context contains **code examples** that illustrate but do not enforce patterns
-- Context files are **large** (>500 lines) and would bloat the context window
-- Context changes **frequently** and should not be cached
+**When to use**: When context needs vary by task type or language
 
-### @-Reference Syntax
+**How it works**: Load different files based on runtime conditions
 
-Reference context files using the @ notation in prompts:
+**Example**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+  conditional:
+    - condition: "language == 'lean'"
+      files:
+        - "project/lean4/standards/lean4-style-guide.md"
+        - "project/lean4/tools/lsp-integration.md"
+    - condition: "task_type == 'meta'"
+      files:
+        - "meta/meta-guide.md"
+        - "meta/domain-patterns.md"
+  max_context_size: 40000
+```
 
+**Benefits**:
+- Optimized for specific scenarios
+- Avoids loading irrelevant context
+- Flexible and adaptive
+
+**Drawbacks**:
+- More complex configuration
+- Requires runtime condition evaluation
+- Harder to debug
+
+### 2.4 Summary-First Loading
+
+**When to use**: When full documentation is large but summary suffices
+
+**How it works**: Load summary file first, full file only if needed
+
+**Example**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+  optional:
+    - "core/orchestration/orchestrator.md"  # 870 lines - load only if needed
+  summaries:
+    - "core/orchestration/orchestrator.md": "core/orchestration/orchestrator-summary.md"
+  max_context_size: 30000
+```
+
+**Benefits**:
+- Reduces context usage for large files
+- Provides overview without full details
+- Can escalate to full file if needed
+
+**Drawbacks**:
+- Requires maintaining summary files
+- May miss important details in summary
+- More files to manage
+
+### 2.5 Section-Based Loading
+
+**When to use**: When only specific sections of a file are needed
+
+**How it works**: Load specific sections using grep or similar tools
+
+**Example**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+  sections:
+    - file: "specs/TODO.md"
+      pattern: "grep -A 50 '^### {task_number}\\.'"
+      description: "Load only the specific task entry"
+  max_context_size: 30000
+```
+
+**Benefits**:
+- Minimal context usage for large files
+- Precise targeting of needed information
+- Efficient for structured files
+
+**Drawbacks**:
+- Requires structured file format
+- May miss context from other sections
+- More complex to implement
+
+---
+
+## 3. File Organization
+
+### 3.1 When to Split Files
+
+**Guideline**: Split files when they exceed 700 lines
+
+**Reasons**:
+- Large files are harder to navigate
+- Loading large files wastes context window
+- Splitting enables more granular loading
+
+**Example Split**:
+```
+Before:
+- orchestration.md (2000 lines)
+
+After:
+- orchestration/delegation.md (654 lines)
+- orchestration/routing.md (699 lines)
+- orchestration/validation.md (466 lines)
+```
+
+### 3.2 When to Create Summaries
+
+**Guideline**: Create summaries for files >500 lines that are frequently referenced
+
+**Summary Structure**:
 ```markdown
-## Context References
+# File Summary
 
-Reference (do not load eagerly):
-- Path: `.opencode/context/core/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.opencode/context/core/patterns/postflight-control.md` - Marker file protocol
+**Full File**: core/orchestration/orchestrator.md (870 lines)
+**Summary**: 100 lines
+
+## Key Concepts
+- Orchestrator pattern
+- Stage-based workflow
+- Delegation mechanisms
+
+## When to Load Full File
+- Creating new orchestrators
+- Debugging orchestrator issues
+- Understanding delegation patterns
+
+## Quick Reference
+- Stage 1: Parse and validate
+- Stage 2: Route to agent
+- Stage 3: Execute workflow
+...
 ```
 
-In agent prompts:
+### 3.3 When to Use Examples Files
 
+**Guideline**: Create separate examples file when examples exceed 200 lines
+
+**Pattern**:
+```
+Main file:
+- delegation.md (654 lines) - Concepts and patterns
+
+Examples file:
+- delegation-examples.md (300 lines) - Detailed examples
+```
+
+**Benefits**:
+- Main file stays focused on concepts
+- Examples can be loaded separately
+- Easier to maintain and update
+
+### 3.4 Directory Structure Guidelines
+
+**Recommended Structure**:
+```
+.claude/context/
+├── core/                      # Core system context
+│   ├── orchestration/         # Orchestration patterns (8 files)
+│   ├── formats/               # File format specs (7 files)
+│   ├── standards/             # Coding standards (8 files)
+│   ├── workflows/             # Workflow patterns (5 files)
+│   └── templates/             # File templates (5 files)
+├── project/                   # Project-specific context
+│   ├── lean4/                 # Lean 4 language context
+│   ├── logic/                 # Logic domain context
+│   ├── meta/                  # Meta-programming context
+│   └── repo/                  # Repository context
+└── index.json                   # Context index
+```
+
+**Principles**:
+- Group by category (orchestration, formats, standards, etc.)
+- Separate core from project-specific
+- Use clear, descriptive directory names
+- Keep directory depth ≤3 levels
+
+### 3.5 File Size Limits by Type
+
+| File Type | Target Size | Max Size | Action if Exceeded |
+|-----------|-------------|----------|-------------------|
+| Standards | 300-500 lines | 700 lines | Split into multiple files |
+| Formats | 200-400 lines | 600 lines | Create summary file |
+| Templates | 200-300 lines | 400 lines | Split examples to separate file |
+| Workflows | 300-500 lines | 700 lines | Split into phases |
+| Orchestration | 500-700 lines | 900 lines | Create summary or split |
+
+---
+
+## 4. Context Configuration
+
+### 4.1 Frontmatter Syntax
+
+**Basic Structure**:
+```yaml
+context_loading:
+  strategy: lazy                          # lazy | eager | conditional
+  index: ".claude/context/index.json"     # Context index file
+  required: []                            # Always load these files
+  optional: []                            # Load if needed
+  conditional: []                         # Load based on conditions
+  max_context_size: 30000                 # Max tokens to load
+```
+
+### 4.2 Required vs Optional Files
+
+**Required Files**:
+- Files that are ALWAYS needed for the workflow
+- Missing required files should cause errors
+- Examples: delegation.md, state-management.md
+
+**Optional Files**:
+- Files that are SOMETIMES needed
+- Missing optional files should not cause errors
+- Examples: git-safety.md (only if git operations), lean4-style-guide.md (only for Lean tasks)
+
+**Example**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"      # Always needed
+    - "core/orchestration/state-management.md" # Always needed
+  optional:
+    - "core/standards/git-safety.md"          # Only if git operations
+    - "project/lean4/standards/lean4-style-guide.md"  # Only for Lean tasks
+  max_context_size: 30000
+```
+
+### 4.3 Conditional Loading Rules
+
+**Condition Types**:
+1. **Language-based**: Load based on task language
+2. **Task-type-based**: Load based on task type (meta, implementation, etc.)
+3. **Operation-based**: Load based on operation (git, file, API, etc.)
+
+**Example**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+  conditional:
+    # Language-based
+    - condition: "language == 'lean'"
+      files:
+        - "project/lean4/standards/lean4-style-guide.md"
+        - "project/lean4/tools/lsp-integration.md"
+    
+    # Task-type-based
+    - condition: "task_type == 'meta'"
+      files:
+        - "meta/meta-guide.md"
+        - "meta/domain-patterns.md"
+    
+    # Operation-based
+    - condition: "requires_git == true"
+      files:
+        - "core/standards/git-safety.md"
+  max_context_size: 40000
+```
+
+### 4.4 Max Context Size Guidelines
+
+**By Operation Type**:
+
+| Operation Type | Max Context Size | Reasoning |
+|----------------|------------------|-----------|
+| Research | 50,000 tokens | Needs broad context for exploration |
+| Planning | 40,000 tokens | Needs task context + planning patterns |
+| Implementation | 30,000 tokens | Focused on specific task |
+| Review | 30,000 tokens | Focused on specific artifacts |
+| Meta | 40,000 tokens | Needs architecture patterns |
+| Utility | 20,000 tokens | Simple operations |
+
+**Calculation**:
+```
+max_context_size = base_context + language_context + operation_context
+
+Example (Lean implementation):
+- base_context: 10,000 (delegation, state-management)
+- language_context: 10,000 (lean4-style-guide, lsp-integration)
+- operation_context: 10,000 (git-safety, plan-format)
+- Total: 30,000 tokens
+```
+
+---
+
+## 5. Optimization Techniques
+
+### 5.1 Caching
+
+**Pattern**: Cache frequently loaded context files in memory
+
+**Implementation**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  cache:
+    enabled: true
+    ttl: 3600  # Cache for 1 hour
+    files:
+      - "core/orchestration/delegation.md"
+      - "core/orchestration/state-management.md"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+  max_context_size: 30000
+```
+
+**Benefits**:
+- Faster loading for repeated operations
+- Reduced file I/O
+- Lower latency
+
+**Drawbacks**:
+- Stale cache if files change
+- Memory usage
+- Cache invalidation complexity
+
+### 5.2 Compression
+
+**Pattern**: Compress large context files to reduce token usage
+
+**Techniques**:
+1. Remove comments and whitespace
+2. Abbreviate common terms
+3. Use references instead of duplication
+
+**Example**:
 ```markdown
-Create implementation plan for task {N}.
+Before (100 lines):
+# Delegation Pattern
 
-Refer to @.opencode/context/core/formats/plan-format.md for formatting standards.
+The delegation pattern allows an orchestrator to delegate work to subagents.
+When delegating, the orchestrator must:
+- Validate the subagent exists
+- Check delegation depth
+- Set timeout
+- Track session
+...
+
+After (50 lines):
+# Delegation Pattern
+
+Orchestrator → subagent delegation:
+- Validate: subagent exists, depth < max, timeout set
+- Track: session ID, delegation path
+- Return: standardized format (see subagent-return.md)
+...
 ```
 
-### Execution Flow
+### 5.3 Indexing
 
-1. **Reference**: Agent or prompt includes @-reference to context file
-2. **Request**: System resolves reference and reads file contents
-3. **Injection**: Content is inserted into the conversation at the reference point
-4. **Use**: Agent can access the context for that specific interaction
+**Pattern**: Use index file to enable fast lookup and selective loading
 
-### Benefits
-
-- **Context efficiency**: Only load what is explicitly needed
-- **Flexibility**: Easy to reference different files for different scenarios
-- **Lower latency**: Smaller initial context for faster startup
-- **Fresh content**: Always gets latest version of frequently changing files
-
-## Comparison: Push vs Pull
-
-| Characteristic | Push Model | Pull Model |
-|---------------|------------|------------|
-| **Loading timing** | Automatic at skill start | On-demand when referenced |
-| **Context availability** | Always present in agent prompt | Fetched per interaction |
-| **Use case** | Critical standards and formats | Optional documentation |
-| **Agent awareness** | Transparent (injected automatically) | Explicit (must reference) |
-| **Performance** | Higher initial load, fewer tool calls | Lower initial load, more tool calls |
-| **Consistency** | Guaranteed identical context | Context may vary by request |
-| **Best for** | Strict formats, workflow control | Examples, background docs |
-| **File size** | Keep small (< 200 lines each) | Can reference larger files |
-| **Example files** | plan-format.md, status-markers.md | code-examples.md, guides/*.md |
-
-## Decision Framework
-
-### Checklist for Choosing Push vs Pull
-
-Answer these questions when deciding how to load context:
-
-1. **Is this context required for correct operation?**
-   - Yes -> Use **Push** model
-   - No -> Consider Pull
-
-2. **Is this context a strict format or standard?**
-   - Yes -> Use **Push** model
-   - No -> Consider Pull
-
-3. **Is this context optional reference material?**
-   - Yes -> Use **Pull** model
-   - No -> Consider Push
-
-4. **Is this context file >500 lines?**
-   - Yes -> Consider **Pull** model to avoid bloat
-   - No -> Can use either model
-
-5. **Does missing this context cause incorrect behavior?**
-   - Yes -> Use **Push** model
-   - No -> Can use Pull
-
-### Decision Tree
-
-```
-Context to load?
-|
-├─ Required for correct operation? ──YES──> Push
-│   └─ Strict format/standard? ─────YES──> Push
-│       └─ Controls workflow? ──────YES──> Push
-│           └─ Safety-critical? ────YES──> Push
-│
-└─ Optional reference material? ────YES──> Pull
-    └─ Large file (>500 lines)? ──YES──> Pull
-        └─ Changes frequently? ───YES──> Pull
-            └─ Code examples? ──────YES──> Pull
-```
-
-## Implementation Guide for Skill Developers
-
-### Step 1: Identify Critical Context
-
-Review your skill's requirements and identify which context files are essential:
-
-- Format standards that MUST be followed
-- Status markers that control workflow
-- Safety-critical patterns or rules
-
-### Step 2: Define context_injection Block
-
-Add a `<context_injection>` block near the top of your SKILL.md file:
-
-```xml
-<context_injection>
-  <file path=".opencode/context/core/formats/plan-format.md" variable="plan_format" />
-  <file path=".opencode/context/core/standards/status-markers.md" variable="status_markers" />
-  <file path=".opencode/context/core/workflows/task-breakdown.md" variable="task_breakdown" />
-</context_injection>
-```
-
-Guidelines:
-- Use descriptive variable names (e.g., `plan_format`, not `format1`)
-- Keep total injected context under 1000 lines
-- Only include files that are truly critical
-
-### Step 3: Update Execution Stages
-
-Add a LoadContext stage as the first execution stage:
-
-```xml
-<execution>
-  <stage id="1" name="LoadContext">
-    <action>Read context files defined in <context_injection></action>
-  </stage>
-  <stage id="2" name="Delegate">
-    <action>Call Task tool with injected context</action>
-  </stage>
-</execution>
-```
-
-### Step 4: Inject Context into Agent Prompts
-
-Use the `{variable_name}` syntax to inject context into agent prompts:
-
+**Index Structure**:
 ```markdown
-Call `Task` tool with prompt:
-"""
-Create implementation plan for task {N}.
+# Context Index
 
-<system_context>
-Using the following format standards:
-{plan_format}
+## Orchestration
+- delegation.md (654 lines) - Delegation patterns and return format
+- routing.md (699 lines) - Language extraction and agent mapping
+- state-management.md (916 lines) - Status markers and state schemas
 
-Following these status guidelines:
-{status_markers}
-
-With this task breakdown approach:
-{task_breakdown}
-</system_context>
-"""
+## When to Load
+- **Research**: delegation.md, state-management.md
+- **Planning**: delegation.md, state-management.md, plan-format.md
+- **Implementation**: delegation.md, state-management.md, git-safety.md
 ```
 
-### Step 5: Document Pull References
+**Benefits**:
+- Fast lookup of file locations
+- Clear loading recommendations
+- Enables lazy loading
 
-For optional context, document references in your skill's documentation:
+### 5.4 Pruning
 
-```markdown
-## Optional Context
+**Pattern**: Remove unused or deprecated context files
 
-Reference these files as needed:
-- @.opencode/context/core/examples/lean4-proof-patterns.md
-- @.opencode/docs/guides/error-handling.md
+**Process**:
+1. Identify files with 0 references (use validation script)
+2. Mark as deprecated with 1-month notice
+3. Remove after deprecation period
+4. Update all references
+
+**Example**:
+```bash
+# Find files with 0 references
+for file in .claude/context/**/*.md; do
+  ref_count=$(grep -r "$(basename $file)" .claude/command .claude/agent | wc -l)
+  if [ $ref_count -eq 0 ]; then
+    echo "UNUSED: $file"
+  fi
+done
 ```
 
-## Examples from Core Skills
+---
 
-### skill-planner
+## 6. Monitoring and Metrics
 
-**Injected files**: 3
+### 6.1 Telemetry
 
-```xml
-<context_injection>
-  <file path=".opencode/context/core/formats/plan-format.md" variable="plan_format" />
-  <file path=".opencode/context/core/standards/status-markers.md" variable="status_markers" />
-  <file path=".opencode/context/core/workflows/task-breakdown.md" variable="task_breakdown" />
-</context_injection>
+**Metrics to Track**:
+1. **Context size per operation** - How much context is loaded
+2. **Loading time** - How long it takes to load context
+3. **Cache hit rate** - How often cache is used
+4. **Broken reference count** - How many references fail
+
+**Implementation**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  telemetry:
+    enabled: true
+    log_file: ".claude/logs/context-loading.log"
+    metrics:
+      - context_size
+      - loading_time
+      - cache_hit_rate
+      - broken_references
+  required:
+    - "core/orchestration/delegation.md"
+  max_context_size: 30000
 ```
 
-**Why Push**: Plan format and status markers are strict standards. Missing them would result in incorrectly formatted plans.
+### 6.2 Size Tracking
 
-### skill-researcher
+**Pattern**: Track context file sizes over time
 
-**Injected files**: 2
+**Script**:
+```bash
+#!/bin/bash
+# Track context file sizes
 
-```xml
-<context_injection>
-  <file path=".opencode/context/core/formats/report-format.md" variable="report_format" />
-  <file path=".opencode/context/core/standards/status-markers.md" variable="status_markers" />
-</context_injection>
+echo "=== Context Size Report ===" > specs/tmp/context-sizes.txt
+echo "Generated: $(date)" >> specs/tmp/context-sizes.txt
+echo "" >> specs/tmp/context-sizes.txt
+
+for dir in orchestration formats standards workflows templates; do
+  echo "## $dir/" >> specs/tmp/context-sizes.txt
+  find .claude/context/$dir -name "*.md" -exec wc -l {} + | \
+    sort -n >> specs/tmp/context-sizes.txt
+  echo "" >> specs/tmp/context-sizes.txt
+done
+
+cat specs/tmp/context-sizes.txt
 ```
 
-**Why Push**: Report format ensures consistent research output. Status markers coordinate with the orchestrator.
+### 6.3 Performance Monitoring
 
-### skill-implementer
+**Metrics**:
+1. **Time to first token** - How long until first response
+2. **Total operation time** - End-to-end duration
+3. **Context loading time** - Time spent loading files
+4. **Context window usage** - Percentage of window used
 
-**Injected files**: 4
+**Targets**:
+- Time to first token: <2 seconds
+- Context loading time: <1 second
+- Context window usage: <90%
 
-```xml
-<context_injection>
-  <file path=".opencode/context/core/patterns/return-metadata-file.md" variable="return_metadata" />
-  <file path=".opencode/context/core/patterns/postflight-control.md" variable="postflight_control" />
-  <file path=".opencode/context/core/patterns/file-metadata-exchange.md" variable="file_metadata" />
-  <file path=".opencode/context/core/patterns/jq-escaping-workarounds.md" variable="jq_workarounds" />
-</context_injection>
+---
+
+## 7. Common Patterns
+
+### 7.1 Research Operations Pattern
+
+**Context Needs**:
+- Delegation patterns (for subagent calls)
+- State management (for task lookup)
+- Report format (for output)
+- Language-specific tools (for research)
+
+**Configuration**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+    - "core/formats/report-format.md"
+  conditional:
+    - condition: "language == 'lean'"
+      files:
+        - "project/lean4/tools/leansearch-api.md"
+        - "project/lean4/tools/loogle-api.md"
+  max_context_size: 50000
 ```
 
-**Why Push**: Implementation requires strict adherence to return metadata and postflight protocols. Missing these would break state synchronization.
+**Rationale**:
+- Research needs broad context for exploration
+- Language-specific tools enable targeted research
+- Report format ensures consistent output
 
-### skill-orchestrator
+### 7.2 Planning Operations Pattern
 
-**Injected files**: 2
+**Context Needs**:
+- Delegation patterns (for subagent calls)
+- State management (for task lookup)
+- Plan format (for output)
+- Task breakdown (for decomposition)
 
-```xml
-<context_injection>
-  <file path=".opencode/context/core/patterns/orchestration-core.md" variable="orchestration" />
-  <file path=".opencode/context/core/patterns/state-management.md" variable="state_management" />
-</context_injection>
+**Configuration**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+    - "core/formats/plan-format.md"
+    - "core/workflows/task-breakdown.md"
+  max_context_size: 40000
 ```
 
-**Why Push**: Orchestration patterns define how to coordinate skills safely. State management ensures proper status tracking.
+**Rationale**:
+- Planning needs task context and decomposition patterns
+- Plan format ensures consistent output
+- Task breakdown enables effective decomposition
 
-## Migration Guide: From Pull to Push
+### 7.3 Implementation Operations Pattern
 
-### When to Migrate
+**Context Needs**:
+- Delegation patterns (for subagent calls)
+- State management (for task lookup)
+- Git safety (for commits)
+- Language-specific standards (for code quality)
 
-Migrate skills from Pull to Push model when:
-
-- Agents inconsistently follow formats or standards
-- Context is frequently "forgotten" in agent execution
-- You need stricter workflow control
-- Output quality varies due to missing context
-
-### Migration Steps
-
-1. **Identify critical context**: Review which files are essential but often missed
-2. **Add context_injection block**: Define files and variable names in SKILL.md
-3. **Add LoadContext stage**: Make it the first execution stage
-4. **Update delegation prompts**: Inject context using `{variable_name}` syntax
-5. **Remove redundant @-references**: Clean up old Pull references that are now Push
-6. **Test thoroughly**: Verify agents receive and use the context correctly
-7. **Update documentation**: Note the change in skill changelog
-
-### Example Migration
-
-**Before (Pull model)**:
-```xml
-<execution>
-  <stage id="1" name="Delegate">
-    <action>Create implementation plan. Refer to @.opencode/context/core/formats/plan-format.md</action>
-  </stage>
-</execution>
+**Configuration**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+    - "core/standards/git-safety.md"
+  conditional:
+    - condition: "language == 'lean'"
+      files:
+        - "project/lean4/standards/lean4-style-guide.md"
+        - "project/lean4/tools/lsp-integration.md"
+  max_context_size: 30000
 ```
 
-**After (Push model)**:
-```xml
-<context_injection>
-  <file path=".opencode/context/core/formats/plan-format.md" variable="plan_format" />
-</context_injection>
+**Rationale**:
+- Implementation needs focused context for specific task
+- Git safety ensures proper commits
+- Language standards ensure code quality
 
-<execution>
-  <stage id="1" name="LoadContext">
-    <action>Read context files defined in <context_injection></action>
-  </stage>
-  <stage id="2" name="Delegate">
-    <action>Call Task tool with injected {plan_format}</action>
-  </stage>
-</execution>
+### 7.4 Review Operations Pattern
+
+**Context Needs**:
+- Delegation patterns (for subagent calls)
+- State management (for task lookup)
+- Review process (for review criteria)
+
+**Configuration**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+    - "core/workflows/review-process.md"
+  max_context_size: 30000
 ```
 
-## Related Documentation
+**Rationale**:
+- Review needs focused context for specific artifacts
+- Review process ensures consistent criteria
+- Minimal context for efficient review
 
-### Standards and Specifications
+### 7.5 Meta Operations Pattern
 
-- [skill-structure.md](../../skills/skill-structure.md) v2.0 - Defines the Push Context standard for SKILL.md files
-- [context/index.md](../../context/index.md) - Catalog of Pull Context files available for @-references
+**Context Needs**:
+- Delegation patterns (for subagent calls)
+- State management (for task creation)
+- Architecture principles (for system design)
+- Domain patterns (for domain-specific design)
+- Interview patterns (for requirement gathering)
 
-### Historical Reference
+**Configuration**:
+```yaml
+context_loading:
+  strategy: lazy
+  index: ".claude/context/index.json"
+  required:
+    - "core/orchestration/delegation.md"
+    - "core/orchestration/state-management.md"
+    - "core/formats/subagent-return.md"
+  conditional:
+    - condition: "stage >= 4"  # Only load in execution stage
+      files:
+        - "meta/meta-guide.md"
+        - "meta/domain-patterns.md"
+        - "meta/context-revision-guide.md"
+  max_context_size: 40000
+```
 
-- [context-loading-best-practices.md](../../../../.claude/docs/guides/context-loading-best-practices.md) - Historical guide focusing on Pull model (deprecated)
+**Rationale**:
+- Meta operations need architecture and design patterns
+- Interview patterns enable effective requirement gathering
+- Conditional loading avoids loading during routing
 
-### Skill Examples
+---
 
-- [skill-planner/SKILL.md](../../../skills/skill-planner/SKILL.md) - 3 injected files example
-- [skill-researcher/SKILL.md](../../../skills/skill-researcher/SKILL.md) - 2 injected files example
-- [skill-implementer/SKILL.md](../../../skills/skill-implementer/SKILL.md) - 4 injected files example
-- [skill-orchestrator/SKILL.md](../../../skills/skill-orchestrator/SKILL.md) - 2 injected files example
+## 8. Troubleshooting
+
+### 8.1 Broken References
+
+**Symptom**: Context files fail to load, silent errors
+
+**Diagnosis**:
+```bash
+# Run validation script
+bash .claude/scripts/validate-context-refs.sh
+
+# Check for broken references manually
+grep -r "core/system/" .claude/command .claude/agent
+```
+
+**Solutions**:
+1. Run reference update script: `bash update-context-refs.sh`
+2. Manually fix broken references
+3. Add validation to CI/CD pipeline
+
+**Prevention**:
+- Run validation script before commits
+- Use reference update script for bulk updates
+- Document file moves and renames
+
+### 8.2 Context Bloat
+
+**Symptom**: Context window usage >90%, slow performance
+
+**Diagnosis**:
+```bash
+# Check context file sizes
+find .claude/context -name "*.md" -exec wc -l {} + | sort -n
+
+# Check context loading configuration
+grep -A 20 "context_loading:" .claude/command/*.md
+```
+
+**Solutions**:
+1. Switch from eager to lazy loading
+2. Move optional files to conditional loading
+3. Create summary files for large files
+4. Split large files into smaller files
+
+**Prevention**:
+- Set max_context_size limits
+- Use lazy loading by default
+- Monitor context usage metrics
+
+### 8.3 Loading Failures
+
+**Symptom**: Context files fail to load, errors in logs
+
+**Diagnosis**:
+```bash
+# Check file permissions
+ls -la .claude/context/**/*.md
+
+# Check file existence
+for file in $(grep -rh '"core/[^"]*\.md"' .claude/command | sed 's/.*"\(core\/[^"]*\.md\)".*/\1/'); do
+  if [ ! -f ".claude/context/$file" ]; then
+    echo "MISSING: $file"
+  fi
+done
+```
+
+**Solutions**:
+1. Fix file permissions: `chmod 644 .claude/context/**/*.md`
+2. Restore missing files from git history
+3. Update references to correct paths
+
+**Prevention**:
+- Use validation script before commits
+- Document file structure in index.json
+- Use version control for all context files
+
+### 8.4 Performance Issues
+
+**Symptom**: Slow context loading, high latency
+
+**Diagnosis**:
+```bash
+# Measure loading time
+time grep -r "core/orchestration/delegation.md" .claude/command
+
+# Check file sizes
+find .claude/context -name "*.md" -exec wc -l {} + | sort -n | tail -10
+```
+
+**Solutions**:
+1. Enable caching for frequently loaded files
+2. Use summary files for large files
+3. Switch to section-based loading for large files
+4. Reduce max_context_size limits
+
+**Prevention**:
+- Monitor loading time metrics
+- Set file size limits
+- Use lazy loading by default
+
+### 8.5 Diagnostic Commands
+
+**Validate all references**:
+```bash
+bash .claude/scripts/validate-context-refs.sh
+```
+
+**Count broken references**:
+```bash
+grep -r "core/system/" .claude/command .claude/agent | grep -v "status-markers.md" | wc -l
+```
+
+**List large files**:
+```bash
+find .claude/context -name "*.md" -exec wc -l {} + | sort -n | tail -10
+```
+
+**Check context loading configurations**:
+```bash
+grep -A 20 "context_loading:" .claude/command/*.md .claude/agent/subagents/*.md
+```
+
+**Generate context inventory**:
+```bash
+for dir in orchestration formats standards workflows templates; do
+  count=$(find .claude/context/$dir -name "*.md" | wc -l)
+  lines=$(find .claude/context/$dir -name "*.md" -exec wc -l {} + | tail -1 | awk '{print $1}')
+  echo "$dir/: $count files, $lines lines"
+done
+```
+
+---
 
 ## Summary
 
-### Key Takeaways
+**Key Takeaways**:
 
-1. **Push Model** injects critical context automatically via `<context_injection>` blocks in SKILL.md files. Use it for strict formats, standards, and workflow-critical information.
+1. **Use lazy loading by default** - Load only what you need, when you need it
+2. **Validate all references** - Broken references fail silently
+3. **Set max_context_size limits** - Prevent context bloat
+4. **Monitor context usage** - Track metrics and optimize over time
+5. **Document loading patterns** - Make intent explicit in frontmatter
+6. **Split large files** - Keep files <700 lines
+7. **Use conditional loading** - Optimize for specific scenarios
+8. **Run validation before commits** - Catch broken references early
 
-2. **Pull Model** loads context on-demand via @-references. Use it for optional documentation, examples, and large reference files.
+**Quick Reference**:
 
-3. **Hybrid approach** is recommended: Push for must-follow rules, Pull for reference material. Core skills use Push for 2-5 context files to ensure consistent behavior.
+- **Validation script**: `.claude/scripts/validate-context-refs.sh`
+- **Update script**: `update-context-refs.sh`
+- **Context index**: `.claude/context/index.json`
+- **Max context sizes**: Research (50k), Planning (40k), Implementation (30k)
+- **File size limits**: Standards (700), Formats (600), Templates (400)
 
-4. **Decision checklist**: Is it required? Use Push. Is it optional? Use Pull. Is it large? Consider Pull. Is it strict? Use Push.
+---
 
-5. **Implementation**: Add `<context_injection>` block, include LoadContext stage, inject with `{variable}` syntax in prompts.
-
-### For Skill Developers
-
-When creating new skills:
-
-1. Start by identifying which context is critical vs optional
-2. Implement Push model for critical context first
-3. Document Pull references for optional context
-4. Follow examples from skill-planner, skill-researcher, and skill-implementer
-5. Keep total pushed context under 1000 lines for performance
-
-By following these best practices, you ensure agents have the context they need to produce consistent, high-quality output while maintaining system efficiency and clarity.
+**END OF GUIDE**

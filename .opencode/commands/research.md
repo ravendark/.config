@@ -1,315 +1,500 @@
 ---
-description: Research a task and create a research report
+description: Research a task and create reports
+allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit
+argument-hint: TASK_NUMBERS [FOCUS] [--team [--team-size N]] [--fast|--hard] [--haiku|--sonnet|--opus]
+model: opus
 ---
 
-**DO NOT start with a markdown heading.** Your first output must be a plain line using the actual argument value. If $ARGUMENTS is `72` or `OC_72`, output:
+# /research Command
 
-[Researching] Task OC_72: (project_name once known from state.json)
+Conduct research for a task by delegating to the appropriate research skill/subagent.
 
-Substitute the real integer from $ARGUMENTS — never output "OC_N" or "OC_NN" literally.
+## Arguments
+
+- `$1` - Task number(s) (required). Supports single task, comma-separated lists, and ranges.
+- Remaining args - Optional focus/prompt for research direction (applies to all tasks in multi-task mode)
+
+### Multi-Task Syntax
+
+| Input | Tasks | Mode |
+|-------|-------|------|
+| `7` | 7 | single |
+| `7, 22-24, 59` | 7, 22, 23, 24, 59 | multi |
+| `7 focus on APIs` | 7 | single (with focus) |
+| `7, 22-24 --team` | 7, 22, 23, 24 | multi (with team) |
+
+When multiple tasks are specified, each task is researched independently in parallel. Flags and focus prompts apply uniformly to all tasks.
+
+## Options
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--team` | Enable multi-agent parallel research with multiple teammates | false |
+| `--team-size N` | Number of teammates to spawn (2-4) | 2 |
+| `--fast` | Low-effort mode: lighter reasoning, faster responses | false |
+| `--hard` | High-effort mode: deeper reasoning, more thorough analysis | false |
+| `--haiku` | Use Haiku model (fastest, lowest cost) | false |
+| `--sonnet` | Use Sonnet model (balanced cost/quality) | false |
+| `--opus` | Use Opus model (highest quality, same as agent default) | false |
+| `--clean` | Skip automatic memory and roadmap retrieval | false |
+
+When `--team` is specified, research is delegated to `skill-team-research` which spawns multiple research agents working in parallel on different aspects of the task. Each teammate produces a research report, and the lead synthesizes findings into a final comprehensive report.
+
+**Note**: Team mode requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` environment variable. If unavailable, gracefully degrades to single-agent research.
+
+## Anti-Bypass Constraint
+
+**PROHIBITION**: You MUST NOT write research report artifacts directly using Write or Edit tools. All report files MUST be created by invoking the appropriate skill (skill-researcher or skill-team-research) via the Skill tool.
+
+**Why**: Direct writes bypass format enforcement (validate-artifact.sh), produce non-conforming artifacts missing required metadata fields and sections, and circumvent the delegation chain that ensures quality. A PostToolUse hook monitors all Write/Edit operations to artifact paths and will flag violations with corrective context.
+
+**Required**: Always delegate to the Skill tool. Never write to `specs/*/reports/*.md` directly from this command.
+
+## Execution
+
+**Note**: Delegate to skills for task-type-specific research.
+
+### STAGE 0: PARSE TASK NUMBERS
+
+Parse the raw argument string to separate task numbers from remaining arguments (flags and focus prompts).
+
+**Algorithm**:
+
+```bash
+parse_task_args() {
+  local input="$1"
+  local task_spec=""
+  local remaining=""
+
+  # Match leading task specification: digits, commas, hyphens, spaces
+  # Stop at first alphabetic char or -- flag
+  if [[ "$input" =~ ^([0-9][0-9,\ \-]*)(\ +.*)?$ ]]; then
+    task_spec="${BASH_REMATCH[1]}"
+    remaining="${BASH_REMATCH[2]}"
+  else
+    echo "[FAIL] No task number found in arguments"
+    return 1
+  fi
+
+  # Trim trailing whitespace/commas from task_spec
+  task_spec=$(echo "$task_spec" | sed 's/[, ]*$//')
+
+  # Parse through existing parse_ranges()
+  task_numbers=($(parse_ranges "$task_spec"))
+
+  # Trim leading whitespace from remaining
+  remaining=$(echo "$remaining" | sed 's/^[[:space:]]*//')
+
+  echo "TASK_NUMBERS=${task_numbers[*]}"
+  echo "REMAINING_ARGS=$remaining"
+}
+```
+
+**Dispatch Decision**:
+
+```
+task_numbers = parse_task_args($ARGUMENTS)
+
+if len(task_numbers) == 1:
+    # SINGLE-TASK MODE
+    task_number = task_numbers[0]
+    remaining_args = $REMAINING_ARGS
+    # Fall through to CHECKPOINT 1: GATE IN below
+    # Existing single-task flow proceeds unchanged
+
+elif len(task_numbers) > 1:
+    # MULTI-TASK MODE
+    # Continue to MULTI-TASK DISPATCH below
+    # Do NOT enter CHECKPOINT 1
+```
+
+**On single task**: Fall through to CHECKPOINT 1: GATE IN below (existing flow unchanged).
+**On multiple tasks**: Branch to MULTI-TASK DISPATCH section below. After dispatch completes, skip directly to output (do not enter single-task checkpoints).
 
 ---
 
-Research the given task and write a research report. Do NOT implement anything.
+### MULTI-TASK DISPATCH
 
-**Input**: $ARGUMENTS
+When `parse_task_args()` produces more than one task number, execute batch research.
+
+#### Step 1: Batch Validation
+
+Validate all tasks exist and have valid status for research:
+
+```bash
+validated_tasks=()
+skipped_tasks=()
+
+for task_num in "${task_numbers[@]}"; do
+  task_data=$(jq -r --argjson num "$task_num" \
+    '.active_projects[] | select(.project_number == $num)' \
+    specs/state.json)
+
+  if [ -z "$task_data" ]; then
+    skipped_tasks+=("$task_num: not found")
+    continue
+  fi
+
+  status=$(echo "$task_data" | jq -r '.status')
+
+  # Block terminal statuses only
+  case "$status" in
+    completed|abandoned|expanded) skipped_tasks+=("$task_num: terminal status [$status]") ; continue ;;
+  esac
+  validated_tasks+=("$task_num")
+done
+```
+
+Report skipped tasks as warnings. If no validated tasks remain, ABORT.
+
+#### Step 2: Generate Batch Session ID
+
+```bash
+batch_session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
+```
+
+#### Step 3: Dispatch Agents
+
+For each validated task, spawn an independent research agent using the orchestrator's built-in batch loop:
+
+1. Extract task_type per task from state.json
+2. Route to the appropriate research skill per task (extension routing or default `skill-researcher`)
+3. Spawn one agent per task via parallel Task tool calls
+4. Each agent runs the full single-task research lifecycle independently (preflight, research, postflight)
+5. Collect results from all agents
+
+**Note**: Batch dispatch is handled directly by this command's orchestrator loop, not by a separate skill.
+
+**Team mode interaction**: If `--team` is in `remaining_args`, team mode is applied to ALL tasks. Total agents spawned = `N_tasks * team_size`. Use with care due to cost multiplication.
+
+#### Step 4: Batch Git Commit
+
+After all agents complete, produce a single batch commit:
+
+**Full success**:
+```
+research tasks {range_summary}: complete research
+
+Tasks: {comma-separated list}
+Session: {batch_session_id}
+```
+
+**Partial success**:
+```
+research tasks {range_summary}: complete research ({succeeded}/{total} succeeded)
+
+Tasks completed: {comma-separated}
+Tasks failed: {num} ({reason})[, {num} ({reason})]
+Session: {batch_session_id}
+```
+
+#### Step 5: Consolidated Output
+
+Display batch results and exit (do not enter single-task checkpoints):
+
+```markdown
+## Batch Research Results
+
+Session: {batch_session_id}
+Tasks requested: {count}
+Succeeded: {count}
+Failed: {count}
+Skipped: {count}
+
+### Succeeded
+
+| Task | Title | Status | Artifact |
+|------|-------|--------|----------|
+| #7 | task_title | [RESEARCHED] | specs/007_slug/reports/01_short.md |
+
+### Failed
+
+| Task | Error |
+|------|-------|
+| #23 | Agent timeout |
+
+### Skipped
+
+| Task | Reason |
+|------|--------|
+| #99 | Not found in state.json |
+
+### Next Steps
+- /plan {succeeded_task_numbers}
+```
+
+#### Error Handling (Multi-Task)
+
+- **Partial success is normal**: Failure of one task does not block or roll back others
+- **Failed tasks**: Remain in "researching" status; user can re-run individually (`/research {N}`)
+- **Skipped tasks**: Never dispatched; user fixes the issue and re-runs
+- **Git conflicts**: Non-blocking (logged, not fatal)
 
 ---
 
-## Parse Input
+### CHECKPOINT 1: GATE IN
 
-- First token: task number — accepts `OC_N` or `N` (strip `OC_` prefix to get integer N)
-- `--remember` flag: include memory vault search in research context
-- Remaining tokens: optional focus prompt
-- If invalid: "Usage: /research <OC_N> [--remember] [focus]"
+**Display header**:
+```
+[Researching] Task {N}: {project_name}
+```
 
----
+1. **Generate Session ID**
+   ```
+   session_id = sess_{timestamp}_{random}
+   ```
 
-## Steps
+2. **Lookup Task**
+   ```bash
+   task_data=$(jq -r --arg num "$task_number" \
+     '.active_projects[] | select(.project_number == ($num | tonumber))' \
+     specs/state.json)
 
-### 1. Look up task
+   task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
+   ```
 
-Strip `OC_` prefix, find task in `specs/state.json`:
+3. **Validate**
+   - Task exists (ABORT if not)
+   - Status is not terminal: block completed, abandoned, expanded
+   - If terminal: ABORT with recommendation
+
+**ABORT** if any validation fails.
+
+**On GATE IN success**: Task validated. **IMMEDIATELY CONTINUE** to STAGE 1.5 below.
+
+### STAGE 1.5: PARSE FLAGS
+
+**Parse arguments to determine team mode and focus prompt.**
+
+1. **Extract Team Options**
+   Check remaining args (after task number) for team flags:
+   - `--team` -> `team_mode = true`
+   - `--team-size N` -> `team_size = N` (clamp 2-4)
+
+   If no team flag found: `team_mode = false`, `team_size = 2`
+
+2. **Validate Team Size**
+   ```bash
+   # Clamp team_size to valid range
+   team_size=${team_size:-2}
+   [ "$team_size" -lt 2 ] && team_size=2
+   [ "$team_size" -gt 4 ] && team_size=4
+   ```
+
+3. **Extract Effort Flags**
+   Check remaining args for effort flags:
+   - `--fast` -> `effort_flag = "fast"` (low-effort mode: lighter reasoning)
+   - `--hard` -> `effort_flag = "hard"` (high-effort mode: deeper reasoning)
+
+   If multiple are provided, last one wins.
+   If none: `effort_flag = null` (normal effort)
+
+4. **Extract Model Flags**
+   Check remaining args for model flags:
+   - `--haiku` -> `model_flag = "haiku"` (use Haiku model)
+   - `--sonnet` -> `model_flag = "sonnet"` (use Sonnet model)
+   - `--opus` -> `model_flag = "opus"` (use Opus model)
+
+   If multiple are provided, last one wins.
+   If none: `model_flag = null` (use agent default, currently opus for all agents)
+
+5. **Extract Clean Flag**
+   Check remaining args for memory retrieval suppression:
+   - `--clean` -> `clean_flag = true` (skip automatic memory retrieval)
+
+   If not present: `clean_flag = false`
+
+6. **Extract Focus Prompt**
+   Remove all recognized flags from remaining args:
+   - Remove `--team`
+   - Remove `--team-size N` (flag and its value)
+   - Remove `--fast`, `--hard`
+   - Remove `--haiku`, `--sonnet`, `--opus`
+   - Remove `--clean`
+
+   Remaining text is `focus_prompt`.
+
+**On STAGE 1.5 success**: Flags parsed. **IMMEDIATELY CONTINUE** to STAGE 2 below.
+
+### STAGE 2: DELEGATE
+
+**EXECUTE NOW**: After STAGE 1.5 completes, immediately invoke the Skill tool.
+
+**Team Mode Routing** (when `--team` flag present):
+
+If `team_mode == true`:
+- Route to `skill-team-research` regardless of task_type
+- Pass `team_size` parameter
+
+**Extension Routing** (when `--team` flag NOT present):
+
+Check extension manifests for task-type-specific research routing:
+
 ```bash
-jq --arg n "N" '.active_projects[] | select(.project_number == ($n | tonumber))' specs/state.json
-```
-If not found: "Task OC_N not found in state.json"
+# Get task_type (may be simple "founder" or compound "founder:deck")
+task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
 
-Extract: `language`, `status`, `project_name`, `description`
+# Check extension routing for research (skill_name starts empty)
+skill_name=""
+for manifest in .claude/extensions/*/manifest.json; do
+  if [ -f "$manifest" ]; then
+    ext_skill=$(jq -r --arg tt "$task_type" \
+      '.routing.research[$tt] // empty' "$manifest")
+    if [ -n "$ext_skill" ]; then
+      skill_name="$ext_skill"
+      break
+    fi
+  fi
+done
 
-Zero-pad N to 3 digits for paths: `NNN` (e.g. 174 → 174, keep as-is if already ≥3 digits... use printf "%03d")
-
-Directory: `specs/OC_NNN_<project_name>/`
-
-### 2. Validate status
-
-- `not_started`, `partial`, `researched`: proceed
-- `researching`: warn "already researching, proceeding anyway"
-- `abandoned`: error "task is abandoned, use /task --recover first"
-- `completed`: warn "already completed, re-researching"
-
-### 3. Execute Preflight
-
-**CRITICAL**: Commands must execute preflight BEFORE delegating to agents. The skill tool only loads skill definitions but does NOT execute workflows.
-
-**Display header** — output this line immediately using the actual task number and project name extracted in step 1:
-
-[Researching] Task OC_N: project_name
-
-(e.g. if N=200 and project_name="my_task", output: `[Researching] Task OC_200: my_task`)
-
-**Update state.json to researching**:
-```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "researching" \
-  '(.active_projects[] | select(.project_number == N)) |= . + {
-    status: $status,
-    last_updated: $ts,
-    researching: $ts
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-```
-
-**Update TODO.md to [RESEARCHING]**:
-- Edit file: `specs/TODO.md`
-- Find line: `- **Status**: [NOT STARTED]` (or current status) for task OC_N
-- Change to: `- **Status**: [RESEARCHING]`
-
-**Create postflight marker file**:
-```bash
-touch "specs/OC_NNN_<project_name>/.postflight-pending"
-```
-
-### 5. Memory Search (if --remember flag present)
-
-If `--remember` was passed in arguments:
-
-**Build search query**:
-- Extract keywords from task description
-- Add focus prompt keywords if provided
-- Limit to 3-5 most significant terms
-
-**Query memory vault**:
-- Use MCP tool: `search_notes`
-- Query: extracted keywords
-- Limit: 5 results
-
-**Process results**:
-- If results found: Read full content of top 3 memories
-- If no results: Note "No relevant memories found"
-
-**Include in research context**:
-- Add "## Prior Knowledge from Memory Vault" section to research report
-- Include memory summaries (truncated to 1000 chars each)
-- List memory IDs for reference
-- Mark report as "memory_augmented: true"
-
-**Graceful degradation**:
-- If MCP unavailable: Skip memory search, continue with standard research
-- If no memories found: Note in report, continue
-
-### 6. Delegate to Research Agent
-
-**Call skill tool** to load skill context and delegate to research agent:
-
-Determine the skill to invoke based on task language:
-
-| Language | Skill |
-|----------|-------|
-| general, meta, markdown | skill-researcher |
-
-**Extension Languages**: When extensions are loaded (via `<leader>ao`), additional language-specific skills become available. Extension skills follow the pattern `skill-{lang}-research` and are discovered automatically. See `.opencode/extensions/*/manifest.json` for available extensions.
-
-```
-→ Tool: skill
-→ Name: {selected_skill}
-→ Prompt: Research task {N} with language {language} and focus {focus}. Include memory context: {memory_results}
-```
-
-The selected skill will:
-1. Load context files (report-format.md, status-markers.md, language-specific context)
-2. **Call Task tool with the appropriate `subagent_type`** (specialized agent based on language)
-3. Return results (subagent writes .return-meta.json)
-
-**CRITICAL**: The skill tool ONLY loads skill definitions. It does NOT execute preflight/postflight workflows. This command MUST execute status updates before and after delegation.
-
-**DELEGATION REQUIREMENT**:
-
-After skill context is loaded, the skill MUST invoke the `Task` tool with the appropriate `subagent_type`. This is a NON-OPTIONAL requirement.
-
-| Language | Required subagent_type |
-|----------|------------------------|
-| neovim | `neovim-research-agent` |
-| lean4 | `lean-research-agent` |
-| z3 | `z3-research-agent` |
-| nix | `nix-research-agent` |
-| python | `python-research-agent` |
-| latex | `latex-research-agent` |
-| typst | `typst-research-agent` |
-| web | `web-research-agent` |
-| epidemiology | `epidemiology-research-agent` |
-| formal | `formal-research-agent` |
-| logic | `logic-research-agent` |
-| math | `math-research-agent` |
-| physics | `physics-research-agent` |
-| general, meta, markdown | `general-research-agent` |
-
-**EXECUTE NOW**: USE the Task tool with the correct `subagent_type` to delegate research to the specialized agent. Do NOT process the research request directly in this context.
-
-**FAILURE CONDITION**: If the Task tool is not invoked with the correct `subagent_type`, this command has FAILED. The primary agent must NOT conduct research itself — it MUST delegate to the appropriate research agent via the Task tool.
-
-**Research strategy** (handled by agent based on language):
-- **meta**: Focus on existing `.opencode/` files, conventions, patterns
-- **lean**: Search codebase for existing proofs, check Lean/Mathlib patterns
-- **typst/latex**: Read existing documents, check style and structure
-- **general**: Web search + codebase exploration
-
-### 7. Execute Postflight
-
-**CRITICAL**: Commands must execute postflight AFTER agents return. The skill tool does NOT execute workflows.
-
-**Step 7a: Read metadata file**:
-```bash
-metadata_file="specs/OC_NNN_<project_name>/.return-meta.json"
-if [ -f "$metadata_file" ] && jq empty "$metadata_file" 2>/dev/null; then
-    status=$(jq -r '.status' "$metadata_file")
-    artifact_path=$(jq -r '.artifacts[0].path // ""' "$metadata_file")
-    artifact_type=$(jq -r '.artifacts[0].type // ""' "$metadata_file")
-    artifact_summary=$(jq -r '.artifacts[0].summary // ""' "$metadata_file")
-    agent_type=$(jq -r '.metadata.agent_type // ""' "$metadata_file")
+# Fallback: if compound key (contains ":"), try base task_type
+if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
+  base_type=$(echo "$task_type" | cut -d: -f1)
+  for manifest in .claude/extensions/*/manifest.json; do
+    if [ -f "$manifest" ]; then
+      ext_skill=$(jq -r --arg tt "$base_type" \
+        '.routing.research[$tt] // empty' "$manifest")
+      if [ -n "$ext_skill" ]; then
+        skill_name="$ext_skill"
+        break
+      fi
+    fi
+  done
 fi
+
+# Fallback to default researcher if no extension routing found
+skill_name=${skill_name:-"skill-researcher"}
 ```
 
-**Step 7a-verify: Verify correct agent was used**:
+**Extension-Based Routing Table**:
 
-**CRITICAL**: Verify that the metadata contains the correct `agent_type`. Expected values depend on task language:
+| Task Type | Skill to Invoke |
+|-----------|-----------------|
+| `founder` | `skill-market` (from founder extension) |
+| `founder:deck` | `skill-deck-research` (from founder extension) |
+| `founder:analyze` | `skill-analyze` (from founder extension) |
+| `founder:strategy` | `skill-strategy` (from founder extension) |
+| `founder:{sub-type}` | Compound key lookup, falls back to `skill-market` |
+| `general`, `meta`, `markdown` | `skill-researcher` (default) |
 
-| Language | Expected agent_type |
-|----------|---------------------|
-| neovim | `neovim-research-agent` |
-| lean4 | `lean-research-agent` |
-| z3 | `z3-research-agent` |
-| nix | `nix-research-agent` |
-| python | `python-research-agent` |
-| latex | `latex-research-agent` |
-| typst | `typst-research-agent` |
-| web | `web-research-agent` |
-| epidemiology | `epidemiology-research-agent` |
-| formal | `formal-research-agent` |
-| logic | `logic-research-agent` |
-| math | `math-research-agent` |
-| physics | `physics-research-agent` |
-| general, meta, markdown | `general-research-agent` |
-
-```bash
-# Determine expected agent based on task language
-case "$language" in
-    neovim) expected_agent="neovim-research-agent" ;;
-    lean4) expected_agent="lean-research-agent" ;;
-    z3) expected_agent="z3-research-agent" ;;
-    nix) expected_agent="nix-research-agent" ;;
-    python) expected_agent="python-research-agent" ;;
-    latex) expected_agent="latex-research-agent" ;;
-    typst) expected_agent="typst-research-agent" ;;
-    web) expected_agent="web-research-agent" ;;
-    epidemiology) expected_agent="epidemiology-research-agent" ;;
-    formal) expected_agent="formal-research-agent" ;;
-    logic) expected_agent="logic-research-agent" ;;
-    math) expected_agent="math-research-agent" ;;
-    physics) expected_agent="physics-research-agent" ;;
-    *) expected_agent="general-research-agent" ;;
-esac
-
-if [ "$agent_type" != "$expected_agent" ]; then
-    echo "WARNING: Delegation verification failed!"
-    echo "Expected agent_type: $expected_agent"
-    echo "Actual agent_type: $agent_type"
-    echo "The skill may have processed the request directly instead of delegating."
-    # Log this as an error for tracking
-fi
+**Skill Selection Logic**:
+```
+if team_mode:
+  skill_name = "skill-team-research"
+else:
+  skill_name = {extension routing lookup} OR "skill-researcher"
 ```
 
-If `agent_type` is empty or does not match the expected agent, log a warning but continue with postflight (the research may still have been completed correctly).
+**Invoke the Skill tool NOW** with:
+```
+# For team mode:
+skill: "skill-team-research"
+args: "task_number={N} focus={focus_prompt} team_size={team_size} session_id={session_id} effort_flag={effort_flag} model_flag={model_flag} clean_flag={clean_flag}"
 
-**Step 7b: Update state.json to researched**:
-```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "researched" \
-  '(.active_projects[] | select(.project_number == N)) |= . + {
-    status: $status,
-    last_updated: $ts,
-    researched: $ts
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+# For single-agent mode:
+skill: "{skill-name from table above}"
+args: "task_number={N} focus={focus_prompt} session_id={session_id} effort_flag={effort_flag} model_flag={model_flag} clean_flag={clean_flag}"
 ```
 
-**Step 7c: Update TODO.md**:
-- Edit file: `specs/TODO.md`
-- Find line: `- **Status**: [RESEARCHING]` for task OC_N
-- Change to: `- **Status**: [RESEARCHED]`
+If `model_flag` is set, pass the `model` parameter to override the agent's default model:
+- `model_flag="haiku"` -> pass `model: haiku`
+- `model_flag="sonnet"` -> pass `model: sonnet`
+- `model_flag="opus"` -> pass `model: opus`
+- `model_flag=null` -> omit `model` parameter (use agent default, currently opus for all agents)
 
-**Step 7d: Link artifacts in state.json**:
-```bash
-# Step 1: Filter out existing research artifacts
-jq '(.active_projects[] | select(.project_number == N)).artifacts =
-    [(.active_projects[] | select(.project_number == N)).artifacts // [] | .[] | select(.type == "research" | not)]' \
-  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+If `effort_flag` is set, pass it as prompt context to the skill/agent for reasoning depth guidance.
 
-# Step 2: Add new research artifact
-jq --arg path "$artifact_path" \
-   --arg type "$artifact_type" \
-   --arg summary "$artifact_summary" \
-  '(.active_projects[] | select(.project_number == N)).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
-  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-```
+The skill will spawn the appropriate agent(s) to conduct research and create a report.
 
-**Step 7e: Add artifact to TODO.md**:
-- Edit file: `specs/TODO.md`
-- Find "Artifacts" section for task OC_N
-- Add line: `- [$artifact_path]($artifact_path) - $artifact_summary`
+**On DELEGATE success**: Research complete. **IMMEDIATELY CONTINUE** to CHECKPOINT 2 below.
 
-**Step 7f: Git commit**:
+### CHECKPOINT 2: GATE OUT
+
+1. **Validate Return**
+   Required fields: status, summary, artifacts
+
+2. **Verify Artifacts**
+   Check each artifact path exists on disk
+
+3. **Verify Status Updated**
+   The skill handles status updates internally (preflight and postflight).
+   Confirm status is now "researched" in state.json.
+
+4. **Verify state.json Status (Defensive)**
+
+   **Only when skill reports success:**
+
+   Check that state.json shows status "researched" for this task. If not, apply defensive correction:
+
+   ```bash
+   # Check if state.json status is "researched"
+   current_status=$(jq -r --argjson num "$task_number" \
+     '.active_projects[] | select(.project_number == $num) | .status' \
+     specs/state.json)
+
+   if [ "$current_status" = "researched" | not ]; then
+       echo "WARNING: state.json status is '$current_status', expected 'researched'. Applying defensive correction."
+       bash .claude/scripts/update-task-status.sh postflight "$task_number" research "$session_id"
+   fi
+   ```
+
+5. **Verify TODO.md Status (Defensive)**
+
+   **Only when skill reports success:**
+
+   Check that the task entry in TODO.md shows `[RESEARCHED]`. If it still shows `[RESEARCHING]`, apply correction:
+
+   ```bash
+   # Check if TODO.md task entry still shows [RESEARCHING]
+   if grep -q "- \*\*Status\*\*: \[RESEARCHING\]" <(grep -A 5 "^### ${task_number}\." specs/TODO.md); then
+       echo "WARNING: TODO.md status not updated to [RESEARCHED]. Applying defensive correction."
+   fi
+   ```
+
+   If the check finds a mismatch, use Edit tool to fix both:
+   - Task entry: `- **Status**: [RESEARCHING]` -> `- **Status**: [RESEARCHED]`
+   - Task Order: `**{N}** [RESEARCHING]` -> `**{N}** [RESEARCHED]`
+
+**RETRY** skill if validation fails.
+
+**On GATE OUT success**: Artifacts verified. **IMMEDIATELY CONTINUE** to CHECKPOINT 3 below.
+
+### CHECKPOINT 3: COMMIT
+
 ```bash
 git add -A
-git commit -m "task N: complete research
+git commit -m "$(cat <<'EOF'
+task {N}: complete research
 
-Session: ${session_id}"
+Session: {session_id}
+
+EOF
+)"
 ```
 
-**Step 7g: Cleanup**:
-```bash
-rm -f "specs/OC_NNN_<project_name>/.postflight-pending"
-rm -f "specs/OC_NNN_<project_name>/.postflight-loop-guard"
-rm -f "specs/OC_NNN_<project_name>/.return-meta.json"
+Commit failure is non-blocking (log and continue).
+
+## Output
+
+```
+Research completed for Task #{N}
+
+Report: specs/{NNN}_{SLUG}/reports/MM_{short-slug}.md
+
+Status: [RESEARCHED]
+Next: /plan {N}
 ```
 
-### 8. Report results
+## Error Handling
 
-Show a brief summary:
-- Task researched
-- Key findings (3-5 bullets)
-- Report path
-- Next step: `/plan OC_N`
+### GATE IN Failure
+- Task not found: Return error with guidance
+- Invalid status: Return error with current status
 
----
+### DELEGATE Failure
+- Skill fails: Keep [RESEARCHING], log error
+- Timeout: Partial research preserved, user can re-run
 
-## Rules
-
-- This command executes preflight (status → researching) BEFORE delegating to skill-researcher
-- This command executes postflight (status → researched, link artifacts) AFTER skill-researcher returns
-- The skill-researcher only loads context and delegates to general-research-agent — it does NOT execute workflows
-- Write the report BEFORE updating status to RESEARCHED
-- Never fabricate findings — only report what you actually discovered
-- Keep the report focused and actionable
-- Directories use 3-digit padded number: `OC_174_slug` not `OC_17_slug`
-- Commit changes after completing research (non-blocking — log warning if commit fails)
-
-## Critical Notes
-
-**The skill tool only loads SKILL.md content — it does NOT execute preflight/postflight workflows.**
-
-Commands must execute these workflows themselves:
-1. **Preflight** (Step 4): Display header, update state.json to "researching", TODO.md to [RESEARCHING], create marker file
-2. **Memory Search** (Step 5): Search memory vault if --remember flag present
-3. **Delegation** (Step 6): Call skill-researcher to load context and invoke general-research-agent
-4. **Postflight** (Step 7): Read .return-meta.json, update state.json to "researched", update TODO.md to [RESEARCHED], link artifacts, commit, cleanup
-
-This pattern ensures status updates happen automatically without orchestrator intervention.
+### GATE OUT Failure
+- Missing artifacts: Log warning, continue with available
+- Link failure: Non-blocking warning

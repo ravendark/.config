@@ -72,6 +72,16 @@
     ],
     "SessionStart": [
       {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .opencode/hooks/wezterm-clear-task-number.sh 2>/dev/null || echo '{}'",
+            "timeout": 5000
+          }
+        ]
+      },
+      {
         "matcher": "startup",
         "hooks": [
           {
@@ -81,11 +91,6 @@
           {
             "type": "command",
             "command": "bash ~/.config/nvim/scripts/claude-ready-signal.sh 2>/dev/null || echo '{}'",
-            "timeout": 5000
-          },
-          {
-            "type": "command",
-            "command": "bash .opencode/hooks/wezterm-clear-task-number.sh 2>/dev/null || echo '{}'",
             "timeout": 5000
           }
         ]
@@ -157,5 +162,8 @@
         ]
       }
     ]
+  },
+  "env": {
+    "SLASH_COMMAND_TOOL_CHAR_BUDGET": "50000"
   }
 }

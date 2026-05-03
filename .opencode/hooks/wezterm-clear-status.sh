@@ -2,7 +2,7 @@
 # WezTerm tab notification clear hook for Claude Code
 # Clears CLAUDE_STATUS user variable via OSC 1337 when user submits prompt
 #
-# Integration: Called from UserPromptSubmit hook in .opencode/settings.json
+# Integration: Called from UserPromptSubmit hook in .claude/settings.json
 # Requirements: wezterm with user variable support, jq for JSON parsing
 #
 # Clearing the variable ensures the tab color returns to normal after

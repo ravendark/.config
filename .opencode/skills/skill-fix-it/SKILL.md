@@ -1,12 +1,12 @@
 ---
 name: skill-fix-it
-description: Scan files for FIX:/NOTE:/TODO:/QUESTION: tags and create structured tasks with interactive selection and topic grouping. Invoke for /fix-it command.
+description: Scan codebase for FIX:/NOTE:/TODO:/QUESTION: tags and create structured tasks with interactive selection. Invoke for /fix-it command.
 allowed-tools: Bash, Grep, Read, Write, Edit, AskUserQuestion
 ---
 
 # Fix-It Skill (Direct Execution)
 
-Direct execution skill for scanning files, presenting findings interactively, and creating user-selected tasks with topic grouping capabilities.
+Direct execution skill for scanning files, presenting findings interactively, and creating user-selected tasks. Replaces the previous delegation-based approach with synchronous execution and AskUserQuestion prompts.
 
 **Key behavior**: Users always see tag scan results BEFORE any tasks are created. Users select which task types to create via interactive prompts.
 
@@ -34,6 +34,8 @@ if [ -z "$paths" ]; then
 fi
 ```
 
+**Note**: The `--dry-run` flag is no longer supported. The interactive flow is inherently "preview first" - users always see findings before any tasks are created.
+
 ### Step 2: Generate Session ID
 
 Generate session ID for tracking:
@@ -44,55 +46,20 @@ session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 
 ### Step 3: Execute Tag Extraction
 
-Scan for tags using file-type-specific patterns:
+Scan for all four tag types (FIX:, NOTE:, TODO:, QUESTION:) using file-type-specific comment patterns:
 
-**Lua files (Neovim config)**:
-```bash
-grep -rn --include="*.lua" "-- FIX:" $paths 2>/dev/null || true
-grep -rn --include="*.lua" "-- NOTE:" $paths 2>/dev/null || true
-grep -rn --include="*.lua" "-- TODO:" $paths 2>/dev/null || true
-grep -rn --include="*.lua" "-- QUESTION:" $paths 2>/dev/null || true
-```
+| File Type | Comment Prefix | Includes |
+|-----------|---------------|----------|
+| Lua | `--` | `*.lua` |
+| LaTeX | `%` | `*.tex` |
+| Markdown | `<!--` | `*.md` |
+| Script | `#` | `*.py`, `*.sh`, `*.yaml`, `*.yml` |
 
-**LaTeX files**:
-```bash
-grep -rn --include="*.tex" "% FIX:" $paths 2>/dev/null || true
-grep -rn --include="*.tex" "% NOTE:" $paths 2>/dev/null || true
-grep -rn --include="*.tex" "% TODO:" $paths 2>/dev/null || true
-grep -rn --include="*.tex" "% QUESTION:" $paths 2>/dev/null || true
-```
+For each tag type, grep across all file types with `-rn` and collect matches. Parse each match into: file path, line number, tag type, tag content.
 
-**Markdown files**:
-```bash
-grep -rn --include="*.md" "<!-- FIX:" $paths 2>/dev/null || true
-grep -rn --include="*.md" "<!-- NOTE:" $paths 2>/dev/null || true
-grep -rn --include="*.md" "<!-- TODO:" $paths 2>/dev/null || true
-grep -rn --include="*.md" "<!-- QUESTION:" $paths 2>/dev/null || true
-```
+Categorize into arrays: `fix_tags[]`, `note_tags[]`, `todo_tags[]`, `question_tags[]`.
 
-**Python/Shell/YAML files**:
-```bash
-grep -rn --include="*.py" --include="*.sh" --include="*.yaml" --include="*.yml" "# FIX:" $paths 2>/dev/null || true
-grep -rn --include="*.py" --include="*.sh" --include="*.yaml" --include="*.yml" "# NOTE:" $paths 2>/dev/null || true
-grep -rn --include="*.py" --include="*.sh" --include="*.yaml" --include="*.yml" "# TODO:" $paths 2>/dev/null || true
-grep -rn --include="*.py" --include="*.sh" --include="*.yaml" --include="*.yml" "# QUESTION:" $paths 2>/dev/null || true
-```
-
-### Step 4: Parse Results
-
-For each grep match, extract:
-- File path
-- Line number
-- Tag type (FIX, NOTE, TODO, QUESTION)
-- Tag content (text after the tag)
-
-Categorize into four arrays:
-- `fix_tags[]` - All FIX: tags
-- `note_tags[]` - All NOTE: tags
-- `todo_tags[]` - All TODO: tags
-- `question_tags[]` - All QUESTION: tags
-
-### Step 5: Display Tag Summary
+### Step 4: Display Tag Summary
 
 Present findings to user BEFORE any selection:
 
@@ -118,6 +85,30 @@ Present findings to user BEFORE any selection:
 - `{file}:{line}` - {content}
 - ...
 ```
+
+### Step 5: Handle Edge Cases
+
+#### No Tags Found
+
+If no tags found:
+```
+## No Tags Found
+
+Scanned files in: {paths}
+No FIX:, NOTE:, TODO:, or QUESTION: tags detected.
+
+Nothing to create.
+```
+
+Exit gracefully without prompts.
+
+#### Only Certain Tag Types
+
+Only show task type options for tag types that exist:
+- FIX: tags exist -> offer "fix-it task"
+- NOTE: tags exist -> offer "fix-it task" AND "learn-it task"
+- TODO: tags exist -> offer "TODO tasks"
+- QUESTION: tags exist -> offer "Research tasks"
 
 ### Step 6: Task Type Selection
 
@@ -149,16 +140,27 @@ If tags were found, prompt user to select task types:
 }
 ```
 
-**Important**: Only include options where the tag type exists.
+**Important**: Only include options where the tag type exists:
+- Include "fix-it task" only if FIX: or NOTE: tags exist
+- Include "learn-it task" only if NOTE: tags exist
+- Include "TODO tasks" only if TODO: tags exist
+- Include "Research tasks" only if QUESTION: tags exist
 
-### Step 7: Individual Selection
+If user selects nothing, exit gracefully:
+```
+No task types selected. No tasks created.
+```
 
-If "TODO tasks" or "Research tasks" was selected, present individual items for selection:
+### Step 7: Individual TODO Selection
+
+If "TODO tasks" was selected AND there are TODO: tags:
+
+#### Standard Case (<=20 TODOs)
 
 ```json
 {
-  "question": "Select items to create as tasks:",
-  "header": "Item Selection",
+  "question": "Select TODO items to create as tasks:",
+  "header": "TODO Selection",
   "multiSelect": true,
   "options": [
     {
@@ -170,86 +172,327 @@ If "TODO tasks" or "Research tasks" was selected, present individual items for s
 }
 ```
 
-### Step 8: Topic Grouping (TODO and QUESTION items)
+#### Large Number of TODOs (>20)
 
-If multiple TODO or QUESTION items selected, offer topic grouping:
+Add a "Select all" option at the top:
 
-**Extract Topic Indicators**:
-- **Key Terms**: Extract significant words from content (nouns, verbs)
-- **File Section**: Group by file path prefix
-- **Action Type**: Identify patterns (Add/Implement, Fix/Handle, Document, Test, Refactor)
-
-**Clustering Algorithm**:
-1. Group items sharing 2+ key terms OR file section + action type
-2. Generate topic labels from most common shared terms
-3. Present grouping options:
-   - Accept suggested topic groups
-   - Keep as separate tasks
-   - Create single combined task
-
-### Step 9: Create Selected Tasks
-
-#### Dependency-Aware Creation Order
-
-**If NOTE: tags exist AND both fix-it and learn-it selected**:
-1. Create learn-it task FIRST
-2. Create fix-it task with dependency on learn-it
-
-**Otherwise**:
-- Create tasks in any order
-
-#### Task Format
-
-**Fix-it task**:
 ```json
 {
-  "title": "Fix issues from FIX:/NOTE: tags",
-  "description": "Address {N} items from embedded tags...",
-  "language": "{detected}",
-  "effort": "2-4 hours",
-  "dependencies": [learn_it_task_num]  // if applicable
+  "question": "Select TODO items to create as tasks:",
+  "header": "TODO Selection (many items)",
+  "multiSelect": true,
+  "options": [
+    {
+      "label": "Select all ({N} items)",
+      "description": "Create a task for every TODO tag"
+    },
+    {
+      "label": "{content truncated to 50 chars}",
+      "description": "{file}:{line}"
+    },
+    ...
+  ]
 }
 ```
 
-**Learn-it task**:
+If "Select all" is chosen, include all TODOs. Otherwise, only selected items.
+
+### Step 7.5: Topic Grouping (Shared Algorithm)
+
+This grouping algorithm applies to both TODO items (Step 7.5) and QUESTION items (Step 7.7). Skip if only 1 item selected.
+
+**Topic Indicator Extraction** per item:
+- **Key Terms**: Significant words (nouns, verbs), ignoring stop words
+- **File Section**: Group by file path prefix
+- **Action Type**: Inferred from content (Add/Create -> implementation, Fix -> fix, Document -> docs, Test -> testing, Refactor -> improvement). For QUESTION items, action_type is always "research".
+
+**Clustering Algorithm**:
+1. Start with first item as initial group
+2. For each remaining item: add to existing group if shares 2+ key terms OR shares file_section + action_type; otherwise start new group
+3. Generate topic label from most common shared terms
+4. Single-item groups are kept as-is
+
+**Store result**: `topic_groups[]` with `{label, items[], shared_terms[], action_type}`
+
+### Step 7.5.4: Topic Group Confirmation
+
+**Condition**: At least one group has 2+ items (otherwise skip -- no grouping benefit).
+
+Present via AskUserQuestion (multiSelect: false):
+- "Accept suggested topic groups" -- Creates {N} grouped tasks
+- "Keep as separate tasks" -- Creates {M} individual tasks
+- "Create single combined task" -- Creates 1 task with all items
+
+**Store**: `grouping_mode = "grouped" | "separate" | "combined"`
+
+### Step 7.6: Individual QUESTION Selection
+
+**Condition**: User selected "Research tasks" in Step 6 AND QUESTION: tags exist.
+
+Same pattern as Step 7 (TODO selection): AskUserQuestion with multiSelect, "Select all" option when >20 items.
+
+### Step 7.7: Topic Grouping for QUESTION Items
+
+**Condition**: Selected more than 1 QUESTION item.
+
+Apply the **same algorithm as Step 7.5** with these differences:
+- action_type is always "research"
+- Store result in `question_topic_groups[]`
+- Confirmation prompt uses "research tasks" wording
+
+**Store**: `question_grouping_mode = "grouped" | "separate" | "combined"`
+
+### Step 8: Create Selected Tasks
+
+For each selected task type, create the task. **Important**: When NOTE: tags exist and both fix-it and learn-it tasks are selected, create learn-it FIRST so fix-it can depend on it.
+
+#### 8.1: Get Next Task Number
+
+```bash
+next_num=$(jq -r '.next_project_number' specs/state.json)
+```
+
+#### 8.2: Dependency-Aware Task Creation Order
+
+**Check for NOTE: dependency condition**:
+```
+has_note_dependency = (NOTE: tags exist) AND (user selected both "fix-it task" AND "learn-it task")
+```
+
+**If has_note_dependency is TRUE**:
+- Create learn-it task FIRST (Step 8.2a)
+- Store learn-it task number as `learn_it_task_num`
+- Create fix-it task SECOND with dependency (Step 8.2b)
+
+**If has_note_dependency is FALSE**:
+- Create fix-it task first (if selected)
+- Create learn-it task second (if selected)
+- No dependency relationship
+
+#### 8.2a: Learn-It Task (when created first for dependency)
+
+**Condition**: has_note_dependency is TRUE
+
 ```json
 {
   "title": "Update context files from NOTE: tags",
-  "description": "Update {N} context files based on learnings...",
-  "language": "meta",
+  "description": "Update {N} context files based on learnings:\n\n{grouped by target context}",
+  "task_type": "meta",
   "effort": "1-2 hours"
 }
 ```
 
-**TODO tasks** (grouped, combined, or separate based on user choice):
+Store the task number: `learn_it_task_num = next_num`
+Increment: `next_num = next_num + 1`
+
+#### 8.2b: Fix-It Task (with dependency when has_note_dependency)
+
+**Condition**: User selected "fix-it task" AND (FIX: or NOTE: tags exist)
+
+**When has_note_dependency is TRUE**:
+```json
+{
+  "title": "Fix issues from FIX:/NOTE: tags",
+  "description": "Address {N} items from embedded tags:\n\n{list of items with file:line references}\n\n**Important**: When making changes, remove the FIX: and NOTE: tags from the source files. Leave TODO: tags untouched (they create separate tasks).",
+  "task_type": "{predominant task_type from source files}",
+  "effort": "2-4 hours",
+  "dependencies": [learn_it_task_num]
+}
+```
+
+**When has_note_dependency is FALSE**:
+```json
+{
+  "title": "Fix issues from FIX:/NOTE: tags",
+  "description": "Address {N} items from embedded tags:\n\n{list of items with file:line references}\n\n**Important**: When making changes, remove the FIX: and NOTE: tags from the source files. Leave TODO: tags untouched (they create separate tasks).",
+  "task_type": "{predominant task_type from source files}",
+  "effort": "2-4 hours"
+}
+```
+
+**Language Detection**:
+```
+if majority of tags from .lean files -> "lean"
+elif majority from .tex files -> "latex"
+elif majority from .claude/ files -> "meta"
+else -> "general"
+```
+
+#### 8.3: Learn-It Task (when created without dependency)
+
+**Condition**: User selected "learn-it task" AND NOTE: tags exist AND has_note_dependency is FALSE
+
+```json
+{
+  "title": "Update context files from NOTE: tags",
+  "description": "Update {N} context files based on learnings:\n\n{grouped by target context}",
+  "task_type": "meta",
+  "effort": "1-2 hours"
+}
+```
+
+#### 8.4: Todo-Tasks (if selected)
+
+**Condition**: User selected "TODO tasks" AND user selected specific TODO items
+
+**Check grouping_mode** (from Step 7.5.4, defaults to "separate" if Step 7.5.4 was skipped):
+
+##### 8.4.1: Grouped Mode (grouping_mode == "grouped")
+
+For each topic group in `topic_groups`:
+
 ```json
 {
   "title": "{topic_label}: {item_count} TODO items",
-  "description": "Address TODO items related to {topic_label}...",
-  "language": "{detected}",
+  "description": "Address TODO items related to {topic_label}:\n\n{item_list}\n\n---\n\nShared context: {shared_terms_description}",
+  "task_type": "{detected from majority file type in group}",
   "effort": "{scaled_effort}"
 }
 ```
 
-**Research tasks** (grouped, combined, or separate):
+Where:
+- `{topic_label}` = generated label (e.g., "Database Migrations")
+- `{item_count}` = number of items in group
+- `{item_list}` = formatted list of items:
+  ```
+  - [ ] {content} (`{file}:{line}`)
+  - [ ] {content} (`{file}:{line}`)
+  ```
+- `{shared_terms_description}` = brief description of why items are grouped (e.g., "Related to database schema changes")
+
+**Effort Scaling Formula**:
+```
+base_effort = 1 hour
+scaled_effort = base_effort + (30 min * (item_count - 1))
+
+Examples:
+  1 item  → 1 hour
+  2 items → 1.5 hours (1h + 30min)
+  3 items → 2 hours (1h + 60min)
+  4 items → 2.5 hours (1h + 90min)
+```
+
+##### 8.4.2: Combined Mode (grouping_mode == "combined")
+
+Create single task containing all selected TODO items:
+
 ```json
 {
-  "title": "Research: {topic_label}: {item_count} questions",
-  "description": "Research questions related to {topic_label}...",
-  "language": "{detected from question content}",
-  "effort": "1-2 hours per item"
+  "title": "Address {item_count} TODO items",
+  "description": "Combined TODO items from scan:\n\n{all_items_list}\n\n---\n\nFiles: {unique_files_list}",
+  "task_type": "{detected from majority file type}",
+  "effort": "{scaled_effort}"
 }
 ```
 
-### Step 10: Update State Files
+Where:
+- `{item_count}` = total number of selected TODO items
+- `{all_items_list}` = formatted list of all items with checkboxes
+- `{unique_files_list}` = comma-separated list of unique files involved
+
+**Effort Scaling**: Same formula as grouped mode.
+
+##### 8.4.3: Separate Mode (grouping_mode == "separate" or default)
+
+For each selected TODO item individually:
+
+```json
+{
+  "title": "{tag content, truncated to 60 chars}",
+  "description": "{full tag content}\n\nSource: {file}:{line}",
+  "task_type": "{detected from file type}",
+  "effort": "1 hour"
+}
+```
+
+**Language Detection for Todo-Task** (all modes):
+```
+.lua -> "general"
+.tex  -> "latex"
+.md   -> "markdown"
+.py/.sh -> "general"
+.claude/* -> "meta"
+```
+
+#### 8.5: Research-Tasks (if selected)
+
+**Condition**: User selected "Research tasks" AND user selected specific QUESTION items.
+
+Uses `question_grouping_mode` from Step 7.7 (defaults to "separate"). Same grouped/combined/separate modes as TODO tasks (Step 8.4), with these differences:
+
+- **Language detection is content-based** (not file-based): Match question text against keyword lists:
+  - latex: theorem, proof, lemma, axiom, logic, formula, derivation, proposition, corollary, latex, tex
+  - meta: .claude, command, agent, skill, workflow, state.json, TODO.md, specs/
+  - Default: "general"
+- **Effort base**: 1.5 hours (vs 1 hour for TODO tasks), same +30min scaling per additional item
+- **Title prefix**: "Research: {content}" for separate mode
+- **Description format**: Uses blockquote syntax (`> {question text}`) instead of checkboxes
+
+### Step 9: Update State Files
 
 For each task created:
-1. Generate slug from title
-2. Add entry to state.json
-3. Prepend entry to TODO.md
-4. Increment next_project_number
 
-### Step 11: Display Results
+#### 9.1: Update state.json
+
+Read current state, add new task entry, increment next_project_number:
+
+```bash
+# Create slug from title
+slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr ' ' '_' | tr -cd 'a-z0-9_' | cut -c1-50)
+
+# Read current state
+current=$(cat specs/state.json)
+
+# Add task using jq (use two-step pattern to avoid escaping issues)
+# Step 1: Write task data to temp file
+# Step 2: Use jq with slurpfile
+```
+
+**For fix-it task when has_note_dependency is TRUE**, include dependencies array:
+```json
+{
+  "project_number": {N},
+  "project_name": "{slug}",
+  "status": "not_started",
+  "task_type": "{task_type}",
+  "dependencies": [learn_it_task_num]
+}
+```
+
+**For all other tasks**, no dependencies field needed.
+
+#### 9.2: Update TODO.md
+
+Prepend new task entry to `## Tasks` section (new tasks at top):
+
+**Standard format (no dependency)**:
+```markdown
+### {N}. {Title}
+- **Effort**: {estimate}
+- **Status**: [NOT STARTED]
+- **Task Type**: {task_type}
+- **Started**: {timestamp}
+
+**Description**: {description}
+
+---
+```
+
+**Fix-it task format when has_note_dependency is TRUE**:
+```markdown
+### {N}. {Title}
+- **Effort**: {estimate}
+- **Status**: [NOT STARTED]
+- **Task Type**: {task_type}
+- **Dependencies**: {learn_it_task_num}
+- **Started**: {timestamp}
+
+**Description**: {description}
+
+---
+```
+
+### Step 10: Display Results
 
 Show summary of created tasks:
 
@@ -275,7 +518,7 @@ Show summary of created tasks:
 3. Progress through /research -> /plan -> /implement cycle
 ```
 
-### Step 12: Git Commit (Postflight)
+### Step 11: Git Commit (Postflight)
 
 If tasks were created, commit changes:
 
@@ -289,51 +532,15 @@ Session: $session_id
 
 ---
 
-## Tag Patterns
-
-| Tag | Purpose | Example |
-|-----|---------|---------|
-| `FIX:` | Bug or issue that needs fixing | `-- FIX: Handle null pointer case` |
-| `NOTE:` | Important observation or documentation | `-- NOTE: This assumes positive integers` |
-| `TODO:` | Pending work or implementation | `-- TODO: Add input validation` |
-| `QUESTION:` | Research question to investigate | `-- QUESTION: What is the best way to configure LSP?` |
-
----
-
-## Task Creation Rules
-
-- FIX: tags -> Create "fix-it" type tasks
-- NOTE: tags -> Create "learn-it" tasks (context updates) + contribute to "fix-it" tasks
-- TODO: tags -> Create individual or grouped TODO tasks with topic clustering
-- QUESTION: tags -> Create research tasks with content-based language detection
-
----
-
 ## Error Handling
 
-### No Tags Found
+See `rules/error-handling.md` for general patterns. Skill-specific behaviors:
 
-This is NOT an error condition:
-- Report informatively
-- Exit without prompts
+- **Path access errors**: Log warning per invalid path, continue with valid ones; exit if none remain
+- **No tags found**: Not an error -- report informatively and exit without prompts
+- **state.json/TODO.md failures**: Try two-step jq pattern; report partial success if still failing
+- **Git commit failure**: Non-blocking (tasks still created)
 
-### Path Access Errors
+## Standards Reference
 
-When paths don't exist:
-1. Log warning for each invalid path
-2. Continue with valid paths
-3. If no valid paths remain, report and exit
-
-### State Update Failure
-
-If jq fails:
-1. Log error with command and output
-2. Try two-step jq pattern
-3. Report partial success if still failing
-
-### Git Commit Failure
-
-Non-blocking:
-1. Log the failure
-2. Tasks are still created successfully
-3. Report that commit failed but tasks exist
+Implements the multi-task creation pattern (full compliance). See `.claude/docs/reference/standards/multi-task-creation-standard.md`.

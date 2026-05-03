@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-# uninstall-extension.sh - Uninstall an extension
+# uninstall-extension.sh - Uninstall a Claude Code extension
 #
 # Usage: uninstall-extension.sh <extension-directory>
 #
 # This script reads an extension's manifest.json and reverses installation:
-# 1. Removes skill symlinks from .opencode/skills/
-# 2. Removes agent symlinks from .opencode/agent/subagents/
-# 3. Removes index entries from .opencode/context/index.json
+# 1. Removes skill symlinks from .claude/skills/
+# 2. Removes agent symlinks from .claude/agents/
+# 3. Removes index entries from .claude/context/index.json
 #
 # Example:
-#   bash .opencode/scripts/uninstall-extension.sh .opencode/extensions/z3
+#   bash .claude/scripts/uninstall-extension.sh .claude/extensions/z3
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-OPENCODE_DIR="$PROJECT_ROOT/.opencode"
+CLAUDE_DIR="$PROJECT_ROOT/.claude"
 
 # Colors for output
 RED='\033[0;31m'
@@ -38,7 +38,7 @@ log_error() {
 # Validate arguments
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <extension-directory>"
-  echo "Example: $0 .opencode/extensions/z3"
+  echo "Example: $0 .claude/extensions/z3"
   exit 1
 fi
 
@@ -74,7 +74,7 @@ log_info "Uninstalling extension: $EXT_NAME"
 # Function to remove command symlinks
 remove_commands() {
   local commands_dir="$EXT_DIR/commands"
-  local target_dir="$OPENCODE_DIR/commands"
+  local target_dir="$CLAUDE_DIR/commands"
 
   if [ ! -d "$commands_dir" ]; then
     log_info "No commands directory found, skipping command symlink removal"
@@ -107,7 +107,7 @@ remove_commands() {
 # Function to remove skill symlinks
 remove_skills() {
   local skills_dir="$EXT_DIR/skills"
-  local target_dir="$OPENCODE_DIR/skills"
+  local target_dir="$CLAUDE_DIR/skills"
 
   if [ ! -d "$skills_dir" ]; then
     log_info "No skills directory found, skipping skill symlink removal"
@@ -140,7 +140,7 @@ remove_skills() {
 # Function to remove agent symlinks
 remove_agents() {
   local agents_dir="$EXT_DIR/agents"
-  local target_dir="$OPENCODE_DIR/agent/subagents"
+  local target_dir="$CLAUDE_DIR/agents"
 
   if [ ! -d "$agents_dir" ]; then
     log_info "No agents directory found, skipping agent symlink removal"
@@ -173,7 +173,7 @@ remove_agents() {
 # Function to remove index entries
 remove_index_entries() {
   local index_file="$EXT_DIR/index-entries.json"
-  local main_index="$OPENCODE_DIR/context/index.json"
+  local main_index="$CLAUDE_DIR/context/index.json"
 
   if [ ! -f "$index_file" ]; then
     log_info "No index-entries.json found, skipping context index cleanup"

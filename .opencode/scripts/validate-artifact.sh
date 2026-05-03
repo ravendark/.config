@@ -10,7 +10,7 @@ set -euo pipefail
 
 # --- Required metadata fields per type ---
 # Update these arrays when format standards change
-# Sources: .opencode/context/core/formats/{report,plan,summary}-format.md
+# Sources: .claude/context/formats/{report,plan,summary}-format.md
 
 REPORT_METADATA=("Task" "Started" "Completed" "Effort" "Dependencies" "Sources/Inputs" "Artifacts" "Standards")
 REPORT_SECTIONS=("Executive Summary" "Context & Scope" "Findings" "Decisions" "Recommendations")

@@ -20,7 +20,7 @@ next_project_number: 502
 - **509** [NOT STARTED] -- Port missing core rules to OpenCode (depends: 502)
 - **510** [NOT STARTED] -- Sync settings.json for OpenCode parity (depends: 508)
 - **511** [NOT STARTED] -- Update AGENTS.md documentation (depends: 503, 504, 505, 506, 507, 508, 509)
-- **512** [NOT STARTED] -- Port missing domain extensions to OpenCode
+- **512** [COMPLETED] -- Port missing domain extensions to OpenCode
 - **513** [NOT STARTED] -- Update extension loader Lua code for OpenCode parity (depends: 502)
 - **494** [COMPLETED] -- Simplify status transition rules to allow iterative workflows
 - **490** [COMPLETED] -- Wire --roadmap flag through /plan command
@@ -145,11 +145,12 @@ next_project_number: 502
 
 ### 510. Sync settings.json for OpenCode parity
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: Task #508
 - **Research**: [specs/OC_510_sync_settings_json_parity/reports/01_settings-gap-analysis.md]
 - **Plan**: [specs/OC_510_sync_settings_json_parity/plans/implementation-001.md]
+- **Summary**: [specs/OC_510_sync_settings_json_parity/summaries/implementation-summary-20260502.md]
 
 **Description**: Update .opencode/settings.json to match .claude/settings.json feature parity. Missing: env section (SLASH_COMMAND_TOOL_CHAR_BUDGET), SessionStart '*' matcher for wezterm-clear-task-number, memory-nudge hook in Stop, Notification hook section. Adapt hook paths from .claude/ to .opencode/.
 
@@ -157,23 +158,25 @@ next_project_number: 502
 
 ### 511. Update AGENTS.md documentation
 - **Effort**: 3-6 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: Task #503, Task #504, Task #505, Task #506, Task #507, Task #508, Task #509
 - **Research**: [specs/OC_511_update_agents_documentation/reports/01_agentsmd-gap-analysis.md]
 - **Plan**: [specs/OC_511_update_agents_documentation/plans/implementation-001.md]
+- **Summary**: [specs/OC_511_update_agents_documentation/summaries/implementation-summary-20260502.md]
 
 **Description**: Update .opencode/AGENTS.md to match .claude/CLAUDE.md documentation completeness. Missing sections: team mode skills table, context architecture (5-layer model), context imports section, multi-task creation standards, jq command safety patterns, syncprotect documentation, memory extension section with /distill commands, nix extension section, neovim extension section with patterns and context imports.
 
 ---
 
 ### 512. Port missing domain extensions to OpenCode
-- **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Effort**: 6-8 hours
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: None
 - **Research**: [specs/OC_512_port_missing_domain_extensions/reports/01_domain-extensions-analysis.md]
 - **Plan**: [specs/OC_512_port_missing_domain_extensions/plans/implementation-001.md]
+- **Summary**: [specs/OC_512_port_missing_domain_extensions/summaries/completion-summary.md]
 
 **Description**: Port 3 missing domain extensions from .claude/extensions/ to .opencode/extensions/: founder/, present/, slidev/. These provide founder mode, presentation creation, and slidev support respectively.
 
@@ -181,11 +184,12 @@ next_project_number: 502
 
 ### 513. Update extension loader Lua code for OpenCode parity
 - **Effort**: 3-6 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: neovim
+- **Dependencies**: Task #502
 - **Research**: [specs/OC_513_update_extension_loader_lua/reports/01_extension-loader-analysis.md]
 - **Plan**: [specs/OC_513_update_extension_loader_lua/plans/implementation-001.md]
-- **Dependencies**: Task #502
+- **Summary**: [specs/OC_513_update_extension_loader_lua/summaries/implementation-summary-20260502.md]
 
 **Description**: Update OpenCode extension loader Lua code for feature parity with Claude extension loader. Verify that `<leader>ao` picker shows core/ agent system section when extensions are loaded, that extension loading installs agents to agent/subagents/, that manifest merge_targets use opencode_md key, and that the picker displays all artifact sections (commands, skills, agents, hooks, rules, scripts, context, docs) after core extension loads.
 

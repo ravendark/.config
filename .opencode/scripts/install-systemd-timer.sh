@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# install-systemd-timer.sh - Install OpenCode refresh systemd timer
+# install-systemd-timer.sh - Install Claude Code refresh systemd timer
 #
 # This script installs a user-level systemd timer that runs hourly
-# to clean up orphaned OpenCode processes.
+# to clean up orphaned Claude Code processes.
 #
 # Usage: ./install-systemd-timer.sh [--uninstall] [--status]
 
@@ -12,14 +12,14 @@ set -euo pipefail
 # Get the directory where this script is located
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SYSTEMD_DIR="$(dirname "$SCRIPT_DIR")/systemd"
-REFRESH_SCRIPT="$SCRIPT_DIR/opencode-refresh.sh"
+REFRESH_SCRIPT="$SCRIPT_DIR/claude-refresh.sh"
 
 # User systemd directory
 USER_SYSTEMD_DIR="$HOME/.config/systemd/user"
 
 # Service and timer names
-SERVICE_NAME="opencode-refresh.service"
-TIMER_NAME="opencode-refresh.timer"
+SERVICE_NAME="claude-refresh.service"
+TIMER_NAME="claude-refresh.timer"
 
 # Parse arguments
 UNINSTALL=false
@@ -36,7 +36,7 @@ for arg in "$@"; do
         --help|-h)
             echo "Usage: $0 [--uninstall] [--status]"
             echo ""
-            echo "Install a user-level systemd timer for automated OpenCode refresh."
+            echo "Install a user-level systemd timer for automated Claude refresh."
             echo ""
             echo "Options:"
             echo "  --uninstall  Remove the timer and service"
@@ -67,8 +67,8 @@ check_systemd() {
 
 # Show status
 show_status() {
-    echo "OpenCode Refresh Timer Status"
-    echo "=============================="
+    echo "Claude Code Refresh Timer Status"
+    echo "================================="
     echo ""
 
     if systemctl --user is-active "$TIMER_NAME" &> /dev/null; then
@@ -87,7 +87,7 @@ show_status() {
 
 # Install the timer
 install_timer() {
-    echo "Installing OpenCode refresh timer..."
+    echo "Installing Claude Code refresh timer..."
     echo ""
 
     # Create user systemd directory if needed
@@ -96,8 +96,8 @@ install_timer() {
     # Create service file with correct path
     cat > "$USER_SYSTEMD_DIR/$SERVICE_NAME" << EOF
 [Unit]
-Description=OpenCode orphaned process refresh
-Documentation=https://github.com/opencode-ai/opencode
+Description=Claude Code orphaned process refresh
+Documentation=https://github.com/anthropics/claude-code
 
 [Service]
 Type=oneshot
@@ -113,7 +113,7 @@ Environment=PATH=/usr/bin:/bin
 # Logging
 StandardOutput=journal
 StandardError=journal
-SyslogIdentifier=opencode-refresh
+SyslogIdentifier=claude-refresh
 
 [Install]
 WantedBy=default.target
@@ -146,7 +146,7 @@ EOF
 
 # Uninstall the timer (handles both old and new names)
 uninstall_timer() {
-    echo "Uninstalling OpenCode refresh timer..."
+    echo "Uninstalling Claude Code refresh timer..."
     echo ""
 
     # Stop and disable new style

@@ -1,12 +1,12 @@
 # Component Selection Guide
 
-This guide helps you decide which component type to create when adding new capabilities to the Logos/Theory agent system.
+This guide helps you decide which component type to create when adding new capabilities to the agent system.
 
 ---
 
 ## Overview: Three-Layer Architecture
 
-The Logos/Theory system uses a three-layer architecture where each layer has distinct responsibilities:
+The system uses a three-layer architecture where each layer has distinct responsibilities:
 
 ```
 Layer 1: Commands         User-facing entry points (/research, /plan, /implement)
@@ -22,9 +22,9 @@ Layer 3: Agents           Full execution agents that do the actual work
 
 | Component | Location | Purpose | User-Facing? |
 |-----------|----------|---------|--------------|
-| Command | `.opencode/commands/` | User invocation point | Yes |
-| Skill | `.opencode/skills/skill-*/SKILL.md` | Routing and validation | No |
-| Agent | `.opencode/agent/subagents/*.md` | Execution and artifact creation | No |
+| Command | `.claude/commands/` | User invocation point | Yes |
+| Skill | `.claude/skills/skill-*/SKILL.md` | Routing and validation | No |
+| Agent | `.claude/agents/*.md` | Execution and artifact creation | No |
 
 ---
 
@@ -102,14 +102,14 @@ You need a new user-invocable operation that does not exist yet.
 You need to add routing logic or input validation for execution.
 
 **Good candidates**:
-- New language support (e.g., `skill-python-research`)
+- New language support (e.g., `skill-rust-research`)
 - Specialized domain handling (e.g., `skill-database-implementation`)
 - Thin wrapper for delegation with validation
 
 **Examples**:
 | Skill | Purpose |
 |-------|---------|
-| `skill-lean-research` | Lean 4/Mathlib research with MCP tools |
+| `skill-{domain}-research` | Domain-specific research via web search |
 | `skill-researcher` | General web/codebase research |
 | `skill-status-sync` | Atomic multi-file status updates |
 
@@ -130,7 +130,7 @@ You need to implement actual execution logic that creates artifacts.
 **Examples**:
 | Agent | Purpose |
 |-------|---------|
-| `lean-research-agent` | Lean 4 research with MCP tools |
+| `{domain}-research-agent` | Domain-specific research via web search |
 | `general-implementation-agent` | General file implementation |
 | `planner-agent` | Implementation plan creation |
 
@@ -164,10 +164,10 @@ Creates: Command + Skill + Agent
 /research (existing)
     |
     v
-skill-python-research (new)
+skill-rust-research (new)
     |
     v
-python-research-agent (new)
+rust-research-agent (new)
 ```
 Creates: Skill + Agent (command exists)
 
@@ -235,15 +235,14 @@ Creates: Agent only (skill routes to it)
 ## File Location Reference
 
 ```
-.opencode/
+.claude/
 ├── commands/                    # Layer 1: User commands
 │   └── {command-name}.md
 ├── skills/                      # Layer 2: Execution skills
 │   └── skill-{name}/
 │       └── SKILL.md
-└── agent/                       # Layer 3: Execution agents
-    └── subagents/
-        └── {name}-agent.md
+└── agents/                      # Layer 3: Execution agents
+    └── {name}-agent.md
 ```
 
 ### Naming Conventions
@@ -251,86 +250,65 @@ Creates: Agent only (skill routes to it)
 | Component | Pattern | Example |
 |-----------|---------|---------|
 | Command | `{verb}.md` | `research.md`, `implement.md` |
-| Skill | `skill-{purpose}/SKILL.md` | `skill-lean-research/SKILL.md` |
-| Agent | `{domain}-{purpose}-agent.md` | `lean-research-agent.md` |
+| Skill | `skill-{purpose}/SKILL.md` | `skill-python-research/SKILL.md` |
+| Agent | `{domain}-{purpose}-agent.md` | `python-research-agent.md` |
 
 ---
 
 ## Current Inventory
 
-### Commands (15)
+### Commands (9)
 
 | Command | Skill(s) Used |
 |---------|---------------|
-| /convert | skill-filetypes |
-| /errors | (direct execution) |
-| /implement | skill-implementer, skill-lean-implementation, skill-latex-implementation, skill-typst-implementation |
-| /lake | skill-lake-repair |
-| /lean | skill-lean-version |
-| /fix-it | skill-fix-it |
-| /meta | skill-meta |
+| /task | skill-status-sync |
+| /research | skill-researcher (+ extension skills when loaded) |
 | /plan | skill-planner |
-| /refresh | skill-refresh |
-| /research | skill-researcher, skill-lean-research, skill-latex-research, skill-typst-research |
-| /review | (direct execution) |
+| /implement | skill-implementer (+ extension skills when loaded) |
 | /revise | skill-planner |
-| /task | skill-status-sync, skill-git-workflow |
+| /review | (direct execution) |
+| /errors | (direct execution) |
 | /todo | (direct execution) |
+| /meta | skill-meta |
 
-### Skills (20)
+**Note**: Additional skills (latex, typst, filetypes) available via extensions.
+
+### Skills (Core)
 
 | Skill | Agent |
 |-------|-------|
-| skill-filetypes | filetypes-router-agent |
-| skill-git-workflow | (direct execution) |
-| skill-implementer | general-implementation-agent |
-| skill-lake-repair | (direct execution) |
-| skill-latex-implementation | latex-implementation-agent |
-| skill-latex-research | latex-research-agent |
-| skill-lean-implementation | lean-implementation-agent |
-| skill-lean-research | lean-research-agent |
-| skill-lean-version | (direct execution) |
-| skill-fix-it | (direct execution) |
-| skill-logic-research | logic-research-agent |
-| skill-math-research | math-research-agent |
-| skill-meta | meta-builder-agent |
 | skill-orchestrator | (routing only) |
-| skill-planner | planner-agent |
-| skill-refresh | (direct execution) |
-| skill-researcher | general-research-agent |
 | skill-status-sync | (direct execution) |
-| skill-typst-implementation | typst-implementation-agent |
-| skill-typst-research | typst-research-agent |
+| skill-git-workflow | (direct execution) |
+| skill-researcher | general-research-agent |
+| skill-planner | planner-agent |
+| skill-implementer | general-implementation-agent |
+| skill-meta | meta-builder-agent |
 
-### Agents (14)
+**Note**: Additional skills (latex, typst, filetypes) available via extensions.
+
+### Agents (Core)
 
 | Agent | Purpose |
 |-------|---------|
-| `filetypes-router-agent` | File format conversion routing |
-| `general-implementation-agent` | General file implementation |
-| `general-research-agent` | General web/codebase research |
-| `latex-implementation-agent` | LaTeX document implementation |
-| `latex-research-agent` | LaTeX documentation research |
-| `lean-implementation-agent` | Lean 4 proof implementation |
-| `lean-research-agent` | Lean 4/Mathlib research |
-| `logic-research-agent` | Mathematical logic research |
-| `math-research-agent` | Mathematical foundations research |
-| `meta-builder-agent` | System builder for .opencode/ changes |
-| `planner-agent` | Implementation planning |
-| `typst-implementation-agent` | Typst document implementation |
-| `typst-research-agent` | Typst documentation research |
+| general-research-agent | General web/codebase research |
+| planner-agent | Implementation planning |
+| general-implementation-agent | General file implementation |
+| meta-builder-agent | System building and task creation |
+
+**Note**: Additional agents (latex, typst, filetypes) available via extensions.
 
 ---
 
 ## Examples
 
-### Example 1: Adding Python Support
+### Example 1: Adding Rust Support
 
-**Goal**: Support Python tasks with language-specific tooling
+**Goal**: Support Rust tasks with task-type-specific tooling
 
 **Components needed**:
-1. `skill-python-research/SKILL.md` - Routes Python tasks to Python agent
-2. `python-research-agent.md` - Uses Python-specific tools
+1. `skill-rust-research/SKILL.md` - Routes Rust tasks to Rust agent
+2. `rust-research-agent.md` - Uses Rust-specific tools
 
 **No command needed** - existing `/research` routes by language
 
@@ -418,9 +396,10 @@ Research completed successfully. Found 5 patterns.
 - [Creating Commands](creating-commands.md) - Command creation guide
 - [Creating Skills](creating-skills.md) - Skill creation guide
 - [Creating Agents](creating-agents.md) - Agent creation guide
+- [Integration Examples](../examples/research-flow-example.md) - End-to-end flow example
 
 ---
 
 **Document Version**: 1.0
-**Created**: 2026-02-28
-**Maintained By**: Logos/Theory Development Team
+**Created**: 2026-01-12
+**Maintained By**: Development Team

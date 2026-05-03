@@ -770,7 +770,7 @@
     {
       "project_number": 510,
       "project_name": "sync_settings_json_parity",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Update .opencode/settings.json to match .claude/settings.json feature parity. Missing: env section (SLASH_COMMAND_TOOL_CHAR_BUDGET), SessionStart '*' matcher for wezterm-clear-task-number, memory-nudge hook in Stop, Notification hook section. Adapt hook paths from .claude/ to .opencode/.",
       "effort": "1-2 hours",
@@ -778,7 +778,7 @@
         508
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T01:17:25Z",
+      "last_updated": "2026-05-03T01:25:05Z",
       "artifacts": [
         {
           "path": "specs/OC_510_sync_settings_json_parity/reports/01_settings-gap-analysis.md",
@@ -794,12 +794,14 @@
       "researching": "2026-05-03T01:04:27Z",
       "researched": "2026-05-03T01:14:09Z",
       "planning": "2026-05-03T01:14:58Z",
-      "planned": "2026-05-03T01:17:25Z"
+      "planned": "2026-05-03T01:17:25Z",
+      "implementing": "2026-05-03T01:18:15Z",
+      "completed": "2026-05-03T01:25:05Z"
     },
     {
       "project_number": 511,
       "project_name": "update_agents_documentation",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Update .opencode/AGENTS.md to match .claude/CLAUDE.md documentation completeness. Missing sections: team mode skills table, context architecture (5-layer model), context imports section, multi-task creation standards, jq command safety patterns, syncprotect documentation, memory extension section with /distill commands, nix extension section, neovim extension section with patterns and context imports.",
       "effort": "3-6 hours",
@@ -813,7 +815,7 @@
         509
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T01:17:30Z",
+      "last_updated": "2026-05-03T01:25:07Z",
       "artifacts": [
         {
           "path": "specs/OC_511_update_agents_documentation/reports/01_agentsmd-gap-analysis.md",
@@ -829,18 +831,20 @@
       "researching": "2026-05-03T01:04:30Z",
       "researched": "2026-05-03T01:14:13Z",
       "planning": "2026-05-03T01:15:01Z",
-      "planned": "2026-05-03T01:17:30Z"
+      "planned": "2026-05-03T01:17:30Z",
+      "implementing": "2026-05-03T01:18:17Z",
+      "completed": "2026-05-03T01:25:07Z"
     },
     {
       "project_number": 512,
       "project_name": "port_missing_domain_extensions",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Port 3 missing domain extensions from .claude/extensions/ to .opencode/extensions/: founder/, present/, slidev/. These provide founder mode, presentation creation, and slidev support respectively.",
       "effort": "1-3 hours",
       "dependencies": [],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T01:17:35Z",
+      "last_updated": "2026-05-03T01:25:10Z",
       "artifacts": [
         {
           "path": "specs/OC_512_port_missing_domain_extensions/reports/01_domain-extensions-analysis.md",
@@ -856,12 +860,14 @@
       "researching": "2026-05-03T01:04:32Z",
       "researched": "2026-05-03T01:14:18Z",
       "planning": "2026-05-03T01:15:03Z",
-      "planned": "2026-05-03T01:17:35Z"
+      "planned": "2026-05-03T01:17:35Z",
+      "implementing": "2026-05-03T01:18:19Z",
+      "completed": "2026-05-03T01:25:10Z"
     },
     {
       "project_number": 513,
       "project_name": "update_extension_loader_lua",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "description": "Update OpenCode extension loader Lua code for feature parity with Claude extension loader. Verify that <leader>ao picker shows core/ agent system section when extensions are loaded, that extension loading installs agents to agent/subagents/, that manifest merge_targets use opencode_md key, and that the picker displays all artifact sections (commands, skills, agents, hooks, rules, scripts, context, docs) after core extension loads.",
       "effort": "3-6 hours",
@@ -869,7 +875,7 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T01:17:40Z",
+      "last_updated": "2026-05-03T01:25:12Z",
       "artifacts": [
         {
           "path": "specs/OC_513_update_extension_loader_lua/reports/01_extension-loader-analysis.md",
@@ -885,7 +891,9 @@
       "researching": "2026-05-03T01:04:35Z",
       "researched": "2026-05-03T01:14:23Z",
       "planning": "2026-05-03T01:15:05Z",
-      "planned": "2026-05-03T01:17:40Z"
+      "planned": "2026-05-03T01:17:40Z",
+      "implementing": "2026-05-03T01:18:21Z",
+      "completed": "2026-05-03T01:25:12Z"
     }
   ],
   "completed_projects": [],
