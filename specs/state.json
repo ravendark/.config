@@ -539,7 +539,7 @@
     {
       "project_number": 503,
       "project_name": "port_missing_core_commands",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Port 6 missing commands from .claude/ to .opencode/: distill.md, learn.md, merge.md, project-overview.md, spawn.md, tag.md. Adapt Claude-specific references to OpenCode equivalents (.claude/ -> .opencode/, CLAUDE.md -> AGENTS.md, agents/ -> agent/subagents/).",
       "effort": "3-6 hours",
@@ -547,8 +547,16 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-02T00:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-03T00:06:51Z",
+      "artifacts": [
+        {
+          "path": "specs/OC_503_port_missing_core_commands/reports/01_missing-commands-analysis.md",
+          "type": "research",
+          "summary": "Comprehensive analysis of 6 commands to port from .claude/ to .opencode/, including 4 associated skills and 1 agent"
+        }
+      ],
+      "researching": "2026-05-02T23:59:40Z",
+      "researched": "2026-05-03T00:06:51Z"
     },
     {
       "project_number": 504,

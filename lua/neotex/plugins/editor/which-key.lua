@@ -363,6 +363,24 @@ return {
         )
       end, desc = "toggle yolo mode", icon = "󰒓" },
 
+      -- Kill all Claude Code session sleep inhibitors
+      { "<leader>ak", function()
+        local files = vim.fn.glob("/tmp/claude-inhibitor-*.pid", false, true)
+        if #files == 0 then
+          vim.notify("No active Claude sleep inhibitors", vim.log.levels.INFO)
+          return
+        end
+        for _, f in ipairs(files) do
+          local lines = vim.fn.readfile(f)
+          local pid = lines and lines[1] and vim.fn.trim(lines[1]) or ""
+          if pid ~= "" then
+            vim.fn.system("kill " .. pid .. " 2>/dev/null")
+          end
+          vim.fn.delete(f)
+        end
+        vim.notify(string.format("Released %d Claude sleep inhibitor(s)", #files), vim.log.levels.INFO)
+      end, desc = "kill sleep inhibitors", icon = "󰒲" },
+
       -- Model picker - select Claude Code model
       { "<leader>am", function()
         -- Determine settings path (project-local or global)
