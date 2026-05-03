@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 517,
+  "next_project_number": 518,
   "active_projects": [
+    {
+      "project_number": 517,
+      "project_name": "fix_opencode_mcp_tools_unavailable_lean",
+      "status": "not_started",
+      "task_type": "general",
+      "created": "2026-05-03T04:04:09Z",
+      "last_updated": "2026-05-03T04:04:09Z"
+    },
     {
       "project_number": 516,
       "project_name": "remove_claudemd_suggestions_feature",

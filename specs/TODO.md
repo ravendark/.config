@@ -1,5 +1,5 @@
 ---
-next_project_number: 517
+next_project_number: 518
 ---
 
 # TODO
@@ -20,6 +20,13 @@ next_project_number: 517
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 517. Fix MCP tools unavailable in opencode for Lean tasks
+- **Effort**: TBD
+- **Status**: [NOT STARTED]
+- **Task Type**: general
+
+**Description**: Fix MCP tools (lean-lsp) being unavailable when using opencode to implement Lean tasks. The model attempts to call mcp__lean-lsp__lean_goal but gets error "Model tried to call unavailable tool 'mcp__lean-lsp__lean_goal'. Available tools: invalid, bash, read, glob, grep, edit, write, webfetch, websearch, codesearch, skill." The MCP servers need to be made available to opencode so that Lean LSP tools (lean_goal, lean_diagnostic_messages, lean_hover_info, etc.) work during implementation.
 
 ### 516. Remove claudemd_suggestions feature from /todo and implementation pipeline
 - **Effort**: 1-2 hours
@@ -127,3 +134,4 @@ next_project_number: 517
 ## Recommended Order
 
 1. **516** -> research (independent)
+2. **517** -> research (independent)
