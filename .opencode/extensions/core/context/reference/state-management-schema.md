@@ -25,8 +25,7 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
         }
       ],
       "completion_summary": "1-3 sentence description of what was accomplished",
-      "roadmap_items": ["Optional explicit roadmap item text to match"],
-      "claudemd_suggestions": "Description of .opencode/ changes (meta tasks only)"
+      "roadmap_items": ["Optional explicit roadmap item text to match"]
     }
   ],
   "repository_health": {
@@ -163,7 +162,6 @@ artifact_number=$((count + 1))
 |-------|------|----------|-------------|
 | `completion_summary` | string | Yes (when completed) | 1-3 sentence summary of accomplishment |
 | `roadmap_items` | array | No | Explicit ROADMAP.md item texts (non-meta only) |
-| `claudemd_suggestions` | string | Yes (meta only) | .opencode/ changes made, or "none" |
 | `memory_candidates` | array | No | Structured memory candidates emitted by agents (see below) |
 
 ### Memory Candidates Field
@@ -407,8 +405,7 @@ The `## Recommended Order` section in TODO.md provides a topologically-sorted li
       "summary": "Unified /merge command with GitHub/GitLab detection"
     }
   ],
-  "completion_summary": "Created /merge command with platform auto-detection.",
-  "claudemd_suggestions": "Added merge.md command, updated AGENTS.md command reference"
+  "completion_summary": "Created /merge command with platform auto-detection."
 }
 ```
 

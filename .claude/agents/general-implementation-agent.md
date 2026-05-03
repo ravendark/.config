@@ -148,31 +148,15 @@ Write to `specs/{NNN}_{SLUG}/summaries/{NN}_{short-slug}-summary.md`:
    - Include key artifacts created or modified
    - Example: "Created new-agent.md with full specification including tools, execution flow, and error handling."
 
-**For META tasks only** (task_type: "meta"):
-2. Track .claude/ file modifications during implementation
-3. Generate `claudemd_suggestions`:
-   - If any .claude/ files were created or modified: Brief description of changes
-     - Example: "Added completion_data field to return-metadata-file.md, updated general-implementation-agent with Stage 6a"
-   - If NO .claude/ files were modified: Set to `"none"`
-
 **For NON-META tasks**:
 2. Optionally generate `roadmap_items`: Array of explicit ROADMAP.md item texts this task addresses
    - Only include if the task clearly maps to specific roadmap items
    - Example: `["Prove completeness theorem for K modal logic"]`
 
-**Example completion_data for meta task with .claude/ changes**:
+**Example completion_data for meta task**:
 ```json
 {
-  "completion_summary": "Added completion_data generation to all implementation agents and updated skill postflight to propagate fields.",
-  "claudemd_suggestions": "Updated return-metadata-file.md schema, modified 3 agent definitions, updated 3 skill postflight sections"
-}
-```
-
-**Example completion_data for meta task without .claude/ changes**:
-```json
-{
-  "completion_summary": "Created utility script for automated test execution.",
-  "claudemd_suggestions": "none"
+  "completion_summary": "Added completion_data generation to all implementation agents and updated skill postflight to propagate fields."
 }
 ```
 
@@ -211,7 +195,7 @@ Store the candidates array in memory for inclusion in the metadata file at Stage
 
 ### Stage 7: Write Metadata File
 
-Write to `specs/{NNN}_{SLUG}/.return-meta.json` with status `implemented|partial|failed`. Include `completion_data` with `completion_summary` (all tasks) and `claudemd_suggestions` (meta) or `roadmap_items` (non-meta). Include `memory_candidates` array (from Stage 6b) at the top level of the JSON output. Agent-specific metadata fields: `phases_completed`, `phases_total`.
+Write to `specs/{NNN}_{SLUG}/.return-meta.json` with status `implemented|partial|failed`. Include `completion_data` with `completion_summary` (all tasks) and `roadmap_items` (non-meta). Include `memory_candidates` array (from Stage 6b) at the top level of the JSON output. Agent-specific metadata fields: `phases_completed`, `phases_total`.
 
 ### Stage 8: Return Brief Text Summary
 

@@ -149,11 +149,9 @@ Contains fields needed for task completion processing. Skills extract this data 
 |-------|------|----------|-------------|
 | `completion_summary` | string | Yes | 1-3 sentence description of what was accomplished |
 | `roadmap_items` | array of strings | No | Explicit ROADMAP.md item texts this task addresses (non-meta tasks only) |
-| `claudemd_suggestions` | string | Yes (meta only) | Description of .opencode/ changes made, or `"none"` if no .opencode/ files modified |
 
 **Notes**:
 - `completion_summary` is mandatory for all `implemented` status returns
-- `claudemd_suggestions` is mandatory for meta tasks (language: "meta")
 - `roadmap_items` is optional and only relevant for non-meta tasks
 - Skills propagate these fields to state.json for use by `/todo` command
 
@@ -413,7 +411,7 @@ Written when implementation is interrupted or fails mid-execution:
 }
 ```
 
-For other scenarios (meta tasks, blocked), combine the schema fields above. Meta tasks add `claudemd_suggestions` to `completion_data`.
+For other scenarios (meta tasks, blocked), combine the schema fields above.
 
 **Note**: The file-based metadata format supersedes the earlier console-based `subagent-return.md` pattern. See that file for historical context only.
 

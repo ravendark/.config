@@ -33,7 +33,7 @@ next_project_number: 518
 
 ### 516. Remove claudemd_suggestions feature from /todo and implementation pipeline
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Research**: [516_remove_claudemd_suggestions_feature/reports/01_claudemd-suggestions-removal.md]
 - **Plan**: [516_remove_claudemd_suggestions_feature/plans/01_claudemd-suggestions-removal.md]

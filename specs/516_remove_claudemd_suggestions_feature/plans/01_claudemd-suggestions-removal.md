@@ -1,7 +1,7 @@
 # Implementation Plan: Task #516
 
 - **Task**: 516 - Remove claudemd_suggestions feature
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/516_remove_claudemd_suggestions_feature/reports/01_claudemd-suggestions-removal.md
@@ -58,7 +58,7 @@ No ROADMAP.md consultation required (roadmap_flag is false).
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Remove from Implementation Pipeline [NOT STARTED]
+### Phase 1: Remove from Implementation Pipeline [COMPLETED]
 
 **Goal**: Remove `claudemd_suggestions` from all files involved in task implementation (agents, skills, templates, formats).
 

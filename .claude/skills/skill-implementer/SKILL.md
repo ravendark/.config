@@ -290,7 +290,6 @@ if [ -f "$metadata_file" ] && jq empty "$metadata_file" 2>/dev/null; then
 
     # Extract completion_data fields (if present)
     completion_summary=$(jq -r '.completion_data.completion_summary // ""' "$metadata_file")
-    claudemd_suggestions=$(jq -r '.completion_data.claudemd_suggestions // ""' "$metadata_file")
     roadmap_items=$(jq -c '.completion_data.roadmap_items // []' "$metadata_file")
     memory_candidates=$(jq -c '.memory_candidates // []' "$metadata_file")
 else
@@ -338,15 +337,8 @@ if [ -n "$completion_summary" ]; then
 fi
 ```
 
-**Step 3**: Add task-type-specific completion fields (implementer-specific):
+**Step 3**: Add roadmap_items for non-meta tasks (implementer-specific):
 ```bash
-# For meta tasks: add claudemd_suggestions
-if [ "$task_type" = "meta" ] && [ -n "$claudemd_suggestions" ]; then
-    jq --arg suggestions "$claudemd_suggestions" \
-      '(.active_projects[] | select(.project_number == '$task_number')).claudemd_suggestions = $suggestions' \
-      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-fi
-
 # For non-meta tasks: add roadmap_items (if present and non-empty)
 if [ "$task_type" != "meta" ] && [ "$roadmap_items" != "[]" ] && [ -n "$roadmap_items" ]; then
     jq --argjson items "$roadmap_items" \

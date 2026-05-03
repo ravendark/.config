@@ -143,7 +143,7 @@ TODO.md and state.json must stay synchronized. Update state.json first (machine 
 
 ### Completion Workflow
 - Non-meta tasks: `completion_summary` + optional `roadmap_items` -> /todo annotates ROADMAP.md
-- Meta tasks: `completion_summary` + `claudemd_suggestions` -> /todo displays for user review
+- Meta tasks: `completion_summary` only (CLAUDE.md is auto-generated from merge-sources)
 
 ### Vault Operation (Task Number Reset)
 

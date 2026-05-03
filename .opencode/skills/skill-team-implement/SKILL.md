@@ -530,8 +530,7 @@ Write team execution metadata:
     "degraded_to_single": false
   },
   "completion_data": {
-    "completion_summary": "Brief description of what was implemented",
-    "claudemd_suggestions": "Changes to .opencode/ (meta tasks) or 'none'"
+    "completion_summary": "Brief description of what was implemented"
   },
   "metadata": {
     "session_id": "{session_id}",
