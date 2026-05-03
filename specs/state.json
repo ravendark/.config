@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 516,
+  "next_project_number": 517,
   "active_projects": [
+    {
+      "project_number": 516,
+      "project_name": "remove_claudemd_suggestions_feature",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-03T03:59:18Z",
+      "last_updated": "2026-05-03T03:59:18Z"
+    },
     {
       "project_number": 87,
       "project_name": "investigate_wezterm_terminal_directory_change",

@@ -1,5 +1,5 @@
 ---
-next_project_number: 516
+next_project_number: 517
 ---
 
 # TODO
@@ -20,6 +20,13 @@ next_project_number: 516
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 516. Remove claudemd_suggestions feature from /todo and implementation pipeline
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+
+**Description**: Remove the claudemd_suggestions feature from the task system. CLAUDE.md is now auto-generated, so the pattern of meta tasks proposing CLAUDE.md edits via claudemd_suggestions (collected during /implement and applied interactively during /todo) is obsolete. Remove: (1) claudemd_suggestions field handling from skill-implementer postflight (Stage 7 Step 3), (2) Step 3.6 (Scan Meta Tasks for CLAUDE.md Suggestions) from /todo command, (3) Step 5.6 (Interactive CLAUDE.md Suggestion Selection) from /todo command, (4) claudemd_suggestions field from state.json schema documentation, (5) Related dry-run output sections. Keep completion_summary and roadmap_items fields (those are still used).
 
 ### 500. Add context: fork frontmatter to core delegating skills
 - **Effort**: 1-3 hours
@@ -119,3 +126,4 @@ next_project_number: 516
 
 ## Recommended Order
 
+1. **516** -> research (independent)
