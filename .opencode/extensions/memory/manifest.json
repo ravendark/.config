@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Obsidian-compatible memory vault for knowledge capture and retrieval with MCP integration",
   "language": null,
-  "dependencies": [],
+  "dependencies": ["core"],
   "provides": {
     "commands": ["learn.md"],
     "skills": ["skill-memory"],

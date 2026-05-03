@@ -3,7 +3,9 @@
   "version": "2.0.0",
   "description": "File format conversion and manipulation for documents, spreadsheets, and presentations",
   "language": null,
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "provides": {
     "agents": [
       "filetypes-router-agent.md",

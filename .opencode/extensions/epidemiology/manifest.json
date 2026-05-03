@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Epidemiology research extension for R and related tooling. Provides agents, skills, and context for statistical modeling, infectious disease dynamics (EpiModel), and Bayesian inference (epidemia/Stan).",
   "language": "epidemiology",
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "provides": {
     "agents": [
       "epidemiology-research-agent.md",
