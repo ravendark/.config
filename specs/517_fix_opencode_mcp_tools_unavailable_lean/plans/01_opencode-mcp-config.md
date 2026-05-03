@@ -1,7 +1,7 @@
 # Implementation Plan: Task #517
 
 - **Task**: 517 - Fix MCP tools (lean-lsp) being unavailable when using opencode to implement Lean tasks
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/517_fix_opencode_mcp_tools_unavailable_lean/reports/01_opencode-mcp-tools.md
@@ -57,7 +57,7 @@ No ROADMAP.md items directly relate to this task. This is a bug fix for opencode
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add lean-lsp MCP Server to Global OpenCode Config [NOT STARTED]
+### Phase 1: Add lean-lsp MCP Server to Global OpenCode Config [COMPLETED]
 
 **Goal**: Register the lean-lsp MCP server in the global opencode configuration so it is available to all projects.
 
