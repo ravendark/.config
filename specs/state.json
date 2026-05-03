@@ -90,10 +90,11 @@
     {
       "project_number": 516,
       "project_name": "remove_claudemd_suggestions_feature",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "created": "2026-05-03T03:59:18Z",
-      "last_updated": "2026-05-03T03:59:18Z"
+      "last_updated": "2026-05-03T04:32:28Z",
+      "session_id": "sess_1746243600_res516"
     },
     {
       "project_number": 87,

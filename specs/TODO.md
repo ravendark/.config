@@ -33,8 +33,9 @@ next_project_number: 518
 
 ### 516. Remove claudemd_suggestions feature from /todo and implementation pipeline
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
+- **Research**: [516_remove_claudemd_suggestions_feature/reports/01_claudemd-suggestions-removal.md]
 
 **Description**: Remove the claudemd_suggestions feature from the task system. CLAUDE.md is now auto-generated, so the pattern of meta tasks proposing CLAUDE.md edits via claudemd_suggestions (collected during /implement and applied interactively during /todo) is obsolete. Remove: (1) claudemd_suggestions field handling from skill-implementer postflight (Stage 7 Step 3), (2) Step 3.6 (Scan Meta Tasks for CLAUDE.md Suggestions) from /todo command, (3) Step 5.6 (Interactive CLAUDE.md Suggestion Selection) from /todo command, (4) claudemd_suggestions field from state.json schema documentation, (5) Related dry-run output sections. Keep completion_summary and roadmap_items fields (those are still used).
 
