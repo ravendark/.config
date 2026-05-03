@@ -1,7 +1,7 @@
 # Implementation Plan: Task #505
 
 - **Task**: 505 - port_missing_core_agents
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: Task description, existing spawn-agent.md port (reference), reviser-agent.md source (.claude/agents/)
@@ -45,7 +45,7 @@ Port the reviser-agent.md from `.claude/agents/` to `.opencode/agent/subagents/`
 
 ## Implementation Phases
 
-### Phase 1: Analyze Source and Reference [NOT STARTED]
+### Phase 1: Analyze Source and Reference [COMPLETED]
 
 **Goal**: Understand the source file structure and reference port patterns
 
@@ -68,7 +68,7 @@ Port the reviser-agent.md from `.claude/agents/` to `.opencode/agent/subagents/`
 
 ---
 
-### Phase 2: Port reviser-agent.md [NOT STARTED]
+### Phase 2: Port reviser-agent.md [COMPLETED]
 
 **Goal**: Create ported version with all path adaptations
 
@@ -95,7 +95,7 @@ Port the reviser-agent.md from `.claude/agents/` to `.opencode/agent/subagents/`
 
 ---
 
-### Phase 3: Verify Extension Agent Declarations [NOT STARTED]
+### Phase 3: Verify Extension Agent Declarations [COMPLETED]
 
 **Goal**: Confirm extension agents are properly declared in manifests
 
@@ -118,7 +118,7 @@ Port the reviser-agent.md from `.claude/agents/` to `.opencode/agent/subagents/`
 
 ---
 
-### Phase 4: Final Verification [NOT STARTED]
+### Phase 4: Final Verification [COMPLETED]
 
 **Goal**: Validate the port and document completion
 

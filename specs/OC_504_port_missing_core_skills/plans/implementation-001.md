@@ -1,7 +1,7 @@
 # Implementation Plan: Task #504
 
 - **Task**: 504 - port_missing_core_skills
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 4.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/OC_504_port_missing_core_skills/reports/research-001.md
@@ -45,7 +45,7 @@ Research findings identify 4 skills already exist in `.opencode/skills/` (skill-
 
 ## Implementation Phases
 
-### Phase 1: Copy Team Orchestration Context Files [NOT STARTED]
+### Phase 1: Copy Team Orchestration Context Files [COMPLETED]
 
 **Goal**: Copy required context files from `.claude/context/` to `.opencode/context/` before porting team skills
 
@@ -72,7 +72,7 @@ Research findings identify 4 skills already exist in `.opencode/skills/` (skill-
 
 ---
 
-### Phase 2: Port skill-reviser [NOT STARTED]
+### Phase 2: Port skill-reviser [COMPLETED]
 
 **Goal**: Port the plan revision thin wrapper skill with path adaptations
 
@@ -98,7 +98,7 @@ Research findings identify 4 skills already exist in `.opencode/skills/` (skill-
 
 ---
 
-### Phase 3: Port skill-team-research [NOT STARTED]
+### Phase 3: Port skill-team-research [COMPLETED]
 
 **Goal**: Port the multi-agent research orchestration skill with path adaptations
 
@@ -126,7 +126,7 @@ Research findings identify 4 skills already exist in `.opencode/skills/` (skill-
 
 ---
 
-### Phase 4: Port skill-team-plan [NOT STARTED]
+### Phase 4: Port skill-team-plan [COMPLETED]
 
 **Goal**: Port the multi-agent planning orchestration skill with path adaptations
 
@@ -154,7 +154,7 @@ Research findings identify 4 skills already exist in `.opencode/skills/` (skill-
 
 ---
 
-### Phase 5: Port skill-team-implement [NOT STARTED]
+### Phase 5: Port skill-team-implement [COMPLETED]
 
 **Goal**: Port the multi-agent implementation orchestration skill with path adaptations
 
@@ -182,7 +182,7 @@ Research findings identify 4 skills already exist in `.opencode/skills/` (skill-
 
 ---
 
-### Phase 6: Verification and Documentation [NOT STARTED]
+### Phase 6: Verification and Documentation [COMPLETED]
 
 **Goal**: Verify all ported skills and document the changes
 

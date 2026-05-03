@@ -1,7 +1,7 @@
 # Implementation Plan: Port Missing Core Hooks
 
 - **Task**: 508 - port_missing_core_hooks
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: Research findings on 2 missing hooks (memory-nudge.sh, validate-plan-write.sh) and dependency script (validate-artifact.sh)
@@ -58,7 +58,7 @@ From research findings:
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Port validate-artifact.sh [NOT STARTED]
+### Phase 1: Port validate-artifact.sh [COMPLETED]
 
 **Goal**: Port the core artifact validation script to .opencode/scripts/
 
@@ -79,7 +79,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Port memory-nudge.sh [NOT STARTED]
+### Phase 2: Port memory-nudge.sh [COMPLETED]
 
 **Goal**: Port memory nudge hook to .opencode/hooks/
 
@@ -101,7 +101,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Port validate-plan-write.sh [NOT STARTARTED]
+### Phase 3: Port validate-plan-write.sh [COMPLETED]
 
 **Goal**: Port artifact validation hook to .opencode/hooks/
 
@@ -124,7 +124,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Update settings.json [NOT STARTED]
+### Phase 4: Update settings.json [COMPLETED]
 
 **Goal**: Register both hooks in .opencode/settings.json
 

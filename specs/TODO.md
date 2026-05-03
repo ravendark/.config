@@ -67,11 +67,12 @@ next_project_number: 502
 
 ### 504. Port missing core skills to OpenCode
 - **Effort**: 3-6 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: Task #502
 - **Research**: [specs/OC_504_port_missing_core_skills/reports/01_missing-skills-analysis.md]
 - **Plan**: [specs/OC_504_port_missing_core_skills/plans/implementation-001.md]
+- **Summary**: [specs/OC_504_port_missing_core_skills/summaries/implementation-summary-20260502.md]
 
 **Description**: Port 8 missing skills from .claude/ to .opencode/: skill-memory, skill-project-overview, skill-reviser, skill-spawn, skill-team-implement, skill-team-plan, skill-team-research, skill-tag. Update all internal references and delegation paths for OpenCode.
 
@@ -79,11 +80,12 @@ next_project_number: 502
 
 ### 505. Port missing core agents to OpenCode
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: Task #502
 - **Research**: [specs/OC_505_port_missing_core_agents/reports/01_missing-agents-analysis.md]
 - **Plan**: [specs/OC_505_port_missing_core_agents/plans/implementation-001.md]
+- **Summary**: [specs/OC_505_port_missing_core_agents/summaries/implementation-summary-20260502.md]
 
 **Description**: Port 2 missing core agents to .opencode/agent/subagents/: reviser-agent.md, spawn-agent.md. Also verify extension agents (neovim-research/implementation, nix-research/implementation) are properly declared in extension manifests and installed when extensions load.
 
@@ -91,11 +93,12 @@ next_project_number: 502
 
 ### 506. Expand core context system for OpenCode
 - **Effort**: 3-6 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: Task #502
 - **Research**: [specs/OC_506_expand_core_context_system/reports/01_context-gap-analysis.md]
 - **Plan**: [specs/OC_506_expand_core_context_system/plans/implementation-001.md]
+- **Summary**: [specs/OC_506_expand_core_context_system/summaries/implementation-summary-20260502.md]
 
 **Description**: Expand .opencode/context/ to match .claude/context/ structure. Currently .opencode/context/ has only core/, index.json, index.md, project/, README.md. Need to add: guides/, meta/, reference/, repo/, processes/, troubleshooting/ subdirectories and their contents from .claude/extensions/core/context/.
 
@@ -103,11 +106,12 @@ next_project_number: 502
 
 ### 507. Port missing core scripts to OpenCode
 - **Effort**: 3-6 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: Task #502
 - **Research**: [specs/OC_507_port_missing_core_scripts/reports/01_missing-scripts-analysis.md]
 - **Plan**: [specs/OC_507_port_missing_core_scripts/plans/implementation-001.md]
+- **Summary**: [specs/OC_507_port_missing_core_scripts/summaries/implementation-summary-20260502.md]
 
 **Description**: Port missing utility scripts from .claude/scripts/ to .opencode/scripts/. Missing: check-extension-docs.sh, export-to-markdown.sh, install-extension.sh, uninstall-extension.sh, link-artifact-todo.sh, memory-retrieve.sh, migrate-directory-padding.sh, update-recommended-order.sh, validate-artifact.sh, validate-context-index.sh, validate-extension-index.sh, validate-index.sh, validate-wiring.sh, lint/lint-postflight-boundary.sh.
 
@@ -115,11 +119,12 @@ next_project_number: 502
 
 ### 508. Port missing core hooks to OpenCode
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: Task #502
 - **Research**: [specs/OC_508_port_missing_core_hooks/reports/01_missing-hooks-analysis.md]
 - **Plan**: [specs/OC_508_port_missing_core_hooks/plans/implementation-001.md]
+- **Summary**: [specs/OC_508_port_missing_core_hooks/summaries/implementation-summary-20260502.md]
 
 **Description**: Port 2 missing hooks from .claude/hooks/ to .opencode/hooks/: memory-nudge.sh, validate-plan-write.sh. Verify all 11 Claude hooks have OpenCode equivalents.
 
@@ -127,11 +132,12 @@ next_project_number: 502
 
 ### 509. Port missing core rules to OpenCode
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Language**: meta
 - **Dependencies**: Task #502
 - **Research**: [specs/OC_509_port_missing_core_rules/reports/01_missing-rules-analysis.md]
 - **Plan**: [specs/OC_509_port_missing_core_rules/plans/implementation-001.md]
+- **Summary**: [specs/OC_509_port_missing_core_rules/summaries/implementation-summary-20260502.md]
 
 **Description**: Port 2 missing rules from .claude/rules/ to .opencode/rules/: plan-format-enforcement.md, project-overview-detection.md. Verify all 7 Claude rules have OpenCode equivalents.
 
