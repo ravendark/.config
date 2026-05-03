@@ -94,7 +94,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Enable MCP Tools for Lean Agents [NOT STARTED]
+### Phase 2: Enable MCP Tools for Lean Agents [COMPLETED]
 
 **Goal**: Update per-project opencode agent configurations to include lean-lsp MCP tools in their allowed tool lists.
 
@@ -118,7 +118,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update Agent Prompts for OpenCode Tool Naming [NOT STARTED]
+### Phase 3: Update Agent Prompts for OpenCode Tool Naming [COMPLETED]
 
 **Goal**: Ensure opencode lean agent prompts reference the correct tool names (opencode convention) rather than Claude Code convention.
 
