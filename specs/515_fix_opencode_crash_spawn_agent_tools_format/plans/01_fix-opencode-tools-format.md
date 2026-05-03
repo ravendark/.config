@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode Crash - Spawn Agent Tools Format
 
 - **Task**: 515 - Fix opencode startup crash caused by spawn-agent.md tools format mismatch
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1 hour
 - **Dependencies**: None (crash fix already committed in 7afea460d)
 - **Research Inputs**: reports/01_opencode-crash-tools-format.md
@@ -62,7 +62,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Update Frontmatter Documentation and Commit opencode.lua [NOT STARTED]
+### Phase 1: Update Frontmatter Documentation and Commit opencode.lua [COMPLETED]
 
 **Goal**: Correct the frontmatter documentation to match runtime behavior and commit the opencode.lua plugin changes.
 

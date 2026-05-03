@@ -21,7 +21,7 @@ This document defines the standard structure and requirements for YAML frontmatt
 
 ## Essential Fields
 
-All subagents MUST include these 13 essential fields:
+All subagents use these 13 fields (6 required, 7 optional):
 
 | Field | Type | Required | Purpose |
 |-------|------|----------|---------|
@@ -33,7 +33,7 @@ All subagents MUST include these 13 essential fields:
 | `temperature` | float | Yes | LLM sampling temperature |
 | `max_tokens` | integer | No | Maximum output tokens |
 | `timeout` | integer | No | Execution timeout |
-| `tools` | array | Yes | Available tools |
+| `tools` | array | No | Available tools (omit for default) |
 | `permissions` | object | Yes | Access control rules |
 | `context_loading` | object | No | Context management |
 | `delegation` | object | No | Delegation configuration |
@@ -226,43 +226,36 @@ timeout: 3600
 
 ---
 
-### 9. tools (Required)
+### 9. tools (Optional)
 
-**Type**: array of strings  
+**Type**: array of strings
 **Items**: Tool names from available tools list
+**Default**: When omitted, the opencode runtime grants the agent its default tool set.
 
-**Purpose**: Define which tools the agent can use.
+**Purpose**: Override the default tool set for an agent. In practice, most subagents should **omit this field entirely** and rely on the runtime defaults.
 
-**Available Tools**:
+**IMPORTANT -- Runtime Behavior**: The opencode runtime auto-scans `.opencode/agent/subagents/` and parses all `.md` files. If a `tools` field is present, the runtime expects it as an **object** (e.g., `{read: true, write: true}`), not a YAML array. Specifying `tools` as a YAML array will cause opencode to crash on startup. The safest approach is to omit the field.
+
+**Available Tools** (when explicit override is needed):
 - Core: `read`, `write`, `edit`, `bash`, `grep`, `glob`, `list`
 - Specialized: `webfetch` (research)
 
 **Examples**:
 ```yaml
-# Research agent
-tools:
-  - read
-  - write
-  - bash
-  - webfetch
-  - grep
-  - glob
+# Recommended: omit tools field entirely (uses runtime defaults)
+# tools: (not specified)
 
-# Implementation agent
-tools:
-  - read
-  - write
-  - edit
-  - bash
-  - grep
-  - glob
+# If explicit override is needed, use object format:
+# tools:
+#   read: true
+#   write: true
+#   bash: true
 ```
 
 **Guidelines**:
-- Include only tools needed for agent function
-- Add `webfetch` for agents needing web research
-- Add `edit` for agents modifying code
-- Order: Core tools first, then specialized
+- Omit the `tools` field unless you need to restrict or customize the tool set
+- Never use YAML array format (`- read`, `- write`) for the tools field
+- When overriding, include only tools needed for agent function
 
 ---
 
@@ -488,13 +481,7 @@ agent_type: research
 temperature: 0.3
 max_tokens: 4000
 timeout: 3600
-tools:
-  - read
-  - write
-  - bash
-  - webfetch
-  - grep
-  - glob
+# tools: omitted (uses runtime defaults)
 permissions:
   allow:
     - read: ["**/*.md", ".opencode/**/*", "docs/**/*"]
@@ -536,13 +523,7 @@ agent_type: implementation
 temperature: 0.2
 max_tokens: 4000
 timeout: 7200
-tools:
-  - read
-  - write
-  - edit
-  - bash
-  - grep
-  - glob
+# tools: omitted (uses runtime defaults)
 permissions:
   allow:
     - read: ["**/*"]
@@ -576,20 +557,25 @@ lifecycle:
 
 ## Best Practices
 
-### 1. Minimal Tool Set
+### 1. Omit Tools Field
 
-Include only tools needed for agent function. Don't grant unnecessary capabilities.
+Omit the `tools` field entirely for subagents. The runtime provides sensible defaults, and specifying tools as a YAML array will crash opencode on startup.
 
 **Good**:
 ```yaml
-# Research agent - needs webfetch
-tools: [read, write, bash, webfetch, grep, glob]
+# Omit tools field - runtime provides defaults
+name: "researcher"
+agent_type: research
+# (no tools field)
 ```
 
 **Bad**:
 ```yaml
-# Research agent - doesn't need edit
-tools: [read, write, edit, bash, webfetch, grep, glob]
+# YAML array format crashes opencode
+tools:
+  - read
+  - write
+  - bash
 ```
 
 ### 2. Deny Dangerous Commands
@@ -696,6 +682,28 @@ temperature: 0.7  # Too high for implementation
 3. **Delegation Routing**: Delegation with depth limits and cycle detection
 4. **CI/CD Integration**: GitHub Actions workflow for frontmatter validation
 5. **Plugin Integration**: Add domain-specific tooling for configuration agents
+
+---
+
+## Cross-System Porting Warning
+
+**Claude Code and opencode use different frontmatter schemas.** When porting agent definitions between systems, be aware of these critical differences:
+
+| Field | Claude Code (`.claude/agents/`) | opencode (`.opencode/agent/subagents/`) |
+|-------|--------------------------------|----------------------------------------|
+| `tools` | YAML array of capitalized names (`- Read`, `- Write`, `- Bash`) | **Omit entirely** (runtime uses defaults). If specified, must be object format (`{read: true}`). YAML arrays will crash opencode on startup. |
+| `model` | Declared in frontmatter | Not used in subagent frontmatter |
+| Format | Markdown with YAML frontmatter | Markdown with YAML frontmatter |
+
+**Porting Checklist** (Claude Code to opencode):
+1. Remove or convert the `tools` field (do not copy YAML array format)
+2. Remove the `model` field
+3. Lowercase tool names if converting to object format
+4. Verify with `opencode` launch test before committing
+
+**Porting Checklist** (opencode to Claude Code):
+1. Add `tools` as YAML array with capitalized names (`- Read`, `- Write`, etc.)
+2. Add `model` field if needed
 
 ---
 
