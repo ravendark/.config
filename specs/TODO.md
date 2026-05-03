@@ -1,15 +1,16 @@
 ---
-next_project_number: 518
+next_project_number: 519
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-03. 8 active tasks remaining.*
+*Updated 2026-05-03. 9 active tasks remaining.*
 
 ### Pending
 
+- **518** [NOT STARTED] -- Unified AI tool picker with two-stage session management
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **495** [NOT STARTED] -- Add multi-subagent continuation loop to skill-implementer
@@ -20,6 +21,18 @@ next_project_number: 518
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 518. Unified AI tool picker with two-stage session management
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+- **Dependencies**: None
+
+**Description**: Create a unified two-stage Telescope picker triggered by `<C-CR>` that replaces the current separate `<C-CR>` (Claude Code) and `<C-g>` (OpenCode) keybindings. Stage 1 presents a tool picker (Claude Code vs OpenCode) that remembers the last selection and shows it first via a JSON file in `vim.fn.stdpath("data")`. Stage 2 presents a session management picker (new session, restore last session, browse all sessions) adapted to the selected tool. For Claude Code, reuse the existing `show_session_picker` logic from `claude/core/session.lua`. For OpenCode, build an equivalent using `opencode.toggle()`, `opencode.command("session.new")`, and `opencode.command("session.list")`. If an active Claude Code or OpenCode terminal is already visible, `<C-CR>` should toggle it directly (matching current smart_toggle behavior) rather than showing the picker. Remove the global `<C-g>` binding (keep the buffer-local `<C-g>` in opencode terminals for quick toggle). Update `keymaps.lua` header comments and `docs/MAPPINGS.md`.
+
+Key files: `lua/neotex/plugins/ai/shared/picker/`, `lua/neotex/config/keymaps.lua`, `lua/neotex/plugins/ai/claude/core/session.lua`, `lua/neotex/plugins/editor/which-key.lua`
+
+---
 
 ### 517. Fix MCP tools unavailable in opencode for Lean tasks
 - **Effort**: 1 hour
