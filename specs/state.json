@@ -539,7 +539,7 @@
     {
       "project_number": 503,
       "project_name": "port_missing_core_commands",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Port 6 missing commands from .claude/ to .opencode/: distill.md, learn.md, merge.md, project-overview.md, spawn.md, tag.md. Adapt Claude-specific references to OpenCode equivalents (.claude/ -> .opencode/, CLAUDE.md -> AGENTS.md, agents/ -> agent/subagents/).",
       "effort": "3-6 hours",
@@ -547,7 +547,7 @@
         502
       ],
       "created": "2026-05-02T00:00:00Z",
-      "last_updated": "2026-05-03T00:14:43Z",
+      "last_updated": "2026-05-03T00:32:25Z",
       "artifacts": [
         {
           "path": "specs/OC_503_port_missing_core_commands/reports/01_missing-commands-analysis.md",
@@ -558,12 +558,19 @@
           "path": "specs/OC_503_port_missing_core_commands/plans/implementation-001.md",
           "type": "plan",
           "summary": "7-phase implementation plan for porting 6 commands, 3 skills, and 1 agent from .claude/ to .opencode/"
+        },
+        {
+          "path": "specs/OC_503_port_missing_core_commands/summaries/implementation-summary-20260502.md",
+          "type": "summary",
+          "summary": "Implementation summary for porting 6 commands, 3 skills, and 1 agent from .claude/ to .opencode/"
         }
       ],
       "researching": "2026-05-02T23:59:40Z",
       "researched": "2026-05-03T00:06:51Z",
       "planning": "2026-05-03T00:10:14Z",
-      "planned": "2026-05-03T00:14:43Z"
+      "planned": "2026-05-03T00:14:43Z",
+      "implementing": "2026-05-03T00:18:16Z",
+      "completed": "2026-05-03T00:32:25Z"
     },
     {
       "project_number": 504,

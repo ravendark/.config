@@ -1,7 +1,7 @@
 # Implementation Plan: Task #503
 
 - **Task**: 503 - Port Missing Core Commands
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 12 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/OC_503_port_missing_core_commands/reports/01_missing-commands-analysis.md
@@ -51,7 +51,7 @@ The recommended order is: independent commands → commands with existing skills
 
 ## Implementation Phases
 
-### Phase 1: Independent Commands [NOT STARTED]
+### Phase 1: Independent Commands [COMPLETED]
 
 **Goal**: Port tag.md and merge.md (no skill dependencies)
 
@@ -81,7 +81,7 @@ The recommended order is: independent commands → commands with existing skills
 
 ---
 
-### Phase 2: Commands with Existing Skills [NOT STARTED]
+### Phase 2: Commands with Existing Skills [COMPLETED]
 
 **Goal**: Port distill.md and learn.md (skills already exist in .opencode/)
 
@@ -113,7 +113,7 @@ The recommended order is: independent commands → commands with existing skills
 
 ---
 
-### Phase 3: Port skill-memory Skill [NOT STARTED]
+### Phase 3: Port skill-memory Skill [COMPLETED]
 
 **Goal**: Port skill-memory which provides file, directory, and task modes for /learn and all modes for /distill
 
@@ -146,7 +146,7 @@ The recommended order is: independent commands → commands with existing skills
 
 ---
 
-### Phase 4: Port skill-project-overview Skill [NOT STARTED]
+### Phase 4: Port skill-project-overview Skill [COMPLETED]
 
 **Goal**: Port skill-project-overview which handles interactive repository scanning
 
@@ -173,7 +173,7 @@ The recommended order is: independent commands → commands with existing skills
 
 ---
 
-### Phase 5: Port skill-spawn Skill and spawn-agent [NOT STARTED]
+### Phase 5: Port skill-spawn Skill and spawn-agent [COMPLETED]
 
 **Goal**: Port skill-spawn wrapper and spawn-agent subagent (complex dependency chain)
 
@@ -210,7 +210,7 @@ The recommended order is: independent commands → commands with existing skills
 
 ---
 
-### Phase 6: Port Complex Commands [NOT STARTED]
+### Phase 6: Port Complex Commands [COMPLETED]
 
 **Goal**: Port project-overview.md and spawn.md (depend on skills from Phases 4-5)
 
@@ -242,7 +242,7 @@ The recommended order is: independent commands → commands with existing skills
 
 ---
 
-### Phase 7: Final Verification and Documentation [NOT STARTED]
+### Phase 7: Final Verification and Documentation [COMPLETED]
 
 **Goal**: Verify all ports are complete and create summary
 
