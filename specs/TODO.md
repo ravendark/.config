@@ -41,8 +41,9 @@ next_project_number: 516
 
 ### 515. Fix opencode crash caused by spawn-agent.md tools array format mismatch
 - **Effort**: small
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
+- **Research**: [515_fix_opencode_crash_spawn_agent_tools_format/reports/01_opencode-crash-tools-format.md]
 
 **Description**: Fix opencode startup crash caused by spawn-agent.md having a tools field as a YAML array (Claude Code format) while opencode expects it as an object ({read: true, ...}). Opencode auto-scans .opencode/agent/subagents/ for all .md files, and spawn-agent.md was the only file with a tools field. The format mismatch caused opencode to crash immediately on startup before rendering any UI. Combined with the terminal on_exit callback closing the window on process exit, this manifested as the sidebar flashing open and disappearing with no visible error message. The Neovim config changes (switching from defunct provider API to server) are confirmed correct but were not the root cause.
 

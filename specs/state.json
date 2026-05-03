@@ -5,10 +5,35 @@
     {
       "project_number": 515,
       "project_name": "fix_opencode_crash_spawn_agent_tools_format",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "created": "2026-05-03T03:30:47Z",
-      "last_updated": "2026-05-03T03:30:47Z"
+      "last_updated": "2026-05-03T03:35:20Z",
+      "session_id": "sess_1746240660_meta515",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "OpenCode and Claude Code have incompatible agent frontmatter schemas for the tools field. Claude Code uses YAML arrays (- Read, - Write, etc.) while OpenCode expects tools as a record/object or absent entirely. When porting agent .md files from .claude/agents/ to .opencode/agent/subagents/, the tools field must be stripped or converted. OpenCode auto-scans subagents/ on startup and crashes with expected record, received array if it encounters a YAML array tools field.",
+          "category": "PATTERN",
+          "source_artifact": "specs/515_fix_opencode_crash_spawn_agent_tools_format/reports/01_opencode-crash-tools-format.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode",
+            "claude-code",
+            "frontmatter",
+            "tools",
+            "agent-porting",
+            "yaml-format"
+          ]
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "specs/515_fix_opencode_crash_spawn_agent_tools_format/reports/01_opencode-crash-tools-format.md",
+          "type": "research",
+          "summary": "Research report on opencode crash caused by spawn-agent.md tools field format mismatch"
+        }
+      ]
     },
     {
       "project_number": 494,
