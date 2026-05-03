@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 515,
+  "next_project_number": 516,
   "active_projects": [
+    {
+      "project_number": 515,
+      "project_name": "fix_opencode_crash_spawn_agent_tools_format",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-03T03:30:47Z",
+      "last_updated": "2026-05-03T03:30:47Z"
+    },
     {
       "project_number": 494,
       "project_name": "simplify_status_transitions",

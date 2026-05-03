@@ -1,5 +1,5 @@
 ---
-next_project_number: 502
+next_project_number: 516
 ---
 
 # TODO
@@ -38,6 +38,13 @@ next_project_number: 502
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 515. Fix opencode crash caused by spawn-agent.md tools array format mismatch
+- **Effort**: small
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+
+**Description**: Fix opencode startup crash caused by spawn-agent.md having a tools field as a YAML array (Claude Code format) while opencode expects it as an object ({read: true, ...}). Opencode auto-scans .opencode/agent/subagents/ for all .md files, and spawn-agent.md was the only file with a tools field. The format mismatch caused opencode to crash immediately on startup before rendering any UI. Combined with the terminal on_exit callback closing the window on process exit, this manifested as the sidebar flashing open and disappearing with no visible error message. The Neovim config changes (switching from defunct provider API to server) are confirmed correct but were not the root cause.
 
 ### 502. Create core extension for OpenCode
 - **Effort**: 3-6 hours
@@ -381,3 +388,7 @@ next_project_number: 502
 - **Plan**: [078_fix_himalaya_smtp_authentication_failure/plans/implementation-001.md]
 
 **Description**: Fix Gmail SMTP authentication failure when sending emails via Himalaya (<leader>me). Error: "Authentication failed: Code: 535, Enhanced code: 5.7.8, Message: Username and Password not accepted". The error occurs with TLS connection attempts and persists through multiple retry attempts. Identify and fix the root cause of the SMTP credential configuration.
+
+## Recommended Order
+
+1. **515** -> research (independent)
