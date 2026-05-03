@@ -1,7 +1,7 @@
 # Implementation Plan: Task #516
 
 - **Task**: 516 - Remove claudemd_suggestions feature
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/516_remove_claudemd_suggestions_feature/reports/01_claudemd-suggestions-removal.md

@@ -90,10 +90,10 @@
     {
       "project_number": 516,
       "project_name": "remove_claudemd_suggestions_feature",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-03T03:59:18Z",
-      "last_updated": "2026-05-03T04:38:45Z",
+      "last_updated": "2026-05-03T07:09:33Z",
       "session_id": "sess_1746244200_impl516",
       "next_artifact_number": 2,
       "artifacts": [
@@ -101,8 +101,14 @@
           "path": "specs/516_remove_claudemd_suggestions_feature/plans/01_claudemd-suggestions-removal.md",
           "type": "plan",
           "summary": "Implementation plan to remove claudemd_suggestions feature from 27 files across 3 phases"
+        },
+        {
+          "path": "specs/516_remove_claudemd_suggestions_feature/summaries/01_claudemd-suggestions-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for claudemd_suggestions removal across 31 files"
         }
-      ]
+      ],
+      "completion_summary": "Removed the obsolete claudemd_suggestions feature from 31 active system files across .claude/, .opencode/, and their extensions/core/ mirrors. Removed field handling from skill-implementer postflight, general-implementation-agent Stage 6a, /todo command Steps 3.6 and 5.6, state-management schema, return-metadata-file format, agent-template, skill-team-implement, and merge-sources/claudemd.md. Preserved completion_summary and roadmap_items fields."
     },
     {
       "project_number": 87,
