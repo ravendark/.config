@@ -382,21 +382,54 @@
     {
       "project_number": 518,
       "project_name": "unified_ai_tool_picker_session_management",
-      "status": "researched",
+      "status": "planned",
       "task_type": "neovim",
       "description": "Create a unified two-stage Telescope picker triggered by <C-CR> that replaces the current separate <C-CR> (Claude Code) and <C-g> (OpenCode) keybindings. Stage 1 presents a tool picker (Claude Code vs OpenCode) that remembers the last selection and shows it first. Stage 2 presents a session management picker (new session, restore last, browse all) adapted to the selected tool.",
       "effort": "1-3 hours",
       "dependencies": [],
       "created": "2026-05-03T08:00:00Z",
-      "last_updated": "2026-05-03T22:53:06Z",
+      "last_updated": "2026-05-04T04:00:48Z",
       "artifacts": [
         {
           "path": "specs/518_unified_ai_tool_picker_session_management/reports/02_synthesized-research.md",
           "type": "research",
           "summary": "Synthesized research report combining findings from three teammate analyses with direct code verification and recommendations for implementation."
+        },
+        {
+          "path": "specs/518_unified_ai_tool_picker_session_management/plans/01_unified-ai-picker.md",
+          "type": "plan",
+          "summary": "Implementation plan with 4 sequential phases for unified two-stage AI tool picker with session management"
         }
       ],
-      "session_id": "sess_1746290500_res518"
+      "session_id": "sess_1777866828_c01e15",
+      "plan_metadata": {
+        "phases": 4,
+        "total_effort_hours": 3,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/02_synthesized-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-03"
+          }
+        ]
+      }
     }
   ],
   "completed_projects": [],

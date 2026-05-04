@@ -10,7 +10,7 @@ next_project_number: 519
 
 ### Pending
 
-- **518** [RESEARCHED] -- Unified AI tool picker with two-stage session management
+- **518** [PLANNED] -- Unified AI tool picker with two-stage session management
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **495** [NOT STARTED] -- Add multi-subagent continuation loop to skill-implementer
@@ -24,10 +24,11 @@ next_project_number: 519
 
 ### 518. Unified AI tool picker with two-stage session management
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: neovim
 - **Dependencies**: None
 - **Research**: [518_unified_ai_tool_picker_session_management/reports/02_synthesized-research.md]
+- **Plan**: [518_unified_ai_tool_picker_session_management/plans/01_unified-ai-picker.md]
 
 **Description**: Create a unified two-stage Telescope picker triggered by `<C-CR>` that replaces the current separate `<C-CR>` (Claude Code) and `<C-g>` (OpenCode) keybindings. Stage 1 presents a tool picker (Claude Code vs OpenCode) that remembers the last selection and shows it first via a JSON file in `vim.fn.stdpath("data")`. Stage 2 presents a session management picker (new session, restore last session, browse all sessions) adapted to the selected tool. For Claude Code, reuse the existing `show_session_picker` logic from `claude/core/session.lua`. For OpenCode, build an equivalent using `opencode.toggle()`, `opencode.command("session.new")`, and `opencode.command("session.list")`. If an active Claude Code or OpenCode terminal is already visible, `<C-CR>` should toggle it directly (matching current smart_toggle behavior) rather than showing the picker. Remove the global `<C-g>` binding (keep the buffer-local `<C-g>` in opencode terminals for quick toggle). Update `keymaps.lua` header comments and `docs/MAPPINGS.md`.
 
