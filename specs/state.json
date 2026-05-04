@@ -5,19 +5,24 @@
     {
       "project_number": 529,
       "project_name": "fix_opencode_model_not_found_opus_error",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Fix 'Model not found: opus/' error in .opencode/ agent system after porting from .claude/",
       "created": "2026-05-04T23:05:38Z",
-      "last_updated": "2026-05-04T23:25:01Z",
+      "last_updated": "2026-05-04T23:29:24Z",
       "artifacts": [
         {
           "path": "specs/529_fix_opencode_model_not_found_opus_error/reports/01_model-not-found-research.md",
           "type": "research",
           "summary": "Research on model not found opus/ error in opencode agent system"
+        },
+        {
+          "path": "specs/529_fix_opencode_model_not_found_opus_error/plans/01_fix-model-references.md",
+          "type": "plan",
+          "summary": "Implementation plan with 3 phases to remove invalid model: frontmatter from 34 .opencode/ files"
         }
       ],
-      "session_id": "sess_1777936043_012fc4",
+      "session_id": "sess_1777937197_cab25c",
       "next_artifact_number": 2,
       "memory_candidates": [
         {

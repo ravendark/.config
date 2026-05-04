@@ -21181,3 +21181,21 @@
 [2026-05-04T16:23:51-07:00] No postflight marker, allowing stop
 [2026-05-04T16:24:24-07:00] No postflight marker, allowing stop
 [2026-05-04T16:24:39-07:00] No postflight marker, allowing stop
+[2026-05-04T16:26:00-07:00] No postflight marker, allowing stop
+[2026-05-04T16:27:44-07:00] Postflight marker found at: specs/529_fix_opencode_model_not_found_opus_error/.postflight-pending
+[2026-05-04T16:27:44-07:00] Task directory: specs/529_fix_opencode_model_not_found_opus_error
+[2026-05-04T16:27:44-07:00] Loop guard initialized to 1
+[2026-05-04T16:27:44-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-04T16:28:08-07:00] Postflight marker found at: specs/529_fix_opencode_model_not_found_opus_error/.postflight-pending
+[2026-05-04T16:28:08-07:00] Task directory: specs/529_fix_opencode_model_not_found_opus_error
+[2026-05-04T16:28:08-07:00] Loop guard incremented to 2
+[2026-05-04T16:28:08-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-04T16:28:49-07:00] Postflight marker found at: specs/529_fix_opencode_model_not_found_opus_error/.postflight-pending
+[2026-05-04T16:28:49-07:00] Task directory: specs/529_fix_opencode_model_not_found_opus_error
+[2026-05-04T16:28:49-07:00] Loop guard incremented to 3
+[2026-05-04T16:28:49-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-04T16:29:11-07:00] Postflight marker found at: specs/529_fix_opencode_model_not_found_opus_error/.postflight-pending
+[2026-05-04T16:29:11-07:00] Task directory: specs/529_fix_opencode_model_not_found_opus_error
+[2026-05-04T16:29:11-07:00] Loop guard triggered: 3 >= 3
+[2026-05-04T16:29:11-07:00] Loop guard prevented continuation
+[2026-05-04T16:29:19-07:00] No postflight marker, allowing stop
