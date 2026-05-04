@@ -25,6 +25,14 @@
     "scripts": [],
     "hooks": []
   },
+  "routing": {
+    "research": {
+      "neovim": "skill-neovim-research"
+    },
+    "implement": {
+      "neovim": "skill-neovim-implementation"
+    }
+  },
   "merge_targets": {
     "opencode_md": {
       "source": "EXTENSION.md",

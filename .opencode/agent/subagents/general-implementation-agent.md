@@ -51,6 +51,40 @@ Scan phases for first incomplete:
 
 If all phases are `[COMPLETED]`: Task already done, return completed status.
 
+### Stage 3.5: Initialize Progress Tracking
+
+After identifying the resume phase, create or update the progress file for the current phase:
+
+```bash
+# Create progress directory if needed
+mkdir -p "specs/{NNN}_{SLUG}/progress"
+
+# Write progress file
+progress_file="specs/{NNN}_{SLUG}/progress/phase-{P}-progress.json"
+```
+
+Populate the progress file with objectives derived from the plan file steps for the current phase:
+
+```json
+{
+  "phase": {P},
+  "phase_name": "{Phase Name from plan}",
+  "started_at": "{ISO8601 timestamp}",
+  "last_updated": "{ISO8601 timestamp}",
+  "objectives": [
+    {"id": 1, "description": "{step 1 description}", "status": "not_started"},
+    {"id": 2, "description": "{step 2 description}", "status": "not_started"}
+  ],
+  "current_objective": 1,
+  "approaches_tried": [],
+  "handoff_count": 0
+}
+```
+
+If resuming from a previous handoff, read the existing progress file and use its `handoff_count` value instead of 0.
+
+Reference: `@.opencode/context/formats/progress-file.md` for full schema.
+
 ### Stage 4: Execute File Operations Loop
 
 For each phase starting from resume point:

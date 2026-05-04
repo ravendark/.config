@@ -1,7 +1,95 @@
 {
   "version": "1.0.0",
-  "next_project_number": 520,
+  "next_project_number": 527,
   "active_projects": [
+    {
+      "project_number": 526,
+      "project_name": "port_lean_extension_to_claude",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Port lean extension to .claude/ for feature parity with .opencode/",
+      "effort": "2-3 hours",
+      "dependencies": [
+        525
+      ],
+      "created": "2026-05-04T13:00:00Z",
+      "last_updated": "2026-05-04T13:00:00Z",
+      "artifacts": []
+    },
+    {
+      "project_number": 525,
+      "project_name": "fix_lean_skill_path_field_refs",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Fix lean skill path references (OC_ prefix) and field checks (.language vs task_type)",
+      "effort": "1-2 hours",
+      "dependencies": [
+        524
+      ],
+      "created": "2026-05-04T13:00:00Z",
+      "last_updated": "2026-05-04T13:00:00Z",
+      "artifacts": []
+    },
+    {
+      "project_number": 524,
+      "project_name": "fix_lean_extension_manifest_routing",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Add missing routing section to .opencode/extensions/lean/manifest.json",
+      "effort": "< 1 hour",
+      "dependencies": [],
+      "created": "2026-05-04T13:00:00Z",
+      "last_updated": "2026-05-04T13:00:00Z",
+      "artifacts": []
+    },
+    {
+      "project_number": 523,
+      "project_name": "change_leader_lb_bibexport_notification",
+      "status": "not_started",
+      "task_type": "neovim",
+      "description": "Change <leader>lb bibexport to show notification instead of terminal buffer",
+      "effort": "< 1 hour",
+      "dependencies": [],
+      "created": "2026-05-04T12:00:00Z",
+      "last_updated": "2026-05-04T12:00:00Z",
+      "artifacts": []
+    },
+    {
+      "project_number": 522,
+      "project_name": "fix_claude_code_references_opencode",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Fix remaining Claude Code path references and brand text in OpenCode files",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-04T12:00:00Z",
+      "last_updated": "2026-05-04T12:00:00Z",
+      "artifacts": []
+    },
+    {
+      "project_number": 521,
+      "project_name": "add_model_opus_opencode_commands",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Add model: opus to YAML frontmatter of all OpenCode command files missing it",
+      "effort": "< 1 hour",
+      "dependencies": [],
+      "created": "2026-05-04T12:00:00Z",
+      "last_updated": "2026-05-04T12:00:00Z",
+      "artifacts": []
+    },
+    {
+      "project_number": 520,
+      "project_name": "remove_oc_prefix_opencode_documentation",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Remove OC_ prefix from OpenCode documentation and standards to align with actual plain-number task directories",
+      "effort": "2-3 hours",
+      "dependencies": [],
+      "created": "2026-05-04T12:00:00Z",
+      "last_updated": "2026-05-04T12:00:00Z",
+      "artifacts": []
+    },
     {
       "project_number": 517,
       "project_name": "fix_opencode_mcp_tools_unavailable_lean",
@@ -486,7 +574,7 @@
   "completed_projects": [],
   "repository_health": {
     "last_assessed": "2026-05-03T03:59:04Z",
-    "todo_count": 44,
+    "todo_count": 50,
     "fixme_count": 2,
     "build_errors": 0,
     "status": "healthy"

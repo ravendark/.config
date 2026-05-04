@@ -1,15 +1,22 @@
 ---
-next_project_number: 520
+next_project_number: 527
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-03. 10 active tasks remaining.*
+*Updated 2026-05-04. 17 active tasks remaining.*
 
 ### Pending
 
+- **526** [NOT STARTED] -- Port lean extension to `.claude/` for parity (depends: 525)
+- **525** [NOT STARTED] -- Fix lean skill path and field references (depends: 524)
+- **524** [NOT STARTED] -- Fix lean extension manifest routing
+- **523** [NOT STARTED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
+- **522** [NOT STARTED] -- Fix remaining Claude Code path references in OpenCode files
+- **521** [NOT STARTED] -- Add model: opus to OpenCode command frontmatter
+- **520** [NOT STARTED] -- Remove OC_ prefix from OpenCode documentation and standards
 - **519** [COMPLETED] -- Add <leader>al AI commands loader picker
 - **518** [COMPLETED] -- Unified AI tool picker with two-stage session management
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -22,6 +29,54 @@ next_project_number: 520
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 523. Change `<leader>lb` bibexport to show notification instead of terminal buffer
+- **Effort**: < 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+- **Dependencies**: None
+
+**Description**: Modify the `run_bibexport()` function in `after/ftplugin/tex.lua` to run `bibexport` asynchronously via `vim.system()` or `vim.fn.jobstart()` instead of opening a terminal buffer. On completion, display a brief notification via `vim.notify()` or `require('neotex.util.notifications')` indicating success (with output file path) or failure (with error message). This matches the pattern used by `<leader>Tr` and `<leader>Ts` template copy functions.
+
+Key files: `after/ftplugin/tex.lua`
+
+---
+
+### 526. Port lean extension to `.claude/` for parity
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #525
+
+**Description**: Create `.claude/extensions/lean/` mirroring the `.opencode/extensions/lean/` structure for feature parity. Copy and adapt the lean extension manifest, agents (`lean-research-agent.md`, `lean-implementation-agent.md`), skills (`skill-lean-research/`, `skill-lean-implementation/`), and context files to the `.claude/` extension directory. Update any `.opencode/` specific references to `.claude/` equivalents. This ensures that the Claude Code agent system has the same lean4 support as OpenCode.
+
+Key files: `.claude/extensions/lean/manifest.json`, `.claude/extensions/lean/agents/`, `.claude/extensions/lean/skills/`, `.claude/extensions/lean/context/`
+
+---
+
+### 525. Fix lean skill path and field references
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #524
+
+**Description**: Update `skill-lean-research/SKILL.md` and `skill-lean-implementation/SKILL.md` in `.opencode/extensions/lean/skills/` to fix two issues: (1) Path references use `specs/OC_${padded_num}_...` but the actual system uses `specs/${padded_num}_...` (no `OC_` prefix). (2) The skills check `.language` field but the commands route by `.task_type` — the skills should check `task_type` for consistency with the rest of the system. Also verify that other references in the lean extension (agents, context) are consistent.
+
+Key files: `.opencode/extensions/lean/skills/skill-lean-research/SKILL.md`, `.opencode/extensions/lean/skills/skill-lean-implementation/SKILL.md`, `.opencode/extensions/lean/agents/lean-research-agent.md`, `.opencode/extensions/lean/agents/lean-implementation-agent.md`
+
+---
+
+### 524. Fix lean extension manifest routing
+- **Effort**: < 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Add the missing `routing` section to `.opencode/extensions/lean/manifest.json`. The command files (`/implement`, `/research`, `/plan`) dynamically look up routing from extension manifests using `jq -r --arg tt "$task_type" '.routing.implement[$tt] // empty'`. The lean manifest currently has no `routing` section, causing all lean tasks to fall through to defaults (`skill-implementer` → `general-implementation-agent`). Add routing mappings for `research`, `plan`, and `implement` phases mapping `lean`/`lean4` task types to the appropriate lean-specific skills. Follow the pattern used by `.opencode/extensions/nvim/manifest.json`.
+
+Key files: `.opencode/extensions/lean/manifest.json`
+
+---
 
 ### 518. Unified AI tool picker with two-stage session management
 - **Effort**: 1-3 hours
@@ -140,6 +195,42 @@ Key files: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`, `lua/neotex
 - **Dependencies**: None
 
 **Description**: Update spawn.md to remove the restriction blocking `researching` and `planning` statuses -- /spawn should work for any task in any non-terminal state (not just blocked/implementing/partial). Update spawn-agent to work without a blocker-focused analysis when the task is not actually blocked: instead, analyze the task holistically and present the user with interactive questions (AskUserQuestion) to confirm what tasks to spawn and provide feedback or discussion before creation. The agent should ask the user about their intent, propose task decomposition, and allow iterative refinement before committing to task creation. Files: `.claude/commands/spawn.md` (status validation table), `.claude/skills/skill-spawn/SKILL.md` (preflight status handling), `.claude/agents/spawn-agent.md` (analysis mode for non-blocked tasks, interactive confirmation).
+
+---
+
+### 522. Fix remaining Claude Code path references in OpenCode files
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Find and replace remaining `.claude/` path references and "Claude Code" brand text in `.opencode/` files that should be `.opencode/` and "OpenCode". Update extension/core mirrors. Fix stale references like "Claude Code discovers these skills via extension manifest" in `implement.md` and `.claude/context/` references in extension/core mirrors. Also ensure `.claude/scripts/` references point to `.opencode/scripts/` where appropriate.
+
+Key files: `.opencode/commands/implement.md`, `.opencode/context/core/`, `.opencode/context/extension/`, `.opencode/skills/`, `.opencode/docs/`
+
+---
+
+### 521. Add model: opus to OpenCode command frontmatter
+- **Effort**: < 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Add `model: opus` to YAML frontmatter of all `.opencode/commands/*.md` files missing it. All Claude Code commands declare `model: opus` in their frontmatter. OpenCode commands (`research.md`, `plan.md`, `implement.md`, `review.md`, `errors.md`, `refresh.md`) are missing this field, despite the agent frontmatter standard requiring it. Update the command template reference if needed.
+
+Key files: `.opencode/commands/research.md`, `.opencode/commands/plan.md`, `.opencode/commands/implement.md`, `.opencode/commands/review.md`, `.opencode/commands/errors.md`, `.opencode/commands/refresh.md`, `.opencode/docs/guides/creating-commands.md`
+
+---
+
+### 520. Remove OC_ prefix from OpenCode documentation and standards
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Audit and update all `.opencode/` files that reference `OC_` prefix to use plain task numbers. The actual task directories already use plain numbers (`specs/517_slug/`), and `state.json`/`TODO.md` store plain integers. However, documentation throughout `.opencode/` still instructs agents to use `OC_` prefix (`specs/OC_517_slug/`, `task OC_17`, etc.), creating confusion. Update context standards, patterns, skills, docs, and rules. Key affected areas: `.opencode/context/core/standards/task-management.md`, `.opencode/context/core/orchestration/state-management.md`, `.opencode/context/core/patterns/*.md`, `.opencode/skills/skill-todo/SKILL.md`, `.opencode/skills/skill-memory/SKILL.md`, `.opencode/docs/guides/phase-synchronization.md`, `.opencode/rules/artifact-formats.md`. Rename legacy `OC_503_*` directory if needed.
+
+Key files: `.opencode/context/core/standards/task-management.md`, `.opencode/context/core/orchestration/state-management.md`, `.opencode/context/core/patterns/*.md`, `.opencode/skills/skill-todo/SKILL.md`, `.opencode/skills/skill-memory/SKILL.md`, `.opencode/docs/guides/phase-synchronization.md`, `.opencode/rules/artifact-formats.md`
 
 ---
 

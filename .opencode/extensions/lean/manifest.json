@@ -33,6 +33,16 @@
     ],
     "hooks": []
   },
+  "routing": {
+    "research": {
+      "lean": "skill-lean-research",
+      "lean4": "skill-lean-research"
+    },
+    "implement": {
+      "lean": "skill-lean-implementation",
+      "lean4": "skill-lean-implementation"
+    }
+  },
   "merge_targets": {
     "opencode_md": {
       "source": "EXTENSION.md",

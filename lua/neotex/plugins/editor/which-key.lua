@@ -247,15 +247,15 @@ return {
       { "<leader>a", group = "ai", icon = "󰚩", mode = { "n", "v" } },
 
       -- Claude AI commands (replaced by unified <leader>al picker)
-      { "<leader>as", function()
-        local ok, picker = pcall(require, "neotex.plugins.ai.shared.picker.ai-tool-picker")
-        if not ok then
-          vim.notify("AI tool picker module not loaded", vim.log.levels.WARN)
-          return
-        end
-        if not picker._initialized then picker.setup() end
-        picker.show_tool_picker()
-      end, desc = "ai tool picker", icon = "󰚩" },
+      -- { "<leader>as", function()
+      --   local ok, picker = pcall(require, "neotex.plugins.ai.shared.picker.ai-tool-picker")
+      --   if not ok then
+      --     vim.notify("AI tool picker module not loaded", vim.log.levels.WARN)
+      --     return
+      --   end
+      --   if not picker._initialized then picker.setup() end
+      --   picker.show_tool_picker()
+      -- end, desc = "ai tool picker", icon = "󰚩" },
       { "<leader>al", function()
         local ok, picker = pcall(require, "neotex.plugins.ai.shared.picker.ai-tool-picker")
         if not ok then
@@ -277,9 +277,9 @@ return {
 
       -- OpenCode AI commands
       -- { "<leader>aa", function() require("opencode").ask() end, desc = "opencode ask", icon = "󰘳", mode = { "n", "v" } },
-      { "<leader>ab", function() require("opencode").prompt("@buffer") end, desc = "opencode buffer context", icon = "󰈙" },
+      -- { "<leader>ab", function() require("opencode").prompt("@buffer") end, desc = "opencode buffer context", icon = "󰈙" },
       { "<leader>ad", function() require("opencode").prompt("@diagnostics") end, desc = "opencode diagnostics", icon = "󰒓" },
-      { "<leader>ah", function() require("opencode").command("session.list") end, desc = "opencode history", icon = "󰆼" },
+      -- { "<leader>ah", function() require("opencode").command("session.list") end, desc = "opencode history", icon = "󰆼" },
       -- { "<leader>ai", function() require("opencode").command("session.new") end, desc = "opencode init session", icon = "󰐕" },
       -- { "<leader>ap", function() require("opencode").prompt("@this") end, desc = "opencode prompt", icon = "󰏪", mode = { "n", "v" } },
 
@@ -390,90 +390,80 @@ return {
         vim.notify(string.format("Released %d Claude sleep inhibitor(s)", #files), vim.log.levels.INFO)
       end, desc = "kill sleep inhibitors", icon = "󰒲" },
 
-      -- Model picker - select Claude Code model
-      { "<leader>am", function()
-        -- Determine settings path (project-local or global)
-        local function get_claude_settings_path()
-          local git = require("neotex.plugins.ai.claude.claude-session.git")
-          if git.is_git_repo() then
-            local git_root = git.get_git_root()
-            if git_root and git_root ~= "" then
-              local claude_dir = git_root .. "/.claude"
-              if vim.fn.isdirectory(claude_dir) == 0 then
-                vim.fn.mkdir(claude_dir, "p")
-              end
-              return claude_dir .. "/settings.local.json", "project"
-            end
-          end
-          return vim.fn.expand("~/.claude/settings.local.json"), "global"
-        end
-
-        local config_path, config_scope = get_claude_settings_path()
-
-        -- Model definitions
-        local models = {
-          { id = "opus", label = "Opus 4.6 (1M)" },
-          { id = "sonnet", label = "Sonnet 4.6" },
-          { id = "haiku", label = "Haiku 4.5" },
-        }
-
-        -- Read current settings (nil = no override / plan default)
-        local current_model = nil
-        local file = io.open(config_path, "r")
-        if file then
-          local content = file:read("*all")
-          file:close()
-          local ok, settings = pcall(vim.fn.json_decode, content)
-          if ok and settings and settings.model then
-            current_model = settings.model
-          end
-        end
-
-        -- Show picker
-        vim.ui.select(models, {
-          prompt = "Select Claude model:",
-          format_item = function(item)
-            local marker = (item.id == current_model) and " [*]" or ""
-            return string.format("%s%s", item.label, marker)
-          end,
-        }, function(choice)
-          if not choice then return end
-
-          -- Read current settings (re-read for freshness)
-          local settings = {}
-          local read_file = io.open(config_path, "r")
-          if read_file then
-            local content = read_file:read("*all")
-            read_file:close()
-            local ok, data = pcall(vim.fn.json_decode, content)
-            if ok and data then settings = data end
-          end
-
-          if choice.id then
-            settings.model = choice.id
-          else
-            settings.model = nil  -- remove override, use plan default
-          end
-
-          local write_ok, write_err = pcall(function()
-            local write_file = io.open(config_path, "w")
-            if not write_file then error("Cannot open file for writing") end
-            write_file:write(vim.fn.json_encode(settings))
-            write_file:close()
-          end)
-
-          if not write_ok then
-            notify.editor("Failed to write settings: " .. tostring(write_err), notify.categories.ERROR)
-            return
-          end
-
-          notify.editor(
-            string.format("Model set to %s (%s settings, takes effect on next Claude Code open)", choice.label, config_scope),
-            notify.categories.USER_ACTION,
-            { model = choice.id, scope = config_scope }
-          )
-        end)
-      end, desc = "model (claude)", icon = "󰘦" },
+      -- Model picker - select Claude Code model (DISABLED)
+      -- { "<leader>am", function()
+      --   local function get_claude_settings_path()
+      --     local git = require("neotex.plugins.ai.claude.claude-session.git")
+      --     if git.is_git_repo() then
+      --       local git_root = git.get_git_root()
+      --       if git_root and git_root ~= "" then
+      --         local claude_dir = git_root .. "/.claude"
+      --         if vim.fn.isdirectory(claude_dir) == 0 then
+      --           vim.fn.mkdir(claude_dir, "p")
+      --         end
+      --         return claude_dir .. "/settings.local.json", "project"
+      --       end
+      --     end
+      --     return vim.fn.expand("~/.claude/settings.local.json"), "global"
+      --   end
+      --
+      --   local config_path, config_scope = get_claude_settings_path()
+      --
+      --   local models = {
+      --     { id = "opus", label = "Opus 4.6 (1M)" },
+      --     { id = "sonnet", label = "Sonnet 4.6" },
+      --     { id = "haiku", label = "Haiku 4.5" },
+      --   }
+      --
+      --   local current_model = nil
+      --   local file = io.open(config_path, "r")
+      --   if file then
+      --     local content = file:read("*all")
+      --     file:close()
+      --     local ok, settings = pcall(vim.fn.json_decode, content)
+      --     if ok and settings and settings.model then
+      --       current_model = settings.model
+      --     end
+      --   end
+      --
+      --   vim.ui.select(models, {
+      --     prompt = "Select Claude model:",
+      --     format_item = function(item)
+      --       local marker = (item.id == current_model) and " [*]" or ""
+      --       return string.format("%s%s", item.label, marker)
+      --     end,
+      --   }, function(choice)
+      --     if not choice then return end
+      --     local settings = {}
+      --     local read_file = io.open(config_path, "r")
+      --     if read_file then
+      --       local content = read_file:read("*all")
+      --       read_file:close()
+      --       local ok, data = pcall(vim.fn.json_decode, content)
+      --       if ok and data then settings = data end
+      --     end
+      --     if choice.id then
+      --       settings.model = choice.id
+      --     else
+      --       settings.model = nil
+      --     end
+      --     local write_ok, write_err = pcall(function()
+      --       local write_file = io.open(config_path, "w")
+      --       if not write_file then error("Cannot open file for writing") end
+      --       write_file:write(vim.fn.json_encode(settings))
+      --       write_file:close()
+      --     end)
+      --     if not write_ok then
+      --       notify.editor("Failed to write settings: " .. tostring(write_err), notify.categories.ERROR)
+      --       return
+      --     end
+      --     notify.editor(
+      --       string.format("Model set to %s (%s settings, takes effect on next Claude Code open)", choice.label, config_scope),
+      --       notify.categories.USER_ACTION,
+      --       { model = choice.id, scope = config_scope }
+      --     )
+      --   end)
+      -- end, desc = "model (claude)", icon = "󰘦" },
     })
 
     -- ============================================================================

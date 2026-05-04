@@ -23,6 +23,14 @@
     "scripts": [],
     "hooks": []
   },
+  "routing": {
+    "research": {
+      "typst": "skill-typst-research"
+    },
+    "implement": {
+      "typst": "skill-typst-implementation"
+    }
+  },
   "merge_targets": {
     "opencode_md": {
       "source": "EXTENSION.md",
