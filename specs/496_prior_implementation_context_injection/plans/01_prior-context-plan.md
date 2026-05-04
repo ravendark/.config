@@ -105,7 +105,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update skill-researcher SKILL.md [NOT STARTED]
+### Phase 2: Update skill-researcher SKILL.md [IN PROGRESS]
 
 **Goal**: Add Stage 4c to collect prior implementation artifacts and update Stage 4/Stage 5 to inject them into the subagent prompt and delegation context.
 

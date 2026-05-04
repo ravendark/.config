@@ -57,11 +57,11 @@ specs/
 ├── specs/state.json           # Main state (cross-references, health)
 ├── specs/TODO.md              # User-facing task list
 ├── specs/archive/state.json   # Archived project tracking
-└── OC_NNN_project_name/       # Task directories use OC_ prefix
+└── {NNN}_project_name/       # Task directories use plain numbers
     └── ...                    # Task artifacts
 ```
 
-**Directory Naming**: OpenCode tasks use `OC_NNN_slug` format (e.g., `OC_017_task_slug`). The `OC_` prefix distinguishes from Claude Code tasks.
+**Directory Naming**: All tasks use `{NNN}_slug` format (e.g., `017_task_slug`).
 
 ### Main State File (`specs/state.json`)
 

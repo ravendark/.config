@@ -75,7 +75,7 @@ No direct roadmap items reference this task. The work advances the implicit goal
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Wire Handoff/Progress Formats into General-Implementation-Agent [IN PROGRESS]
+### Phase 1: Wire Handoff/Progress Formats into General-Implementation-Agent [COMPLETED]
 
 **Goal**: Teach the agent to track progress, detect context pressure, and write handoff artifacts before returning partial.
 

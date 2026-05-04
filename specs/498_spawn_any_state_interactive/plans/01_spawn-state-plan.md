@@ -94,7 +94,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update skills/skill-spawn/SKILL.md [IN PROGRESS]
+### Phase 2: Update skills/skill-spawn/SKILL.md [COMPLETED]
 
 **Goal**: Add conditional status handling, `previous_status` preservation, `analysis_mode` delegation, and empty-task handling.
 
@@ -128,7 +128,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update agents/spawn-agent.md Dual-Mode Analysis [NOT STARTED]
+### Phase 3: Update agents/spawn-agent.md Dual-Mode Analysis [IN PROGRESS]
 
 **Goal**: Implement mode detection, holistic analysis flow, and interactive confirmation.
 
