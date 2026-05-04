@@ -119,7 +119,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add Continuation Loop to Skill-Implementer [NOT STARTED]
+### Phase 2: Add Continuation Loop to Skill-Implementer [IN PROGRESS]
 
 **Goal**: Restructure skill postflight into a loop that detects partial handoffs and spawns successor subagents automatically.
 

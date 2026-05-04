@@ -268,6 +268,30 @@ If you DID use the Task tool (Stage 5), skip this stage -- the subagent already 
 
 ---
 
+### Stage 5c: Continuation Loop Init
+
+Initialize continuation tracking before entering the postflight loop:
+
+```bash
+continuation_count=0
+max_continuations=3
+
+# Create loop-guard file to track count across potential interruptions
+task_dir="specs/${padded_num}_${project_name}"
+cat > "${task_dir}/.continuation-loop-guard" << EOF
+{
+  "session_id": "${session_id}",
+  "continuation_count": 0,
+  "max_continuations": 3,
+  "created": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+}
+EOF
+```
+
+**Note**: The loop guard ensures that even if the skill is interrupted between iterations, the next invocation can read the count and enforce the limit.
+
+---
+
 ## Postflight (ALWAYS EXECUTE)
 
 The following stages MUST execute after work is complete, whether the work was done by a

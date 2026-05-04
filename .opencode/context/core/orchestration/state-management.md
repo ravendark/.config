@@ -121,9 +121,9 @@ Tracks archived projects with timeline, artifacts, and impact metadata.
 ### Pattern 1: Validate and Extract
 
 ```bash
-# 1. Parse task number (strip OC_ prefix if present)
-raw_input="$task_number"  # e.g., "OC_17" or "17"
-task_num=$(echo "$raw_input" | sed 's/^OC_//')  # strips prefix if present
+# 1. Parse task number (plain integer)
+raw_input="$task_number"  # e.g., "17"
+task_num="$raw_input"
 
 # 2. Lookup task (internal state uses integer project_number)
 task_data=$(jq -r --arg num "$task_num" \
@@ -132,7 +132,7 @@ task_data=$(jq -r --arg num "$task_num" \
 
 # 3. Validate exists
 if [ -z "$task_data" ]; then
-  echo "Error: Task OC_$task_num not found"
+  echo "Error: Task $task_num not found"
   exit 1
 fi
 
@@ -143,14 +143,14 @@ project_name=$(echo "$task_data" | jq -r '.project_name')
 description=$(echo "$task_data" | jq -r '.description // ""')
 
 # 5. Build display/path forms
-task_display="OC_$task_num"                           # e.g., OC_17
-task_dir="OC_$(printf '%03d' "$task_num")_$project_name"  # e.g., OC_017_task_slug
+task_display="$task_num"                           # e.g., 17
+task_dir="$(printf '%03d' "$task_num")_$project_name"  # e.g., 017_task_slug
 ```
 
-**OC_ Prefix Convention**:
-- User input: Accept `OC_17` or `17` (strip prefix for lookup)
-- Display: Always show `OC_17` (unpadded)
-- Directories: Always use `OC_017_slug` (3-digit padded)
+**Task Number Convention**:
+- User input: Accept plain `17` (no prefix)
+- Display: Show `17` (unpadded)
+- Directories: Use `017_slug` (3-digit padded)
 - state.json: Store as integer `project_number: 17`
 
 **Performance**: ~12ms total
@@ -267,18 +267,17 @@ skill-status-sync operation=postflight_update task_number=$N new_status=complete
 
 ### 1. Use specs/state.json for Reads
 
-✅ **Good**: Fast jq lookup with OC_ prefix handling
+✅ **Good**: Fast jq lookup with plain number
 ```bash
-# Strip OC_ prefix before numeric lookup
-task_num=$(echo "$task_number" | sed 's/^OC_//')
-task_data=$(jq -r --arg num "$task_num" \
+# Use task number directly for lookup
+task_data=$(jq -r --arg num "$task_number" \
   '.active_projects[] | select(.project_number == ($num | tonumber))' \
   specs/state.json)
 ```
 
 ❌ **Bad**: Slow specs/TODO.md parsing
 ```bash
-grep -A 20 "### OC_${task_number}\." specs/TODO.md
+grep -A 20 "### ${task_number}\." specs/TODO.md
 ```
 
 ### 2. Use skill-status-sync for Writes
