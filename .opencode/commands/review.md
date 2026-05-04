@@ -1,6 +1,5 @@
 ---
 description: Review code and create analysis reports
-model: opus
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), TaskCreate, TaskUpdate, AskUserQuestion
 argument-hint: [SCOPE] [--create-tasks]
 ---

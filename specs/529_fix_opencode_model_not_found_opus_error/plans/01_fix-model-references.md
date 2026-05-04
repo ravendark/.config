@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode Model Not Found Error
 
 - **Task**: 529 - Fix 'Model not found: opus/' error in .opencode/ agent system
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1 hour
 - **Dependencies**: None
 - **Research Inputs**: specs/529_fix_opencode_model_not_found_opus_error/reports/01_model-not-found-research.md
@@ -62,7 +62,7 @@ This task advances the "Agent frontmatter validation" roadmap item under Phase 1
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Audit and Confirm Affected Files [NOT STARTED]
+### Phase 1: Audit and Confirm Affected Files [COMPLETED]
 
 **Goal**: Verify the complete list of files with invalid `model:` frontmatter and confirm the exact line content to remove.
 
@@ -85,7 +85,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Remove model: Frontmatter from All Files [NOT STARTED]
+### Phase 2: Remove model: Frontmatter from All Files [COMPLETED]
 
 **Goal**: Remove the `model:` line from all 34 affected `.opencode/` files.
 
@@ -112,7 +112,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update Documentation and Verify [NOT STARTED]
+### Phase 3: Update Documentation and Verify [COMPLETED]
 
 **Goal**: Update documentation to reflect that `model:` is not valid in OpenCode frontmatter, and verify the fix resolves the error.
 

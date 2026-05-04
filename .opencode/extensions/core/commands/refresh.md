@@ -1,6 +1,5 @@
 ---
 description: Manage OpenCode resources - terminate orphaned processes and clean up files
-model: opus
 allowed-tools: Bash, Read, Glob, AskUserQuestion
 argument-hint: [--dry-run] [--force]
 ---

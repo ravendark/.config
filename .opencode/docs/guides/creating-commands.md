@@ -57,7 +57,8 @@ argument-hint: "<required>" [--flag]
 | `description` | Yes | One-line summary shown in `/help` output |
 | `allowed-tools` | Yes | Scoped tool allowlist (e.g., `Read(specs/*), Bash(git:*)`) |
 | `argument-hint` | Yes | Usage hint shown to the user |
-| `model` | Yes | Preferred model: `opus` (all commands use opus) |
+
+**Note**: The `model` field is NOT supported in OpenCode frontmatter. OpenCode uses the session model selected via the TUI model picker. The `model` field is a Claude Code-only feature -- including it in OpenCode commands causes "Model not found" errors because OpenCode's `parseModel()` cannot resolve bare aliases like `opus`.
 
 ### Step 4: Implement the Four Checkpoint Stages
 

@@ -21,7 +21,7 @@ next_project_number: 530
 ## Tasks
 
 ### 529. Fix 'Model not found: opus/' error in .opencode/ agent system after porting from .claude/
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [529_fix_opencode_model_not_found_opus_error/reports/01_model-not-found-research.md]

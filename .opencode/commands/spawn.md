@@ -1,6 +1,5 @@
 ---
 description: Spawn new tasks to unblock a blocked task
-model: opus
 allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit
 argument-hint: TASK_NUMBER [blocker description]
 ---

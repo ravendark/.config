@@ -1,6 +1,5 @@
 ---
 description: Create, recover, divide, sync, or abandon tasks
-model: opus
 allowed-tools: Read(specs/*), Edit(specs/TODO.md), Bash(jq:*), Bash(git:*), Bash(mv:*), Bash(date:*), Bash(sed:*), AskUserQuestion
 argument-hint: "description" | --recover N | --expand N | --sync | --abandon N | --review N
 ---

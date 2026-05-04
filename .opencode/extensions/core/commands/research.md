@@ -1,6 +1,5 @@
 ---
 description: Research a task and create reports
-model: opus
 allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit
 argument-hint: TASK_NUMBERS [FOCUS] [--team [--team-size N]] [--fast|--hard] [--haiku|--sonnet|--opus]
 ---

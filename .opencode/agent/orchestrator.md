@@ -1,7 +1,6 @@
 ---
 name: orchestrator
 description: "Read-only repository assistant for answering questions about the project"
-model: sonnet
 ---
 
 # Chat Agent
