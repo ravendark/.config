@@ -73,7 +73,7 @@ No ROADMAP.md found.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Pre-Flight and Safe Batch Replacements [IN PROGRESS]
+### Phase 1: Pre-Flight and Safe Batch Replacements [COMPLETED]
 
 **Goal**: Establish baseline and apply safe global replacements.
 
@@ -99,7 +99,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update Commands and Skills [NOT STARTED]
+### Phase 2: Update Commands and Skills [COMPLETED]
 
 **Goal**: Apply contextual brand text replacements to commands and skills.
 
@@ -156,7 +156,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update Context, Docs, and Rules [NOT STARTED]
+### Phase 3: Update Context, Docs, and Rules [COMPLETED]
 
 **Goal**: Apply replacements to context patterns, documentation, and rules.
 
@@ -270,7 +270,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Update Extension Mirrors [NOT STARTED]
+### Phase 4: Update Extension Mirrors [COMPLETED]
 
 **Goal**: Apply identical changes to all `.opencode/extensions/core/` mirror files.
 
@@ -316,7 +316,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Final Verification and Commit [NOT STARTED]
+### Phase 5: Final Verification and Commit [COMPLETED]
 
 **Goal**: Ensure minimal remaining references and commit changes.
 

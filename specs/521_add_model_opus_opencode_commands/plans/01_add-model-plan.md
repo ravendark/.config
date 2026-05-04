@@ -60,7 +60,7 @@ No ROADMAP.md found.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Update Standards and Templates [IN PROGRESS]
+### Phase 1: Update Standards and Templates [COMPLETED]
 
 **Goal**: Update documentation that governs how commands are created.
 
@@ -88,7 +88,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update Core Command Files [NOT STARTED]
+### Phase 2: Update Core Command Files [COMPLETED]
 
 **Goal**: Add `model: opus` to all 17 command files in `.opencode/commands/`.
 
@@ -136,7 +136,7 @@ model: opus
 
 ---
 
-### Phase 3: Update Extension Mirror Commands [NOT STARTED]
+### Phase 3: Update Extension Mirror Commands [COMPLETED]
 
 **Goal**: Apply identical `model: opus` additions to all extension mirror command files.
 
@@ -174,7 +174,7 @@ Apply the same `model: opus` insertion pattern as Phase 2.
 
 ---
 
-### Phase 4: Final Verification and Commit [NOT STARTED]
+### Phase 4: Final Verification and Commit [COMPLETED]
 
 **Goal**: Ensure all commands declare `model: opus` and commit changes.
 

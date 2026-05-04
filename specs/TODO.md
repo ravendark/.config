@@ -14,9 +14,9 @@ next_project_number: 527
 - **525** [NOT STARTED] -- Fix lean skill path and field references (depends: 524)
 - **524** [NOT STARTED] -- Fix lean extension manifest routing
 - **523** [NOT STARTED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
-- **522** [NOT STARTED] -- Fix remaining Claude Code path references in OpenCode files
-- **521** [NOT STARTED] -- Add model: opus to OpenCode command frontmatter
-- **520** [NOT STARTED] -- Remove OC_ prefix from OpenCode documentation and standards
+- **522** [COMPLETED] -- Fix remaining Claude Code path references in OpenCode files
+- **521** [COMPLETED] -- Add model: opus to OpenCode command frontmatter
+- **520** [COMPLETED] -- Remove OC_ prefix from OpenCode documentation and standards
 - **519** [COMPLETED] -- Add <leader>al AI commands loader picker
 - **518** [COMPLETED] -- Unified AI tool picker with two-stage session management
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
