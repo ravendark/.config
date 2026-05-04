@@ -21,9 +21,10 @@ next_project_number: 530
 ## Tasks
 
 ### 529. Fix 'Model not found: opus/' error in .opencode/ agent system after porting from .claude/
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [529_fix_opencode_model_not_found_opus_error/reports/01_model-not-found-research.md]
 
 **Description**: The .opencode/ agent system has "opus/" model references (with trailing slash) that were accidentally ported from the .claude/ system. When using the `<leader>al` picker and running commands in projects like ProofChecker, this produces a 'Model not found: opus/' error. Systematically audit and fix all occurrences of this artifact across .opencode/ core/ and extensions/.
 

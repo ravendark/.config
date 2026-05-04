@@ -5,12 +5,49 @@
     {
       "project_number": 529,
       "project_name": "fix_opencode_model_not_found_opus_error",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Fix 'Model not found: opus/' error in .opencode/ agent system after porting from .claude/",
       "created": "2026-05-04T23:05:38Z",
-      "last_updated": "2026-05-04T23:05:38Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T23:25:01Z",
+      "artifacts": [
+        {
+          "path": "specs/529_fix_opencode_model_not_found_opus_error/reports/01_model-not-found-research.md",
+          "type": "research",
+          "summary": "Research on model not found opus/ error in opencode agent system"
+        }
+      ],
+      "session_id": "sess_1777936043_012fc4",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "OpenCode CLI (v1.14.33) uses parseModel() which splits model strings by \"/\" into providerID and modelID. Model references must be in \"provider/model\" format (e.g., \"opencode/claude-opus-4-7\"). Short aliases like \"opus\" or \"sonnet\" (valid in Claude Code) cause \"Model not found: opus/\" errors because they parse as providerID=\"opus\", modelID=\"\". Command frontmatter \"model:\" has highest priority in model resolution, overriding session model.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/529_fix_opencode_model_not_found_opus_error/reports/01_model-not-found-research.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "model",
+            "parseModel",
+            "provider",
+            "frontmatter",
+            "error"
+          ]
+        },
+        {
+          "content": "OpenCode model resolution order for slash commands: (1) command frontmatter model field, (2) agent configured model, (3) client session model from TUI, (4) session default. This means any invalid model in frontmatter will always override a valid session model and cause errors immediately.",
+          "category": "PATTERN",
+          "source_artifact": "specs/529_fix_opencode_model_not_found_opus_error/reports/01_model-not-found-research.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode",
+            "model-resolution",
+            "command",
+            "priority",
+            "frontmatter"
+          ]
+        }
+      ]
     },
     {
       "project_number": 528,
