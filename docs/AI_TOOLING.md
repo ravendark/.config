@@ -35,7 +35,7 @@ Claude Code provides official Claude AI integration with sophisticated session m
 - Projects requiring sophisticated session state management
 - Teams using Claude as primary AI provider
 
-**Keybindings**: `<C-CR>` (unified AI tool picker), `<leader>ac` (commands/visual selection), `<leader>as` (AI tool picker), `<leader>aw` (worktrees)
+**Keybindings**: `<C-CR>` (unified AI tool picker), `<leader>al` (commands/agent loading), `<leader>as` (AI tool picker), `<leader>aw` (worktrees)
 
 ## Unified AI Tool Picker
 
@@ -53,6 +53,7 @@ Pressing `<C-CR>` invokes the unified two-stage AI tool picker:
 | Key | Description |
 |-----|-------------|
 | `<C-CR>` | Smart toggle / unified AI tool picker |
+| `<leader>al` | AI commands/agent loader picker |
 | `<leader>as` | Open AI tool picker directly |
 
 ## Feature Comparison Matrix

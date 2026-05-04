@@ -183,7 +183,7 @@ function M.send_to_opencode(text, prompt)
 end
 
 --- Interactive function to send visual selection with user-provided prompt
---- This function is called by the <leader>ao keymap in visual mode
+--- This function is called by the <leader>al keymap in visual mode
 function M.send_visual_to_opencode_with_prompt()
   -- Validate we're in visual mode
   local mode = vim.fn.mode()

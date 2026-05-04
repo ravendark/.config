@@ -215,7 +215,7 @@ Keybindings should be documented:
 | Key | Mode | Description | Source |
 |-----|------|-------------|--------|
 | `<C-CR>` | n | Unified AI tool picker | `plugins/ai/shared/picker/ai-tool-picker.lua` |
-| `<leader>ac` | v | Send selection to Claude | `plugins/ai/claudecode.lua:67` |
+| `<leader>al` | v | AI commands/agent loader picker | `plugins/ai/shared/picker/ai-tool-picker.lua` |
 ```
 
 ### Plugin Documentation

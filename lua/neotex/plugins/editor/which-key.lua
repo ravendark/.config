@@ -289,7 +289,7 @@ return {
 
       --   if vim.fn.filereadable(config_path) ~= 1 then
       --     notify.editor(
-      --       "No TTS config found. Use <leader>ac to create project-specific config.",
+      --       "No TTS config found. Use <leader>al to create project-specific config.",
       --       notify.categories.ERROR,
       --       { project_root = vim.fn.getcwd() }
       --     )
