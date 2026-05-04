@@ -1,7 +1,7 @@
 # Implementation Plan: Unified AI Tool Picker with Session Management
 
 - **Task**: 518 - unified_ai_tool_picker_session_management
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/518_unified_ai_tool_picker_session_management/reports/02_synthesized-research.md
@@ -71,7 +71,7 @@ No directly relevant items in ROADMAP.md (current roadmap focuses on documentati
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Fix Pre-existing Bugs [NOT STARTED]
+### Phase 1: Fix Pre-existing Bugs [COMPLETED]
 
 **Goal**: Clean up the environment and correct documentation before building the new picker. This phase addresses all four confirmed issues from research: the backup file proliferation, dead terminal detection code, which-key collision, and documentation inconsistencies.
 
@@ -99,7 +99,7 @@ Phases within the same wave can execute in parallel.
 - which-key.lua has exactly one `<leader>as` binding
 - Docs reference `<C-CR>` for all AI tool toggles
 
-### Phase 2: Build the Core ai-tool-picker.lua Module [NOT STARTED]
+### Phase 2: Build the Core ai-tool-picker.lua Module [COMPLETED]
 
 **Goal**: Create the unified two-stage picker module with tool persistence, active terminal detection, and both Stage 2 session picker paths.
 
@@ -129,7 +129,7 @@ Phases within the same wave can execute in parallel.
 - Stage 2 Claude options match existing `show_session_picker()`
 - Stage 2 OpenCode picker offers 3 options
 
-### Phase 3: Integrate Keymaps and Clean Up Bindings [NOT STARTED]
+### Phase 3: Integrate Keymaps and Clean Up Bindings [COMPLETED]
 
 **Goal**: Wire up the new module to all existing keybindings, remove the old `<C-g>` global binding, and finalize the which-key configuration.
 
@@ -153,7 +153,7 @@ Phases within the same wave can execute in parallel.
 - `<leader>as` shows the unified AI tool picker
 - `<leader>as` description in which-key says "AI tool picker"
 
-### Phase 4: Polish, Test, and Verify [NOT STARTED]
+### Phase 4: Polish, Test, and Verify [COMPLETED]
 
 **Goal**: End-to-end validation of all picker paths, edge cases, and documentation updates.
 

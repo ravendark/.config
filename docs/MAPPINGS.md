@@ -120,7 +120,7 @@ All leader-based mappings use `<Space>` as the leader key and are organized into
 
 | Key | Mode | Description |
 |-----|------|-------------|
-| `<C-c>` | All | Toggle Claude Code sidebar |
+| `<C-CR>` | All | Unified AI tool picker |
 | `<leader>ac` | Normal | Browse Claude commands hierarchy |
 | `<leader>ac` | Visual | Send selection to Claude with custom prompt |
 | `<leader>as` | Normal | Browse Claude sessions |

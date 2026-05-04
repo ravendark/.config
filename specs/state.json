@@ -382,13 +382,13 @@
     {
       "project_number": 518,
       "project_name": "unified_ai_tool_picker_session_management",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "description": "Create a unified two-stage Telescope picker triggered by <C-CR> that replaces the current separate <C-CR> (Claude Code) and <C-g> (OpenCode) keybindings. Stage 1 presents a tool picker (Claude Code vs OpenCode) that remembers the last selection and shows it first. Stage 2 presents a session management picker (new session, restore last, browse all) adapted to the selected tool.",
       "effort": "1-3 hours",
       "dependencies": [],
       "created": "2026-05-03T08:00:00Z",
-      "last_updated": "2026-05-04T04:00:48Z",
+      "last_updated": "2026-05-04T04:30:13Z",
       "artifacts": [
         {
           "path": "specs/518_unified_ai_tool_picker_session_management/reports/02_synthesized-research.md",
@@ -399,9 +399,14 @@
           "path": "specs/518_unified_ai_tool_picker_session_management/plans/01_unified-ai-picker.md",
           "type": "plan",
           "summary": "Implementation plan with 4 sequential phases for unified two-stage AI tool picker with session management"
+        },
+        {
+          "path": "specs/518_unified_ai_tool_picker_session_management/summaries/01_unified-ai-picker-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for unified AI tool picker"
         }
       ],
-      "session_id": "sess_1777866828_c01e15",
+      "session_id": "sess_1777867353_4a3e9e",
       "plan_metadata": {
         "phases": 4,
         "total_effort_hours": 3,
@@ -429,7 +434,9 @@
             "integrated_date": "2026-05-03"
           }
         ]
-      }
+      },
+      "completed": "2026-05-04T04:30:13Z",
+      "completion_summary": "Built unified 2-stage AI tool picker with session management, fixed 4 pre-existing bugs, cleaned 9.6K backup files"
     }
   ],
   "completed_projects": [],

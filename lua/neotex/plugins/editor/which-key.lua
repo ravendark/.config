@@ -254,13 +254,20 @@ return {
         mode = { "v" },
         icon = "󰘳"
       },
-      { "<leader>as", function() require("neotex.plugins.ai.claude").resume_session() end, desc = "claude sessions", icon = "󰑐" },
+      { "<leader>as", function()
+        local ok, picker = pcall(require, "neotex.plugins.ai.shared.picker.ai-tool-picker")
+        if not ok then
+          vim.notify("AI tool picker module not loaded", vim.log.levels.WARN)
+          return
+        end
+        if not picker._initialized then picker.setup() end
+        picker.show_tool_picker()
+      end, desc = "ai tool picker", icon = "󰚩" },
 
       -- OpenCode AI commands
       -- { "<leader>aa", function() require("opencode").ask() end, desc = "opencode ask", icon = "󰘳", mode = { "n", "v" } },
       { "<leader>ab", function() require("opencode").prompt("@buffer") end, desc = "opencode buffer context", icon = "󰈙" },
       { "<leader>ad", function() require("opencode").prompt("@diagnostics") end, desc = "opencode diagnostics", icon = "󰒓" },
-      { "<leader>as", function() require("opencode").select() end, desc = "opencode select", icon = "󰒋" },
       { "<leader>ah", function() require("opencode").command("session.list") end, desc = "opencode history", icon = "󰆼" },
       -- { "<leader>ai", function() require("opencode").command("session.new") end, desc = "opencode init session", icon = "󰐕" },
       -- { "<leader>ap", function() require("opencode").prompt("@this") end, desc = "opencode prompt", icon = "󰏪", mode = { "n", "v" } },
