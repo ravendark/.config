@@ -10,7 +10,7 @@ next_project_number: 520
 
 ### Pending
 
-- **519** [NOT STARTED] -- Add <leader>al AI commands loader picker
+- **519** [RESEARCHED] -- Add <leader>al AI commands loader picker
 - **518** [COMPLETED] -- Unified AI tool picker with two-stage session management
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
@@ -41,9 +41,10 @@ Key files: `lua/neotex/plugins/ai/shared/picker/`, `lua/neotex/config/keymaps.lu
 
 ### 519. Add <leader>al AI commands loader picker
 - **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: neovim
 - **Dependencies**: None
+- **Research**: [519_add_leader_al_ai_commands_loader_picker/reports/01_commands-loader-picker.md]
 
 **Description**: Add `<leader>al` keymap that opens a unified picker (Claude Code vs OpenCode, last-used-first ordering) routing to their respective commands/extension pickers — what `<leader>ac` (ClaudeCommands) and `<leader>ao` (OpencodeCommands) do currently. Reuses task 518's `ai-tool-picker.lua` persistence infrastructure and `vim.ui.select` pattern. Handles both normal mode (commands browser) and visual mode (send selection with prompt).
 

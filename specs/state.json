@@ -441,14 +441,22 @@
     {
       "project_number": 519,
       "project_name": "add_leader_al_ai_commands_loader_picker",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "neovim",
       "description": "Add <leader>al keymap that opens a unified picker (Claude Code vs OpenCode, last-used-first) routing to their respective commands/extension pickers (what <leader>ac and <leader>ao do). Reuses task 518's ai-tool-picker infrastructure for persistence and vim.ui.select pattern.",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-04T05:10:23Z",
-      "last_updated": "2026-05-04T05:10:23Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T05:16:36Z",
+      "artifacts": [
+        {
+          "path": "specs/519_add_leader_al_ai_commands_loader_picker/reports/01_commands-loader-picker.md",
+          "type": "research",
+          "summary": "Research report for unified AI commands loader picker: identifies that show_tool_picker() hardcodes session routing, recommends a separate show_commands_picker() function with mode-aware dispatch for visual mode support."
+        }
+      ],
+      "session_id": "sess_1777871540_4334f7",
+      "next_artifact_number": 2
     }
   ],
   "completed_projects": [],
