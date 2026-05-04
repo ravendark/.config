@@ -144,6 +144,60 @@ If `memory_context` is non-empty, it will be injected into the Stage 5 prompt al
 
 ---
 
+### Stage 4c: Collect Prior Implementation Context
+
+If task status is "implementing" or "partial", collect existing implementation artifacts from the task directory and prepare them for injection into the subagent prompt.
+
+```bash
+prior_implementation_context=""
+
+if [ "$status" = "implementing" ] || [ "$status" = "partial" ]; then
+    task_dir="specs/${padded_num}_${project_name}"
+
+    # 1. Implementation summaries (highest priority)
+    if [ -d "$task_dir/summaries" ]; then
+        for f in $(ls -1 "$task_dir/summaries/"*.md 2>/dev/null | sort -V); do
+            prior_implementation_context+="\n\n## Summary: $(basename "$f")\n\n$(cat "$f")"
+        done
+    fi
+
+    # 2. Handoff documents
+    if [ -d "$task_dir/handoffs" ]; then
+        for f in $(ls -1 "$task_dir/handoffs/"*.md 2>/dev/null | sort -V | tail -3); do
+            prior_implementation_context+="\n\n## Handoff: $(basename "$f")\n\n$(cat "$f")"
+        done
+    fi
+
+    # 3. Progress files
+    if [ -d "$task_dir/progress" ]; then
+        for f in $(ls -1 "$task_dir/progress/"*.json 2>/dev/null | sort -V | tail -1); do
+            prior_implementation_context+="\n\n## Progress: $(basename "$f")\n\n$(cat "$f")"
+        done
+    fi
+
+    # 4. Latest plan
+    if [ -d "$task_dir/plans" ]; then
+        latest_plan=$(ls -1 "$task_dir/plans/"*.md 2>/dev/null | sort -V | tail -1)
+        if [ -n "$latest_plan" ]; then
+            prior_implementation_context+="\n\n## Plan: $(basename "$latest_plan")\n\n$(cat "$latest_plan")"
+        fi
+    fi
+
+    # Truncate if exceeds 500 lines
+    if [ -n "$prior_implementation_context" ]; then
+        line_count=$(echo -e "$prior_implementation_context" | wc -l)
+        if [ "$line_count" -gt 500 ]; then
+            prior_implementation_context=$(echo -e "$prior_implementation_context" | head -n 500)
+            prior_implementation_context+="\n\n[NOTE: Prior implementation context truncated from $line_count lines to 500 lines budget]"
+        fi
+    fi
+fi
+```
+
+If no artifacts are found or status does not match, `prior_implementation_context` remains an empty string.
+
+---
+
 ### Stage 4: Prepare Delegation Context
 
 Prepare delegation context for the subagent:
@@ -165,7 +219,8 @@ Prepare delegation context for the subagent:
   "effort_flag": "{effort_flag from command, null if not set}",
   "model_flag": "{model_flag from command, null if not set}",
   "roadmap_path": "specs/ROADMAP.md",
-  "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json"
+  "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json",
+  "prior_implementation_context": "{prior_implementation_context from Stage 4c, or empty string}"
 }
 ```
 
@@ -216,13 +271,27 @@ Non-compliance will be caught by postflight validation.
 
 Place this section AFTER the delegation context JSON and BEFORE any other instructions.
 
+**Prior Implementation Context Injection**: If `prior_implementation_context` from Stage 4c is non-empty, include it in the prompt as a separate block:
+
+```
+<prior-implementation-context>
+## Prior Implementation Context (auto-injected)
+
+The following artifacts were found for this task. Use this context to avoid redundant research. Do NOT re-read the files listed below; use the injected content directly.
+
+{prior_implementation_context from Stage 4c}
+</prior-implementation-context>
+```
+
+Place the prior implementation context block AFTER the format specification and BEFORE the memory context block. Do NOT inject an empty `<prior-implementation-context>` block when no prior artifacts were found.
+
 **Memory Context Injection**: If `memory_context` from Stage 4a is non-empty, include it in the prompt as a separate block:
 
 ```
 {memory_context from Stage 4a -- already wrapped in <memory-context> tags}
 ```
 
-Place the memory context block AFTER the format specification and BEFORE the task-specific instructions. Do NOT inject an empty `<memory-context>` block when no memories were retrieved.
+Place the memory context block AFTER the prior implementation context and BEFORE the task-specific instructions. Do NOT inject an empty `<memory-context>` block when no memories were retrieved.
 
 **DO NOT** use `Skill(general-research-agent)` - this will FAIL.
 

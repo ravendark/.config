@@ -134,7 +134,7 @@ When invoked with `--task N`, /learn enters task mode for reviewing task artifac
 
 ### Workflow
 
-1. **Parse Task Directory**: Locate specs/OC_{NNN}_{SLUG}/ directory
+1. **Parse Task Directory**: Locate specs/{NNN}_{SLUG}/ directory
 2. **Scan Artifacts**: Find all files in subdirectories:
    - reports/ - Research reports
    - plans/ - Implementation plans
@@ -243,7 +243,7 @@ When invoked with text content, /learn enters text mode:
     - Invalid file path (file mode) -> "File not found: {path}"
     - Invalid directory path (directory mode) -> "Directory not found: {path}"
     - Invalid task number (task mode) -> "Task not found: {N}"
-    - Non-existent task directory -> "Task directory not found: specs/OC_{NNN}_*"
+    - Non-existent task directory -> "Task directory not found: specs/{NNN}_*"
   </argument_errors>
 
   <directory_errors>
@@ -271,7 +271,7 @@ When invoked with text content, /learn enters text mode:
 
 <state_management>
   <reads>
-    - specs/OC_{NNN}_*/ (task mode - artifact directories)
+    - specs/{NNN}_*/ (task mode - artifact directories)
     - {directory_path}/**/* (directory mode - recursive scan)
     - {file_path} (file mode - single file)
     - .memory/30-Templates/memory-template.md

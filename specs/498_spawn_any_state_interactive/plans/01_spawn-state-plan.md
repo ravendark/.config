@@ -128,7 +128,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update agents/spawn-agent.md Dual-Mode Analysis [IN PROGRESS]
+### Phase 3: Update agents/spawn-agent.md Dual-Mode Analysis [COMPLETED]
 
 **Goal**: Implement mode detection, holistic analysis flow, and interactive confirmation.
 
@@ -170,7 +170,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Testing and Validation [NOT STARTED]
+### Phase 4: Testing and Validation [IN PROGRESS]
 
 **Goal**: Verify all changes work correctly across both trees and do not break existing workflows.
 

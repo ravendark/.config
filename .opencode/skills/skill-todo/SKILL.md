@@ -92,10 +92,10 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
     <process>
       1. Scan specs/ for directories tracked in archive state:
          ```bash
-         for dir in specs/OC_[0-9]*_*/ specs/[0-9]*_*/; do
+         for dir in specs/[0-9]*_*/; do
            [ -d "$dir" ] || continue
            basename_dir=$(basename "$dir")
-           project_num=$(echo "$basename_dir" | sed 's/^OC_//' | cut -d_ -f1)
+           project_num=$(echo "$basename_dir" | cut -d_ -f1)
            
            in_active=$(jq -r --arg n "$project_num" \
              '.active_projects[] | select(.project_number == ($num | tonumber)) | .project_number' \
@@ -243,8 +243,8 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          - Remove archived entries (both regular and TODO.md orphans)
          - Pattern to match task entry start:
            ```lua
-           -- Match both "### OC_N. " and "### N. " formats
-           local task_start_pattern = "###%s+(OC_)?(%d+)%.%s+"
+            -- Match "### N. " format
+            local task_start_pattern = "###%s+(%d+)%.%s+"
            ```
          - For each task to remove:
            a. Find entry start (header line)
@@ -288,10 +288,7 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          b. Add entry to specs/archive/state.json completed_projects array
          c. Move directory from specs/ to specs/archive/:
             ```bash
-            source_dir="specs/OC_${orphan.project_number}_${orphan.project_name}/"
-            if [ ! -d "$source_dir" ]; then
-              source_dir="specs/${orphan.project_number}_${orphan.project_name}/"
-            fi
+             source_dir="specs/${orphan.project_number}_${orphan.project_name}/"
             target_dir="specs/archive/$(basename "$source_dir")"
             mv "$source_dir" "$target_dir"
             ```

@@ -547,14 +547,14 @@ Task mode has special handling for reviewing existing task artifacts.
 ```bash
 task_num=$task_number
 padded_num=$(printf "%03d" $task_num)
-task_dir=$(ls -d specs/OC_${padded_num}_* 2>/dev/null | head -1)
+task_dir=$(ls -d specs/${padded_num}_* 2>/dev/null | head -1)
 
 if [ -z "$task_dir" ]; then
-  task_dir=$(ls -d specs/OC_${task_num}_* 2>/dev/null | head -1)
+  task_dir=$(ls -d specs/${task_num}_* 2>/dev/null | head -1)
 fi
 
 if [ -z "$task_dir" ]; then
-  echo "Task directory not found: specs/OC_${padded_num}_*"
+  echo "Task directory not found: specs/${padded_num}_*"
   exit 1
 fi
 ```
@@ -898,7 +898,7 @@ Narrow your path or use file mode for specific files.
 ### Task Directory Not Found
 
 ```
-Task directory not found: specs/OC_{NNN}_*
+Task directory not found: specs/{NNN}_*
 ```
 
 ### User Cancels

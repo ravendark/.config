@@ -297,7 +297,17 @@ EOF
 The following stages MUST execute after work is complete, whether the work was done by a
 subagent (Stage 5) or inline (Stage 5b). Do NOT skip these stages for any reason.
 
-### Stage 6: Parse Subagent Return (Read Metadata File)
+### Continuation Loop
+
+The postflight stages below run inside a loop. Each iteration processes the return from one
+subagent execution. If the subagent returns `partial` with a `handoff_path`, a successor
+subagent is spawned and the loop continues (up to `max_continuations`).
+
+```
+while true; do
+```
+
+#### Stage 6: Parse Subagent Return (Read Metadata File)
 
 Read the metadata file:
 
@@ -316,6 +326,9 @@ if [ -f "$metadata_file" ] && jq empty "$metadata_file" 2>/dev/null; then
     completion_summary=$(jq -r '.completion_data.completion_summary // ""' "$metadata_file")
     roadmap_items=$(jq -c '.completion_data.roadmap_items // []' "$metadata_file")
     memory_candidates=$(jq -c '.memory_candidates // []' "$metadata_file")
+
+    # Extract handoff_path for continuation loop (if present)
+    handoff_path=$(jq -r '.partial_progress.handoff_path // ""' "$metadata_file")
 else
     echo "Error: Invalid or missing metadata file"
     status="failed"
@@ -343,7 +356,23 @@ fi
 
 ---
 
-### Stage 7: Update Task Status (Postflight)
+#### Stage 6b: Commit Phase Progress (Inside Loop)
+
+After each subagent completes (whether implemented, partial, or failed), commit the work:
+
+```bash
+git add -A
+git commit -m "task ${task_number} phase ${phases_completed}: implementation progress
+
+Session: ${session_id}
+" || echo "Note: Nothing to commit or commit failed (non-blocking)"
+```
+
+This ensures each subagent's progress is checkpointed in git before proceeding.
+
+---
+
+#### Stage 7: Update Task Status (Postflight)
 
 **If status is "implemented"**:
 
