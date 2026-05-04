@@ -1,30 +1,20 @@
 ---
-next_project_number: 527
+next_project_number: 529
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-04. 17 active tasks remaining.*
+*Updated 2026-05-04. 7 active tasks remaining.*
 
 ### Pending
 
-- **526** [NOT STARTED] -- Port lean extension to `.claude/` for parity (depends: 525)
-- **525** [NOT STARTED] -- Fix lean skill path and field references (depends: 524)
-- **524** [NOT STARTED] -- Fix lean extension manifest routing
-- **523** [NOT STARTED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
-- **522** [COMPLETED] -- Fix remaining Claude Code path references in OpenCode files
-- **521** [COMPLETED] -- Add model: opus to OpenCode command frontmatter
-- **520** [COMPLETED] -- Remove OC_ prefix from OpenCode documentation and standards
-- **519** [COMPLETED] -- Add <leader>al AI commands loader picker
-- **518** [COMPLETED] -- Unified AI tool picker with two-stage session management
+- **528** [NOT STARTED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
+- **527** [NOT STARTED] -- Update handoff artifact naming convention in format specs and agent definitions
+- **523** [RESEARCHED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
-- **495** [NOT STARTED] -- Add multi-subagent continuation loop to skill-implementer
-- **496** [NOT STARTED] -- Add prior-implementation context injection to /research
-- **497** [NOT STARTED] -- Add per-phase plan item check-off to implementation agent (depends: 495)
-- **498** [NOT STARTED] -- Make /spawn work from any non-terminal state with interactive confirmation
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
@@ -32,9 +22,10 @@ next_project_number: 527
 
 ### 523. Change `<leader>lb` bibexport to show notification instead of terminal buffer
 - **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: neovim
 - **Dependencies**: None
+- **Research**: [523_change_leader_lb_bibexport_notification/reports/01_bibexport-notification-research.md]
 
 **Description**: Modify the `run_bibexport()` function in `after/ftplugin/tex.lua` to run `bibexport` asynchronously via `vim.system()` or `vim.fn.jobstart()` instead of opening a terminal buffer. On completion, display a brief notification via `vim.notify()` or `require('neotex.util.notifications')` indicating success (with output file path) or failure (with error message). This matches the pattern used by `<leader>Tr` and `<leader>Ts` template copy functions.
 
@@ -44,9 +35,13 @@ Key files: `after/ftplugin/tex.lua`
 
 ### 526. Port lean extension to `.claude/` for parity
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T15:30:00Z
 - **Task Type**: meta
 - **Dependencies**: Task #525
+- **Research**: [526_port_lean_extension_to_claude/reports/01_lean-port-research.md]
+- **Plan**: [526_port_lean_extension_to_claude/plans/01_lean-port-plan.md]
+- **Summary**: [526_port_lean_extension_to_claude/summaries/01_lean-port-summary.md]
 
 **Description**: Create `.claude/extensions/lean/` mirroring the `.opencode/extensions/lean/` structure for feature parity. Copy and adapt the lean extension manifest, agents (`lean-research-agent.md`, `lean-implementation-agent.md`), skills (`skill-lean-research/`, `skill-lean-implementation/`), and context files to the `.claude/` extension directory. Update any `.opencode/` specific references to `.claude/` equivalents. This ensures that the Claude Code agent system has the same lean4 support as OpenCode.
 
@@ -54,11 +49,39 @@ Key files: `.claude/extensions/lean/manifest.json`, `.claude/extensions/lean/age
 
 ---
 
-### 525. Fix lean skill path and field references
+### 528. Update skill-implementer continuation loop and pattern documentation
+- **Effort**: < 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #527
+
+**Description**: Update `skill-implementer/SKILL.md` example paths in the continuation loop documentation and Stage 7 partial handling to use the new `MM_HH_{handoff-slug}.md` naming convention. Update `subagent-continuation-loop.md` and `context-exhaustion-detection.md` pattern documents with new example `handoff_path` values. Sync all changes to `.opencode/extensions/core/` mirrors.
+
+Key files: `.opencode/skills/skill-implementer/SKILL.md`, `.opencode/context/patterns/subagent-continuation-loop.md`, `.opencode/context/patterns/context-exhaustion-detection.md`
+
+---
+
+### 527. Update handoff artifact naming convention in format specs and agent definitions
 - **Effort**: 1-2 hours
 - **Status**: [NOT STARTED]
 - **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Update the handoff artifact system to use the `MM_HH_{handoff-slug}.md` naming convention where MM is the plan artifact number and HH is the handoff artifact number. Update `handoff-artifact.md` format spec with the new naming convention and slug generation guidelines (derive from phase name + current objective, kebab-case). Update `general-implementation-agent.md` Stage 4C to construct filenames using `artifact_number` (MM), `handoff_count+1` (HH, zero-padded to 2 digits), and auto-generated slug. Update extension/core/ mirrors and `lean-implementation-agent.md` references.
+
+Key files: `.opencode/context/formats/handoff-artifact.md`, `.opencode/agent/subagents/general-implementation-agent.md`, `.opencode/extensions/lean/agents/lean-implementation-agent.md`
+
+---
+
+### 525. Fix lean skill path and field references
+- **Effort**: 1-2 hours
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T15:00:00Z
+- **Task Type**: meta
 - **Dependencies**: Task #524
+- **Research**: [525_fix_lean_skill_path_field_refs/reports/01_lean-skill-audit.md]
+- **Plan**: [525_fix_lean_skill_path_field_refs/plans/01_lean-skill-fix-plan.md]
+- **Summary**: [525_fix_lean_skill_path_field_refs/summaries/01_lean-skill-fix-summary.md]
 
 **Description**: Update `skill-lean-research/SKILL.md` and `skill-lean-implementation/SKILL.md` in `.opencode/extensions/lean/skills/` to fix two issues: (1) Path references use `specs/OC_${padded_num}_...` but the actual system uses `specs/${padded_num}_...` (no `OC_` prefix). (2) The skills check `.language` field but the commands route by `.task_type` — the skills should check `task_type` for consistency with the rest of the system. Also verify that other references in the lean extension (agents, context) are consistent.
 
@@ -68,9 +91,13 @@ Key files: `.opencode/extensions/lean/skills/skill-lean-research/SKILL.md`, `.op
 
 ### 524. Fix lean extension manifest routing
 - **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T14:00:00Z
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [524_fix_lean_extension_manifest_routing/reports/01_manifest-routing-research.md]
+- **Plan**: [524_fix_lean_extension_manifest_routing/plans/01_manifest-routing-plan.md]
+- **Summary**: [524_fix_lean_extension_manifest_routing/summaries/01_manifest-routing-summary.md]
 
 **Description**: Add the missing `routing` section to `.opencode/extensions/lean/manifest.json`. The command files (`/implement`, `/research`, `/plan`) dynamically look up routing from extension manifests using `jq -r --arg tt "$task_type" '.routing.implement[$tt] // empty'`. The lean manifest currently has no `routing` section, causing all lean tasks to fall through to defaults (`skill-implementer` → `general-implementation-agent`). Add routing mappings for `research`, `plan`, and `implement` phases mapping `lean`/`lean4` task types to the appropriate lean-specific skills. Follow the pattern used by `.opencode/extensions/nvim/manifest.json`.
 
@@ -160,9 +187,13 @@ Key files: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`, `lua/neotex
 
 ### 495. Add multi-subagent continuation loop to skill-implementer
 - **Effort**: 3-6 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T14:00:00Z
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [495_multi_subagent_continuation_loop/reports/01_continuation-research.md]
+- **Plan**: [495_multi_subagent_continuation_loop/plans/01_continuation-plan.md]
+- **Summary**: [495_multi_subagent_continuation_loop/summaries/01_continuation-summary.md]
 
 **Description**: Modify skill-implementer to detect partial/handoff returns from the implementation subagent and re-spawn new subagents to continue work. Wire the existing handoff-artifact.md and progress-file.md formats into general-implementation-agent so it writes structured handoffs before context exhaustion instead of simply returning "partial". Add a continuation loop in skill-implementer that reads the handoff artifact, injects it into a new subagent prompt, and continues spawning subagents until all phases are complete or a blocker/critical decision requires user input. The only appropriate causes for interrupting work are blockers or critical decisions -- context exhaustion should be handled transparently via handoff and re-spawn. Files: `.claude/skills/skill-implementer/SKILL.md`, `.claude/agents/general-implementation-agent.md`, `.claude/context/formats/handoff-artifact.md`, `.claude/context/formats/progress-file.md`.
 
@@ -170,9 +201,13 @@ Key files: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`, `lua/neotex
 
 ### 496. Add prior-implementation context injection to /research
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T14:00:00Z
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [496_prior_implementation_context_injection/reports/01_prior-context-research.md]
+- **Plan**: [496_prior_implementation_context_injection/plans/01_prior-context-plan.md]
+- **Summary**: [496_prior_implementation_context_injection/summaries/01_prior-context-summary.md]
 
 **Description**: Modify skill-researcher preflight to detect when a task is in [IMPLEMENTING] or [PARTIAL] status and collect existing implementation artifacts (summaries, handoffs, progress files) from the task directory. Inject these as tagged context into the research agent prompt so it understands what was already done, what approaches were tried, what failed, and where work stalled. Update general-research-agent Stage 2 to use this prior-implementation context in its search strategy, focusing research on the gaps and blockers identified in the handoffs rather than starting from scratch. Files: `.claude/skills/skill-researcher/SKILL.md` (new Stage 4d), `.claude/agents/general-research-agent.md` (Stage 2 strategy update).
 
@@ -180,9 +215,13 @@ Key files: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`, `lua/neotex
 
 ### 497. Add per-phase plan item check-off to implementation agent
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T15:00:00Z
 - **Task Type**: meta
 - **Dependencies**: Task #495
+- **Research**: [497_per_phase_plan_item_checkoff/reports/01_checkoff-research.md]
+- **Plan**: [497_per_phase_plan_item_checkoff/plans/01_checkoff-plan.md]
+- **Summary**: [497_per_phase_plan_item_checkoff/summaries/01_checkoff-summary.md]
 
 **Description**: Extend general-implementation-agent Stage 4 (Execute File Operations Loop) to, after completing each phase, parse the plan for individual checklist items, steps, or sub-tasks within that phase and mark them as completed (using `- [x]` check-off syntax or adding brief completion notes). This provides granular visibility into what was accomplished within each phase, aids handoff documents in knowing exactly where work stopped, and helps subsequent /research runs understand partial completion state. Depends on task 495 because the handoff mechanism determines what the "completion" tracking needs to feed into. Files: `.claude/agents/general-implementation-agent.md` (Stage 4C/4D enhancement).
 
@@ -190,9 +229,13 @@ Key files: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`, `lua/neotex
 
 ### 498. Make /spawn work from any non-terminal state with interactive confirmation
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T14:00:00Z
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [498_spawn_any_state_interactive/reports/01_spawn-state-research.md]
+- **Plan**: [498_spawn_any_state_interactive/plans/01_spawn-state-plan.md]
+- **Summary**: [498_spawn_any_state_interactive/summaries/01_spawn-any-state-summary.md]
 
 **Description**: Update spawn.md to remove the restriction blocking `researching` and `planning` statuses -- /spawn should work for any task in any non-terminal state (not just blocked/implementing/partial). Update spawn-agent to work without a blocker-focused analysis when the task is not actually blocked: instead, analyze the task holistically and present the user with interactive questions (AskUserQuestion) to confirm what tasks to spawn and provide feedback or discussion before creation. The agent should ask the user about their intent, propose task decomposition, and allow iterative refinement before committing to task creation. Files: `.claude/commands/spawn.md` (status validation table), `.claude/skills/skill-spawn/SKILL.md` (preflight status handling), `.claude/agents/spawn-agent.md` (analysis mode for non-blocked tasks, interactive confirmation).
 
@@ -200,9 +243,13 @@ Key files: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`, `lua/neotex
 
 ### 522. Fix remaining Claude Code path references in OpenCode files
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T14:00:00Z
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [522_fix_claude_code_references_opencode/reports/01_claude-refs-audit.md]
+- **Plan**: [522_fix_claude_code_references_opencode/plans/01_fix-refs-plan.md]
+- **Summary**: [522_fix_claude_code_references_opencode/summaries/01_fix-refs-summary.md]
 
 **Description**: Find and replace remaining `.claude/` path references and "Claude Code" brand text in `.opencode/` files that should be `.opencode/` and "OpenCode". Update extension/core mirrors. Fix stale references like "Claude Code discovers these skills via extension manifest" in `implement.md` and `.claude/context/` references in extension/core mirrors. Also ensure `.claude/scripts/` references point to `.opencode/scripts/` where appropriate.
 
@@ -212,9 +259,13 @@ Key files: `.opencode/commands/implement.md`, `.opencode/context/core/`, `.openc
 
 ### 521. Add model: opus to OpenCode command frontmatter
 - **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T14:00:00Z
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [521_add_model_opus_opencode_commands/reports/01_command-frontmatter-audit.md]
+- **Plan**: [521_add_model_opus_opencode_commands/plans/01_add-model-plan.md]
+- **Summary**: [521_add_model_opus_opencode_commands/summaries/01_add-model-summary.md]
 
 **Description**: Add `model: opus` to YAML frontmatter of all `.opencode/commands/*.md` files missing it. All Claude Code commands declare `model: opus` in their frontmatter. OpenCode commands (`research.md`, `plan.md`, `implement.md`, `review.md`, `errors.md`, `refresh.md`) are missing this field, despite the agent frontmatter standard requiring it. Update the command template reference if needed.
 
@@ -224,9 +275,13 @@ Key files: `.opencode/commands/research.md`, `.opencode/commands/plan.md`, `.ope
 
 ### 520. Remove OC_ prefix from OpenCode documentation and standards
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
+- **Completed**: 2026-05-04T14:00:00Z
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [520_remove_oc_prefix_opencode_documentation/reports/01_oc-prefix-audit.md]
+- **Plan**: [520_remove_oc_prefix_opencode_documentation/plans/01_oc-prefix-removal-plan.md]
+- **Summary**: [520_remove_oc_prefix_opencode_documentation/summaries/01_oc-prefix-removal-summary.md]
 
 **Description**: Audit and update all `.opencode/` files that reference `OC_` prefix to use plain task numbers. The actual task directories already use plain numbers (`specs/517_slug/`), and `state.json`/`TODO.md` store plain integers. However, documentation throughout `.opencode/` still instructs agents to use `OC_` prefix (`specs/OC_517_slug/`, `task OC_17`, etc.), creating confusion. Update context standards, patterns, skills, docs, and rules. Key affected areas: `.opencode/context/core/standards/task-management.md`, `.opencode/context/core/orchestration/state-management.md`, `.opencode/context/core/patterns/*.md`, `.opencode/skills/skill-todo/SKILL.md`, `.opencode/skills/skill-memory/SKILL.md`, `.opencode/docs/guides/phase-synchronization.md`, `.opencode/rules/artifact-formats.md`. Rename legacy `OC_503_*` directory if needed.
 

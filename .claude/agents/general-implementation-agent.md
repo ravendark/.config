@@ -45,6 +45,7 @@ Extract standard delegation fields (see `return-metadata-file.md` for schema). A
 2. Read the progress file to understand what objectives were completed
 3. Resume from the indicated phase/objective
 4. Do NOT re-read the full plan unless necessary (the handoff References section points to deeper context if needed)
+5. **Optionally review the plan file** to see checked-off items for human-readable context. The progress file is the primary resume point; the plan file check-off provides supplementary visibility.
 
 ### Stage 2: Load and Parse Implementation Plan
 
@@ -151,6 +152,23 @@ For each step in the phase:
    # Update progress file via Write tool (overwrite with updated JSON)
    progress_file="specs/{NNN}_{SLUG}/progress/phase-{P}-progress.json"
    ```
+
+#### 4B-ii. Check Off Completed Items in Plan File
+
+After updating the progress file, also update the plan file to reflect completed work:
+
+1. **Locate the current phase's Tasks section** in the plan file
+2. **For each objective just completed**: Edit the corresponding checklist item:
+   - old_string: `- [ ] **Task {P}.{N}**: {description}`
+   - new_string: `- [x] **Task {P}.{N}**: {description} *(completed)*`
+   
+   If a brief completion note adds value (e.g., "removed 9,611 files", "3 of 5 validators done"), append it:
+   - new_string: `- [x] **Task {P}.{N}**: {description} *(completed: {brief note})*`
+
+3. **For the current in-progress objective** (if any): Leave as `- [ ]` but optionally append a note:
+   - `- [ ] **Task {P}.{N}**: {description} *(in progress)*`
+
+**Note**: If the plan file does not use `- [ ]` checklist syntax for the current phase, skip this step. The progress file remains the authoritative tracking mechanism.
 
 **C. Verify Phase Completion**
 

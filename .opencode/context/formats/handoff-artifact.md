@@ -48,6 +48,8 @@ The handoff document must be **one screen maximum** (~40 lines). It uses progres
 - **File**: {absolute path to file being worked on}
 - **Location**: Line {N}, after {function/section name}
 - **Work state**: {current state, expected output, or progress indicator}
+- **Plan**: {path to plan file} — Phase {P}: Tasks {completed} checked off, Task {current} in progress
+- **Progress**: {path to progress file}
 
 ## Key Decisions Made
 1. {Decision}: {Brief rationale (one sentence)}
@@ -162,6 +164,8 @@ Add the `validate_input` function call before the data processing block on line 
 - **File**: /home/user/project/src/handlers/data_processor.lua
 - **Location**: Line 142, inside `process_batch` function
 - **Work state**: Input validation framework set up, need to integrate with main processing loop
+- **Plan**: specs/259_configure_feature/plans/02_implementation-plan.md — Phase 3: Tasks 3.1-3.2 checked off, Task 3.3 in progress
+- **Progress**: specs/259_configure_feature/progress/phase-3-progress.json
 
 ## Key Decisions Made
 1. Use lazy validation: Only validate fields actually accessed - reduces overhead

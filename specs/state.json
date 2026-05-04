@@ -1,11 +1,37 @@
 {
   "version": "1.0.0",
-  "next_project_number": 527,
+  "next_project_number": 529,
   "active_projects": [
+    {
+      "project_number": 528,
+      "project_name": "update_continuation_loop_docs",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Update skill-implementer continuation loop and pattern documentation with new handoff naming",
+      "effort": "< 1 hour",
+      "dependencies": [
+        527
+      ],
+      "created": "2026-05-04T16:00:00Z",
+      "last_updated": "2026-05-04T16:00:00Z",
+      "artifacts": []
+    },
+    {
+      "project_number": 527,
+      "project_name": "update_handoff_naming_convention",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Update handoff artifact naming convention to MM_HH_{handoff-slug}.md in format specs and agent definitions",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-04T16:00:00Z",
+      "last_updated": "2026-05-04T16:00:00Z",
+      "artifacts": []
+    },
     {
       "project_number": 526,
       "project_name": "port_lean_extension_to_claude",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Port lean extension to .claude/ for feature parity with .opencode/",
       "effort": "2-3 hours",
@@ -13,13 +39,30 @@
         525
       ],
       "created": "2026-05-04T13:00:00Z",
-      "last_updated": "2026-05-04T13:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T15:30:00Z",
+      "artifacts": [
+        {
+          "path": "specs/526_port_lean_extension_to_claude/reports/01_lean-port-research.md",
+          "type": "research",
+          "summary": "Research found .claude/extensions/lean/ already exists with critical path bug in opencode-agents.json"
+        },
+        {
+          "path": "specs/526_port_lean_extension_to_claude/plans/01_lean-port-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan to fix paths, backport context files, and verify parity"
+        },
+        {
+          "path": "specs/526_port_lean_extension_to_claude/summaries/01_lean-port-summary.md",
+          "type": "summary",
+          "summary": "Fixed opencode-agents.json paths, backported 2 context files, verified skill cleanliness"
+        }
+      ],
+      "completion_summary": "Fixed critical bug in .claude/extensions/lean/opencode-agents.json changing .opencode/ paths to .claude/ paths. Backported blocked-mcp-tools.md and mcp-fallback-table.md from .claude/ to .opencode/. Verified zero OC_ prefix and zero .language field references in both skill trees. Confirmed manifest routing correct in both trees."
     },
     {
       "project_number": 525,
       "project_name": "fix_lean_skill_path_field_refs",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Fix lean skill path references (OC_ prefix) and field checks (.language vs task_type)",
       "effort": "1-2 hours",
@@ -27,68 +70,160 @@
         524
       ],
       "created": "2026-05-04T13:00:00Z",
-      "last_updated": "2026-05-04T13:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T15:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/525_fix_lean_skill_path_field_refs/reports/01_lean-skill-audit.md",
+          "type": "research",
+          "summary": "Audit of OC_ prefix and .language field issues in lean skills"
+        },
+        {
+          "path": "specs/525_fix_lean_skill_path_field_refs/plans/01_lean-skill-fix-plan.md",
+          "type": "plan",
+          "summary": "3-phase plan to fix paths and field checks in lean skills"
+        },
+        {
+          "path": "specs/525_fix_lean_skill_path_field_refs/summaries/01_lean-skill-fix-summary.md",
+          "type": "summary",
+          "summary": "Fixed 6 OC_ path references and 2 .language field checks in lean skills"
+        }
+      ],
+      "completion_summary": "Fixed 6 OC_ prefix path references and 2 .language field checks in skill-lean-research and skill-lean-implementation. Cross-tree verification confirmed .claude/ copies already correct. All regression greps pass with zero matches."
     },
     {
       "project_number": 524,
       "project_name": "fix_lean_extension_manifest_routing",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Add missing routing section to .opencode/extensions/lean/manifest.json",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-04T13:00:00Z",
-      "last_updated": "2026-05-04T13:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T14:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/524_fix_lean_extension_manifest_routing/reports/01_manifest-routing-research.md",
+          "type": "research",
+          "summary": "Research on lean extension manifest routing gap and command lookup patterns"
+        },
+        {
+          "path": "specs/524_fix_lean_extension_manifest_routing/plans/01_manifest-routing-plan.md",
+          "type": "plan",
+          "summary": "Single-phase plan to add routing section to lean manifest"
+        },
+        {
+          "path": "specs/524_fix_lean_extension_manifest_routing/summaries/01_manifest-routing-summary.md",
+          "type": "summary",
+          "summary": "Added routing to lean, nvim, and typst extension manifests with jq verification"
+        }
+      ],
+      "completion_summary": "Added routing sections to .opencode/extensions/lean/manifest.json mapping lean/lean4 to skill-lean-research and skill-lean-implementation. Also added routing to nvim and typst manifests as bonus fixes. All manifests pass jq validation."
     },
     {
       "project_number": 523,
       "project_name": "change_leader_lb_bibexport_notification",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "neovim",
       "description": "Change <leader>lb bibexport to show notification instead of terminal buffer",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-04T12:00:00Z",
-      "last_updated": "2026-05-04T12:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T22:45:18Z",
+      "artifacts": [
+        {
+          "path": "specs/523_change_leader_lb_bibexport_notification/reports/01_bibexport-notification-research.md",
+          "type": "research",
+          "summary": "Research on bibexport notification replacement: current code analysis, notification API, async patterns, and recommended approach"
+        }
+      ],
+      "session_id": "sess_1746472800_research523"
     },
     {
       "project_number": 522,
       "project_name": "fix_claude_code_references_opencode",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Fix remaining Claude Code path references and brand text in OpenCode files",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-04T12:00:00Z",
-      "last_updated": "2026-05-04T12:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T14:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/522_fix_claude_code_references_opencode/reports/01_claude-refs-audit.md",
+          "type": "research",
+          "summary": "Audit of 334+ Claude Code references across 42+ files in .opencode/"
+        },
+        {
+          "path": "specs/522_fix_claude_code_references_opencode/plans/01_fix-refs-plan.md",
+          "type": "plan",
+          "summary": "5-phase plan for safe replacement across commands, skills, context, docs, and mirrors"
+        },
+        {
+          "path": "specs/522_fix_claude_code_references_opencode/summaries/01_fix-refs-summary.md",
+          "type": "summary",
+          "summary": "Fixed 334+ references across 42+ files and all extension mirrors"
+        }
+      ],
+      "completion_summary": "Replaced .claude/ paths with .opencode/, 'Claude Code' brand text with 'OpenCode', and CLAUDE_CODE_* env vars with OPENCODE_* across 42+ files and all extension mirrors. Updated commands, skills, context, docs, and rules."
     },
     {
       "project_number": 521,
       "project_name": "add_model_opus_opencode_commands",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Add model: opus to YAML frontmatter of all OpenCode command files missing it",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-04T12:00:00Z",
-      "last_updated": "2026-05-04T12:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T14:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/521_add_model_opus_opencode_commands/reports/01_command-frontmatter-audit.md",
+          "type": "research",
+          "summary": "Audit of 17 command files missing model: opus in frontmatter"
+        },
+        {
+          "path": "specs/521_add_model_opus_opencode_commands/plans/01_add-model-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan to add model: opus to all commands and update templates"
+        },
+        {
+          "path": "specs/521_add_model_opus_opencode_commands/summaries/01_add-model-summary.md",
+          "type": "summary",
+          "summary": "Added model: opus to 17 command files and updated templates and standards"
+        }
+      ],
+      "completion_summary": "Added model: opus to YAML frontmatter of 17 OpenCode command files. Updated command template reference and agent frontmatter standard to mandate the field."
     },
     {
       "project_number": 520,
       "project_name": "remove_oc_prefix_opencode_documentation",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Remove OC_ prefix from OpenCode documentation and standards to align with actual plain-number task directories",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-04T12:00:00Z",
-      "last_updated": "2026-05-04T12:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T14:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/520_remove_oc_prefix_opencode_documentation/reports/01_oc-prefix-audit.md",
+          "type": "research",
+          "summary": "Audit of 241 OC_ references across 18+ files in .opencode/"
+        },
+        {
+          "path": "specs/520_remove_oc_prefix_opencode_documentation/plans/01_oc-prefix-removal-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan to remove OC_ prefix from standards, skills, docs, and rules"
+        },
+        {
+          "path": "specs/520_remove_oc_prefix_opencode_documentation/summaries/01_oc-prefix-removal-summary.md",
+          "type": "summary",
+          "summary": "Removed OC_ prefix from all documentation and standards across .opencode/"
+        }
+      ],
+      "completion_summary": "Removed 241 OC_ prefix references from .opencode/ documentation, standards, skills, and extension mirrors. Updated task-management.md, state-management.md, patterns, skill-todo, skill-memory, phase-synchronization.md, and artifact-formats.md. No legacy OC_503 directories found."
     },
     {
       "project_number": 517,
@@ -241,31 +376,65 @@
     {
       "project_number": 495,
       "project_name": "multi_subagent_continuation_loop",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Add multi-subagent continuation loop to skill-implementer for complex multi-phase tasks",
       "effort": "3-6 hours",
       "dependencies": [],
       "created": "2026-04-25T19:52:31Z",
-      "last_updated": "2026-04-25T19:52:31Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T14:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/495_multi_subagent_continuation_loop/reports/01_continuation-research.md",
+          "type": "research",
+          "summary": "Research on current skill-implementer flow and gap analysis for continuation loop"
+        },
+        {
+          "path": "specs/495_multi_subagent_continuation_loop/plans/01_continuation-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan: wire handoff formats, add continuation loop, test, document patterns"
+        },
+        {
+          "path": "specs/495_multi_subagent_continuation_loop/summaries/01_continuation-summary.md",
+          "type": "summary",
+          "summary": "Implemented continuation loop with handoff artifacts, progress files, and max 3 continuations"
+        }
+      ],
+      "completion_summary": "Wired handoff-artifact.md and progress-file.md formats into general-implementation-agent. Added continuation loop to skill-implementer that detects partial returns, reads handoff artifacts, and spawns successor subagents (max 3 continuations). Created reusable pattern documentation for subagent continuation loops."
     },
     {
       "project_number": 496,
       "project_name": "prior_implementation_context_injection",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Add prior-implementation context injection to /research for tasks in IMPLEMENTING state",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-04-25T19:52:31Z",
-      "last_updated": "2026-04-25T19:52:31Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T14:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/496_prior_implementation_context_injection/reports/01_prior-context-research.md",
+          "type": "research",
+          "summary": "Research on skill-researcher preflight and artifact collection patterns"
+        },
+        {
+          "path": "specs/496_prior_implementation_context_injection/plans/01_prior-context-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan: design collection logic, update skill-researcher, update research-agent, test"
+        },
+        {
+          "path": "specs/496_prior_implementation_context_injection/summaries/01_prior-context-summary.md",
+          "type": "summary",
+          "summary": "Added prior-implementation context injection to skill-researcher and general-research-agent"
+        }
+      ],
+      "completion_summary": "Added Stage 4c to skill-researcher for detecting implementing/partial tasks and collecting artifacts (summaries, handoffs, progress, plans). Injected <prior-implementation-context> block into research agent prompts. Updated general-research-agent Stage 1.6 and Stage 2 to parse and focus on gaps from prior work."
     },
     {
       "project_number": 497,
       "project_name": "per_phase_plan_item_checkoff",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Add per-phase plan item check-off to implementation agent",
       "effort": "1-2 hours",
@@ -273,20 +442,54 @@
         495
       ],
       "created": "2026-04-25T19:52:31Z",
-      "last_updated": "2026-04-25T19:52:31Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T15:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/497_per_phase_plan_item_checkoff/reports/01_checkoff-research.md",
+          "type": "research",
+          "summary": "Research on plan checklist structure and integration points"
+        },
+        {
+          "path": "specs/497_per_phase_plan_item_checkoff/plans/01_checkoff-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan to add check-off to agent and sync to mirror copies"
+        },
+        {
+          "path": "specs/497_per_phase_plan_item_checkoff/summaries/01_checkoff-summary.md",
+          "type": "summary",
+          "summary": "Added Stage 4B-ii check-off to all 4 copies of general-implementation-agent"
+        }
+      ],
+      "completion_summary": "Added Stage 4B-ii 'Check Off Completed Items in Plan File' to general-implementation-agent across all 4 copies (.opencode/, .opencode/extensions/core/, .claude/, .claude/extensions/core/). Updates plan file - [ ] to - [x] with completion notes. Compatible with task 495 continuation loop."
     },
     {
       "project_number": 498,
       "project_name": "spawn_any_state_interactive",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "description": "Make /spawn work from any non-terminal state with interactive confirmation",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-04-25T19:52:31Z",
-      "last_updated": "2026-04-25T19:52:31Z",
-      "artifacts": []
+      "last_updated": "2026-05-04T14:00:00Z",
+      "artifacts": [
+        {
+          "path": "specs/498_spawn_any_state_interactive/reports/01_spawn-state-research.md",
+          "type": "research",
+          "summary": "Research on spawn status restrictions and interactive confirmation patterns"
+        },
+        {
+          "path": "specs/498_spawn_any_state_interactive/plans/01_spawn-state-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan: update commands, skill, agent dual-mode, and testing"
+        },
+        {
+          "path": "specs/498_spawn_any_state_interactive/summaries/01_spawn-any-state-summary.md",
+          "type": "summary",
+          "summary": "Implemented dual-mode spawn with holistic analysis and interactive confirmation"
+        }
+      ],
+      "completion_summary": "Updated spawn.md to allow /spawn from any non-terminal state. Added dual-mode analysis to spawn-agent: blocker mode (existing) and holistic mode (new) with AskUserQuestion interactive confirmation. Updated skill-spawn with previous_status preservation and analysis_mode delegation. Modified 10 files across .opencode/ and .claude/ trees."
     },
     {
       "project_number": 500,
@@ -574,7 +777,7 @@
   "completed_projects": [],
   "repository_health": {
     "last_assessed": "2026-05-03T03:59:04Z",
-    "todo_count": 50,
+    "todo_count": 42,
     "fixme_count": 2,
     "build_errors": 0,
     "status": "healthy"

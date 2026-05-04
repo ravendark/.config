@@ -59,11 +59,13 @@ Plans may include a `plan_metadata` object in state.json with fields: `phases` (
 - Heading: `### Phase N: {name} [STATUS]`
 - Under each phase include:
   - **Goal:** short statement
-  - **Tasks:** bullet checklist
+  - **Tasks:** bullet checklist using `- [ ] **Task {P}.{N}**: {description}` format
   - **Timing:** expected duration or window
   - **Depends on:** phase numbers this phase requires (e.g., `none`, `1`, `1, 3`). Absence means sequential (depends on all prior phases).
   - **Owner:** (optional)
   - **Started/Completed/Blocked/Abandoned:** timestamp lines when status changes (ISO8601). Do not leave null placeholders.
+
+**Checklist Convention**: During implementation, agents may check off completed tasks by converting `- [ ]` to `- [x]` and optionally appending brief completion notes (e.g., `*(completed: brief note)*`). The JSON progress file remains the primary machine-readable tracking mechanism; plan file check-off is a human-readable augmentation.
 
 ## Dependency Analysis (format)
 
