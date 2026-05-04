@@ -6,7 +6,7 @@
 
 ## Overview
 
-Agent files in `.opencode/agents/` use YAML frontmatter to declare metadata that the Claude Code system and invoking skills use for agent selection, model enforcement, and capability discovery.
+Agent files in `.opencode/agents/` use YAML frontmatter to declare metadata that the OpenCode system and invoking skills use for agent selection, model enforcement, and capability discovery.
 
 ## Required Fields
 

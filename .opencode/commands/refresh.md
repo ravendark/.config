@@ -1,12 +1,12 @@
 ---
-description: Manage Claude Code resources - terminate orphaned processes and clean up files
+description: Manage OpenCode resources - terminate orphaned processes and clean up files
 allowed-tools: Bash, Read, Glob, AskUserQuestion
 argument-hint: [--dry-run] [--force]
 ---
 
 # /refresh Command
 
-Comprehensive cleanup of Claude Code resources - terminate orphaned processes and clean up ~/.claude/ directory.
+Comprehensive cleanup of OpenCode resources - terminate orphaned processes and clean up ~/.opencode/ directory.
 
 ## Syntax
 
@@ -26,11 +26,11 @@ Comprehensive cleanup of Claude Code resources - terminate orphaned processes an
 
 ### Process Cleanup
 
-Identifies and terminates orphaned Claude Code processes (detached processes without a controlling terminal).
+Identifies and terminates orphaned OpenCode processes (detached processes without a controlling terminal).
 
 ### Directory Cleanup
 
-Cleans accumulated files in ~/.claude/:
+Cleans accumulated files in ~/.opencode/:
 
 | Directory | Contents |
 |-----------|----------|
@@ -83,7 +83,7 @@ Files modified within the last hour are **never deleted**, regardless of age thr
 ### Process Protection
 
 - Only targets processes without a controlling terminal (TTY = "?")
-- Never kills active Claude Code sessions
+- Never kills active OpenCode sessions
 - Excludes current process tree
 
 ## Examples
@@ -114,7 +114,7 @@ Files modified within the last hour are **never deleted**, regardless of age thr
 ### Survey Output
 
 ```
-Claude Code Refresh
+OpenCode Refresh
 ===================
 
 No orphaned processes found.
@@ -122,10 +122,10 @@ All 3 Claude processes are active sessions.
 
 ---
 
-Claude Code Directory Cleanup
+OpenCode Directory Cleanup
 =============================
 
-Target: ~/.claude/
+Target: ~/.opencode/
 
 Current total size: 7.3 GB
 
@@ -184,4 +184,4 @@ Some processes may require elevated permissions to terminate. Run as root if nee
 
 ### Large cleanup size
 
-If ~/.claude/ is very large (>5GB), consider starting with the "2 days" option to preserve recent work, then progressively clean older files.
+If ~/.opencode/ is very large (>5GB), consider starting with the "2 days" option to preserve recent work, then progressively clean older files.

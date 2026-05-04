@@ -61,17 +61,26 @@ description=$(echo "$task_data" | jq -r '.description // ""')
 
 ### Stage 2: Preflight Status Update
 
-Update parent task status to "blocked" BEFORE invoking subagent.
+Determine spawn type and preserve original status before updating.
 
-**Update state.json**:
+**Spawn type detection**:
+- If `status` is `blocked`, `implementing`, or `partial` -> Blocker-driven spawn
+- If `status` is any other non-terminal state -> Holistic decomposition
+
+**Note**: `[BLOCKED]` means "has unmet dependencies", not "encountered an error". The parent task transitions to `blocked` because it now depends on spawned subtasks.
+
+**Update state.json** (preserve `previous_status`):
 ```bash
 padded_num=$(printf "%03d" "$task_number")
+previous_status=$(echo "$task_data" | jq -r '.status')
 
 jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
    --arg status "blocked" \
+   --arg prev "$previous_status" \
    --arg sid "$session_id" \
   '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
     status: $status,
+    previous_status: $prev,
     last_updated: $ts,
     session_id: $sid
   }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
@@ -123,6 +132,15 @@ if [ -d "specs/${padded_num}_${project_name}/plans" ]; then
 fi
 ```
 
+Determine analysis mode for the agent:
+
+```bash
+analysis_mode="holistic"
+if [ "$status" = "blocked" ] || [ "$status" = "implementing" ] || [ "$status" = "partial" ] || [ -n "$blocker_prompt" ]; then
+    analysis_mode="blocker"
+fi
+```
+
 Prepare delegation context for the subagent:
 
 ```json
@@ -142,6 +160,7 @@ Prepare delegation context for the subagent:
   },
   "blocker_prompt": "{optional user description}",
   "plan_path": "{path to latest plan or null}",
+  "analysis_mode": "blocker" | "holistic",
   "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json"
 }
 ```
@@ -198,10 +217,19 @@ spawn_file="specs/${padded_num}_${project_name}/.spawn-return.json"
 
 if [ -f "$spawn_file" ] && jq empty "$spawn_file" 2>/dev/null; then
     new_tasks=$(jq -r '.new_tasks' "$spawn_file")
+    task_count=$(jq '.new_tasks | length' "$spawn_file")
+
+    if [ "$task_count" -eq 0 ]; then
+        echo "Spawn cancelled: no tasks selected."
+        # Cleanup and restore parent status if needed
+        rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
+        rm -f "specs/${padded_num}_${project_name}/.spawn-return.json"
+        exit 0
+    fi
+
     dependency_order=$(jq -r '.dependency_order' "$spawn_file")
     analysis_summary=$(jq -r '.analysis_summary' "$spawn_file")
     report_path=$(jq -r '.report_path' "$spawn_file")
-    task_count=$(jq '.new_tasks | length' "$spawn_file")
 else
     echo "Error: Invalid or missing spawn return file"
     exit 1
@@ -451,6 +479,13 @@ If subagent didn't write spawn return file:
 1. Keep status as "blocked"
 2. Do not cleanup postflight marker
 3. Report error to user
+
+### Empty Task Selection (Cancelled Spawn)
+If user selected no tasks in holistic mode:
+1. `task_count` will be 0
+2. Exit gracefully with informative message
+3. Cleanup temporary files
+4. Parent task remains `[BLOCKED]` (it still has the dependency intent)
 
 ### Invalid Dependency Graph
 If dependency_order contains cycles or invalid indices:

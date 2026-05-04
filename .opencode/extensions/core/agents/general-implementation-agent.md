@@ -28,6 +28,18 @@ Implementation agent for general programming, meta (system), and markdown tasks.
 Extract standard delegation fields (see `return-metadata-file.md` for schema). Agent-specific fields:
 - `plan_path` - Path to the implementation plan file
 - Summary path: `specs/{NNN}_{SLUG}/summaries/{NN}_{slug}-summary.md` (using `artifact_number` for `{NN}`)
+- `continuation_context` - If present, this is a successor subagent continuing from a handoff:
+  - `is_successor`: true
+  - `continuation_number`: N (1-based index in continuation chain)
+  - `handoff_path`: Path to handoff artifact
+  - `progress_path`: Path to progress file
+  - `previous_phases_completed`: Number of phases completed before handoff
+
+**Successor Behavior**: If `continuation_context.is_successor` is true:
+1. Read the handoff artifact FIRST (it contains Immediate Next Action and Current State)
+2. Read the progress file to understand what objectives were completed
+3. Resume from the indicated phase/objective
+4. Do NOT re-read the full plan unless necessary (the handoff References section points to deeper context if needed)
 
 ### Stage 2: Load and Parse Implementation Plan
 
@@ -51,9 +63,52 @@ Scan phases for first incomplete:
 
 If all phases are `[COMPLETED]`: Task already done, return completed status.
 
+### Stage 3.5: Initialize Progress Tracking
+
+After identifying the resume phase, create or update the progress file for the current phase:
+
+```bash
+# Create progress directory if needed
+mkdir -p "specs/{NNN}_{SLUG}/progress"
+
+# Write progress file
+progress_file="specs/{NNN}_{SLUG}/progress/phase-{P}-progress.json"
+```
+
+Populate the progress file with objectives derived from the plan file steps for the current phase:
+
+```json
+{
+  "phase": {P},
+  "phase_name": "{Phase Name from plan}",
+  "started_at": "{ISO8601 timestamp}",
+  "last_updated": "{ISO8601 timestamp}",
+  "objectives": [
+    {"id": 1, "description": "{step 1 description}", "status": "not_started"},
+    {"id": 2, "description": "{step 2 description}", "status": "not_started"}
+  ],
+  "current_objective": 1,
+  "approaches_tried": [],
+  "handoff_count": 0
+}
+```
+
+If resuming from a previous handoff, read the existing progress file and use its `handoff_count` value instead of 0.
+
+Reference: `@.opencode/context/formats/progress-file.md` for full schema.
+
 ### Stage 4: Execute File Operations Loop
 
 For each phase starting from resume point:
+
+#### Context Exhaustion Monitoring (Stage 4.5)
+
+Throughout execution, monitor for signs of context pressure:
+
+- **After every 10 tool calls**, assess whether you have sufficient context remaining to complete the current phase
+- **If you find yourself re-reading files you already read**, this is a signal of context pressure — consider writing a handoff before continuing
+- **Before starting any operation that reads 3+ files**, check if a handoff would be safer
+- **If tool calls exceed ~50** and the phase is not nearly complete, proactively write a handoff
 
 **A. Mark Phase In Progress**
 Edit plan file heading to show the phase is active.
@@ -80,6 +135,18 @@ For each step in the phase:
    - Check file exists and is non-empty
    - Run any step-specific verification commands
 
+4. **Update Progress File**
+   After completing each objective/step, update the progress file:
+   - Set the current objective's `status` to `done` or `in_progress`
+   - Update `current_objective` to the next pending objective
+   - Update `last_updated` to current timestamp
+   - If an approach was attempted and failed, add it to `approaches_tried` with `result: "failed"` and a brief `reason`
+
+   ```bash
+   # Update progress file via Write tool (overwrite with updated JSON)
+   progress_file="specs/{NNN}_{SLUG}/progress/phase-{P}-progress.json"
+   ```
+
 **C. Verify Phase Completion**
 
 Run phase verification criteria:
@@ -95,6 +162,32 @@ Use the Edit tool with:
 - new_string: `### Phase {P}: {Phase Name} [COMPLETED]`
 
 Phase status lives ONLY in the heading. Do NOT add or edit a separate `**Status**:` line per phase.
+
+#### E. Handoff on Context Pressure (Stage 4C)
+
+If context pressure is detected during a phase (per Stage 4.5 monitoring), do NOT continue with more file operations. Instead:
+
+1. **Update progress file** to reflect the exact current state:
+   - Set current objective status to `in_progress` (or `done` if just completed)
+   - Update `last_updated`
+
+2. **Write handoff artifact** to `specs/{NNN}_{SLUG}/handoffs/phase-{P}-handoff-{TIMESTAMP}.md`:
+   ```bash
+   mkdir -p "specs/{NNN}_{SLUG}/handoffs"
+   handoff_file="specs/{NNN}_{SLUG}/handoffs/phase-{P}-handoff-$(date -u +%Y%m%dT%H%M%SZ).md"
+   ```
+
+   Follow the template from `@.opencode/context/formats/handoff-artifact.md`:
+   - Immediate Next Action
+   - Current State
+   - Key Decisions Made
+   - What NOT to Try
+   - Critical Context
+   - References
+
+3. **Increment `handoff_count`** in the progress file
+
+4. **Skip remaining steps** in this phase and proceed directly to Stage 7 (Write Metadata File), returning `partial` status with `handoff_path` in `partial_progress`
 
 ### Stage 5: Run Final Verification
 
@@ -195,6 +288,28 @@ Store the candidates array in memory for inclusion in the metadata file at Stage
 ### Stage 7: Write Metadata File
 
 Write to `specs/{NNN}_{SLUG}/.return-meta.json` with status `implemented|partial|failed`. Include `completion_data` with `completion_summary` (all tasks) and `roadmap_items` (non-meta). Include `memory_candidates` array (from Stage 6b) at the top level of the JSON output. Agent-specific metadata fields: `phases_completed`, `phases_total`.
+
+**If returning `partial` and a handoff artifact was written** (Stage 4C), include `handoff_path` in `partial_progress`:
+
+```json
+{
+  "status": "partial",
+  "partial_progress": {
+    "stage": "context_exhaustion_handoff",
+    "details": "Handoff written for successor. See handoff artifact for current state.",
+    "handoff_path": "specs/.../handoffs/phase-P-handoff-TIMESTAMP.md",
+    "phases_completed": N,
+    "phases_total": M
+  },
+  "artifacts": [
+    {
+      "type": "handoff",
+      "path": "specs/.../handoffs/phase-P-handoff-TIMESTAMP.md",
+      "summary": "Context exhaustion handoff for phase P with state and approach constraints"
+    }
+  ]
+}
+```
 
 ### Stage 8: Return Brief Text Summary
 

@@ -103,7 +103,7 @@ All commands use checkpoint-based execution: GATE IN -> DELEGATE -> GATE OUT -> 
 
 ### Team Mode Skills
 
-> **Note**: Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` environment variable.
+> **Note**: Requires `OPENCODE_EXPERIMENTAL_AGENT_TEAMS=1` environment variable.
 
 Team mode uses parallel subagents for complex tasks. Approximately **5x token cost** - use only when benefits justify cost.
 
@@ -263,7 +263,7 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 
 ## jq Command Safety
 
-Claude Code Issue #1132 causes jq parse errors when using `!=` operator in certain contexts.
+OpenCode Issue #1132 causes jq parse errors when using `!=` operator in certain contexts.
 
 ### Safe Pattern
 

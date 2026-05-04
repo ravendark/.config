@@ -256,7 +256,7 @@ Example usage:
 
 ## References
 
-- Claude Code Issue #1132: Bash tool escaping bug
+- OpenCode Issue #1132: Bash tool escaping bug
 - `.opencode/context/patterns/inline-status-update.md` - Status update patterns
 - `.opencode/rules/state-management.md` - State management rules
 - `.opencode/scripts/postflight-*.sh` - Reusable postflight scripts

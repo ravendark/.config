@@ -65,7 +65,7 @@ No ROADMAP.md found.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Update commands/spawn.md Status Validation [IN PROGRESS]
+### Phase 1: Update commands/spawn.md Status Validation [COMPLETED]
 
 **Goal**: Replace the per-status validation table with the standard terminal-state check in both trees.
 
@@ -94,7 +94,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update skills/skill-spawn/SKILL.md [NOT STARTED]
+### Phase 2: Update skills/skill-spawn/SKILL.md [IN PROGRESS]
 
 **Goal**: Add conditional status handling, `previous_status` preservation, `analysis_mode` delegation, and empty-task handling.
 

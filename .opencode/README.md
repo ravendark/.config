@@ -251,7 +251,7 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 
 ## jq Command Safety
 
-Claude Code Issue #1132 causes jq parse errors when using `!=` operator (escaped as `\!=`).
+OpenCode Issue #1132 causes jq parse errors when using `!=` operator (escaped as `\!=`).
 
 **Safe pattern**: Use `select(.type == "X" | not)` instead of `select(.type != "X")`
 

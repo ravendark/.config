@@ -1,14 +1,14 @@
 ---
 name: skill-refresh
-description: Manage Claude Code resources - terminate orphaned processes and clean up ~/.claude/ directory
+description: Manage OpenCode resources - terminate orphaned processes and clean up ~/.opencode/ directory
 allowed-tools: Bash, AskUserQuestion
 ---
 
 # Refresh Skill (Direct Execution)
 
-Direct execution skill for managing Claude Code resources. Performs two operations:
-1. **Process cleanup**: Identify and terminate orphaned Claude Code processes
-2. **Directory cleanup**: Clean up accumulated files in ~/.claude/
+Direct execution skill for managing OpenCode resources. Performs two operations:
+1. **Process cleanup**: Identify and terminate orphaned OpenCode processes
+2. **Directory cleanup**: Clean up accumulated files in ~/.opencode/
 
 This skill executes inline without spawning a subagent.
 
@@ -123,7 +123,7 @@ Show current directory status without cleaning yet:
 ```
 
 This displays:
-- Current ~/.claude/ directory size
+- Current ~/.opencode/ directory size
 - Breakdown by directory
 - Space that can be reclaimed
 
@@ -225,7 +225,7 @@ esac
 # User runs: /refresh
 
 # Output:
-Claude Code Refresh
+OpenCode Refresh
 ===================
 
 No orphaned processes found.
@@ -233,10 +233,10 @@ All 3 Claude processes are active sessions.
 
 ---
 
-Claude Code Directory Cleanup
+OpenCode Directory Cleanup
 =============================
 
-Target: ~/.claude/
+Target: ~/.opencode/
 
 Current total size: 7.3 GB
 
@@ -344,10 +344,10 @@ Failed files: 5
 Successfully deleted: 5572 files
 ```
 
-### No ~/.claude/ Directory
+### No ~/.opencode/ Directory
 
 If directory doesn't exist:
 ```
-Error: ~/.claude/ directory not found.
+Error: ~/.opencode/ directory not found.
 Nothing to clean up.
 ```

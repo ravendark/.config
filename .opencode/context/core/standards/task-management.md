@@ -20,24 +20,24 @@ Standards for creating, formatting, and managing tasks within the .opencode syst
 -   Retrieve Task IDs from `specs/state.json`.
 -   Use the `next_project_number` field (stored as integer, e.g., `17`).
 -   Increment `next_project_number` in `specs/state.json` immediately after use.
--   Display task IDs with `OC_` prefix (e.g., `OC_17` for display, `OC_017` for directories).
+-   Display task IDs with plain numbers (e.g., `17` for display, `017` for directories).
 
 **Don't**:
 -   Guess the next number by reading `specs/TODO.md`.
 -   Reuse IDs from archived or deleted tasks.
--   Store the `OC_` prefix in state.json (it's display/path convention only).
+-   Do not store any prefix in state.json (plain numbers only).
 
-**OC_ Prefix Convention**:
--   Text references: `OC_17` (unpadded)
--   Directory names: `OC_017_task_slug` (3-digit padded)
--   Git commits: `task OC_17: {action}`
+**Task Number Convention**:
+-   Text references: `17` (unpadded)
+-   Directory names: `017_task_slug` (3-digit padded)
+-   Git commits: `task 17: {action}`
 -   Internal storage: `project_number: 17` (integer, no prefix)
 
 ### Formatting Standards
 
 #### Header
--   Format: `### OC_{Task ID}. {Task Title}`
--   Example: `### OC_17. Implement User Login`
+-   Format: `### {Task ID}. {Task Title}`
+-   Example: `### 17. Implement User Login`
 
 #### Metadata
 

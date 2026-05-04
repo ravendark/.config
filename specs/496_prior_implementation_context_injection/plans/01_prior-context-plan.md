@@ -74,7 +74,7 @@ No ROADMAP.md items directly advance this task. The work improves agent system q
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Design Artifact Collection Logic and Truncation Strategy [IN PROGRESS]
+### Phase 1: Design Artifact Collection Logic and Truncation Strategy [COMPLETED]
 
 **Goal**: Finalize the artifact discovery order, line budgets per artifact type, and truncation algorithm before modifying skills.
 

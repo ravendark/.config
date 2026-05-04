@@ -135,7 +135,7 @@ Return structured error:
 4. If retry succeeds, log recovery
 ```
 
-**Note**: jq failures are often caused by Claude Code Issue #1132 variants:
+**Note**: jq failures are often caused by OpenCode Issue #1132 variants:
 - **Pipe injection**: `|` in quoted strings triggers `< /dev/null` injection
 - **`!=` escaping**: The `!=` operator gets escaped as `\!=`
 
