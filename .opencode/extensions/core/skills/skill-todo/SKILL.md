@@ -81,7 +81,7 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          ```
 
       3. Scan TODO.md for completed/abandoned tasks not tracked in state.json or archive:
-         - Parse task headers (`### {N}.` or `### OC_{N}.`) and status lines (`[COMPLETED]`/`[ABANDONED]`)
+         - Parse task headers (`### {N}.`) and status lines (`[COMPLETED]`/`[ABANDONED]`)
          - Cross-reference each against active_projects and archive completed_projects
          - Collect as `todo_md_orphans[]` if: status is completed/abandoned, not in either state file, and has a directory in specs/
     </process>
@@ -243,8 +243,8 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          - Remove archived entries (both regular and TODO.md orphans)
          - Pattern to match task entry start:
            ```lua
-           -- Match both "### OC_N. " and "### N. " formats
-           local task_start_pattern = "###%s+(OC_)?(%d+)%.%s+"
+           -- Match "### N. " format
+           local task_start_pattern = "###%s+(%d+)%.%s+"
            ```
          - For each task to remove:
            a. Find entry start (header line)
@@ -288,7 +288,7 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          b. Add entry to specs/archive/state.json completed_projects array
          c. Move directory from specs/ to specs/archive/:
             ```bash
-            source_dir="specs/OC_${orphan.project_number}_${orphan.project_name}/"
+            source_dir="specs/${orphan.project_number}_${orphan.project_name}/"
             if [ ! -d "$source_dir" ]; then
               source_dir="specs/${orphan.project_number}_${orphan.project_name}/"
             fi

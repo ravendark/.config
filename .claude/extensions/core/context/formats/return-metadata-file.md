@@ -23,7 +23,7 @@ Example: `specs/1_setup_lsp_config/.return-meta.json`
   "status": "researched|planned|implemented|partial|failed|blocked",
   "artifacts": [
     {
-      "type": "report|plan|summary|implementation",
+      "type": "report|plan|summary|implementation|handoff",
       "path": "specs/001_setup_lsp_config/reports/01_lsp-config-research.md",
       "summary": "Brief 1-sentence description of artifact"
     }
@@ -77,7 +77,7 @@ Example: `specs/1_setup_lsp_config/.return-meta.json`
 
 **Early Metadata Pattern**: Agents should write metadata with `status: "in_progress"` at the START
 of execution (Stage 0), then update to the final status on completion. This ensures metadata exists
-even if the agent is interrupted. See `.claude/context/patterns/early-metadata-pattern.md`.
+even if the agent is interrupted. See `.opencode/context/patterns/early-metadata-pattern.md`.
 
 ### artifacts (required)
 
@@ -134,6 +134,7 @@ Tracks progress for interrupted or partially completed work:
 | `details` | string | Yes | Human-readable description of progress |
 | `phases_completed` | number | No | For implementation agents: phases completed |
 | `phases_total` | number | No | For implementation agents: total phases |
+| `handoff_path` | string | No | Path to handoff artifact written before context exhaustion (see `handoff-artifact.md`) |
 
 **Purpose**: Enables skill postflight to determine resume point and provide user guidance when
 an agent is interrupted before completion.
@@ -417,9 +418,9 @@ For other scenarios (meta tasks, blocked), combine the schema fields above.
 
 ## Related Documentation
 
-- `.claude/context/formats/subagent-return.md` - Original console-based format
-- `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- `.claude/context/patterns/file-metadata-exchange.md` - File I/O patterns
-- `.claude/context/patterns/early-metadata-pattern.md` - Early metadata creation pattern
-- `.claude/rules/state-management.md` - State update patterns
-- `.claude/rules/error-handling.md` - Error types including mcp_abort_error and delegation_interrupted
+- `.opencode/context/formats/subagent-return.md` - Original console-based format
+- `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- `.opencode/context/patterns/file-metadata-exchange.md` - File I/O patterns
+- `.opencode/context/patterns/early-metadata-pattern.md` - Early metadata creation pattern
+- `.opencode/rules/state-management.md` - State update patterns
+- `.opencode/rules/error-handling.md` - Error types including mcp_abort_error and delegation_interrupted

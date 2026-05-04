@@ -1,12 +1,13 @@
 ---
-description: Manage Claude Code resources - terminate orphaned processes and clean up files
+description: Manage OpenCode resources - terminate orphaned processes and clean up files
+model: opus
 allowed-tools: Bash, Read, Glob, AskUserQuestion
 argument-hint: [--dry-run] [--force]
 ---
 
 # /refresh Command
 
-Comprehensive cleanup of Claude Code resources - terminate orphaned processes and clean up ~/.opencode/ directory.
+Comprehensive cleanup of OpenCode resources - terminate orphaned processes and clean up ~/.opencode/ directory.
 
 ## Syntax
 
@@ -26,7 +27,7 @@ Comprehensive cleanup of Claude Code resources - terminate orphaned processes an
 
 ### Process Cleanup
 
-Identifies and terminates orphaned Claude Code processes (detached processes without a controlling terminal).
+Identifies and terminates orphaned OpenCode processes (detached processes without a controlling terminal).
 
 ### Directory Cleanup
 
@@ -83,7 +84,7 @@ Files modified within the last hour are **never deleted**, regardless of age thr
 ### Process Protection
 
 - Only targets processes without a controlling terminal (TTY = "?")
-- Never kills active Claude Code sessions
+- Never kills active OpenCode sessions
 - Excludes current process tree
 
 ## Examples
@@ -114,7 +115,7 @@ Files modified within the last hour are **never deleted**, regardless of age thr
 ### Survey Output
 
 ```
-Claude Code Refresh
+OpenCode Refresh
 ===================
 
 No orphaned processes found.
@@ -122,7 +123,7 @@ All 3 Claude processes are active sessions.
 
 ---
 
-Claude Code Directory Cleanup
+OpenCode Directory Cleanup
 =============================
 
 Target: ~/.opencode/

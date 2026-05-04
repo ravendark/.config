@@ -139,7 +139,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update general-research-agent.md [IN PROGRESS]
+### Phase 3: Update general-research-agent.md [COMPLETED]
 
 **Goal**: Teach the research agent how to parse and use prior implementation context to avoid redundant research.
 
@@ -169,7 +169,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Testing and Validation [NOT STARTED]
+### Phase 4: Testing and Validation [IN PROGRESS]
 
 **Goal**: Verify the context injection works correctly across different task states and artifact combinations.
 

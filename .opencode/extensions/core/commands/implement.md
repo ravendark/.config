@@ -1,5 +1,6 @@
 ---
 description: Execute implementation with resume support
+model: opus
 allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit, Glob
 argument-hint: TASK_NUMBERS [--team [--team-size N]] [--force] [--fast|--hard] [--haiku|--sonnet|--opus]
 ---
@@ -410,7 +411,7 @@ skill_name=${skill_name:-"skill-implementer"}
 | `general`, `meta`, `markdown` | `skill-implementer` (default) |
 | `formal`, `logic`, `math`, `physics` | `skill-implementer` (default) |
 
-**Extension Skills Location**: Extension skills are located in `.opencode/extensions/{ext}/skills/`. Claude Code discovers these skills via extension manifest `routing.implement` entries.
+**Extension Skills Location**: Extension skills are located in `.opencode/extensions/{ext}/skills/`. OpenCode discovers these skills via extension manifest `routing.implement` entries.
 
 **Skill Selection Logic**:
 ```

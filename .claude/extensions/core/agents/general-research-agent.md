@@ -71,6 +71,22 @@ If the file does not exist, skip this stage gracefully and proceed without roadm
 
 **MUST NOT**: Modify, write to, or create ROADMAP.md. This is a read-only consultation.
 
+---
+
+### Stage 1.6: Load Prior Implementation Context
+
+If `prior_implementation_context` is provided in the delegation context and is non-empty:
+
+1. Parse the tagged sections (summaries, handoffs, progress, plan)
+2. Extract key decisions, current state, completed work, and identified blockers
+3. Store as `prior_context` for use in Stage 2
+
+If `prior_implementation_context` is empty or missing, skip this stage gracefully and proceed without prior context.
+
+**MUST NOT**: Re-read the files listed in the prior context; use the injected content directly. The skill preflight has already collected and injected this content.
+
+---
+
 ### Stage 2: Analyze Task and Determine Search Strategy
 
 Based on task type and description:
@@ -88,6 +104,9 @@ Based on task type and description:
 3. What dependencies or considerations apply?
 4. What are the success criteria?
 5. How does this task align with the project roadmap priorities?
+6. What prior implementation work exists and what gaps remain?
+
+**Prior Context Guidance**: If `prior_context` from Stage 1.6 is present, focus research on gaps, blockers, and follow-up items rather than rediscovering completed work. Reference existing artifacts in the new report rather than rediscovering them.
 
 ### Stage 3: Execute Primary Searches
 

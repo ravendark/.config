@@ -1,5 +1,6 @@
 ---
 description: Create and push semantic version tags for CI/CD deployment (user-only)
+model: opus
 argument-hint: [--patch|--minor|--major] [--force] [--dry-run]
 ---
 

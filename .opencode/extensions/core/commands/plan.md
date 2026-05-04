@@ -1,5 +1,6 @@
 ---
 description: Create implementation plan for a task
+model: opus
 allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit
 argument-hint: TASK_NUMBERS [--team [--team-size N]] [--fast|--hard] [--haiku|--sonnet|--opus]
 ---
