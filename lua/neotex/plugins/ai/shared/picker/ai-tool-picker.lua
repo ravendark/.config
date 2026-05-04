@@ -256,45 +256,28 @@ function M.show_opencode_session_picker()
           return
         end
         local choice = selection.value.value
-        local function retry_command(cmd_func, attempts)
-          attempts = attempts or 0
-          if attempts > 10 then
-            return false
-          end
-          opencode_mod.toggle()
-          vim.wait(200)
-          local ok = pcall(cmd_func)
-          if not ok then
-            vim.wait(200)
-            return retry_command(cmd_func, attempts + 1)
-          end
-          return true
-        end
 
-        if choice == "new" then
-          retry_command(function()
-            opencode_mod.command("session.new")
-          end)
-        elseif choice == "restore" then
+        -- Toggle opens the terminal (defaults to new session in TUI)
+        opencode_mod.toggle()
+
+        if choice == "restore" then
           if last_session_id then
-            retry_command(function()
-              opencode_mod.toggle()
-              vim.wait(500)
-              local server = require("opencode.server").get()
+            local server_mod = require("opencode.server")
+            vim.defer_fn(function()
+              local server = server_mod.get()
               if server then
-                server:select_session(last_session_id)
+                pcall(server.select_session, server, last_session_id)
               end
-            end)
+            end, 1000)
           else
             vim.notify("No previous OpenCode session to restore", vim.log.levels.WARN)
           end
         elseif choice == "browse" then
-          opencode_mod.toggle()
-          vim.wait(500)
-          pcall(function()
-            opencode_mod.select_session()
-          end)
+          vim.defer_fn(function()
+            pcall(opencode_mod.select_session)
+          end, 1000)
         end
+        -- "new" needs no follow-up: toggle() already opens a fresh session in the TUI
       end)
       return true
     end,
@@ -306,7 +289,7 @@ end
 -----------------------------------------------------------------------
 
 function M.smart_toggle()
-  ensure_dir()
+  ensure_data_dir()
   load_tool_prefs()
 
   local has_claude, _ = detect_active_claude()

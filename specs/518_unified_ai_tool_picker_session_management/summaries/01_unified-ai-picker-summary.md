@@ -16,8 +16,9 @@
 - `smart_toggle()`: direct toggle if one tool visible, Stage 1 picker otherwise
 - Stage 1: `vim.ui.select` with 2 tools, last-selected reordered first
 - Stage 2 Claude: delegates to existing `claude_session.show_session_picker()`
-- Stage 2 OpenCode: Telescope dropdown with 3 options (new, restore last, browse all) with retry loop
+- Stage 2 OpenCode: Telescope dropdown with 3 options (new, restore last, browse all) with deferred API calls
 - OpenCode session tracking via `OpencodeEvent:session.idle` autocmd, persisted to `opencode-last-session.json`
+- "New session" uses `toggle()` only (TUI defaults to fresh session), avoiding double-terminal bug from `opencode.command()` internally starting its own server
 
 ### Phase 3: Integrate Keymaps
 - Updated all 4 `<C-CR>` mode mappings (n, i, v, t) to call unified picker with lazy init
