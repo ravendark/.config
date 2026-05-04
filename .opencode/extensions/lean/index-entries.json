@@ -46,6 +46,15 @@
       }
     },
     {
+      "path": "project/lean4/patterns/mcp-fallback-table.md",
+      "description": "Lean-specific MCP tool fallback strategies",
+      "tags": ["lean4", "mcp", "recovery", "fallback"],
+      "load_when": {
+        "languages": ["lean4"],
+        "agents": ["lean-research-agent", "lean-implementation-agent"]
+      }
+    },
+    {
       "path": "project/lean4/standards/lean4-style-guide.md",
       "description": "Lean 4 coding style and conventions",
       "tags": ["lean4", "style", "conventions"],
@@ -124,6 +133,15 @@
       "load_when": {
         "languages": ["lean4"],
         "agents": ["lean-implementation-agent"]
+      }
+    },
+    {
+      "path": "project/lean4/tools/blocked-mcp-tools.md",
+      "description": "Reference for blocked Lean MCP tools with alternatives",
+      "tags": ["lean4", "mcp", "blocked", "tools"],
+      "load_when": {
+        "languages": ["lean4"],
+        "agents": ["lean-research-agent", "lean-implementation-agent"]
       }
     },
     {
