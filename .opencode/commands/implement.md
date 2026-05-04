@@ -1,5 +1,6 @@
 ---
 description: Execute implementation with resume support
+model: opus
 allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit, Glob
 argument-hint: TASK_NUMBERS [--team [--team-size N]] [--force] [--fast|--hard] [--haiku|--sonnet|--opus]
 ---

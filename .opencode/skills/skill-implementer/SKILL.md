@@ -420,6 +420,10 @@ if source "$PROJECT_ROOT/.opencode/scripts/update-recommended-order.sh" 2>/dev/n
 fi
 ```
 
+**Break loop** — proceed to Stage 8 (Link Artifacts).
+
+---
+
 **If status is "partial"**:
 
 Keep status as "implementing" but update resume point. This path remains inline because the centralized `update-task-status.sh` maps `postflight:implement` to "completed" only -- it has no "partial" mapping.
@@ -440,7 +444,57 @@ TODO.md stays as `[IMPLEMENTING]`.
 .opencode/scripts/update-plan-status.sh "$task_number" "$project_name" "PARTIAL"
 ```
 
-**On failed**: Keep status as "implementing" for retry. Do not update plan file (leave as `[IMPLEMENTING]` for retry).
+**Continuation decision**:
+
+```bash
+if [ -n "$handoff_path" ] && [ -f "$handoff_path" ] && [ "$continuation_count" -lt "$max_continuations" ]; then
+    # Increment counter and update loop guard
+    continuation_count=$((continuation_count + 1))
+    jq --argjson count "$continuation_count" \
+       --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+      '.continuation_count = $count | .last_updated = $ts' \
+      "${task_dir}/.continuation-loop-guard" > "${task_dir}/.continuation-loop-guard.tmp" \
+      && mv "${task_dir}/.continuation-loop-guard.tmp" "${task_dir}/.continuation-loop-guard"
+
+    # Log handoff for visibility
+    echo "Spawning successor subagent (continuation $continuation_count/$max_continuations)"
+    echo "Handoff: $handoff_path"
+
+    # Prepare successor delegation context (see Stage 5 for base context)
+    # Injected fields:
+    # - delegation_depth: incremented by 1
+    # - continuation_context: { is_successor: true, continuation_number: N, handoff_path: ..., progress_path: ..., previous_phases_completed: N }
+
+    # Spawn successor subagent via Task tool with updated context
+    # (Same as Stage 5, but with continuation_context injected into delegation context JSON)
+
+    # Continue loop — next iteration reads successor's metadata
+    continue
+else
+    if [ -z "$handoff_path" ]; then
+        echo "Partial return with no handoff_path. User must re-run /implement to resume."
+    else
+        echo "Max continuations ($max_continuations) reached. Returning partial."
+    fi
+    # Break loop — proceed to Stage 8
+    break
+fi
+```
+
+**If no handoff_path**: Break loop, report partial (user must resume).
+**If continuation_count >= max_continuations**: Break loop, report partial (max reached).
+
+---
+
+**If status is "failed"**:
+
+Keep status as "implementing" for retry. Do not update plan file (leave as `[IMPLEMENTING]` for retry).
+
+**Break loop** — proceed to Stage 8.
+
+```
+done  # End Continuation Loop
+```
 
 ---
 
@@ -491,11 +545,14 @@ Session: ${session_id}
 
 ### Stage 10: Cleanup
 
-Remove marker and metadata files:
+Cleanup runs **after** the continuation loop exits. The `.postflight-pending` marker persists across loop iterations to ensure the SubagentStop hook fires correctly.
+
+Remove marker, metadata, and loop-guard files:
 
 ```bash
 rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
 rm -f "specs/${padded_num}_${project_name}/.postflight-loop-guard"
+rm -f "specs/${padded_num}_${project_name}/.continuation-loop-guard"
 rm -f "specs/${padded_num}_${project_name}/.return-meta.json"
 ```
 
@@ -553,7 +610,11 @@ After the agent returns -- whether with status implemented, partial, or failed -
 5. **Grep or glob the codebase** - Analysis is subagent work
 6. **Write summary/reports** - Artifact creation is done by the subagent
 
-> **PROHIBITION**: If the subagent returned partial or failed status, the lead skill MUST NOT attempt to continue, complete, or "fill in" the subagent's work. Report the partial/failed status and let the user re-run `/implement` to resume.
+> **Continuation Policy**: If the subagent returned `partial` status **WITH** a `handoff_path` in its metadata, the lead skill **MAY** spawn a successor subagent to continue the work automatically (see Continuation Loop in Postflight). This is the preferred path for context exhaustion recovery.
+>
+> If the subagent returned `partial` status **WITHOUT** a `handoff_path`, the lead skill MUST report partial and let the user re-run `/implement` to resume.
+>
+> If the subagent returned `failed` status, the lead skill MUST NOT attempt to continue or "fill in" the subagent's work. Report the failure and let the user investigate.
 
 The postflight phase is LIMITED TO:
 - Reading agent metadata file (.return-meta.json)

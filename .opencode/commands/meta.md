@@ -1,5 +1,6 @@
 ---
 description: Interactive system builder that creates TASKS for agent architecture changes (never implements directly)
+model: opus
 allowed-tools: Skill
 argument-hint: [PROMPT] | --analyze
 ---

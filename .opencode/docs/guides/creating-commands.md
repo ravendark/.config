@@ -57,7 +57,7 @@ argument-hint: "<required>" [--flag]
 | `description` | Yes | One-line summary shown in `/help` output |
 | `allowed-tools` | Yes | Scoped tool allowlist (e.g., `Read(specs/*), Bash(git:*)`) |
 | `argument-hint` | Yes | Usage hint shown to the user |
-| `model` | No | Preferred model (`opus`, `sonnet`, or omit for default) |
+| `model` | Yes | Preferred model: `opus` (all commands use opus) |
 
 ### Step 4: Implement the Four Checkpoint Stages
 

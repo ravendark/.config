@@ -1,5 +1,6 @@
 ---
 description: Analyze errors and create fix plans
+model: opus
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), TaskCreate, TaskUpdate, Task
 argument-hint: [--fix TASK_NUMBER]
 ---

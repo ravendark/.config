@@ -1,5 +1,6 @@
 ---
 description: Analyze repository and create task to generate project-overview.md
+model: opus
 allowed-tools: Skill
 ---
 

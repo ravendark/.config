@@ -687,21 +687,21 @@ temperature: 0.7  # Too high for implementation
 
 ## Cross-System Porting Warning
 
-**Claude Code and opencode use different frontmatter schemas.** When porting agent definitions between systems, be aware of these critical differences:
+**OpenCode and other systems use different frontmatter schemas.** When porting agent definitions between systems, be aware of these critical differences:
 
-| Field | Claude Code (`.claude/agents/`) | opencode (`.opencode/agent/subagents/`) |
+| Field | Other Systems (`.other/agents/`) | OpenCode (`.opencode/agent/subagents/`) |
 |-------|--------------------------------|----------------------------------------|
 | `tools` | YAML array of capitalized names (`- Read`, `- Write`, `- Bash`) | **Omit entirely** (runtime uses defaults). If specified, must be object format (`{read: true}`). YAML arrays will crash opencode on startup. |
 | `model` | Declared in frontmatter | Not used in subagent frontmatter |
 | Format | Markdown with YAML frontmatter | Markdown with YAML frontmatter |
 
-**Porting Checklist** (Claude Code to opencode):
+**Porting Checklist** (Other Systems to OpenCode):
 1. Remove or convert the `tools` field (do not copy YAML array format)
 2. Remove the `model` field
 3. Lowercase tool names if converting to object format
 4. Verify with `opencode` launch test before committing
 
-**Porting Checklist** (opencode to Claude Code):
+**Porting Checklist** (OpenCode to Other Systems):
 1. Add `tools` as YAML array with capitalized names (`- Read`, `- Write`, etc.)
 2. Add `model` field if needed
 

@@ -200,15 +200,15 @@
 
 **Issue**: Inconsistent task number formatting
 
-- [ ] Run: `grep -r "OC_[0-9][0-9]" .opencode/ --include="*.md" | grep -v "OC_NNN" | grep -v "OC_001"`
+- [ ] Run: `grep -r "specs/[0-9]\{1,2\}_" .opencode/ --include="*.md"`
 - [ ] Check for 1-2 digit references in directory paths
-- [ ] Expected: Directories use `OC_NNN` (3-digit padded)
-- [ ] Text can use `OC_N` (unpadded)
+- [ ] Expected: Directories use `{NNN}` (3-digit padded)
+- [ ] Text can use `{N}` (unpadded)
 
 **Examples**:
-- ✅ Directory: `specs/OC_017_slug/`
-- ✅ Text: `task OC_17`
-- ❌ Directory: `specs/OC_17_slug/`
+- ✅ Directory: `specs/017_slug/`
+- ✅ Text: `task 17`
+- ❌ Directory: `specs/17_slug/`
 
 ---
 
@@ -277,7 +277,7 @@
 
 ## References
 
-- **Task 179 Research**: `specs/OC_179_review_opencode_agent_system_documentation/reports/research-001.md`
+- **Task 179 Research**: `specs/179_review_opencode_agent_system_documentation/reports/research-001.md`
 - **Maintenance Guide**: `.opencode/docs/guides/documentation-maintenance.md`
 - **Validation Script**: `.opencode/scripts/validate-docs.sh`
 

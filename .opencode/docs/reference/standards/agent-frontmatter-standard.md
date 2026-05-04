@@ -177,6 +177,10 @@ To add model enforcement to existing agents:
 
 No other changes are required - the Task tool will respect the model field when spawning agents.
 
+### Commands
+
+All command files in `.opencode/commands/` must also declare `model: opus` in their frontmatter to ensure consistent reasoning quality at the entry point level.
+
 ## Related Documentation
 
 - [Creating Agents Guide](.opencode/docs/guides/creating-agents.md)

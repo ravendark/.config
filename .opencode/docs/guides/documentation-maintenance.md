@@ -130,7 +130,7 @@ find .opencode -name "*.md" ! -path "*/project-overview.md" \
    - "Lean 4" (not "LEAN 4")
    - "Logos/Theory" (not "ProofChecker")
    - "commands/" (not "command/")
-   - `OC_NNN` for directories (3-digit padded)
+   - `{NNN}` for directories (3-digit padded)
 
 4. **No emojis** in formal documentation
 

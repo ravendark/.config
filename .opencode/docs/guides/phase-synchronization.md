@@ -10,7 +10,7 @@ The phase synchronization protocol ensures that three critical files remain cons
 
 1. **specs/state.json** - Task metadata and high-level status
 2. **specs/TODO.md** - Task overview and progress tracking
-3. **specs/OC_NNN_*/plans/implementation-*.md** - Detailed phase tracking
+3. **specs/{NNN}_*/plans/implementation-*.md** - Detailed phase tracking
 
 When these files are synchronized, the system can:
 - Resume interrupted implementations from the correct point
@@ -83,7 +83,7 @@ When these files are synchronized, the system can:
 
 ### 1. Implementation Start
 
-When `/implement OC_N` is invoked:
+When `/implement {N}` is invoked:
 
 ```
 1. Read current state from all three files
@@ -262,11 +262,11 @@ If metadata.phases_completed < plan [COMPLETED] count:
 
 ## Example: Correct Implementation Flow
 
-**Task**: OC_100 - Sample Task
+**Task**: 100 - Sample Task
 
 ### Step 1: Start Implementation
 
-**Command**: `/implement OC_100`
+**Command**: `/implement 100`
 
 **Changes**:
 - state.json: `"status": "implementing"`
@@ -286,7 +286,7 @@ If metadata.phases_completed < plan [COMPLETED] count:
 ### Phase 1: Setup [COMPLETED]
 ```
 
-**Commit**: `task OC_100 phase 1: Setup`
+**Commit**: `task 100 phase 1: Setup`
 
 ### Step 3: Execute Phase 2
 
@@ -302,7 +302,7 @@ If metadata.phases_completed < plan [COMPLETED] count:
 ### Phase 2: Core Work [COMPLETED]
 ```
 
-**Commit**: `task OC_100 phase 2: Core Work`
+**Commit**: `task 100 phase 2: Core Work`
 
 ### Step 4: Complete Implementation
 
@@ -311,7 +311,7 @@ If metadata.phases_completed < plan [COMPLETED] count:
 - TODO.md: `[COMPLETED]`
 - New file: `summaries/implementation-summary-YYYYMMDD.md`
 
-**Final commit**: `task OC_100: finalize implementation and create summary`
+**Final commit**: `task 100: finalize implementation and create summary`
 
 ## Troubleshooting Guide
 
@@ -322,10 +322,10 @@ If metadata.phases_completed < plan [COMPLETED] count:
 jq '.active_projects[] | select(.project_number == 100)' specs/state.json
 
 # Check TODO.md
-grep -A 3 "OC_100" specs/TODO.md
+grep -A 3 "100" specs/TODO.md
 
 # Check plan file phases
-grep "^### Phase" specs/OC_100_*/plans/implementation-*.md
+grep "^### Phase" specs/100_*/plans/implementation-*.md
 ```
 
 ### Fix Out-of-Sync Phase Status
@@ -334,7 +334,7 @@ If plan file phases don't match expected state:
 
 ```bash
 # Edit plan file to correct phase statuses
-vim specs/OC_100_*/plans/implementation-001.md
+vim specs/100_*/plans/implementation-001.md
 
 # Update markers:
 # **Status**: [NOT STARTED] → [IN PROGRESS] → [COMPLETED]

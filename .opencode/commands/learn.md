@@ -1,5 +1,6 @@
 ---
 description: Add memories from text, files, directories, or task artifacts with content mapping and deduplication
+model: opus
 ---
 
 # Command: /learn

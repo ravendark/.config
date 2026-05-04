@@ -1,5 +1,6 @@
 ---
 description: Analyze memory vault health, score memories for maintenance, and run distillation operations
+model: opus
 ---
 
 # Command: /distill

@@ -8,6 +8,7 @@ Standard command structure using checkpoint-based execution with three gates.
 ---
 name: {command_name}
 description: "{Brief description}"
+model: opus
 ---
 ```
 

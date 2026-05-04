@@ -1,5 +1,6 @@
 ---
 description: Archive completed and abandoned tasks
+model: opus
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), Bash(mv:*), Bash(mkdir:*), Bash(ls:*), Bash(find:*), Bash(jq:*), TaskCreate, TaskUpdate, AskUserQuestion
 argument-hint: [--dry-run]
 ---
