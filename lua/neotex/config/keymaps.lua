@@ -22,6 +22,7 @@ AI/ASSISTANT GLOBAL KEYBINDINGS                | DESCRIPTION
 ----------------------------------------------------------------------------------
 <C-CR>                                          | Unified AI tool picker
 <leader>ao                                      | OpenCode commands (via which-key)
+<leader>al                                      | AI load commands/agents picker
 
 ----------------------------------------------------------------------------------
 TERMINAL MODE KEYBINDINGS                      | DESCRIPTION
@@ -76,6 +77,7 @@ dd                                             | Delete line and recalculate lis
 d (visual mode)                                | Delete selection and recalculate numbers
 <C-n>                                          | Toggle checkbox status ([ ] ↔ [x])
 <C-CR>                                          | Unified AI tool picker
+<leader>al                                      | AI load commands/agents picker
 --]]
 
 local M = {}

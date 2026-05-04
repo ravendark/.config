@@ -164,6 +164,40 @@ function M.show_tool_picker()
 end
 
 -----------------------------------------------------------------------
+-- UNIFIED COMMANDS LOADER PICKER (<leader>al)
+-----------------------------------------------------------------------
+
+function M.show_commands_picker()
+  ensure_data_dir()
+  load_tool_prefs()
+  local mode = vim.api.nvim_get_mode().mode
+
+  local items = {
+    { label = "Claude Code", value = "claude" },
+    { label = "OpenCode", value = "opencode" },
+  }
+  if tool_prefs.last_tool == "opencode" then
+    items = { items[2], items[1] }
+  end
+
+  vim.ui.select(items, { prompt = "Select AI commands:" }, function(choice)
+    if not choice then
+      return
+    end
+    save_tool_prefs(choice.value)
+    if mode == "v" or mode == "V" or mode == "\22" then
+      if choice.value == "claude" then
+        require("neotex.plugins.ai.claude.core.visual").send_visual_to_claude_with_prompt()
+      else
+        require("neotex.plugins.ai.opencode.core.visual").send_visual_to_opencode_with_prompt()
+      end
+    else
+      vim.cmd(choice.value == "claude" and "ClaudeCommands" or "OpencodeCommands")
+    end
+  end)
+end
+
+-----------------------------------------------------------------------
 -- STAGE 2: CLAUDE PATH (delegate to existing picker)
 -----------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 # Implementation Plan: Add <leader>al AI Commands Loader Picker
 
 - **Task**: 519 - Add <leader>al AI commands loader picker
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: < 1 hour
 - **Dependencies**: 518 (reuses ai-tool-picker.lua infrastructure)
 - **Research Inputs**: specs/519_add_leader_al_ai_commands_loader_picker/reports/01_commands-loader-picker.md
@@ -51,7 +51,7 @@ Research report `01_commands-loader-picker.md` confirmed:
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add show_commands_picker and <leader>al keymaps [NOT STARTED]
+### Phase 1: Add show_commands_picker and <leader>al keymaps [COMPLETED]
 
 - **Goal:** Add unified AI commands picker function and keybindings
 - **Tasks:**
