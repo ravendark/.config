@@ -21,8 +21,8 @@ Organization:
 AI/ASSISTANT GLOBAL KEYBINDINGS                | DESCRIPTION
 ----------------------------------------------------------------------------------
 <C-CR>                                          | Unified AI tool picker
-<leader>ao                                      | OpenCode commands (via which-key)
 <leader>al                                      | AI load commands/agents picker
+<leader>as                                      | AI tool session picker
 
 ----------------------------------------------------------------------------------
 TERMINAL MODE KEYBINDINGS                      | DESCRIPTION

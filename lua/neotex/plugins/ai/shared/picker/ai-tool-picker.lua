@@ -180,7 +180,12 @@ function M.show_commands_picker()
     items = { items[2], items[1] }
   end
 
-  vim.ui.select(items, { prompt = "Select AI commands:" }, function(choice)
+  vim.ui.select(items, {
+    prompt = "Select AI commands:",
+    format_item = function(item)
+      return item.label
+    end,
+  }, function(choice)
     if not choice then
       return
     end

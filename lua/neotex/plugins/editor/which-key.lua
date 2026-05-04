@@ -246,14 +246,7 @@ return {
     wk.add({
       { "<leader>a", group = "ai", icon = "󰚩", mode = { "n", "v" } },
 
-      -- Claude AI commands
-      { "<leader>ac", "<cmd>ClaudeCommands<CR>", desc = "claude commands", icon = "󰘳" },
-      { "<leader>ac",
-        function() require("neotex.plugins.ai.claude.core.visual").send_visual_to_claude_with_prompt() end,
-        desc = "send selection to claude with prompt",
-        mode = { "v" },
-        icon = "󰘳"
-      },
+      -- Claude AI commands (replaced by unified <leader>al picker)
       { "<leader>as", function()
         local ok, picker = pcall(require, "neotex.plugins.ai.shared.picker.ai-tool-picker")
         if not ok then
@@ -289,15 +282,6 @@ return {
       { "<leader>ah", function() require("opencode").command("session.list") end, desc = "opencode history", icon = "󰆼" },
       -- { "<leader>ai", function() require("opencode").command("session.new") end, desc = "opencode init session", icon = "󰐕" },
       -- { "<leader>ap", function() require("opencode").prompt("@this") end, desc = "opencode prompt", icon = "󰏪", mode = { "n", "v" } },
-
-      -- OpenCode commands (mirrors <leader>ac behavior)
-      { "<leader>ao", "<cmd>OpencodeCommands<CR>", desc = "opencode commands", icon = "󰘳" },
-      { "<leader>ao",
-        function() require("neotex.plugins.ai.opencode.core.visual").send_visual_to_opencode_with_prompt() end,
-        desc = "send selection to opencode with prompt",
-        mode = { "v" },
-        icon = "󰘳"
-      },
 
       -- TTS toggle - project-specific only (DISABLED: 2025-12-09 - User preference)
       -- { "<leader>at", function()
