@@ -1,5 +1,5 @@
 ---
-next_project_number: 529
+next_project_number: 530
 ---
 
 # TODO
@@ -19,6 +19,15 @@ next_project_number: 529
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 529. Fix 'Model not found: opus/' error in .opencode/ agent system after porting from .claude/
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: The .opencode/ agent system has "opus/" model references (with trailing slash) that were accidentally ported from the .claude/ system. When using the `<leader>al` picker and running commands in projects like ProofChecker, this produces a 'Model not found: opus/' error. Systematically audit and fix all occurrences of this artifact across .opencode/ core/ and extensions/.
+
+---
 
 ### 523. Change `<leader>lb` bibexport to show notification instead of terminal buffer
 - **Effort**: < 1 hour
