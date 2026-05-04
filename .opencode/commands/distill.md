@@ -2,6 +2,8 @@
 description: Analyze memory vault health, score memories for maintenance, and run distillation operations
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # Command: /distill
 
 **Purpose**: Analyzes the memory vault, scores each memory on staleness/retrieval/size/duplication, generates a health report, and dispatches maintenance sub-modes (purge, merge, compress, refine, gc).

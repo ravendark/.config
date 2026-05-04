@@ -4,6 +4,8 @@ allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit, Glob
 argument-hint: TASK_NUMBER [REASON]
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /revise Command
 
 Create a new version of an implementation plan, or update task description if no plan exists.

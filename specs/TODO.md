@@ -12,7 +12,7 @@ next_project_number: 530
 
 - **528** [NOT STARTED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [NOT STARTED] -- Update handoff artifact naming convention in format specs and agent definitions
-- **523** [RESEARCHED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
+- **523** [PLANNED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
@@ -34,10 +34,11 @@ next_project_number: 530
 
 ### 523. Change `<leader>lb` bibexport to show notification instead of terminal buffer
 - **Effort**: < 1 hour
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: neovim
 - **Dependencies**: None
 - **Research**: [523_change_leader_lb_bibexport_notification/reports/01_bibexport-notification-research.md]
+- **Plan**: [523_change_leader_lb_bibexport_notification/plans/01_bibexport-notification.md]
 
 **Description**: Modify the `run_bibexport()` function in `after/ftplugin/tex.lua` to run `bibexport` asynchronously via `vim.system()` or `vim.fn.jobstart()` instead of opening a terminal buffer. On completion, display a brief notification via `vim.notify()` or `require('neotex.util.notifications')` indicating success (with output file path) or failure (with error message). This matches the pattern used by `<leader>Tr` and `<leader>Ts` template copy functions.
 

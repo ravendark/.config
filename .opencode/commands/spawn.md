@@ -4,6 +4,8 @@ allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit
 argument-hint: TASK_NUMBER [blocker description]
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /spawn Command
 
 Recover from blocked implementations by analyzing the blocker, decomposing it into minimal new tasks, and establishing proper dependency relationships.

@@ -4,6 +4,8 @@ allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*)
 argument-hint: [--draft] [--assignee USER] [--label LABEL] [--reviewer USER]
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /merge Command
 
 Create a pull request (GitHub) or merge request (GitLab) for the current branch. Automatically detects the platform from the git remote URL, validates that you are not on `main`, pushes the branch to origin with upstream tracking, and creates the PR/MR via the appropriate CLI.

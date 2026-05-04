@@ -4,6 +4,8 @@ allowed-tools: Read(specs/*), Edit(specs/TODO.md), Bash(jq:*), Bash(git:*), Bash
 argument-hint: "description" | --recover N | --expand N | --sync | --abandon N | --review N
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /task Command
 
 Unified task lifecycle management. Parse $ARGUMENTS to determine operation mode.

@@ -2,6 +2,8 @@
 description: Add memories from text, files, directories, or task artifacts with content mapping and deduplication
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # Command: /learn
 
 **Purpose**: Takes text, file paths, directory paths, or task references and creates memories through content mapping, MCP-based deduplication, and three memory operations (UPDATE, EXTEND, CREATE).
