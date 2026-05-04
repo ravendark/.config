@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 519,
+  "next_project_number": 520,
   "active_projects": [
     {
       "project_number": 517,
@@ -437,6 +437,18 @@
       },
       "completed": "2026-05-04T04:30:13Z",
       "completion_summary": "Built unified 2-stage AI tool picker with session management, fixed 4 pre-existing bugs, cleaned 9.6K backup files"
+    },
+    {
+      "project_number": 519,
+      "project_name": "add_leader_al_ai_commands_loader_picker",
+      "status": "not_started",
+      "task_type": "neovim",
+      "description": "Add <leader>al keymap that opens a unified picker (Claude Code vs OpenCode, last-used-first) routing to their respective commands/extension pickers (what <leader>ac and <leader>ao do). Reuses task 518's ai-tool-picker infrastructure for persistence and vim.ui.select pattern.",
+      "effort": "< 1 hour",
+      "dependencies": [],
+      "created": "2026-05-04T05:10:23Z",
+      "last_updated": "2026-05-04T05:10:23Z",
+      "artifacts": []
     }
   ],
   "completed_projects": [],

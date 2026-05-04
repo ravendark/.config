@@ -1,15 +1,16 @@
 ---
-next_project_number: 519
+next_project_number: 520
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-03. 9 active tasks remaining.*
+*Updated 2026-05-03. 10 active tasks remaining.*
 
 ### Pending
 
+- **519** [NOT STARTED] -- Add <leader>al AI commands loader picker
 - **518** [COMPLETED] -- Unified AI tool picker with two-stage session management
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
@@ -35,6 +36,18 @@ next_project_number: 519
 **Description**: Create a unified two-stage Telescope picker triggered by `<C-CR>` that replaces the current separate `<C-CR>` (Claude Code) and `<C-g>` (OpenCode) keybindings. Stage 1 presents a tool picker (Claude Code vs OpenCode) that remembers the last selection and shows it first via a JSON file in `vim.fn.stdpath("data")`. Stage 2 presents a session management picker (new session, restore last session, browse all sessions) adapted to the selected tool. For Claude Code, reuse the existing `show_session_picker` logic from `claude/core/session.lua`. For OpenCode, build an equivalent using `opencode.toggle()`, `opencode.command("session.new")`, and `opencode.command("session.list")`. If an active Claude Code or OpenCode terminal is already visible, `<C-CR>` should toggle it directly (matching current smart_toggle behavior) rather than showing the picker. Remove the global `<C-g>` binding (keep the buffer-local `<C-g>` in opencode terminals for quick toggle). Update `keymaps.lua` header comments and `docs/MAPPINGS.md`.
 
 Key files: `lua/neotex/plugins/ai/shared/picker/`, `lua/neotex/config/keymaps.lua`, `lua/neotex/plugins/ai/claude/core/session.lua`, `lua/neotex/plugins/editor/which-key.lua`
+
+---
+
+### 519. Add <leader>al AI commands loader picker
+- **Effort**: < 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+- **Dependencies**: None
+
+**Description**: Add `<leader>al` keymap that opens a unified picker (Claude Code vs OpenCode, last-used-first ordering) routing to their respective commands/extension pickers — what `<leader>ac` (ClaudeCommands) and `<leader>ao` (OpencodeCommands) do currently. Reuses task 518's `ai-tool-picker.lua` persistence infrastructure and `vim.ui.select` pattern. Handles both normal mode (commands browser) and visual mode (send selection with prompt).
+
+Key files: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`, `lua/neotex/plugins/editor/which-key.lua`
 
 ---
 
