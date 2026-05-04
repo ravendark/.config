@@ -36,7 +36,7 @@ Load these on-demand using @-references:
 
 **Always Load**:
 - `@context/project/filetypes/tools/tool-detection.md` - Tool availability patterns
-- `@.claude/context/core/formats/subagent-return.md` - Return format schema
+- `@.opencode/context/core/formats/subagent-return.md` - Return format schema
 
 ## Supported Conversions
 

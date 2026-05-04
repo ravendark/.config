@@ -215,8 +215,8 @@ pnpm preview
 ## Related Context
 
 Load for detailed patterns:
-- `@.claude/extensions/web/context/project/web/domain/astro-framework.md`
-- `@.claude/extensions/web/context/project/web/domain/tailwind-v4.md`
-- `@.claude/extensions/web/context/project/web/patterns/astro-component.md`
-- `@.claude/extensions/web/context/project/web/patterns/accessibility-patterns.md`
-- `@.claude/extensions/web/context/project/web/standards/performance-standards.md`
+- `@.opencode/extensions/web/context/project/web/domain/astro-framework.md`
+- `@.opencode/extensions/web/context/project/web/domain/tailwind-v4.md`
+- `@.opencode/extensions/web/context/project/web/patterns/astro-component.md`
+- `@.opencode/extensions/web/context/project/web/patterns/accessibility-patterns.md`
+- `@.opencode/extensions/web/context/project/web/standards/performance-standards.md`

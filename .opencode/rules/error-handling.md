@@ -1,5 +1,5 @@
 ---
-paths: .claude/**/*
+paths: .opencode/**/*
 ---
 
 # Error Handling Rules
@@ -140,7 +140,7 @@ Return structured error:
 - **`!=` escaping**: The `!=` operator gets escaped as `\!=`
 
 **Solution**: Use `select(.type == "X" | not)` instead of `select(.type != "X")`.
-See `.claude/context/patterns/jq-escaping-workarounds.md` for full documentation.
+See `.opencode/context/patterns/jq-escaping-workarounds.md` for full documentation.
 
 ### MCP Abort Error Recovery
 ```

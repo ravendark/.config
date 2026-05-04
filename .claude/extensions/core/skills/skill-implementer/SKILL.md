@@ -17,6 +17,8 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 Reference (do not load eagerly):
 - Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
 - Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.claude/context/patterns/subagent-continuation-loop.md` - Continuation loop pattern
+- Path: `.claude/context/patterns/context-exhaustion-detection.md` - Context exhaustion heuristics
 - Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
 - Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 

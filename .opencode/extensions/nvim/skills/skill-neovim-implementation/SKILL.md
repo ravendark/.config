@@ -14,9 +14,9 @@ this skill handles all postflight operations (status update, artifact linking, g
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/core/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.claude/context/core/patterns/postflight-control.md` - Marker file protocol
-- Path: `.claude/context/core/patterns/jq-escaping-workarounds.md` - jq escaping patterns
+- Path: `.opencode/context/core/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.opencode/context/core/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/core/patterns/jq-escaping-workarounds.md` - jq escaping patterns
 
 ## Trigger Conditions
 
@@ -81,7 +81,7 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
 
 **Update plan file** (if exists): Update the Status field in plan metadata:
 ```bash
-.claude/scripts/update-plan-status.sh "$task_number" "$project_name" "IMPLEMENTING"
+.opencode/scripts/update-plan-status.sh "$task_number" "$project_name" "IMPLEMENTING"
 ```
 
 ---
@@ -226,7 +226,7 @@ fi
 
 **Update plan file** (if exists): Update the Status field to `[COMPLETED]`:
 ```bash
-.claude/scripts/update-plan-status.sh "$task_number" "$project_name" "COMPLETED"
+.opencode/scripts/update-plan-status.sh "$task_number" "$project_name" "COMPLETED"
 ```
 
 **If status is "partial"**:
@@ -245,7 +245,7 @@ TODO.md stays as `[IMPLEMENTING]`.
 
 **Update plan file** (if exists): Update the Status field to `[PARTIAL]`:
 ```bash
-.claude/scripts/update-plan-status.sh "$task_number" "$project_name" "PARTIAL"
+.opencode/scripts/update-plan-status.sh "$task_number" "$project_name" "PARTIAL"
 ```
 
 **On failed**: Keep status as "implementing" for retry. Do not update plan file (leave as `[IMPLEMENTING]` for retry).

@@ -1,18 +1,18 @@
 # jq Escaping Workarounds
 
-This document describes workarounds for jq command escaping issues caused by Claude Code's Bash tool (Issue #1132).
+This document describes workarounds for jq command escaping issues caused by OpenCode's Bash tool (Issue #1132).
 
 ## Bug Description
 
-Claude Code's Bash tool has two escaping issues that affect jq commands (both variants of Issue #1132):
+OpenCode's Bash tool has two escaping issues that affect jq commands (both variants of Issue #1132):
 
 ### Issue 1: Pipe Injection
 
-Claude Code injects `< /dev/null` into commands containing pipe operators (`|`) inside quoted strings in certain positions. This corrupts jq filter expressions like `map(select(.type != "X"))`, causing parse errors.
+OpenCode injects `< /dev/null` into commands containing pipe operators (`|`) inside quoted strings in certain positions. This corrupts jq filter expressions like `map(select(.type != "X"))`, causing parse errors.
 
 ### Issue 2: `!=` Operator Escaping
 
-Claude Code escapes the `!=` operator as `\!=`, which jq cannot parse. This affects all jq commands using inequality comparisons.
+OpenCode escapes the `!=` operator as `\!=`, which jq cannot parse. This affects all jq commands using inequality comparisons.
 
 ### Symptoms
 
@@ -38,7 +38,7 @@ select(.type == "plan" | not)
 
 ### Why It Happens
 
-The Claude Code Bash tool escape mechanism:
+The OpenCode Bash tool escape mechanism:
 1. Interprets `|` in quoted jq expressions as a shell pipe in certain contexts
 2. Escapes `!=` as `\!=` (likely treating it as a shell history expansion)
 

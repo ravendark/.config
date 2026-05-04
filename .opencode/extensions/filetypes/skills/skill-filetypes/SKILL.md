@@ -11,7 +11,7 @@ Thin wrapper that routes file format operations to the `filetypes-router-agent`,
 ## Context Pointers
 
 Reference (do not load eagerly):
-- Path: `.claude/context/core/formats/subagent-return.md`
+- Path: `.opencode/context/core/formats/subagent-return.md`
 - Purpose: Return validation
 - Load at: Subagent execution only
 
@@ -121,8 +121,8 @@ Parameters:
 ```
 
 **DO NOT** use `Skill(filetypes-router-agent)` - this will FAIL.
-Agents live in `.claude/agents/` or extension agent directories, not `.claude/skills/`.
-The Skill tool can only invoke skills from `.claude/skills/`.
+Agents live in `.opencode/agents/` or extension agent directories, not `.opencode/skills/`.
+The Skill tool can only invoke skills from `.opencode/skills/`.
 
 The router will:
 - Detect source and target formats
@@ -146,7 +146,7 @@ Return validated result to caller without modification.
 
 ## Return Format
 
-See `.claude/context/core/formats/subagent-return.md` for full specification.
+See `.opencode/context/core/formats/subagent-return.md` for full specification.
 
 Expected successful return:
 ```json

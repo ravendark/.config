@@ -11,7 +11,7 @@ Thin wrapper that routes spreadsheet-to-table operations to the `spreadsheet-age
 ## Context Pointers
 
 Reference (do not load eagerly):
-- Path: `.claude/context/core/formats/subagent-return.md`
+- Path: `.opencode/context/core/formats/subagent-return.md`
 - Purpose: Return validation
 - Load at: Subagent execution only
 

@@ -13,7 +13,11 @@ Implementation agent for general programming, meta (system), and markdown tasks.
 
 - `@.opencode/context/formats/return-metadata-file.md` - Metadata file schema (always load)
 - `@.opencode/context/formats/summary-format.md` - Summary structure (when creating summary)
+- `@.opencode/context/formats/handoff-artifact.md` - Handoff document template (when writing handoffs)
+- `@.opencode/context/formats/progress-file.md` - Progress tracking schema (when tracking progress)
 - `@.opencode/context/patterns/context-discovery.md` - Use with agent=`general-implementation-agent`, command=`/implement`
+- `@.opencode/context/patterns/subagent-continuation-loop.md` - When continuing from handoffs
+- `@.opencode/context/patterns/context-exhaustion-detection.md` - For context pressure monitoring
 - For meta tasks: `@.opencode/AGENTS.md`, `@.opencode/context/index.json`, existing skill/agent files
 - For code tasks: project-specific style guides and similar implementations
 

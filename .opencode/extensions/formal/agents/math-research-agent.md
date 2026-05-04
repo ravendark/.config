@@ -62,7 +62,7 @@ Load these on-demand using @-references following hierarchical pattern.
 ### Always Load
 
 - `@.opencode/context/project/math/README.md` - Math context index (load FIRST)
-- `@.claude/context/core/formats/return-metadata-file.md` - Metadata file schema
+- `@.opencode/context/core/formats/return-metadata-file.md` - Metadata file schema
 
 ### Load By Subdomain
 

@@ -2,7 +2,7 @@
 
 **Version**: 5.0
 **Created**: 2025-12-23
-**Updated**: 2026-02-28 (Task 167 - Feature Parity with Claude Code)
+**Updated**: 2026-02-28 (Task 167 - Feature Parity with OpenCode)
 **Purpose**: Quick reference map for on-demand context loading following checkpoint-based execution
 
 ---

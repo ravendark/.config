@@ -1,12 +1,12 @@
 # Multi-Instance Lean-LSP Optimization Guide
 
-**Purpose**: Reduce MCP AbortError -32001 timeouts when running multiple Claude Code sessions
+**Purpose**: Reduce MCP AbortError -32001 timeouts when running multiple OpenCode sessions
 
 ---
 
 ## Overview
 
-Running multiple concurrent Claude Code sessions with Lean-LSP MCP tools can cause AbortError -32001 timeouts due to resource contention.
+Running multiple concurrent OpenCode sessions with Lean-LSP MCP tools can cause AbortError -32001 timeouts due to resource contention.
 
 ### Root Cause
 

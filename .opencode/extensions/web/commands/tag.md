@@ -258,5 +258,5 @@ History is limited to the last 10 deployments.
 
 ## Related Documentation
 
-- `.claude/rules/git-workflow.md` - Git conventions and agent restrictions
-- `.claude/extensions/web/context/project/web/tools/` - CI/CD and deployment guides (project-specific)
+- `.opencode/rules/git-workflow.md` - Git conventions and agent restrictions
+- `.opencode/extensions/web/context/project/web/tools/` - CI/CD and deployment guides (project-specific)

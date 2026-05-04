@@ -604,7 +604,7 @@ Write review artifact to appropriate location:
 
 **Reviewed**: {source - file path or task number}
 **Date**: {ISO date}
-**Reviewer**: Claude Code (project-agent)
+**Reviewer**: OpenCode (project-agent)
 **Risk Tolerance**: {conservative/balanced/aggressive}
 **Review Depth**: {quick/standard/deep}
 

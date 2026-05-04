@@ -17,6 +17,8 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 Reference (do not load eagerly):
 - Path: `.opencode/context/formats/return-metadata-file.md` - Metadata file schema
 - Path: `.opencode/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/patterns/subagent-continuation-loop.md` - Continuation loop pattern
+- Path: `.opencode/context/patterns/context-exhaustion-detection.md` - Context exhaustion heuristics
 - Path: `.opencode/context/patterns/file-metadata-exchange.md` - File I/O helpers
 - Path: `.opencode/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 

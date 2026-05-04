@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide describes the lean-lsp-mcp tools available for Lean 4 development in Claude Code. These tools are accessed directly via MCP (Model Context Protocol) with the `mcp__lean-lsp__*` prefix.
+This guide describes the lean-lsp-mcp tools available for Lean 4 development in OpenCode. These tools are accessed directly via MCP (Model Context Protocol) with the `mcp__lean-lsp__*` prefix.
 
 ### CRITICAL: Blocked Tools - DO NOT USE
 

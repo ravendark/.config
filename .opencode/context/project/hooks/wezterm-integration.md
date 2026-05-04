@@ -1,12 +1,12 @@
 # WezTerm Tab Integration
 
-This document describes the WezTerm terminal integration for Claude Code, providing tab title updates and visual notifications.
+This document describes the WezTerm terminal integration for OpenCode, providing tab title updates and visual notifications.
 
 ## Overview
 
 The integration enables:
 - Task number display in WezTerm tab titles (e.g., `ProofChecker #792`)
-- Amber highlighting for tabs awaiting Claude Code input
+- Amber highlighting for tabs awaiting OpenCode input
 - Automatic notification clearing when the user views or responds
 
 ## Architecture
@@ -24,7 +24,7 @@ The integration enables:
          └─────────┬─────────┘       └─────────┬─────────┘
                    │                           │
     ┌──────────────┴──────────┐    ┌──────────┴──────────────┐
-    │ Shell / Neovim          │    │ Claude Code Hooks        │
+    │ Shell / Neovim          │    │ OpenCode Hooks        │
     │                         │    │                          │
     │ Directory updates from  │    │ wezterm-task-number.sh   │
     │ shells and Neovim       │    │ wezterm-notify.sh        │
@@ -80,7 +80,7 @@ This ensures task numbers persist correctly during Claude's responses and tool e
 
 ### Disabling Notifications
 
-Set environment variable before starting Claude Code:
+Set environment variable before starting OpenCode:
 
 ```bash
 export WEZTERM_NOTIFY_ENABLED=0
@@ -174,7 +174,7 @@ This matches the TTS announcements: "Tab 1", "Tab 2", etc.
 
 ### TTY Access Pattern
 
-Claude Code hooks run with redirected stdio (stdout is a socket to Claude). To emit OSC sequences visible to WezTerm, hooks must write directly to the pane's TTY:
+OpenCode hooks run with redirected stdio (stdout is a socket to Claude). To emit OSC sequences visible to WezTerm, hooks must write directly to the pane's TTY:
 
 ```bash
 # Get TTY path via WezTerm CLI
@@ -200,7 +200,7 @@ The `format-tab-title` and `update-status` handlers that consume these variables
 
 ## Integration with Neovim
 
-When Claude Code runs inside Neovim (via claude-code.nvim), the Neovim autocmds in `~/.config/nvim/lua/neotex/config/autocmds.lua` provide complementary integration:
+When OpenCode runs inside Neovim (via claude-code.nvim), the Neovim autocmds in `~/.config/nvim/lua/neotex/config/autocmds.lua` provide complementary integration:
 
 - **OSC 7**: Neovim emits directory updates on DirChanged, VimEnter, BufEnter
 - **Task Number**:

@@ -15,10 +15,10 @@ This eliminates the "continue" prompt issue between skill return and orchestrato
 ## Context References
 
 Reference (do not load eagerly):
-- Path: `.claude/context/core/formats/return-metadata-file.md` - Metadata file schema
-- Path: `.claude/context/core/patterns/postflight-control.md` - Marker file protocol
-- Path: `.claude/context/core/patterns/file-metadata-exchange.md` - File I/O helpers
-- Path: `.claude/context/core/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.opencode/context/core/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.opencode/context/core/patterns/postflight-control.md` - Marker file protocol
+- Path: `.opencode/context/core/patterns/file-metadata-exchange.md` - File I/O helpers
+- Path: `.opencode/context/core/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
 
 Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
@@ -152,8 +152,8 @@ Parameters:
 ```
 
 **DO NOT** use `Skill(nix-implementation-agent)` - this will FAIL.
-Agents live in `.claude/agents/`, not `.claude/skills/`.
-The Skill tool can only invoke skills from `.claude/skills/`.
+Agents live in `.opencode/agents/`, not `.opencode/skills/`.
+The Skill tool can only invoke skills from `.opencode/skills/`.
 
 The subagent will:
 - Load Nix-specific context files (style guide, module patterns, etc.)

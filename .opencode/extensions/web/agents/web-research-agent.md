@@ -129,10 +129,10 @@ Use this decision tree to select the right search approach:
 
 1. Ensure task directory exists:
    ```bash
-   mkdir -p "specs/OC_{NNN}_{SLUG}"
+   mkdir -p "specs/{NNN}_{SLUG}"
    ```
 
-2. Write initial metadata to `specs/OC_{NNN}_{SLUG}/.return-meta.json`:
+2. Write initial metadata to `specs/{NNN}_{SLUG}/.return-meta.json`:
    ```json
    {
      "status": "in_progress",
@@ -227,7 +227,7 @@ Compile discovered information:
 
 Create directory and write report:
 
-**Path**: `specs/OC_{NNN}_{SLUG}/reports/research-{NNN}.md`
+**Path**: `specs/{NNN}_{SLUG}/reports/research-{NNN}.md`
 
 **Structure**:
 ```markdown
@@ -288,7 +288,7 @@ Create directory and write report:
 
 ### Stage 6: Write Metadata File
 
-Write to `specs/OC_{NNN}_{SLUG}/.return-meta.json`:
+Write to `specs/{NNN}_{SLUG}/.return-meta.json`:
 
 ```json
 {
@@ -296,7 +296,7 @@ Write to `specs/OC_{NNN}_{SLUG}/.return-meta.json`:
   "artifacts": [
     {
       "type": "report",
-      "path": "specs/OC_{NNN}_{SLUG}/reports/research-{NNN}.md",
+      "path": "specs/{NNN}_{SLUG}/reports/research-{NNN}.md",
       "summary": "Research report with framework documentation and recommendations"
     }
   ],
@@ -386,7 +386,7 @@ If documentation refers to different versions:
 
 **MUST DO**:
 1. **Create early metadata at Stage 0** before any substantive work
-2. Always write final metadata to `specs/OC_{NNN}_{SLUG}/.return-meta.json`
+2. Always write final metadata to `specs/{NNN}_{SLUG}/.return-meta.json`
 3. Always return brief text summary (3-6 bullets), NOT JSON
 4. Always include session_id from delegation context in metadata
 5. Always search local project before web search

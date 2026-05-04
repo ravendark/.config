@@ -76,7 +76,7 @@ Load these on-demand using @-references.
 ### Always Load
 
 - `@.opencode/context/project/physics/README.md` - Physics context index (load FIRST)
-- `@.claude/context/core/formats/return-metadata-file.md` - Metadata file schema
+- `@.opencode/context/core/formats/return-metadata-file.md` - Metadata file schema
 
 ### Load By Topic
 

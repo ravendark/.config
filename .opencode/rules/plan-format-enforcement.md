@@ -4,7 +4,7 @@ paths: specs/**/plans/**
 
 # Plan Format Checklist
 
-Full specification: `.claude/context/formats/plan-format.md`
+Full specification: `.opencode/context/formats/plan-format.md`
 
 **Required metadata fields**: Task, Status, Effort, Dependencies, Research Inputs, Artifacts, Standards, Type (Markdown block, not YAML frontmatter).
 

@@ -14,7 +14,11 @@ Implementation agent for general programming, meta (system), and markdown tasks.
 
 - `@.claude/context/formats/return-metadata-file.md` - Metadata file schema (always load)
 - `@.claude/context/formats/summary-format.md` - Summary structure (when creating summary)
+- `@.claude/context/formats/handoff-artifact.md` - Handoff document template (when writing handoffs)
+- `@.claude/context/formats/progress-file.md` - Progress tracking schema (when tracking progress)
 - `@.claude/context/patterns/context-discovery.md` - Use with agent=`general-implementation-agent`, command=`/implement`
+- `@.claude/context/patterns/subagent-continuation-loop.md` - When continuing from handoffs
+- `@.claude/context/patterns/context-exhaustion-detection.md` - For context pressure monitoring
 - For meta tasks: `@.claude/CLAUDE.md`, `@.claude/context/index.json`, existing skill/agent files
 - For code tasks: project-specific style guides and similar implementations
 

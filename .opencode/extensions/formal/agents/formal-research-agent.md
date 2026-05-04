@@ -69,7 +69,7 @@ Load these on-demand using @-references.
 
 ### Always Load
 
-- `@.claude/context/core/formats/return-metadata-file.md` - Metadata file schema
+- `@.opencode/context/core/formats/return-metadata-file.md` - Metadata file schema
 
 ## Execution Flow
 

@@ -1,6 +1,6 @@
 # Present Extension
 
-Research presentation support for Claude Code. Provides grant writing, budget planning, timeline management, funding analysis, and academic talk generation.
+Research presentation support for OpenCode. Provides grant writing, budget planning, timeline management, funding analysis, and academic talk generation.
 
 ## Overview
 

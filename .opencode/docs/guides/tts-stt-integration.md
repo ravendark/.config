@@ -12,8 +12,8 @@ The integration provides two independent features:
 Both features work completely offline with no cloud APIs required.
 
 > **Architecture note**: OpenCode uses a JavaScript plugin system (`@opencode-ai/plugin`),
-> not Claude Code's shell hook system. The `.opencode/settings.json` `hooks:` section is
-> Claude Code format and is ignored by opencode. The plugin at
+> not OpenCode's shell hook system. The `.opencode/settings.json` `hooks:` section is
+> OpenCode format and is ignored by opencode. The plugin at
 > `.opencode/plugins/wezterm-hooks.js` is the opencode equivalent.
 
 ## Prerequisites
@@ -93,11 +93,11 @@ unzip vosk-model-small-en-us-0.15.zip
 mv vosk-model-small-en-us-0.15 vosk-model-small-en-us
 ```
 
-## TTS Notifications for Claude Code
+## TTS Notifications for OpenCode
 
 ### How It Works
 
-Claude Code triggers `tts-notify.sh` via hooks when:
+OpenCode triggers `tts-notify.sh` via hooks when:
 
 1. **Stop Event**: Claude finishes responding - announces "Tab N" (after 1.5s trailing delay)
 2. **Notification Events** (input-needed): `permission_prompt`, `idle_prompt`, `elicitation_dialog` - announces "Tab N" immediately
@@ -125,7 +125,7 @@ TTS notifications for session idle events use trailing-edge debounce (default 1.
 TTS and WezTerm integration is handled by the opencode plugin at `.opencode/plugins/wezterm-hooks.js`.
 OpenCode uses a JavaScript plugin system (`@opencode-ai/plugin`), not shell hooks.
 
-| OpenCode Event | Claude Code Equivalent | Action |
+| OpenCode Event | OpenCode Equivalent | Action |
 |----------------|------------------------|--------|
 | `session.idle` | `Stop` | TTS + amber tab |
 | `permission.asked` | `Notification/permission_prompt` | TTS |
@@ -292,7 +292,7 @@ require('neotex.plugins.tools.stt').setup({
 
 ### Using TTS with Multiple WezTerm Tabs
 
-1. Open multiple WezTerm tabs with Claude Code sessions
+1. Open multiple WezTerm tabs with OpenCode sessions
 2. Start a long-running task (e.g., `/implement` or code review)
 3. Switch to another tab to work
 4. When Claude finishes, hear "Tab 2"
@@ -336,7 +336,7 @@ This format is optimal for speech recognition and keeps file sizes small.
 
 | File | Purpose |
 |------|---------|
-| `.opencode/hooks/tts-notify.sh` | Claude Code TTS hook |
+| `.opencode/hooks/tts-notify.sh` | OpenCode TTS hook |
 | `~/.config/nvim/lua/neotex/plugins/tools/stt/init.lua` | Neovim STT plugin |
 | `~/.config/nvim/lua/neotex/plugins/tools/stt-plugin.lua` | Lazy.nvim plugin spec |
 | `~/.config/nvim/lua/neotex/plugins/editor/which-key.lua` | Keybinding configuration |
@@ -375,6 +375,6 @@ Total disk usage: ~95 MB for both features.
 
 - [Piper TTS](https://github.com/rhasspy/piper) - Fast neural TTS
 - [Vosk](https://alphacephei.com/vosk/) - Offline speech recognition
-- [Claude Code Hooks](https://code.claude.com/docs/en/hooks) - Hook documentation
+- [OpenCode Hooks](https://code.claude.com/docs/en/hooks) - Hook documentation
 - [WezTerm CLI](https://wezterm.org/cli/cli/activate-tab.html) - Tab management
 - [Neovim Integration Guide](neovim-integration.md) - SessionStart hooks and sidebar readiness

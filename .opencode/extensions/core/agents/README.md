@@ -1,6 +1,6 @@
 # Agents
 
-Agent definitions for the Claude Code system. Agents perform execution work for research, implementation, and specialized tasks.
+Agent definitions for the OpenCode system. Agents perform execution work for research, implementation, and specialized tasks.
 
 ## Agent Files
 

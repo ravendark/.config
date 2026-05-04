@@ -11,7 +11,7 @@ Thin wrapper that routes pitch deck generation requests to the `deck-agent`.
 ## Context Pointers
 
 Reference (do not load eagerly):
-- Path: `.claude/context/core/formats/subagent-return.md`
+- Path: `.opencode/context/core/formats/subagent-return.md`
 - Purpose: Return validation
 - Load at: Subagent execution only
 

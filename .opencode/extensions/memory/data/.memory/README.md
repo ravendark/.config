@@ -1,11 +1,11 @@
 # Shared Memory Vault
 
-This directory contains an Obsidian-compatible vault shared between Claude Code and OpenCode AI systems. Memories created by either system are accessible to both.
+This directory contains an Obsidian-compatible vault shared between OpenCode and OpenCode AI systems. Memories created by either system are accessible to both.
 
 ## Multi-System Usage
 
 This vault is intentionally shared across AI systems:
-- Both Claude Code and OpenCode can read all memories
+- Both OpenCode and OpenCode can read all memories
 - Both systems can create and update memories
 - Memory IDs include timestamps for collision resistance
 - Index files are regenerated from filesystem state
@@ -13,7 +13,7 @@ This vault is intentionally shared across AI systems:
 ### MCP Server Considerations
 
 Only one AI system should use MCP-based search at a time:
-- Claude Code: Uses WebSocket port 22360
+- OpenCode: Uses WebSocket port 22360
 - OpenCode: Uses REST API port 27124
 
 Both systems fall back to grep-based search when MCP is unavailable, which works safely in concurrent scenarios.
