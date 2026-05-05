@@ -9,8 +9,8 @@ next_project_number: 531
 *Updated 2026-05-05. 10 active tasks remaining.*
 
 ### Pending
-- **528** [NOT STARTED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
-- **527** [NOT STARTED] -- Update handoff artifact naming convention in format specs and agent definitions
+- **528** [RESEARCHED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
+- **527** [RESEARCHED] -- Update handoff artifact naming convention in format specs and agent definitions
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
@@ -21,9 +21,11 @@ next_project_number: 531
 
 ### 528. Update skill-implementer continuation loop and pattern documentation
 - **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #527
+- **Research**:
+  - [528_update_continuation_loop_docs/reports/01_continuation-loop-docs-research.md]
 
 **Description**: Update `skill-implementer/SKILL.md` example paths in the continuation loop documentation and Stage 7 partial handling to use the new `MM_HH_{handoff-slug}.md` naming convention. Update `subagent-continuation-loop.md` and `context-exhaustion-detection.md` pattern documents with new example `handoff_path` values. Sync all changes to `.opencode/extensions/core/` mirrors.
 
@@ -33,9 +35,11 @@ Key files: `.opencode/skills/skill-implementer/SKILL.md`, `.opencode/context/pat
 
 ### 527. Update handoff artifact naming convention in format specs and agent definitions
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**:
+  - [527_update_handoff_naming_convention/reports/01_handoff-naming-research.md]
 
 **Description**: Update the handoff artifact system to use the `MM_HH_{handoff-slug}.md` naming convention where MM is the plan artifact number and HH is the handoff artifact number. Update `handoff-artifact.md` format spec with the new naming convention and slug generation guidelines (derive from phase name + current objective, kebab-case). Update `general-implementation-agent.md` Stage 4C to construct filenames using `artifact_number` (MM), `handoff_count+1` (HH, zero-padded to 2 digits), and auto-generated slug. Update extension/core/ mirrors and `lean-implementation-agent.md` references.
 

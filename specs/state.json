@@ -5,7 +5,7 @@
     {
       "project_number": 528,
       "project_name": "update_continuation_loop_docs",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Update skill-implementer continuation loop and pattern documentation with new handoff naming",
       "effort": "< 1 hour",
@@ -13,20 +13,34 @@
         527
       ],
       "created": "2026-05-04T16:00:00Z",
-      "last_updated": "2026-05-04T16:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-05T16:00:00Z",
+      "session_id": "sess_1777996736_23c1da",
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "specs/528_update_continuation_loop_docs/reports/01_continuation-loop-docs-research.md",
+          "summary": "Identified 8 files (4 primary + 4 core mirrors) requiring update from phase-{P}-handoff-{TIMESTAMP}.md to MM_HH_{handoff-slug}.md naming convention"
+        }
+      ]
     },
     {
       "project_number": 527,
       "project_name": "update_handoff_naming_convention",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Update handoff artifact naming convention to MM_HH_{handoff-slug}.md in format specs and agent definitions",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-04T16:00:00Z",
-      "last_updated": "2026-05-04T16:00:00Z",
-      "artifacts": []
+      "last_updated": "2026-05-05T15:53:40Z",
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/527_update_handoff_naming_convention/reports/01_handoff-naming-research.md",
+          "summary": "Research report documenting all files requiring updates to implement the MM_HH_{handoff-slug}.md handoff naming convention"
+        }
+      ],
+      "session_id": "sess_1777996736_23c1da"
     },
     {
       "project_number": 87,
