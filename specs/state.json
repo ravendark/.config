@@ -194,13 +194,13 @@
     {
       "project_number": 523,
       "project_name": "change_leader_lb_bibexport_notification",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "description": "Change <leader>lb bibexport to show notification instead of terminal buffer",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-04T12:00:00Z",
-      "last_updated": "2026-05-04T23:59:16Z",
+      "last_updated": "2026-05-05T00:07:57Z",
       "artifacts": [
         {
           "path": "specs/523_change_leader_lb_bibexport_notification/reports/01_bibexport-notification-research.md",
@@ -211,9 +211,16 @@
           "path": "specs/523_change_leader_lb_bibexport_notification/plans/01_bibexport-notification.md",
           "type": "plan",
           "summary": "Replace terminal-based bibexport with async jobstart and notification pattern matching <leader>Tr/Ts"
+        },
+        {
+          "path": "specs/523_change_leader_lb_bibexport_notification/summaries/01_bibexport-notification-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for async bibexport notification"
         }
       ],
-      "session_id": "sess_1777938914_477de6"
+      "session_id": "sess_1777939543_d04a81",
+      "completed": "2026-05-05T00:07:57Z",
+      "completion_summary": "Replaced terminal-based bibexport with async jobstart and notification pattern"
     },
     {
       "project_number": 522,

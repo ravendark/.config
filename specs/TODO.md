@@ -39,6 +39,7 @@ next_project_number: 530
 - **Dependencies**: None
 - **Research**: [523_change_leader_lb_bibexport_notification/reports/01_bibexport-notification-research.md]
 - **Plan**: [523_change_leader_lb_bibexport_notification/plans/01_bibexport-notification.md]
+- **Summary**: [523_change_leader_lb_bibexport_notification/summaries/01_bibexport-notification-summary.md]
 
 **Description**: Modify the `run_bibexport()` function in `after/ftplugin/tex.lua` to run `bibexport` asynchronously via `vim.system()` or `vim.fn.jobstart()` instead of opening a terminal buffer. On completion, display a brief notification via `vim.notify()` or `require('neotex.util.notifications')` indicating success (with output file path) or failure (with error message). This matches the pattern used by `<leader>Tr` and `<leader>Ts` template copy functions.
 

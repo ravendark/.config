@@ -1,7 +1,7 @@
 # Implementation Plan: Task #523
 
 - **Task**: 523 - change_leader_lb_bibexport_notification
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1 hour
 - **Dependencies**: None
 - **Research Inputs**: specs/523_change_leader_lb_bibexport_notification/reports/01_bibexport-notification-research.md
@@ -61,16 +61,17 @@ No ROADMAP.md items specifically targeted. This is a small UX improvement.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Rewrite run_bibexport() [NOT STARTED]
+### Phase 1: Rewrite run_bibexport() [COMPLETED]
+- **Completed**: 2026-05-04
 
 **Goal**: Replace terminal-based `run_bibexport()` with async jobstart and notification
 
 **Tasks**:
-- [ ] **Task 1.1**: Pre-check `.aux` file exists; if not, send error notification and return early
-- [ ] **Task 1.2**: Build `bibexport` command and launch via `vim.fn.jobstart()` with `cwd = filedir`
-- [ ] **Task 1.3**: Capture stderr lines in `on_stderr` callback
-- [ ] **Task 1.4**: On `on_exit`, wrap body in `vim.schedule()`: if exit code 0, send `notify.editor('Bibexport complete', categories.USER_ACTION, { file = output_path })`; else send error notification with stderr or exit code
-- [ ] **Task 1.5**: Verify keymap still calls `run_bibexport()` unchanged
+- [x] **Task 1.1**: Pre-check `.aux` file exists; if not, send error notification and return early
+- [x] **Task 1.2**: Build `bibexport` command and launch via `vim.fn.jobstart()` with `cwd = filedir`
+- [x] **Task 1.3**: Capture stderr lines in `on_stderr` callback
+- [x] **Task 1.4**: On `on_exit`, wrap body in `vim.schedule()`: if exit code 0, send `notify.editor('Bibexport complete', categories.USER_ACTION, { file = output_path })`; else send error notification with stderr or exit code
+- [x] **Task 1.5**: Verify keymap still calls `run_bibexport()` unchanged
 
 **Timing**: 1 hour
 
