@@ -5,7 +5,7 @@
     {
       "project_number": 528,
       "project_name": "update_continuation_loop_docs",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Update skill-implementer continuation loop and pattern documentation with new handoff naming",
       "effort": "< 1 hour",
@@ -13,34 +13,44 @@
         527
       ],
       "created": "2026-05-04T16:00:00Z",
-      "last_updated": "2026-05-05T16:00:00Z",
-      "session_id": "sess_1777996736_23c1da",
+      "last_updated": "2026-05-05T16:29:10Z",
+      "session_id": "sess_1777997679_a2a73e",
       "artifacts": [
         {
           "type": "research",
           "path": "specs/528_update_continuation_loop_docs/reports/01_continuation-loop-docs-research.md",
           "summary": "Identified 8 files (4 primary + 4 core mirrors) requiring update from phase-{P}-handoff-{TIMESTAMP}.md to MM_HH_{handoff-slug}.md naming convention"
+        },
+        {
+          "path": "specs/528_update_continuation_loop_docs/plans/01_update-continuation-loop-docs.md",
+          "type": "plan",
+          "summary": "Implementation plan with 4 phases to update continuation loop documentation to the new MM_HH_handoff-slug.md naming convention"
         }
       ]
     },
     {
       "project_number": 527,
       "project_name": "update_handoff_naming_convention",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Update handoff artifact naming convention to MM_HH_{handoff-slug}.md in format specs and agent definitions",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-04T16:00:00Z",
-      "last_updated": "2026-05-05T15:53:40Z",
+      "last_updated": "2026-05-05T16:29:09Z",
       "artifacts": [
         {
           "type": "report",
           "path": "specs/527_update_handoff_naming_convention/reports/01_handoff-naming-research.md",
           "summary": "Research report documenting all files requiring updates to implement the MM_HH_{handoff-slug}.md handoff naming convention"
+        },
+        {
+          "path": "specs/527_update_handoff_naming_convention/plans/01_update-handoff-naming.md",
+          "type": "plan",
+          "summary": "Implementation plan for updating handoff naming convention across format specs, agent definitions, and pattern documentation"
         }
       ],
-      "session_id": "sess_1777996736_23c1da"
+      "session_id": "sess_1777997679_a2a73e"
     },
     {
       "project_number": 87,
