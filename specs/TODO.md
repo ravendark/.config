@@ -9,7 +9,7 @@ next_project_number: 531
 *Updated 2026-05-04. 7 active tasks remaining.*
 
 ### Pending
-- **530** [NOT STARTED] -- Fix OpenCode agent system preflight/postflight status sync across state.json, TODO.md, and plan files
+- **530** [RESEARCHED] -- Fix OpenCode agent system preflight/postflight status sync across state.json, TODO.md, and plan files
 - **528** [NOT STARTED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [NOT STARTED] -- Update handoff artifact naming convention in format specs and agent definitions
 - **523** [COMPLETED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
@@ -21,9 +21,10 @@ next_project_number: 531
 ## Tasks
 
 ### 530. Fix OpenCode agent system preflight/postflight status sync across state.json, TODO.md, and plan files
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [530_fix_opencode_status_sync/reports/01_status-sync-research.md]
 
 **Description**: Fix the OpenCode agent system so that preflight and postflight status updates are applied consistently across state.json, TODO.md task entries, TODO.md Task Order section, and plan files. The root cause of task 523's TODO.md desync was that the skill-neovim-implementation skill manually updates state.json with jq but does NOT call the centralized update-task-status.sh script for TODO.md updates, leaving state.json and TODO.md out of sync. The fix must ensure all skills (skill-planner, skill-implementer, skill-neovim-implementation, skill-nix-implementation, etc.) use the same atomic update mechanism.
 

@@ -5,13 +5,22 @@
     {
       "project_number": 530,
       "project_name": "fix_opencode_status_sync",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Fix OpenCode agent system preflight/postflight status sync across state.json, TODO.md, and plan files",
       "effort": "medium",
       "dependencies": [],
       "created": "2026-05-05T00:16:40Z",
-      "last_updated": "2026-05-05T00:16:40Z"
+      "last_updated": "2026-05-05T00:27:12Z",
+      "session_id": "sess_1777940425_cf414f",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/530_fix_opencode_status_sync/reports/01_status-sync-research.md",
+          "type": "research",
+          "summary": "OpenCode status sync inconsistency research: skills bypassing update-task-status.sh"
+        }
+      ]
     },
     {
       "project_number": 529,
