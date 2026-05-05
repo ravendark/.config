@@ -93,7 +93,7 @@ Before writing anything else, update the progress file to reflect exact current 
 Follow the template from `handoff-artifact.md`:
 
 ```markdown
-# Phase 3 Handoff - 20260504T120000Z
+# Phase 3 Handoff - 02_01
 
 ## Immediate Next Action
 Implement the date validator in validators/date.lua, following the pattern established by string and number validators.
@@ -134,14 +134,14 @@ Write metadata with:
   "partial_progress": {
     "stage": "context_exhaustion_handoff",
     "details": "Handoff written for successor. See handoff artifact for current state.",
-    "handoff_path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260504T120000Z.md",
+    "handoff_path": "specs/259_configure_feature/handoffs/02_01_implement-date-validator.md",
     "phases_completed": 2,
     "phases_total": 5
   },
   "artifacts": [
     {
       "type": "handoff",
-      "path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260504T120000Z.md",
+      "path": "specs/259_configure_feature/handoffs/02_01_implement-date-validator.md",
       "summary": "Context exhaustion handoff for phase 3 with state and approach constraints"
     }
   ]

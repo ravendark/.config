@@ -1,7 +1,7 @@
 # Implementation Plan: Update Continuation Loop Documentation
 
 - **Task**: 528 - update_continuation_loop_docs
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2.5 hours
 - **Dependencies**: Task 527 (soft dependency - naming convention definition)
 - **Research Inputs**: specs/528_update_continuation_loop_docs/reports/01_continuation-loop-docs-research.md
@@ -60,14 +60,14 @@ No direct ROADMAP.md items are advanced by this task. This is a meta-level docum
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Update Primary Pattern Documents [NOT STARTED]
+### Phase 1: Update Primary Pattern Documents [COMPLETED]
 
 **Goal**: Update the two pattern documents that contain example `handoff_path` values.
 
 **Tasks**:
-- [ ] **Task 1.1**: Update `.opencode/context/patterns/subagent-continuation-loop.md` line 95: replace `"handoff_path": "specs/495_.../handoffs/phase-2-handoff-20260504T120000Z.md"` with `"handoff_path": "specs/495_.../handoffs/02_01_implement-core-module.md"`
-- [ ] **Task 1.2**: Update `.opencode/context/patterns/context-exhaustion-detection.md` line 137: replace `"handoff_path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260504T120000Z.md"` with `"handoff_path": "specs/259_configure_feature/handoffs/02_01_implement-date-validator.md"`
-- [ ] **Task 1.3**: Update `.opencode/context/patterns/context-exhaustion-detection.md` line 144: replace `"path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260504T120000Z.md"` with `"path": "specs/259_configure_feature/handoffs/02_01_implement-date-validator.md"`
+- [x] **Task 1.1**: Update `.opencode/context/patterns/subagent-continuation-loop.md` line 95: replace `"handoff_path": "specs/495_.../handoffs/phase-2-handoff-20260504T120000Z.md"` with `"handoff_path": "specs/495_.../handoffs/02_01_implement-core-module.md"` *(completed)*
+- [x] **Task 1.2**: Update `.opencode/context/patterns/context-exhaustion-detection.md` line 137: replace `"handoff_path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260504T120000Z.md"` with `"handoff_path": "specs/259_configure_feature/handoffs/02_01_implement-date-validator.md"` *(completed)*
+- [x] **Task 1.3**: Update `.opencode/context/patterns/context-exhaustion-detection.md` line 144: replace `"path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260504T120000Z.md"` with `"path": "specs/259_configure_feature/handoffs/02_01_implement-date-validator.md"` *(completed)*
 
 **Timing**: 30 minutes
 
@@ -83,23 +83,23 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update Primary Format Spec and Agent Definition [NOT STARTED]
+### Phase 2: Update Primary Format Spec and Agent Definition [COMPLETED]
 
 **Goal**: Update the format specification and agent definition that document or construct handoff filenames.
 
 **Tasks**:
-- [ ] **Task 2.1**: Update `.opencode/context/formats/handoff-artifact.md`:
+- [x] **Task 2.1**: Update `.opencode/context/formats/handoff-artifact.md`:
   - Line 12: replace template path with `specs/{NNN}_{SLUG}/handoffs/MM_HH_{handoff-slug}.md`
   - Line 21: replace example with `specs/259_configure_feature/handoffs/02_01_implement-date-validator.md`
   - Lines 32-34: replace three directory examples with `02_01_define-validation-types.md`, `02_02_implement-field-validators.md`, `03_01_integrate-with-handler.md`
   - Line 115: replace artifact path example
   - Line 132: replace `handoff_path` example
-  - Update the `Where:` bullet list (lines 15-19) to document MM, HH, and slug components
-- [ ] **Task 2.2**: Update `.opencode/agent/subagents/general-implementation-agent.md`:
+  - Update the `Where:` bullet list (lines 15-19) to document MM, HH, and slug components *(completed: already updated by Task 527)*
+- [x] **Task 2.2**: Update `.opencode/agent/subagents/general-implementation-agent.md`:
   - Line 196: replace template path with `specs/{NNN}_{SLUG}/handoffs/{MM}_{HH}_{handoff-slug}.md`
   - Line 199: replace bash variable construction to reference `artifact_number`, `handoff_count_padded`, and `handoff_slug`
   - Line 322: replace placeholder handoff_path example
-  - Line 329: replace placeholder path example
+  - Line 329: replace placeholder path example *(completed: already updated by Task 527)*
 
 **Timing**: 45 minutes
 
@@ -115,15 +115,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Sync Changes to Extension Core Mirrors [NOT STARTED]
+### Phase 3: Sync Changes to Extension Core Mirrors [COMPLETED]
 
 **Goal**: Copy all updated primary files to their `.opencode/extensions/core/` counterparts, preserving intentional differences.
 
 **Tasks**:
-- [ ] **Task 3.1**: Sync `.opencode/context/formats/handoff-artifact.md` to `.opencode/extensions/core/context/formats/handoff-artifact.md`, preserving the known missing lines (51-52 and 167-168)
-- [ ] **Task 3.2**: Sync `.opencode/context/patterns/subagent-continuation-loop.md` to `.opencode/extensions/core/context/patterns/subagent-continuation-loop.md`
-- [ ] **Task 3.3**: Sync `.opencode/context/patterns/context-exhaustion-detection.md` to `.opencode/extensions/core/context/patterns/context-exhaustion-detection.md`
-- [ ] **Task 3.4**: Sync `.opencode/agent/subagents/general-implementation-agent.md` to `.opencode/extensions/core/agents/general-implementation-agent.md`
+- [x] **Task 3.1**: Sync `.opencode/context/formats/handoff-artifact.md` to `.opencode/extensions/core/context/formats/handoff-artifact.md`, preserving the known missing lines (51-52 and 167-168) *(completed: already synced by Task 527, files are identical)*
+- [x] **Task 3.2**: Sync `.opencode/context/patterns/subagent-continuation-loop.md` to `.opencode/extensions/core/context/patterns/subagent-continuation-loop.md` *(completed: already synced)*
+- [x] **Task 3.3**: Sync `.opencode/context/patterns/context-exhaustion-detection.md` to `.opencode/extensions/core/context/patterns/context-exhaustion-detection.md` *(completed: already synced)*
+- [x] **Task 3.4**: Sync `.opencode/agent/subagents/general-implementation-agent.md` to `.opencode/extensions/core/agents/general-implementation-agent.md` *(completed: already synced by Task 527)*
 
 **Timing**: 30 minutes
 
@@ -140,15 +140,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Verification and Consistency Check [NOT STARTED]
+### Phase 4: Verification and Consistency Check [COMPLETED]
 
 **Goal**: Ensure zero old-style naming convention references remain in any skill, agent, pattern, or mirror file.
 
 **Tasks**:
-- [ ] **Task 4.1**: Run grep across `.opencode/skills/`, `.opencode/agent/`, `.opencode/context/patterns/`, `.opencode/context/formats/`, and `.opencode/extensions/core/` for `phase-[0-9]+-handoff-[0-9]{8}T` and confirm zero matches
-- [ ] **Task 4.2**: Inspect `.opencode/skills/skill-implementer/SKILL.md` for any literal old-style example paths in continuation loop documentation or Stage 7 partial handling; if found, update them
-- [ ] **Task 4.3**: Inspect any other `.opencode/skills/*/SKILL.md` files for stale references (skill-researcher, skill-planner, etc.)
-- [ ] **Task 4.4**: Inspect `.opencode/context/formats/return-metadata-file.md` and `progress-file.md` for any stale handoff path examples
+- [x] **Task 4.1**: Run grep across `.opencode/skills/`, `.opencode/agent/`, `.opencode/context/patterns/`, `.opencode/context/formats/`, and `.opencode/extensions/core/` for `phase-[0-9]+-handoff-[0-9]{8}T` and confirm zero matches *(completed: PASS)*
+- [x] **Task 4.2**: Inspect `.opencode/skills/skill-implementer/SKILL.md` for any literal old-style example paths in continuation loop documentation or Stage 7 partial handling; if found, update them *(completed: PASS - no stale paths found)*
+- [x] **Task 4.3**: Inspect any other `.opencode/skills/*/SKILL.md` files for stale references (skill-researcher, skill-planner, etc.) *(completed: PASS - no stale references)*
+- [x] **Task 4.4**: Inspect `.opencode/context/formats/return-metadata-file.md` and `progress-file.md` for any stale handoff path examples *(completed: PASS - no stale examples)*
 
 **Timing**: 30 minutes
 

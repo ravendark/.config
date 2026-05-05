@@ -92,7 +92,7 @@ When spawning a successor, the delegation context includes a `continuation_conte
   "continuation_context": {
     "is_successor": true,
     "continuation_number": 1,
-    "handoff_path": "specs/495_.../handoffs/phase-2-handoff-20260504T120000Z.md",
+    "handoff_path": "specs/495_.../handoffs/02_01_implement-core-module.md",
     "progress_path": "specs/495_.../progress/phase-2-progress.json",
     "previous_phases_completed": 1
   }

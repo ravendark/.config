@@ -1,7 +1,7 @@
 # Implementation Plan: Update Handoff Naming Convention
 
 - **Task**: 527 - update_handoff_naming_convention
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/527_update_handoff_naming_convention/reports/01_handoff-naming-research.md
@@ -67,17 +67,17 @@ No direct ROADMAP.md item maps to this task. This is a meta-level improvement to
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Update Handoff Format Spec (Primary) [NOT STARTED]
+### Phase 1: Update Handoff Format Spec (Primary) [COMPLETED]
 
 **Goal**: Rewrite `.opencode/context/formats/handoff-artifact.md` to document the new naming convention.
 
 **Tasks**:
-- [ ] **Task 1.1**: Replace file location template: `specs/{N}_{SLUG}/handoffs/MM_HH_{handoff-slug}.md`
-- [ ] **Task 1.2**: Update variable definitions table with `MM` (artifact_number, 2-digit), `HH` (handoff_count+1, 2-digit), and `{handoff-slug}`
-- [ ] **Task 1.3**: Update all example filenames in the document to use new convention
-- [ ] **Task 1.4**: Update directory tree examples to show `02_01_implement-validation-framework.md` style names
-- [ ] **Task 1.5**: Update metadata examples (`handoff_path`, artifact `path`, `partial_progress.handoff_path`)
-- [ ] **Task 1.6**: Add explicit "Slug Generation" section documenting kebab-case derivation rules, truncation, and fallback behavior
+- [x] **Task 1.1**: Replace file location template: `specs/{N}_{SLUG}/handoffs/MM_HH_{handoff-slug}.md` *(completed)*
+- [x] **Task 1.2**: Update variable definitions table with `MM` (artifact_number, 2-digit), `HH` (handoff_count+1, 2-digit), and `{handoff-slug}` *(completed)*
+- [x] **Task 1.3**: Update all example filenames in the document to use new convention *(completed)*
+- [x] **Task 1.4**: Update directory tree examples to show `02_01_implement-validation-framework.md` style names *(completed)*
+- [x] **Task 1.5**: Update metadata examples (`handoff_path`, artifact `path`, `partial_progress.handoff_path`) *(completed)*
+- [x] **Task 1.6**: Add explicit "Slug Generation" section documenting kebab-case derivation rules, truncation, and fallback behavior *(completed)*
 
 **Timing**: 1 hour
 
@@ -92,13 +92,13 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Mirror Handoff Format Spec to Extensions/Core [NOT STARTED]
+### Phase 2: Mirror Handoff Format Spec to Extensions/Core [COMPLETED]
 
 **Goal**: Apply identical changes to `.opencode/extensions/core/context/formats/handoff-artifact.md`.
 
 **Tasks**:
-- [ ] **Task 2.1**: Copy the updated primary file to the mirror location, or apply the same edits individually
-- [ ] **Task 2.2**: Diff primary against mirror to confirm exact match
+- [x] **Task 2.1**: Copy the updated primary file to the mirror location, or apply the same edits individually *(completed)*
+- [x] **Task 2.2**: Diff primary against mirror to confirm exact match *(completed: zero differences)*
 
 **Timing**: 0.5 hours
 
@@ -112,15 +112,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update General Implementation Agent [NOT STARTED]
+### Phase 3: Update General Implementation Agent [COMPLETED]
 
 **Goal**: Rewrite filename construction and metadata examples in `.opencode/agent/subagents/general-implementation-agent.md`.
 
 **Tasks**:
-- [ ] **Task 3.1**: Update Stage 4C bash `handoff_file` construction: replace `$(date -u +%Y%m%dT%H%M%SZ)` with `artifact_number`, incremented `handoff_count`, and auto-generated slug
-- [ ] **Task 3.2**: Update Stage 7 metadata JSON example: `handoff_path` value
-- [ ] **Task 3.3**: Update Stage 7 metadata JSON example: `artifacts[].path` value
-- [ ] **Task 3.4**: Review surrounding Stage 4C text for any other timestamp references
+- [x] **Task 3.1**: Update Stage 4C bash `handoff_file` construction: replace `$(date -u +%Y%m%dT%H%M%SZ)` with `artifact_number`, incremented `handoff_count`, and auto-generated slug *(completed)*
+- [x] **Task 3.2**: Update Stage 7 metadata JSON example: `handoff_path` value *(completed)*
+- [x] **Task 3.3**: Update Stage 7 metadata JSON example: `artifacts[].path` value *(completed)*
+- [x] **Task 3.4**: Review surrounding Stage 4C text for any other timestamp references *(completed: zero remaining)*
 
 **Timing**: 1 hour
 
@@ -135,13 +135,13 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Mirror General Implementation Agent to Extensions/Core [NOT STARTED]
+### Phase 4: Mirror General Implementation Agent to Extensions/Core [COMPLETED]
 
 **Goal**: Apply identical changes to `.opencode/extensions/core/agents/general-implementation-agent.md`.
 
 **Tasks**:
-- [ ] **Task 4.1**: Apply the same edits as Phase 3 to the mirror file
-- [ ] **Task 4.2**: Diff primary against mirror to confirm exact match
+- [x] **Task 4.1**: Apply the same edits as Phase 3 to the mirror file *(completed)*
+- [x] **Task 4.2**: Diff primary against mirror to confirm exact match *(completed: zero differences)*
 
 **Timing**: 0.5 hours
 
@@ -155,14 +155,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Update Lean Implementation Agent [NOT STARTED]
+### Phase 5: Update Lean Implementation Agent [COMPLETED]
 
 **Goal**: Add explicit reference to new naming convention in `.opencode/extensions/lean/agents/lean-implementation-agent.md`.
 
 **Tasks**:
-- [ ] **Task 5.1**: Locate Handoff Protocol section and verify it currently references `specs/{N}_{SLUG}/handoffs/` without filename detail
-- [ ] **Task 5.2**: Add sentence referencing `handoff-artifact.md` format spec and noting filenames follow `MM_HH_{handoff-slug}.md`
-- [ ] **Task 5.3**: Verify lean agent references general implementation agent's progress initialization (Stage 3.5) or note if `handoff_count` initialization needs explicit mention
+- [x] **Task 5.1**: Locate Handoff Protocol section and verify it currently references `specs/{N}_{SLUG}/handoffs/` without filename detail *(completed)*
+- [x] **Task 5.2**: Add sentence referencing `handoff-artifact.md` format spec and noting filenames follow `MM_HH_{handoff-slug}.md` *(completed)*
+- [x] **Task 5.3**: Verify lean agent references general implementation agent's progress initialization (Stage 3.5) or note if `handoff_count` initialization needs explicit mention *(completed: added handoff_count note)*
 
 **Timing**: 0.5 hours
 
@@ -177,14 +177,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 6: Update Pattern Documentation (Primary) [NOT STARTED]
+### Phase 6: Update Pattern Documentation (Primary) [COMPLETED]
 
 **Goal**: Update example paths in `context-exhaustion-detection.md` and `subagent-continuation-loop.md`.
 
 **Tasks**:
-- [ ] **Task 6.1**: Update `context-exhaustion-detection.md` JSON example: `handoff_path` value
-- [ ] **Task 6.2**: Update `context-exhaustion-detection.md` JSON example: `artifacts[].path` value
-- [ ] **Task 6.3**: Update `subagent-continuation-loop.md` delegation context example: `continuation_context.handoff_path` value
+- [x] **Task 6.1**: Update `context-exhaustion-detection.md` JSON example: `handoff_path` value *(completed: primary already updated)*
+- [x] **Task 6.2**: Update `context-exhaustion-detection.md` JSON example: `artifacts[].path` value *(completed: primary already updated)*
+- [x] **Task 6.3**: Update `subagent-continuation-loop.md` delegation context example: `continuation_context.handoff_path` value *(completed: primary already updated)*
 
 **Timing**: 0.75 hours
 
@@ -200,14 +200,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 7: Mirror Pattern Docs to Extensions/Core [NOT STARTED]
+### Phase 7: Mirror Pattern Docs to Extensions/Core [COMPLETED]
 
 **Goal**: Apply identical changes to extension/core pattern documentation mirrors.
 
 **Tasks**:
-- [ ] **Task 7.1**: Apply Phase 6 changes to `.opencode/extensions/core/context/patterns/context-exhaustion-detection.md`
-- [ ] **Task 7.2**: Apply Phase 6 changes to `.opencode/extensions/core/context/patterns/subagent-continuation-loop.md`
-- [ ] **Task 7.3**: Diff primaries against mirrors to confirm exact matches
+- [x] **Task 7.1**: Apply Phase 6 changes to `.opencode/extensions/core/context/patterns/context-exhaustion-detection.md` *(completed)*
+- [x] **Task 7.2**: Apply Phase 6 changes to `.opencode/extensions/core/context/patterns/subagent-continuation-loop.md` *(completed)*
+- [x] **Task 7.3**: Diff primaries against mirrors to confirm exact matches *(completed: zero differences)*
 
 **Timing**: 0.5 hours
 
@@ -222,15 +222,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 8: Final Verification [NOT STARTED]
+### Phase 8: Final Verification [COMPLETED]
 
 **Goal**: Ensure zero remaining references to old naming patterns across the entire `.opencode/` tree.
 
 **Tasks**:
-- [ ] **Task 8.1**: Run `grep -r "phase-.*-handoff-" .opencode/` and confirm zero matches (excluding this plan and research report)
-- [ ] **Task 8.2**: Run `grep -r "handoff-.*20[0-9][0-9]" .opencode/` as secondary check for timestamp-based handoff filenames
-- [ ] **Task 8.3**: Run `grep -r "MM_HH_" .opencode/` to confirm new convention references are present in expected files
-- [ ] **Task 8.4**: Manual spot-check of the 9 modified files for consistency
+- [x] **Task 8.1**: Run `grep -r "phase-.*-handoff-" .opencode/` and confirm zero matches (excluding this plan and research report) *(completed: zero matches)*
+- [x] **Task 8.2**: Run `grep -r "handoff-.*20[0-9][0-9]" .opencode/` as secondary check for timestamp-based handoff filenames *(completed: zero matches)*
+- [x] **Task 8.3**: Run `grep -r "MM_HH_" .opencode/` to confirm new convention references are present in expected files *(completed: 3 matches in expected files)*
+- [x] **Task 8.4**: Manual spot-check of the 9 modified files for consistency *(completed: all consistent)*
 
 **Timing**: 0.5 hours
 

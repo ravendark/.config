@@ -193,10 +193,11 @@ If context pressure is detected during a phase (per Stage 4.5 monitoring), do NO
    - Set current objective status to `in_progress` (or `done` if just completed)
    - Update `last_updated`
 
-2. **Write handoff artifact** to `specs/{NNN}_{SLUG}/handoffs/phase-{P}-handoff-{TIMESTAMP}.md`:
+2. **Write handoff artifact** to `specs/{NNN}_{SLUG}/handoffs/{artifact_number}_{HH}_{handoff-slug}.md`:
    ```bash
    mkdir -p "specs/{NNN}_{SLUG}/handoffs"
-   handoff_file="specs/{NNN}_{SLUG}/handoffs/phase-{P}-handoff-$(date -u +%Y%m%dT%H%M%SZ).md"
+   handoff_count=$((handoff_count + 1))
+   handoff_file="specs/{NNN}_{SLUG}/handoffs/{artifact_number}_$(printf "%02d" $handoff_count)_{handoff-slug}.md"
    ```
 
    Follow the template from `@.opencode/context/formats/handoff-artifact.md`:
@@ -319,14 +320,14 @@ Write to `specs/{NNN}_{SLUG}/.return-meta.json` with status `implemented|partial
   "partial_progress": {
     "stage": "context_exhaustion_handoff",
     "details": "Handoff written for successor. See handoff artifact for current state.",
-    "handoff_path": "specs/.../handoffs/phase-P-handoff-TIMESTAMP.md",
+    "handoff_path": "specs/.../handoffs/{artifact_number}_{HH}_{handoff-slug}.md",
     "phases_completed": N,
     "phases_total": M
   },
   "artifacts": [
     {
       "type": "handoff",
-      "path": "specs/.../handoffs/phase-P-handoff-TIMESTAMP.md",
+      "path": "specs/.../handoffs/{artifact_number}_{HH}_{handoff-slug}.md",
       "summary": "Context exhaustion handoff for phase P with state and approach constraints"
     }
   ]

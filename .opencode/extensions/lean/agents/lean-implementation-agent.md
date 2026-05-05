@@ -196,8 +196,8 @@ Write a handoff when ANY of:
 
 When approaching context limit:
 
-1. **Write progress file** with current state
-2. **Write handoff document** to `specs/{N}_{SLUG}/handoffs/`
+1. **Write progress file** with current state (include `handoff_count: 0` on first write, increment on each handoff)
+2. **Write handoff document** to `specs/{N}_{SLUG}/handoffs/` using the `MM_HH_{handoff-slug}.md` naming convention documented in `handoff-artifact.md` (where `MM` = artifact_number, `HH` = handoff_count + 1)
 3. **Update metadata** with `handoff_path`
 4. **Return immediately** - do NOT attempt more work after writing handoff
 

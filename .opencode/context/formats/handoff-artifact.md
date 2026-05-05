@@ -9,16 +9,47 @@ Handoff artifacts enable graceful context exhaustion recovery by providing minim
 ## File Location
 
 ```
-specs/{N}_{SLUG}/handoffs/phase-{P}-handoff-{TIMESTAMP}.md
+specs/{N}_{SLUG}/handoffs/MM_HH_{handoff-slug}.md
 ```
 
 Where:
 - `{N}` = Task number (unpadded)
 - `{SLUG}` = Task slug in snake_case
-- `{P}` = Phase number (unpadded)
-- `{TIMESTAMP}` = ISO8601 timestamp (e.g., `20260212T143022Z`)
+- `MM` = Plan artifact number, 2-digit zero-padded (e.g., `01`, `02`)
+- `HH` = Handoff sequence number within the phase, 2-digit zero-padded, derived from `handoff_count + 1`
+- `{handoff-slug}` = Auto-generated kebab-case slug derived from phase name and current objective
 
-Example: `specs/259_configure_feature/handoffs/phase-3-handoff-20260212T143022Z.md`
+Example: `specs/259_configure_feature/handoffs/02_01_implement-validation-framework.md`
+
+## Variable Definitions
+
+| Variable | Source | Format | Example |
+|----------|--------|--------|---------|
+| `MM` | `artifact_number` from delegation context | 2-digit zero-padded string | `01` |
+| `HH` | `handoff_count + 1` from progress file | 2-digit zero-padded string | `01`, `02` |
+| `{handoff-slug}` | Derived from phase name + current objective | kebab-case, max 50 chars | `implement-validation-framework` |
+
+## Slug Generation
+
+The `{handoff-slug}` is generated automatically at handoff time:
+
+1. **Primary source**: Concatenate the phase name and the current objective description
+2. **Transformation**:
+   - Lowercase all characters
+   - Replace spaces, underscores, and slashes with hyphens
+   - Remove special characters (keep only `a-z`, `0-9`, hyphens)
+   - Collapse multiple consecutive hyphens into a single hyphen
+   - Trim leading and trailing hyphens
+3. **Truncation**: If the result exceeds 50 characters, truncate to the last complete word before the limit
+4. **Fallbacks** (applied in order if the primary source is empty or yields an empty slug):
+   - Phase name only (kebab-cased)
+   - `phase-{P}-handoff`
+   - `handoff`
+
+**Examples**:
+- Phase: "Implement validation framework", Objective: "Add date validator" → `implement-validation-framework-add-date-validator`
+- Phase: "Update Handoff Naming", Objective: "Task 1.2" → `update-handoff-naming-task-1-2`
+- Phase: "Refactor", Objective: "" → `refactor`
 
 ## Directory Structure
 
@@ -29,9 +60,9 @@ specs/{N}_{SLUG}/
 ├── summaries/        # Implementation summaries
 ├── progress/         # Progress tracking files
 └── handoffs/         # Handoff artifacts
-    ├── phase-2-handoff-20260212T100000Z.md
-    ├── phase-2-handoff-20260212T120000Z.md  # Second handoff in same phase
-    └── phase-3-handoff-20260212T140000Z.md
+    ├── 02_01_implement-validation-framework.md
+    ├── 02_02_add-custom-type-validators.md   # Second handoff in same phase
+    └── 03_01_integrate-with-main-loop.md
 ```
 
 ## Handoff Document Template
@@ -39,7 +70,7 @@ specs/{N}_{SLUG}/
 The handoff document must be **one screen maximum** (~40 lines). It uses progressive disclosure - successor reads only what they need.
 
 ```markdown
-# Phase {P} Handoff - {timestamp}
+# Phase {P} Handoff - {MM}_{HH}
 
 ## Immediate Next Action
 {Single specific step - not a list. Be concrete about what to do next.}
@@ -112,7 +143,7 @@ Add `handoff` as a valid artifact type in metadata:
   "artifacts": [
     {
       "type": "handoff",
-      "path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260212T143022Z.md",
+      "path": "specs/259_configure_feature/handoffs/02_01_implement-validation-framework.md",
       "summary": "Context exhaustion handoff for phase 3 with state and approach constraints"
     }
   ]
@@ -129,7 +160,7 @@ When writing a handoff, the metadata file includes `handoff_path` in `partial_pr
   "partial_progress": {
     "stage": "context_exhaustion_handoff",
     "details": "Approaching context limit. Handoff written with current state.",
-    "handoff_path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260212T143022Z.md",
+    "handoff_path": "specs/259_configure_feature/handoffs/02_01_implement-validation-framework.md",
     "phases_completed": 2,
     "phases_total": 4
   }
@@ -155,7 +186,7 @@ Successors read the handoff document, NOT full history. The lead spawns successo
 ## Example: Code Implementation Handoff
 
 ```markdown
-# Phase 3 Handoff - 20260212T143022Z
+# Phase 3 Handoff - 02_01
 
 ## Immediate Next Action
 Add the `validate_input` function call before the data processing block on line 145.
@@ -164,8 +195,6 @@ Add the `validate_input` function call before the data processing block on line 
 - **File**: /home/user/project/src/handlers/data_processor.lua
 - **Location**: Line 142, inside `process_batch` function
 - **Work state**: Input validation framework set up, need to integrate with main processing loop
-- **Plan**: specs/259_configure_feature/plans/02_implementation-plan.md — Phase 3: Tasks 3.1-3.2 checked off, Task 3.3 in progress
-- **Progress**: specs/259_configure_feature/progress/phase-3-progress.json
 
 ## Key Decisions Made
 1. Use lazy validation: Only validate fields actually accessed - reduces overhead
