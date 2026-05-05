@@ -1,7 +1,7 @@
 # Implementation Plan: Task #530
 
 - **Task**: 530 - fix_opencode_status_sync
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/530_fix_opencode_status_sync/reports/01_status-sync-research.md
@@ -63,7 +63,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Fix Missing Postflight in skill-neovim-research [NOT STARTED]
+### Phase 1: Fix Missing Postflight in skill-neovim-research [IN PROGRESS]
 
 **Goal**: Complete the empty Stage 7 postflight status update in skill-neovim-research.
 
@@ -119,15 +119,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Fix Extension Research Skills (skill-nix-research) [NOT STARTED]
+### Phase 3: Fix Extension Research Skills (skill-nix-research) [COMPLETED]
 
 **Goal**: Complete empty postflight stages in skill-nix-research and ensure preflight uses the script.
 
 **Tasks**:
-- [ ] **Task 3.1**: Read .claude/skills/skill-nix-research/SKILL.md and locate its preflight and postflight stages.
-- [ ] **Task 3.2**: Replace any manual jq preflight with the script call.
-- [ ] **Task 3.3**: Add the postflight script call if the stage is empty or incomplete.
-- [ ] **Task 3.4**: Read .opencode/extensions/nix/skills/skill-nix-research/SKILL.md (if it exists) and apply the same fixes.
+- [x] **Task 3.1**: Read .claude/skills/skill-nix-research/SKILL.md and locate its preflight and postflight stages.
+- [x] **Task 3.2**: Replace any manual jq preflight with the script call.
+- [x] **Task 3.3**: Add the postflight script call if the stage is empty or incomplete.
+- [x] **Task 3.4**: Read .opencode/extensions/nix/skills/skill-nix-research/SKILL.md (if it exists) and apply the same fixes.
 
 **Timing**: 1 hour
 
@@ -143,7 +143,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Fix Team Skills [NOT STARTED]
+### Phase 4: Fix Team Skills [COMPLETED]
 
 **Goal**: Replace manual jq preflight/postflight blocks in team research, plan, and implement skills with centralized script calls.
 
@@ -169,7 +169,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Verification and Defensive Checks [NOT STARTED]
+### Phase 5: Verification and Defensive Checks [IN PROGRESS]
 
 **Goal**: Audit all affected skills to confirm fixes, and verify command-level defensive checks are still present.
 

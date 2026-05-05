@@ -37,17 +37,8 @@ This skill activates when:
 
 Before delegating to the subagent, update task status to "implementing".
 
-**Update state.json**:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "implementing" \
-   --arg sid "$session_id" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    session_id: $sid,
-    started: $ts
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh preflight "$task_number" implement "$session_id"
 ```
 
 **Update TODO.md**: Use Edit tool to change status marker from `[PLANNED]` to `[IMPLEMENTING]`.
@@ -238,53 +229,42 @@ After implementation, update task status based on result.
 
 **If result.status == "implemented"**:
 
-Update state.json to "completed" and add completion_data fields (two-step pattern for Issue #1132):
+Step 1: Run centralized script for state.json, TODO.md, and plan file status:
 ```bash
-# Step 1: Update status and timestamps
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "completed" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    completed: $ts
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh postflight "$task_number" implement "$session_id"
+```
 
-# Step 2: Add completion_summary (always required for completed tasks)
+Step 2: Add completion_summary:
+```bash
 if [ -n "$completion_summary" ]; then
     jq --arg summary "$completion_summary" \
       '(.active_projects[] | select(.project_number == '$task_number')).completion_summary = $summary' \
       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 fi
+```
 
-# Step 3: Add roadmap_items (if present and non-empty)
-if [ "$roadmap_items" != "[]" ] && [ -n "$roadmap_items" ]; then
+Step 3: Add roadmap_items (if present and non-empty):
+```bash
+if [ "$task_type" != "meta" ] && [ "$roadmap_items" != "[]" ] && [ -n "$roadmap_items" ]; then
     jq --argjson items "$roadmap_items" \
       '(.active_projects[] | select(.project_number == '$task_number')).roadmap_items = $items' \
       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 fi
+```
 
-# Step 4: Filter out existing summary artifacts (use "| not" pattern to avoid != escaping - Issue #1132)
+Step 4: Filter out existing summary artifacts and add new one:
+```bash
+# Filter existing summary artifacts (use "| not" pattern to avoid != escaping - Issue #1132)
 jq '(.active_projects[] | select(.project_number == '$task_number')).artifacts =
     [(.active_projects[] | select(.project_number == '$task_number')).artifacts // [] | .[] | select(.type == "summary" | not)]' \
   specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 
-# Step 5: Add new summary artifact
 jq --arg path "$artifact_path" \
   '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": "summary"}]' \
   specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
-Update TODO.md:
-- Change status marker from `[IMPLEMENTING]` to `[COMPLETED]`
-- Link artifact using count-aware format: apply the four-case Edit logic from `@.claude/context/patterns/artifact-linking-todo.md` with `field_name=**Summary**`, `next_field=**Description**`
-
-**Update plan file** (if exists): Update the Status field to `[COMPLETED]`:
-```bash
-plan_file=$(ls -1 "specs/${padded_num}_${project_name}/plans/"*.md 2>/dev/null | sort -V | tail -1)
-if [ -n "$plan_file" ] && [ -f "$plan_file" ]; then
-    sed -i "s/^\- \*\*Status\*\*: \[.*\]$/- **Status**: [COMPLETED]/" "$plan_file"
-fi
-```
+TODO.md status already updated by script. Link artifact using count-aware format: apply the four-case Edit logic from `@.claude/context/patterns/artifact-linking-todo.md` with `field_name=**Summary**`, `next_field=**Description**`.
 
 **If result.status == "partial"**:
 

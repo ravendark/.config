@@ -79,19 +79,9 @@ team_size=4
 
 Update task status to "researching" BEFORE spawning teammates.
 
-**Update state.json**:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "researching" \
-   --arg sid "$session_id" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    session_id: $sid
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh preflight "$task_number" research "$session_id"
 ```
-
-**Update TODO.md**: Change status marker to `[RESEARCHING]`.
 
 ---
 
@@ -441,26 +431,19 @@ Output to: `specs/{NNN}_{SLUG}/reports/{RR}_team-research.md`
 
 Update task status to "researched":
 
-**Update state.json** (includes incrementing `next_artifact_number`):
+Step 1: Run centralized script for state.json and TODO.md status update:
 ```bash
-# Step 1: Update status and timestamps
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "researched" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    researched: $ts
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh postflight "$task_number" research "$session_id"
+```
 
-# Step 2: Increment next_artifact_number (team research advances the sequence)
+Step 2: Increment `next_artifact_number` (team research advances the sequence):
+```bash
 jq '(.active_projects[] | select(.project_number == '$task_number')).next_artifact_number =
     (((.active_projects[] | select(.project_number == '$task_number')).next_artifact_number // 1) + 1)' \
   specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
 **Note**: Team research (like single-agent research) is the only operation that increments `next_artifact_number`. Team plan and team implement use `(current - 1)` to stay in the same "round".
-
-**Update TODO.md**: Change status marker from `[RESEARCHING]` to `[RESEARCHED]` via Edit tool.
 
 **Link artifact in state.json**:
 ```bash

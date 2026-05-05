@@ -59,19 +59,9 @@ description=$(echo "$task_data" | jq -r '.description // ""')
 
 Update task status to "researching" BEFORE invoking subagent.
 
-**Update state.json**:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "researching" \
-   --arg sid "$session_id" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    session_id: $sid
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh preflight "$task_number" research "$session_id"
 ```
-
-**Update TODO.md**: Use Edit tool to change status marker to `[RESEARCHING]`.
 
 ---
 
@@ -176,6 +166,10 @@ fi
 ### Stage 7: Update Task Status (Postflight)
 
 If status is "researched", update state.json and TODO.md.
+
+```bash
+bash .claude/scripts/update-task-status.sh postflight "$task_number" research "$session_id"
+```
 
 ---
 

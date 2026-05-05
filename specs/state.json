@@ -5,14 +5,14 @@
     {
       "project_number": 530,
       "project_name": "fix_opencode_status_sync",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Fix OpenCode agent system preflight/postflight status sync across state.json, TODO.md, and plan files",
       "effort": "medium",
       "dependencies": [],
       "created": "2026-05-05T00:16:40Z",
-      "last_updated": "2026-05-05T00:35:09Z",
-      "session_id": "sess_1777940975_07107a",
+      "last_updated": "2026-05-05T00:58:08Z",
+      "session_id": "sess_1777941421_c86586",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -24,8 +24,14 @@
           "path": "specs/530_fix_opencode_status_sync/plans/01_status-sync-fix.md",
           "type": "plan",
           "summary": "Fix status sync: replace manual jq with centralized script calls in extension and team skills"
+        },
+        {
+          "path": "specs/530_fix_opencode_status_sync/summaries/01_status-sync-fix-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 530 describing all files modified and verification performed"
         }
-      ]
+      ],
+      "completion_summary": "Replaced all manual jq preflight/postflight status-update blocks across all affected team and extension skills with centralized update-task-status.sh script calls, ensuring consistent atomic updates to state.json, TODO.md task entries, TODO.md Task Order, and plan files."
     },
     {
       "project_number": 529,

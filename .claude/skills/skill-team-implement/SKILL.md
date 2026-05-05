@@ -92,19 +92,9 @@ team_size=${team_size:-2}
 
 Update task status to "implementing" BEFORE spawning teammates.
 
-**Update state.json**:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "implementing" \
-   --arg sid "$session_id" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    session_id: $sid
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh preflight "$task_number" implement "$session_id"
 ```
-
-**Update TODO.md**: Change status marker to `[IMPLEMENTING]`.
 
 ---
 
@@ -472,18 +462,10 @@ Output to: `specs/{NNN}_{SLUG}/summaries/{RR}_implementation-summary.md`
 
 Update task status to "completed":
 
-**Update state.json**:
+Step 1: Run centralized script for state.json and TODO.md status update:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "completed" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    completed: $ts
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh postflight "$task_number" implement "$session_id"
 ```
-
-**Update TODO.md**: Change status marker to `[COMPLETED]`.
 
 **Link artifact**:
 ```bash

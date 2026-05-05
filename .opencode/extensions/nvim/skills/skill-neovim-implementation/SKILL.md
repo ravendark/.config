@@ -65,23 +65,8 @@ fi
 
 Update task status to "implementing" BEFORE invoking subagent.
 
-**Update state.json**:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "implementing" \
-   --arg sid "$session_id" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    session_id: $sid
-  }' specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
-```
-
-**Update TODO.md**: Use Edit tool to change status marker to `[IMPLEMENTING]`.
-
-**Update plan file** (if exists): Update the Status field in plan metadata:
-```bash
-.opencode/scripts/update-plan-status.sh "$task_number" "$project_name" "IMPLEMENTING"
+bash .opencode/scripts/update-task-status.sh preflight "$task_number" implement "$session_id"
 ```
 
 ---
@@ -195,38 +180,27 @@ fi
 
 ### Stage 7: Update Task Status (Postflight)
 
-If status is "implemented", update state.json and TODO.md.
+If status is "implemented":
 
-**Update state.json**:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "completed" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    completed: $ts
-  }' specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
+bash .opencode/scripts/update-task-status.sh postflight "$task_number" implement "$session_id"
+```
 
-# Add completion_summary (always required for completed tasks)
+Then add completion_data to state.json (not covered by centralized script):
+```bash
+# Add completion_summary if present
 if [ -n "$completion_summary" ]; then
     jq --arg summary "$completion_summary" \
       '(.active_projects[] | select(.project_number == '$task_number')).completion_summary = $summary' \
       specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
 fi
 
-# Add roadmap_items (if present and non-empty)
-if [ "$roadmap_items" != "[]" ] && [ -n "$roadmap_items" ]; then
+# Add roadmap_items if present (for non-meta tasks only)
+if [ "$task_type" != "meta" ] && [ "$roadmap_items" != "[]" ] && [ -n "$roadmap_items" ]; then
     jq --argjson items "$roadmap_items" \
       '(.active_projects[] | select(.project_number == '$task_number')).roadmap_items = $items' \
       specs/state.json > /tmp/state.json && mv /tmp/state.json specs/state.json
 fi
-```
-
-**Update TODO.md**: Use Edit tool to change status marker to `[COMPLETED]`.
-
-**Update plan file** (if exists): Update the Status field to `[COMPLETED]`:
-```bash
-.opencode/scripts/update-plan-status.sh "$task_number" "$project_name" "COMPLETED"
 ```
 
 **If status is "partial"**:

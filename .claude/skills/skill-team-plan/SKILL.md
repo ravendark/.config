@@ -86,19 +86,9 @@ team_size=${team_size:-2}
 
 Update task status to "planning" BEFORE spawning teammates.
 
-**Update state.json**:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "planning" \
-   --arg sid "$session_id" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    session_id: $sid
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh preflight "$task_number" plan "$session_id"
 ```
-
-**Update TODO.md**: Change status marker to `[PLANNING]`.
 
 ---
 
@@ -445,18 +435,10 @@ Output to: `specs/{NNN}_{SLUG}/plans/{RR}_implementation-plan.md`
 
 Update task status to "planned":
 
-**Update state.json**:
+Step 1: Run centralized script for state.json and TODO.md status update:
 ```bash
-jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
-   --arg status "planned" \
-  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
-    status: $status,
-    last_updated: $ts,
-    planned: $ts
-  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+bash .claude/scripts/update-task-status.sh postflight "$task_number" plan "$session_id"
 ```
-
-**Update TODO.md**: Change status marker to `[PLANNED]`.
 
 **Link artifact**:
 ```bash
