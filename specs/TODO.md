@@ -1,5 +1,5 @@
 ---
-next_project_number: 530
+next_project_number: 531
 ---
 
 # TODO
@@ -9,16 +9,23 @@ next_project_number: 530
 *Updated 2026-05-04. 7 active tasks remaining.*
 
 ### Pending
-
+- **530** [NOT STARTED] -- Fix OpenCode agent system preflight/postflight status sync across state.json, TODO.md, and plan files
 - **528** [NOT STARTED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [NOT STARTED] -- Update handoff artifact naming convention in format specs and agent definitions
-- **523** [PLANNED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
+- **523** [COMPLETED] -- Change `<leader>lb` bibexport to show notification instead of terminal buffer
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 530. Fix OpenCode agent system preflight/postflight status sync across state.json, TODO.md, and plan files
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Fix the OpenCode agent system so that preflight and postflight status updates are applied consistently across state.json, TODO.md task entries, TODO.md Task Order section, and plan files. The root cause of task 523's TODO.md desync was that the skill-neovim-implementation skill manually updates state.json with jq but does NOT call the centralized update-task-status.sh script for TODO.md updates, leaving state.json and TODO.md out of sync. The fix must ensure all skills (skill-planner, skill-implementer, skill-neovim-implementation, skill-nix-implementation, etc.) use the same atomic update mechanism.
 
 ### 529. Fix 'Model not found: opus/' error in .opencode/ agent system after porting from .claude/
 - **Status**: [COMPLETED]
@@ -34,7 +41,7 @@ next_project_number: 530
 
 ### 523. Change `<leader>lb` bibexport to show notification instead of terminal buffer
 - **Effort**: < 1 hour
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: neovim
 - **Dependencies**: None
 - **Research**: [523_change_leader_lb_bibexport_notification/reports/01_bibexport-notification-research.md]
@@ -189,7 +196,7 @@ Key files: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`, `lua/neotex
 
 ### 501. Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #499
 - **Research**: [501_optimize_team_mode_fork_cache_sharing/reports/01_team-mode-fork-cache.md]
@@ -318,7 +325,7 @@ Key files: `.opencode/context/core/standards/task-management.md`, `.opencode/con
 
 ### 78. Fix Himalaya SMTP authentication failure when sending emails
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Research Started**: 2026-02-13
 - **Research Completed**: 2026-02-13
 - **Planning Started**: 2026-02-13
