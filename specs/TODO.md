@@ -1,14 +1,19 @@
 ---
-next_project_number: 534
+next_project_number: 539
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-07. 11 active tasks remaining.*
+*Updated 2026-05-07. 16 active tasks remaining.*
 
 ### Pending
+- **534** [NOT STARTED] -- Sync extension routing tables across command docs
+- **535** [NOT STARTED] -- Establish single source of truth for resume points
+- **536** [NOT STARTED] -- Clarify two-step delegation chain in command docs
+- **537** [NOT STARTED] -- Fix manifest discovery to use absolute paths
+- **538** [NOT STARTED] -- Add automated routing table validation
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
@@ -37,6 +42,71 @@ next_project_number: 534
 **Description**: Fix the Neovim extension loader to copy `manifest.json` into target projects during `manager.load()`. The extension loader currently copies all extension files except `manifest.json`, which breaks agent routing in `/implement`, `/research`, and `/plan` commands. These commands scan `.opencode/extensions/*/manifest.json` to determine task-type-to-skill mappings. Without the manifest, specialized tasks (e.g., `type:lean4`) silently fall back to generic agents. This task also updates `manager.unload()` to remove the manifest and `verify.lua` to confirm its presence.
 
 Key files: Neovim extension loader Lua source, `verify.lua`
+
+---
+
+### 538. Add automated routing table validation
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #534
+- **Plan**: [538_automated_routing_validation/README.md]
+
+**Description**: Create `.opencode/scripts/validate-routing-tables.sh` that parses extension manifests and validates command docs include all task types. Integrate into pre-commit or CI to prevent future routing table drift. Depends on Task 534 (tables must be synced first).
+
+Key files: `.opencode/scripts/validate-routing-tables.sh`
+
+---
+
+### 537. Fix manifest discovery to use absolute paths
+- **Effort**: < 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Plan**: [537_fix_manifest_absolute_paths/README.md]
+
+**Description**: Update `/implement`, `/research`, and `/plan` commands to derive absolute paths for manifest discovery from the project root. Add working-directory verification and explicit errors when manifests cannot be found. Prevents silent fallback when agent CWD differs from project root.
+
+Key files: `.opencode/commands/implement.md`, `.opencode/commands/research.md`, `.opencode/commands/plan.md`
+
+---
+
+### 536. Clarify two-step delegation chain in command docs
+- **Effort**: < 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Plan**: [536_clarify_delegation_chain/README.md]
+
+**Description**: Update DELEGATE sections in `/implement`, `/research`, and `/plan` to explicitly document the two-step delegation chain: (1) `Skill` tool loads skill instructions, (2) follow loaded instructions to invoke `Task` tool with subagent. Add warning: "DO NOT use `Skill(agent-name)`".
+
+Key files: `.opencode/commands/implement.md`, `.opencode/commands/research.md`, `.opencode/commands/plan.md`
+
+---
+
+### 535. Establish single source of truth for resume points
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Plan**: [535_establish_resume_point_truth/README.md]
+
+**Description**: Update `/implement` command and implementation skills to use plan file phase markers as the PRIMARY source of truth for resume points. `state.json` `resume_phase` becomes secondary. When sources disagree, prefer plan markers and log a warning.
+
+Key files: `.opencode/commands/implement.md`, `.opencode/skills/skill-implementer/SKILL.md`
+
+---
+
+### 534. Sync extension routing tables across command docs
+- **Effort**: < 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Plan**: [534_sync_extension_routing_tables/README.md]
+
+**Description**: Update `/implement`, `/research`, and `/plan` command docs to include ALL extension languages (`lean`, `lean4`, `nix`, `neovim`, `typst`, `latex`) in their Extension-Based Routing Tables. Update Anti-Bypass Constraint to reference all applicable skills.
+
+Key files: `.opencode/commands/implement.md`, `.opencode/commands/research.md`, `.opencode/commands/plan.md`
 
 ---
 

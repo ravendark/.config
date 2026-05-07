@@ -1,7 +1,102 @@
 {
   "version": "1.0.0",
-  "next_project_number": 534,
+  "next_project_number": 539,
   "active_projects": [
+    {
+      "project_number": 538,
+      "project_name": "automated_routing_validation",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Create script to validate extension routing tables against manifests and integrate into CI",
+      "effort": "2-3 hours",
+      "dependencies": [534],
+      "created": "2026-05-07T18:00:00Z",
+      "last_updated": "2026-05-07T18:00:00Z",
+      "session_id": "sess_meta_delegation_analysis_001",
+      "artifacts": [
+        {
+          "type": "plan",
+          "path": "specs/538_automated_routing_validation/README.md",
+          "summary": "Task plan: Create validate-routing-tables.sh script and CI integration"
+        }
+      ]
+    },
+    {
+      "project_number": 537,
+      "project_name": "fix_manifest_absolute_paths",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Update commands to use absolute paths for manifest discovery with working-directory verification",
+      "effort": "< 1 hour",
+      "dependencies": [],
+      "created": "2026-05-07T18:00:00Z",
+      "last_updated": "2026-05-07T18:00:00Z",
+      "session_id": "sess_meta_delegation_analysis_001",
+      "artifacts": [
+        {
+          "type": "plan",
+          "path": "specs/537_fix_manifest_absolute_paths/README.md",
+          "summary": "Task plan: Fix manifest discovery to use absolute paths and verify CWD"
+        }
+      ]
+    },
+    {
+      "project_number": 536,
+      "project_name": "clarify_delegation_chain",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Document the two-step Skill-then-Task delegation chain in command docs",
+      "effort": "< 1 hour",
+      "dependencies": [],
+      "created": "2026-05-07T18:00:00Z",
+      "last_updated": "2026-05-07T18:00:00Z",
+      "session_id": "sess_meta_delegation_analysis_001",
+      "artifacts": [
+        {
+          "type": "plan",
+          "path": "specs/536_clarify_delegation_chain/README.md",
+          "summary": "Task plan: Clarify two-step delegation chain in implement/research/plan command docs"
+        }
+      ]
+    },
+    {
+      "project_number": 535,
+      "project_name": "establish_resume_point_truth",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Establish plan file markers as primary source of truth for resume points over state.json",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-07T18:00:00Z",
+      "last_updated": "2026-05-07T18:00:00Z",
+      "session_id": "sess_meta_delegation_analysis_001",
+      "artifacts": [
+        {
+          "type": "plan",
+          "path": "specs/535_establish_resume_point_truth/README.md",
+          "summary": "Task plan: Establish plan markers as primary resume source of truth"
+        }
+      ]
+    },
+    {
+      "project_number": 534,
+      "project_name": "sync_extension_routing_tables",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Sync extension routing tables across implement/research/plan command docs to include all extension languages",
+      "effort": "< 1 hour",
+      "dependencies": [],
+      "created": "2026-05-07T18:00:00Z",
+      "last_updated": "2026-05-07T18:00:00Z",
+      "session_id": "sess_meta_delegation_analysis_001",
+      "artifacts": [
+        {
+          "type": "plan",
+          "path": "specs/534_sync_extension_routing_tables/README.md",
+          "summary": "Task plan: Sync extension routing tables across command docs"
+        }
+      ]
+    },
     {
       "project_number": 533,
       "project_name": "fix_extension_loader_manifest",
