@@ -1,5 +1,5 @@
 ---
-next_project_number: 539
+next_project_number: 540
 ---
 
 # TODO
@@ -17,6 +17,7 @@ next_project_number: 539
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
+- **539** [NOT STARTED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [COMPLETED] -- Update handoff artifact naming convention in format specs and agent definitions
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -26,6 +27,18 @@ next_project_number: 539
 
 ## Tasks
 
+### 539. Uniform extension routing: one source of truth, zero hardcoding
+- **Effort**: 3-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #538
+- **Plan**: [539_uniform_extension_routing/README.md]
+
+**Description**: Audit all extension manifests and command docs to eliminate hardcoded routing tables and establish `manifest.json` as the single source of truth. Add missing `routing` sections to 8 extensions (latex, formal, filetypes, epidemiology, nix, z3, web, python) that have skills but no routing. Remove hardcoded "Extension-Based Routing Table" sections from `/implement`, `/research`, `/plan` command docs. Update Anti-Bypass constraints to reference manifest discovery instead of listing skills by name. Update the validation script to check manifests directly rather than comparing against command doc tables. Goal: manifest discovery alone determines routing with zero silent fallbacks.
+
+Key files: `.opencode/extensions/*/manifest.json`, `.opencode/commands/{implement,research,plan}.md`, `.opencode/scripts/validate-routing-tables.sh`
+
+---
 
 ### 533. Fix extension loader to copy manifest.json
 - **Effort**: 1-2 hours

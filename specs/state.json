@@ -1,7 +1,28 @@
 {
   "version": "1.0.0",
-  "next_project_number": 539,
+  "next_project_number": 540,
   "active_projects": [
+    {
+      "project_number": 539,
+      "project_name": "uniform_extension_routing",
+      "status": "not started",
+      "task_type": "meta",
+      "description": "Audit all extension manifests and command docs to eliminate hardcoded routing tables and establish manifest.json as the single source of truth",
+      "effort": "3-4 hours",
+      "dependencies": [
+        538
+      ],
+      "created": "2026-05-07T18:30:00Z",
+      "last_updated": "2026-05-07T18:30:00Z",
+      "session_id": "sess_meta_539",
+      "artifacts": [
+        {
+          "type": "plan",
+          "path": "specs/539_uniform_extension_routing/README.md",
+          "summary": "Task plan: Uniform extension routing with manifest.json as single source of truth"
+        }
+      ]
+    },
     {
       "project_number": 538,
       "project_name": "automated_routing_validation",
