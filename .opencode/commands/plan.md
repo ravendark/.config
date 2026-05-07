@@ -41,7 +41,7 @@ When `--team` is specified, planning is delegated to `skill-team-plan` which spa
 
 ## Anti-Bypass Constraint
 
-**PROHIBITION**: You MUST NOT write plan artifacts directly using Write or Edit tools. All plan files MUST be created by invoking the appropriate skill (skill-planner or skill-team-plan) via the Skill tool.
+**PROHIBITION**: You MUST NOT write plan artifacts directly using Write or Edit tools. All plan files MUST be created by invoking the appropriate skill (skill-planner, skill-founder-plan, skill-deck-plan, skill-slide-planning, or skill-team-plan) via the Skill tool.
 
 **Why**: Direct writes bypass format enforcement (validate-artifact.sh), produce non-conforming artifacts missing required metadata fields and sections, and circumvent the delegation chain that ensures quality. A PostToolUse hook monitors all Write/Edit operations to artifact paths and will flag violations with corrective context.
 
@@ -339,10 +339,16 @@ Check extension manifests for task-type-specific plan routing:
 # Get task_type (may be simple "founder" or compound "founder:deck")
 task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
 
+# Derive project root for absolute manifest paths
+project_root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+manifest_dir="$project_root/.opencode/extensions"
+
 # Check extension routing for plan (skill_name starts empty)
 skill_name=""
-for manifest in .opencode/extensions/*/manifest.json; do
+manifest_count=0
+for manifest in "$manifest_dir"/*/manifest.json; do
   if [ -f "$manifest" ]; then
+    manifest_count=$((manifest_count + 1))
     ext_skill=$(jq -r --arg tt "$task_type" \
       '.routing.plan[$tt] // empty' "$manifest")
     if [ -n "$ext_skill" ]; then
@@ -355,7 +361,7 @@ done
 # Fallback: if compound key (contains ":"), try base task_type
 if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
   base_type=$(echo "$task_type" | cut -d: -f1)
-  for manifest in .opencode/extensions/*/manifest.json; do
+  for manifest in "$manifest_dir"/*/manifest.json; do
     if [ -f "$manifest" ]; then
       ext_skill=$(jq -r --arg tt "$base_type" \
         '.routing.plan[$tt] // empty' "$manifest")
@@ -365,6 +371,10 @@ if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
       fi
     fi
   done
+fi
+
+if [ "$manifest_count" -eq 0 ]; then
+  echo "[WARN] No extension manifests found in $manifest_dir. Using fallback routing."
 fi
 
 # Fallback to default planner if no extension routing found
@@ -378,7 +388,13 @@ skill_name=${skill_name:-"skill-planner"}
 | `founder` | `skill-founder-plan` (from founder extension) |
 | `founder:deck` | `skill-deck-plan` (from founder extension) |
 | `founder:{sub-type}` | Compound key lookup, falls back to `skill-founder-plan` |
-| Other | `skill-planner` (default) |
+| `lean`, `lean4` | `skill-planner` (default) — lean extension has no plan routing |
+| `neovim` | `skill-planner` (default) — nvim extension has no plan routing |
+| `nix` | `skill-planner` (default) — nix extension has no plan routing |
+| `typst` | `skill-planner` (default) — typst extension has no plan routing |
+| `present` | `skill-planner` (default) |
+| `present:slides`, `slides` | `skill-slide-planning` (from present extension) |
+| `general`, `meta` | `skill-planner` (default) |
 
 **Skill Selection Logic**:
 ```
@@ -387,6 +403,12 @@ if team_mode:
 else:
   skill_name = {extension routing lookup} OR "skill-planner"
 ```
+
+**Delegation Chain Note**: This command uses a two-step delegation pattern:
+1. **Step 1** (this command): The orchestrator uses the `Skill` tool to load the selected skill's instructions
+2. **Step 2** (inside skill): The loaded skill instructions direct the orchestrator to use the `Task` tool to spawn the actual agent
+
+Skills are thin wrappers that handle preflight/postflight (status updates, artifact linking, git commits). Agents do the actual work. **Do NOT use `Skill(agent-name)` directly — agents are not skills.**
 
 **Invoke the Skill tool NOW** with:
 ```

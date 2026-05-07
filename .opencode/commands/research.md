@@ -45,7 +45,7 @@ When `--team` is specified, research is delegated to `skill-team-research` which
 
 ## Anti-Bypass Constraint
 
-**PROHIBITION**: You MUST NOT write research report artifacts directly using Write or Edit tools. All report files MUST be created by invoking the appropriate skill (skill-researcher or skill-team-research) via the Skill tool.
+**PROHIBITION**: You MUST NOT write research report artifacts directly using Write or Edit tools. All report files MUST be created by invoking the appropriate skill (skill-researcher, skill-lean-research, skill-neovim-research, skill-nix-research, skill-typst-research, skill-market, skill-analyze, skill-strategy, skill-deck-research, or skill-team-research) via the Skill tool.
 
 **Why**: Direct writes bypass format enforcement (validate-artifact.sh), produce non-conforming artifacts missing required metadata fields and sections, and circumvent the delegation chain that ensures quality. A PostToolUse hook monitors all Write/Edit operations to artifact paths and will flag violations with corrective context.
 
@@ -335,10 +335,16 @@ Check extension manifests for task-type-specific research routing:
 # Get task_type (may be simple "founder" or compound "founder:deck")
 task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
 
+# Derive project root for absolute manifest paths
+project_root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+manifest_dir="$project_root/.opencode/extensions"
+
 # Check extension routing for research (skill_name starts empty)
 skill_name=""
-for manifest in .opencode/extensions/*/manifest.json; do
+manifest_count=0
+for manifest in "$manifest_dir"/*/manifest.json; do
   if [ -f "$manifest" ]; then
+    manifest_count=$((manifest_count + 1))
     ext_skill=$(jq -r --arg tt "$task_type" \
       '.routing.research[$tt] // empty' "$manifest")
     if [ -n "$ext_skill" ]; then
@@ -351,7 +357,7 @@ done
 # Fallback: if compound key (contains ":"), try base task_type
 if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
   base_type=$(echo "$task_type" | cut -d: -f1)
-  for manifest in .opencode/extensions/*/manifest.json; do
+  for manifest in "$manifest_dir"/*/manifest.json; do
     if [ -f "$manifest" ]; then
       ext_skill=$(jq -r --arg tt "$base_type" \
         '.routing.research[$tt] // empty' "$manifest")
@@ -361,6 +367,10 @@ if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
       fi
     fi
   done
+fi
+
+if [ "$manifest_count" -eq 0 ]; then
+  echo "[WARN] No extension manifests found in $manifest_dir. Using fallback routing."
 fi
 
 # Fallback to default researcher if no extension routing found
@@ -376,7 +386,13 @@ skill_name=${skill_name:-"skill-researcher"}
 | `founder:analyze` | `skill-analyze` (from founder extension) |
 | `founder:strategy` | `skill-strategy` (from founder extension) |
 | `founder:{sub-type}` | Compound key lookup, falls back to `skill-market` |
-| `general`, `meta`, `markdown` | `skill-researcher` (default) |
+| `lean`, `lean4` | `skill-lean-research` (from lean extension) |
+| `neovim` | `skill-neovim-research` (from nvim extension) |
+| `nix` | `skill-nix-research` (from nix extension) |
+| `typst` | `skill-typst-research` (from typst extension) |
+| `present` | `skill-grant` (from present extension) |
+| `present:slides`, `slides` | `skill-slides` (from present extension) |
+| `general`, `meta` | `skill-researcher` (default) |
 
 **Skill Selection Logic**:
 ```
@@ -385,6 +401,12 @@ if team_mode:
 else:
   skill_name = {extension routing lookup} OR "skill-researcher"
 ```
+
+**Delegation Chain Note**: This command uses a two-step delegation pattern:
+1. **Step 1** (this command): The orchestrator uses the `Skill` tool to load the selected skill's instructions
+2. **Step 2** (inside skill): The loaded skill instructions direct the orchestrator to use the `Task` tool to spawn the actual agent
+
+Skills are thin wrappers that handle preflight/postflight (status updates, artifact linking, git commits). Agents do the actual work. **Do NOT use `Skill(agent-name)` directly — agents are not skills.**
 
 **Invoke the Skill tool NOW** with:
 ```

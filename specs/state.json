@@ -83,14 +83,14 @@
     {
       "project_number": 534,
       "project_name": "sync_extension_routing_tables",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "description": "Sync extension routing tables across implement/research/plan command docs to include all extension languages",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-07T18:00:00Z",
-      "last_updated": "2026-05-07T17:58:05Z",
-      "session_id": "sess_plan_534",
+      "last_updated": "2026-05-07T17:58:35Z",
+      "session_id": "sess_impl_534_1778176715_344a",
       "artifacts": [
         {
           "type": "plan",

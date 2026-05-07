@@ -9,7 +9,7 @@ next_project_number: 539
 *Updated 2026-05-07. 16 active tasks remaining.*
 
 ### Pending
-- **534** [PLANNED] -- Sync extension routing tables across command docs
+- **534** [IMPLEMENTING] -- Sync extension routing tables across command docs
 - **535** [PLANNED] -- Establish single source of truth for resume points
 - **536** [PLANNING] -- Clarify two-step delegation chain in command docs
 - **537** [PLANNED] -- Fix manifest discovery to use absolute paths
@@ -99,7 +99,7 @@ Key files: `.opencode/commands/implement.md`, `.opencode/skills/skill-implemente
 
 ### 534. Sync extension routing tables across command docs
 - **Effort**: < 1 hour
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Plan**: [534_sync_extension_routing_tables/README.md]
