@@ -13,7 +13,7 @@ next_project_number: 539
 - **535** [COMPLETED] -- Establish single source of truth for resume points
 - **536** [COMPLETED] -- Clarify two-step delegation chain in command docs
 - **537** [COMPLETED] -- Fix manifest discovery to use absolute paths
-- **538** [NOT STARTED] -- Add automated routing table validation
+- **538** [COMPLETED] -- Add automated routing table validation
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
@@ -47,7 +47,7 @@ Key files: Neovim extension loader Lua source, `verify.lua`
 
 ### 538. Add automated routing table validation
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #534
 - **Plan**: [538_automated_routing_validation/README.md]
