@@ -17,7 +17,7 @@ next_project_number: 543
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
-- **540** [NOT STARTED] -- Research opencode.json and extension agent registration gaps
+- **540** [RESEARCHED] -- Research opencode.json and extension agent registration gaps
 - **541** [NOT STARTED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [NOT STARTED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
@@ -32,9 +32,10 @@ next_project_number: 543
 
 ### 540. Research opencode.json and extension agent registration gaps
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [540_research_opencode_json_and_extension_gaps/reports/01_opencode-json-research.md]
 
 **Description**: Research the opencode.json configuration file schema and how the OpenCode CLI consumes it at startup. Document the current gap where extensions copy agent files to `.opencode/agent/subagents/` but do NOT register them in `opencode.json`, leaving the CLI unaware of extension-provided agents. Investigate the recent crash scenario where `opencode --port` failed with config validation errors due to missing agent files referenced in `opencode.json`. Analyze the `merge_opencode_agents()` and `unmerge_opencode_agents()` functions in `merge.lua` that already exist but are unused by all extension manifests. Determine the correct opencode.json fragment format for each extension's agents and whether the base template at `.opencode/templates/opencode.json` needs updates.
 

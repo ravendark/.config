@@ -35,15 +35,62 @@
     {
       "project_number": 540,
       "project_name": "research_opencode_json_and_extension_gaps",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Research opencode.json schema, CLI validation behavior, and gaps in extension agent registration that cause startup crashes",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-07T22:00:00Z",
-      "last_updated": "2026-05-07T22:00:00Z",
-      "session_id": "sess_1778193000_meta_builder",
-      "artifacts": []
+      "last_updated": "2026-05-07T23:30:32Z",
+      "session_id": "sess_1778193000_research_540",
+      "artifacts": [
+        {
+          "path": "specs/540_research_opencode_json_and_extension_gaps/reports/01_opencode-json-research.md",
+          "type": "research",
+          "summary": "Research on opencode.json schema, CLI validation, and extension agent registration gaps"
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "The OpenCode extension loader has fully-implemented merge/unmerge code for opencode.json agent registration (merge_opencode_agents/unmerge_opencode_agents in merge.lua), but ZERO of 17 extension manifests declare merge_targets.opencode_json, making the code path unreachable. This is why extension agents are invisible to the CLI and why manual opencode.json edits cause crashes on unload.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/540_research_opencode_json_and_extension_gaps/reports/01_opencode-json-research.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode.json",
+            "extension loader",
+            "agent registration",
+            "merge_targets",
+            "manifest"
+          ]
+        },
+        {
+          "content": "The opencode.json base template at .opencode/templates/opencode.json is never synced to project root because sync.lua excludes it from root files. This means projects start without a valid opencode.json unless one is created manually, contributing to the manual-edit crash pattern.",
+          "category": "CONFIG",
+          "source_artifact": "specs/540_research_opencode_json_and_extension_gaps/reports/01_opencode-json-research.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode.json",
+            "sync",
+            "root files",
+            "template",
+            "project setup"
+          ]
+        },
+        {
+          "content": "Pre-merge validation pattern for opencode.json: before writing agent entries, verify all {file:...} references resolve to existing files. The loader copies agent .md files before processing merge targets, so by the time merge_opencode_agents runs, the referenced files should exist. This validation prevents malformed extension manifests from corrupting project opencode.json.",
+          "category": "TECHNIQUE",
+          "source_artifact": "specs/540_research_opencode_json_and_extension_gaps/reports/01_opencode-json-research.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "validation",
+            "opencode.json",
+            "file references",
+            "merge safety",
+            "extension loader"
+          ]
+        }
+      ]
     },
     {
       "project_number": 539,
