@@ -40,7 +40,9 @@
     },
     "implement": {
       "lean": "skill-lean-implementation",
-      "lean4": "skill-lean-implementation"
+      "lean4": "skill-lean-implementation",
+      "lean:lake": "skill-lake-repair",
+      "lean:version": "skill-lean-version"
     }
   },
   "merge_targets": {

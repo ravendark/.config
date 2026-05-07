@@ -28,6 +28,14 @@
     "scripts": [],
     "rules": []
   },
+  "routing": {
+    "research": {
+      "formal": "skill-formal-research",
+      "formal:logic": "skill-logic-research",
+      "formal:math": "skill-math-research",
+      "formal:physics": "skill-physics-research"
+    }
+  },
   "merge_targets": {
     "opencode_md": {
       "source": "EXTENSION.md",

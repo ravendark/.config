@@ -44,5 +44,19 @@
       "target": ".opencode/context/index.json"
     }
   },
+  "routing": {
+    "research": {
+      "filetypes": "skill-filetypes",
+      "filetypes:spreadsheet": "skill-spreadsheet",
+      "filetypes:presentation": "skill-presentation",
+      "filetypes:deck": "skill-deck"
+    },
+    "implement": {
+      "filetypes": "skill-filetypes",
+      "filetypes:spreadsheet": "skill-spreadsheet",
+      "filetypes:presentation": "skill-presentation",
+      "filetypes:deck": "skill-deck"
+    }
+  },
   "mcp_servers": {}
 }

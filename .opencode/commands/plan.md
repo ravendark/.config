@@ -41,7 +41,7 @@ When `--team` is specified, planning is delegated to `skill-team-plan` which spa
 
 ## Anti-Bypass Constraint
 
-**PROHIBITION**: You MUST NOT write plan artifacts directly using Write or Edit tools. All plan files MUST be created by invoking the appropriate skill (skill-planner, skill-founder-plan, skill-deck-plan, skill-slide-planning, or skill-team-plan) via the Skill tool.
+**PROHIBITION**: You MUST NOT write plan artifacts directly using Write or Edit tools. All plan files MUST be created by invoking the appropriate skill via the Skill tool. The correct skill is determined by manifest discovery in `.opencode/extensions/*/manifest.json` — query `.routing.plan[<task_type>]` from the matching extension manifest, falling back to the default skill (`skill-planner` or `skill-team-plan`) if no extension match is found.
 
 **Why**: Direct writes bypass format enforcement (validate-artifact.sh), produce non-conforming artifacts missing required metadata fields and sections, and circumvent the delegation chain that ensures quality. A PostToolUse hook monitors all Write/Edit operations to artifact paths and will flag violations with corrective context.
 
@@ -374,27 +374,14 @@ if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
 fi
 
 if [ "$manifest_count" -eq 0 ]; then
-  echo "[WARN] No extension manifests found in $manifest_dir. Using fallback routing."
+  echo "[WARN] No extension manifests found in $manifest_dir."
 fi
 
 # Fallback to default planner if no extension routing found
 skill_name=${skill_name:-"skill-planner"}
 ```
 
-**Extension-Based Routing Table**:
-
-| Task Type | Skill to Invoke |
-|-----------|-----------------|
-| `founder` | `skill-founder-plan` (from founder extension) |
-| `founder:deck` | `skill-deck-plan` (from founder extension) |
-| `founder:{sub-type}` | Compound key lookup, falls back to `skill-founder-plan` |
-| `lean`, `lean4` | `skill-planner` (default) — lean extension has no plan routing |
-| `neovim` | `skill-planner` (default) — nvim extension has no plan routing |
-| `nix` | `skill-planner` (default) — nix extension has no plan routing |
-| `typst` | `skill-planner` (default) — typst extension has no plan routing |
-| `present` | `skill-planner` (default) |
-| `present:slides`, `slides` | `skill-slide-planning` (from present extension) |
-| `general`, `meta` | `skill-planner` (default) |
+**Extension Skills Location**: Extension skills are located in `.opencode/extensions/{ext}/skills/`. OpenCode discovers these skills dynamically by reading `routing` entries from each extension's `manifest.json`. The bash discovery code above is the authoritative runtime mechanism; no hardcoded tables are used.
 
 **Skill Selection Logic**:
 ```

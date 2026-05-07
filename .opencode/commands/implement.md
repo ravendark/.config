@@ -39,7 +39,7 @@ When `--team` is specified, implementation is delegated to `skill-team-implement
 
 ## Anti-Bypass Constraint
 
-**PROHIBITION**: You MUST NOT write implementation summary artifacts directly using Write or Edit tools. All summary files MUST be created by invoking the appropriate skill (skill-implementer, skill-lean-implementation, skill-neovim-implementation, skill-nix-implementation, skill-typst-implementation, skill-founder-implement, skill-deck-implement, or skill-team-implement) via the Skill tool.
+**PROHIBITION**: You MUST NOT write implementation summary artifacts directly using Write or Edit tools. All implementation summary files MUST be created by invoking the appropriate skill via the Skill tool. The correct skill is determined by manifest discovery in `.opencode/extensions/*/manifest.json` — query `.routing.implement[<task_type>]` from the matching extension manifest, falling back to the default skill (`skill-implementer` or `skill-team-implement`) if no extension match is found.
 
 **Why**: Direct writes bypass format enforcement (validate-artifact.sh), produce non-conforming artifacts missing required metadata fields and sections, and circumvent the delegation chain that ensures quality. A PostToolUse hook monitors all Write/Edit operations to artifact paths and will flag violations with corrective context.
 
@@ -409,29 +409,14 @@ if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
 fi
 
 if [ "$manifest_count" -eq 0 ]; then
-  echo "[WARN] No extension manifests found in $manifest_dir. Using fallback routing."
+  echo "[WARN] No extension manifests found in $manifest_dir."
 fi
 
 # Fallback to default implementer if no extension routing found
 skill_name=${skill_name:-"skill-implementer"}
 ```
 
-**Extension-Based Routing Table**:
-
-| Language | Skill to Invoke |
-|----------|-----------------|
-| `founder` | `skill-founder-implement` (from founder extension) |
-| `founder:deck` | `skill-deck-implement` (from founder extension) |
-| `founder:{sub-type}` | Compound key lookup, falls back to `skill-founder-implement` |
-| `lean`, `lean4` | `skill-lean-implementation` (from lean extension) |
-| `neovim` | `skill-neovim-implementation` (from nvim extension) |
-| `nix` | `skill-nix-implementation` (from nix extension) |
-| `typst` | `skill-typst-implementation` (from typst extension) |
-| `present` | `skill-grant` (from present extension) |
-| `present:slides`, `slides` | `skill-slides` (from present extension) |
-| `general`, `meta` | `skill-implementer` (default) |
-
-**Extension Skills Location**: Extension skills are located in `.opencode/extensions/{ext}/skills/`. OpenCode discovers these skills via extension manifest `routing.implement` entries.
+**Extension Skills Location**: Extension skills are located in `.opencode/extensions/{ext}/skills/`. OpenCode discovers these skills dynamically by reading `routing` entries from each extension's `manifest.json`. The bash discovery code above is the authoritative runtime mechanism; no hardcoded tables are used.
 
 **Skill Selection Logic**:
 ```

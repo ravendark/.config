@@ -40,6 +40,14 @@
       "target": ".opencode/context/index.json"
     }
   },
+  "routing": {
+    "research": {
+      "nix": "skill-nix-research"
+    },
+    "implement": {
+      "nix": "skill-nix-implementation"
+    }
+  },
   "mcp_servers": {
     "mcp-nixos": {
       "command": "uvx",

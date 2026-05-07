@@ -22,6 +22,14 @@
     "scripts": [],
     "rules": []
   },
+  "routing": {
+    "research": {
+      "epidemiology": "skill-epidemiology-research"
+    },
+    "implement": {
+      "epidemiology": "skill-epidemiology-implementation"
+    }
+  },
   "merge_targets": {
     "opencode_md": {
       "source": "EXTENSION.md",

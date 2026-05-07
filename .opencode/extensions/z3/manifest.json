@@ -23,6 +23,14 @@
     "scripts": [],
     "hooks": []
   },
+  "routing": {
+    "research": {
+      "z3": "skill-z3-research"
+    },
+    "implement": {
+      "z3": "skill-z3-implementation"
+    }
+  },
   "merge_targets": {
     "opencode_md": {
       "source": "EXTENSION.md",

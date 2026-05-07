@@ -36,5 +36,13 @@
       "target": ".opencode/context/index.json"
     }
   },
+  "routing": {
+    "research": {
+      "latex": "skill-latex-research"
+    },
+    "implement": {
+      "latex": "skill-latex-implementation"
+    }
+  },
   "mcp_servers": {}
 }

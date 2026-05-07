@@ -45,7 +45,7 @@ When `--team` is specified, research is delegated to `skill-team-research` which
 
 ## Anti-Bypass Constraint
 
-**PROHIBITION**: You MUST NOT write research report artifacts directly using Write or Edit tools. All report files MUST be created by invoking the appropriate skill (skill-researcher, skill-lean-research, skill-neovim-research, skill-nix-research, skill-typst-research, skill-market, skill-analyze, skill-strategy, skill-deck-research, or skill-team-research) via the Skill tool.
+**PROHIBITION**: You MUST NOT write research report artifacts directly using Write or Edit tools. All research report files MUST be created by invoking the appropriate skill via the Skill tool. The correct skill is determined by manifest discovery in `.opencode/extensions/*/manifest.json` — query `.routing.research[<task_type>]` from the matching extension manifest, falling back to the default skill (`skill-researcher` or `skill-team-research`) if no extension match is found.
 
 **Why**: Direct writes bypass format enforcement (validate-artifact.sh), produce non-conforming artifacts missing required metadata fields and sections, and circumvent the delegation chain that ensures quality. A PostToolUse hook monitors all Write/Edit operations to artifact paths and will flag violations with corrective context.
 
@@ -370,29 +370,14 @@ if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
 fi
 
 if [ "$manifest_count" -eq 0 ]; then
-  echo "[WARN] No extension manifests found in $manifest_dir. Using fallback routing."
+  echo "[WARN] No extension manifests found in $manifest_dir."
 fi
 
 # Fallback to default researcher if no extension routing found
 skill_name=${skill_name:-"skill-researcher"}
 ```
 
-**Extension-Based Routing Table**:
-
-| Task Type | Skill to Invoke |
-|-----------|-----------------|
-| `founder` | `skill-market` (from founder extension) |
-| `founder:deck` | `skill-deck-research` (from founder extension) |
-| `founder:analyze` | `skill-analyze` (from founder extension) |
-| `founder:strategy` | `skill-strategy` (from founder extension) |
-| `founder:{sub-type}` | Compound key lookup, falls back to `skill-market` |
-| `lean`, `lean4` | `skill-lean-research` (from lean extension) |
-| `neovim` | `skill-neovim-research` (from nvim extension) |
-| `nix` | `skill-nix-research` (from nix extension) |
-| `typst` | `skill-typst-research` (from typst extension) |
-| `present` | `skill-grant` (from present extension) |
-| `present:slides`, `slides` | `skill-slides` (from present extension) |
-| `general`, `meta` | `skill-researcher` (default) |
+**Extension Skills Location**: Extension skills are located in `.opencode/extensions/{ext}/skills/`. OpenCode discovers these skills dynamically by reading `routing` entries from each extension's `manifest.json`. The bash discovery code above is the authoritative runtime mechanism; no hardcoded tables are used.
 
 **Skill Selection Logic**:
 ```

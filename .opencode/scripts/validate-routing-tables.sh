@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # validate-routing-tables.sh
-# Validates that command routing tables include all task types declared in extension manifests
+# Validates extension manifest routing integrity and checks for hardcoded tables
 
 set -euo pipefail
 
@@ -18,20 +18,29 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-echo "=== Routing Table Validation ==="
+echo "=== Extension Routing Validation ==="
 echo ""
 
-# Step 1: Extract all task types from manifests
+# Step 1: Extract all routing entries and skills from manifests
 declare -A MANIFEST_TASKS
 declare -A MANIFEST_SKILLS
+declare -A EXTENSION_SKILLS
+declare -a EXTENSION_NAMES
 
 for manifest in "$MANIFEST_DIR"/*/manifest.json; do
   if [ -f "$manifest" ]; then
     ext_name=$(basename "$(dirname "$manifest")")
-    
-    for routing_type in implement research plan; do
+    EXTENSION_NAMES+=("$ext_name")
+
+    # Collect all skills provided by this extension
+    skills=$(jq -r '.provides.skills // [] | .[]' "$manifest" 2>/dev/null || true)
+    for skill in $skills; do
+      EXTENSION_SKILLS["${ext_name}:${skill}"]="1"
+    done
+
+    # Collect all routing entries
+    for routing_type in implement research plan critique; do
       task_types=$(jq -r --arg rt "$routing_type" '.routing[$rt] // {} | keys[]' "$manifest" 2>/dev/null || true)
-      
       for task_type in $task_types; do
         skill=$(jq -r --arg rt "$routing_type" --arg tt "$task_type" '.routing[$rt][$tt] // empty' "$manifest")
         if [ -n "$skill" ]; then
@@ -45,96 +54,149 @@ for manifest in "$MANIFEST_DIR"/*/manifest.json; do
 done
 
 echo "Found ${#MANIFEST_TASKS[@]} routing entries in manifests"
+echo "Found ${#EXTENSION_NAMES[@]} extensions"
 echo ""
 
-# Step 2: Extract all task types from command docs
-declare -A COMMAND_TASKS
+# New Check A — Skill Coverage
+# Every skill in provides.skills must have at least one routing entry
+# (unless extension has routing_exempt: true or is utility/dependency-only)
+echo "=== Check A: Skill Coverage ==="
+SKILL_COVERAGE_ERRORS=0
 
-for cmd in implement research plan; do
-  cmd_file="$COMMANDS_DIR/${cmd}.md"
-  if [ -f "$cmd_file" ]; then
-    # Extract task types from the Extension-Based Routing Table section only
-    # Look for the table header, then parse rows until empty line or new section
-    in_table=false
-    while IFS= read -r line; do
-      # Detect table header
-      if echo "$line" | grep -qE '^\| (Task Type|Language) \| Skill to Invoke \|'; then
-        in_table=true
+for manifest in "$MANIFEST_DIR"/*/manifest.json; do
+  if [ -f "$manifest" ]; then
+    ext_name=$(basename "$(dirname "$manifest")")
+
+    # Skip exempt extensions
+    routing_exempt=$(jq -r '.routing_exempt // false' "$manifest")
+    if [ "$routing_exempt" = "true" ]; then
+      continue
+    fi
+
+    # Skip utility/dependency-only extensions
+    case "$ext_name" in
+      memory|slidev)
         continue
+        ;;
+    esac
+
+    skills=$(jq -r '.provides.skills // [] | .[]' "$manifest" 2>/dev/null || true)
+    for skill in $skills; do
+      found="false"
+      # Check if this skill appears in any routing entry for this extension
+      for key in "${!MANIFEST_SKILLS[@]}"; do
+        if [ "${MANIFEST_TASKS[$key]}" = "$ext_name" ] && [ "${MANIFEST_SKILLS[$key]}" = "$skill" ]; then
+          found="true"
+          break
+        fi
+      done
+      if [ "$found" = "false" ]; then
+        echo -e "${RED}FAIL${NC}: Extension '$ext_name' skill '$skill' has no routing entry"
+        SKILL_COVERAGE_ERRORS=$((SKILL_COVERAGE_ERRORS + 1))
       fi
-      # Detect end of table (empty line or non-table line after header)
-      if [ "$in_table" = true ] && ! echo "$line" | grep -qE '^\|'; then
-        in_table=false
-        continue
-      fi
-      # Skip separator lines
-      if echo "$line" | grep -qE '^\|[\-\|]+\|$'; then
-        continue
-      fi
-      # Parse table row
-      if [ "$in_table" = true ] && echo "$line" | grep -qE '^\| `[^`]+` \|'; then
-        task_type=$(echo "$line" | sed -E 's/^\| `([^`]+)`.*/\1/')
-        # Handle comma-separated types
-        for tt in $(echo "$task_type" | tr ',' ' ' | tr -d '`'); do
-          tt=$(echo "$tt" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-          if [ -n "$tt" ] && [ "$tt" != "Task Type" ] && [ "$tt" != "Language" ]; then
-            key="${cmd}:${tt}"
-            COMMAND_TASKS["$key"]="found"
-          fi
-        done
-      fi
-    done < "$cmd_file"
+    done
   fi
 done
 
-echo "Found ${#COMMAND_TASKS[@]} routing entries in command docs"
-echo ""
-
-# Step 3: Compare - find manifest entries missing from command docs
-echo "=== Checking for missing entries in command docs ==="
-for key in "${!MANIFEST_TASKS[@]}"; do
-  if [ -z "${COMMAND_TASKS[$key]+x}" ]; then
-    IFS=':' read -r cmd task_type <<< "$key"
-    ext_name="${MANIFEST_TASKS[$key]}"
-    skill="${MANIFEST_SKILLS[$key]}"
-    echo -e "${RED}MISSING${NC}: /${cmd} does not have '${task_type}' (from ${ext_name} extension -> ${skill})"
-    ERRORS=$((ERRORS + 1))
-  fi
-done
-
-if [ "$ERRORS" -eq 0 ]; then
-  echo -e "${GREEN}All manifest entries found in command docs${NC}"
+if [ "$SKILL_COVERAGE_ERRORS" -eq 0 ]; then
+  echo -e "${GREEN}All skills have routing coverage${NC}"
+else
+  ERRORS=$((ERRORS + SKILL_COVERAGE_ERRORS))
 fi
 
 echo ""
 
-# Step 4: Compare - find command entries with no manifest
-echo "=== Checking for orphaned entries in command docs ==="
-ORPHANS=0
-for key in "${!COMMAND_TASKS[@]}"; do
-  if [ -z "${MANIFEST_TASKS[$key]+x}" ]; then
-    IFS=':' read -r cmd task_type <<< "$key"
-    # Skip generic fallbacks
-    case "$task_type" in
-      "general"|"meta"|"markdown"|"Other"|"founder:{sub-type}"|"present"|"lean"|"lean4"|"neovim"|"nix"|"typst"|"present:slides"|"slides")
-        continue
-        ;;
-    esac
-    echo -e "${YELLOW}ORPHAN${NC}: /${cmd} has '${task_type}' but no manifest declares it"
-    ORPHANS=$((ORPHANS + 1))
+# New Check B — Routing Integrity
+# Every routing.*.* value must exist in the same manifest's provides.skills
+# (or be explicitly documented as cross-extension)
+echo "=== Check B: Routing Integrity ==="
+ROUTING_ERRORS=0
+
+for manifest in "$MANIFEST_DIR"/*/manifest.json; do
+  if [ -f "$manifest" ]; then
+    ext_name=$(basename "$(dirname "$manifest")")
+
+    # Build set of skills provided by this extension
+    declare -A local_skills
+    skills=$(jq -r '.provides.skills // [] | .[]' "$manifest" 2>/dev/null || true)
+    for skill in $skills; do
+      local_skills["$skill"]="1"
+    done
+
+    # Check every routing value against local skills
+    for routing_type in implement research plan critique; do
+      task_types=$(jq -r --arg rt "$routing_type" '.routing[$rt] // {} | keys[]' "$manifest" 2>/dev/null || true)
+      for task_type in $task_types; do
+        skill=$(jq -r --arg rt "$routing_type" --arg tt "$task_type" '.routing[$rt][$tt] // empty' "$manifest")
+        if [ -n "$skill" ]; then
+          # Allow-list known cross-extension references (currently none after Phase 2)
+          # If cross-extension routing is needed, document it here
+          if [ -z "${local_skills[$skill]+x}" ]; then
+            echo -e "${RED}FAIL${NC}: Extension '$ext_name' routing ${routing_type}.${task_type} -> '$skill' not in provides.skills"
+            ROUTING_ERRORS=$((ROUTING_ERRORS + 1))
+          fi
+        fi
+      done
+    done
+
+    unset local_skills
   fi
 done
 
-if [ "$ORPHANS" -eq 0 ]; then
-  echo -e "${GREEN}No orphaned entries found${NC}"
+if [ "$ROUTING_ERRORS" -eq 0 ]; then
+  echo -e "${GREEN}All routing entries are valid${NC}"
+else
+  ERRORS=$((ERRORS + ROUTING_ERRORS))
+fi
+
+echo ""
+
+# New Check C — No Hardcoded Tables
+echo "=== Check C: No Hardcoded Routing Tables ==="
+TABLE_ERRORS=0
+
+for cmd in implement research plan; do
+  if [ -f "$COMMANDS_DIR/${cmd}.md" ]; then
+    if grep -q "Extension-Based Routing Table" "$COMMANDS_DIR/${cmd}.md"; then
+      echo -e "${RED}FAIL${NC}: Hardcoded table found in ${cmd}.md"
+      TABLE_ERRORS=$((TABLE_ERRORS + 1))
+    fi
+  fi
+done
+
+if [ "$TABLE_ERRORS" -eq 0 ]; then
+  echo -e "${GREEN}No hardcoded routing tables found${NC}"
+else
+  ERRORS=$((ERRORS + TABLE_ERRORS))
+fi
+
+echo ""
+
+# New Check D — Valid JSON
+echo "=== Check D: Valid JSON ==="
+JSON_ERRORS=0
+
+for manifest in "$MANIFEST_DIR"/*/manifest.json; do
+  if [ -f "$manifest" ]; then
+    if ! jq empty "$manifest" 2>/dev/null; then
+      echo -e "${RED}FAIL${NC}: Invalid JSON in $manifest"
+      JSON_ERRORS=$((JSON_ERRORS + 1))
+    fi
+  fi
+done
+
+if [ "$JSON_ERRORS" -eq 0 ]; then
+  echo -e "${GREEN}All manifests are valid JSON${NC}"
+else
+  ERRORS=$((ERRORS + JSON_ERRORS))
 fi
 
 echo ""
 echo "=== Summary ==="
-if [ "$ERRORS" -eq 0 ] && [ "$ORPHANS" -eq 0 ]; then
-  echo -e "${GREEN}Validation passed${NC}: All routing tables are in sync with manifests"
+if [ "$ERRORS" -eq 0 ]; then
+  echo -e "${GREEN}Validation passed${NC}: All routing checks passed"
   exit 0
 else
-  echo -e "${RED}Validation failed${NC}: $ERRORS missing, $ORPHANS orphaned"
+  echo -e "${RED}Validation failed${NC}: $ERRORS error(s) found"
   exit 1
 fi
