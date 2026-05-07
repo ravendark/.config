@@ -35,13 +35,13 @@
     {
       "project_number": 540,
       "project_name": "research_opencode_json_and_extension_gaps",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Research opencode.json schema, CLI validation behavior, and gaps in extension agent registration that cause startup crashes",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-07T22:00:00Z",
-      "last_updated": "2026-05-07T23:40:37Z",
+      "last_updated": "2026-05-07T23:57:49Z",
       "session_id": "sess_1778197191_7da99e",
       "artifacts": [
         {
@@ -53,6 +53,11 @@
           "path": "specs/540_research_opencode_json_and_extension_gaps/plans/01_opencode-json-plan.md",
           "type": "plan",
           "summary": "Implementation plan with 5 phases to fix automatic agent registration in opencode.json"
+        },
+        {
+          "path": "specs/540_research_opencode_json_and_extension_gaps/summaries/01_opencode-json-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for automatic opencode.json agent registration fix"
         }
       ],
       "memory_candidates": [
@@ -95,7 +100,8 @@
             "extension loader"
           ]
         }
-      ]
+      ],
+      "completion_summary": "Fixed OpenCode extension loader automatic agent registration by adding pre-merge validation, creating 14 opencode-agents.json fragments, updating 14 extension manifests with merge_targets.opencode_json, syncing base opencode.json template, and adding startup cleanup for stale references."
     },
     {
       "project_number": 539,
