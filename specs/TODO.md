@@ -9,10 +9,10 @@ next_project_number: 539
 *Updated 2026-05-07. 16 active tasks remaining.*
 
 ### Pending
-- **534** [NOT STARTED] -- Sync extension routing tables across command docs
-- **535** [NOT STARTED] -- Establish single source of truth for resume points
-- **536** [NOT STARTED] -- Clarify two-step delegation chain in command docs
-- **537** [NOT STARTED] -- Fix manifest discovery to use absolute paths
+- **534** [RESEARCHING] -- Sync extension routing tables across command docs
+- **535** [RESEARCHING] -- Establish single source of truth for resume points
+- **536** [RESEARCHED] -- Clarify two-step delegation chain in command docs
+- **537** [RESEARCHING] -- Fix manifest discovery to use absolute paths
 - **538** [NOT STARTED] -- Add automated routing table validation
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
@@ -60,7 +60,7 @@ Key files: `.opencode/scripts/validate-routing-tables.sh`
 
 ### 537. Fix manifest discovery to use absolute paths
 - **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Plan**: [537_fix_manifest_absolute_paths/README.md]
@@ -73,7 +73,7 @@ Key files: `.opencode/commands/implement.md`, `.opencode/commands/research.md`, 
 
 ### 536. Clarify two-step delegation chain in command docs
 - **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Plan**: [536_clarify_delegation_chain/README.md]
@@ -86,7 +86,7 @@ Key files: `.opencode/commands/implement.md`, `.opencode/commands/research.md`, 
 
 ### 535. Establish single source of truth for resume points
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Plan**: [535_establish_resume_point_truth/README.md]
@@ -99,7 +99,7 @@ Key files: `.opencode/commands/implement.md`, `.opencode/skills/skill-implemente
 
 ### 534. Sync extension routing tables across command docs
 - **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Plan**: [534_sync_extension_routing_tables/README.md]
