@@ -1,7 +1,31 @@
 {
   "version": "1.0.0",
-  "next_project_number": 531,
+  "next_project_number": 534,
   "active_projects": [
+    {
+      "project_number": 533,
+      "project_name": "fix_extension_loader_manifest",
+      "status": "researched",
+      "task_type": "neovim",
+      "description": "Fix the Neovim extension loader to copy manifest.json into target projects during manager.load()",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-07T12:00:00Z",
+      "last_updated": "2026-05-07T16:49:01Z",
+      "session_id": "sess_1778171998_7cf8f4",
+      "artifacts": [
+        {
+          "type": "plan",
+          "path": "specs/533_fix_extension_loader_manifest/README.md",
+          "summary": "Task plan: Fix extension loader to copy manifest.json, update unload and verify logic, no fallback routing"
+        },
+        {
+          "type": "research",
+          "path": "specs/533_fix_extension_loader_manifest/reports/01_extension-loader-manifest-research.md",
+          "summary": "Detailed analysis of the extension loader architecture, root cause of manifest.json omission, files to modify, and expected behavior after fix"
+        }
+      ]
+    },
     {
       "project_number": 528,
       "project_name": "update_continuation_loop_docs",

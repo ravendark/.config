@@ -1,6 +1,0 @@
-{
-  "session_id": "sess_1777998652_6a84a3",
-  "continuation_count": 0,
-  "max_continuations": 3,
-  "created": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-}
