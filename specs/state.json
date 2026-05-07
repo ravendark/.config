@@ -26,14 +26,14 @@
     {
       "project_number": 537,
       "project_name": "fix_manifest_absolute_paths",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Update commands to use absolute paths for manifest discovery with working-directory verification",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-07T18:00:00Z",
-      "last_updated": "2026-05-07T17:50:08Z",
-      "session_id": "sess_research_537_1778176208_3525",
+      "last_updated": "2026-05-07T17:55:12Z",
+      "session_id": "sess_research_537",
       "artifacts": [
         {
           "type": "plan",
@@ -64,13 +64,13 @@
     {
       "project_number": 535,
       "project_name": "establish_resume_point_truth",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Establish plan file markers as primary source of truth for resume points over state.json",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-07T18:00:00Z",
-      "last_updated": "2026-05-07T17:50:07Z",
+      "last_updated": "2026-05-07T17:54:15Z",
       "session_id": "sess_research_535_1778176207_427c",
       "artifacts": [
         {
@@ -83,7 +83,7 @@
     {
       "project_number": 534,
       "project_name": "sync_extension_routing_tables",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Sync extension routing tables across implement/research/plan command docs to include all extension languages",
       "effort": "< 1 hour",
