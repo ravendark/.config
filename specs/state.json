@@ -1,7 +1,50 @@
 {
   "version": "1.0.0",
-  "next_project_number": 540,
+  "next_project_number": 543,
   "active_projects": [
+    {
+      "project_number": 542,
+      "project_name": "implement_opencode_json_agent_registration",
+      "status": "not_started",
+      "task_type": "neovim",
+      "description": "Implement automatic opencode.json agent registration in the extension loader so extensions that provide agents also register them in opencode.json",
+      "effort": "2-3 hours",
+      "dependencies": [
+        541
+      ],
+      "created": "2026-05-07T22:30:00Z",
+      "last_updated": "2026-05-07T22:30:00Z",
+      "session_id": "sess_1778193000_meta_builder",
+      "artifacts": []
+    },
+    {
+      "project_number": 541,
+      "project_name": "design_opencode_json_agent_registration",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Design opencode.json agent registration mechanism for the extension system including manifest changes, merge/unmerge strategy, and validation",
+      "effort": "1-2 hours",
+      "dependencies": [
+        540
+      ],
+      "created": "2026-05-07T22:15:00Z",
+      "last_updated": "2026-05-07T22:15:00Z",
+      "session_id": "sess_1778193000_meta_builder",
+      "artifacts": []
+    },
+    {
+      "project_number": 540,
+      "project_name": "research_opencode_json_and_extension_gaps",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Research opencode.json schema, CLI validation behavior, and gaps in extension agent registration that cause startup crashes",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-07T22:00:00Z",
+      "last_updated": "2026-05-07T22:00:00Z",
+      "session_id": "sess_1778193000_meta_builder",
+      "artifacts": []
+    },
     {
       "project_number": 539,
       "project_name": "uniform_extension_routing",

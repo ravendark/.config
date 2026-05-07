@@ -1,12 +1,12 @@
 ---
-next_project_number: 540
+next_project_number: 543
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-07. 16 active tasks remaining.*
+*Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
@@ -17,6 +17,9 @@ next_project_number: 540
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
+- **540** [NOT STARTED] -- Research opencode.json and extension agent registration gaps
+- **541** [NOT STARTED] -- Design opencode.json agent registration for extensions (depends: 540)
+- **542** [NOT STARTED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [COMPLETED] -- Update handoff artifact naming convention in format specs and agent definitions
@@ -26,6 +29,42 @@ next_project_number: 540
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 540. Research opencode.json and extension agent registration gaps
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Research the opencode.json configuration file schema and how the OpenCode CLI consumes it at startup. Document the current gap where extensions copy agent files to `.opencode/agent/subagents/` but do NOT register them in `opencode.json`, leaving the CLI unaware of extension-provided agents. Investigate the recent crash scenario where `opencode --port` failed with config validation errors due to missing agent files referenced in `opencode.json`. Analyze the `merge_opencode_agents()` and `unmerge_opencode_agents()` functions in `merge.lua` that already exist but are unused by all extension manifests. Determine the correct opencode.json fragment format for each extension's agents and whether the base template at `.opencode/templates/opencode.json` needs updates.
+
+Key files: `opencode.json` (project root), `.opencode/templates/opencode.json`, `merge.lua` (`merge_opencode_agents`/`unmerge_opencode_agents`), extension manifests (`latex`, `python`, `nvim`, `lean`, `nix`, `typst`, etc.)
+
+---
+
+### 541. Design opencode.json agent registration for extensions
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #540
+
+**Description**: Design the complete opencode.json agent registration mechanism for the extension system. For each extension that provides agents, create an `opencode.json` fragment file containing the agent definitions with proper `mode`, `description`, `prompt` (using `{file:...}` placeholders), and `tools` configuration. Update all extension manifests to include `merge_targets.opencode_json` pointing to these fragments. Design the merge/unmerge strategy: when an extension is loaded, its agents are added to the project's `opencode.json` without overwriting existing agents; when unloaded, only the agents added by that extension are removed. Design validation: before writing `opencode.json`, verify all `{file:...}` references point to files that actually exist on disk to prevent startup crashes.
+
+Key files: Extension manifests (add `merge_targets.opencode_json`), new fragment files (`extensions/*/opencode-agents.json`), `.opencode/templates/opencode.json`
+
+---
+
+### 542. Implement opencode.json automatic agent registration in extension loader
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+- **Dependencies**: Task #541
+
+**Description**: Implement the designed opencode.json agent registration in the Neovim extension loader. Create `opencode-agents.json` fragment files for all extensions that provide agents (latex, python, nvim, lean, nix, typst, web, founder, present, filetypes, etc.). Update each extension's `manifest.json` with `merge_targets.opencode_json` pointing to the fragment. Update the base `opencode.json` template to include documentation about the managed-file marker (`.opencode.json.managed`). Enhance `merge_opencode_agents()` to validate that all `{file:...}` references in the merged result exist before writing. Add a verification step in `verify.lua` to check that all agents in `opencode.json` have corresponding files on disk. Test load/unload cycles for extensions with agents to ensure proper registration and cleanup.
+
+Key files: `lua/neotex/plugins/ai/shared/extensions/merge.lua`, `lua/neotex/plugins/ai/shared/extensions/verify.lua`, extension manifests, new fragment files, `.opencode/templates/opencode.json`
+
+---
 
 ### 539. Uniform extension routing: one source of truth, zero hardcoding
 - **Effort**: 3-4 hours
