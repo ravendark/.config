@@ -303,6 +303,13 @@ function M.verify_extension(extension_name, extension_dir, target_dir, config)
     return verification
   end
 
+  -- Verify manifest was copied to target
+  local target_manifest_path = target_dir .. "/extensions/" .. extension_name .. "/manifest.json"
+  if not file_exists(target_manifest_path) then
+    verification.status = "failed"
+    table.insert(verification.errors, "Missing target manifest: " .. target_manifest_path)
+  end
+
   -- Verify agents
   local agent_results = verify_agents(manifest, target_dir, config)
   if #agent_results.missing > 0 then

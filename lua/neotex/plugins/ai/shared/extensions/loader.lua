@@ -457,6 +457,37 @@ function M.copy_root_files(manifest, source_dir, target_dir)
   return copied_files, created_dirs
 end
 
+--- Copy manifest.json to target extensions directory
+--- @param manifest table Extension manifest
+--- @param source_dir string Extension source directory
+--- @param target_dir string Target base directory (.claude or .opencode)
+--- @param extension_name string Extension name
+--- @return table copied_files Array of copied file paths
+--- @return table created_dirs Array of created directory paths
+function M.copy_manifest(manifest, source_dir, target_dir, extension_name)
+  local copied_files = {}
+  local created_dirs = {}
+
+  local source_path = source_dir .. "/manifest.json"
+  local target_path = target_dir .. "/extensions/" .. extension_name .. "/manifest.json"
+
+  if vim.fn.filereadable(source_path) ~= 1 then
+    return copied_files, created_dirs
+  end
+
+  local ext_dir = target_dir .. "/extensions/" .. extension_name
+  if vim.fn.isdirectory(ext_dir) ~= 1 then
+    helpers.ensure_directory(ext_dir)
+    table.insert(created_dirs, ext_dir)
+  end
+
+  if copy_file(source_path, target_path, false) then
+    table.insert(copied_files, target_path)
+  end
+
+  return copied_files, created_dirs
+end
+
 --- Copy data directories (merge-copy semantics - only copy non-existing files)
 --- Data directories are copied to the parent directory (project root) not target_dir (.claude/.opencode)
 --- @param manifest table Extension manifest

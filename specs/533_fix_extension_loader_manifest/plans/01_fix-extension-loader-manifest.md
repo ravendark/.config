@@ -1,6 +1,6 @@
 # Implementation Plan: Fix Extension Loader to Copy manifest.json
 - **Task**: 533 - fix_extension_loader_manifest
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/533_fix_extension_loader_manifest/reports/01_extension-loader-manifest-research.md
@@ -51,47 +51,47 @@ The extension loader in `lua/neotex/plugins/ai/shared/extensions/` copies all de
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add `copy_manifest()` to `loader.lua` [NOT STARTED]
+### Phase 1: Add `copy_manifest()` to `loader.lua` [COMPLETED]
 - **Goal:** Implement the file-copy function for manifest.json.
 - **Tasks:**
-  - [ ] **Task 1.1**: Add `M.copy_manifest(manifest, source_dir, target_dir, extension_name)` after `M.copy_data_dirs()` and before `M.check_conflicts()` in `lua/neotex/plugins/ai/shared/extensions/loader.lua`.
-  - [ ] **Task 1.2**: The function must compute `source_path = source_dir .. "/manifest.json"` and `target_path = target_dir .. "/extensions/" .. extension_name .. "/manifest.json"`.
-  - [ ] **Task 1.3**: Use `vim.fn.filereadable(source_path) == 1` guard; if the source manifest is absent return empty arrays.
-  - [ ] **Task 1.4**: Create the target `extensions/{name}/` directory via `helpers.ensure_directory()` only when `vim.fn.isdirectory(ext_dir) ~= 1`, and record the directory in `created_dirs`.
-  - [ ] **Task 1.5**: Copy the file with `copy_file(source_path, target_path, false)` and record the target path in `copied_files` on success.
-  - [ ] **Task 1.6**: Return `{copied_files, created_dirs}` following the same signature as all other `copy_*()` functions.
+  - [x] **Task 1.1**: Add `M.copy_manifest(manifest, source_dir, target_dir, extension_name)` after `M.copy_data_dirs()` and before `M.check_conflicts()` in `lua/neotex/plugins/ai/shared/extensions/loader.lua`.
+  - [x] **Task 1.2**: The function must compute `source_path = source_dir .. "/manifest.json"` and `target_path = target_dir .. "/extensions/" .. extension_name .. "/manifest.json"`.
+  - [x] **Task 1.3**: Use `vim.fn.filereadable(source_path) == 1` guard; if the source manifest is absent return empty arrays.
+  - [x] **Task 1.4**: Create the target `extensions/{name}/` directory via `helpers.ensure_directory()` only when `vim.fn.isdirectory(ext_dir) ~= 1`, and record the directory in `created_dirs`.
+  - [x] **Task 1.5**: Copy the file with `copy_file(source_path, target_path, false)` and record the target path in `copied_files` on success.
+  - [x] **Task 1.6**: Return `{copied_files, created_dirs}` following the same signature as all other `copy_*()` functions.
 - **Timing:** 30 minutes
 - **Depends on:** none
 
-### Phase 2: Wire `copy_manifest()` into `manager.load()` in `init.lua` [NOT STARTED]
+### Phase 2: Wire `copy_manifest()` into `manager.load()` in `init.lua` [COMPLETED]
 - **Goal:** Ensure manifest.json is copied and tracked during every extension load.
 - **Tasks:**
-  - [ ] **Task 2.1**: Inside the `pcall` block of `manager.load()` in `lua/neotex/plugins/ai/shared/extensions/init.lua`, add a call to `loader_mod.copy_manifest(ext_manifest, source_dir, target_dir, extension_name)` after the existing `copy_root_files()` call and before `copy_data_dirs()`.
-  - [ ] **Task 2.2**: Extend `all_files` and `all_dirs` with the returned arrays using `vim.list_extend`.
-  - [ ] **Task 2.3**: Confirm the manifest file is therefore persisted in `extensions.json` via `state_mod.mark_loaded()` and removed on unload via `remove_installed_files()`.
+  - [x] **Task 2.1**: Inside the `pcall` block of `manager.load()` in `lua/neotex/plugins/ai/shared/extensions/init.lua`, add a call to `loader_mod.copy_manifest(ext_manifest, source_dir, target_dir, extension_name)` after the existing `copy_root_files()` call and before `copy_data_dirs()`.
+  - [x] **Task 2.2**: Extend `all_files` and `all_dirs` with the returned arrays using `vim.list_extend`.
+  - [x] **Task 2.3**: Confirm the manifest file is therefore persisted in `extensions.json` via `state_mod.mark_loaded()` and removed on unload via `remove_installed_files()`.
 - **Timing:** 30 minutes
 - **Depends on:** 1
 
-### Phase 3: Verify target manifest in `verify.lua` and validate [NOT STARTED]
+### Phase 3: Verify target manifest in `verify.lua` and validate [COMPLETED]
 - **Goal:** Confirm the copied manifest exists during post-load verification.
 - **Tasks:**
-  - [ ] **Task 3.1**: In `lua/neotex/plugins/ai/shared/extensions/verify.lua`, inside `M.verify_extension()`, add a check after the manifest is read that computes `target_manifest_path = target_dir .. "/extensions/" .. extension_name .. "/manifest.json"`.
-  - [ ] **Task 3.2**: If `file_exists(target_manifest_path)` is false, set `verification.status = "failed"` and insert an error message.
-  - [ ] **Task 3.3**: Add a `manifest` field to the verification report table for consistency.
-  - [ ] **Task 3.4**: Validate the fix by loading an extension in a test project and confirming `{project}/.opencode/extensions/{name}/manifest.json` exists.
-  - [ ] **Task 3.5**: Validate unload removes the manifest and the `extensions/{name}/` directory becomes empty and is deleted.
-  - [ ] **Task 3.6**: Validate the command routing loops in `.opencode/commands/implement.md` (and `.claude/` equivalents) now find the copied manifest.
+  - [x] **Task 3.1**: In `lua/neotex/plugins/ai/shared/extensions/verify.lua`, inside `M.verify_extension()`, add a check after the manifest is read that computes `target_manifest_path = target_dir .. "/extensions/" .. extension_name .. "/manifest.json"`.
+  - [x] **Task 3.2**: If `file_exists(target_manifest_path)` is false, set `verification.status = "failed"` and insert an error message.
+  - [x] **Task 3.3**: Add a `manifest` field to the verification report table for consistency.
+  - [x] **Task 3.4**: Validate the fix by loading an extension in a test project and confirming `{project}/.opencode/extensions/{name}/manifest.json` exists.
+  - [x] **Task 3.5**: Validate unload removes the manifest and the `extensions/{name}/` directory becomes empty and is deleted.
+  - [x] **Task 3.6**: Validate the command routing loops in `.opencode/commands/implement.md` (and `.claude/` equivalents) now find the copied manifest.
 - **Timing:** 1 hour
 - **Depends on:** 2
 
 ## Testing & Validation
 
-- [ ] Load an extension via `:lua require("neotex.plugins.ai.opencode.extensions").load("core")` in a test project and verify `.opencode/extensions/core/manifest.json` is created.
-- [ ] Inspect `extensions.json` and confirm `manifest.json` is listed in `installed_files`.
-- [ ] Unload the same extension and confirm `.opencode/extensions/core/manifest.json` is removed; confirm the `extensions/core/` directory is removed if empty.
-- [ ] Run `verify_extension` on the loaded extension and confirm it passes the manifest check.
-- [ ] Confirm no fallback routing logic was added anywhere in the codebase.
-- [ ] Repeat the load/unload/verify cycle for a `.claude/` target directory.
+- [x] Load an extension via `:lua require("neotex.plugins.ai.opencode.extensions").load("core")` in a test project and verify `.opencode/extensions/core/manifest.json` is created.
+- [x] Inspect `extensions.json` and confirm `manifest.json` is listed in `installed_files`.
+- [x] Unload the same extension and confirm `.opencode/extensions/core/manifest.json` is removed; confirm the `extensions/core/` directory is removed if empty.
+- [x] Run `verify_extension` on the loaded extension and confirm it passes the manifest check.
+- [x] Confirm no fallback routing logic was added anywhere in the codebase.
+- [x] Repeat the load/unload/verify cycle for a `.claude/` target directory.
 
 ## Artifacts & Outputs
 

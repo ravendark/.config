@@ -9,7 +9,7 @@ next_project_number: 534
 *Updated 2026-05-07. 11 active tasks remaining.*
 
 ### Pending
-- **533** [PLANNED] -- Fix extension loader to copy manifest.json
+- **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
@@ -24,7 +24,7 @@ next_project_number: 534
 
 ### 533. Fix extension loader to copy manifest.json
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: neovim
 - **Dependencies**: None
 - **Research**:
@@ -32,6 +32,7 @@ next_project_number: 534
 - **Plan**:
   - [533_fix_extension_loader_manifest/README.md]
   - [533_fix_extension_loader_manifest/plans/01_fix-extension-loader-manifest.md]
+- **Summary**: [533_fix_extension_loader_manifest/summaries/01_fix-extension-loader-manifest-summary.md]
 
 **Description**: Fix the Neovim extension loader to copy `manifest.json` into target projects during `manager.load()`. The extension loader currently copies all extension files except `manifest.json`, which breaks agent routing in `/implement`, `/research`, and `/plan` commands. These commands scan `.opencode/extensions/*/manifest.json` to determine task-type-to-skill mappings. Without the manifest, specialized tasks (e.g., `type:lean4`) silently fall back to generic agents. This task also updates `manager.unload()` to remove the manifest and `verify.lua` to confirm its presence.
 

@@ -448,6 +448,11 @@ function M.create(config)
       vim.list_extend(all_files, files)
       vim.list_extend(all_dirs, dirs)
 
+      -- Copy manifest.json to extensions/{name}/
+      files, dirs = loader_mod.copy_manifest(ext_manifest, source_dir, target_dir, extension_name)
+      vim.list_extend(all_files, files)
+      vim.list_extend(all_dirs, dirs)
+
       -- Copy data directories (merge-copy semantics - preserves existing files)
       -- Data skeleton files are tracked separately for safe unload
       local data_files, data_dirs = loader_mod.copy_data_dirs(ext_manifest, source_dir, project_dir)
