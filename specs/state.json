@@ -26,14 +26,14 @@
     {
       "project_number": 537,
       "project_name": "fix_manifest_absolute_paths",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Update commands to use absolute paths for manifest discovery with working-directory verification",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-07T18:00:00Z",
-      "last_updated": "2026-05-07T17:55:12Z",
-      "session_id": "sess_research_537",
+      "last_updated": "2026-05-07T17:58:05Z",
+      "session_id": "sess_plan_537",
       "artifacts": [
         {
           "type": "plan",
@@ -45,14 +45,14 @@
     {
       "project_number": 536,
       "project_name": "clarify_delegation_chain",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Document the two-step Skill-then-Task delegation chain in command docs",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-07T18:00:00Z",
-      "last_updated": "2026-05-07T17:53:53Z",
-      "session_id": "sess_research_536_1778176208_6181",
+      "last_updated": "2026-05-07T17:55:44Z",
+      "session_id": "sess_plan_536_1778176544_851e",
       "artifacts": [
         {
           "type": "plan",
@@ -64,14 +64,14 @@
     {
       "project_number": 535,
       "project_name": "establish_resume_point_truth",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Establish plan file markers as primary source of truth for resume points over state.json",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-07T18:00:00Z",
-      "last_updated": "2026-05-07T17:54:15Z",
-      "session_id": "sess_research_535_1778176207_427c",
+      "last_updated": "2026-05-07T17:58:05Z",
+      "session_id": "sess_plan_535",
       "artifacts": [
         {
           "type": "plan",
@@ -83,14 +83,14 @@
     {
       "project_number": 534,
       "project_name": "sync_extension_routing_tables",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Sync extension routing tables across implement/research/plan command docs to include all extension languages",
       "effort": "< 1 hour",
       "dependencies": [],
       "created": "2026-05-07T18:00:00Z",
-      "last_updated": "2026-05-07T17:50:07Z",
-      "session_id": "sess_research_534_1778176207_2c88",
+      "last_updated": "2026-05-07T17:58:05Z",
+      "session_id": "sess_plan_534",
       "artifacts": [
         {
           "type": "plan",
