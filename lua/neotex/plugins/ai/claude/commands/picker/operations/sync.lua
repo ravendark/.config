@@ -336,6 +336,11 @@ local function sync_files(files, preserve_perms, merge_only, protected_paths, ba
   protected_paths = protected_paths or {}
 
   for _, file in ipairs(files) do
+    -- Skip files explicitly marked as skip (e.g., opencode.json merge-only)
+    if file.action == "skip" then
+      goto continue
+    end
+
     -- Skip replace actions if merge_only is true
     if merge_only and file.action == "replace" then
       goto continue
@@ -866,7 +871,7 @@ function M.scan_all_artifacts(global_dir, project_dir, config)
   -- by the extension loader (root_files provides + generate_claudemd), not synced.
   local root_file_names
   if base_dir == ".opencode" then
-    root_file_names = { "AGENTS.md", "OPENCODE.md", "settings.json", ".gitignore", "README.md", "QUICK-START.md" }
+    root_file_names = { "AGENTS.md", "OPENCODE.md", "settings.json", ".gitignore", "README.md", "QUICK-START.md", "opencode.json" }
   else
     root_file_names = {}
   end
@@ -874,16 +879,30 @@ function M.scan_all_artifacts(global_dir, project_dir, config)
   artifacts.root_files = {}
   for _, filename in ipairs(root_file_names) do
     local global_path = global_dir .. "/" .. base_dir .. "/" .. filename
-    local local_path = project_dir .. "/" .. base_dir .. "/" .. filename
+    -- opencode.json lives at project root, not inside base_dir
+    local local_path
+    if filename == "opencode.json" then
+      local_path = project_dir .. "/" .. filename
+    else
+      local_path = project_dir .. "/" .. base_dir .. "/" .. filename
+    end
     if vim.fn.filereadable(global_path) == 1 then
-      local action = vim.fn.filereadable(local_path) == 1 and "replace" or "copy"
-      table.insert(artifacts.root_files, {
-        name = filename,
-        global_path = global_path,
-        local_path = local_path,
-        action = action,
-        is_subdir = false,
-      })
+      -- Use merge-only for opencode.json (never overwrite existing project config)
+      local action
+      if filename == "opencode.json" then
+        action = vim.fn.filereadable(local_path) == 1 and "skip" or "copy"
+      else
+        action = vim.fn.filereadable(local_path) == 1 and "replace" or "copy"
+      end
+      if action ~= "skip" then
+        table.insert(artifacts.root_files, {
+          name = filename,
+          global_path = global_path,
+          local_path = local_path,
+          action = action,
+          is_subdir = false,
+        })
+      end
     end
   end
 

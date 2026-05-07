@@ -73,7 +73,7 @@ end
 --- @param filepath string Path to JSON file
 --- @param data table Data to write
 --- @return boolean success True if write succeeded
-local function write_json(filepath, data)
+function M.write_json(filepath, data)
   local ok, encoded = pcall(vim.json.encode, data)
   if not ok then
     return false
@@ -248,7 +248,7 @@ function M.merge_settings(target_path, fragment)
     return false, nil
   end
 
-  local success = write_json(target_path, target)
+  local success = M.write_json(target_path, target)
   if not success then
     return false, nil
   end
@@ -303,7 +303,7 @@ function M.unmerge_settings(target_path, tracked_entries)
 
   remove_tracked(target, tracked_entries)
 
-  local success = write_json(target_path, target)
+  local success = M.write_json(target_path, target)
   if not success then
     return false
   end
@@ -351,7 +351,7 @@ function M.append_index_entries(target_path, entries)
     end
   end
 
-  local success = write_json(target_path, index)
+  local success = M.write_json(target_path, index)
   if not success then
     return false, nil
   end
@@ -392,7 +392,7 @@ function M.remove_index_entries_tracked(target_path, tracked)
   end
   index.entries = new_entries
 
-  local success = write_json(target_path, index)
+  local success = M.write_json(target_path, index)
   if not success then
     return false
   end
@@ -450,7 +450,7 @@ function M.remove_index_entries_by_prefix(target_path, prefixes)
 
   index.entries = new_entries
 
-  local ok = write_json(target_path, index)
+  local ok = M.write_json(target_path, index)
   if not ok then
     return false, 0
   end
@@ -526,7 +526,7 @@ function M.remove_orphaned_index_entries(index_path, valid_prefixes, context_dir
 
   index.entries = new_entries
 
-  local ok = write_json(index_path, index)
+  local ok = M.write_json(index_path, index)
   if not ok then
     return false, 0
   end
@@ -659,14 +659,55 @@ function M.generate_claudemd(project_dir, config)
   return true, nil
 end
 
+--- Validate that all {file:...} references in an opencode fragment point to existing files
+--- Iterates over agent entries and checks each prompt that uses {file:PATH} syntax.
+--- @param fragment table Fragment with agent definitions {agent = {...}}
+--- @param project_dir string Project directory for resolving relative paths
+--- @return boolean valid True if all references exist
+--- @return string|nil error Error message if validation fails
+function M.validate_opencode_fragment(fragment, project_dir)
+  local source_agents = fragment.agent or (type(fragment) == "table" and not vim.isarray(fragment) and fragment) or {}
+
+  for agent_name, agent_def in pairs(source_agents) do
+    if type(agent_def) == "table" and agent_def.prompt then
+      local prompt = agent_def.prompt
+      -- Check for {file:PATH} syntax
+      local file_path = prompt:match("^%{file:(.+)%}$")
+      if file_path then
+        local abs_path = project_dir .. "/" .. file_path
+        if vim.fn.filereadable(abs_path) ~= 1 then
+          return false, string.format(
+            "Agent '%s' references missing file: %s",
+            agent_name, file_path
+          )
+        end
+      end
+    end
+  end
+
+  return true, nil
+end
+
 --- Merge opencode.json agent definitions
 --- Adds agent definitions from fragment to target opencode.json.
 --- Only adds keys that don't already exist (no overwrite).
 --- @param target_path string Path to opencode.json
 --- @param fragment table Fragment with agent definitions {agent = {...}}
+--- @param project_dir string|nil Project directory for validating {file:...} references
 --- @return boolean success True if merge succeeded
 --- @return table|nil tracked Tracking data for unmerge {keys = {...}}
-function M.merge_opencode_agents(target_path, fragment)
+function M.merge_opencode_agents(target_path, fragment, project_dir)
+  -- Derive project_dir from target_path if not provided
+  if not project_dir then
+    project_dir = vim.fn.fnamemodify(target_path, ":h")
+  end
+
+  -- Validate fragment before merging
+  local valid, err = M.validate_opencode_fragment(fragment, project_dir)
+  if not valid then
+    return false, { error = err }
+  end
+
   -- Ensure parent directory exists
   helpers.ensure_directory(vim.fn.fnamemodify(target_path, ":h"))
 
@@ -696,7 +737,7 @@ function M.merge_opencode_agents(target_path, fragment)
   end
 
   -- Write updated opencode.json
-  local success = write_json(target_path, target)
+  local success = M.write_json(target_path, target)
   if not success then
     return false, nil
   end
@@ -728,7 +769,7 @@ function M.unmerge_opencode_agents(target_path, tracked)
     target.agent[key] = nil
   end
 
-  local success = write_json(target_path, target)
+  local success = M.write_json(target_path, target)
   if not success then
     return false
   end

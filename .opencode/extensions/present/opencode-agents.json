@@ -1,79 +1,58 @@
 {
   "agent": {
-    "grant": {
-      "description": "Research funders and draft grant proposals",
-      "mode": "subagent",
-      "prompt": "{file:.opencode/agent/subagents/grant-agent.md}",
-      "tools": {
-        "read": true,
-        "write": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "bash": true,
-        "webfetch": true,
-        "websearch": true
-      }
-    },
     "budget": {
-      "description": "Generate grant budget spreadsheets with Excel formulas",
+      "description": "Grant budget spreadsheet generation with forcing questions and XLSX export",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/subagents/budget-agent.md}",
-      "tools": {
-        "read": true,
-        "write": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "bash": true,
-        "webfetch": true,
-        "websearch": true
-      }
-    },
-    "timeline": {
-      "description": "Plan research project timelines with WBS and PERT scheduling",
-      "mode": "subagent",
-      "prompt": "{file:.opencode/agent/subagents/timeline-agent.md}",
-      "tools": {
-        "read": true,
-        "write": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "bash": true,
-        "webfetch": true,
-        "websearch": true
-      }
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
     },
     "funds": {
-      "description": "Analyze research funding landscape and portfolio",
+      "description": "Funding landscape analysis with funder portfolio mapping and budget verification",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/subagents/funds-agent.md}",
-      "tools": {
-        "read": true,
-        "write": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "bash": true,
-        "webfetch": true,
-        "websearch": true
-      }
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
     },
-    "slides": {
-      "description": "Synthesize research materials into academic presentations",
+    "grant": {
+      "description": "Grant proposal research and writing with funder analysis",
       "mode": "subagent",
-      "prompt": "{file:.opencode/agent/subagents/slides-agent.md}",
-      "tools": {
-        "read": true,
-        "write": true,
-        "edit": true,
-        "glob": true,
-        "grep": true,
-        "bash": true,
-        "webfetch": true,
-        "websearch": true
-      }
+      "prompt": "{file:.opencode/agent/subagents/grant-agent.md}",
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
+    },
+    "pptx-assembly": {
+      "description": "PowerPoint presentation assembly from slide-mapped research reports",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/pptx-assembly-agent.md}",
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
+    },
+    "slide-critic": {
+      "description": "Review presentation materials against critique rubric",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/slide-critic-agent.md}",
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
+    },
+    "slide-planner": {
+      "description": "Create slide-by-slide implementation plans from interactive design feedback and research reports",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/slide-planner-agent.md}",
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
+    },
+    "slides-research": {
+      "description": "Research talk material synthesis for academic presentations",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/slides-research-agent.md}",
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
+    },
+    "slidev-assembly": {
+      "description": "Slidev presentation assembly from slide-mapped research reports",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/slidev-assembly-agent.md}",
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
+    },
+    "timeline": {
+      "description": "Research agent for medical research project timelines with WBS/PERT/Gantt capabilities",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/timeline-agent.md}",
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
     }
   }
 }

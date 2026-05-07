@@ -17,7 +17,7 @@ next_project_number: 543
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
-- **540** [PLANNED] -- Research opencode.json and extension agent registration gaps
+- **540** [IMPLEMENTING] -- Research opencode.json and extension agent registration gaps
 - **541** [NOT STARTED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [NOT STARTED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
@@ -32,7 +32,7 @@ next_project_number: 543
 
 ### 540. Research opencode.json and extension agent registration gaps
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [540_research_opencode_json_and_extension_gaps/reports/01_opencode-json-research.md]

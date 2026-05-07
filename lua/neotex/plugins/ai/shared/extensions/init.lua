@@ -128,9 +128,18 @@ local function process_merge_targets(ext_manifest, source_dir, project_dir, conf
 
     local fragment = read_json(source_path)
     if fragment then
-      local success, tracked = merge_mod.merge_opencode_agents(target_path, fragment)
+      local success, tracked = merge_mod.merge_opencode_agents(target_path, fragment, project_dir)
       if success then
         merged_sections.opencode_json = tracked
+      else
+        -- Log validation error so user knows why agents were not registered
+        local err_msg = tracked and tracked.error or "unknown error"
+        vim.schedule(function()
+          vim.notify(
+            string.format("Extension '%s' opencode.json merge skipped: %s", ext_manifest.name or "unknown", err_msg),
+            vim.log.levels.WARN
+          )
+        end)
       end
     end
   end
@@ -816,6 +825,55 @@ function M.create(config)
     end
 
     return results
+  end
+
+  --- Scan opencode.json for stale {file:...} references and remove them
+  --- Called on startup or picker open to defend against corrupted opencode.json
+  --- @param project_dir string|nil Project directory
+  --- @return table result {removed = number, agents = table}
+  function manager.cleanup_stale_opencode_agents(project_dir)
+    project_dir = project_dir or vim.fn.getcwd()
+    local opencode_path = project_dir .. "/opencode.json"
+
+    if vim.fn.filereadable(opencode_path) ~= 1 then
+      return { removed = 0, agents = {} }
+    end
+
+    local data = read_json(opencode_path)
+    if not data or not data.agent then
+      return { removed = 0, agents = {} }
+    end
+
+    local removed = {}
+    for agent_name, agent_def in pairs(data.agent) do
+      if type(agent_def) == "table" and agent_def.prompt then
+        local file_path = agent_def.prompt:match("^%{file:(.+)%}$")
+        if file_path then
+          local abs_path = project_dir .. "/" .. file_path
+          if vim.fn.filereadable(abs_path) ~= 1 then
+            table.insert(removed, agent_name)
+            data.agent[agent_name] = nil
+          end
+        end
+      end
+    end
+
+    if #removed > 0 then
+      local ok = pcall(function()
+        local merge_mod = require("neotex.plugins.ai.shared.extensions.merge")
+        merge_mod.write_json(opencode_path, data)
+      end)
+      if ok then
+        vim.schedule(function()
+          vim.notify(
+            string.format("Cleaned %d stale agent(s) from opencode.json: %s", #removed, table.concat(removed, ", ")),
+            vim.log.levels.WARN
+          )
+        end)
+      end
+    end
+
+    return { removed = #removed, agents = removed }
   end
 
   return manager
