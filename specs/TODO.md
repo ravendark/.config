@@ -9,7 +9,7 @@ next_project_number: 550
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
-- **548** [IMPLEMENTING] -- Research OpenCode permission system for workspace-root auto-approval
+- **548** [COMPLETED] -- Research OpenCode permission system for workspace-root auto-approval
 - **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **545** [COMPLETED] -- Harden TODO.md insertion ordering in meta-builder-agent
 - **546** [COMPLETED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
@@ -38,11 +38,12 @@ next_project_number: 550
 
 ### 548. Research OpenCode permission system for workspace-root auto-approval
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [548_research_opencode_permissions/reports/01_opencode-permissions-research.md]
 - **Plan**: [548_research_opencode_permissions/plans/01_opencode-permissions-plan.md]
+- **Summary**: [548_research_opencode_permissions/summaries/01_opencode-permissions-summary.md]
 
 **Description**: Research how OpenCode's permission system works and how to configure it to always grant permission for file changes within the current project root directory while still requiring approval for writes outside the root. Investigate: (1) OpenCode permission configuration files (opencode.json or equivalent), (2) available permission scoping options (directory-based, tool-based), (3) security implications of auto-approving workspace-root writes, (4) best practices from OpenCode documentation and community. Deliverable: research report with concrete configuration recommendations.
 

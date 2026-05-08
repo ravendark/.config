@@ -3,15 +3,17 @@
 - **Type**: Pattern
 - **Scope**: OpenCode extension system
 - **Last Updated**: 2026-05-07
-- **Related**: `specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md`
+- **Related**: `.opencode/context/patterns/computed-artifacts.md`
 
 ## Overview
 
-The JSON merge tracking pattern enables idempotent, reversible merging of JSON fragments into target files. It is used by the OpenCode extension system to register agents in `opencode.json`, and is reusable for other JSON merge targets.
+> **Note**: `opencode.json` is no longer managed via JSON merge tracking. It uses the [computed-artifact pattern](computed-artifacts.md) instead. This document retains the pattern documentation for other merge targets such as `settings.json` and `index.json`.
+
+The JSON merge tracking pattern enables idempotent, reversible merging of JSON fragments into target files. It is used by the OpenCode extension system for `settings.json` and `index.json`, and is reusable for other JSON merge targets.
 
 ## Problem
 
-When multiple extensions contribute keys to a shared JSON file (e.g., `opencode.json`), we need to:
+When multiple extensions contribute keys to a shared JSON file, we need to:
 
 1. Add extension-specific keys without overwriting existing keys
 2. Remove extension-specific keys when the extension is unloaded
@@ -19,7 +21,7 @@ When multiple extensions contribute keys to a shared JSON file (e.g., `opencode.
 
 ## Solution: Key-Based Tracking
 
-The pattern uses a `keys` array to track which keys were added by a specific merge operation. This tracking data is stored in extension state (`extensions.json`) and used during unmerge.
+The pattern uses tracking data to record which keys were added by a specific merge operation. This tracking data is stored in extension state (`extensions.json`) and used during unmerge.
 
 ### Data Structures
 
@@ -36,9 +38,8 @@ The pattern uses a `keys` array to track which keys were added by a specific mer
   "name": "core",
   "loaded": true,
   "merged_sections": {
-    "opencode_json": {
-      "keys": ["code-reviewer", "general-implementation", "general-research"]
-    }
+    "settings": { ...tracked data... },
+    "index": { ...tracked data... }
   }
 }
 ```
@@ -53,27 +54,18 @@ function merge(target_path, fragment, project_dir)
 
   -- Read or create target
   target = read_json(target_path) or {}
-  if not target.agent then target.agent = {} end
 
-  -- Track added keys
-  added_keys = {}
+  -- Track what we add
+  tracked = {}
 
-  -- Add each key if it doesn't exist
-  for key, value in pairs(fragment.agent) do
-    if target.agent[key] == nil then
-      target.agent[key] = value
-      table.insert(added_keys, key)
-    else
-      -- Conflict: key already exists (see Decision 1 in design spec)
-      -- TODO: emit warning if owned by different extension
-    end
-  end
+  -- Deep merge
+  deep_merge(target, fragment, tracked)
 
   -- Write updated target
   write_json(target_path, target)
 
   -- Return tracking data for unmerge
-  return true, {keys = added_keys}
+  return true, tracked
 end
 ```
 
@@ -81,15 +73,12 @@ end
 
 ```lua
 function unmerge(target_path, tracked)
-  if not tracked or not tracked.keys then return true end
+  if not tracked then return true end
 
   target = read_json(target_path) or {}
-  if not target.agent then return true end
 
-  -- Remove only tracked keys
-  for _, key in ipairs(tracked.keys) do
-    target.agent[key] = nil
-  end
+  -- Remove tracked entries
+  remove_tracked(target, tracked)
 
   write_json(target_path, target)
   return true
@@ -109,11 +98,12 @@ end
 
 The actual implementation is in `lua/neotex/plugins/ai/shared/extensions/merge.lua`:
 
-- `merge_opencode_agents()` (lines 699-746): Merges agent definitions
-- `unmerge_opencode_agents()` (lines 748-778): Removes tracked agent definitions
-- `validate_opencode_fragment()` (lines 668-689): Validates `{file:...}` references
+- `merge_settings()` (lines 225-257): Merges settings fragments
+- `unmerge_settings()` (lines 260-312): Removes tracked settings entries
+- `append_index_entries()` (lines 315-360): Appends index entries
+- `remove_index_entries_tracked()` (lines 363-401): Removes tracked index entries
 
-State tracking is in `lua/neotex/plugins/ai/shared/extensions/state.lua` (lines 122-133, 189-198).
+State tracking is in `lua/neotex/plugins/ai/shared/extensions/state.lua`.
 
 ## Reusability
 
@@ -123,7 +113,19 @@ This pattern can be applied to any JSON file that receives additive, reversible 
 - `package.json` for dependency injection
 - Custom configuration files with shared namespaces
 
-To reuse the pattern for a new merge target:
+### Preferred Approach for Fully Regenerable Files
+
+For files that can be fully regenerated from a base template plus extension fragments, the [computed-artifact pattern](computed-artifacts.md) is preferred. It eliminates tracking complexity, resolves orphaning edge cases, and produces deterministic output.
+
+| Characteristic | Merge-Tracking | Computed-Artifact |
+|---|---|---|
+| Tracking state | Per-extension in `extensions.json` | None |
+| Unload behavior | Explicit unmerge | Implicit (excluded from regeneration) |
+| Orphaning risk | Yes (tracked keys removed even if another extension provides them) | No (regeneration includes all loaded extensions) |
+| Determinism | Depends on load order | Deterministic given same inputs |
+| Example targets | `settings.json`, `index.json` | `opencode.json`, `CLAUDE.md` |
+
+To reuse the merge-tracking pattern for a new target:
 
 1. Define a `merge_target_key` in the extension config (e.g., `"my_json"`)
 2. Implement `merge_my_json(target_path, fragment)` following the pseudocode above
@@ -141,7 +143,7 @@ To reuse the pattern for a new merge target:
 
 ## References
 
-- Design spec: `specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md`
 - Merge implementation: `lua/neotex/plugins/ai/shared/extensions/merge.lua`
 - State tracking: `lua/neotex/plugins/ai/shared/extensions/state.lua`
 - Extension manager: `lua/neotex/plugins/ai/shared/extensions/init.lua`
+- Computed-artifact pattern: `.opencode/context/patterns/computed-artifacts.md`

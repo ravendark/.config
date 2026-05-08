@@ -58,18 +58,17 @@ return {
       end,
     }
 
-    -- Cleanup stale opencode.json agents on startup (defense-in-depth)
-    local ok_cleanup, cleanup_err = pcall(function()
-      local ext_manager = require("neotex.plugins.ai.shared.extensions")
+    -- Regenerate opencode.json on startup to ensure it reflects currently loaded extensions
+    local ok_regen, regen_err = pcall(function()
+      local merge_mod = require("neotex.plugins.ai.shared.extensions.merge")
       local ext_config_mod = require("neotex.plugins.ai.shared.extensions.config")
       local project_dir = vim.fn.getcwd()
       local cfg = ext_config_mod.opencode(project_dir)
-      local manager = ext_manager.create(cfg)
-      manager.cleanup_stale_opencode_agents(project_dir)
+      merge_mod.generate_opencode_json(project_dir, cfg)
     end)
-    if not ok_cleanup then
+    if not ok_regen then
       vim.schedule(function()
-        vim.notify("Warning: opencode.json cleanup failed on startup: " .. tostring(cleanup_err), vim.log.levels.WARN)
+        vim.notify("Warning: opencode.json regeneration failed on startup: " .. tostring(regen_err), vim.log.levels.WARN)
       end)
     end
 
