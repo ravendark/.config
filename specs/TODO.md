@@ -1,5 +1,5 @@
 ---
-next_project_number: 548
+next_project_number: 550
 ---
 
 # TODO
@@ -9,6 +9,8 @@ next_project_number: 548
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
+- **548** [NOT STARTED] -- Research OpenCode permission system for workspace-root auto-approval
+- **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **545** [PLANNED] -- Harden TODO.md insertion ordering in meta-builder-agent
 - **546** [NOT STARTED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
@@ -19,10 +21,10 @@ next_project_number: 548
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
-- **544** [RESEARCHED] -- Fix OpenCode session picker restore/browse options
+- **544** [PLANNED] -- Fix OpenCode session picker restore/browse options
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
-- **542** [IMPLEMENTING] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
+- **542** [COMPLETED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **543** [NOT STARTED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
@@ -33,6 +35,30 @@ next_project_number: 548
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 548. Research OpenCode permission system for workspace-root auto-approval
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Research how OpenCode's permission system works and how to configure it to always grant permission for file changes within the current project root directory while still requiring approval for writes outside the root. Investigate: (1) OpenCode permission configuration files (opencode.json or equivalent), (2) available permission scoping options (directory-based, tool-based), (3) security implications of auto-approving workspace-root writes, (4) best practices from OpenCode documentation and community. Deliverable: research report with concrete configuration recommendations.
+
+Key files: `opencode.json` (if it exists), OpenCode CLI documentation, `.opencode/` configuration
+
+---
+
+### 549. Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #548
+
+**Description**: Replace all `/tmp/` file path references in OpenCode agent/skill definitions with `specs/tmp/` paths to keep temporary files within the project root. Eight files need updating: `skill-nix-implementation/SKILL.md` (5 refs), `skill-neovim-implementation/SKILL.md` (3 refs), `skill-lean-implementation/SKILL.md` (3 refs), `skill-lean-research/SKILL.md` (3 refs), `spreadsheet-agent.md` (1 ref). Also verify `specs/tmp/` exists and document the temp file location convention. Goal: eliminate all permission prompts caused by OpenCode agents writing to `/tmp/` outside the project root.
+
+Key files: `.opencode/skills/skill-nix-implementation/SKILL.md`, `.opencode/skills/skill-neovim-implementation/SKILL.md`, `.opencode/skills/skill-lean-implementation/SKILL.md`, `.opencode/skills/skill-lean-research/SKILL.md`, `.opencode/agent/subagents/spreadsheet-agent.md`
+
+---
 
 ### 547. Research mobile agent management via Discord bot on NixOS
 - **Effort**: 2-3 hours
@@ -105,7 +131,7 @@ Key files: Extension manifests (add `merge_targets.opencode_json`), new fragment
 
 ### 542. Implement opencode.json automatic agent registration in extension loader
 - **Effort**: 2-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: neovim
 - **Dependencies**: Task #541
 - **Research**: [542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md]
@@ -315,10 +341,11 @@ Key files: `.opencode/context/formats/handoff-artifact.md`, `.opencode/agent/sub
 
 ### 544. Fix OpenCode session picker restore/browse options
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: neovim
 - **Dependencies**: None
 - **Research**: [544_fix_opencode_session_picker/reports/01_session-picker-timing.md]
+- **Plan**: [544_fix_opencode_session_picker/plans/01_session-picker-timing-fix.md]
 
 **Description**: Fix the "Restore last session" and "Browse all sessions" options in the OpenCode session picker (`<C-CR>` → OpenCode). Currently, these options use `vim.defer_fn(..., 1000)` to wait for the OpenCode server, which is unreliable. Replace with proper server-ready detection that polls or waits for the `OpencodeEvent:server.connected` event before making session API calls (`server:select_session()`, `select_session()`). The "Create new session" option already works (it just opens a terminal). Ensure all three options work reliably with proper error handling for edge cases (server startup failure, no saved sessions, etc.).
 

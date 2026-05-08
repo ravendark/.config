@@ -65,6 +65,34 @@
         "glob": true
       }
     },
+    "reviser": {
+      "description": "Revise implementation plans based on feedback and new findings",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/reviser-agent.md}",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "read": true,
+        "grep": true,
+        "glob": true
+      }
+    },
+    "spawn": {
+      "description": "Spawn sub-tasks to research blockers and overcome obstacles",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/spawn-agent.md}",
+      "tools": {
+        "read": true,
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "grep": true,
+        "glob": true,
+        "webfetch": true,
+        "websearch": true
+      }
+    },
     "code-reviewer": {
       "description": "Review code for security, performance, and maintainability",
       "mode": "subagent",

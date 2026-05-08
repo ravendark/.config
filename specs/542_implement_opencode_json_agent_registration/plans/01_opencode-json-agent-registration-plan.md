@@ -1,6 +1,6 @@
 # Implementation Plan: opencode.json Agent Registration Gaps
 - **Task**: 542 - implement_opencode_json_agent_registration
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 4 hours
 - **Dependencies**: 540 (completed), 541 (completed)
 - **Research Inputs**: specs/542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md
@@ -59,7 +59,7 @@ Integrated research report: `specs/542_implement_opencode_json_agent_registratio
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Wire Cleanup to Automatic Triggers [NOT STARTED]
+### Phase 1: Wire Cleanup to Automatic Triggers [COMPLETED]
 - **Goal:** Ensure `cleanup_stale_opencode_agents()` runs automatically after every event that could leave stale `{file:...}` references in `opencode.json`.
 - **Tasks:**
   - [ ] **Task 1.1**: In `lua/neotex/plugins/ai/opencode.lua`, import the extension manager in `config()` and call `manager.cleanup_stale_opencode_agents()` after the server setup block (after line 59). Wrap in `pcall` to avoid breaking plugin init on error.
@@ -69,7 +69,7 @@ Phases within the same wave can execute in parallel.
 - **Timing:** 30 minutes
 - **Depends on:** none
 
-### Phase 2: Implement Conflict Detection in merge_opencode_agents [NOT STARTED]
+### Phase 2: Implement Conflict Detection in merge_opencode_agents [COMPLETED]
 - **Goal:** Detect duplicate agent names across loaded extensions and emit a warning instead of silently skipping.
 - **Tasks:**
   - [ ] **Task 2.1**: Add `extension_name` parameter to `M.merge_opencode_agents(target_path, fragment, project_dir, extension_name)` in `lua/neotex/plugins/ai/shared/extensions/merge.lua`. Update the call site in `init.lua` `process_merge_targets()` (line 131) to pass `ext_manifest.name or "unknown"`.
@@ -84,7 +84,7 @@ Phases within the same wave can execute in parallel.
 - **Timing:** 45 minutes
 - **Depends on:** 1
 
-### Phase 3: Add verify_opencode_json_merge to verify.lua [NOT STARTED]
+### Phase 3: Add verify_opencode_json_merge to verify.lua [COMPLETED]
 - **Goal:** During post-load verification, confirm that `manifest.provides.agents` and the extension's `opencode-agents.json` fragment agree on agent names.
 - **Tasks:**
   - [ ] **Task 3.1**: Add `verify_opencode_json_merge(extension_dir, ext_manifest)` helper function in `lua/neotex/plugins/ai/shared/extensions/verify.lua`:
@@ -99,7 +99,7 @@ Phases within the same wave can execute in parallel.
 - **Timing:** 45 minutes
 - **Depends on:** 1
 
-### Phase 4: Respect Managed Sidecar in Sync [NOT STARTED]
+### Phase 4: Respect Managed Sidecar in Sync [COMPLETED]
 - **Goal:** Prevent sync from overwriting an unmanaged `opencode.json`; allow replacement of managed `opencode.json` during `sync-all`.
 - **Tasks:**
   - [ ] **Task 4.1**: In `lua/neotex/plugins/ai/claude/commands/picker/operations/sync.lua` `collect_sync_artifacts()` (around line 897), update the `opencode.json` action determination:
@@ -112,7 +112,7 @@ Phases within the same wave can execute in parallel.
 - **Timing:** 30 minutes
 - **Depends on:** 1
 
-### Phase 5: Update Base Template [NOT STARTED]
+### Phase 5: Update Base Template [COMPLETED]
 - **Goal:** Ensure the base `opencode.json` template contains all 7 core agents defined in the `core` extension.
 - **Tasks:**
   - [ ] **Task 5.1**: In `.opencode/templates/opencode.json`, add `reviser` agent definition matching the core extension fragment:

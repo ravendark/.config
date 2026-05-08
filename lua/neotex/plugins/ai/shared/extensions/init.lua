@@ -844,10 +844,7 @@ function M.create(config)
   end
 
   --- Scan opencode.json for stale {file:...} references and remove them
-  --- Called on startup or picker open to defend against corrupted opencode.json
-  --- TODO(541): Wire this function to automatic triggers per Decision 3.
-  --- See specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
-  --- Trigger points: opencode.lua config() startup, manager.load() exit, manager.unload() exit.
+  --- Called automatically on startup, after extension load, and after extension unload.
   --- @param project_dir string|nil Project directory
   --- @return table result {removed = number, agents = table}
   function manager.cleanup_stale_opencode_agents(project_dir)

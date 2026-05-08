@@ -336,11 +336,14 @@ local function sync_files(files, preserve_perms, merge_only, protected_paths, ba
   protected_paths = protected_paths or {}
 
   for _, file in ipairs(files) do
-    -- Skip files explicitly marked as skip (e.g., opencode.json merge-only)
-    -- TODO(541): Respect .managed sidecar before deciding skip for opencode.json.
-    -- Decision 4 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
-    -- If opencode.json is unmanaged, always skip (do not overwrite user customizations).
-    -- If managed, current behavior (skip if exists, replace on sync-all) is correct.
+    -- Defensive guard: never overwrite unmanaged opencode.json
+    if file.name == "opencode.json" then
+      if vim.fn.filereadable(file.local_path) == 1 and vim.fn.filereadable(file.local_path .. ".managed") ~= 1 then
+        goto continue
+      end
+    end
+
+    -- Skip files explicitly marked as skip
     if file.action == "skip" then
       goto continue
     end
@@ -873,9 +876,8 @@ function M.scan_all_artifacts(global_dir, project_dir, config)
   -- Root files vary by system
   -- For .claude: all root files (settings, .gitignore, CLAUDE.md) are now managed
   -- by the extension loader (root_files provides + generate_claudemd), not synced.
-  -- NOTE(541): Re-injection of extension agents must run atomically after any full replace.
-  -- Decision 6 (transient state window) from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
-  -- on_load_all callback must run AFTER reinject_loaded_extensions() completes.
+  -- NOTE: Re-injection of extension agents runs atomically after any full replace.
+  -- reinject_loaded_extensions() restores extension merge targets after sync overwrites.
   local root_file_names
   if base_dir == ".opencode" then
     root_file_names = { "AGENTS.md", "OPENCODE.md", "settings.json", ".gitignore", "README.md", "QUICK-START.md", "opencode.json" }
@@ -897,7 +899,13 @@ function M.scan_all_artifacts(global_dir, project_dir, config)
       -- Use merge-only for opencode.json (never overwrite existing project config)
       local action
       if filename == "opencode.json" then
-        action = vim.fn.filereadable(local_path) == 1 and "skip" or "copy"
+        if vim.fn.filereadable(local_path) ~= 1 then
+          action = "copy"
+        elseif vim.fn.filereadable(local_path .. ".managed") == 1 then
+          action = "replace"
+        else
+          action = "skip"
+        end
       else
         action = vim.fn.filereadable(local_path) == 1 and "replace" or "copy"
       end

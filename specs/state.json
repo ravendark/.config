@@ -1,7 +1,35 @@
 {
   "version": "1.0.0",
-  "next_project_number": 548,
+  "next_project_number": 550,
   "active_projects": [
+    {
+      "project_number": 549,
+      "project_name": "audit_relocate_temp_files",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Replace all /tmp/ file path references in OpenCode agent/skill definitions with specs/tmp/ paths to keep temporary files within the project root across 8 files",
+      "effort": "1-2 hours",
+      "dependencies": [
+        548
+      ],
+      "created": "2026-05-07T18:30:00Z",
+      "last_updated": "2026-05-07T18:30:00Z",
+      "session_id": "sess_meta_prompt_permissions",
+      "artifacts": []
+    },
+    {
+      "project_number": 548,
+      "project_name": "research_opencode_permissions",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Research OpenCode permission system configuration for auto-approving workspace-root directory writes while requiring approval for external writes",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-07T18:30:00Z",
+      "last_updated": "2026-05-07T18:30:00Z",
+      "session_id": "sess_meta_prompt_permissions",
+      "artifacts": []
+    },
     {
       "project_number": 547,
       "project_name": "research_mobile_agent_management",
@@ -154,15 +182,21 @@
     {
       "project_number": 544,
       "project_name": "fix_opencode_session_picker",
-      "status": "researched",
+      "status": "planned",
       "task_type": "neovim",
       "description": "Fix the 'Restore last session' and 'Browse all sessions' options in the OpenCode session picker by replacing fragile vim.defer_fn(1000) timing with proper server-ready detection via OpencodeEvent:server.connected",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-07T23:40:00Z",
-      "last_updated": "2026-05-08T00:50:40Z",
-      "session_id": "sess_1778200790_6c4a1b",
-      "artifacts": []
+      "last_updated": "2026-05-08T00:56:08Z",
+      "session_id": "sess_1778201534_9edf65",
+      "artifacts": [
+        {
+          "path": "specs/544_fix_opencode_session_picker/plans/01_session-picker-timing-fix.md",
+          "type": "plan",
+          "summary": "Two-phase implementation plan replacing vim.defer_fn(1000) timing with Server.get() Promise chains in the OpenCode session picker"
+        }
+      ]
     },
     {
       "project_number": 543,
@@ -182,7 +216,7 @@
     {
       "project_number": 542,
       "project_name": "implement_opencode_json_agent_registration",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "neovim",
       "description": "Implement automatic opencode.json agent registration in the extension loader so extensions that provide agents also register them in opencode.json",
       "effort": "2-3 hours",
@@ -190,7 +224,7 @@
         541
       ],
       "created": "2026-05-07T22:30:00Z",
-      "last_updated": "2026-05-08T00:48:23Z",
+      "last_updated": "2026-05-08T00:55:46Z",
       "session_id": "sess_1778201286_6a1f55",
       "artifacts": [
         {
@@ -230,7 +264,8 @@
             "integrated_date": "2026-05-08"
           }
         ]
-      }
+      },
+      "completion_summary": "Wired cleanup_stale_opencode_agents() to startup, post-load, and post-unload triggers; implemented conflict detection in merge_opencode_agents(); added verify_opencode_json_merge() to verify.lua; made sync.lua respect .managed sidecar for opencode.json; updated base template with reviser and spawn agents."
     },
     {
       "project_number": 541,
