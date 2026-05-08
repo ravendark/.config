@@ -20,15 +20,50 @@
     {
       "project_number": 548,
       "project_name": "research_opencode_permissions",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Research OpenCode permission system configuration for auto-approving workspace-root directory writes while requiring approval for external writes",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-07T18:30:00Z",
-      "last_updated": "2026-05-08T00:58:27Z",
+      "last_updated": "2026-05-07T18:04:00Z",
       "session_id": "sess_1778201907_7a2298",
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/548_research_opencode_permissions/reports/01_opencode-permissions-research.md",
+          "type": "report",
+          "summary": "Comprehensive research on OpenCode permission system, workspace-root auto-approval pattern, and temp file conventions. Covers permission architecture, external_directory scoping, current config state, and migration recommendations."
+        }
+      ],
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "OpenCode's permission system uses a two-layer check for file operations: tool-level permissions plus the external_directory permission. external_directory triggers when any tool touches paths outside the workspace root, and both layers must pass for the operation to succeed.",
+          "category": "PATTERN",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "opencode",
+            "permissions",
+            "external_directory",
+            "workspace",
+            "security",
+            "two-layer"
+          ]
+        },
+        {
+          "content": "OpenCode and Claude Code use different permission configuration formats that coexist in the same project. Claude Code uses .opencode/settings.json with flat string arrays. OpenCode uses opencode.json at the project root with JSON objects. The two systems are independent.",
+          "category": "INSIGHT",
+          "confidence": 0.78,
+          "suggested_keywords": [
+            "opencode",
+            "claude-code",
+            "permissions",
+            "migration",
+            "config",
+            "format"
+          ]
+        }
+      ]
     },
     {
       "project_number": 547,
@@ -54,7 +89,7 @@
           "content": "OpenCode has a comprehensive headless/CLI API: 'opencode serve' starts a persistent server with basic auth (OPENCODE_SERVER_PASSWORD), 'opencode run --command' executes named commands programmatically, 'opencode attach' connects to remote servers, and 'opencode session list/delete' manages session lifecycle. The --format json flag enables machine-parseable output. This client-server architecture means OpenCode agents can be controlled from external services like Discord bots or webhooks without the Neovim TUI.",
           "category": "INSIGHT",
           "source_artifact": "specs/547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md",
-          "confidence": 0.90,
+          "confidence": 0.9,
           "suggested_keywords": [
             "opencode",
             "headless",
@@ -98,14 +133,14 @@
     {
       "project_number": 545,
       "project_name": "harden_todo_md_insertion",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Replace abstract insert_after_heading() pseudocode in meta-builder-agent.md with explicit, LLM-proof Edit tool invocation for TODO.md task insertion",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-08T00:05:00Z",
-      "last_updated": "2026-05-08T01:01:06Z",
-      "session_id": "sess_1778202066_13c07b",
+      "last_updated": "2026-05-08T01:07:40Z",
+      "session_id": "sess_1746628900_545impl",
       "artifacts": [
         {
           "path": "specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md",

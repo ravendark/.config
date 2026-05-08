@@ -1,7 +1,7 @@
 # Implementation Plan: Task #545
 
 - **Task**: 545 - Harden TODO.md insertion ordering in meta-builder-agent
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md
@@ -64,17 +64,17 @@ No ROADMAP.md items are directly advanced by this task. The task falls under the
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Harden Stage 6 CreateTasks insertion [NOT STARTED]
+### Phase 1: Harden Stage 6 CreateTasks insertion [COMPLETED]
 
 **Goal**: Replace `insert_after_heading("## Tasks", batch_markdown)` pseudocode in both copies of meta-builder-agent.md with a concrete Edit tool invocation, anti-pattern warning, and post-insertion verification.
 
 **Tasks**:
-- [ ] **Task 1.1**: Read meta-builder-agent.md Stage 6 CreateTasks section (lines 690-745) in both main copy and core mirror to confirm current pseudocode matches research findings
-- [ ] **Task 1.2**: Replace `insert_after_heading("## Tasks", batch_markdown)` pseudocode (line ~736) in the main copy with a concrete Edit tool invocation block
-- [ ] **Task 1.3**: Add anti-pattern warning immediately before the Edit tool invocation in the main copy
-- [ ] **Task 1.4**: Add post-insertion verification step after the Edit tool invocation in the main copy
-- [ ] **Task 1.5**: Apply identical changes to the core mirror at `.opencode/extensions/core/agents/meta-builder-agent.md`
-- [ ] **Task 1.6**: Verify both copies match by diffing the CreateTasks sections to confirm atomic sync
+- [x] **Task 1.1**: Read meta-builder-agent.md Stage 6 CreateTasks section (lines 690-745) in both main copy and core mirror to confirm current pseudocode matches research findings *(completed)*
+- [x] **Task 1.2**: Replace `insert_after_heading("## Tasks", batch_markdown)` pseudocode (line ~736) in the main copy with a concrete Edit tool invocation block *(completed)*
+- [x] **Task 1.3**: Add anti-pattern warning immediately before the Edit tool invocation in the main copy *(completed)*
+- [x] **Task 1.4**: Add post-insertion verification step after the Edit tool invocation in the main copy *(completed)*
+- [x] **Task 1.5**: Apply identical changes to the core mirror at `.opencode/extensions/core/agents/meta-builder-agent.md` *(completed)*
+- [x] **Task 1.6**: Verify both copies match by diffing the CreateTasks sections to confirm atomic sync *(completed)*
 
 **Timing**: 40 minutes
 
@@ -90,15 +90,15 @@ Phases within the same wave can execute in parallel.
 - Post-insertion re-read verification step follows the Edit tool block
 - `diff <(sed -n '690,750p' main) <(sed -n '690,750p' mirror)` shows only path/comment differences, not logic differences
 
-### Phase 2: Harden Stage 6 Status Updates insertion [NOT STARTED]
+### Phase 2: Harden Stage 6 Status Updates insertion [COMPLETED]
 
 **Goal**: Replace the abstract prose in meta-builder-agent.md Stage 6 Status Updates section (lines ~1334-1359) with the same concrete Edit tool pattern, anti-pattern warning, and verification used in Phase 1. Sync to core mirror.
 
 **Tasks**:
-- [ ] **Task 2.1**: Read meta-builder-agent.md Stage 6 Status Updates section in both copies to confirm prose-only vulnerability
-- [ ] **Task 2.2**: Replace the abstract "Insert batch into TODO.md" prose in the main copy with the same concrete Edit tool invocation pattern from Phase 1, referencing it as the canonical insertion pattern
-- [ ] **Task 2.3**: Apply identical changes to the core mirror
-- [ ] **Task 2.4**: Verify both copies match for the Status Updates section
+- [x] **Task 2.1**: Read meta-builder-agent.md Stage 6 Status Updates section in both copies to confirm prose-only vulnerability *(completed)*
+- [x] **Task 2.2**: Replace the abstract "Insert batch into TODO.md" prose in the main copy with the same concrete Edit tool invocation pattern from Phase 1, referencing it as the canonical insertion pattern *(completed)*
+- [x] **Task 2.3**: Apply identical changes to the core mirror *(completed)*
+- [x] **Task 2.4**: Verify both copies match for the Status Updates section *(completed)*
 
 **Timing**: 25 minutes
 
@@ -114,15 +114,15 @@ Phases within the same wave can execute in parallel.
 - Post-insertion verification is specified or cross-referenced
 - Both copies are identical in their Status Updates insertion logic
 
-### Phase 3: Update multi-task-creation-standard.md component 8 [NOT STARTED]
+### Phase 3: Update multi-task-creation-standard.md component 8 [COMPLETED]
 
 **Goal**: Replace the abstract `insert_after_heading()` pseudocode in component 8 of multi-task-creation-standard.md with the hardened Edit tool pattern, establishing it as the normative precedent for all multi-task creators.
 
 **Tasks**:
-- [ ] **Task 3.1**: Read multi-task-creation-standard.md component 8 (lines ~300-340) to confirm current pseudocode matches research findings
-- [ ] **Task 3.2**: Replace the abstract pseudocode with the concrete Edit tool invocation pattern matching Phase 1
-- [ ] **Task 3.3**: Add a brief note that other multi-task creators should adopt this pattern (precedent for task 546)
-- [ ] **Task 3.4**: Verify the updated standard is internally consistent — no remaining `insert_after_heading()` or abstract insertion prose in the document
+- [x] **Task 3.1**: Read multi-task-creation-standard.md component 8 (lines ~300-340) to confirm current pseudocode matches research findings *(completed)*
+- [x] **Task 3.2**: Replace the abstract pseudocode with the concrete Edit tool invocation pattern matching Phase 1 *(completed)*
+- [x] **Task 3.3**: Add a brief note that other multi-task creators should adopt this pattern (precedent for task 546) *(completed)*
+- [x] **Task 3.4**: Verify the updated standard is internally consistent — no remaining `insert_after_heading()` or abstract insertion prose in the document *(completed)*
 
 **Timing**: 25 minutes
 

@@ -18,14 +18,13 @@
 
 ## Executive Summary
 
-- OpenCode has comprehensive headless/CLI support via `opencode serve` (persistent server), `opencode run` (one-shot + commands), `opencode attach` (remote sessions), and `opencode web` (web UI) -- all with basic auth via `OPENCODE_SERVER_PASSWORD`
 - **Session linking flow**: Start a session in Neovim → trigger `:OpenCodeLinkDiscord` → Discord bot opens a thread bound to that session → continue the conversation from iPhone via Discord. The bot is a thin relay, not an agent -- it forwards text to the existing `opencode serve` backend the Neovim session already uses
 - **Zero cost to link**: The Discord bot is a persistent daemon with negligible overhead. Linking sessions costs nothing extra -- only the active conversation consumes LLM tokens, same as if you were typing in Neovim. Having 10 linked sessions costs the same as 1
-- `nextcord` 3.1.1 is the best Discord bot library for 2026: actively maintained (Aug 2025 release), slash-command-native, async, and available in nixpkgs as `python3Packages.nextcord`
-- Mosh 1.4.0 is available in nixpkgs but not installed; OpenSSH is disabled in the stock NixOS config -- both need enabling (secondary to Discord bot for mobile access)
-- The current NixOS 26.05 configuration is nearly stock (GNOME desktop, NetworkManager, no SSH), meaning the foundation for remote access must be built from scratch
-- Secrets management options: `sops` 3.12.2 is in nixpkgs for encrypting Discord tokens and SSH keys; `agenix` is NOT in nixpkgs but can be used via flake input
-- Raspberry Pi NixOS support exists via `nixos-hardware` (flake input) and `sd-image` builders; the Pi would run `opencode serve` as a headless agent host accessed remotely via the Discord bot
+- **`/rc` slash command group**: Short for "remote code" -- all bot commands live under `/rc` (e.g. `/rc session join`, `/rc task status`) to minimize typing on mobile
+- Nextcord 3.1.1 is the best Discord bot library for 2026: actively maintained (Aug 2025 release), slash-command-native, async
+- Mosh + Blink Shell on iPhone serves as fallback raw terminal access; Discord bot is the primary mobile interface
+- NixOS-specific prerequisites (SSH, Mosh, sops-nix secrets, Pi tooling) are factored out -- handled separately from bot implementation
+- Raspberry Pi can run `opencode serve` as a headless agent host, accessed by the bot via `opencode run --attach`
 
 ## Context & Scope
 
@@ -112,40 +111,25 @@ discord.py 2.6.4 is also available but is less actively maintained and lacks som
 **Bot command structure design**:
 
 ```
-/opus session join [ID]     -- Join an active session (primary mobile entry point)
-/opus session list          -- List active sessions with IDs
-/opus session leave         -- Leave current session thread
+/rc session join [ID]     -- Join an active session (primary mobile entry point)
+/rc session list          -- List active sessions with IDs
+/rc session leave         -- Leave current session thread
 
-/opus task status [N]       -- Show status of task(s)
-/opus task create "desc"    -- Create new task
-/opus task research N       -- Trigger /research on task N
-/opus task plan N           -- Trigger /plan on task N
-/opus task implement N      -- Trigger /implement on task N
+/rc task status [N]       -- Show status of task(s)
+/rc task create "desc"    -- Create new task
+/rc task research N       -- Trigger /research on task N
+/rc task plan N           -- Trigger /plan on task N
+/rc task implement N      -- Trigger /implement on task N
 
-/opus status                -- Overall system status (CPU, sessions, tasks)
-/opus refresh               -- Trigger /refresh cleanup
+/rc status                -- Overall system status (CPU, sessions, tasks)
+/rc refresh               -- Trigger /refresh cleanup
 ```
 
 **Linking flow**: The user starts a session in Neovim, runs `:OpenCodeLinkDiscord`, and the bot creates a Discord thread bound to that session ID. From iPhone, the user opens that thread and continues the conversation. The bot forwards each Discord message to `opencode serve` and relays the response back. The thread IS the session -- closing the thread archives it.
 
-**Command group name**: Use `/opus` (shorter than `/opencode`) for the bot's slash command group to reduce typing on mobile.
+**Command group name**: Use `/rc` (short for "remote code") for the bot's slash command group to reduce typing on mobile.
 
-### 3. Mosh + iPhone Setup
-
-**NixOS support**:
-- `nixpkgs#mosh` version 1.4.0 is available (verified)
-- NOT currently installed on the system
-- OpenSSH is commented out in `configuration.nix` (`# services.openssh.enable = true;`)
-
-**Required NixOS additions**:
-```nix
-services.openssh.enable = true;
-environment.systemPackages = with pkgs; [ mosh ];
-networking.firewall.allowedTCPPorts = [ 22 ];
-networking.firewall.allowedUDPPortRanges = [
-  { from = 60000; to = 61000; }  # Mosh UDP
-];
-```
+### 3. Mosh + iPhone Setup (Fallback Terminal Access)
 
 **iPhone clients**:
 - **Blink Shell** (paid, $20): Best-in-class Mosh + SSH client for iOS. Native terminal with full keyboard support. Supports mosh natively with excellent latency handling.
@@ -154,17 +138,16 @@ networking.firewall.allowedUDPPortRanges = [
 
 **Recommendation**: Blink Shell is the gold standard for iPhone Mosh access. Its Mosh integration handles network changes (WiFi->cellular) seamlessly.
 
-### 4. Raspberry Pi Agent Host
+**NixOS-specific prerequisites** (handled separately from bot implementation):
+- SSH and Mosh server setup (currently disabled on this system)
+- Firewall port rules for SSH (22) and Mosh UDP (60000-61000)
 
-**NixOS on Raspberry Pi**:
-- Standard approach: Use `nixos-hardware` flake input for Pi-specific kernel/firmware
-- Image building: `sd-image` builders in nixpkgs create bootable Pi SD card images
-- Cross-compilation: Nix supports cross-compiling from x86_64 to aarch64 for Pi
+### 4. Raspberry Pi Agent Host (Future)
 
 **Architecture for Pi agent host**:
-1. Install NixOS on Pi with minimal configuration
+1. Run OpenCode on Pi with minimal OS configuration
 2. Run `opencode serve` as a systemd service with `--hostname 0.0.0.0 --port 4096`
-3. The Discord bot (on main NixOS machine) connects to Pi via `opencode run --attach http://pi:4096`
+3. The Discord bot (on main machine) connects to Pi via `opencode run --attach http://pi:4096`
 4. Pi-specific development tasks routed to Pi; research/coordination tasks stay on main machine
 
 **Systemd service template for Pi**:
@@ -176,7 +159,7 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-Environment=OPENCODE_SERVER_PASSWORD=from-sops
+Environment=OPENCODE_SERVER_PASSWORD=<from-secrets>
 ExecStart=opencode serve --hostname 0.0.0.0 --port 4096
 Restart=always
 RestartSec=10
@@ -186,35 +169,32 @@ WantedBy=multi-user.target
 ```
 
 **Lightweight requirements**:
-- OpenCode needs Node.js runtime (already in nixpkgs)
+- OpenCode needs Node.js runtime
 - No X11/GUI needed -- headless server mode
 - Minimal RAM footprint when idle; spikes when processing
 - Pi 4 with 4GB+ RAM recommended, Pi 5 ideal
 
+**NixOS-specific prerequisites** (handled separately):
+- `nixos-hardware` for Pi-specific kernel/firmware, `sd-image` builders for bootable images, cross-compilation from x86_64 to aarch64
+
 ### 5. Security Considerations
 
 **Secrets management**:
-- `sops` 3.12.2 available in nixpkgs for encrypted secret files (Discord tokens, SSH keys, server passwords)
-- `agenix` NOT in nixpkgs but can be used as flake input (popular alternative)
-- Neither is currently configured -- need to set up from scratch
+- Discord bot token must be stored encrypted, never hardcoded
+- OpenCode server password for `OPENCODE_SERVER_PASSWORD` auth
+- Recommended approach: sops for encrypting secret files (3.12.2)
 
-**Recommended approach**: Use `sops-nix` (sops integration for NixOS):
-```nix
-sops.secrets."discord_token" = {
-  owner = "benjamin";
-};
-```
-Then reference as `/run/secrets/discord_token` in the bot service.
+**NixOS-specific prerequisites** (handled separately):
+- sops-nix integration for NixOS secrets management (`.sops.yaml` with age keys, systemd `LoadCredential`)
 
 **Discord bot token management**:
-- Store token encrypted via sops
-- Inject into systemd service via `EnvironmentFile` or direct path
-- NEVER hardcode tokens in configuration.nix or bot source
+- Store token encrypted; inject into systemd service via environment or credential path
+- NEVER hardcode tokens in bot source
 
 **Permission scoping**:
 - Discord commands should require explicit user authorization
-- Consider a whitelist of Discord user IDs allowed to invoke agent commands
-- `/open task implement N` should require confirmation for destructive operations
+- Whitelist of Discord user IDs allowed to invoke agent commands
+- `/rc task implement N` should require confirmation for destructive operations
 - The `--dangerously-skip-permissions` flag should only be used for automated, scoped tasks
 
 **Rate limiting**:
@@ -255,33 +235,41 @@ Then reference as `/run/secrets/discord_token` in the bot service.
 
 ## Decisions
 
-1. **Discord bot library**: Use Nextcord 3.1.1 (`python3Packages.nextcord`) over discord.py for its active maintenance (Aug 2025 release), slash command support, and async design
+1. **Discord bot library**: Use Nextcord 3.1.1 over discord.py for its active maintenance (Aug 2025 release), slash command support, and async design
 
-2. **Agent invocation pattern**: Use `opencode run --command <cmd> --attach <server> --dangerously-skip-permissions --format json` for Discord bot to agent communication, with separate `opencode serve` instances on Pi and possibly the main machine. The Discord bot is a thin relay -- it forwards text between Discord threads and the OpenCode server, consuming zero additional LLM tokens beyond what the active session would use anyway
+2. **Agent invocation pattern**: Use `opencode run --command <cmd> --attach <server> --dangerously-skip-permissions --format json` for Discord bot to agent communication. The Discord bot is a thin relay -- it forwards text between Discord threads and the OpenCode server, consuming zero additional LLM tokens beyond what the active session would use anyway
 
-3. **Session linking trigger**: Create a Neovim `:OpenCodeLinkDiscord` command as the primary user-facing entry point. It notifies the Discord bot (via HTTP to the bot's local API or a unix socket) to open a Discord thread bound to the current OpenCode session. From that point, the user continues the session conversation from Discord on iPhone. This is a convenience command -- the underlying plumbing (bot relays messages to `opencode serve`) works regardless, but `:OpenCodeLinkDiscord` automates the "note the session ID, switch to Discord, type `/session join`" manual flow
+3. **Command group name**: Use `/rc` (short for "remote code") for the bot's Discord slash command group to minimize typing on mobile
 
-3. **Secrets management**: Use sops-nix over agenix since sops is directly in nixpkgs (3.12.2), reducing flake input dependencies
+4. **Session linking trigger**: Create a Neovim `:OpenCodeLinkDiscord` command as the primary user-facing entry point. It notifies the Discord bot (via HTTP to the bot's local API or a unix socket) to open a Discord thread bound to the current OpenCode session. From that point, the user continues the session conversation from Discord on iPhone. This automates the manual "note session ID, switch to Discord, type `/rc session join`" flow
 
-4. **iPhone access**: Discord bot is the primary agent management interface; Discord threads map 1:1 to OpenCode sessions. Mosh + Blink Shell is the fallback for raw terminal access when needed
+5. **iPhone access**: Discord bot is the primary agent management interface; Discord threads map 1:1 to OpenCode sessions. Mosh + Blink Shell is the fallback for raw terminal access when needed
 
-5. **Pi architecture**: Run Pi as a headless `opencode serve` host, accessed via Discord bot commands that use `opencode run --attach` for task routing
+6. **Pi architecture**: Run Pi as a headless `opencode serve` host, accessed via Discord bot commands that use `opencode run --attach` for task routing
 
-6. **Phased implementation**: Phase 1: Discord bot + `:OpenCodeLinkDiscord` command + `opencode serve` systemd service on main machine. Phase 2: Mosh + SSH for fallback terminal access. Phase 3: Raspberry Pi agent host (future)
+7. **Phased implementation**: Phase 1: Discord bot + `:OpenCodeLinkDiscord` command + `opencode serve` systemd service on main machine. Phase 2: Mosh + SSH for fallback terminal access. Phase 3: Raspberry Pi agent host (future)
+
+8. **NixOS prerequisites factored out**: SSH, Mosh, firewall rules, sops-nix secrets management, and Pi-specific NixOS tooling are all handled as separate NixOS system configuration tasks, not part of the bot implementation
 
 ## Recommendations
 
-1. **Enable SSH and Mosh on NixOS** (priority: immediate): Uncomment `services.openssh.enable` and add `mosh` to system packages; open firewall ports for SSH (22) and Mosh UDP range (60000-61000)
+### Bot Implementation (primary focus)
 
-2. **Set up sops-nix** (priority: immediate): Create `.sops.yaml` with age keys, encrypt Discord bot token and OpenCode server password
+1. **Create Discord bot Python application** (priority: high): Write the bot using Nextcord with `/rc` slash commands mapped to `opencode run` invocations
 
-3. **Create Discord bot Python service** (priority: high): Write the bot using Nextcord with slash commands mapped to `opencode run` invocations; wrap as a NixOS systemd service
+2. **Add `:OpenCodeLinkDiscord` Neovim command** (priority: high): Create a Neovim command in `lua/neotex/plugins/ai/` that notifies the Discord bot (via local HTTP or unix socket) to open a Discord thread for the current OpenCode session
 
-4. **Run OpenCode as headless service** (priority: high): Create systemd service for `opencode serve` with auth, separate from the TUI sessions
+3. **Wire bot to OpenCode server** (priority: high): The bot needs to discover running `opencode serve` instances, authenticate via `OPENCODE_SERVER_PASSWORD`, and relay messages between Discord threads and the OpenCode session API
 
-5. **Test iPhone Mosh connection** (priority: medium): Install Blink Shell, configure SSH keys, verify Mosh connectivity before building the full bot
+4. **Test end-to-end iPhone flow** (priority: medium): Start session in Neovim, run `:OpenCodeLinkDiscord`, open Discord on iPhone, verify conversation relay works
 
-6. **Plan Pi deployment** (priority: low, future): Research specific Pi model requirements, `nixos-hardware` configuration, and network topology (Tailscale/WireGuard)
+### NixOS Prerequisites (handled separately)
+
+5. **Enable SSH and Mosh** (priority: deferred): SSH server, Mosh package, firewall ports (22 TCP, 60000-61000 UDP) -- needed before Phase 2 fallback terminal access
+
+6. **Set up secrets management** (priority: deferred): sops-nix for Discord bot token and OpenCode server password encryption -- needed before bot deployment
+
+7. **Pi deployment** (priority: low, future): `nixos-hardware` configuration, `sd-image` build, network topology (Tailscale/WireGuard)
 
 ## Risks & Mitigations
 

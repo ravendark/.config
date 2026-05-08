@@ -9,9 +9,9 @@ next_project_number: 550
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
-- **548** [RESEARCHING] -- Research OpenCode permission system for workspace-root auto-approval
+- **548** [RESEARCHED] -- Research OpenCode permission system for workspace-root auto-approval
 - **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
-- **545** [IMPLEMENTING] -- Harden TODO.md insertion ordering in meta-builder-agent
+- **545** [COMPLETED] -- Harden TODO.md insertion ordering in meta-builder-agent
 - **546** [NOT STARTED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
 - **535** [COMPLETED] -- Establish single source of truth for resume points
@@ -38,9 +38,10 @@ next_project_number: 550
 
 ### 548. Research OpenCode permission system for workspace-root auto-approval
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [548_research_opencode_permissions/reports/01_opencode-permissions-research.md]
 
 **Description**: Research how OpenCode's permission system works and how to configure it to always grant permission for file changes within the current project root directory while still requiring approval for writes outside the root. Investigate: (1) OpenCode permission configuration files (opencode.json or equivalent), (2) available permission scoping options (directory-based, tool-based), (3) security implications of auto-approving workspace-root writes, (4) best practices from OpenCode documentation and community. Deliverable: research report with concrete configuration recommendations.
 
@@ -75,7 +76,7 @@ Key files: `.opencode/`, NixOS configuration, Discord bot scaffolding
 
 ### 545. Harden TODO.md insertion ordering in meta-builder-agent
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [545_harden_todo_md_insertion/reports/01_todo-insertion-research.md]
@@ -146,7 +147,7 @@ Key files: `lua/neotex/plugins/ai/shared/extensions/merge.lua`, `lua/neotex/plug
 
 ### 543. Convert opencode.json to fully computed artifact (like CLAUDE.md)
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: Task #542
 

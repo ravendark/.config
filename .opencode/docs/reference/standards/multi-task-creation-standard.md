@@ -327,10 +327,29 @@ batch_entries = []
 for position, task_idx in enumerate(sorted_indices):
     batch_entries.append(format_entry(task_idx))
 
-# Join and insert entire batch after ## Tasks heading
+# Join all entries (foundational tasks first in the string)
 batch_markdown = "\n\n".join(batch_entries)
-insert_after_heading("## Tasks", batch_markdown)
 ```
+
+**WARNING**: DO NOT search for the last `---` separator and append text.
+DO NOT insert at the bottom of the file.
+ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
+The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
+
+**Insert the batch** using the Edit tool to prepend at the TOP of the Tasks section:
+
+```
+oldString: "## Tasks\n"
+newString: "## Tasks\n\n{batch_markdown}\n"
+```
+
+This prepends the batch immediately after the `## Tasks` heading, before any existing task entries.
+
+**Verify insertion**: After inserting, re-read the first few lines after `## Tasks` using the Read tool:
+- Confirm the first task after `## Tasks` has the expected foundational task number
+- If it doesn't match, the insertion went wrong — fix and re-verify
+
+> **Precedent for multi-task creators**: All commands, skills, and agents that create multiple tasks (including /fix-it, /review, /errors, /spawn, and /task --review) should adopt this heading-anchored Edit tool pattern for TODO.md insertions.
 
 **Why Batch Insertion**: Individual prepends reverse the order (last task at top). Batch insertion preserves topological order.
 
