@@ -1,9 +1,14 @@
 # Implementation Summary: Task #546
+- **Task**: 546 - Audit and align other multi-task creators for consistent insertion
+- **Status**: [COMPLETED]
+- **Started**: 2026-05-08T01:35:00Z
+- **Completed**: 2026-05-08T02:25:00Z
+- **Effort**: ~1.5 hours
+- **Dependencies**: Task #545
+- **Artifacts**: summaries/01_multi-task-creator-summary.md (this file)
+- **Standards**: summary-format.md, status-markers.md, artifact-management.md, tasks.md
 
-**Completed**: 2025-05-07
-**Duration**: ~1.5 hours
-
-## Changes Made
+## What Changed
 
 Applied the hardened heading-anchored Edit tool insertion pattern from task #545 to all remaining multi-task creators and related files in `.opencode/`. Replaced abstract "Prepend" prose and dangerous `insert_after_heading()` pseudocode with concrete `oldString: "## Tasks\n"` / `newString: "## Tasks\n\n{entry}\n"` Edit tool syntax, plus WARNING blocks and post-insertion Read verification steps, across 18 unique files in 4 phases.
 

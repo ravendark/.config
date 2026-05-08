@@ -82,6 +82,7 @@ function M.install_base_opencode_json(project_dir, global_dir)
   end
 
   local marker_path = target_path .. ".managed"
+  local message
 
   -- Check if opencode.json exists
   if vim.fn.filereadable(target_path) == 1 then
@@ -89,12 +90,11 @@ function M.install_base_opencode_json(project_dir, global_dir)
     if is_managed(target_path) then
       -- Overwrite managed file
       local success = write_file_string(target_path, template_content)
-      if success then
-        write_file_string(marker_path, "managed-by: neotex-extensions\n")
-        return true, "Updated managed opencode.json"
-      else
+      if not success then
         return false, "Failed to update opencode.json"
       end
+      write_file_string(marker_path, "managed-by: neotex-extensions\n")
+      message = "Updated managed opencode.json"
     else
       -- Backup unmanaged file first
       local backup_path = target_path .. ".user-backup"
@@ -107,23 +107,34 @@ function M.install_base_opencode_json(project_dir, global_dir)
       end
       -- Now install template and create managed marker
       local success = write_file_string(target_path, template_content)
-      if success then
-        write_file_string(marker_path, "managed-by: neotex-extensions\n")
-        return true, "Installed template (user config backed up to opencode.json.user-backup)"
-      else
+      if not success then
         return false, "Failed to install template"
       end
+      write_file_string(marker_path, "managed-by: neotex-extensions\n")
+      message = "Installed template (user config backed up to opencode.json.user-backup)"
     end
   else
     -- No existing file, just install
     local success = write_file_string(target_path, template_content)
-    if success then
-      write_file_string(marker_path, "managed-by: neotex-extensions\n")
-      return true, "Installed base opencode.json"
-    else
+    if not success then
       return false, "Failed to install opencode.json"
     end
+    write_file_string(marker_path, "managed-by: neotex-extensions\n")
+    message = "Installed base opencode.json"
   end
+
+  -- Trigger generation to include any already-loaded extension agents
+  local merge_mod = require("neotex.plugins.ai.shared.extensions.merge")
+  local config_mod = require("neotex.plugins.ai.shared.extensions.config")
+  local config = config_mod.opencode(global_dir)
+  local gen_ok, gen_err = merge_mod.generate_opencode_json(project_dir, config)
+  if not gen_ok then
+    vim.schedule(function()
+      vim.notify("Warning: opencode.json generation failed after install: " .. tostring(gen_err), vim.log.levels.WARN)
+    end)
+  end
+
+  return true, message
 end
 
 --- Check if base opencode.json needs to be installed

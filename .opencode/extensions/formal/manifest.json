@@ -45,10 +45,6 @@
     "index": {
       "source": "index-entries.json",
       "target": ".opencode/context/index.json"
-    },
-    "opencode_json": {
-      "source": "opencode-agents.json",
-      "target": "opencode.json"
     }
   }
 }

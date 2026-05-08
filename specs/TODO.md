@@ -9,11 +9,10 @@ next_project_number: 550
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
-- **550** [NOT STARTED] -- Install NixOS prerequisites for Discord bot setup (depends: 547)
-- **548** [PLANNED] -- Research OpenCode permission system for workspace-root auto-approval
+- **548** [IMPLEMENTING] -- Research OpenCode permission system for workspace-root auto-approval
 - **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **545** [COMPLETED] -- Harden TODO.md insertion ordering in meta-builder-agent
-- **546** [IMPLEMENTING] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
+- **546** [COMPLETED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
 - **535** [COMPLETED] -- Establish single source of truth for resume points
 - **536** [COMPLETED] -- Clarify two-step delegation chain in command docs
@@ -37,21 +36,9 @@ next_project_number: 550
 
 ## Tasks
 
-### 550. Install NixOS prerequisites for Discord bot setup (depends: 547)
-- **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
-- **Task Type**: nix
-- **Dependencies**: Task #547
-
-**Description**: Configure NixOS prerequisites for the Discord bot system based on research from task 547. Four concrete deliverables: (1) Add `python3Packages.nextcord` (3.1.1) and `sops` (3.12.2) to `environment.systemPackages` in `configuration.nix`. (2) Create `opencode-serve.service` systemd definition in `configuration.nix` — runs `opencode serve --hostname 127.0.0.1` with `OPENCODE_SERVER_PASSWORD` from environment/credential, after `network-online.target`, with `Restart=always`. (3) Create `discord-bot.service` systemd definition in `configuration.nix` — depends on `opencode-serve.service`, injects Discord bot token via `LoadCredential` or environment. (4) Configure sops-nix secrets management — `.sops.yaml` with age keys, systemd `LoadCredential` for Discord bot token and OpenCode server password. These are the Phase 1 (Discord bot) NixOS configuration prerequisites; SSH, Mosh, firewall ports, and Pi tooling are excluded per the report's phased roadmap.
-
-Key files: `/home/benjamin/.dotfiles/configuration.nix`, `.sops.yaml`, sops-nix module integration
-
----
-
 ### 548. Research OpenCode permission system for workspace-root auto-approval
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [548_research_opencode_permissions/reports/01_opencode-permissions-research.md]
@@ -106,11 +93,12 @@ Key files: `.opencode/agent/subagents/meta-builder-agent.md`, `.opencode/extensi
 
 ### 546. Audit and align other multi-task creators for consistent insertion
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #545
 - **Research**: [546_audit_multi_task_creators/reports/01_multi-task-creator-audit.md]
 - **Plan**: [546_audit_multi_task_creators/plans/01_multi-task-creator-plan.md]
+- **Summary**: [546_audit_multi_task_creators/summaries/01_multi-task-creator-summary.md]
 
 **Description**: Apply the hardened insertion pattern from task 545 to all other multi-task creators in the system. Audit skill-fix-it (`SKILL.md` line ~466: "Prepend new task entry to `## Tasks` section"), /review, /errors, and `/task --review` to: (1) Replace any abstract pseudocode with the same concrete Edit tool pattern. (2) Update `multi-task-creation-standard.md` component 8 (State Updates) with the hardened pattern. (3) Ensure all creators pass through the same insertion logic for consistent, predictable TODO.md ordering.
 

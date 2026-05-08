@@ -43,10 +43,6 @@
     "settings": {
       "source": "settings-fragment.json",
       "target": ".opencode/settings.local.json"
-    },
-    "opencode_json": {
-      "source": "opencode-agents.json",
-      "target": "opencode.json"
     }
   }
 }

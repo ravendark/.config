@@ -1,7 +1,7 @@
 # Implementation Plan: Audit and Align Multi-Task Creator Insertion
 
 - **Task**: 546 - Audit and align other multi-task creators for consistent insertion
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: Task #545 (hardened pattern established in meta-builder-agent and core standard)
 - **Research Inputs**: specs/546_audit_multi_task_creators/reports/01_multi-task-creator-audit.md
