@@ -1,7 +1,22 @@
 {
   "version": "1.0.0",
-  "next_project_number": 543,
+  "next_project_number": 544,
   "active_projects": [
+    {
+      "project_number": 543,
+      "project_name": "convert_opencode_json_to_computed_artifact",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Replace the merge-target approach for opencode.json with a computed-artifact pattern, analogous to how generate_claudemd() in merge.lua rebuilds CLAUDE.md from scratch after every load/unload cycle",
+      "effort": "2-3 hours",
+      "dependencies": [
+        542
+      ],
+      "created": "2026-05-07T23:30:00Z",
+      "last_updated": "2026-05-07T23:30:00Z",
+      "session_id": "sess_1778193000_meta_prompt",
+      "artifacts": []
+    },
     {
       "project_number": 542,
       "project_name": "implement_opencode_json_agent_registration",
@@ -20,7 +35,7 @@
     {
       "project_number": 541,
       "project_name": "design_opencode_json_agent_registration",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Design opencode.json agent registration mechanism for the extension system including manifest changes, merge/unmerge strategy, and validation",
       "effort": "1-2 hours",
@@ -28,9 +43,57 @@
         540
       ],
       "created": "2026-05-07T22:15:00Z",
-      "last_updated": "2026-05-07T22:15:00Z",
-      "session_id": "sess_1778193000_meta_builder",
-      "artifacts": []
+      "last_updated": "2026-05-08T00:07:20Z",
+      "session_id": "sess_1778198494_8cfe05",
+      "artifacts": [
+        {
+          "path": "specs/541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md",
+          "type": "report",
+          "summary": "Design report for opencode.json agent registration mechanism covering manifest changes, merge/unmerge strategy, validation pipeline, conflict resolution, sync lifecycle, and managed/unmanaged distinction"
+        }
+      ],
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "The extension system uses a managed/unmanaged sidecar file pattern (.opencode.json.managed) to distinguish automatically-managed config files from user-customized ones. This pattern should be extended to govern sync overwrite behavior and cleanup scope, not just base template installation.",
+          "category": "PATTERN",
+          "source_artifact": "specs/541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "managed-sidecar",
+            "opencode.json",
+            "sync",
+            "user-customization",
+            "config-lifecycle"
+          ]
+        },
+        {
+          "content": "The key-based tracking pattern for JSON merge/unmerge (storing added keys in state, removing only tracked keys on unmerge) is a reusable design for any JSON file that needs idempotent extension merging. It preserves user additions and handles missing files gracefully.",
+          "category": "PATTERN",
+          "source_artifact": "specs/541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "json-merge-tracking",
+            "extension-system",
+            "idempotent-merge",
+            "state-tracking",
+            "unmerge"
+          ]
+        },
+        {
+          "content": "Agent name conflicts across extensions are currently handled silently (first-loaded wins, second is skipped). The recommended design is to add explicit conflict detection with user warnings, and document that agent names should be unique across the extension ecosystem.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md",
+          "confidence": 0.8,
+          "suggested_keywords": [
+            "agent-conflicts",
+            "extension-design",
+            "merge-semantics",
+            "name-registry",
+            "opencode.json"
+          ]
+        }
+      ]
     },
     {
       "project_number": 540,

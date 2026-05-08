@@ -136,7 +136,7 @@ function M.show_tool_picker()
   load_tool_prefs()
 
   local items = {
-    { label = "Claude Code", value = "claude" },
+    { label = "ClaudeCode", value = "claude" },
     { label = "OpenCode", value = "opencode" },
   }
 
@@ -173,7 +173,7 @@ function M.show_commands_picker()
   local mode = vim.api.nvim_get_mode().mode
 
   local items = {
-    { label = "Claude Code", value = "claude" },
+    { label = "ClaudeCode", value = "claude" },
     { label = "OpenCode", value = "opencode" },
   }
   if tool_prefs.last_tool == "opencode" then

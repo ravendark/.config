@@ -1,5 +1,5 @@
 ---
-next_project_number: 543
+next_project_number: 544
 ---
 
 # TODO
@@ -18,8 +18,9 @@ next_project_number: 543
 
 ### Pending
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
-- **541** [NOT STARTED] -- Design opencode.json agent registration for extensions (depends: 540)
+- **541** [RESEARCHED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [NOT STARTED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
+- **543** [NOT STARTED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [COMPLETED] -- Update handoff artifact naming convention in format specs and agent definitions
@@ -47,9 +48,10 @@ Key files: `opencode.json` (project root), `.opencode/templates/opencode.json`, 
 
 ### 541. Design opencode.json agent registration for extensions
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #540
+- **Research**: [541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md]
 
 **Description**: Design the complete opencode.json agent registration mechanism for the extension system. For each extension that provides agents, create an `opencode.json` fragment file containing the agent definitions with proper `mode`, `description`, `prompt` (using `{file:...}` placeholders), and `tools` configuration. Update all extension manifests to include `merge_targets.opencode_json` pointing to these fragments. Design the merge/unmerge strategy: when an extension is loaded, its agents are added to the project's `opencode.json` without overwriting existing agents; when unloaded, only the agents added by that extension are removed. Design validation: before writing `opencode.json`, verify all `{file:...}` references point to files that actually exist on disk to prevent startup crashes.
 
@@ -66,6 +68,18 @@ Key files: Extension manifests (add `merge_targets.opencode_json`), new fragment
 **Description**: Implement the designed opencode.json agent registration in the Neovim extension loader. Create `opencode-agents.json` fragment files for all extensions that provide agents (latex, python, nvim, lean, nix, typst, web, founder, present, filetypes, etc.). Update each extension's `manifest.json` with `merge_targets.opencode_json` pointing to the fragment. Update the base `opencode.json` template to include documentation about the managed-file marker (`.opencode.json.managed`). Enhance `merge_opencode_agents()` to validate that all `{file:...}` references in the merged result exist before writing. Add a verification step in `verify.lua` to check that all agents in `opencode.json` have corresponding files on disk. Test load/unload cycles for extensions with agents to ensure proper registration and cleanup.
 
 Key files: `lua/neotex/plugins/ai/shared/extensions/merge.lua`, `lua/neotex/plugins/ai/shared/extensions/verify.lua`, extension manifests, new fragment files, `.opencode/templates/opencode.json`
+
+---
+
+### 543. Convert opencode.json to fully computed artifact (like CLAUDE.md)
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #542
+
+**Description**: Replace the merge-target approach for `opencode.json` with a computed-artifact pattern, analogous to how `generate_claudemd()` in `merge.lua` rebuilds `CLAUDE.md` from scratch after every load/unload cycle. Research the `generate_claudemd()` pattern, design a `generate_opencode_json()` function that aggregates agent entries from all loaded extensions, and implement the regeneration pipeline. Document the computed-artifact pattern in `.opencode/context/patterns/computed-artifacts.md` for future use with other merge-target files.
+
+Key files: `lua/neotex/plugins/ai/shared/extensions/merge.lua`, `opencode.json`, `.opencode/context/patterns/computed-artifacts.md`
 
 ---
 
