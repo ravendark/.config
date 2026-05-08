@@ -1,5 +1,5 @@
 ---
-next_project_number: 544
+next_project_number: 545
 ---
 
 # TODO
@@ -17,9 +17,10 @@ next_project_number: 544
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
+- **544** [NOT STARTED] -- Fix OpenCode session picker restore/browse options
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
-- **542** [NOT STARTED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
+- **542** [RESEARCHED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **543** [NOT STARTED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
@@ -63,9 +64,10 @@ Key files: Extension manifests (add `merge_targets.opencode_json`), new fragment
 
 ### 542. Implement opencode.json automatic agent registration in extension loader
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: neovim
 - **Dependencies**: Task #541
+- **Research**: [542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md]
 
 **Description**: Implement the designed opencode.json agent registration in the Neovim extension loader. Create `opencode-agents.json` fragment files for all extensions that provide agents (latex, python, nvim, lean, nix, typst, web, founder, present, filetypes, etc.). Update each extension's `manifest.json` with `merge_targets.opencode_json` pointing to the fragment. Update the base `opencode.json` template to include documentation about the managed-file marker (`.opencode.json.managed`). Enhance `merge_opencode_agents()` to validate that all `{file:...}` references in the merged result exist before writing. Add a verification step in `verify.lua` to check that all agents in `opencode.json` have corresponding files on disk. Test load/unload cycles for extensions with agents to ensure proper registration and cleanup.
 
@@ -268,5 +270,17 @@ Key files: `.opencode/context/formats/handoff-artifact.md`, `.opencode/agent/sub
 - **Plan**: [078_fix_himalaya_smtp_authentication_failure/plans/implementation-001.md]
 
 **Description**: Fix Gmail SMTP authentication failure when sending emails via Himalaya (<leader>me). Error: "Authentication failed: Code: 535, Enhanced code: 5.7.8, Message: Username and Password not accepted". The error occurs with TLS connection attempts and persists through multiple retry attempts. Identify and fix the root cause of the SMTP credential configuration.
+
+### 544. Fix OpenCode session picker restore/browse options
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+- **Dependencies**: None
+
+**Description**: Fix the "Restore last session" and "Browse all sessions" options in the OpenCode session picker (`<C-CR>` → OpenCode). Currently, these options use `vim.defer_fn(..., 1000)` to wait for the OpenCode server, which is unreliable. Replace with proper server-ready detection that polls or waits for the `OpencodeEvent:server.connected` event before making session API calls (`server:select_session()`, `select_session()`). The "Create new session" option already works (it just opens a terminal). Ensure all three options work reliably with proper error handling for edge cases (server startup failure, no saved sessions, etc.).
+
+Key files: `lua/neotex/plugins/ai/ai-tool-picker.lua`, opencode.nvim plugin session API
+
+---
 
 ## Recommended Order

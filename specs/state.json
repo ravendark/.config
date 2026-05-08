@@ -1,7 +1,20 @@
 {
   "version": "1.0.0",
-  "next_project_number": 544,
+  "next_project_number": 545,
   "active_projects": [
+    {
+      "project_number": 544,
+      "project_name": "fix_opencode_session_picker",
+      "status": "not_started",
+      "task_type": "neovim",
+      "description": "Fix the 'Restore last session' and 'Browse all sessions' options in the OpenCode session picker by replacing fragile vim.defer_fn(1000) timing with proper server-ready detection via OpencodeEvent:server.connected",
+      "effort": "2-3 hours",
+      "dependencies": [],
+      "created": "2026-05-07T23:40:00Z",
+      "last_updated": "2026-05-07T23:40:00Z",
+      "session_id": "sess_1746628800_meta",
+      "artifacts": []
+    },
     {
       "project_number": 543,
       "project_name": "convert_opencode_json_to_computed_artifact",
@@ -20,7 +33,7 @@
     {
       "project_number": 542,
       "project_name": "implement_opencode_json_agent_registration",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "neovim",
       "description": "Implement automatic opencode.json agent registration in the extension loader so extensions that provide agents also register them in opencode.json",
       "effort": "2-3 hours",
@@ -28,9 +41,15 @@
         541
       ],
       "created": "2026-05-07T22:30:00Z",
-      "last_updated": "2026-05-07T22:30:00Z",
-      "session_id": "sess_1778193000_meta_builder",
-      "artifacts": []
+      "last_updated": "2026-05-08T00:36:37Z",
+      "session_id": "sess_1778200044_4a577f",
+      "artifacts": [
+        {
+          "path": "specs/542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md",
+          "type": "research",
+          "summary": "Comprehensive research on opencode.json agent registration: core infrastructure is complete from task 540. Four implementation gaps remain from task 541: cleanup never triggered, no conflict detection, no fragment-to-manifest verification, sync ignores managed sidecar."
+        }
+      ]
     },
     {
       "project_number": 541,
