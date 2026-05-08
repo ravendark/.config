@@ -236,6 +236,11 @@
           "path": "specs/542_implement_opencode_json_agent_registration/plans/01_opencode-json-agent-registration-plan.md",
           "type": "plan",
           "summary": "Five-phase implementation plan to close 4 opencode.json agent registration gaps: wire cleanup triggers, implement conflict detection, add fragment-to-manifest verification, respect managed sidecar in sync, and update base template."
+        },
+        {
+          "path": "specs/542_implement_opencode_json_agent_registration/summaries/01_opencode-json-agent-registration-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary documenting cleanup trigger wiring, conflict detection, fragment-to-manifest verification, managed sidecar sync, and base template updates"
         }
       ],
       "plan_metadata": {

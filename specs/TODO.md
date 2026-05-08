@@ -136,6 +136,7 @@ Key files: Extension manifests (add `merge_targets.opencode_json`), new fragment
 - **Dependencies**: Task #541
 - **Research**: [542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md]
 - **Plan**: [542_implement_opencode_json_agent_registration/plans/01_opencode-json-agent-registration-plan.md]
+- **Summary**: [542_implement_opencode_json_agent_registration/summaries/01_opencode-json-agent-registration-summary.md]
 
 **Description**: Implement the designed opencode.json agent registration in the Neovim extension loader. Create `opencode-agents.json` fragment files for all extensions that provide agents (latex, python, nvim, lean, nix, typst, web, founder, present, filetypes, etc.). Update each extension's `manifest.json` with `merge_targets.opencode_json` pointing to the fragment. Update the base `opencode.json` template to include documentation about the managed-file marker (`.opencode.json.managed`). Enhance `merge_opencode_agents()` to validate that all `{file:...}` references in the merged result exist before writing. Add a verification step in `verify.lua` to check that all agents in `opencode.json` have corresponding files on disk. Test load/unload cycles for extensions with agents to ensure proper registration and cleanup.
 
