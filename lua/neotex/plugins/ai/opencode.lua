@@ -81,6 +81,19 @@ return {
     vim.api.nvim_create_user_command("OpencodeExtensions", function()
       require("neotex.plugins.ai.opencode.extensions.picker").show()
     end, { desc = "Manage OpenCode extensions" })
+
+    -- Register OpenCodeLinkDiscord command (link session to Discord thread)
+    vim.api.nvim_create_user_command("OpenCodeLinkDiscord", function()
+      require("neotex.plugins.ai.opencode.discord-link").link_current_session()
+    end, { desc = "Link current OpenCode session to Discord thread" })
+
+    -- Register DiscordSessions command (browse linked Discord sessions)
+    vim.api.nvim_create_user_command("DiscordSessions", function()
+      require("neotex.plugins.ai.opencode.discord-session-picker").show()
+    end, { desc = "Browse linked Discord sessions" })
   end,
-  keys = {},
+  keys = {
+    { "<leader>ar", "<cmd>OpenCodeLinkDiscord<CR>", desc = "link discord", icon = "󰙯" },
+    { "<leader>aD", "<cmd>DiscordSessions<CR>", desc = "discord sessions", icon = "󰙯" },
+  },
 }

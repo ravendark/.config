@@ -38,14 +38,14 @@
     {
       "project_number": 547,
       "project_name": "research_mobile_agent_management",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Research and design a mobile agent management system via Discord bot on NixOS for managing OpenCode agent sessions from iPhone, including Discord bot architecture, OpenCode headless mode, Mosh setup, Pi agent host config, and phased roadmap",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-08T00:50:00Z",
-      "last_updated": "2026-05-08T05:35:00Z",
-      "session_id": "sess_1778215041_a9a4f3",
+      "last_updated": "2026-05-08T06:27:29Z",
+      "session_id": "sess_1778221345_a3cd8c",
       "artifacts": [
         {
           "path": "specs/547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md",
@@ -61,6 +61,11 @@
           "path": "specs/547_research_mobile_agent_management/plans/02_discord-bot-revised.md",
           "type": "plan",
           "summary": "Revised implementation plan (v2) with 7 phases incorporating all 10 round 2 research findings"
+        },
+        {
+          "path": "specs/547_research_mobile_agent_management/summaries/02_discord-neovim-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for Neovim Discord integration with 3 phases completed"
         }
       ],
       "next_artifact_number": 3,
@@ -125,7 +130,8 @@
             "integrated_date": "2026-05-08"
           }
         ]
-      }
+      },
+      "completion_summary": "Implemented Neovim-side Discord integration with session linking command (:OpenCodeLinkDiscord / <leader>ar) and Telescope session picker (:DiscordSessions / <leader>aD). Both modules communicate with the Discord bot HTTP API using async curl requests."
     },
     {
       "project_number": 87,

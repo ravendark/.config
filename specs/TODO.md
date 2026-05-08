@@ -10,7 +10,7 @@ next_project_number: 550
 
 ### Pending
 - **549** [COMPLETED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
-- **547** [PLANNED] -- Research mobile agent management via Discord bot on NixOS
+- **547** [COMPLETED] -- Research mobile agent management via Discord bot on NixOS
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
@@ -35,7 +35,8 @@ Key files: `.opencode/skills/skill-nix-implementation/SKILL.md`, `.opencode/skil
 
 ### 547. Research mobile agent management via Discord bot on NixOS
 - **Effort**: 2-3 hours
-- **Status**: [PLANNING]
+- **Status**: [COMPLETED]
+- **Summary**: Implemented Neovim-side Discord integration with session linking command (:OpenCodeLinkDiscord / <leader>ar) and Telescope session picker (:DiscordSessions / <leader>aD). Both modules communicate with the Discord bot HTTP API using async curl requests.
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**:
@@ -44,6 +45,7 @@ Key files: `.opencode/skills/skill-nix-implementation/SKILL.md`, `.opencode/skil
 - **Plan**:
   - [547_research_mobile_agent_management/plans/01_discord-bot-neovim-setup.md]
   - [547_research_mobile_agent_management/plans/02_discord-bot-revised.md]
+- **Summary Artifact**: [547_research_mobile_agent_management/summaries/02_discord-neovim-summary.md]
 
 **Description**: Research and design a mobile agent management system allowing OpenCode agent sessions to be managed from an iPhone. Scope: (1) Discord bot library selection in 2026 (discord.py vs alternatives), slash command design, and NixOS hosting. (2) OpenCode headless/daemon mode investigation for programmatic agent session management. (3) Mosh installation and iPhone client setup on NixOS as fallback terminal access. (4) Raspberry Pi agent runtime configuration (lightweight NixOS or containerized). (5) Security considerations for remote agent access (token management, SSH hardening, permission scoping). (6) Architecture design for the Discord bot as an OpenCode agent management layer. Deliverable: research report with concrete recommendations and a phased implementation roadmap.
 

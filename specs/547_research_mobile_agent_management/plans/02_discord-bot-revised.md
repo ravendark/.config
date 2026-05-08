@@ -1,7 +1,7 @@
 # Implementation Plan: Neovim Discord Session Integration
 
 - **Task**: 547 - research_mobile_agent_management
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: External task 53 (bot source at `~/.dotfiles/opencode-discord-bot/`, bot HTTP API)
 - **Research Inputs**:
@@ -73,7 +73,7 @@ This plan depends on the bot HTTP API providing these endpoints (implemented in 
 
 Phases 1 and 2 are independent and can run in parallel. Phase 3 integrates them into which-key.
 
-### Phase 1: `:OpenCodeLinkDiscord` Command and `<leader>ar` Keymap [NOT STARTED]
+### Phase 1: `:OpenCodeLinkDiscord` Command and `<leader>ar` Keymap [COMPLETED]
 
 **Goal**: Neovim command that discovers the current OpenCode session, calls the bot's HTTP `POST /link` API, and displays the Discord thread URL to the user.
 
@@ -110,7 +110,7 @@ Phases 1 and 2 are independent and can run in parallel. Phase 3 integrates them 
 
 ---
 
-### Phase 2: Discord-Linked Session Kill Picker [NOT STARTED]
+### Phase 2: Discord-Linked Session Kill Picker [COMPLETED]
 
 **Goal**: Telescope picker listing all Discord-linked sessions (fetched from bot's `GET /sessions` API) with the ability to kill them via `POST /kill`. Follows the existing process-picker pattern in `lua/neotex/plugins/tools/process-picker.lua`.
 
@@ -150,7 +150,7 @@ Phases 1 and 2 are independent and can run in parallel. Phase 3 integrates them 
 
 ---
 
-### Phase 3: Integration & Polish [NOT STARTED]
+### Phase 3: Integration & Polish [COMPLETED]
 
 **Goal**: Wire both commands into which-key, add final error handling, and test full end-to-end flow.
 
