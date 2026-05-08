@@ -25,7 +25,7 @@ next_project_number: 550
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [COMPLETED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
-- **543** [NOT STARTED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
+- **543** [RESEARCHED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [COMPLETED] -- Update handoff artifact naming convention in format specs and agent definitions
@@ -81,6 +81,7 @@ Key files: `.opencode/`, NixOS configuration, Discord bot scaffolding
 - **Dependencies**: None
 - **Research**: [545_harden_todo_md_insertion/reports/01_todo-insertion-research.md]
 - **Plan**: [545_harden_todo_md_insertion/plans/01_todo-insertion-plan.md]
+- **Summary**: [545_harden_todo_md_insertion/summaries/01_todo-insertion-summary.md]
 
 **Description**: Update `meta-builder-agent.md` Stage 6 (CreateTasks + Status Updates) to replace the abstract `insert_after_heading("## Tasks", batch_markdown)` pseudocode with an explicit, LLM-proof Edit tool invocation. The current pseudocode allows LLM agents to append tasks at the bottom of TODO.md instead of prepending them at the top (as seen with task 544). Changes: (1) Replace pseudocode with concrete `oldString:"## Tasks\n"` → `newString:"## Tasks\n\n{batch}\n"` Edit call. (2) Add post-insertion verification: re-read first task after `## Tasks` and confirm it matches the foundational task number. (3) Add bold warning against searching for last `---` separator or appending. (4) Sync changes to `.opencode/extensions/core/agents/meta-builder-agent.md`.
 
@@ -147,9 +148,10 @@ Key files: `lua/neotex/plugins/ai/shared/extensions/merge.lua`, `lua/neotex/plug
 
 ### 543. Convert opencode.json to fully computed artifact (like CLAUDE.md)
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #542
+- **Research**: [543_convert_opencode_json_to_computed_artifact/reports/01_computed-artifact-pattern.md]
 
 **Description**: Replace the merge-target approach for `opencode.json` with a computed-artifact pattern, analogous to how `generate_claudemd()` in `merge.lua` rebuilds `CLAUDE.md` from scratch after every load/unload cycle. Research the `generate_claudemd()` pattern, design a `generate_opencode_json()` function that aggregates agent entries from all loaded extensions, and implement the regeneration pipeline. Document the computed-artifact pattern in `.opencode/context/patterns/computed-artifacts.md` for future use with other merge-target files.
 
