@@ -78,13 +78,13 @@
     {
       "project_number": 547,
       "project_name": "research_mobile_agent_management",
-      "status": "planning",
+      "status": "planned",
       "task_type": "meta",
       "description": "Research and design a mobile agent management system via Discord bot on NixOS for managing OpenCode agent sessions from iPhone, including Discord bot architecture, OpenCode headless mode, Mosh setup, Pi agent host config, and phased roadmap",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-08T00:50:00Z",
-      "last_updated": "2026-05-08T01:00:00Z",
+      "last_updated": "2026-05-08T01:18:49Z",
       "session_id": "sess_1778202603_941ba2",
       "artifacts": [
         {
@@ -252,7 +252,7 @@
     {
       "project_number": 543,
       "project_name": "convert_opencode_json_to_computed_artifact",
-      "status": "researching",
+      "status": "planned",
       "task_type": "meta",
       "description": "Replace the merge-target approach for opencode.json with a computed-artifact pattern, analogous to how generate_claudemd() in merge.lua rebuilds CLAUDE.md from scratch after every load/unload cycle",
       "effort": "2-3 hours",
@@ -260,9 +260,15 @@
         542
       ],
       "created": "2026-05-07T23:30:00Z",
-      "last_updated": "2026-05-07T23:30:00Z",
-      "session_id": "sess_1778193000_meta_prompt",
-      "artifacts": []
+      "last_updated": "2026-05-08T01:18:36Z",
+      "session_id": "sess_1778202563_bb580c",
+      "artifacts": [
+        {
+          "path": "specs/543_convert_opencode_json_to_computed_artifact/plans/01_convert-opencode-json-computed-artifact.md",
+          "type": "plan",
+          "summary": "9-phase plan to replace opencode.json merge-target approach with computed-artifact regeneration, covering merge.lua, init.lua, sync.lua, verify.lua, core installer, 14 extension manifests, and pattern documentation."
+        }
+      ]
     },
     {
       "project_number": 542,
