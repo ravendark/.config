@@ -9,6 +9,7 @@ next_project_number: 551
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
+- **550** [RESEARCHED] -- Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
 - **549** [COMPLETED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **547** [COMPLETED] -- Research mobile agent management via Discord bot on NixOS
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -20,8 +21,9 @@ next_project_number: 551
 
 ### 550. Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
 - **Effort**: 2-4 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: neovim
+- **Research**: [550_unify_ctrl_cr_toggle_and_agent_picker/reports/01_ctrl-cr-agent-picker.md]
 
 **Description**: Fix Ctrl-CR (`<C-CR>`) toggle behavior so it works uniformly for both OpenCode and ClaudeCode. Currently, after launching OpenCode via the `<C-CR>` picker, `<C-CR>` toggles the OpenCode sidebar as expected. However, after launching ClaudeCode the same way, `<C-CR>` does nothing. Both should toggle consistently. Additionally, add a `<leader>ac` keymap to launch the agent picker (the same picker shown initially by `<C-CR>`) so that when either OpenCode or ClaudeCode is already running, the user can switch to the other agent or select a past session. This feature should integrate naturally with the existing AI tool infrastructure.
 

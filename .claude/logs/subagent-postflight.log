@@ -21262,3 +21262,68 @@
 [2026-05-07T23:27:21-07:00] Task directory: specs/archive/534_sync_extension_routing_tables
 [2026-05-07T23:27:21-07:00] Loop guard triggered: 3 >= 3
 [2026-05-07T23:27:21-07:00] Loop guard prevented continuation
+[2026-05-07T23:31:12-07:00] Postflight marker found at: specs/archive/536_clarify_delegation_chain/.postflight-pending
+[2026-05-07T23:31:12-07:00] Task directory: specs/archive/536_clarify_delegation_chain
+[2026-05-07T23:31:12-07:00] Loop guard initialized to 1
+[2026-05-07T23:31:12-07:00] Blocking stop: Postflight pending
+[2026-05-08T08:34:13-07:00] Postflight marker found at: specs/archive/536_clarify_delegation_chain/.postflight-pending
+[2026-05-08T08:34:13-07:00] Task directory: specs/archive/536_clarify_delegation_chain
+[2026-05-08T08:34:13-07:00] Loop guard incremented to 2
+[2026-05-08T08:34:13-07:00] Blocking stop: Postflight pending
+[2026-05-08T08:34:40-07:00] Postflight marker found at: specs/archive/536_clarify_delegation_chain/.postflight-pending
+[2026-05-08T08:34:40-07:00] Task directory: specs/archive/536_clarify_delegation_chain
+[2026-05-08T08:34:40-07:00] Loop guard incremented to 3
+[2026-05-08T08:34:40-07:00] Blocking stop: Postflight pending
+[2026-05-08T08:35:02-07:00] Postflight marker found at: specs/archive/536_clarify_delegation_chain/.postflight-pending
+[2026-05-08T08:35:02-07:00] Task directory: specs/archive/536_clarify_delegation_chain
+[2026-05-08T08:35:02-07:00] Loop guard triggered: 3 >= 3
+[2026-05-08T08:35:02-07:00] Loop guard prevented continuation
+[2026-05-08T08:51:22-07:00] Postflight marker found at: specs/archive/537_fix_manifest_absolute_paths/.postflight-pending
+[2026-05-08T08:51:22-07:00] Task directory: specs/archive/537_fix_manifest_absolute_paths
+[2026-05-08T08:51:22-07:00] Loop guard initialized to 1
+[2026-05-08T08:51:22-07:00] Blocking stop: Postflight pending
+[2026-05-08T08:52:00-07:00] Postflight marker found at: specs/archive/537_fix_manifest_absolute_paths/.postflight-pending
+[2026-05-08T08:52:00-07:00] Task directory: specs/archive/537_fix_manifest_absolute_paths
+[2026-05-08T08:52:00-07:00] Loop guard incremented to 2
+[2026-05-08T08:52:00-07:00] Blocking stop: Postflight pending
+[2026-05-08T08:52:33-07:00] Postflight marker found at: specs/archive/537_fix_manifest_absolute_paths/.postflight-pending
+[2026-05-08T08:52:33-07:00] Task directory: specs/archive/537_fix_manifest_absolute_paths
+[2026-05-08T08:52:33-07:00] Loop guard incremented to 3
+[2026-05-08T08:52:33-07:00] Blocking stop: Postflight pending
+[2026-05-08T08:52:48-07:00] Postflight marker found at: specs/archive/537_fix_manifest_absolute_paths/.postflight-pending
+[2026-05-08T08:52:48-07:00] Task directory: specs/archive/537_fix_manifest_absolute_paths
+[2026-05-08T08:52:48-07:00] Loop guard triggered: 3 >= 3
+[2026-05-08T08:52:48-07:00] Loop guard prevented continuation
+[2026-05-08T09:11:42-07:00] Postflight marker found at: specs/archive/543_convert_opencode_json_to_computed_artifact/.postflight-pending
+[2026-05-08T09:11:42-07:00] Task directory: specs/archive/543_convert_opencode_json_to_computed_artifact
+[2026-05-08T09:11:42-07:00] Loop guard initialized to 1
+[2026-05-08T09:11:42-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T09:11:54-07:00] Postflight marker found at: specs/archive/543_convert_opencode_json_to_computed_artifact/.postflight-pending
+[2026-05-08T09:11:54-07:00] Task directory: specs/archive/543_convert_opencode_json_to_computed_artifact
+[2026-05-08T09:11:54-07:00] Loop guard incremented to 2
+[2026-05-08T09:11:54-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T09:11:57-07:00] Postflight marker found at: specs/archive/543_convert_opencode_json_to_computed_artifact/.postflight-pending
+[2026-05-08T09:11:57-07:00] Task directory: specs/archive/543_convert_opencode_json_to_computed_artifact
+[2026-05-08T09:11:57-07:00] Loop guard incremented to 3
+[2026-05-08T09:11:57-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T09:12:02-07:00] Postflight marker found at: specs/archive/543_convert_opencode_json_to_computed_artifact/.postflight-pending
+[2026-05-08T09:12:02-07:00] Task directory: specs/archive/543_convert_opencode_json_to_computed_artifact
+[2026-05-08T09:12:02-07:00] Loop guard triggered: 3 >= 3
+[2026-05-08T09:12:02-07:00] Loop guard prevented continuation
+[2026-05-08T09:15:21-07:00] Postflight marker found at: specs/550_unify_ctrl_cr_toggle_and_agent_picker/.postflight-pending
+[2026-05-08T09:15:21-07:00] Task directory: specs/550_unify_ctrl_cr_toggle_and_agent_picker
+[2026-05-08T09:15:21-07:00] Loop guard initialized to 1
+[2026-05-08T09:15:21-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T09:15:25-07:00] Postflight marker found at: specs/550_unify_ctrl_cr_toggle_and_agent_picker/.postflight-pending
+[2026-05-08T09:15:25-07:00] Task directory: specs/550_unify_ctrl_cr_toggle_and_agent_picker
+[2026-05-08T09:15:25-07:00] Loop guard incremented to 2
+[2026-05-08T09:15:25-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T09:15:48-07:00] Postflight marker found at: specs/550_unify_ctrl_cr_toggle_and_agent_picker/.postflight-pending
+[2026-05-08T09:15:48-07:00] Task directory: specs/550_unify_ctrl_cr_toggle_and_agent_picker
+[2026-05-08T09:15:48-07:00] Loop guard incremented to 3
+[2026-05-08T09:15:48-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T09:15:57-07:00] Postflight marker found at: specs/550_unify_ctrl_cr_toggle_and_agent_picker/.postflight-pending
+[2026-05-08T09:15:57-07:00] Task directory: specs/550_unify_ctrl_cr_toggle_and_agent_picker
+[2026-05-08T09:15:57-07:00] Loop guard triggered: 3 >= 3
+[2026-05-08T09:15:57-07:00] Loop guard prevented continuation
+[2026-05-08T09:19:43-07:00] No postflight marker, allowing stop

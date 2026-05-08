@@ -93,7 +93,7 @@ return {
     end, { desc = "Browse linked Discord sessions" })
   end,
   keys = {
-    { "<leader>ar", "<cmd>OpenCodeLinkDiscord<CR>", desc = "link discord", icon = "󰙯" },
-    { "<leader>as", "<cmd>DiscordSessions<CR>", desc = "discord sessions", icon = "󰙯" },
+    { "<leader>ar", "<cmd>OpenCodeLinkDiscord<CR>", desc = "link discord" },
+    { "<leader>as", "<cmd>DiscordSessions<CR>", desc = "discord sessions" },
   },
 }
