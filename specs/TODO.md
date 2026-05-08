@@ -9,7 +9,7 @@ next_project_number: 550
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
-- **548** [RESEARCHED] -- Research OpenCode permission system for workspace-root auto-approval
+- **548** [PLANNING] -- Research OpenCode permission system for workspace-root auto-approval
 - **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **545** [COMPLETED] -- Harden TODO.md insertion ordering in meta-builder-agent
 - **546** [NOT STARTED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
@@ -25,7 +25,7 @@ next_project_number: 550
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [COMPLETED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
-- **543** [RESEARCHED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
+- **543** [PLANNING] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [COMPLETED] -- Update handoff artifact naming convention in format specs and agent definitions
@@ -38,7 +38,7 @@ next_project_number: 550
 
 ### 548. Research OpenCode permission system for workspace-root auto-approval
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [548_research_opencode_permissions/reports/01_opencode-permissions-research.md]
@@ -63,7 +63,7 @@ Key files: `.opencode/skills/skill-nix-implementation/SKILL.md`, `.opencode/skil
 
 ### 547. Research mobile agent management via Discord bot on NixOS
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md]
@@ -148,7 +148,7 @@ Key files: `lua/neotex/plugins/ai/shared/extensions/merge.lua`, `lua/neotex/plug
 
 ### 543. Convert opencode.json to fully computed artifact (like CLAUDE.md)
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Dependencies**: Task #542
 - **Research**: [543_convert_opencode_json_to_computed_artifact/reports/01_computed-artifact-pattern.md]
