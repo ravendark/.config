@@ -13,7 +13,13 @@
       "created": "2026-05-08T00:50:00Z",
       "last_updated": "2026-05-08T00:51:22Z",
       "session_id": "sess_1778200968_1db102",
-      "artifacts": [],
+      "artifacts": [
+        {
+          "path": "specs/547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md",
+          "type": "research",
+          "summary": "Comprehensive research covering OpenCode headless mode, Discord bot libraries (Nextcord 3.1.1 selected), Mosh+iPhone setup, Raspberry Pi agent host architecture, secrets management (sops-nix), and existing infrastructure inventory"
+        }
+      ],
       "next_artifact_number": 2,
       "memory_candidates": [
         {

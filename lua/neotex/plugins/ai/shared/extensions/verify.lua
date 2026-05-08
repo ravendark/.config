@@ -358,6 +358,7 @@ function M.verify_extension(extension_name, extension_dir, target_dir, config)
     context = { passed = true },
     section = { passed = true },
     index = { passed = true },
+    opencode_json = { passed = true },
     errors = {},
   }
 
@@ -448,6 +449,22 @@ function M.verify_extension(extension_name, extension_dir, target_dir, config)
   if not index_ok then
     verification.index = { passed = false }
     table.insert(verification.errors, "Index entries not merged into context/index.json")
+  end
+
+  -- Verify opencode.json fragment-to-manifest consistency (non-critical warning)
+  local opencode_json_result = verify_opencode_json_merge(extension_dir, manifest)
+  if not opencode_json_result.passed then
+    verification.opencode_json = {
+      passed = false,
+      missing_from_fragment = opencode_json_result.missing_from_fragment,
+      missing_from_manifest = opencode_json_result.missing_from_manifest,
+    }
+    for _, name in ipairs(opencode_json_result.missing_from_fragment) do
+      table.insert(verification.errors, "Agent '" .. name .. "' in manifest but missing from opencode-agents.json")
+    end
+    for _, name in ipairs(opencode_json_result.missing_from_manifest) do
+      table.insert(verification.errors, "Agent '" .. name .. "' in opencode-agents.json but missing from manifest")
+    end
   end
 
   -- Determine overall status
