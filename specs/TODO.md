@@ -1,5 +1,5 @@
 ---
-next_project_number: 550
+next_project_number: 551
 ---
 
 # TODO
@@ -17,6 +17,13 @@ next_project_number: 550
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 550. Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
+- **Effort**: 2-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+
+**Description**: Fix Ctrl-CR (`<C-CR>`) toggle behavior so it works uniformly for both OpenCode and ClaudeCode. Currently, after launching OpenCode via the `<C-CR>` picker, `<C-CR>` toggles the OpenCode sidebar as expected. However, after launching ClaudeCode the same way, `<C-CR>` does nothing. Both should toggle consistently. Additionally, add a `<leader>ac` keymap to launch the agent picker (the same picker shown initially by `<C-CR>`) so that when either OpenCode or ClaudeCode is already running, the user can switch to the other agent or select a past session. This feature should integrate naturally with the existing AI tool infrastructure.
 
 ### 549. Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **Effort**: 1-2 hours
@@ -139,3 +146,6 @@ Key files: `.opencode/`, NixOS configuration, Discord bot scaffolding
 | 533 | Fix extension loader to copy manifest.json | 2026-05-07 |
 | 528 | Update skill-implementer continuation loop and pattern documentation | 2026-05-05 |
 | 527 | Update handoff artifact naming convention in format specs and agent definitions | 2026-05-05 |
+
+## Recommended Order
+

@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 550,
+  "next_project_number": 551,
   "active_projects": [
+    {
+      "project_number": 550,
+      "project_name": "unify_ctrl_cr_toggle_and_agent_picker",
+      "status": "not_started",
+      "task_type": "neovim",
+      "created": "2026-05-08T16:11:13Z",
+      "last_updated": "2026-05-08T16:11:13Z"
+    },
     {
       "project_number": 549,
       "project_name": "audit_relocate_temp_files",
