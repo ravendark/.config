@@ -9,10 +9,11 @@ next_project_number: 550
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
-- **548** [PLANNING] -- Research OpenCode permission system for workspace-root auto-approval
+- **550** [NOT STARTED] -- Install NixOS prerequisites for Discord bot setup (depends: 547)
+- **548** [PLANNED] -- Research OpenCode permission system for workspace-root auto-approval
 - **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **545** [COMPLETED] -- Harden TODO.md insertion ordering in meta-builder-agent
-- **546** [NOT STARTED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
+- **546** [RESEARCHING] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
 - **535** [COMPLETED] -- Establish single source of truth for resume points
 - **536** [COMPLETED] -- Clarify two-step delegation chain in command docs
@@ -36,12 +37,25 @@ next_project_number: 550
 
 ## Tasks
 
+### 550. Install NixOS prerequisites for Discord bot setup (depends: 547)
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: nix
+- **Dependencies**: Task #547
+
+**Description**: Configure NixOS prerequisites for the Discord bot system based on research from task 547. Four concrete deliverables: (1) Add `python3Packages.nextcord` (3.1.1) and `sops` (3.12.2) to `environment.systemPackages` in `configuration.nix`. (2) Create `opencode-serve.service` systemd definition in `configuration.nix` — runs `opencode serve --hostname 127.0.0.1` with `OPENCODE_SERVER_PASSWORD` from environment/credential, after `network-online.target`, with `Restart=always`. (3) Create `discord-bot.service` systemd definition in `configuration.nix` — depends on `opencode-serve.service`, injects Discord bot token via `LoadCredential` or environment. (4) Configure sops-nix secrets management — `.sops.yaml` with age keys, systemd `LoadCredential` for Discord bot token and OpenCode server password. These are the Phase 1 (Discord bot) NixOS configuration prerequisites; SSH, Mosh, firewall ports, and Pi tooling are excluded per the report's phased roadmap.
+
+Key files: `/home/benjamin/.dotfiles/configuration.nix`, `.sops.yaml`, sops-nix module integration
+
+---
+
 ### 548. Research OpenCode permission system for workspace-root auto-approval
 - **Effort**: 1-2 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [548_research_opencode_permissions/reports/01_opencode-permissions-research.md]
+- **Plan**: [548_research_opencode_permissions/plans/01_opencode-permissions-plan.md]
 
 **Description**: Research how OpenCode's permission system works and how to configure it to always grant permission for file changes within the current project root directory while still requiring approval for writes outside the root. Investigate: (1) OpenCode permission configuration files (opencode.json or equivalent), (2) available permission scoping options (directory-based, tool-based), (3) security implications of auto-approving workspace-root writes, (4) best practices from OpenCode documentation and community. Deliverable: research report with concrete configuration recommendations.
 
@@ -91,7 +105,7 @@ Key files: `.opencode/agent/subagents/meta-builder-agent.md`, `.opencode/extensi
 
 ### 546. Audit and align other multi-task creators for consistent insertion
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: Task #545
 
