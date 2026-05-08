@@ -58,6 +58,21 @@ return {
       end,
     }
 
+    -- Cleanup stale opencode.json agents on startup (defense-in-depth)
+    local ok_cleanup, cleanup_err = pcall(function()
+      local ext_manager = require("neotex.plugins.ai.shared.extensions")
+      local ext_config_mod = require("neotex.plugins.ai.shared.extensions.config")
+      local project_dir = vim.fn.getcwd()
+      local cfg = ext_config_mod.opencode(project_dir)
+      local manager = ext_manager.create(cfg)
+      manager.cleanup_stale_opencode_agents(project_dir)
+    end)
+    if not ok_cleanup then
+      vim.schedule(function()
+        vim.notify("Warning: opencode.json cleanup failed on startup: " .. tostring(cleanup_err), vim.log.levels.WARN)
+      end)
+    end
+
     -- Register OpencodeCommands command (main artifact picker)
     vim.api.nvim_create_user_command("OpencodeCommands", function()
       require("neotex.plugins.ai.opencode.commands.picker").show_commands_picker()

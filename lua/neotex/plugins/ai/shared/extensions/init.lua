@@ -128,7 +128,7 @@ local function process_merge_targets(ext_manifest, source_dir, project_dir, conf
 
     local fragment = read_json(source_path)
     if fragment then
-      local success, tracked = merge_mod.merge_opencode_agents(target_path, fragment, project_dir)
+      local success, tracked = merge_mod.merge_opencode_agents(target_path, fragment, project_dir, ext_manifest.name or "unknown")
       if success then
         merged_sections.opencode_json = tracked
       else
@@ -542,9 +542,13 @@ function M.create(config)
       verify_mod.notify_results(verification)
     end
 
-    -- TODO(541): Call cleanup_stale_opencode_agents(project_dir) here after successful load.
-    -- Decision 3 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
-    -- This ensures opencode.json is always valid after loading an extension.
+    -- Clean up stale agents after successful load
+    local cleanup_ok, cleanup_err = pcall(manager.cleanup_stale_opencode_agents, project_dir)
+    if not cleanup_ok then
+      vim.schedule(function()
+        vim.notify("Warning: opencode.json cleanup failed after load: " .. tostring(cleanup_err), vim.log.levels.WARN)
+      end)
+    end
 
     return true, nil
   end
@@ -669,9 +673,13 @@ function M.create(config)
       "INFO"
     )
 
-    -- TODO(541): Call cleanup_stale_opencode_agents(project_dir) here after successful unload.
-    -- Decision 3 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
-    -- This ensures opencode.json is always valid after unloading an extension.
+    -- Clean up stale agents after successful unload
+    local cleanup_ok, cleanup_err = pcall(manager.cleanup_stale_opencode_agents, project_dir)
+    if not cleanup_ok then
+      vim.schedule(function()
+        vim.notify("Warning: opencode.json cleanup failed after unload: " .. tostring(cleanup_err), vim.log.levels.WARN)
+      end)
+    end
 
     return true, nil
   end

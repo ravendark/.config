@@ -9,7 +9,7 @@ next_project_number: 548
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
-- **545** [RESEARCHED] -- Harden TODO.md insertion ordering in meta-builder-agent
+- **545** [PLANNED] -- Harden TODO.md insertion ordering in meta-builder-agent
 - **546** [NOT STARTED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
 - **535** [COMPLETED] -- Establish single source of truth for resume points
@@ -19,10 +19,10 @@ next_project_number: 548
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
-- **544** [RESEARCHING] -- Fix OpenCode session picker restore/browse options
+- **544** [RESEARCHED] -- Fix OpenCode session picker restore/browse options
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
-- **542** [PLANNED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
+- **542** [IMPLEMENTING] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **543** [NOT STARTED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
@@ -48,10 +48,11 @@ Key files: `.opencode/`, NixOS configuration, Discord bot scaffolding
 
 ### 545. Harden TODO.md insertion ordering in meta-builder-agent
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [545_harden_todo_md_insertion/reports/01_todo-insertion-research.md]
+- **Plan**: [545_harden_todo_md_insertion/plans/01_todo-insertion-plan.md]
 
 **Description**: Update `meta-builder-agent.md` Stage 6 (CreateTasks + Status Updates) to replace the abstract `insert_after_heading("## Tasks", batch_markdown)` pseudocode with an explicit, LLM-proof Edit tool invocation. The current pseudocode allows LLM agents to append tasks at the bottom of TODO.md instead of prepending them at the top (as seen with task 544). Changes: (1) Replace pseudocode with concrete `oldString:"## Tasks\n"` → `newString:"## Tasks\n\n{batch}\n"` Edit call. (2) Add post-insertion verification: re-read first task after `## Tasks` and confirm it matches the foundational task number. (3) Add bold warning against searching for last `---` separator or appending. (4) Sync changes to `.opencode/extensions/core/agents/meta-builder-agent.md`.
 
@@ -103,7 +104,7 @@ Key files: Extension manifests (add `merge_targets.opencode_json`), new fragment
 
 ### 542. Implement opencode.json automatic agent registration in extension loader
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: neovim
 - **Dependencies**: Task #541
 - **Research**: [542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md]
@@ -313,9 +314,10 @@ Key files: `.opencode/context/formats/handoff-artifact.md`, `.opencode/agent/sub
 
 ### 544. Fix OpenCode session picker restore/browse options
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: neovim
 - **Dependencies**: None
+- **Research**: [544_fix_opencode_session_picker/reports/01_session-picker-timing.md]
 
 **Description**: Fix the "Restore last session" and "Browse all sessions" options in the OpenCode session picker (`<C-CR>` → OpenCode). Currently, these options use `vim.defer_fn(..., 1000)` to wait for the OpenCode server, which is unreliable. Replace with proper server-ready detection that polls or waits for the `OpencodeEvent:server.connected` event before making session API calls (`server:select_session()`, `select_session()`). The "Create new session" option already works (it just opens a terminal). Ensure all three options work reliably with proper error handling for edge cases (server startup failure, no saved sessions, etc.).
 

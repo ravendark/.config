@@ -694,13 +694,16 @@ end
 --- @param target_path string Path to opencode.json
 --- @param fragment table Fragment with agent definitions {agent = {...}}
 --- @param project_dir string|nil Project directory for validating {file:...} references
+--- @param extension_name string|nil Name of the extension providing these agents
 --- @return boolean success True if merge succeeded
 --- @return table|nil tracked Tracking data for unmerge {keys = {...}}
-function M.merge_opencode_agents(target_path, fragment, project_dir)
+function M.merge_opencode_agents(target_path, fragment, project_dir, extension_name)
   -- Derive project_dir from target_path if not provided
   if not project_dir then
     project_dir = vim.fn.fnamemodify(target_path, ":h")
   end
+
+  extension_name = extension_name or "unknown"
 
   -- Validate fragment before merging
   local valid, err = M.validate_opencode_fragment(fragment, project_dir)
@@ -728,17 +731,46 @@ function M.merge_opencode_agents(target_path, fragment, project_dir)
   -- Get agent definitions from fragment (handle both {agent = {...}} and bare {...} formats)
   local source_agents = fragment.agent or (type(fragment) == "table" and not vim.isarray(fragment) and fragment) or {}
 
+  -- Lazy-require state module for conflict detection
+  local state_mod = require("neotex.plugins.ai.shared.extensions.state")
+  local config_mod = require("neotex.plugins.ai.shared.extensions.config")
+  local config = config_mod.opencode(project_dir)
+  local state = state_mod.read(project_dir, config)
+  local loaded_names = state_mod.list_loaded(state)
+
   -- Add each agent key if it doesn't exist
   for key, value in pairs(source_agents) do
     if target.agent[key] == nil then
       target.agent[key] = value
       table.insert(added_keys, key)
     else
-      -- TODO(541): Implement conflict detection before skipping existing agent key.
-      -- Decision 1 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
-      -- Read extensions.json to find which extension owns target.agent[key].
-      -- If owned by a different extension, emit warning:
-      -- "Extension 'X' agent 'Y' conflicts with already-loaded extension 'Z'."
+      -- Conflict detection: find which loaded extension owns this agent key
+      local owner = nil
+      for _, ext_name in ipairs(loaded_names) do
+        local merged_sections = state_mod.get_merged_sections(state, ext_name)
+        if merged_sections.opencode_json and merged_sections.opencode_json.keys then
+          for _, owned_key in ipairs(merged_sections.opencode_json.keys) do
+            if owned_key == key then
+              owner = ext_name
+              break
+            end
+          end
+        end
+        if owner then
+          break
+        end
+      end
+
+      -- Warn only if owned by a different loaded extension
+      if owner and owner ~= extension_name then
+        vim.schedule(function()
+          vim.notify(
+            string.format("Extension '%s' agent '%s' conflicts with already-loaded extension '%s'. Skipped.",
+              extension_name, key, owner),
+            vim.log.levels.WARN
+          )
+        end)
+      end
     end
   end
 
@@ -748,9 +780,6 @@ function M.merge_opencode_agents(target_path, fragment, project_dir)
     return false, nil
   end
 
-  -- NOTE(541): Tracked keys are stored in extensions.json for idempotent unmerge.
-  -- See specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md Decision 1
-  -- and .opencode/context/patterns/json-merge-tracking.md for pattern documentation.
   return true, { keys = added_keys }
 end
 

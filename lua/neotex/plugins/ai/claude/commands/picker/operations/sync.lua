@@ -279,7 +279,7 @@ local function reinject_loaded_extensions(project_dir, config)
 
         local fragment = read_json(source_path)
         if fragment then
-          merge_mod.merge_opencode_agents(target_path, fragment)
+          merge_mod.merge_opencode_agents(target_path, fragment, project_dir, ext_manifest.name or "unknown")
         end
       end
     end

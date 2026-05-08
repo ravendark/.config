@@ -275,6 +275,70 @@ local function verify_index_merge(extension_dir, target_dir)
   return false
 end
 
+--- Verify that manifest.provides.agents matches the extension's opencode-agents.json fragment
+--- @param extension_dir string Extension source directory
+--- @param ext_manifest table Extension manifest
+--- @return table result {passed = boolean, missing_from_fragment = table, missing_from_manifest = table}
+local function verify_opencode_json_merge(extension_dir, ext_manifest)
+  local result = {
+    passed = true,
+    missing_from_fragment = {},
+    missing_from_manifest = {},
+  }
+
+  if not ext_manifest.provides or not ext_manifest.provides.agents then
+    return result
+  end
+
+  -- Read opencode-agents.json fragment
+  local agents_json_path = extension_dir .. "/opencode-agents.json"
+  local fragment = read_json(agents_json_path)
+
+  -- Extract agent names from fragment (handle both {agent = {...}} and bare {...} formats)
+  local fragment_agent_names = {}
+  if fragment then
+    local source_agents = fragment.agent or (type(fragment) == "table" and not vim.isarray(fragment) and fragment) or {}
+    for name, _ in pairs(source_agents) do
+      table.insert(fragment_agent_names, name)
+    end
+  end
+
+  -- Extract agent names from manifest.provides.agents by stripping "-agent.md" suffixes
+  local manifest_agent_names = {}
+  for _, agent_file in ipairs(ext_manifest.provides.agents) do
+    local agent_name = agent_file:gsub("%-agent%.md$", "")
+    table.insert(manifest_agent_names, agent_name)
+  end
+
+  -- Build sets for symmetric difference
+  local fragment_set = {}
+  for _, name in ipairs(fragment_agent_names) do
+    fragment_set[name] = true
+  end
+  local manifest_set = {}
+  for _, name in ipairs(manifest_agent_names) do
+    manifest_set[name] = true
+  end
+
+  -- Agents in manifest but not in fragment
+  for _, name in ipairs(manifest_agent_names) do
+    if not fragment_set[name] then
+      table.insert(result.missing_from_fragment, name)
+      result.passed = false
+    end
+  end
+
+  -- Agents in fragment but not in manifest
+  for _, name in ipairs(fragment_agent_names) do
+    if not manifest_set[name] then
+      table.insert(result.missing_from_manifest, name)
+      result.passed = false
+    end
+  end
+
+  return result
+end
+
 --- Perform full verification of a loaded extension
 --- @param extension_name string Extension name
 --- @param extension_dir string Extension source directory
@@ -282,11 +346,6 @@ end
 --- @param config table Extension system configuration
 --- @return table verification Verification report
 function M.verify_extension(extension_name, extension_dir, target_dir, config)
-  -- TODO(541): Implement verify_opencode_json_merge() for fragment-to-manifest consistency.
-  -- Decision 2 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
-  -- Check: every manifest.provides.agents entry has matching opencode-agents.json entry (and vice versa).
-  -- Check: agent names follow naming convention (filename without "-agent.md" suffix).
-  -- Call the new function here and add results to verification.errors / verification.opencode_json.
   local manifest_path = extension_dir .. "/manifest.json"
   local manifest = read_json(manifest_path)
 

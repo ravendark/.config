@@ -1,6 +1,6 @@
 # Implementation Plan: opencode.json Agent Registration Gaps
 - **Task**: 542 - implement_opencode_json_agent_registration
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 4 hours
 - **Dependencies**: 540 (completed), 541 (completed)
 - **Research Inputs**: specs/542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md

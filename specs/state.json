@@ -13,7 +13,8 @@
       "created": "2026-05-08T00:50:00Z",
       "last_updated": "2026-05-08T00:43:00Z",
       "session_id": "sess_1778200968_1db102",
-      "artifacts": []
+      "artifacts": [],
+      "next_artifact_number": 2
     },
     {
       "project_number": 546,
@@ -33,19 +34,24 @@
     {
       "project_number": 545,
       "project_name": "harden_todo_md_insertion",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Replace abstract insert_after_heading() pseudocode in meta-builder-agent.md with explicit, LLM-proof Edit tool invocation for TODO.md task insertion",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-08T00:05:00Z",
-      "last_updated": "2026-05-08T00:45:44Z",
-      "session_id": "sess_1746628900_545res",
+      "last_updated": "2026-05-08T00:50:58Z",
+      "session_id": "sess_1746628900_545plan",
       "artifacts": [
         {
           "path": "specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md",
           "type": "report",
           "summary": "Research report analyzing TODO.md insertion pseudocode across meta-builder-agent, multi-task-creation-standard, and all multi-task creators; recommends concrete Edit tool oldString/newString pattern with post-insertion verification"
+        },
+        {
+          "path": "specs/545_harden_todo_md_insertion/plans/01_todo-insertion-plan.md",
+          "type": "plan",
+          "summary": "3-phase plan to harden TODO.md insertion in meta-builder-agent with concrete Edit tool invocations, post-insertion verification, and anti-pattern warnings"
         }
       ],
       "memory_candidates": [
@@ -112,13 +118,13 @@
     {
       "project_number": 544,
       "project_name": "fix_opencode_session_picker",
-      "status": "researching",
+      "status": "researched",
       "task_type": "neovim",
       "description": "Fix the 'Restore last session' and 'Browse all sessions' options in the OpenCode session picker by replacing fragile vim.defer_fn(1000) timing with proper server-ready detection via OpencodeEvent:server.connected",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-07T23:40:00Z",
-      "last_updated": "2026-05-08T00:40:13Z",
+      "last_updated": "2026-05-08T00:50:40Z",
       "session_id": "sess_1778200790_6c4a1b",
       "artifacts": []
     },
@@ -140,7 +146,7 @@
     {
       "project_number": 542,
       "project_name": "implement_opencode_json_agent_registration",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "neovim",
       "description": "Implement automatic opencode.json agent registration in the extension loader so extensions that provide agents also register them in opencode.json",
       "effort": "2-3 hours",
@@ -148,8 +154,8 @@
         541
       ],
       "created": "2026-05-07T22:30:00Z",
-      "last_updated": "2026-05-08T00:46:06Z",
-      "session_id": "sess_1778200831_738387",
+      "last_updated": "2026-05-08T00:48:23Z",
+      "session_id": "sess_1778201286_6a1f55",
       "artifacts": [
         {
           "path": "specs/542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md",
