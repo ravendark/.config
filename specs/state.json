@@ -5,16 +5,46 @@
     {
       "project_number": 547,
       "project_name": "research_mobile_agent_management",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Research and design a mobile agent management system via Discord bot on NixOS for managing OpenCode agent sessions from iPhone, including Discord bot architecture, OpenCode headless mode, Mosh setup, Pi agent host config, and phased roadmap",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-08T00:50:00Z",
-      "last_updated": "2026-05-08T00:43:00Z",
+      "last_updated": "2026-05-08T00:51:22Z",
       "session_id": "sess_1778200968_1db102",
       "artifacts": [],
-      "next_artifact_number": 2
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "OpenCode has a comprehensive headless/CLI API: 'opencode serve' starts a persistent server with basic auth (OPENCODE_SERVER_PASSWORD), 'opencode run --command' executes named commands programmatically, 'opencode attach' connects to remote servers, and 'opencode session list/delete' manages session lifecycle. The --format json flag enables machine-parseable output. This client-server architecture means OpenCode agents can be controlled from external services like Discord bots or webhooks without the Neovim TUI.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md",
+          "confidence": 0.90,
+          "suggested_keywords": [
+            "opencode",
+            "headless",
+            "server",
+            "CLI",
+            "session-management",
+            "programmatic-access"
+          ]
+        },
+        {
+          "content": "For Discord bot development on NixOS, nextcord (python3Packages.nextcord, v3.1.1) is the optimal choice: actively maintained (Aug 2025), slash-command-native with decorator-based API, async/aiohttp-based, and available directly in nixpkgs without flake inputs. Prefer nextcord over discord.py for new projects due to more frequent updates and better Python 3.12+ support.",
+          "category": "CONFIG",
+          "source_artifact": "specs/547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "discord",
+            "nextcord",
+            "discordpy",
+            "nixpkgs",
+            "bot",
+            "python"
+          ]
+        }
+      ]
     },
     {
       "project_number": 546,
