@@ -81,6 +81,7 @@ Key files: `.opencode/skills/skill-nix-implementation/SKILL.md`, `.opencode/skil
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md]
+- **Plan**: [547_research_mobile_agent_management/plans/01_discord-bot-neovim-setup.md]
 
 **Description**: Research and design a mobile agent management system allowing OpenCode agent sessions to be managed from an iPhone. Scope: (1) Discord bot library selection in 2026 (discord.py vs alternatives), slash command design, and NixOS hosting. (2) OpenCode headless/daemon mode investigation for programmatic agent session management. (3) Mosh installation and iPhone client setup on NixOS as fallback terminal access. (4) Raspberry Pi agent runtime configuration (lightweight NixOS or containerized). (5) Security considerations for remote agent access (token management, SSH hardening, permission scoping). (6) Architecture design for the Discord bot as an OpenCode agent management layer. Deliverable: research report with concrete recommendations and a phased implementation roadmap.
 

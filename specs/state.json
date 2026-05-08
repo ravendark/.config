@@ -91,6 +91,11 @@
           "path": "specs/547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md",
           "type": "research",
           "summary": "Comprehensive research covering OpenCode headless mode, Discord bot libraries (Nextcord 3.1.1 selected), Mosh+iPhone setup, Raspberry Pi agent host architecture, secrets management (sops-nix), and existing infrastructure inventory"
+        },
+        {
+          "path": "specs/547_research_mobile_agent_management/plans/01_discord-bot-neovim-setup.md",
+          "type": "plan",
+          "summary": "Implementation plan with 6 phases for Discord bot + Neovim OpenCodeLinkDiscord integration with /rc slash commands and <leader>ar keymap"
         }
       ],
       "next_artifact_number": 2,
@@ -123,7 +128,39 @@
             "python"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 6,
+        "total_effort_hours": 10.5,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ],
+          [
+            6
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "specs/547_research_mobile_agent_management/reports/01_mobile-agent-management-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-08"
+          }
+        ]
+      }
     },
     {
       "project_number": 546,
