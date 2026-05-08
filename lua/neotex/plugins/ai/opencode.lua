@@ -94,6 +94,6 @@ return {
   end,
   keys = {
     { "<leader>ar", "<cmd>OpenCodeLinkDiscord<CR>", desc = "link discord", icon = "󰙯" },
-    { "<leader>aD", "<cmd>DiscordSessions<CR>", desc = "discord sessions", icon = "󰙯" },
+    { "<leader>as", "<cmd>DiscordSessions<CR>", desc = "discord sessions", icon = "󰙯" },
   },
 }
