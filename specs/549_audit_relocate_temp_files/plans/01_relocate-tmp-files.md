@@ -1,7 +1,7 @@
 # Implementation Plan: Relocate /tmp/ References to specs/tmp/
 
 - **Task**: 549 - audit_relocate_temp_files
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/549_audit_relocate_temp_files/reports/01_relocate-tmp-files.md

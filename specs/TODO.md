@@ -9,7 +9,7 @@ next_project_number: 550
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
-- **549** [IMPLEMENTING] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
+- **549** [COMPLETED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **547** [PLANNED] -- Research mobile agent management via Discord bot on NixOS
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
@@ -20,11 +20,12 @@ next_project_number: 550
 
 ### 549. Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #548
 - **Research**: [549_audit_relocate_temp_files/reports/01_relocate-tmp-files.md]
 - **Plan**: [549_audit_relocate_temp_files/plans/01_relocate-tmp-files.md]
+- **Summary**: [549_audit_relocate_temp_files/summaries/01_relocate-tmp-files-summary.md]
 
 **Description**: Replace all `/tmp/` file path references in OpenCode agent/skill definitions with `specs/tmp/` paths to keep temporary files within the project root. Eight files need updating: `skill-nix-implementation/SKILL.md` (5 refs), `skill-neovim-implementation/SKILL.md` (3 refs), `skill-lean-implementation/SKILL.md` (3 refs), `skill-lean-research/SKILL.md` (3 refs), `spreadsheet-agent.md` (1 ref). Also verify `specs/tmp/` exists and document the temp file location convention. Goal: eliminate all permission prompts caused by OpenCode agents writing to `/tmp/` outside the project root.
 
