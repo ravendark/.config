@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode Session Picker Timing
 
 - **Task**: 544 — fix_opencode_session_picker
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/544_fix_opencode_session_picker/reports/01_session-picker-timing.md
@@ -50,7 +50,7 @@ The research report `01_session-picker-timing.md` identified that: (a) `Server.g
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Fix "Restore last session" with Server.get() Promise chain [NOT STARTED]
+### Phase 1: Fix "Restore last session" with Server.get() Promise chain [COMPLETED]
 
 **Goal**: Replace the `vim.defer_fn(1000)` block in the "restore" choice branch (lines 302-313) with a direct `Server.get()` Promise chain that properly resolves the server before calling `select_session()`.
 
@@ -74,7 +74,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Remove defer_fn from "Browse all sessions" [NOT STARTED]
+### Phase 2: Remove defer_fn from "Browse all sessions" [COMPLETED]
 
 **Goal**: Remove the unnecessary `vim.defer_fn(1000, ...)` wrapper from the "browse" choice branch (lines 314-318) and call `opencode_mod.select_session()` directly, since it internally polls via `Server.get()`.
 

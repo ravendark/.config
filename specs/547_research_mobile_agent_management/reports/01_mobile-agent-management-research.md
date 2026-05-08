@@ -19,8 +19,10 @@
 ## Executive Summary
 
 - OpenCode has comprehensive headless/CLI support via `opencode serve` (persistent server), `opencode run` (one-shot + commands), `opencode attach` (remote sessions), and `opencode web` (web UI) -- all with basic auth via `OPENCODE_SERVER_PASSWORD`
+- **Session linking flow**: Start a session in Neovim → trigger `:OpenCodeLinkDiscord` → Discord bot opens a thread bound to that session → continue the conversation from iPhone via Discord. The bot is a thin relay, not an agent -- it forwards text to the existing `opencode serve` backend the Neovim session already uses
+- **Zero cost to link**: The Discord bot is a persistent daemon with negligible overhead. Linking sessions costs nothing extra -- only the active conversation consumes LLM tokens, same as if you were typing in Neovim. Having 10 linked sessions costs the same as 1
 - `nextcord` 3.1.1 is the best Discord bot library for 2026: actively maintained (Aug 2025 release), slash-command-native, async, and available in nixpkgs as `python3Packages.nextcord`
-- Mosh 1.4.0 is available in nixpkgs but not installed; OpenSSH is disabled in the stock NixOS config -- both need enabling
+- Mosh 1.4.0 is available in nixpkgs but not installed; OpenSSH is disabled in the stock NixOS config -- both need enabling (secondary to Discord bot for mobile access)
 - The current NixOS 26.05 configuration is nearly stock (GNOME desktop, NetworkManager, no SSH), meaning the foundation for remote access must be built from scratch
 - Secrets management options: `sops` 3.12.2 is in nixpkgs for encrypting Discord tokens and SSH keys; `agenix` is NOT in nixpkgs but can be used via flake input
 - Raspberry Pi NixOS support exists via `nixos-hardware` (flake input) and `sd-image` builders; the Pi would run `opencode serve` as a headless agent host accessed remotely via the Discord bot
@@ -110,23 +112,23 @@ discord.py 2.6.4 is also available but is less actively maintained and lacks som
 **Bot command structure design**:
 
 ```
-/open task status [N]     -- Show status of task(s)
-/open task create "desc"   -- Create new task
-/open task research N      -- Trigger /research on task N
-/open task plan N          -- Trigger /plan on task N
-/open task implement N     -- Trigger /implement on task N
+/opus session join [ID]     -- Join an active session (primary mobile entry point)
+/opus session list          -- List active sessions with IDs
+/opus session leave         -- Leave current session thread
 
-/open session list         -- List active sessions
-/open session view [ID]    -- Show session details
-/open session stop [ID]    -- Stop a session
+/opus task status [N]       -- Show status of task(s)
+/opus task create "desc"    -- Create new task
+/opus task research N       -- Trigger /research on task N
+/opus task plan N           -- Trigger /plan on task N
+/opus task implement N      -- Trigger /implement on task N
 
-/open status               -- Overall system status (CPU, sessions, tasks)
-/open refresh              -- Trigger /refresh cleanup
-/open agent list           -- List registered agents
-/open model list           -- List available AI models
+/opus status                -- Overall system status (CPU, sessions, tasks)
+/opus refresh               -- Trigger /refresh cleanup
 ```
 
-Each command maps to an `opencode run --command` invocation behind the scenes.
+**Linking flow**: The user starts a session in Neovim, runs `:OpenCodeLinkDiscord`, and the bot creates a Discord thread bound to that session ID. From iPhone, the user opens that thread and continues the conversation. The bot forwards each Discord message to `opencode serve` and relays the response back. The thread IS the session -- closing the thread archives it.
+
+**Command group name**: Use `/opus` (shorter than `/opencode`) for the bot's slash command group to reduce typing on mobile.
 
 ### 3. Mosh + iPhone Setup
 
@@ -255,15 +257,17 @@ Then reference as `/run/secrets/discord_token` in the bot service.
 
 1. **Discord bot library**: Use Nextcord 3.1.1 (`python3Packages.nextcord`) over discord.py for its active maintenance (Aug 2025 release), slash command support, and async design
 
-2. **Agent invocation pattern**: Use `opencode run --command <cmd> --attach <server> --dangerously-skip-permissions --format json` for Discord bot to agent communication, with separate `opencode serve` instances on Pi and possibly the main machine
+2. **Agent invocation pattern**: Use `opencode run --command <cmd> --attach <server> --dangerously-skip-permissions --format json` for Discord bot to agent communication, with separate `opencode serve` instances on Pi and possibly the main machine. The Discord bot is a thin relay -- it forwards text between Discord threads and the OpenCode server, consuming zero additional LLM tokens beyond what the active session would use anyway
+
+3. **Session linking trigger**: Create a Neovim `:OpenCodeLinkDiscord` command as the primary user-facing entry point. It notifies the Discord bot (via HTTP to the bot's local API or a unix socket) to open a Discord thread bound to the current OpenCode session. From that point, the user continues the session conversation from Discord on iPhone. This is a convenience command -- the underlying plumbing (bot relays messages to `opencode serve`) works regardless, but `:OpenCodeLinkDiscord` automates the "note the session ID, switch to Discord, type `/session join`" manual flow
 
 3. **Secrets management**: Use sops-nix over agenix since sops is directly in nixpkgs (3.12.2), reducing flake input dependencies
 
-4. **iPhone access**: Recommend Blink Shell + Mosh for terminal access, with Discord bot as the primary agent management interface
+4. **iPhone access**: Discord bot is the primary agent management interface; Discord threads map 1:1 to OpenCode sessions. Mosh + Blink Shell is the fallback for raw terminal access when needed
 
 5. **Pi architecture**: Run Pi as a headless `opencode serve` host, accessed via Discord bot commands that use `opencode run --attach` for task routing
 
-6. **Phased implementation**: Start with main-machine Discord bot (Phase 1), then Pi integration (Phase 2), as the Pi is future hardware
+6. **Phased implementation**: Phase 1: Discord bot + `:OpenCodeLinkDiscord` command + `opencode serve` systemd service on main machine. Phase 2: Mosh + SSH for fallback terminal access. Phase 3: Raspberry Pi agent host (future)
 
 ## Recommendations
 

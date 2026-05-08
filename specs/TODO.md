@@ -9,9 +9,9 @@ next_project_number: 550
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
-- **548** [NOT STARTED] -- Research OpenCode permission system for workspace-root auto-approval
+- **548** [RESEARCHING] -- Research OpenCode permission system for workspace-root auto-approval
 - **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
-- **545** [PLANNED] -- Harden TODO.md insertion ordering in meta-builder-agent
+- **545** [IMPLEMENTING] -- Harden TODO.md insertion ordering in meta-builder-agent
 - **546** [NOT STARTED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
 - **535** [COMPLETED] -- Establish single source of truth for resume points
@@ -21,7 +21,7 @@ next_project_number: 550
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
-- **544** [PLANNED] -- Fix OpenCode session picker restore/browse options
+- **544** [COMPLETED] -- Fix OpenCode session picker restore/browse options
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [COMPLETED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
@@ -38,7 +38,7 @@ next_project_number: 550
 
 ### 548. Research OpenCode permission system for workspace-root auto-approval
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: None
 
@@ -75,7 +75,7 @@ Key files: `.opencode/`, NixOS configuration, Discord bot scaffolding
 
 ### 545. Harden TODO.md insertion ordering in meta-builder-agent
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [545_harden_todo_md_insertion/reports/01_todo-insertion-research.md]
@@ -342,11 +342,12 @@ Key files: `.opencode/context/formats/handoff-artifact.md`, `.opencode/agent/sub
 
 ### 544. Fix OpenCode session picker restore/browse options
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: neovim
 - **Dependencies**: None
 - **Research**: [544_fix_opencode_session_picker/reports/01_session-picker-timing.md]
 - **Plan**: [544_fix_opencode_session_picker/plans/01_session-picker-timing-fix.md]
+- **Summary**: [544_fix_opencode_session_picker/summaries/01_session-picker-timing-fix-summary.md]
 
 **Description**: Fix the "Restore last session" and "Browse all sessions" options in the OpenCode session picker (`<C-CR>` → OpenCode). Currently, these options use `vim.defer_fn(..., 1000)` to wait for the OpenCode server, which is unreliable. Replace with proper server-ready detection that polls or waits for the `OpencodeEvent:server.connected` event before making session API calls (`server:select_session()`, `select_session()`). The "Create new session" option already works (it just opens a terminal). Ensure all three options work reliably with proper error handling for edge cases (server startup failure, no saved sessions, etc.).
 

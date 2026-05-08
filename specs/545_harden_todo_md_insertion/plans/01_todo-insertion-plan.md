@@ -1,7 +1,7 @@
 # Implementation Plan: Task #545
 
 - **Task**: 545 - Harden TODO.md insertion ordering in meta-builder-agent
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md

@@ -302,19 +302,24 @@ function M.show_opencode_session_picker()
         if choice == "restore" then
           if last_session_id then
             local server_mod = require("opencode.server")
-            vim.defer_fn(function()
-              local server = server_mod.get()
-              if server then
-                pcall(server.select_session, server, last_session_id)
-              end
-            end, 1000)
+            server_mod.get()
+              :next(function(server)
+                server:select_session(last_session_id)
+              end)
+              :catch(function(err)
+                if err then
+                  vim.notify(
+                    "Failed to restore session: " .. tostring(err),
+                    vim.log.levels.ERROR,
+                    { title = "OpenCode" }
+                  )
+                end
+              end)
           else
             vim.notify("No previous OpenCode session to restore", vim.log.levels.WARN)
           end
         elseif choice == "browse" then
-          vim.defer_fn(function()
-            pcall(opencode_mod.select_session)
-          end, 1000)
+          opencode_mod.select_session()
         end
         -- "new" needs no follow-up: toggle() already opens a fresh session in the TUI
       end)

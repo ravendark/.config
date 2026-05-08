@@ -20,14 +20,14 @@
     {
       "project_number": 548,
       "project_name": "research_opencode_permissions",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "description": "Research OpenCode permission system configuration for auto-approving workspace-root directory writes while requiring approval for external writes",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-07T18:30:00Z",
-      "last_updated": "2026-05-07T18:30:00Z",
-      "session_id": "sess_meta_prompt_permissions",
+      "last_updated": "2026-05-08T00:58:27Z",
+      "session_id": "sess_1778201907_7a2298",
       "artifacts": []
     },
     {
@@ -98,14 +98,14 @@
     {
       "project_number": 545,
       "project_name": "harden_todo_md_insertion",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "description": "Replace abstract insert_after_heading() pseudocode in meta-builder-agent.md with explicit, LLM-proof Edit tool invocation for TODO.md task insertion",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-08T00:05:00Z",
-      "last_updated": "2026-05-08T00:50:58Z",
-      "session_id": "sess_1746628900_545plan",
+      "last_updated": "2026-05-08T01:01:06Z",
+      "session_id": "sess_1778202066_13c07b",
       "artifacts": [
         {
           "path": "specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md",
@@ -182,26 +182,32 @@
     {
       "project_number": 544,
       "project_name": "fix_opencode_session_picker",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "description": "Fix the 'Restore last session' and 'Browse all sessions' options in the OpenCode session picker by replacing fragile vim.defer_fn(1000) timing with proper server-ready detection via OpencodeEvent:server.connected",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-07T23:40:00Z",
-      "last_updated": "2026-05-08T00:56:08Z",
-      "session_id": "sess_1778201534_9edf65",
+      "last_updated": "2026-05-08T01:00:14Z",
+      "session_id": "sess_1778201887_bddfa2",
       "artifacts": [
         {
           "path": "specs/544_fix_opencode_session_picker/plans/01_session-picker-timing-fix.md",
           "type": "plan",
           "summary": "Two-phase implementation plan replacing vim.defer_fn(1000) timing with Server.get() Promise chains in the OpenCode session picker"
+        },
+        {
+          "path": "specs/544_fix_opencode_session_picker/summaries/01_session-picker-timing-fix-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary documenting the two changes: restore path now uses Server.get() Promise chain, browse path calls select_session() directly"
         }
-      ]
+      ],
+      "completion_summary": "Replaced two vim.defer_fn(1000) timing workarounds in the OpenCode session picker with direct Server.get() Promise chains. The restore path now uses server_mod.get():next() for proper async server resolution with vim.notify() error handling. The browse path calls opencode_mod.select_session() directly since it internally polls via Server.get()."
     },
     {
       "project_number": 543,
       "project_name": "convert_opencode_json_to_computed_artifact",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "description": "Replace the merge-target approach for opencode.json with a computed-artifact pattern, analogous to how generate_claudemd() in merge.lua rebuilds CLAUDE.md from scratch after every load/unload cycle",
       "effort": "2-3 hours",
