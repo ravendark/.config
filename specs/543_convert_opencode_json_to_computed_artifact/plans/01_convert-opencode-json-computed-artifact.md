@@ -119,6 +119,7 @@ Phases within the same wave can execute in parallel.
 
 - **Timing:** 2 hours
 - **Depends on:** none
+- **Completed:** 2026-05-07T18:55:00Z
 
 ### Phase 2: Refactor init.lua load/unload pipeline [COMPLETED]
 
@@ -135,6 +136,7 @@ Phases within the same wave can execute in parallel.
 
 - **Timing:** 1 hour
 - **Depends on:** 1
+- **Completed:** 2026-05-07T19:00:00Z
 
 ### Phase 3: Update sync.lua sync-all flow [COMPLETED]
 
@@ -147,6 +149,7 @@ Phases within the same wave can execute in parallel.
 
 - **Timing:** 1 hour
 - **Depends on:** 1
+- **Completed:** 2026-05-07T19:05:00Z
 
 ### Phase 4: Update verify.lua validation [COMPLETED]
 
@@ -159,6 +162,7 @@ Phases within the same wave can execute in parallel.
 
 - **Timing:** 0.5 hours
 - **Depends on:** 1
+- **Completed:** 2026-05-07T19:08:00Z
 
 ### Phase 5: Update opencode core installer [COMPLETED]
 
@@ -185,6 +189,7 @@ Phases within the same wave can execute in parallel.
 
 - **Timing:** 0.5 hours
 - **Depends on:** 2, 3, 4, 5
+- **Completed:** 2026-05-07T19:12:00Z
 
 ### Phase 7: Update extension manifests [COMPLETED]
 
@@ -213,6 +218,7 @@ Phases within the same wave can execute in parallel.
 
 - **Timing:** 1 hour
 - **Depends on:** 2, 3, 4, 5
+- **Completed:** 2026-05-07T19:18:00Z
 
 ### Phase 8: Document computed-artifact pattern [COMPLETED]
 
@@ -238,6 +244,7 @@ Phases within the same wave can execute in parallel.
 
 - **Timing:** 1 hour
 - **Depends on:** 6, 7
+- **Completed:** 2026-05-07T19:25:00Z
 
 ### Phase 9: End-to-end testing and verification [COMPLETED]
 
@@ -273,6 +280,7 @@ Phases within the same wave can execute in parallel.
 
 - **Timing:** 1.5 hours
 - **Depends on:** 8
+- **Completed:** 2026-05-07T19:30:00Z
 
 ## Testing & Validation
 
