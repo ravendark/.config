@@ -15,7 +15,11 @@
 
 ## Overview
 
-Replace the merge-target approach for `opencode.json` with a computed-artifact regeneration pipeline, mirroring the existing `generate_claudemd()` pattern in `merge.lua`. The current per-extension merge/unmerge logic is complex, suffers from an agent-orphaning edge case, and requires stale-agent cleanup. The computed-artifact pattern rebuilds `opencode.json` from scratch on every load/unload cycle by aggregating agent fragments from all loaded extensions over a base template. The existing `.opencode.json.managed` sidecar gates whether regeneration runs. This plan covers the core function implementation, pipeline refactoring across six source modules, manifest updates for all 14 extensions, and reusable pattern documentation.
+Replace the merge-target approach for `opencode.json` with a computed-artifact regeneration pipeline, mirroring the existing `generate_claudemd()` pattern in `merge.lua`. The current per-extension merge/unmerge logic is complex, suffers from an agent-orphaning edge case, and requires stale-agent cleanup. The computed-artifact pattern rebuilds `opencode.json` from scratch on every load/unload cycle by aggregating agent fragments from all loaded extensions over a base template. The existing `.opencode.json.managed` sidecar gates whether regeneration runs.
+
+The computed-artifact approach enables centralized permission configuration in the base template: auto-approval for in-root edits (`permission.edit: "allow"`), ask-for-approval for external directory access (`permission.external_directory: { "*": "ask" }`), and deny rules for destructive bash commands. This eliminates permission prompt fatigue for workspace-internal operations while maintaining safety boundaries, all without requiring per-extension permission fragments.
+
+This plan covers the core function implementation, pipeline refactoring across six source modules, base template permission configuration, manifest updates for all 14 extensions, and reusable pattern documentation.
 
 ## Research Integration
 
@@ -27,6 +31,9 @@ Integrated report: `specs/543_convert_opencode_json_to_computed_artifact/reports
   - Implement `generate_opencode_json()` in `merge.lua` that rebuilds `opencode.json` from base template + extension fragments
   - Integrate managed/unmanaged sidecar gating into the generation pipeline
   - Integrate `{file:...}` reference validation into the generation loop
+  - Configure the base template with `permission.edit: "allow"` and `permission.external_directory: { "*": "ask" }`
+  - Include bash command safety deny rules (`rm -rf *`, `sudo *`, `chmod 777 *`, `chmod -R *`) in the base template
+  - Guide agents to use `specs/tmp/` instead of `/tmp/` for temporary work via base template agent instructions
   - Refactor `init.lua` to call `generate_opencode_json()` after load and unload instead of per-extension merge/unmerge
   - Update `sync.lua` to use a single generation call instead of per-extension re-injection
   - Update `verify.lua` to validate fragment-to-manifest consistency without relying on tracked merged state
@@ -38,16 +45,18 @@ Integrated report: `specs/543_convert_opencode_json_to_computed_artifact/reports
 
 - **Non-Goals**:
   - Changing the managed/unmanaged sidecar semantics or marker file format
-  - Changing the base template content or location
   - Applying the computed-artifact pattern to `settings.json` or `index.json` in this task
   - Adding new agents or renaming existing agents
   - Modifying the `generate_claudemd()` function
   - Converting `opencode.json` to a non-JSON format
+  - Migrating `tts-notify.sh` temp paths from `/tmp/` to `specs/tmp/` (covered by task 548)
+  - Updating `general-research-agent.md` to reference `specs/tmp/` (covered by task 548)
+  - Documenting the dual-system architecture (Claude Code vs OpenCode permissions, covered by task 548)
 
 ## Risks & Mitigations
 
 - **Risk**: User customizations in a managed `opencode.json` are lost on the first regeneration after upgrade.
-  - **Mitigation**: Managed files are explicitly machine-owned. A pre-regeneration scan can detect agents not present in the base template or any loaded extension fragment and emit a one-time warning. Users can remove the `.managed` sidecar to preserve their file.
+  - **Mitigation**: Managed files are explicitly machine-owned. A pre-regeneration scan can detect agents not present in the base template or any loaded extension fragment and emit a one-time warning. Users can remove the `.opencode.json.managed` sidecar to preserve their file.
 
 - **Risk**: Generation failure leaves `opencode.json` in a bad state.
   - **Mitigation**: Validate the computed table with `pcall(vim.json.encode)` before writing. Write to a temporary file and atomically rename to the target path.
@@ -60,6 +69,12 @@ Integrated report: `specs/543_convert_opencode_json_to_computed_artifact/reports
 
 - **Risk**: Core fragment and base template have overlapping agent keys (e.g., `planner` vs `task-planner`).
   - **Mitigation**: First-wins conflict resolution preserves base template agents exactly as the current merge behavior does. Only agents not already in the base template are added from fragments.
+
+- **Risk**: Permission block in the base template conflicts with user customizations or extension expectations.
+  - **Mitigation**: The permission block is part of the base template and uses first-wins semantics; extension fragments merge only into the `agent` table, never into `permission`. Users who need custom permissions can switch to unmanaged mode.
+
+- **Risk**: Agents continue using `/tmp/` despite base template guidance to use `specs/tmp/`.
+  - **Mitigation**: Include the temp directory guidance in the primary/default agent instructions so it is visible on every session. Verify during end-to-end testing that generated `opencode.json` contains the guidance.
 
 ## Implementation Phases
 
@@ -77,7 +92,7 @@ Phases within the same wave can execute in parallel.
 
 ### Phase 1: Implement generate_opencode_json() in merge.lua [NOT STARTED]
 
-- **Goal:** Create the core computed-artifact generation function following the `generate_claudemd()` fragment-collection pattern.
+- **Goal:** Create the core computed-artifact generation function following the `generate_claudemd()` fragment-collection pattern, and update the base template with permission configuration.
 
 - **Tasks:**
   - [ ] **Task 1.1**: Add `M.generate_opencode_json(project_dir, config)` to `lua/neotex/plugins/ai/shared/extensions/merge.lua`.
@@ -85,7 +100,7 @@ Phases within the same wave can execute in parallel.
     - Read `extensions.json` state and build ordered loaded extension list: core first, remaining extensions in stable sorted order.
     - For each loaded extension, check for `opencode-agents.json` at `extension.path .. "/opencode-agents.json"` (convention-based discovery).
     - Read each fragment and validate `{file:...}` references using existing `validate_opencode_fragment()`.
-    - Deep-merge fragment `agent` tables into the base template's `agent` table with first-wins semantics (skip keys that already exist).
+    - Deep-merge fragment `agent` tables into the base template's `agent` table with first-wins semantics (skip keys that already exist). **Do not merge fragments into the `permission` table.**
     - On validation failure for a fragment, emit a warning and skip that fragment (do not abort generation).
   - [ ] **Task 1.2**: Add managed/unmanaged gating.
     - Check for `.opencode.json.managed` sidecar marker.
@@ -96,8 +111,13 @@ Phases within the same wave can execute in parallel.
     - Write to a temporary file and rename atomically to `opencode.json`.
     - Return boolean success and string|nil error.
   - [ ] **Task 1.4**: Add a backward-compat wrapper or stub for `merge_opencode_agents()` and `unmerge_opencode_agents()` so existing callers do not break during transition (to be removed in Phase 6).
+  - [ ] **Task 1.5**: Update `.opencode/templates/opencode.json` base template to include a `permission` block.
+    - Add `permission.edit: "allow"` for auto-approved in-root writes.
+    - Add `permission.external_directory` with `"*": "ask"` as the default (ask for approval for all external directories).
+    - Add `permission.bash` with `"*": "allow"` default and explicit deny rules for: `rm -rf *`, `sudo *`, `chmod 777 *`, `chmod -R *`.
+  - [ ] **Task 1.6**: Update base template agent instructions to guide agents to use `specs/tmp/` instead of `/tmp/` for temporary work. Update the primary/default agent instructions to include this guidance.
 
-- **Timing:** 1.5 hours
+- **Timing:** 2 hours
 - **Depends on:** none
 
 ### Phase 2: Refactor init.lua load/unload pipeline [NOT STARTED]
@@ -142,12 +162,13 @@ Phases within the same wave can execute in parallel.
 
 ### Phase 5: Update opencode core installer [NOT STARTED]
 
-- **Goal:** Ensure newly installed managed files immediately reflect loaded extensions.
+- **Goal:** Ensure newly installed managed files immediately reflect loaded extensions and contain the permission block.
 
 - **Tasks:**
   - [ ] **Task 5.1**: Update `install_base_opencode_json()` in `lua/neotex/plugins/ai/opencode/core/init.lua` to call `generate_opencode_json(project_dir, config)` after writing the managed marker and template. Pass the config from `config_mod.opencode(project_dir)`.
   - [ ] **Task 5.2**: Handle the case where generation fails: log a non-fatal warning but do not fail the installation.
   - [ ] **Task 5.3**: Verify `needs_base_install()` behavior is unchanged.
+  - [ ] **Task 5.4**: Verify that the base template written by the installer contains the `permission` block with `edit: "allow"`, `external_directory: { "*": "ask" }`, and bash deny rules. The installer should write the same `.opencode/templates/opencode.json` updated in Task 1.5.
 
 - **Timing:** 0.5 hours
 - **Depends on:** 1
@@ -213,13 +234,14 @@ Phases within the same wave can execute in parallel.
     - Add a note at the top stating that `opencode.json` is no longer managed via JSON merge tracking
     - Retain the pattern documentation for other targets such as `settings.json`
     - Update the "Reusability" section to reference the computed-artifact pattern as the preferred approach for files that can be fully regenerated
+  - [ ] **Task 8.4**: In the computed-artifacts pattern documentation, include a subsection on "Centralized Permission Configuration" that explains how the base template can declare permissions (edit, external_directory, bash rules) and agent instructions (e.g., temp directory guidance) that apply uniformly across all generated artifacts.
 
 - **Timing:** 1 hour
 - **Depends on:** 6, 7
 
 ### Phase 9: End-to-end testing and verification [NOT STARTED]
 
-- **Goal:** Validate the full pipeline under realistic conditions.
+- **Goal:** Validate the full pipeline under realistic conditions, including permission configuration correctness.
 
 - **Tasks:**
   - [ ] **Task 9.1**: Test managed mode:
@@ -240,6 +262,14 @@ Phases within the same wave can execute in parallel.
   - [ ] **Task 9.5**: Test validation:
     - Introduce a broken `{file:...}` reference in a test fragment and verify generation emits a warning and skips the fragment.
   - [ ] **Task 9.6**: Run `:TestFile` or `:TestSuite` if tests exist for the extension system.
+  - [ ] **Task 9.7**: Verify permission block in generated `opencode.json`:
+    - Confirm `permission.edit` is `"allow"`.
+    - Confirm `permission.external_directory["*"]` is `"ask"`.
+    - Confirm `permission.bash` contains deny rules for `rm -rf *`, `sudo *`, `chmod 777 *`, and `chmod -R *`.
+    - Confirm extension fragments did not override or remove the permission block.
+  - [ ] **Task 9.8**: Verify temp directory guidance:
+    - Confirm generated `opencode.json` contains agent instructions referencing `specs/tmp/` instead of `/tmp/`.
+    - Confirm the guidance is present in the primary/default agent instructions.
 
 - **Timing:** 1.5 hours
 - **Depends on:** 8
@@ -255,6 +285,10 @@ Phases within the same wave can execute in parallel.
 - [ ] All 14 extension manifests are valid JSON and no longer contain `merge_targets.opencode_json`.
 - [ ] No remaining references to `merge_opencode_agents` or `unmerge_opencode_agents` in the codebase.
 - [ ] Documentation accurately reflects the new lifecycle.
+- [ ] Generated `opencode.json` contains `permission.edit: "allow"` and `permission.external_directory: { "*": "ask" }`.
+- [ ] Generated `opencode.json` contains bash deny rules for destructive commands.
+- [ ] Generated `opencode.json` agent instructions reference `specs/tmp/` for temporary work.
+- [ ] Extension fragments cannot override the base template `permission` block.
 
 ## Artifacts & Outputs
 
@@ -264,6 +298,7 @@ Phases within the same wave can execute in parallel.
 - `lua/neotex/plugins/ai/claude/commands/picker/operations/sync.lua` (update reinjection)
 - `lua/neotex/plugins/ai/shared/extensions/verify.lua` (update validation logic)
 - `lua/neotex/plugins/ai/opencode/core/init.lua` (update installer to trigger generation)
+- `.opencode/templates/opencode.json` (updated with permission block and temp directory guidance)
 - `.opencode/extensions/*/manifest.json` (14 manifests updated)
 - `.opencode/context/patterns/computed-artifacts.md` (new pattern documentation)
 - `.opencode/context/reference/opencode-json-lifecycle.md` (updated lifecycle reference)
@@ -274,3 +309,4 @@ Phases within the same wave can execute in parallel.
 - If critical regressions are discovered during testing, revert all source file changes with `git checkout -- <paths>` and restore the 14 manifests from git history.
 - If the computed-artifact approach proves incompatible with a specific extension's fragment structure, the old `merge_opencode_agents()` code can be restored from git history and the plan pivoted to a hybrid approach.
 - To preserve user data during rollback: before any deployment, advise users with managed `opencode.json` containing custom agents to remove the `.managed` sidecar or back up their file.
+- If permission configuration causes unexpected prompt behavior, the base template can be reverted to remove the `permission` block while keeping the computed-artifact pattern intact.

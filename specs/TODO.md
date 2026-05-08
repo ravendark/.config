@@ -13,7 +13,7 @@ next_project_number: 550
 - **548** [PLANNED] -- Research OpenCode permission system for workspace-root auto-approval
 - **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **545** [COMPLETED] -- Harden TODO.md insertion ordering in meta-builder-agent
-- **546** [PLANNING] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
+- **546** [IMPLEMENTING] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
 - **535** [COMPLETED] -- Establish single source of truth for resume points
 - **536** [COMPLETED] -- Clarify two-step delegation chain in command docs
@@ -106,7 +106,7 @@ Key files: `.opencode/agent/subagents/meta-builder-agent.md`, `.opencode/extensi
 
 ### 546. Audit and align other multi-task creators for consistent insertion
 - **Effort**: 1-2 hours
-- **Status**: [PLANNING]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #545
 - **Research**: [546_audit_multi_task_creators/reports/01_multi-task-creator-audit.md]

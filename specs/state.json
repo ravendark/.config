@@ -165,7 +165,7 @@
     {
       "project_number": 546,
       "project_name": "audit_multi_task_creators",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "description": "Apply hardened insertion pattern from task 545 to all other multi-task creators (fix-it, review, errors, task --review) and update multi-task-creation-standard.md",
       "effort": "1-2 hours",
@@ -173,8 +173,8 @@
         545
       ],
       "created": "2026-05-08T00:05:00Z",
-      "last_updated": "2026-05-08T01:30:00Z",
-      "session_id": "sess_1746628900_546plan",
+      "last_updated": "2026-05-08T01:27:25Z",
+      "session_id": "sess_1778203645_907640",
       "artifacts": [
         {
           "path": "specs/546_audit_multi_task_creators/reports/01_multi-task-creator-audit.md",
@@ -315,7 +315,7 @@
         {
           "path": "specs/543_convert_opencode_json_to_computed_artifact/plans/01_convert-opencode-json-computed-artifact.md",
           "type": "plan",
-          "summary": "9-phase plan to replace opencode.json merge-target approach with computed-artifact regeneration, covering merge.lua, init.lua, sync.lua, verify.lua, core installer, 14 extension manifests, and pattern documentation."
+          "summary": "Revised plan incorporating permission configuration from task 548: base template now includes permission.edit: allow, permission.external_directory: ask, bash deny rules for destructive commands, and specs/tmp/ guidance. Added tasks across Phase 1 (base template update), Phase 5 (installer verification), Phase 8 (permission documentation), and Phase 9 (permission verification). Preserved all 9 original phases and the computed-artifact pattern structure."
         }
       ]
     },
