@@ -49,6 +49,9 @@ end
 
 --- Check if an opencode.json is managed by the extension system
 --- Uses a sidecar file (.opencode.json.managed) to avoid schema validation errors
+--- NOTE(541): is_managed() should be checked by sync before overwrite.
+--- Decision 4 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
+--- Unmanaged files must never be overwritten by sync; managed files can be replaced during sync-all.
 --- @param json_path string Path to opencode.json
 --- @return boolean is_managed True if managed by neotex-extensions
 local function is_managed(json_path)

@@ -1,7 +1,7 @@
 # Implementation Plan: Task #541 - Design opencode.json Agent Registration Mechanism
 
 - **Task**: 541 - design_opencode_json_agent_registration
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2 hours
 - **Dependencies**: 540 (completed)
 - **Research Inputs**: specs/541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md
@@ -78,12 +78,12 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Document Core Design Decisions and Policies [NOT STARTED]
+### Phase 1: Document Core Design Decisions and Policies [COMPLETED]
 
 **Goal**: Formalize the 5 design decisions into a single authoritative design specification document.
 
 **Tasks**:
-- [ ] **Task 1.1**: Write `specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md`
+- [x] **Task 1.1**: Write `specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md` *(completed)*
   - Summarize the problem scope and Task 540 infrastructure context
   - Document Decision 1: First-loaded wins with conflict warning strategy
     - Define conflict detection algorithm (read `extensions.json`, map agent names to extensions)
@@ -101,10 +101,10 @@ Phases within the same wave can execute in parallel.
   - Document Decision 5: Maintain current agent definition format
     - Reference existing `opencode-agents.json` format rules from Task 540
     - Note that no schema changes are needed
-- [ ] **Task 1.2**: Document transient state window mitigation (Finding 6)
+- [x] **Task 1.2**: Document transient state window mitigation (Finding 6) *(completed)*
   - Specify that sync must re-inject extension agents atomically after any full replace
   - Document that `on_load_all` callback ordering must run after re-injection completes
-- [ ] **Task 1.3**: Review and validate the design spec against the research report
+- [x] **Task 1.3**: Review and validate the design spec against the research report *(completed)*
   - Ensure all 8 findings, 5 decisions, and 6 recommendations are addressed or explicitly deferred
 
 **Timing**: 45 minutes
@@ -121,26 +121,26 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Create Reference Documentation [NOT STARTED]
+### Phase 2: Create Reference Documentation [COMPLETED]
 
 **Goal**: Produce reusable reference documents for the extension ecosystem.
 
 **Tasks**:
-- [ ] **Task 2.1**: Create `.opencode/context/reference/agent-name-registry.md`
+- [x] **Task 2.1**: Create `.opencode/context/reference/agent-name-registry.md` *(completed)*
   - List reserved core agent names (build, plan, task-planner, etc.)
   - Document extension agent naming conventions (descriptive, non-conflicting)
   - Document the process for proposing new agent names to avoid collisions
   - Reference the conflict resolution policy from Phase 1
-- [ ] **Task 2.2**: Create `.opencode/context/reference/extension-manifest-schema.md`
+- [x] **Task 2.2**: Create `.opencode/context/reference/extension-manifest-schema.md` *(completed)*
   - Document the `merge_targets.opencode_json` field structure
   - Include JSON examples from `core/manifest.json` and `present/manifest.json`
   - Document relationship between `manifest.provides.agents` and `opencode-agents.json`
-- [ ] **Task 2.3**: Create `.opencode/context/patterns/json-merge-tracking.md`
+- [x] **Task 2.3**: Create `.opencode/context/patterns/json-merge-tracking.md` *(completed)*
   - Document the key-based tracking pattern used in `merge.lua`
   - Explain how `{keys = {...}}` enables idempotent unmerge
   - Include pseudocode for merge and unmerge operations
   - Note this pattern is reusable for other JSON merge targets
-- [ ] **Task 2.4**: Create `.opencode/context/reference/opencode-json-lifecycle.md`
+- [x] **Task 2.4**: Create `.opencode/context/reference/opencode-json-lifecycle.md` *(completed)*
   - Document the full lifecycle: template installation -> extension registration -> cleanup -> unload
   - Explain managed/unmanaged distinction and user customization boundaries
   - Document sync behavior for managed vs unmanaged files
@@ -163,27 +163,27 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Design-Level Code Annotations [NOT STARTED]
+### Phase 3: Design-Level Code Annotations [COMPLETED]
 
 **Goal**: Add structured TODO/FIXME comments to key code files to guide future implementation agents.
 
 **Tasks**:
-- [ ] **Task 3.1**: Annotate `lua/neotex/plugins/ai/shared/extensions/merge.lua`
+- [x] **Task 3.1**: Annotate `lua/neotex/plugins/ai/shared/extensions/merge.lua` *(completed)*
   - Add TODO near line 733: implement conflict detection before skipping existing agent key
   - Reference Decision 1 and the warning message format from the design spec
   - Add NOTE near line 745: document that tracked keys are stored for unmerge
-- [ ] **Task 3.2**: Annotate `lua/neotex/plugins/ai/shared/extensions/init.lua`
+- [x] **Task 3.2**: Annotate `lua/neotex/plugins/ai/shared/extensions/init.lua` *(completed)*
   - Add TODO near line 834: wire `cleanup_stale_opencode_agents()` to `manager.load()` and `manager.unload()`
   - Add TODO near `manager.load()` exit path: call cleanup after successful load
   - Reference Decision 3 and trigger points from the design spec
-- [ ] **Task 3.3**: Annotate `lua/neotex/plugins/ai/claude/commands/picker/operations/sync.lua`
+- [x] **Task 3.3**: Annotate `lua/neotex/plugins/ai/claude/commands/picker/operations/sync.lua` *(completed)*
   - Add TODO near line 340: respect `.managed` sidecar before deciding sync action for `opencode.json`
   - Add NOTE near line 872: document that re-injection must run atomically after full replace
   - Reference Decision 4 and transient state mitigation from the design spec
-- [ ] **Task 3.4**: Annotate `lua/neotex/plugins/ai/shared/extensions/verify.lua`
+- [x] **Task 3.4**: Annotate `lua/neotex/plugins/ai/shared/extensions/verify.lua` *(completed)*
   - Add TODO near line 284: implement `verify_opencode_json_merge()` for fragment-to-manifest consistency
   - Reference Decision 2 and validation rules from the design spec
-- [ ] **Task 3.5**: Annotate `lua/neotex/plugins/ai/opencode/core/init.lua`
+- [x] **Task 3.5**: Annotate `lua/neotex/plugins/ai/opencode/core/init.lua` *(completed)*
   - Add NOTE near line 54: document that `is_managed()` should be checked by sync before overwrite
   - Reference Decision 4 and managed/unmanaged policy from the design spec
 

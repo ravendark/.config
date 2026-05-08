@@ -18,7 +18,7 @@ next_project_number: 544
 
 ### Pending
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
-- **541** [PLANNED] -- Design opencode.json agent registration for extensions (depends: 540)
+- **541** [IMPLEMENTING] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [NOT STARTED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **543** [NOT STARTED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
@@ -48,7 +48,7 @@ Key files: `opencode.json` (project root), `.opencode/templates/opencode.json`, 
 
 ### 541. Design opencode.json agent registration for extensions
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #540
 - **Research**: [541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md]

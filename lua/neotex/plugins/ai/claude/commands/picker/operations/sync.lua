@@ -337,6 +337,10 @@ local function sync_files(files, preserve_perms, merge_only, protected_paths, ba
 
   for _, file in ipairs(files) do
     -- Skip files explicitly marked as skip (e.g., opencode.json merge-only)
+    -- TODO(541): Respect .managed sidecar before deciding skip for opencode.json.
+    -- Decision 4 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
+    -- If opencode.json is unmanaged, always skip (do not overwrite user customizations).
+    -- If managed, current behavior (skip if exists, replace on sync-all) is correct.
     if file.action == "skip" then
       goto continue
     end
@@ -869,6 +873,9 @@ function M.scan_all_artifacts(global_dir, project_dir, config)
   -- Root files vary by system
   -- For .claude: all root files (settings, .gitignore, CLAUDE.md) are now managed
   -- by the extension loader (root_files provides + generate_claudemd), not synced.
+  -- NOTE(541): Re-injection of extension agents must run atomically after any full replace.
+  -- Decision 6 (transient state window) from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
+  -- on_load_all callback must run AFTER reinject_loaded_extensions() completes.
   local root_file_names
   if base_dir == ".opencode" then
     root_file_names = { "AGENTS.md", "OPENCODE.md", "settings.json", ".gitignore", "README.md", "QUICK-START.md", "opencode.json" }

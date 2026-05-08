@@ -282,6 +282,11 @@ end
 --- @param config table Extension system configuration
 --- @return table verification Verification report
 function M.verify_extension(extension_name, extension_dir, target_dir, config)
+  -- TODO(541): Implement verify_opencode_json_merge() for fragment-to-manifest consistency.
+  -- Decision 2 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
+  -- Check: every manifest.provides.agents entry has matching opencode-agents.json entry (and vice versa).
+  -- Check: agent names follow naming convention (filename without "-agent.md" suffix).
+  -- Call the new function here and add results to verification.errors / verification.opencode_json.
   local manifest_path = extension_dir .. "/manifest.json"
   local manifest = read_json(manifest_path)
 

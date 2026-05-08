@@ -542,6 +542,10 @@ function M.create(config)
       verify_mod.notify_results(verification)
     end
 
+    -- TODO(541): Call cleanup_stale_opencode_agents(project_dir) here after successful load.
+    -- Decision 3 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
+    -- This ensures opencode.json is always valid after loading an extension.
+
     return true, nil
   end
 
@@ -664,6 +668,10 @@ function M.create(config)
       string.format("Unloaded extension '%s' (%d files removed)", extension_name, removed_count),
       "INFO"
     )
+
+    -- TODO(541): Call cleanup_stale_opencode_agents(project_dir) here after successful unload.
+    -- Decision 3 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
+    -- This ensures opencode.json is always valid after unloading an extension.
 
     return true, nil
   end
@@ -829,6 +837,9 @@ function M.create(config)
 
   --- Scan opencode.json for stale {file:...} references and remove them
   --- Called on startup or picker open to defend against corrupted opencode.json
+  --- TODO(541): Wire this function to automatic triggers per Decision 3.
+  --- See specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
+  --- Trigger points: opencode.lua config() startup, manager.load() exit, manager.unload() exit.
   --- @param project_dir string|nil Project directory
   --- @return table result {removed = number, agents = table}
   function manager.cleanup_stale_opencode_agents(project_dir)

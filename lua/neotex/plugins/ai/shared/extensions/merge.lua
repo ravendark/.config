@@ -733,6 +733,12 @@ function M.merge_opencode_agents(target_path, fragment, project_dir)
     if target.agent[key] == nil then
       target.agent[key] = value
       table.insert(added_keys, key)
+    else
+      -- TODO(541): Implement conflict detection before skipping existing agent key.
+      -- Decision 1 from specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md
+      -- Read extensions.json to find which extension owns target.agent[key].
+      -- If owned by a different extension, emit warning:
+      -- "Extension 'X' agent 'Y' conflicts with already-loaded extension 'Z'."
     end
   end
 
@@ -742,6 +748,9 @@ function M.merge_opencode_agents(target_path, fragment, project_dir)
     return false, nil
   end
 
+  -- NOTE(541): Tracked keys are stored in extensions.json for idempotent unmerge.
+  -- See specs/541_design_opencode_json_agent_registration/designs/01_agent-registration-design-spec.md Decision 1
+  -- and .opencode/context/patterns/json-merge-tracking.md for pattern documentation.
   return true, { keys = added_keys }
 end
 
