@@ -10,7 +10,7 @@ next_project_number: 550
 
 ### Pending
 - **548** [COMPLETED] -- Research OpenCode permission system for workspace-root auto-approval
-- **549** [NOT STARTED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
+- **549** [RESEARCHING] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **545** [COMPLETED] -- Harden TODO.md insertion ordering in meta-builder-agent
 - **546** [COMPLETED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
@@ -25,7 +25,7 @@ next_project_number: 550
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [COMPLETED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
-- **543** [IMPLEMENTING] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
+- **543** [COMPLETED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [COMPLETED] -- Update handoff artifact naming convention in format specs and agent definitions
@@ -53,7 +53,7 @@ Key files: `opencode.json` (if it exists), OpenCode CLI documentation, `.opencod
 
 ### 549. Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: Task #548
 
@@ -154,11 +154,13 @@ Key files: `lua/neotex/plugins/ai/shared/extensions/merge.lua`, `lua/neotex/plug
 
 ### 543. Convert opencode.json to fully computed artifact (like CLAUDE.md)
 - **Effort**: 2-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #542
 - **Research**: [543_convert_opencode_json_to_computed_artifact/reports/01_computed-artifact-pattern.md]
 - **Plan**: [543_convert_opencode_json_to_computed_artifact/plans/01_convert-opencode-json-computed-artifact.md]
+- **Summary**: [543_convert_opencode_json_to_computed_artifact/summaries/01_convert-opencode-json-summary.md]
+- **Completed**: 2026-05-07
 
 **Description**: Replace the merge-target approach for `opencode.json` with a computed-artifact pattern, analogous to how `generate_claudemd()` in `merge.lua` rebuilds `CLAUDE.md` from scratch after every load/unload cycle. Research the `generate_claudemd()` pattern, design a `generate_opencode_json()` function that aggregates agent entries from all loaded extensions, and implement the regeneration pipeline. Document the computed-artifact pattern in `.opencode/context/patterns/computed-artifacts.md` for future use with other merge-target files.
 

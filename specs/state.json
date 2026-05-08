@@ -5,7 +5,7 @@
     {
       "project_number": 549,
       "project_name": "audit_relocate_temp_files",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "description": "Replace all /tmp/ file path references in OpenCode agent/skill definitions with specs/tmp/ paths to keep temporary files within the project root across 8 files",
       "effort": "1-2 hours",
@@ -13,8 +13,8 @@
         548
       ],
       "created": "2026-05-07T18:30:00Z",
-      "last_updated": "2026-05-07T18:30:00Z",
-      "session_id": "sess_meta_prompt_permissions",
+      "last_updated": "2026-05-08T01:52:25Z",
+      "session_id": "sess_1778205114_28957b",
       "artifacts": []
     },
     {
@@ -296,7 +296,7 @@
     {
       "project_number": 543,
       "project_name": "convert_opencode_json_to_computed_artifact",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Replace the merge-target approach for opencode.json with a computed-artifact pattern, analogous to how generate_claudemd() in merge.lua rebuilds CLAUDE.md from scratch after every load/unload cycle",
       "effort": "2-3 hours",
@@ -304,7 +304,7 @@
         542
       ],
       "created": "2026-05-07T23:30:00Z",
-      "last_updated": "2026-05-08T01:34:27Z",
+      "last_updated": "2026-05-08T01:56:14Z",
       "session_id": "sess_1778204026_3363a6",
       "artifacts": [
         {
@@ -312,7 +312,8 @@
           "type": "plan",
           "summary": "Revised plan incorporating permission configuration from task 548: base template now includes permission.edit: allow, permission.external_directory: ask, bash deny rules for destructive commands, and specs/tmp/ guidance. Added tasks across Phase 1 (base template update), Phase 5 (installer verification), Phase 8 (permission documentation), and Phase 9 (permission verification). Preserved all 9 original phases and the computed-artifact pattern structure."
         }
-      ]
+      ],
+      "completion_summary": "Replaced merge-target approach for opencode.json with computed-artifact regeneration pipeline. Added generate_opencode_json() to merge.lua, refactored init.lua/sync.lua/verify.lua, removed deprecated merge/unmerge functions, updated base template with permission block (edit: allow, external_directory: ask, bash deny rules) and specs/tmp/ guidance, removed merge_targets.opencode_json from all 16 extension manifests, documented computed-artifact pattern."
     },
     {
       "project_number": 542,
