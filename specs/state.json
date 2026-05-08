@@ -1,18 +1,125 @@
 {
   "version": "1.0.0",
-  "next_project_number": 545,
+  "next_project_number": 548,
   "active_projects": [
+    {
+      "project_number": 547,
+      "project_name": "research_mobile_agent_management",
+      "status": "researching",
+      "task_type": "meta",
+      "description": "Research and design a mobile agent management system via Discord bot on NixOS for managing OpenCode agent sessions from iPhone, including Discord bot architecture, OpenCode headless mode, Mosh setup, Pi agent host config, and phased roadmap",
+      "effort": "2-3 hours",
+      "dependencies": [],
+      "created": "2026-05-08T00:50:00Z",
+      "last_updated": "2026-05-08T00:43:00Z",
+      "session_id": "sess_1778200968_1db102",
+      "artifacts": []
+    },
+    {
+      "project_number": 546,
+      "project_name": "audit_multi_task_creators",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Apply hardened insertion pattern from task 545 to all other multi-task creators (fix-it, review, errors, task --review) and update multi-task-creation-standard.md",
+      "effort": "1-2 hours",
+      "dependencies": [
+        545
+      ],
+      "created": "2026-05-08T00:05:00Z",
+      "last_updated": "2026-05-08T00:05:00Z",
+      "session_id": "sess_1746628900_meta2",
+      "artifacts": []
+    },
+    {
+      "project_number": 545,
+      "project_name": "harden_todo_md_insertion",
+      "status": "researched",
+      "task_type": "meta",
+      "description": "Replace abstract insert_after_heading() pseudocode in meta-builder-agent.md with explicit, LLM-proof Edit tool invocation for TODO.md task insertion",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-08T00:05:00Z",
+      "last_updated": "2026-05-08T00:45:44Z",
+      "session_id": "sess_1746628900_545res",
+      "artifacts": [
+        {
+          "path": "specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md",
+          "type": "report",
+          "summary": "Research report analyzing TODO.md insertion pseudocode across meta-builder-agent, multi-task-creation-standard, and all multi-task creators; recommends concrete Edit tool oldString/newString pattern with post-insertion verification"
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "When specifying LLM-driven file insertion operations in agent definitions, always use concrete Edit tool invocations with exact oldString/newString patterns rather than abstract pseudocode functions like insert_after_heading(). The heading-anchored replacement pattern ('oldString: ## Tasks\\n' -> 'newString: ## Tasks\\n\\n{batch}\\n') is the most LLM-proof approach because the heading text is unique in the file. Always include post-insertion re-read verification to catch LLM interpretation errors before they propagate into version-controlled files.",
+          "category": "PATTERN",
+          "source_artifact": "specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "edit-tool",
+            "oldString",
+            "newString",
+            "heading-anchored",
+            "insertion",
+            "llm-proof",
+            "todo.md"
+          ]
+        },
+        {
+          "content": "The system has an established Edit tool invocation convention for heading-anchored replacements: the oldString is the heading line with its trailing newline (e.g. '## Tasks\\n'), and the newString prepends content immediately after it. This pattern is used by general-implementation-agent for phase markers, by /review for category insertion, and by skill-spawn for dependency updates. New agent definitions should follow this convention rather than inventing abstract pseudocode.",
+          "category": "CONFIG",
+          "source_artifact": "specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "edit-tool",
+            "convention",
+            "heading-anchored",
+            "agent-definition",
+            "oldString",
+            "newString"
+          ]
+        },
+        {
+          "content": "When specifying LLM-driven file insertion operations in agent definitions, always use concrete Edit tool invocations with exact oldString/newString patterns rather than abstract pseudocode functions like insert_after_heading(). The heading-anchored replacement pattern ('oldString: ## Tasks\\n' -> 'newString: ## Tasks\\n\\n{batch}\\n') is the most LLM-proof approach because the heading text is unique in the file. Always include post-insertion re-read verification to catch LLM interpretation errors before they propagate into version-controlled files.",
+          "category": "PATTERN",
+          "source_artifact": "specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "edit-tool",
+            "oldString",
+            "newString",
+            "heading-anchored",
+            "insertion",
+            "llm-proof",
+            "todo.md"
+          ]
+        },
+        {
+          "content": "The system has an established Edit tool invocation convention for heading-anchored replacements: the oldString is the heading line with its trailing newline (e.g. '## Tasks\\n'), and the newString prepends content immediately after it. This pattern is used by general-implementation-agent for phase markers, by /review for category insertion, and by skill-spawn for dependency updates. New agent definitions should follow this convention rather than inventing abstract pseudocode.",
+          "category": "CONFIG",
+          "source_artifact": "specs/545_harden_todo_md_insertion/reports/01_todo-insertion-research.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "edit-tool",
+            "convention",
+            "heading-anchored",
+            "agent-definition",
+            "oldString",
+            "newString"
+          ]
+        }
+      ]
+    },
     {
       "project_number": 544,
       "project_name": "fix_opencode_session_picker",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "neovim",
       "description": "Fix the 'Restore last session' and 'Browse all sessions' options in the OpenCode session picker by replacing fragile vim.defer_fn(1000) timing with proper server-ready detection via OpencodeEvent:server.connected",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-07T23:40:00Z",
-      "last_updated": "2026-05-07T23:40:00Z",
-      "session_id": "sess_1746628800_meta",
+      "last_updated": "2026-05-08T00:40:13Z",
+      "session_id": "sess_1778200790_6c4a1b",
       "artifacts": []
     },
     {
@@ -33,7 +140,7 @@
     {
       "project_number": 542,
       "project_name": "implement_opencode_json_agent_registration",
-      "status": "researched",
+      "status": "planned",
       "task_type": "neovim",
       "description": "Implement automatic opencode.json agent registration in the extension loader so extensions that provide agents also register them in opencode.json",
       "effort": "2-3 hours",
@@ -41,13 +148,18 @@
         541
       ],
       "created": "2026-05-07T22:30:00Z",
-      "last_updated": "2026-05-08T00:36:37Z",
-      "session_id": "sess_1778200044_4a577f",
+      "last_updated": "2026-05-08T00:46:06Z",
+      "session_id": "sess_1778200831_738387",
       "artifacts": [
         {
           "path": "specs/542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md",
           "type": "research",
           "summary": "Comprehensive research on opencode.json agent registration: core infrastructure is complete from task 540. Four implementation gaps remain from task 541: cleanup never triggered, no conflict detection, no fragment-to-manifest verification, sync ignores managed sidecar."
+        },
+        {
+          "path": "specs/542_implement_opencode_json_agent_registration/plans/01_opencode-json-agent-registration-plan.md",
+          "type": "plan",
+          "summary": "Five-phase implementation plan to close 4 opencode.json agent registration gaps: wire cleanup triggers, implement conflict detection, add fragment-to-manifest verification, respect managed sidecar in sync, and update base template."
         }
       ]
     },

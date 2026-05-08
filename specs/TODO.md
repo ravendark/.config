@@ -1,5 +1,5 @@
 ---
-next_project_number: 545
+next_project_number: 548
 ---
 
 # TODO
@@ -9,6 +9,8 @@ next_project_number: 545
 *Updated 2026-05-07. 19 active tasks remaining.*
 
 ### Pending
+- **545** [RESEARCHED] -- Harden TODO.md insertion ordering in meta-builder-agent
+- **546** [NOT STARTED] -- Audit and align other multi-task creators for consistent insertion (depends: 545)
 - **534** [COMPLETED] -- Sync extension routing tables across command docs
 - **535** [COMPLETED] -- Establish single source of truth for resume points
 - **536** [COMPLETED] -- Clarify two-step delegation chain in command docs
@@ -17,10 +19,10 @@ next_project_number: 545
 - **533** [COMPLETED] -- Fix extension loader to copy manifest.json
 
 ### Pending
-- **544** [NOT STARTED] -- Fix OpenCode session picker restore/browse options
+- **544** [RESEARCHING] -- Fix OpenCode session picker restore/browse options
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
-- **542** [RESEARCHED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
+- **542** [PLANNED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **543** [NOT STARTED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
@@ -31,6 +33,43 @@ next_project_number: 545
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 547. Research mobile agent management via Discord bot on NixOS
+- **Effort**: 2-3 hours
+- **Status**: [RESEARCHING]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Research and design a mobile agent management system allowing OpenCode agent sessions to be managed from an iPhone. Scope: (1) Discord bot library selection in 2026 (discord.py vs alternatives), slash command design, and NixOS hosting. (2) OpenCode headless/daemon mode investigation for programmatic agent session management. (3) Mosh installation and iPhone client setup on NixOS as fallback terminal access. (4) Raspberry Pi agent runtime configuration (lightweight NixOS or containerized). (5) Security considerations for remote agent access (token management, SSH hardening, permission scoping). (6) Architecture design for the Discord bot as an OpenCode agent management layer. Deliverable: research report with concrete recommendations and a phased implementation roadmap.
+
+Key files: `.opencode/`, NixOS configuration, Discord bot scaffolding
+
+---
+
+### 545. Harden TODO.md insertion ordering in meta-builder-agent
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Research**: [545_harden_todo_md_insertion/reports/01_todo-insertion-research.md]
+
+**Description**: Update `meta-builder-agent.md` Stage 6 (CreateTasks + Status Updates) to replace the abstract `insert_after_heading("## Tasks", batch_markdown)` pseudocode with an explicit, LLM-proof Edit tool invocation. The current pseudocode allows LLM agents to append tasks at the bottom of TODO.md instead of prepending them at the top (as seen with task 544). Changes: (1) Replace pseudocode with concrete `oldString:"## Tasks\n"` → `newString:"## Tasks\n\n{batch}\n"` Edit call. (2) Add post-insertion verification: re-read first task after `## Tasks` and confirm it matches the foundational task number. (3) Add bold warning against searching for last `---` separator or appending. (4) Sync changes to `.opencode/extensions/core/agents/meta-builder-agent.md`.
+
+Key files: `.opencode/agent/subagents/meta-builder-agent.md`, `.opencode/extensions/core/agents/meta-builder-agent.md`
+
+---
+
+### 546. Audit and align other multi-task creators for consistent insertion
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #545
+
+**Description**: Apply the hardened insertion pattern from task 545 to all other multi-task creators in the system. Audit skill-fix-it (`SKILL.md` line ~466: "Prepend new task entry to `## Tasks` section"), /review, /errors, and `/task --review` to: (1) Replace any abstract pseudocode with the same concrete Edit tool pattern. (2) Update `multi-task-creation-standard.md` component 8 (State Updates) with the hardened pattern. (3) Ensure all creators pass through the same insertion logic for consistent, predictable TODO.md ordering.
+
+Key files: Skill definitions (skill-fix-it, skill-test, etc.), `multi-task-creation-standard.md`
+
+---
 
 ### 540. Research opencode.json and extension agent registration gaps
 - **Effort**: 1-2 hours
@@ -64,10 +103,11 @@ Key files: Extension manifests (add `merge_targets.opencode_json`), new fragment
 
 ### 542. Implement opencode.json automatic agent registration in extension loader
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: neovim
 - **Dependencies**: Task #541
 - **Research**: [542_implement_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-research.md]
+- **Plan**: [542_implement_opencode_json_agent_registration/plans/01_opencode-json-agent-registration-plan.md]
 
 **Description**: Implement the designed opencode.json agent registration in the Neovim extension loader. Create `opencode-agents.json` fragment files for all extensions that provide agents (latex, python, nvim, lean, nix, typst, web, founder, present, filetypes, etc.). Update each extension's `manifest.json` with `merge_targets.opencode_json` pointing to the fragment. Update the base `opencode.json` template to include documentation about the managed-file marker (`.opencode.json.managed`). Enhance `merge_opencode_agents()` to validate that all `{file:...}` references in the merged result exist before writing. Add a verification step in `verify.lua` to check that all agents in `opencode.json` have corresponding files on disk. Test load/unload cycles for extensions with agents to ensure proper registration and cleanup.
 
@@ -273,7 +313,7 @@ Key files: `.opencode/context/formats/handoff-artifact.md`, `.opencode/agent/sub
 
 ### 544. Fix OpenCode session picker restore/browse options
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: neovim
 - **Dependencies**: None
 
