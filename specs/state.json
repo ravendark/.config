@@ -5,7 +5,7 @@
     {
       "project_number": 549,
       "project_name": "audit_relocate_temp_files",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Replace all /tmp/ file path references in OpenCode agent/skill definitions with specs/tmp/ paths to keep temporary files within the project root across 8 files",
       "effort": "1-2 hours",
@@ -13,13 +13,18 @@
         548
       ],
       "created": "2026-05-07T18:30:00Z",
-      "last_updated": "2026-05-08T01:58:20Z",
-      "session_id": "sess_1778205114_28957b",
+      "last_updated": "2026-05-08T03:48:54Z",
+      "session_id": "sess_1778211964_dd6cc4",
       "artifacts": [
         {
           "path": "specs/549_audit_relocate_temp_files/reports/01_relocate-tmp-files.md",
           "type": "report",
           "summary": "Audit of /tmp/ path references in .opencode/ revealing 14 files with ~50 references needing relocation to specs/tmp/"
+        },
+        {
+          "path": "specs/549_audit_relocate_temp_files/plans/01_relocate-tmp-files.md",
+          "type": "plan",
+          "summary": "Implementation plan with 4 phases and dependency analysis"
         }
       ],
       "next_artifact_number": 2
