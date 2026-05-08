@@ -11,13 +11,15 @@
           "filetypes-spreadsheet-agent",
           "presentation-agent",
           "scrape-agent",
-          "docx-edit-agent"
+          "docx-edit-agent",
+          "xlsx-agent"
         ],
         "languages": [],
         "commands": [
           "/convert",
           "/table",
-          "/edit"
+          "/edit",
+          "/xlsx"
         ]
       },
       "domain": "project",
@@ -35,13 +37,15 @@
           "filetypes-spreadsheet-agent",
           "presentation-agent",
           "scrape-agent",
-          "docx-edit-agent"
+          "docx-edit-agent",
+          "xlsx-agent"
         ],
         "languages": [],
         "commands": [
           "/convert",
           "/table",
-          "/edit"
+          "/edit",
+          "/xlsx"
         ]
       },
       "domain": "project",

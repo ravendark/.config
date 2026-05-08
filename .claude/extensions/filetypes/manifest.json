@@ -13,20 +13,23 @@
       "filetypes-spreadsheet-agent.md",
       "presentation-agent.md",
       "scrape-agent.md",
-      "docx-edit-agent.md"
+      "docx-edit-agent.md",
+      "xlsx-agent.md"
     ],
     "skills": [
       "skill-filetypes",
       "skill-filetypes-spreadsheet",
       "skill-presentation",
       "skill-scrape",
-      "skill-docx-edit"
+      "skill-docx-edit",
+      "skill-xlsx"
     ],
     "commands": [
       "convert.md",
       "table.md",
       "scrape.md",
-      "edit.md"
+      "edit.md",
+      "xlsx.md"
     ],
     "rules": [],
     "context": [
@@ -42,7 +45,8 @@
       "filetypes:spreadsheet": "skill-filetypes-spreadsheet",
       "filetypes:presentation": "skill-presentation",
       "filetypes:scrape": "skill-scrape",
-      "filetypes:docx": "skill-docx-edit"
+      "filetypes:docx": "skill-docx-edit",
+      "filetypes:xlsx": "skill-xlsx"
     },
     "plan": {
       "filetypes": "skill-planner",
@@ -50,7 +54,8 @@
       "filetypes:spreadsheet": "skill-planner",
       "filetypes:presentation": "skill-planner",
       "filetypes:scrape": "skill-planner",
-      "filetypes:docx": "skill-planner"
+      "filetypes:docx": "skill-planner",
+      "filetypes:xlsx": "skill-planner"
     },
     "implement": {
       "filetypes": "skill-filetypes",
@@ -58,7 +63,8 @@
       "filetypes:spreadsheet": "skill-filetypes-spreadsheet",
       "filetypes:presentation": "skill-presentation",
       "filetypes:scrape": "skill-scrape",
-      "filetypes:docx": "skill-docx-edit"
+      "filetypes:docx": "skill-docx-edit",
+      "filetypes:xlsx": "skill-xlsx"
     }
   },
   "merge_targets": {

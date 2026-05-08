@@ -12,6 +12,7 @@ File format conversion and manipulation: documents, spreadsheets, presentations,
 | skill-presentation | presentation-agent | Presentation extraction and slide generation |
 | skill-scrape | scrape-agent | PDF annotation extraction |
 | skill-docx-edit | docx-edit-agent | In-place DOCX editing with tracked changes (SuperDoc MCP) |
+| skill-xlsx | xlsx-agent | XLSX creation, editing, and analysis (openpyxl) |
 
 ### Commands
 
@@ -20,4 +21,5 @@ File format conversion and manipulation: documents, spreadsheets, presentations,
 | `/convert` | `/convert file.pdf` | Convert between document formats; `/convert deck.pptx --format beamer` for slide output |
 | `/table` | `/table data.xlsx` | Convert spreadsheets to LaTeX/Typst tables |
 | `/scrape` | `/scrape paper.pdf` | Extract PDF annotations to Markdown/JSON |
-| `/edit` | `/edit file.docx "instruction"` | Edit Office documents in-place |
+| `/edit` | `/edit file.docx "instruction"` | Edit Office documents in-place (DOCX, XLSX) |
+| `/xlsx` | `/xlsx file.xlsx "instruction"` | Create, edit, or analyze XLSX spreadsheets |
