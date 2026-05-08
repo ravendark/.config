@@ -18,7 +18,7 @@ next_project_number: 544
 
 ### Pending
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
-- **541** [RESEARCHED] -- Design opencode.json agent registration for extensions (depends: 540)
+- **541** [PLANNED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [NOT STARTED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
 - **543** [NOT STARTED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
@@ -48,10 +48,11 @@ Key files: `opencode.json` (project root), `.opencode/templates/opencode.json`, 
 
 ### 541. Design opencode.json agent registration for extensions
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #540
 - **Research**: [541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md]
+- **Plan**: [541_design_opencode_json_agent_registration/plans/01_opencode-json-agent-registration-plan.md]
 
 **Description**: Design the complete opencode.json agent registration mechanism for the extension system. For each extension that provides agents, create an `opencode.json` fragment file containing the agent definitions with proper `mode`, `description`, `prompt` (using `{file:...}` placeholders), and `tools` configuration. Update all extension manifests to include `merge_targets.opencode_json` pointing to these fragments. Design the merge/unmerge strategy: when an extension is loaded, its agents are added to the project's `opencode.json` without overwriting existing agents; when unloaded, only the agents added by that extension are removed. Design validation: before writing `opencode.json`, verify all `{file:...}` references point to files that actually exist on disk to prevent startup crashes.
 

@@ -35,7 +35,7 @@
     {
       "project_number": 541,
       "project_name": "design_opencode_json_agent_registration",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Design opencode.json agent registration mechanism for the extension system including manifest changes, merge/unmerge strategy, and validation",
       "effort": "1-2 hours",
@@ -43,13 +43,18 @@
         540
       ],
       "created": "2026-05-07T22:15:00Z",
-      "last_updated": "2026-05-08T00:07:20Z",
-      "session_id": "sess_1778198494_8cfe05",
+      "last_updated": "2026-05-08T00:12:50Z",
+      "session_id": "sess_1778198961_3402c5",
       "artifacts": [
         {
           "path": "specs/541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md",
           "type": "report",
           "summary": "Design report for opencode.json agent registration mechanism covering manifest changes, merge/unmerge strategy, validation pipeline, conflict resolution, sync lifecycle, and managed/unmanaged distinction"
+        },
+        {
+          "path": "specs/541_design_opencode_json_agent_registration/plans/01_opencode-json-agent-registration-plan.md",
+          "type": "plan",
+          "summary": "Implementation plan with 3 phases documenting design decisions, creating reference docs, and adding code annotations"
         }
       ],
       "next_artifact_number": 2,
@@ -92,8 +97,46 @@
             "name-registry",
             "opencode.json"
           ]
+        },
+        {
+          "content": "The OpenCode extension system uses a key-based JSON merge tracking pattern for idempotent unmerge: merge tracks added keys in {keys = {...}}, unmerge removes only tracked keys, and state persists across sessions in extensions.json. This pattern is reusable for any JSON file that needs merge/unmerge semantics and could be generalized beyond opencode.json to other config files.",
+          "category": "PATTERN",
+          "source_artifact": "specs/541_design_opencode_json_agent_registration/plans/01_opencode-json-agent-registration-plan.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "json-merge",
+            "key-tracking",
+            "idempotent-unmerge",
+            "extensions",
+            "opencode.json"
+          ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 2,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_opencode-json-agent-registration-design.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-07"
+          }
+        ]
+      }
     },
     {
       "project_number": 540,
