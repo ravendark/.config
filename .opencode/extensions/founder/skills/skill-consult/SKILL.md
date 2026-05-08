@@ -87,7 +87,7 @@ if [ -n "$task_number" ]; then
   mkdir -p "$task_dir"
 else
   # Standalone mode: no task directory, agent writes report to a temp location
-  metadata_file="/tmp/consult-meta-${session_id}.json"
+  metadata_file="specs/tmp/consult-meta-${session_id}.json"
 fi
 ```
 

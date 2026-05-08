@@ -1,7 +1,7 @@
 # Implementation Plan: Relocate /tmp/ References to specs/tmp/
 
 - **Task**: 549 - audit_relocate_temp_files
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/549_audit_relocate_temp_files/reports/01_relocate-tmp-files.md
@@ -65,17 +65,17 @@ No ROADMAP.md items directly align with this task. The task is a targeted cleanu
 
 Phases within the same wave can execute in parallel. Phase 1 is placed in Wave 1 to prioritize the runtime-critical extension files; Waves 2 phases are independent but placed after for review sequencing.
 
-### Phase 1: Category A -- Extension SKILL.md Files [NOT STARTED]
+### Phase 1: Category A -- Extension SKILL.md Files [COMPLETED]
 
 **Goal**: Replace all `/tmp/` paths in extension SKILL.md files with `specs/tmp/` equivalents, eliminating runtime permission prompts from extension postflight workflows.
 
 **Tasks**:
-- [ ] **Task 1.1**: Replace `/tmp/state.json` with `specs/tmp/state.json` in web extension files (skill-web-implementation, skill-web-research)
-- [ ] **Task 1.2**: Replace `/tmp/state.json` with `specs/tmp/state.json` in lean extension files (skill-lean-implementation, skill-lean-research)
-- [ ] **Task 1.3**: Replace `/tmp/state.json` with `specs/tmp/state.json` in nix extension files (skill-nix-implementation) and nvim extension files (skill-neovim-implementation)
-- [ ] **Task 1.4**: Replace `/tmp/consult-meta-${session_id}.json` with `specs/tmp/consult-meta-${session_id}.json` in founder skill-consult
-- [ ] **Task 1.5**: Replace `/tmp/temp_data.csv` with `specs/tmp/temp_data.csv` in filetypes spreadsheet-agent
-- [ ] **Task 1.6**: Run grep verification to confirm zero remaining `/tmp/` references in extension files after changes
+- [x] **Task 1.1**: Replace `/tmp/state.json` with `specs/tmp/state.json` in web extension files (skill-web-implementation, skill-web-research) *(completed)*
+- [x] **Task 1.2**: Replace `/tmp/state.json` with `specs/tmp/state.json` in lean extension files (skill-lean-implementation, skill-lean-research) *(completed)*
+- [x] **Task 1.3**: Replace `/tmp/state.json` with `specs/tmp/state.json` in nix extension files (skill-nix-implementation) and nvim extension files (skill-neovim-implementation) *(completed)*
+- [x] **Task 1.4**: Replace `/tmp/consult-meta-${session_id}.json` with `specs/tmp/consult-meta-${session_id}.json` in founder skill-consult *(completed)*
+- [x] **Task 1.5**: Replace `/tmp/temp_data.csv` with `specs/tmp/temp_data.csv` in filetypes spreadsheet-agent *(completed)*
+- [x] **Task 1.6**: Run grep verification to confirm zero remaining `/tmp/` references in extension files after changes *(completed)*
 
 **Timing**: 0.5 hours
 
@@ -96,13 +96,13 @@ Phases within the same wave can execute in parallel. Phase 1 is placed in Wave 1
 - Each modified file's diff shows only path changes, no structural modifications
 - The `specs/tmp/state.json` path matches the pattern used in core skill files
 
-### Phase 2: Category B -- Core Context Patterns [NOT STARTED]
+### Phase 2: Category B -- Core Context Patterns [COMPLETED]
 
 **Goal**: Update core context documentation files to use `specs/tmp/` paths in example code, bringing them in line with the already-correct project copies.
 
 **Tasks**:
-- [ ] **Task 2.1**: Replace `/tmp/meta_base.json` and `/tmp/meta_with_artifacts.json` with `specs/tmp/meta_base.json` and `specs/tmp/meta_with_artifacts.json` in `file-metadata-exchange.md`
-- [ ] **Task 2.2**: Replace `/tmp/test-specs/state.json` with `specs/tmp/test-specs/state.json` in `jq-escaping-workarounds.md`
+- [x] **Task 2.1**: Replace `/tmp/meta_base.json` and `/tmp/meta_with_artifacts.json` with `specs/tmp/meta_base.json` and `specs/tmp/meta_with_artifacts.json` in `file-metadata-exchange.md` *(completed)*
+- [x] **Task 2.2**: Replace `/tmp/test-specs/state.json` with `specs/tmp/test-specs/state.json` in `jq-escaping-workarounds.md` *(completed)*
 
 **Timing**: 0.25 hours
 
@@ -116,14 +116,14 @@ Phases within the same wave can execute in parallel. Phase 1 is placed in Wave 1
 - `grep -rn '/tmp/' .opencode/context/core/patterns/ --include='*.md'` returns no output
 - The project copy at `.opencode/context/patterns/file-metadata-exchange.md` already uses `specs/tmp/` (confirmed by research) and remains unchanged
 
-### Phase 3: Category C -- Project Context Processes [NOT STARTED]
+### Phase 3: Category C -- Project Context Processes [COMPLETED]
 
 **Goal**: Update stale project/processes/ workflow documentation files to use `specs/tmp/` paths, matching the already-correct core/processes/ counterparts.
 
 **Tasks**:
-- [ ] **Task 3.1**: Replace `/tmp/task-${task_number}.md` with `specs/tmp/task-${task_number}.md` in `research-workflow.md`
-- [ ] **Task 3.2**: Replace `/tmp/task-${task_number}.md` with `specs/tmp/task-${task_number}.md` in `implementation-workflow.md`
-- [ ] **Task 3.3**: Replace `/tmp/task-${task_number}.md` with `specs/tmp/task-${task_number}.md` in `planning-workflow.md`
+- [x] **Task 3.1**: Replace `/tmp/task-${task_number}.md` with `specs/tmp/task-${task_number}.md` in `research-workflow.md` *(completed)*
+- [x] **Task 3.2**: Replace `/tmp/task-${task_number}.md` with `specs/tmp/task-${task_number}.md` in `implementation-workflow.md` *(completed)*
+- [x] **Task 3.3**: Replace `/tmp/task-${task_number}.md` with `specs/tmp/task-${task_number}.md` in `planning-workflow.md` *(completed)*
 
 **Timing**: 0.25 hours
 
@@ -138,12 +138,12 @@ Phases within the same wave can execute in parallel. Phase 1 is placed in Wave 1
 - `grep -rn '/tmp/' .opencode/context/project/ --include='*.md'` returns no output
 - Each file's project/ copy now matches the path patterns in its core/ counterpart
 
-### Phase 4: Category D -- Documentation Guides [NOT STARTED]
+### Phase 4: Category D -- Documentation Guides [COMPLETED]
 
 **Goal**: Update the TTS/STT integration guide to reflect current `specs/tmp/` paths, eliminating outdated `/tmp/` references.
 
 **Tasks**:
-- [ ] **Task 4.1**: Replace old `/tmp/` TTS paths with current `specs/tmp/` equivalents in `tts-stt-integration.md`:
+- [x] **Task 4.1**: Replace old `/tmp/` TTS paths with current `specs/tmp/` equivalents in `tts-stt-integration.md` *(completed)*:
   - `/tmp/claude-tts-last-notify` → `specs/tmp/claude-tts-last-notify`
   - `/tmp/opencode-tts-notify.log` → `specs/tmp/opencode-tts-notify.log`
   - `/tmp/test.wav` → `specs/tmp/test.wav`

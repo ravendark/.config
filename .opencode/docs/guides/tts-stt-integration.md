@@ -189,7 +189,7 @@ export TTS_TRAILING_DELAY=500
 **Notifications too frequent/infrequent**:
 - Adjust `TTS_COOLDOWN` environment variable (script-level cooldown)
 - Adjust `TTS_TRAILING_DELAY` for session.idle trailing delay (default 1500ms)
-- Check `/tmp/claude-tts-last-notify` timestamp
+- Check `specs/tmp/claude-tts-last-notify` timestamp
 
 **TTS fires mid-operation (sub-agents)**:
 - Increase `TTS_TRAILING_DELAY` (try 2500ms or higher)
@@ -197,7 +197,7 @@ export TTS_TRAILING_DELAY=500
 
 **View logs**:
 ```bash
-cat /tmp/opencode-tts-notify.log
+cat specs/tmp/opencode-tts-notify.log
 ```
 
 ## STT Input for Neovim
@@ -281,7 +281,7 @@ require('neotex.plugins.tools.stt').setup({
 
 **Transcription errors**:
 - Check Python and vosk are installed: `python3 -c "import vosk; print(vosk.__version__)"`
-- Test directly: `~/.local/bin/vosk-transcribe.py /tmp/test.wav`
+- Test directly: `~/.local/bin/vosk-transcribe.py specs/tmp/test.wav`
 
 **Run health check**:
 ```vim
@@ -341,9 +341,9 @@ This format is optimal for speech recognition and keeps file sizes small.
 | `~/.config/nvim/lua/neotex/plugins/tools/stt-plugin.lua` | Lazy.nvim plugin spec |
 | `~/.config/nvim/lua/neotex/plugins/editor/which-key.lua` | Keybinding configuration |
 | `~/.local/bin/vosk-transcribe.py` | Vosk transcription script |
-| `/tmp/claude-tts-last-notify` | Cooldown timestamp |
-| `/tmp/claude-tts-notify.log` | TTS notification log |
-| `/tmp/nvim-stt-recording.wav` | Temporary recording file |
+| `specs/tmp/claude-tts-last-notify` | Cooldown timestamp |
+| `specs/tmp/claude-tts-notify.log` | TTS notification log |
+| `specs/tmp/nvim-stt-recording.wav` | Temporary recording file |
 
 ### Model Sizes
 

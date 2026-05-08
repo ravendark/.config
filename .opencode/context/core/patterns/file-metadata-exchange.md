@@ -71,7 +71,7 @@ When you need to interpolate variables (uses Task 599 jq escaping workarounds):
 jq -n \
   --arg status "researched" \
   --arg next "Run /plan ${task_number} to create implementation plan" \
-  '{status: $status, next_steps: $next}' > /tmp/meta_base.json
+  '{status: $status, next_steps: $next}' > specs/tmp/meta_base.json
 
 # Step 2: Add artifacts array
 jq \
@@ -79,7 +79,7 @@ jq \
   --arg type "report" \
   --arg summary "${artifact_summary}" \
   '. + {artifacts: [{type: $type, path: $path, summary: $summary}]}' \
-  /tmp/meta_base.json > /tmp/meta_with_artifacts.json
+  specs/tmp/meta_base.json > specs/tmp/meta_with_artifacts.json
 
 # Step 3: Add metadata object
 jq \
@@ -87,10 +87,10 @@ jq \
   --arg agent "lean-research-agent" \
   --argjson depth 1 \
   '. + {metadata: {session_id: $sid, agent_type: $agent, delegation_depth: $depth}}' \
-  /tmp/meta_with_artifacts.json > "specs/${padded_num}_${task_slug}/.return-meta.json"
+  specs/tmp/meta_with_artifacts.json > "specs/${padded_num}_${task_slug}/.return-meta.json"
 
 # Cleanup temp files
-rm -f /tmp/meta_base.json /tmp/meta_with_artifacts.json
+rm -f specs/tmp/meta_base.json specs/tmp/meta_with_artifacts.json
 ```
 
 ### Pattern 3: OpenCode Write Tool

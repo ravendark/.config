@@ -9,7 +9,7 @@ next_project_number: 550
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
-- **549** [PLANNED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
+- **549** [IMPLEMENTING] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **547** [PLANNED] -- Research mobile agent management via Discord bot on NixOS
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
@@ -20,7 +20,7 @@ next_project_number: 550
 
 ### 549. Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #548
 - **Research**: [549_audit_relocate_temp_files/reports/01_relocate-tmp-files.md]

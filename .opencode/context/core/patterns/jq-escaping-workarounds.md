@@ -171,7 +171,7 @@ Before using jq patterns in production:
 
 ```bash
 # Create test specs/state.json
-cat > /tmp/test-specs/state.json << 'EOF'
+cat > specs/tmp/test-specs/state.json << 'EOF'
 {
   "active_projects": [
     {
@@ -195,13 +195,13 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
     status: $status,
     last_updated: $ts,
     researched: $ts
-  }' /tmp/test-specs/state.json > /tmp/test-specs/state.json.tmp && mv /tmp/test-specs/state.json.tmp /tmp/test-specs/state.json
+  }' specs/tmp/test-specs/state.json > specs/tmp/test-specs/state.json.tmp && mv specs/tmp/test-specs/state.json.tmp specs/tmp/test-specs/state.json
 
 # Step 2
 jq --arg path "$artifact_path" \
   '(.active_projects[] | select(.project_number == '$task_number')).artifacts =
     ([(.active_projects[] | select(.project_number == '$task_number')).artifacts // [] | .[] | select(.type != "research")] + [{"path": $path, "type": "research"}])' \
-  /tmp/test-specs/state.json
+  specs/tmp/test-specs/state.json
 
 # Expected output should show status "researched" and artifact added
 ```

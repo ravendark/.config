@@ -85,7 +85,7 @@ grep -A 20 "^### ${task_number}." specs/TODO.md | grep "Language" | sed 's/\*\*L
 **Process**:
 1. Read task from specs/TODO.md using grep (selective loading):
    ```bash
-   grep -A 50 "^### ${task_number}." specs/TODO.md > /tmp/task-${task_number}.md
+   grep -A 50 "^### ${task_number}." specs/TODO.md > specs/tmp/task-${task_number}.md
    ```
 2. Extract task metadata:
    - Task number
@@ -544,7 +544,7 @@ Git commits delegated to `git-workflow-manager` for standardized commits:
 Extract only specific task entry from specs/TODO.md to reduce context load:
 
 ```bash
-grep -A 50 "^### ${task_number}." specs/TODO.md > /tmp/task-${task_number}.md
+grep -A 50 "^### ${task_number}." specs/TODO.md > specs/tmp/task-${task_number}.md
 ```
 
 **Impact**: Reduces context from 109KB (full specs/TODO.md) to ~2KB (task entry only), 98% reduction.
