@@ -1,7 +1,7 @@
 # Implementation Plan: Task #541 - Design opencode.json Agent Registration Mechanism
 
 - **Task**: 541 - design_opencode_json_agent_registration
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: 540 (completed)
 - **Research Inputs**: specs/541_design_opencode_json_agent_registration/reports/01_opencode-json-agent-registration-design.md

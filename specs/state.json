@@ -35,7 +35,7 @@
     {
       "project_number": 541,
       "project_name": "design_opencode_json_agent_registration",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Design opencode.json agent registration mechanism for the extension system including manifest changes, merge/unmerge strategy, and validation",
       "effort": "1-2 hours",
@@ -43,7 +43,7 @@
         540
       ],
       "created": "2026-05-07T22:15:00Z",
-      "last_updated": "2026-05-08T00:15:00Z",
+      "last_updated": "2026-05-08T00:24:29Z",
       "session_id": "sess_1778199257_a87810",
       "artifacts": [
         {
@@ -55,6 +55,11 @@
           "path": "specs/541_design_opencode_json_agent_registration/plans/01_opencode-json-agent-registration-plan.md",
           "type": "plan",
           "summary": "Implementation plan with 3 phases documenting design decisions, creating reference docs, and adding code annotations"
+        },
+        {
+          "path": "specs/541_design_opencode_json_agent_registration/summaries/01_opencode-json-agent-registration-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary documenting 5 design decisions, 4 reference documents, and code annotations across 5 Lua files"
         }
       ],
       "next_artifact_number": 2,
@@ -110,6 +115,30 @@
             "extensions",
             "opencode.json"
           ]
+        },
+        {
+          "content": "The TODO(541) annotation pattern in Lua files references the design spec path explicitly, making it easy for future agents to find the relevant design decisions. This pattern can be reused for any design task that produces implementation-guiding annotations.",
+          "category": "PATTERN",
+          "source_artifact": "specs/541_design_opencode_json_agent_registration/summaries/01_opencode-json-agent-registration-summary.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "TODO annotation",
+            "design spec reference",
+            "code annotation pattern",
+            "implementation guidance"
+          ]
+        },
+        {
+          "content": "The JSON merge tracking pattern (key-based tracking with {keys = {...}}) is a reusable design for any additive, reversible JSON merging. It was documented in .opencode/context/patterns/json-merge-tracking.md with pseudocode and reusability instructions.",
+          "category": "PATTERN",
+          "source_artifact": "specs/541_design_opencode_json_agent_registration/summaries/01_opencode-json-agent-registration-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "JSON merge",
+            "key-based tracking",
+            "idempotent unmerge",
+            "reversible merge"
+          ]
         }
       ],
       "plan_metadata": {
@@ -136,7 +165,8 @@
             "integrated_date": "2026-05-07"
           }
         ]
-      }
+      },
+      "completion_summary": "Formalized 5 design decisions into an authoritative design specification, created 4 reusable reference documents for the extension ecosystem, and added structured TODO/FIXME/NOTE annotations to 5 key Lua files to guide future implementation agents."
     },
     {
       "project_number": 540,
