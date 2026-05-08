@@ -78,7 +78,7 @@ Override Impact when:
 ### Placement
 
 #### specs/TODO.md
--   Prepend new tasks to the `## Tasks` section (new tasks at top, older tasks sink down).
+-   Prepend new tasks to the `## Tasks` section (new tasks at top, older tasks sink down). Use the heading-anchored Edit tool pattern defined in `docs/reference/standards/multi-task-creation-standard.md`.
 -   Reorganization: /todo may regroup pending tasks by kind (feature, documentation, maintenance, research) while preserving numbering and metadata. Completed tasks move to the "Completed" section. Reorganization must not create or modify project directories or artifacts.
 -   Maintain lazy directory creation: no directories are created during TODO reordering.
 

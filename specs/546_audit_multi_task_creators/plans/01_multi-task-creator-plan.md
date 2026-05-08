@@ -64,7 +64,7 @@ No ROADMAP.md alignment needed (meta task, self-contained `.opencode/` system ha
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Harden P0-A — Abstract Prose in Multi-Task Creators [NOT STARTED]
+### Phase 1: Harden P0-A — Abstract Prose in Multi-Task Creators [COMPLETED]
 
 **Goal**: Replace abstract "Prepend" prose with concrete batch-insertion Edit tool pattern in the three files that create 2+ tasks but provide zero concrete insertion syntax.
 
@@ -90,7 +90,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Harden P0-B — Dangerous Pseudocode and Multi-Mode Files [NOT STARTED]
+### Phase 2: Harden P0-B — Dangerous Pseudocode and Multi-Mode Files [COMPLETED]
 
 **Goal**: Eliminate the dangerous `insert_after_heading()` pseudocode from the extension standard copy, and harden the review command's Section 5.6.3 and the task command's three modes (`--create`, `--recover`, `--review`).
 
@@ -119,7 +119,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Harden P1 — Single-Task Creators and Special Anchors [NOT STARTED]
+### Phase 3: Harden P1 — Single-Task Creators and Special Anchors [COMPLETED]
 
 **Goal**: Harden files that create single tasks or have vague insertion instructions, and fix the review command's Task Order section insertion with its distinct anchor.
 
@@ -150,7 +150,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Harden P2 — Reference Files and Present Extensions [NOT STARTED]
+### Phase 4: Harden P2 — Reference Files and Present Extensions [COMPLETED]
 
 **Goal**: Update lowest-priority files: add concrete insertion patterns to skill-project-overview, add cross-references to two context standards files, and harden four present extension files.
 

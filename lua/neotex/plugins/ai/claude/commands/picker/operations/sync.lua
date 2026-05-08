@@ -271,18 +271,13 @@ local function reinject_loaded_extensions(project_dir, config)
         end
       end
 
-      -- Re-inject opencode.json agent definitions (only for OpenCode config)
-      if config.merge_target_key == "opencode_md" and ext_manifest.merge_targets.opencode_json then
-        local mt_config = ext_manifest.merge_targets.opencode_json
-        local source_path = source_dir .. "/" .. mt_config.source
-        local target_path = project_dir .. "/" .. mt_config.target
-
-        local fragment = read_json(source_path)
-        if fragment then
-          merge_mod.merge_opencode_agents(target_path, fragment, project_dir, ext_manifest.name or "unknown")
-        end
-      end
     end
+  end
+
+  -- Regenerate opencode.json as a computed artifact after all other re-injections.
+  -- This rebuilds the file from base template + all loaded extension fragments.
+  if config.merge_target_key == "opencode_md" then
+    merge_mod.generate_opencode_json(project_dir, config)
   end
 end
 
@@ -876,8 +871,9 @@ function M.scan_all_artifacts(global_dir, project_dir, config)
   -- Root files vary by system
   -- For .claude: all root files (settings, .gitignore, CLAUDE.md) are now managed
   -- by the extension loader (root_files provides + generate_claudemd), not synced.
-  -- NOTE: Re-injection of extension agents runs atomically after any full replace.
-  -- reinject_loaded_extensions() restores extension merge targets after sync overwrites.
+  -- NOTE: Re-injection of extension content runs atomically after any full replace.
+  -- reinject_loaded_extensions() restores settings/index entries, and
+  -- generate_opencode_json() regenerates opencode.json with all loaded extension agents.
   local root_file_names
   if base_dir == ".opencode" then
     root_file_names = { "AGENTS.md", "OPENCODE.md", "settings.json", ".gitignore", "README.md", "QUICK-START.md", "opencode.json" }

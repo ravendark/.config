@@ -804,7 +804,37 @@ jq --arg num "$next_num" --arg slug "$slug" --arg title "$title" \
 ```
 
 **4. Update TODO.md:**
-Add task entry following existing format in TODO.md frontmatter section.
+
+**CRITICAL — Batch Insertion**: Review may create multiple tasks. Build a single `batch_markdown` string by joining all task entries with `\n\n`, then use ONE Edit tool call:
+
+```
+oldString: "## Tasks\n"
+newString: "## Tasks\n\n{batch_markdown}\n"
+```
+
+**Task entry format** (each entry in the batch):
+```markdown
+### {N}. {Title}
+- **Effort**: {estimate}
+- **Status**: [NOT STARTED]
+- **Task Type**: {task_type}
+- **Priority**: {priority}
+- **Source**: Code review #{review_id}
+
+**Description**: {description}
+
+---
+```
+
+**WARNING**: DO NOT search for the last `---` separator and append text after it.
+DO NOT insert at the bottom of the file.
+DO NOT prepend each task individually — individual prepending reverses task order.
+ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
+The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
+
+After inserting, re-read the first few lines after `## Tasks`:
+- Confirm the first task after ## Tasks has the expected task number
+- If it doesn't match, the insertion went wrong — fix and re-verify
 
 **5. Track in review state:**
 ```bash
@@ -1062,8 +1092,8 @@ for each category in task_order_state.categories:
     ^-\s+\*\*\d+\*\*       (unordered)
 
   # Use Edit tool to insert after last_entry_line
-  old_string = "{last_entry_line}"
-  new_string = "{last_entry_line}\n{new_entry_1}\n{new_entry_2}..."
+  oldString: "{last_entry_line}"
+  newString: "{last_entry_line}\n{new_entry_1}\n{new_entry_2}..."
 ```
 
 **If category has no existing entries** (empty category): Insert entries after the category header line (and after any dependency chain code block).
@@ -1089,9 +1119,12 @@ for each (category_name, tasks) in pending_new_categories:
   next_cat_num += 1
 
   # Insert before the ## Tasks header
+  # NOTE: This anchor is intentionally different from the standard task-entry
+  # anchor (oldString: "## Tasks\n") because this insertion goes BETWEEN the
+  # Task Order section and the ## Tasks heading.
   # Use Edit tool:
-  old_string = "\n## Tasks"
-  new_string = "\n{category_block}\n\n## Tasks"
+  oldString: "\n## Tasks"
+  newString: "\n{category_block}\n\n## Tasks"
 ```
 
 #### 6.6.6. Update Dependency Chains
@@ -1143,9 +1176,12 @@ new_section = """
 """
 
 # Insert between "# TODO" header and "## Tasks" header
+# NOTE: This anchor is intentionally different from the standard task-entry
+# anchor (oldString: "## Tasks\n") because this insertion goes BETWEEN the
+# TODO header and the ## Tasks heading.
 # Use Edit tool:
-old_string = "\n## Tasks"
-new_string = "\n{new_section}\n\n## Tasks"
+oldString: "\n## Tasks"
+newString: "\n{new_section}\n\n## Tasks"
 ```
 
 #### 6.6.8. Update Timestamp

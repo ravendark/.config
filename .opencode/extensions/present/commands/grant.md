@@ -197,16 +197,19 @@ Capture all responses in a forcing_data object:
      specs/TODO.md
    ```
 
-   **Part B - Add task entry** by prepending to `## Tasks` section:
-   ```markdown
-   ### {N}. {Title}
-   - **Effort**: TBD
-   - **Status**: [NOT STARTED]
-   - **Task Type**: present
-   - **Type**: grant
+   **Part B - Add task entry** by inserting after `## Tasks` heading using Edit tool:
 
-   **Description**: {description}
    ```
+   oldString: "## Tasks\n"
+   newString: "## Tasks\n\n### {N}. {Title}\n- **Effort**: TBD\n- **Status**: [NOT STARTED]\n- **Task Type**: present\n- **Type**: grant\n\n**Description**: {description}\n\n---\n"
+   ```
+
+   **WARNING**: DO NOT search for the last `---` separator and append text after it.
+   DO NOT insert at the bottom of the file.
+   ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
+   The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
+
+   After inserting, re-read the first few lines after `## Tasks` and verify the task number.
 
 8. **Git commit**:
    ```bash

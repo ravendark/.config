@@ -375,7 +375,21 @@ jq --argjson num "$next_num" \
 
 #### 5.4: Update TODO.md
 
-Prepend new task entry to the Tasks section in TODO.md:
+Insert new task entry after `## Tasks` heading using Edit tool:
+
+```
+oldString: "## Tasks\n"
+newString: "## Tasks\n\n### {N}. Generate project-overview.md [RESEARCHED]\n- **Description**: Generate project-overview.md for this repository based on automated scan and user interview findings\n- **Type**: meta\n- **Priority**: Medium\n- **Created**: {ISO_DATE}\n- **Research**: [specs/{NNN}_{SLUG}/reports/01_project-overview-scan.md]\n"
+```
+
+**WARNING**: DO NOT search for the last `---` separator and append text after it.
+DO NOT insert at the bottom of the file.
+ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
+The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
+
+After inserting, re-read the first few lines after `## Tasks`:
+- Confirm the first task after ## Tasks has the expected task number
+- If it doesn't match, the insertion went wrong — fix and re-verify
 
 ```markdown
 ### {N}. Generate project-overview.md [RESEARCHED]

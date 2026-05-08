@@ -41,39 +41,37 @@
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-07T18:30:00Z",
-      "last_updated": "2026-05-08T01:14:43Z",
+      "last_updated": "2026-05-07T18:35:00Z",
       "session_id": "sess_1746620000_plan548",
       "artifacts": [
         {
           "path": "specs/548_research_opencode_permissions/plans/01_opencode-permissions-plan.md",
           "type": "plan",
-          "summary": "4-phase implementation plan to create opencode.json with edit:allow + external_directory:ask, migrate tts-notify.sh temp paths, update agent instructions, and create permission documentation"
+          "summary": "Revised 3-phase plan: migrate tts-notify.sh temp paths, update agent instructions, create dual-system permission documentation. opencode.json creation delegated to task 543."
         }
       ],
       "plan_metadata": {
-        "phases": 4,
-        "total_effort_hours": 2,
+        "phases": 3,
+        "total_effort_hours": 1,
         "complexity": "simple",
         "research_integrated": true,
-        "plan_version": 1,
+        "plan_version": 2,
         "dependency_waves": [
           [
             1,
             2,
             3
-          ],
-          [
-            4
           ]
         ],
         "reports_integrated": [
           {
             "path": "reports/01_opencode-permissions-research.md",
-            "integrated_in_plan_version": 1,
+            "integrated_in_plan_version": 2,
             "integrated_date": "2026-05-07"
           }
         ]
-      }
+      },
+      "next_artifact_number": 2
     },
     {
       "project_number": 547,
@@ -301,7 +299,7 @@
     {
       "project_number": 543,
       "project_name": "convert_opencode_json_to_computed_artifact",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "description": "Replace the merge-target approach for opencode.json with a computed-artifact pattern, analogous to how generate_claudemd() in merge.lua rebuilds CLAUDE.md from scratch after every load/unload cycle",
       "effort": "2-3 hours",
@@ -309,8 +307,8 @@
         542
       ],
       "created": "2026-05-07T23:30:00Z",
-      "last_updated": "2026-05-08T01:18:36Z",
-      "session_id": "sess_1778202563_bb580c",
+      "last_updated": "2026-05-08T01:34:27Z",
+      "session_id": "sess_1778204026_3363a6",
       "artifacts": [
         {
           "path": "specs/543_convert_opencode_json_to_computed_artifact/plans/01_convert-opencode-json-computed-artifact.md",

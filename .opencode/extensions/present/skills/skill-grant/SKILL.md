@@ -864,8 +864,24 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
 
 ### Step F11: Update TODO.md
 
-For each created task, prepend entry to TODO.md `## Tasks` section:
+**CRITICAL — Batch Insertion**: Grant may create multiple tasks. Build a single `batch_markdown` string by joining all task entries with `\n\n`, then use ONE Edit tool call:
 
+```
+oldString: "## Tasks\n"
+newString: "## Tasks\n\n{batch_markdown}\n"
+```
+
+**WARNING**: DO NOT search for the last `---` separator and append text after it.
+DO NOT insert at the bottom of the file.
+DO NOT prepend each task entry individually — individual prepending reverses task order (last task becomes first).
+ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
+The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
+
+After inserting, re-read the first few lines after `## Tasks`:
+- Confirm the first task after ## Tasks has the expected task number
+- If it doesn't match, the insertion went wrong — fix and re-verify
+
+**Task entry format** (each entry in the batch):
 ```markdown
 ### {NEW_N}. {Title}
 - **Effort**: TBD

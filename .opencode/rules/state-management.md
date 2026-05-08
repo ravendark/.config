@@ -17,7 +17,7 @@ TODO.md and state.json MUST stay synchronized. Any update to one requires updati
 - **TODO.md**: User-facing source of truth
   - Human-readable task list with descriptions
   - Status markers in brackets: [STATUS]
-  - Single `## Tasks` section (new tasks prepended at top)
+  - Single `## Tasks` section (new tasks prepended at top). Use the heading-anchored Edit tool pattern defined in `docs/reference/standards/multi-task-creation-standard.md`.
 
 ## Status Transitions
 

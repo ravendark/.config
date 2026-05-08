@@ -289,19 +289,19 @@ sed -i 's/^next_project_number: [0-9]*/next_project_number: {NEW_NUMBER}/' \
   specs/TODO.md
 ```
 
-**Part B - Add task entry** by prepending to `## Tasks` section:
-```markdown
-### {N}. {Title}
-- **Effort**: TBD
-- **Status**: [NOT STARTED]
-- **Task Type**: present:slides
+**Part B - Add task entry** by inserting after `## Tasks` heading using Edit tool:
 
-**Description**: {enriched_description}
+```
+oldString: "## Tasks\n"
+newString: "## Tasks\n\n### {N}. {Title}\n- **Effort**: TBD\n- **Status**: [NOT STARTED]\n- **Task Type**: present:slides\n\n**Description**: {enriched_description}\n\n**Sources**:\n- {full_absolute_path_1}\n- {full_absolute_path_2}\n- task:{N} (for task references)\n"
+```
 
-**Sources**:
-- {full_absolute_path_1}
-- {full_absolute_path_2}
-- task:{N} (for task references)
+**WARNING**: DO NOT search for the last `---` separator and append text after it.
+DO NOT insert at the bottom of the file.
+ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
+The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
+
+After inserting, re-read the first few lines after `## Tasks` and verify the task number.
 
 **Forcing Data Gathered**:
 - Output format: {forcing_data.output_format}

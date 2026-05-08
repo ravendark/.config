@@ -688,6 +688,130 @@ function M.validate_opencode_fragment(fragment, project_dir)
   return true, nil
 end
 
+--- Generate opencode.json as a fully computed artifact.
+--- Starts from the base template, then merges agent definitions from each loaded
+--- extension's opencode-agents.json fragment in dependency order (core first,
+--- then others in stable sorted order).
+---
+--- This replaces the per-extension merge/unmerge approach: the generated file
+--- is fully deterministic given the set of loaded extensions and base template.
+---
+--- @param project_dir string Project directory
+--- @param config table Extension system configuration
+--- @return boolean success True if generation succeeded
+--- @return string|nil error Error message if generation failed
+function M.generate_opencode_json(project_dir, config)
+  -- Lazy-require to avoid circular deps
+  local state_mod = require("neotex.plugins.ai.shared.extensions.state")
+  local manifest_mod = require("neotex.plugins.ai.shared.extensions.manifest")
+
+  local target_path = project_dir .. "/opencode.json"
+  local managed_marker = target_path .. ".managed"
+
+  -- Task 1.2: Managed/unmanaged gating
+  if vim.fn.filereadable(managed_marker) ~= 1 then
+    return true, nil
+  end
+
+  -- Read base template (project-local first, then global fallback)
+  local template_path = project_dir .. "/.opencode/templates/opencode.json"
+  if vim.fn.filereadable(template_path) ~= 1 then
+    template_path = vim.fn.expand("~/.config/nvim/.opencode/templates/opencode.json")
+  end
+
+  local base = {}
+  if vim.fn.filereadable(template_path) == 1 then
+    base = read_json(template_path) or {}
+  end
+
+  -- Ensure agent table exists
+  if not base.agent then
+    base.agent = {}
+  end
+
+  -- Read state and build ordered loaded extension list
+  local state = state_mod.read(project_dir, config)
+  local loaded_names = state_mod.list_loaded(state)
+
+  local ordered_names = {}
+  local seen = {}
+
+  -- Core always first
+  for _, name in ipairs(loaded_names) do
+    if name == "core" then
+      table.insert(ordered_names, name)
+      seen[name] = true
+      break
+    end
+  end
+
+  -- Remaining extensions in stable sorted order
+  for _, name in ipairs(loaded_names) do
+    if not seen[name] then
+      table.insert(ordered_names, name)
+      seen[name] = true
+    end
+  end
+
+  -- Collect and merge fragments
+  for _, ext_name in ipairs(ordered_names) do
+    local extension = manifest_mod.get_extension(ext_name, config)
+    if extension and extension.path then
+      local fragment_path = extension.path .. "/opencode-agents.json"
+      if vim.fn.filereadable(fragment_path) == 1 then
+        local fragment = read_json(fragment_path)
+        if fragment then
+          local valid, err = M.validate_opencode_fragment(fragment, project_dir)
+          if valid then
+            local source_agents = fragment.agent
+              or (type(fragment) == "table" and not vim.isarray(fragment) and fragment)
+              or {}
+            for key, value in pairs(source_agents) do
+              if base.agent[key] == nil then
+                base.agent[key] = value
+              end
+            end
+          else
+            vim.schedule(function()
+              vim.notify(
+                string.format(
+                  "Extension '%s' opencode-agents.json validation failed: %s. Skipping fragment.",
+                  ext_name, err
+                ),
+                vim.log.levels.WARN
+              )
+            end)
+          end
+        end
+      end
+    end
+  end
+
+  -- Task 1.3: Validate final computed table before writing
+  local ok = pcall(vim.json.encode, base)
+  if not ok then
+    return false, "generate_opencode_json: failed to encode computed JSON"
+  end
+
+  -- Atomic write: write to temp then rename
+  local temp_path = target_path .. ".tmp." .. tostring(os.time())
+  local write_ok = M.write_json(temp_path, base)
+  if not write_ok then
+    return false, "generate_opencode_json: failed to write temporary file"
+  end
+
+  local rename_ok = os.rename(temp_path, target_path)
+  if not rename_ok then
+    -- Fallback: direct write
+    write_ok = M.write_json(target_path, base)
+    if not write_ok then
+      return false, "generate_opencode_json: failed to write opencode.json"
+    end
+  end
+
+  return true, nil
+end
+
 --- Merge opencode.json agent definitions
 --- Adds agent definitions from fragment to target opencode.json.
 --- Only adds keys that don't already exist (no overwrite).

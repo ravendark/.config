@@ -1,13 +1,29 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "default_agent": "build",
+  "permission": {
+    "edit": "allow",
+    "external_directory": {
+      "*": "ask"
+    },
+    "bash": {
+      "*": "allow",
+      "deny": [
+        "rm -rf *",
+        "sudo *",
+        "chmod 777 *",
+        "chmod -R *"
+      ]
+    }
+  },
   "agent": {
     "build": {
-      "mode": "primary"
+      "mode": "primary",
+      "prompt": "You are the primary build agent. When performing temporary work, use the project's specs/tmp/ directory instead of /tmp/ to keep all artifacts within the workspace."
     },
     "plan": {
       "mode": "primary",
-      "prompt": "You are in planning mode. Analyze requests and create detailed implementation plans without making code changes. Focus on architecture, dependencies, and step-by-step approaches.",
+      "prompt": "You are in planning mode. Analyze requests and create detailed implementation plans without making code changes. Focus on architecture, dependencies, and step-by-step approaches. When performing temporary work, use the project's specs/tmp/ directory instead of /tmp/.",
       "tools": {
         "write": false,
         "edit": false,

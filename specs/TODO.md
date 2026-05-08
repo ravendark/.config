@@ -26,7 +26,7 @@ next_project_number: 550
 - **540** [COMPLETED] -- Research opencode.json and extension agent registration gaps
 - **541** [COMPLETED] -- Design opencode.json agent registration for extensions (depends: 540)
 - **542** [COMPLETED] -- Implement opencode.json automatic agent registration in extension loader (depends: 541)
-- **543** [PLANNED] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
+- **543** [IMPLEMENTING] -- Convert opencode.json to fully computed artifact (like CLAUDE.md) (depends: 542)
 - **539** [COMPLETED] -- Uniform extension routing: one source of truth, zero hardcoding (depends: 538)
 - **528** [COMPLETED] -- Update skill-implementer continuation loop and pattern documentation (depends: 527)
 - **527** [COMPLETED] -- Update handoff artifact naming convention in format specs and agent definitions
@@ -165,7 +165,7 @@ Key files: `lua/neotex/plugins/ai/shared/extensions/merge.lua`, `lua/neotex/plug
 
 ### 543. Convert opencode.json to fully computed artifact (like CLAUDE.md)
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #542
 - **Research**: [543_convert_opencode_json_to_computed_artifact/reports/01_computed-artifact-pattern.md]

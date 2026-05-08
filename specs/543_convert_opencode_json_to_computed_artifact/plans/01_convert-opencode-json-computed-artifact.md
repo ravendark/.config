@@ -1,7 +1,7 @@
 # Implementation Plan: Convert opencode.json to Computed-Artifact Pattern
 
 - **Task**: 543 - convert_opencode_json_to_computed_artifact
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 8 hours
 - **Dependencies**: Task #542
 - **Research Inputs**: specs/543_convert_opencode_json_to_computed_artifact/reports/01_computed-artifact-pattern.md

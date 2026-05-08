@@ -81,7 +81,7 @@ Phases within the same wave can execute in parallel.
 **Goal**: Establish the Python project structure, dependencies, configuration management, logging, and a minimal Nextcord bot that connects to Discord and responds to a ping command.
 
 **Tasks**:
-- [ ] **Task 1.1**: Create project directory structure at `.opencode/discord-bot/` with `src/`, `config/`, `tests/`, and `README.md`
+- [ ] **Task 1.1**: Create project directory structure at `~/.dotfiles/opencode-discord-bot/` with `src/`, `config/`, `tests/`, and `README.md`
 - [ ] **Task 1.2**: Write `requirements.txt` (or `pyproject.toml`) pinning nextcord>=3.1.1 and anyio for structured concurrency
 - [ ] **Task 1.3**: Implement `config/settings.py` -- load `DISCORD_BOT_TOKEN` from env, `WHITELISTED_USER_IDS` from env (comma-separated), `OPENCODE_SERVER_URL` (default `http://127.0.0.1:4096`), `OPENCODE_SERVER_PASSWORD` from env
 - [ ] **Task 1.4**: Implement `src/logging_config.py` -- structured JSON logger writing to stdout (captured by journald); log levels configurable via `LOG_LEVEL` env var
@@ -93,12 +93,12 @@ Phases within the same wave can execute in parallel.
 **Depends on**: none
 
 **Files to modify**:
-- `.opencode/discord-bot/src/__init__.py` - package init (new)
-- `.opencode/discord-bot/src/bot.py` - main bot entry point (new)
-- `.opencode/discord-bot/src/logging_config.py` - structured logging (new)
-- `.opencode/discord-bot/config/settings.py` - configuration (new)
-- `.opencode/discord-bot/config/example.env` - env var template (new)
-- `.opencode/discord-bot/requirements.txt` - dependencies (new)
+- `~/.dotfiles/opencode-discord-bot/src/__init__.py` - package init (new)
+- `~/.dotfiles/opencode-discord-bot/src/bot.py` - main bot entry point (new)
+- `~/.dotfiles/opencode-discord-bot/src/logging_config.py` - structured logging (new)
+- `~/.dotfiles/opencode-discord-bot/config/settings.py` - configuration (new)
+- `~/.dotfiles/opencode-discord-bot/config/example.env` - env var template (new)
+- `~/.dotfiles/opencode-discord-bot/requirements.txt` - dependencies (new)
 
 **Verification**:
 - Bot starts without errors; logs show successful Discord connection
@@ -125,13 +125,13 @@ Phases within the same wave can execute in parallel.
 **Depends on**: 1
 
 **Files to modify**:
-- `.opencode/discord-bot/src/commands/__init__.py` - cog registration (new)
-- `.opencode/discord-bot/src/commands/session_cog.py` - session commands (new)
-- `.opencode/discord-bot/src/commands/task_cog.py` - task commands (new)
-- `.opencode/discord-bot/src/commands/system_cog.py` - system commands (new)
-- `.opencode/discord-bot/src/auth.py` - whitelist decorator (new)
-- `.opencode/discord-bot/src/rate_limit.py` - rate limiter (new)
-- `.opencode/discord-bot/config/settings.py` - add rate limit config (modify)
+- `~/.dotfiles/opencode-discord-bot/src/commands/__init__.py` - cog registration (new)
+- `~/.dotfiles/opencode-discord-bot/src/commands/session_cog.py` - session commands (new)
+- `~/.dotfiles/opencode-discord-bot/src/commands/task_cog.py` - task commands (new)
+- `~/.dotfiles/opencode-discord-bot/src/commands/system_cog.py` - system commands (new)
+- `~/.dotfiles/opencode-discord-bot/src/auth.py` - whitelist decorator (new)
+- `~/.dotfiles/opencode-discord-bot/src/rate_limit.py` - rate limiter (new)
+- `~/.dotfiles/opencode-discord-bot/config/settings.py` - add rate limit config (modify)
 
 **Verification**:
 - All `/rc` commands appear in Discord with correct names, descriptions, and parameter schemas
@@ -159,13 +159,13 @@ Phases within the same wave can execute in parallel.
 **Depends on**: 1
 
 **Files to modify**:
-- `.opencode/discord-bot/src/opencode/__init__.py` - package init (new)
-- `.opencode/discord-bot/src/opencode/client.py` - OpenCode client wrapper (new)
-- `.opencode/discord-bot/src/opencode/executor.py` - subprocess executor (new)
-- `.opencode/discord-bot/src/commands/session_cog.py` - wire to real client (modify)
-- `.opencode/discord-bot/src/commands/task_cog.py` - wire to real client (modify)
-- `.opencode/discord-bot/src/commands/system_cog.py` - wire to real client (modify)
-- `.opencode/discord-bot/config/settings.py` - add timeout/concurrency config (modify)
+- `~/.dotfiles/opencode-discord-bot/src/opencode/__init__.py` - package init (new)
+- `~/.dotfiles/opencode-discord-bot/src/opencode/client.py` - OpenCode client wrapper (new)
+- `~/.dotfiles/opencode-discord-bot/src/opencode/executor.py` - subprocess executor (new)
+- `~/.dotfiles/opencode-discord-bot/src/commands/session_cog.py` - wire to real client (modify)
+- `~/.dotfiles/opencode-discord-bot/src/commands/task_cog.py` - wire to real client (modify)
+- `~/.dotfiles/opencode-discord-bot/src/commands/system_cog.py` - wire to real client (modify)
+- `~/.dotfiles/opencode-discord-bot/config/settings.py` - add timeout/concurrency config (modify)
 
 **Verification**:
 - `OpenCodeClient.list_sessions()` returns correct list of active sessions from `opencode session list`
@@ -182,7 +182,7 @@ Phases within the same wave can execute in parallel.
 **Goal**: Build the persistent mapping store that ties OpenCode session IDs to Discord thread IDs, implement the core message relay loop (Discord message -> OpenCode session -> Discord reply), and add the local HTTP API that the Neovim `:OpenCodeLinkDiscord` command will call.
 
 **Tasks**:
-- [ ] **Task 4.1**: Implement `src/state/store.py` -- `SessionStore` class backed by a JSON file at `.opencode/discord-bot/data/sessions.json`; operations: `link(session_id, thread_id, channel_id)`, `unlink(session_id)`, `lookup_by_session(session_id)`, `lookup_by_thread(thread_id)`, `list_all()`; file is read on startup and written on every mutation with atomic write (write to temp file, then rename)
+- [ ] **Task 4.1**: Implement `src/state/store.py` -- `SessionStore` class backed by a JSON file at `~/.dotfiles/opencode-discord-bot/data/sessions.json`; operations: `link(session_id, thread_id, channel_id)`, `unlink(session_id)`, `lookup_by_session(session_id)`, `lookup_by_thread(thread_id)`, `list_all()`; file is read on startup and written on every mutation with atomic write (write to temp file, then rename)
 - [ ] **Task 4.2**: Implement `src/relay.py` -- `MessageRelay` class with `relay_to_openode(thread_id, message_content)` (looks up session by thread, calls `opencode run <message> --continue --session <id>`, returns response) and `relay_to_discord(session_id, response_text)` (looks up thread by session, sends message to that thread via Nextcord)
 - [ ] **Task 4.3**: Implement Discord `on_message` handler -- intercept messages in linked threads (check store); ignore bot's own messages; forward content to `relay_to_opencode`; relay response back to thread; add typing indicator while processing
 - [ ] **Task 4.4**: Implement the local HTTP API using aiohttp -- `POST /link` (body: `{"session_id": "...", "session_name": "..."}`) creates a Discord thread in a designated channel and stores the mapping; returns thread ID and jump URL; `GET /health` returns bot status and linked session count; `GET /sessions` lists all linked sessions
@@ -194,13 +194,13 @@ Phases within the same wave can execute in parallel.
 **Depends on**: 2, 3
 
 **Files to modify**:
-- `.opencode/discord-bot/src/state/__init__.py` - package init (new)
-- `.opencode/discord-bot/src/state/store.py` - JSON-backed session store (new)
-- `.opencode/discord-bot/src/relay.py` - message relay logic (new)
-- `.opencode/discord-bot/src/api.py` - local HTTP API (new)
-- `.opencode/discord-bot/src/bot.py` - add on_message handler, start HTTP API, startup store load, periodic cleanup (modify)
-- `.opencode/discord-bot/src/commands/session_cog.py` - wire to store and HTTP API (modify)
-- `.opencode/discord-bot/data/.gitkeep` - ensure data dir exists (new)
+- `~/.dotfiles/opencode-discord-bot/src/state/__init__.py` - package init (new)
+- `~/.dotfiles/opencode-discord-bot/src/state/store.py` - JSON-backed session store (new)
+- `~/.dotfiles/opencode-discord-bot/src/relay.py` - message relay logic (new)
+- `~/.dotfiles/opencode-discord-bot/src/api.py` - local HTTP API (new)
+- `~/.dotfiles/opencode-discord-bot/src/bot.py` - add on_message handler, start HTTP API, startup store load, periodic cleanup (modify)
+- `~/.dotfiles/opencode-discord-bot/src/commands/session_cog.py` - wire to store and HTTP API (modify)
+- `~/.dotfiles/opencode-discord-bot/data/.gitkeep` - ensure data dir exists (new)
 
 **Verification**:
 - Linking a session via the HTTP API creates a Discord thread and stores the mapping
@@ -249,27 +249,27 @@ Phases within the same wave can execute in parallel.
 **Goal**: Lock down the bot for production use -- systemd service definition, proper user isolation, token protection, structured journald logging, health checks, startup ordering, and end-to-end testing from iPhone.
 
 **Tasks**:
-- [ ] **Task 6.1**: Create `.opencode/discord-bot/systemd/opencode-discord-bot.service` -- systemd service file following the pattern from existing `opencode-refresh.service`; Type=simple, EnvironmentFile for secrets, Restart=always, RestartSec=10, After=network-online.target; log to journald via StandardOutput=journal
-- [ ] **Task 6.2**: Create `.opencode/discord-bot/systemd/opencode-discord-bot.socket` -- optional socket activation for the local HTTP API (so the API is available even before the bot starts); or alternatively, just ensure the bot binds to 127.0.0.1 only
+- [ ] **Task 6.1**: Create `~/.dotfiles/opencode-discord-bot/systemd/opencode-discord-bot.service` -- systemd service file following the pattern from existing `opencode-refresh.service`; Type=simple, EnvironmentFile for secrets, Restart=always, RestartSec=10, After=network-online.target; log to journald via StandardOutput=journal
+- [ ] **Task 6.2**: Create `~/.dotfiles/opencode-discord-bot/systemd/opencode-discord-bot.socket` -- optional socket activation for the local HTTP API (so the API is available even before the bot starts); or alternatively, just ensure the bot binds to 127.0.0.1 only
 - [ ] **Task 6.3**: Lock down the HTTP API -- bind to `127.0.0.1` only (no external access); add a shared secret token (`LINK_API_TOKEN` env var) that the Neovim command must include in `Authorization: Bearer <token>` header; reject requests without valid token with 401
 - [ ] **Task 6.4**: Add health check endpoint enhancements -- `/health` returns JSON with bot uptime, Discord connection status, OpenCode server connectivity, linked session count, active task count, and last error; systemd can use `ExecStartPost` to curl the health endpoint
-- [ ] **Task 6.5**: Create `.opencode/discord-bot/config/env.production` -- template showing all required env vars (`DISCORD_BOT_TOKEN`, `WHITELISTED_USER_IDS`, `OPENCODE_SERVER_PASSWORD`, `LINK_API_TOKEN`, `LOG_LEVEL=info`); document each variable
+- [ ] **Task 6.5**: Create `~/.dotfiles/opencode-discord-bot/config/env.production` -- template showing all required env vars (`DISCORD_BOT_TOKEN`, `WHITELISTED_USER_IDS`, `OPENCODE_SERVER_PASSWORD`, `LINK_API_TOKEN`, `LOG_LEVEL=info`); document each variable
 - [ ] **Task 6.6**: End-to-end verification -- start OpenCode session in Neovim, run `:OpenCodeLinkDiscord`, open Discord on iPhone, send a message in the thread, verify response appears, test `/rc session list`, `/rc task status`, `/rc status` from iPhone; test error recovery (kill OpenCode server, verify bot handles gracefully)
-- [ ] **Task 6.7**: Write `.opencode/discord-bot/README.md` -- setup instructions, env var reference, systemd install commands, troubleshooting, and iPhone usage guide
+- [ ] **Task 6.7**: Write `~/.dotfiles/opencode-discord-bot/README.md` -- setup instructions, env var reference, systemd install commands, troubleshooting, and iPhone usage guide
 
 **Timing**: 1.5 hours
 
 **Depends on**: 1, 2, 3, 4, 5
 
 **Files to modify**:
-- `.opencode/discord-bot/systemd/opencode-discord-bot.service` - service definition (new)
-- `.opencode/discord-bot/systemd/opencode-discord-bot.socket` - optional socket (new)
-- `.opencode/discord-bot/src/api.py` - add auth token check, enhance health endpoint (modify)
-- `.opencode/discord-bot/src/bot.py` - add graceful shutdown, startup health check (modify)
-- `.opencode/discord-bot/config/env.production` - env var template (new)
-- `.opencode/discord-bot/README.md` - documentation (new)
+- `~/.dotfiles/opencode-discord-bot/systemd/opencode-discord-bot.service` - service definition (new)
+- `~/.dotfiles/opencode-discord-bot/systemd/opencode-discord-bot.socket` - optional socket (new)
+- `~/.dotfiles/opencode-discord-bot/src/api.py` - add auth token check, enhance health endpoint (modify)
+- `~/.dotfiles/opencode-discord-bot/src/bot.py` - add graceful shutdown, startup health check (modify)
+- `~/.dotfiles/opencode-discord-bot/config/env.production` - env var template (new)
+- `~/.dotfiles/opencode-discord-bot/README.md` - documentation (new)
 - `lua/neotex/plugins/ai/opencode/discord-link.lua` - add auth token to API calls (modify)
-- `.opencode/discord-bot/config/settings.py` - add LINK_API_TOKEN (modify)
+- `~/.dotfiles/opencode-discord-bot/config/settings.py` - add LINK_API_TOKEN (modify)
 
 **Verification**:
 - `systemctl start opencode-discord-bot` starts the service without errors
@@ -295,23 +295,23 @@ Phases within the same wave can execute in parallel.
 
 ## Artifacts & Outputs
 
-- `.opencode/discord-bot/src/bot.py` - main bot entry point
-- `.opencode/discord-bot/src/commands/` - slash command cogs (session, task, system)
-- `.opencode/discord-bot/src/opencode/client.py` - OpenCode CLI wrapper
-- `.opencode/discord-bot/src/opencode/executor.py` - subprocess executor
-- `.opencode/discord-bot/src/state/store.py` - session-to-thread mapping store
-- `.opencode/discord-bot/src/relay.py` - message relay logic
-- `.opencode/discord-bot/src/api.py` - local HTTP API
-- `.opencode/discord-bot/src/logging_config.py` - structured JSON logging
-- `.opencode/discord-bot/src/auth.py` - authorization decorator
-- `.opencode/discord-bot/src/rate_limit.py` - rate limiter
-- `.opencode/discord-bot/config/settings.py` - configuration
-- `.opencode/discord-bot/config/env.production` - env var template
-- `.opencode/discord-bot/config/example.env` - env var template (dev)
-- `.opencode/discord-bot/systemd/opencode-discord-bot.service` - systemd service
-- `.opencode/discord-bot/data/sessions.json` - persistent state (runtime)
-- `.opencode/discord-bot/requirements.txt` - Python dependencies
-- `.opencode/discord-bot/README.md` - setup and usage guide
+- `~/.dotfiles/opencode-discord-bot/src/bot.py` - main bot entry point
+- `~/.dotfiles/opencode-discord-bot/src/commands/` - slash command cogs (session, task, system)
+- `~/.dotfiles/opencode-discord-bot/src/opencode/client.py` - OpenCode CLI wrapper
+- `~/.dotfiles/opencode-discord-bot/src/opencode/executor.py` - subprocess executor
+- `~/.dotfiles/opencode-discord-bot/src/state/store.py` - session-to-thread mapping store
+- `~/.dotfiles/opencode-discord-bot/src/relay.py` - message relay logic
+- `~/.dotfiles/opencode-discord-bot/src/api.py` - local HTTP API
+- `~/.dotfiles/opencode-discord-bot/src/logging_config.py` - structured JSON logging
+- `~/.dotfiles/opencode-discord-bot/src/auth.py` - authorization decorator
+- `~/.dotfiles/opencode-discord-bot/src/rate_limit.py` - rate limiter
+- `~/.dotfiles/opencode-discord-bot/config/settings.py` - configuration
+- `~/.dotfiles/opencode-discord-bot/config/env.production` - env var template
+- `~/.dotfiles/opencode-discord-bot/config/example.env` - env var template (dev)
+- `~/.dotfiles/opencode-discord-bot/systemd/opencode-discord-bot.service` - systemd service
+- `~/.dotfiles/opencode-discord-bot/data/sessions.json` - persistent state (runtime)
+- `~/.dotfiles/opencode-discord-bot/requirements.txt` - Python dependencies
+- `~/.dotfiles/opencode-discord-bot/README.md` - setup and usage guide
 - `lua/neotex/plugins/ai/opencode/discord-link.lua` - Neovim link module
 - `lua/neotex/plugins/ai/opencode.lua` - updated with command and keymap
 - `lua/neotex/plugins/editor/which-key.lua` - updated with `<leader>ar` entry
@@ -320,7 +320,7 @@ Phases within the same wave can execute in parallel.
 
 - Stop the bot: `systemctl stop opencode-discord-bot` (no persistent side effects beyond sessions.json, which is safe to delete)
 - Remove Neovim integration: delete `discord-link.lua`, revert `opencode.lua` and `which-key.lua` changes from git
-- The bot writes only to `.opencode/discord-bot/data/sessions.json` and log output (journald); no other filesystem modifications
+- The bot writes only to `~/.dotfiles/opencode-discord-bot/data/sessions.json` and log output (journald); no other filesystem modifications
 - Discord threads created by the bot are standard Discord threads; they can be manually archived or deleted in the Discord client
 - No database migrations or schema changes -- the JSON file is self-describing
 - If the bot is removed, Neovim `:OpenCodeLinkDiscord` will fail with a clear "bot unreachable" error; no cascading failures
