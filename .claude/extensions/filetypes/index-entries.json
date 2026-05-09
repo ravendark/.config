@@ -12,14 +12,14 @@
           "presentation-agent",
           "scrape-agent",
           "docx-edit-agent",
-          "xlsx-agent"
+          "sheet-agent"
         ],
         "languages": [],
         "commands": [
           "/convert",
           "/table",
           "/edit",
-          "/xlsx"
+          "/sheet"
         ]
       },
       "domain": "project",
@@ -38,14 +38,14 @@
           "presentation-agent",
           "scrape-agent",
           "docx-edit-agent",
-          "xlsx-agent"
+          "sheet-agent"
         ],
         "languages": [],
         "commands": [
           "/convert",
           "/table",
           "/edit",
-          "/xlsx"
+          "/sheet"
         ]
       },
       "domain": "project",

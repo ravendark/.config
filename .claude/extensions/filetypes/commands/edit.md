@@ -120,7 +120,7 @@ Edit Office documents in-place by delegating to the docx-edit skill/agent chain.
        ;;
      xlsx)
        echo "Error: XLSX editing is not yet available."
-       echo "The openpyxl MCP server is declared but skill-xlsx-edit has not been implemented."
+       echo "The openpyxl MCP server is declared but skill-sheet-edit has not been implemented."
        echo "You can use the openpyxl MCP tools directly in conversation for spreadsheet editing."
        exit 1
        ;;

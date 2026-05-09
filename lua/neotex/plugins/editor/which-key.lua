@@ -274,6 +274,15 @@ return {
         if not picker._initialized then picker.setup() end
         picker.show_commands_picker()
       end, desc = "ai send selection with prompt", mode = { "v" }, icon = "󰚩" },
+      { "<leader>ac", function()
+        local ok, picker = pcall(require, "neotex.plugins.ai.shared.picker.ai-tool-picker")
+        if not ok then
+          vim.notify("AI tool picker module not loaded", vim.log.levels.WARN)
+          return
+        end
+        if not picker._initialized then picker.setup() end
+        picker.show_tool_picker()
+      end, desc = "ai agent picker", icon = "󰚩" },
 
       -- OpenCode AI commands
       -- { "<leader>aa", function() require("opencode").ask() end, desc = "opencode ask", icon = "󰘳", mode = { "n", "v" } },

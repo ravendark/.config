@@ -12,6 +12,10 @@ local opencode_session_file = data_dir .. "/opencode-last-session.json"
 -- Track initialization
 M._initialized = false
 
+-- Centralized active tool state
+M._active_tool = nil -- "claude" | "opencode" | nil
+M._active_tool_bufnr = nil -- buffer number of the active tool terminal
+
 -- In-memory cache of tool preferences
 local tool_prefs = {
   last_tool = nil, -- "claude" | "opencode" | nil
@@ -59,6 +63,30 @@ local function atomic_read(filepath)
 end
 
 -----------------------------------------------------------------------
+-- TOOL LIFECYCLE CLEANUP
+-----------------------------------------------------------------------
+
+local function _register_tool_cleanup(tool_name, bufnr)
+  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
+  M._active_tool = tool_name
+  M._active_tool_bufnr = bufnr
+  local group = vim.api.nvim_create_augroup("NixAIToolCleanup", { clear = true })
+  vim.api.nvim_create_autocmd({ "TermClose", "BufWipeout" }, {
+    group = group,
+    buffer = bufnr,
+    once = true,
+    callback = function()
+      if M._active_tool_bufnr == bufnr then
+        M._active_tool = nil
+        M._active_tool_bufnr = nil
+      end
+    end,
+  })
+end
+
+-----------------------------------------------------------------------
 -- TOOL PREFERENCE PERSISTENCE
 -----------------------------------------------------------------------
 
@@ -81,29 +109,53 @@ end
 -- ACTIVE TERMINAL DETECTION
 -----------------------------------------------------------------------
 
--- Detect active Claude terminal buffers with process liveness check
+-- Check if a terminal buffer is alive (valid + terminal buftype + running job)
+local function _is_live_terminal(bufnr)
+  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+    return false
+  end
+  local buftype_ok, buftype = pcall(vim.api.nvim_get_option_value, "buftype", { buf = bufnr })
+  if not buftype_ok or buftype ~= "terminal" then
+    return false
+  end
+  local job_id = vim.b[bufnr].terminal_job_id
+  if not job_id then
+    return false
+  end
+  return vim.fn.jobwait({ job_id }, 0)[1] == -1
+end
+
+-- Detect active Claude terminal using the plugin's own instance registry.
+-- Falls back to heuristic buffer-name scanning if the registry is inaccessible.
 local function detect_active_claude()
-  local ok, session_manager = pcall(require, "neotex.plugins.ai.claude.core.session-manager")
-  if not ok then
+  local ok, claude_code = pcall(require, "claude-code")
+  if ok and claude_code.claude_code and type(claude_code.claude_code.instances) == "table" then
+    local active = {}
+    for _, bufnr in pairs(claude_code.claude_code.instances) do
+      if _is_live_terminal(bufnr) then
+        table.insert(active, bufnr)
+      end
+    end
+    return #active > 0, active
+  end
+
+  -- Fallback: heuristic buffer-name scanning
+  local sm_ok, session_manager = pcall(require, "neotex.plugins.ai.claude.core.session-manager")
+  if not sm_ok then
     return false, {}
   end
   local claude_buffers = session_manager.detect_claude_buffers()
   local active = {}
   for _, bufnr in ipairs(claude_buffers) do
-    if vim.api.nvim_buf_is_valid(bufnr) then
-      local channel = vim.api.nvim_buf_get_option(bufnr, "channel")
-      if channel and channel > 0 then
-        local status = vim.fn.jobwait({ channel }, 0)
-        if status[1] == -1 then
-          table.insert(active, bufnr)
-        end
-      end
+    if _is_live_terminal(bufnr) then
+      table.insert(active, bufnr)
     end
   end
   return #active > 0, active
 end
 
--- Detect active OpenCode terminal using snacks.terminal.list()
+-- Detect active OpenCode terminal using snacks.terminal.list().
+-- This already uses the authoritative snacks terminal identity, so no rewrite needed.
 local function detect_active_opencode()
   local ok, snacks_term = pcall(require, "snacks.terminal")
   if not ok or not snacks_term.list then
@@ -210,6 +262,14 @@ function M.show_claude_session_picker()
   local ok, claude_session = pcall(require, "neotex.plugins.ai.claude.core.session")
   if ok and claude_session.show_session_picker then
     claude_session.show_session_picker()
+    -- After the picker completes, detect the launched buffer and register cleanup.
+    -- Use vim.defer_fn to allow the terminal to be created first.
+    vim.defer_fn(function()
+      local has, bufs = detect_active_claude()
+      if has and bufs[1] then
+        _register_tool_cleanup("claude", bufs[1])
+      end
+    end, 500)
   else
     vim.notify("Claude session picker not available", vim.log.levels.ERROR)
   end
@@ -299,6 +359,14 @@ function M.show_opencode_session_picker()
         -- Toggle opens the terminal (defaults to new session in TUI)
         opencode_mod.toggle()
 
+        -- Register active tool state after toggle creates the terminal
+        vim.defer_fn(function()
+          local has, bufs = detect_active_opencode()
+          if has and bufs[1] then
+            _register_tool_cleanup("opencode", bufs[1])
+          end
+        end, 500)
+
         if choice == "restore" then
           if last_session_id then
             local server_mod = require("opencode.server")
@@ -336,19 +404,40 @@ function M.smart_toggle()
   ensure_data_dir()
   load_tool_prefs()
 
-  local has_claude, _ = detect_active_claude()
-  local has_opencode, _ = detect_active_opencode()
-
-  -- If only one tool is visible, toggle that tool directly
-  if has_claude and not has_opencode then
-    local ok = pcall(require, "neotex.plugins.ai.claude.core.claude-code")
-    if ok then
-      vim.cmd("ClaudeCode")
+  -- Tier 1: Fast path via centralized _active_tool state
+  if M._active_tool then
+    -- Defensive: verify the tracked buffer is still alive
+    if M._active_tool_bufnr and _is_live_terminal(M._active_tool_bufnr) then
+      if M._active_tool == "claude" then
+        vim.cmd("ClaudeCode")
+        return
+      elseif M._active_tool == "opencode" then
+        local ok, opencode_mod = pcall(require, "opencode")
+        if ok then
+          opencode_mod.toggle()
+        end
+        return
+      end
+    else
+      -- Buffer gone, clear stale state and fall through to detection
+      M._active_tool = nil
+      M._active_tool_bufnr = nil
     end
+  end
+
+  -- Tier 2: Detect via plugin registries (backward compat)
+  local has_claude, claude_bufs = detect_active_claude()
+  local has_opencode, opencode_bufs = detect_active_opencode()
+
+  if has_claude and not has_opencode then
+    -- Re-register state so future toggles use fast path
+    _register_tool_cleanup("claude", claude_bufs[1])
+    vim.cmd("ClaudeCode")
     return
   end
 
   if has_opencode and not has_claude then
+    _register_tool_cleanup("opencode", opencode_bufs[1])
     local ok, opencode_mod = pcall(require, "opencode")
     if ok then
       opencode_mod.toggle()
@@ -356,7 +445,7 @@ function M.smart_toggle()
     return
   end
 
-  -- Both visible or neither visible: show Stage 1 picker
+  -- Tier 3: Both active or neither active -- show Stage 1 picker
   M.show_tool_picker()
 end
 

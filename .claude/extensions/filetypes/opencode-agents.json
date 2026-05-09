@@ -51,6 +51,19 @@
         "grep": true,
         "bash": true
       }
+    },
+    "xlsx": {
+      "description": "XLSX creation, editing, and analysis using openpyxl and pandas",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/sheet-agent.md}",
+      "tools": {
+        "read": true,
+        "write": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "bash": true
+      }
     }
   }
 }

@@ -9,10 +9,11 @@
         "filetypes-router-agent",
         "document-agent",
         "spreadsheet-agent",
-        "presentation-agent"
+        "presentation-agent",
+        "sheet-agent"
       ],
       "languages": [],
-      "commands": ["/convert", "/table", "/slides"]
+      "commands": ["/convert", "/table", "/slides", "/sheet"]
     }
   },
   {
@@ -24,10 +25,11 @@
         "filetypes-router-agent",
         "document-agent",
         "spreadsheet-agent",
-        "presentation-agent"
+        "presentation-agent",
+        "sheet-agent"
       ],
       "languages": [],
-      "commands": ["/convert", "/table", "/slides"]
+      "commands": ["/convert", "/table", "/slides", "/sheet"]
     }
   },
   {

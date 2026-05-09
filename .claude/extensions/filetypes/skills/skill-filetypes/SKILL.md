@@ -59,6 +59,9 @@ Do not invoke for:
 - Files already in the target format
 - Spreadsheet-specific operations (use skill-spreadsheet)
 - Presentation-specific operations (use skill-presentation)
+- XLSX creation, editing, or analysis (use skill-sheet via `/sheet` or `/edit file.xlsx`)
+
+**XLSX routing distinction**: This skill handles xlsx-to-markdown *content extraction* via `/convert file.xlsx`. For xlsx *creation, editing, and analysis*, route to skill-sheet instead.
 
 ---
 

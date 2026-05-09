@@ -1,7 +1,7 @@
 # Implementation Plan: Unify Ctrl-CR Toggle and Agent Picker
 
 - **Task**: 550 - unify_ctrl_cr_toggle_and_agent_picker
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/550_unify_ctrl_cr_toggle_and_agent_picker/reports/01_ctrl-cr-agent-picker.md
@@ -60,7 +60,7 @@ No ROADMAP.md consulted (no roadmap_flag set).
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Fix Detection and Add Centralized State Tracking [NOT STARTED]
+### Phase 1: Fix Detection and Add Centralized State Tracking [COMPLETED]
 
 **Goal**: Replace heuristic `detect_active_claude()` with registry-based detection, add `M._active_tool` state variable with autocmd cleanup, and update `smart_toggle()` to use the new state.
 
@@ -91,7 +91,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add leader-ac Keymap [NOT STARTED]
+### Phase 2: Add leader-ac Keymap [COMPLETED]
 
 **Goal**: Register `<leader>ac` in which-key to invoke the Stage 1 agent picker (`show_tool_picker()`), giving users a direct way to switch agents.
 
@@ -114,7 +114,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Testing and Verification [NOT STARTED]
+### Phase 3: Testing and Verification [COMPLETED]
 
 **Goal**: End-to-end verification of all toggle and picker scenarios, including terminal-mode `<C-CR>` capture (R5).
 

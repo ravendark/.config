@@ -5,18 +5,24 @@
     {
       "project_number": 550,
       "project_name": "unify_ctrl_cr_toggle_and_agent_picker",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "created": "2026-05-08T16:11:13Z",
-      "last_updated": "2026-05-08T16:30:46Z",
-      "session_id": "sess_1778256872_25cdb4",
+      "last_updated": "2026-05-08T23:59:38Z",
+      "session_id": "sess_1778284467_40abea",
       "artifacts": [
         {
           "path": "specs/550_unify_ctrl_cr_toggle_and_agent_picker/plans/01_ctrl-cr-agent-picker.md",
           "type": "plan",
           "summary": "3-phase implementation plan to fix Ctrl-CR toggle for ClaudeCode and add leader-ac agent picker keymap"
+        },
+        {
+          "path": "specs/550_unify_ctrl_cr_toggle_and_agent_picker/summaries/01_ctrl-cr-agent-picker-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary with verification results"
         }
-      ]
+      ],
+      "completion_summary": "Fixed <C-CR> toggle for ClaudeCode by replacing heuristic buffer detection with claude-code.nvim's instance registry query and adding centralized _active_tool state tracking with TermClose/BufWipeout cleanup autocmds. Added <leader>ac keymap for direct agent picker access via which-key."
     },
     {
       "project_number": 549,
