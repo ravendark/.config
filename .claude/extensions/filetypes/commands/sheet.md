@@ -6,7 +6,7 @@ argument-hint: FILE_PATH "instruction" [--create|--edit|--analyze]
 
 # /sheet Command
 
-Create, edit, or analyze XLSX spreadsheets by delegating to the xlsx skill/agent chain.
+Create, edit, or analyze XLSX spreadsheets by delegating to the sheet skill/agent chain.
 
 ## Arguments
 

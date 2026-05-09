@@ -208,8 +208,29 @@ function M.show_tool_picker()
     end
     save_tool_prefs(choice.value)
     if choice.value == "claude" then
+      -- Hide OpenCode if it is currently visible before opening Claude
+      local has_oc, oc_bufs = detect_active_opencode()
+      if has_oc then
+        for _, buf in ipairs(oc_bufs) do
+          if #vim.fn.win_findbuf(buf) > 0 then
+            local ok, opencode_mod = pcall(require, "opencode")
+            if ok then opencode_mod.toggle() end
+            break
+          end
+        end
+      end
       M.show_claude_session_picker()
     elseif choice.value == "opencode" then
+      -- Hide Claude if it is currently visible before opening OpenCode
+      local has_cc, cc_bufs = detect_active_claude()
+      if has_cc then
+        for _, buf in ipairs(cc_bufs) do
+          if #vim.fn.win_findbuf(buf) > 0 then
+            vim.cmd("ClaudeCode")
+            break
+          end
+        end
+      end
       M.show_opencode_session_picker()
     end
   end)
@@ -404,49 +425,54 @@ function M.smart_toggle()
   ensure_data_dir()
   load_tool_prefs()
 
-  -- Tier 1: Fast path via centralized _active_tool state
-  if M._active_tool then
-    -- Defensive: verify the tracked buffer is still alive
-    if M._active_tool_bufnr and _is_live_terminal(M._active_tool_bufnr) then
-      if M._active_tool == "claude" then
-        vim.cmd("ClaudeCode")
-        return
-      elseif M._active_tool == "opencode" then
-        local ok, opencode_mod = pcall(require, "opencode")
-        if ok then
-          opencode_mod.toggle()
-        end
-        return
-      end
-    else
-      -- Buffer gone, clear stale state and fall through to detection
-      M._active_tool = nil
-      M._active_tool_bufnr = nil
-    end
-  end
-
-  -- Tier 2: Detect via plugin registries (backward compat)
   local has_claude, claude_bufs = detect_active_claude()
   local has_opencode, opencode_bufs = detect_active_opencode()
 
+  -- Neither running → show picker
+  if not has_claude and not has_opencode then
+    M.show_tool_picker()
+    return
+  end
+
+  -- Only Claude running → toggle it
   if has_claude and not has_opencode then
-    -- Re-register state so future toggles use fast path
     _register_tool_cleanup("claude", claude_bufs[1])
     vim.cmd("ClaudeCode")
     return
   end
 
+  -- Only OpenCode running → toggle it
   if has_opencode and not has_claude then
     _register_tool_cleanup("opencode", opencode_bufs[1])
     local ok, opencode_mod = pcall(require, "opencode")
-    if ok then
-      opencode_mod.toggle()
-    end
+    if ok then opencode_mod.toggle() end
     return
   end
 
-  -- Tier 3: Both active or neither active -- show Stage 1 picker
-  M.show_tool_picker()
+  -- Both running → cycle: just opencode → just claude → neither → just opencode → ...
+  local claude_vis = false
+  for _, buf in ipairs(claude_bufs) do
+    if #vim.fn.win_findbuf(buf) > 0 then claude_vis = true; break end
+  end
+  local opencode_vis = false
+  for _, buf in ipairs(opencode_bufs) do
+    if #vim.fn.win_findbuf(buf) > 0 then opencode_vis = true; break end
+  end
+
+  local ok, opencode_mod = pcall(require, "opencode")
+
+  if opencode_vis and not claude_vis then
+    -- just opencode → just claude: hide opencode, show claude
+    if ok then opencode_mod.toggle() end
+    vim.cmd("ClaudeCode")
+  elseif claude_vis and not opencode_vis then
+    -- just claude → neither: hide claude
+    vim.cmd("ClaudeCode")
+  else
+    -- neither or both visible → just opencode: show opencode, hide claude
+    if not opencode_vis and ok then opencode_mod.toggle() end
+    if claude_vis then vim.cmd("ClaudeCode") end
+  end
 end
 
 -----------------------------------------------------------------------
