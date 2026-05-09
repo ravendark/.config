@@ -9,6 +9,7 @@ next_project_number: 552
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
+- **551** [RESEARCHED] -- Fix discord-link.lua session discovery to match actual opencode session list output
 - **550** [COMPLETED] -- Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
 - **549** [COMPLETED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
 - **547** [COMPLETED] -- Research mobile agent management via Discord bot on NixOS
@@ -21,8 +22,9 @@ next_project_number: 552
 
 ### 551. Fix discord-link.lua session discovery to match actual opencode session list output
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: neovim
+- **Research**: [551_fix_discord_link_session_discovery/reports/01_fix-session-discovery.md]
 
 **Description**: Fix discord-link.lua session discovery to match actual opencode session list --format json output. The command returns sessions with field `directory` (not `working_directory` or `cwd`) and no `status` field. Current code at discord-link.lua:198 checks `sess.working_directory == cwd` or `sess.cwd == cwd` which never matches. The fallback at line 206 checks `sess.status == "active"` or `sess.status == "running"` which also never matches since there is no status field. Fix: (1) change the CWD filter to check `sess.directory == cwd`, (2) remove the status-based fallback and instead use the first session matching the CWD, or if none match, use the most recent session (first in the list since they're sorted by updated descending), (3) use `sess.id` for session_id and `sess.title` for session_name (both exist in the actual output). Also check discord-session-picker.lua for the same field name mismatches.
 

@@ -21380,3 +21380,19 @@
 [2026-05-08T17:29:52-07:00] No postflight marker, allowing stop
 [2026-05-08T17:40:48-07:00] No postflight marker, allowing stop
 [2026-05-08T17:41:19-07:00] No postflight marker, allowing stop
+[2026-05-08T19:18:10-07:00] Postflight marker found at: specs/551_fix_discord_link_session_discovery/.postflight-pending
+[2026-05-08T19:18:10-07:00] Task directory: specs/551_fix_discord_link_session_discovery
+[2026-05-08T19:18:10-07:00] Loop guard initialized to 1
+[2026-05-08T19:18:10-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T19:19:23-07:00] Postflight marker found at: specs/551_fix_discord_link_session_discovery/.postflight-pending
+[2026-05-08T19:19:23-07:00] Task directory: specs/551_fix_discord_link_session_discovery
+[2026-05-08T19:19:23-07:00] Loop guard incremented to 2
+[2026-05-08T19:19:23-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T19:19:26-07:00] Postflight marker found at: specs/551_fix_discord_link_session_discovery/.postflight-pending
+[2026-05-08T19:19:26-07:00] Task directory: specs/551_fix_discord_link_session_discovery
+[2026-05-08T19:19:26-07:00] Loop guard incremented to 3
+[2026-05-08T19:19:26-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-08T19:19:28-07:00] Postflight marker found at: specs/551_fix_discord_link_session_discovery/.postflight-pending
+[2026-05-08T19:19:28-07:00] Task directory: specs/551_fix_discord_link_session_discovery
+[2026-05-08T19:19:28-07:00] Loop guard triggered: 3 >= 3
+[2026-05-08T19:19:28-07:00] Loop guard prevented continuation
