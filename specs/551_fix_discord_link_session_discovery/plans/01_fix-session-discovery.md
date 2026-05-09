@@ -1,7 +1,7 @@
 # Implementation Plan: Fix Discord Link Session Discovery
 
 - **Task**: 551 - Fix discord-link.lua session discovery to match actual opencode session list --format json output
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 0.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/551_fix_discord_link_session_discovery/reports/01_fix-session-discovery.md
@@ -60,7 +60,7 @@ No ROADMAP.md found.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Fix discord-link.lua Session Discovery [NOT STARTED]
+### Phase 1: Fix discord-link.lua Session Discovery [COMPLETED]
 
 **Goal**: Correct all field name references in discord-link.lua so session discovery actually works against the real opencode CLI output.
 
@@ -93,7 +93,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update discord-session-picker.lua Field References [NOT STARTED]
+### Phase 2: Update discord-session-picker.lua Field References [COMPLETED]
 
 **Goal**: Add correct opencode field names as primary lookups in the session picker while retaining existing bot API field names as fallbacks.
 

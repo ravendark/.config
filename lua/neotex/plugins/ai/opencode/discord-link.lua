@@ -195,19 +195,14 @@ local function _discover_session(callback)
         -- Filter sessions by CWD
         local matching = {}
         for _, sess in ipairs(sessions) do
-          if sess.working_directory == cwd or sess.cwd == cwd then
+          if sess.directory == cwd then
             table.insert(matching, sess)
           end
         end
 
-        if #matching == 0 then
-          -- Fall back to first active session if no CWD match
-          for _, sess in ipairs(sessions) do
-            if sess.status == "active" or sess.status == "running" then
-              table.insert(matching, sess)
-              break
-            end
-          end
+        if #matching == 0 and #sessions > 0 then
+          -- Fall back to most recent session (sorted by updated desc)
+          table.insert(matching, sessions[1])
         end
 
         if #matching == 0 then
@@ -216,8 +211,8 @@ local function _discover_session(callback)
         end
 
         local session = matching[1]
-        local session_id = session.id or session.session_id
-        local session_name = session.name or session.title or vim.fn.fnamemodify(cwd, ":t")
+        local session_id = session.id
+        local session_name = session.title or vim.fn.fnamemodify(cwd, ":t")
 
         if not session_id then
           callback("Could not determine session ID", nil, nil)

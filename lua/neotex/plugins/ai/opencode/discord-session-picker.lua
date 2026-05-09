@@ -204,7 +204,7 @@ end
 ---@return function entry_maker
 local function _create_entry_maker()
   return function(session)
-    local name = _truncate(session.session_name or session.name or "unnamed", 25)
+    local name = _truncate(session.title or session.session_name or session.name or "unnamed", 25)
     local status = session.status or "unknown"
     local linked = _format_relative_time(session.linked_at)
 
@@ -213,8 +213,8 @@ local function _create_entry_maker()
     return {
       value = session,
       display = display,
-      ordinal = (session.session_name or session.name or "")
-        .. " " .. (session.session_id or session.id or ""),
+      ordinal = (session.title or session.session_name or session.name or "")
+        .. " " .. (session.id or session.session_id or ""),
     }
   end
 end
@@ -240,8 +240,8 @@ local function _create_previewer()
         "Session Details",
         string.rep("=", 40),
         "",
-        "Name:       " .. (session.session_name or session.name or "-"),
-        "Session ID: " .. (session.session_id or session.id or "-"),
+        "Name:       " .. (session.title or session.session_name or session.name or "-"),
+        "Session ID: " .. (session.id or session.session_id or "-"),
         "Status:     " .. (session.status or "-"),
         "Thread URL: " .. (session.thread_url or "-"),
         "Linked At:  " .. (session.linked_at or "-"),
@@ -254,8 +254,8 @@ local function _create_previewer()
       if session.thread_channel then
         table.insert(lines, "Channel:    " .. session.thread_channel)
       end
-      if session.working_directory or session.cwd then
-        table.insert(lines, "CWD:        " .. (session.working_directory or session.cwd))
+      if session.directory or session.working_directory or session.cwd then
+        table.insert(lines, "CWD:        " .. (session.directory or session.working_directory or session.cwd))
       end
 
       vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
@@ -325,7 +325,7 @@ function M.show(opts)
           end
 
           local session = selection.value
-          local session_id = session.session_id or session.id
+          local session_id = session.id or session.session_id
           if not session_id then
             vim.notify("No session ID found", vim.log.levels.WARN)
             return
@@ -339,7 +339,7 @@ function M.show(opts)
               return
             end
 
-            vim.notify("Session killed: " .. (session.session_name or session_id), vim.log.levels.INFO)
+            vim.notify("Session killed: " .. (session.title or session.session_name or session_id), vim.log.levels.INFO)
 
             -- Re-open picker to show updated list
             vim.defer_fn(function()
