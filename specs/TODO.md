@@ -1,5 +1,5 @@
 ---
-next_project_number: 551
+next_project_number: 552
 ---
 
 # TODO
@@ -18,6 +18,13 @@ next_project_number: 551
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 551. Fix discord-link.lua session discovery to match actual opencode session list output
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+
+**Description**: Fix discord-link.lua session discovery to match actual opencode session list --format json output. The command returns sessions with field `directory` (not `working_directory` or `cwd`) and no `status` field. Current code at discord-link.lua:198 checks `sess.working_directory == cwd` or `sess.cwd == cwd` which never matches. The fallback at line 206 checks `sess.status == "active"` or `sess.status == "running"` which also never matches since there is no status field. Fix: (1) change the CWD filter to check `sess.directory == cwd`, (2) remove the status-based fallback and instead use the first session matching the CWD, or if none match, use the most recent session (first in the list since they're sorted by updated descending), (3) use `sess.id` for session_id and `sess.title` for session_name (both exist in the actual output). Also check discord-session-picker.lua for the same field name mismatches.
 
 ### 550. Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
 - **Effort**: 2-4 hours
@@ -152,6 +159,9 @@ Key files: `.opencode/`, NixOS configuration, Discord bot scaffolding
 | 533 | Fix extension loader to copy manifest.json | 2026-05-07 |
 | 528 | Update skill-implementer continuation loop and pattern documentation | 2026-05-05 |
 | 527 | Update handoff artifact naming convention in format specs and agent definitions | 2026-05-05 |
+
+## Recommended Order
+
 
 ## Recommended Order
 

@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 551,
+  "next_project_number": 552,
   "active_projects": [
+    {
+      "project_number": 551,
+      "project_name": "fix_discord_link_session_discovery",
+      "status": "not_started",
+      "task_type": "neovim",
+      "created": "2026-05-09T02:15:23Z",
+      "last_updated": "2026-05-09T02:15:23Z"
+    },
     {
       "project_number": 550,
       "project_name": "unify_ctrl_cr_toggle_and_agent_picker",
