@@ -5,10 +5,10 @@
     {
       "project_number": 552,
       "project_name": "add_sheet_command_to_present_extension",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "created": "2026-05-11T17:52:25Z",
-      "last_updated": "2026-05-11T17:57:55Z",
+      "last_updated": "2026-05-11T18:09:42Z",
       "session_id": "sess_1778521992_a443fd",
       "next_artifact_number": 2,
       "memory_candidates": [
@@ -32,6 +32,11 @@
           "path": "specs/552_add_sheet_command_to_present_extension/reports/01_add-sheet-command.md",
           "type": "research",
           "summary": "Research report: sheet command already exists in filetypes extension, three implementation options identified"
+        },
+        {
+          "path": "specs/552_add_sheet_command_to_present_extension/plans/01_add-sheet-command.md",
+          "type": "plan",
+          "summary": "Implementation plan with 2 phases to add filetypes as dependency to present extension for /sheet access"
         }
       ]
     },

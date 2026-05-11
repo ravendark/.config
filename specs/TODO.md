@@ -9,7 +9,7 @@ next_project_number: 553
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
-- **552** [RESEARCHED] -- Add /sheet command and skill to present/ extension for agent system
+- **552** [PLANNED] -- Add /sheet command and skill to present/ extension for agent system
 - **551** [COMPLETED] -- Fix discord-link.lua session discovery to match actual opencode session list output
 - **550** [COMPLETED] -- Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
 - **549** [COMPLETED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
@@ -23,9 +23,10 @@ next_project_number: 553
 
 ### 552. Add /sheet command and skill to present/ extension for agent system
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Research**: [552_add_sheet_command_to_present_extension/reports/01_add-sheet-command.md]
+- **Plan**: [552_add_sheet_command_to_present_extension/plans/01_add-sheet-command.md]
 
 **Description**: Port the /sheet command and skill from /home/benjamin/.config/zed/.claude/commands/sheet.md into the present/ extension so it can be loaded in the .claude/ agent system in this repo using the <leader>al extension loader in Neovim.
 
