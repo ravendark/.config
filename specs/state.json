@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 552,
+  "next_project_number": 553,
   "active_projects": [
+    {
+      "project_number": 552,
+      "project_name": "add_sheet_command_to_present_extension",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-11T17:52:25Z",
+      "last_updated": "2026-05-11T17:52:25Z"
+    },
     {
       "project_number": 551,
       "project_name": "fix_discord_link_session_discovery",

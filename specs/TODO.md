@@ -1,5 +1,5 @@
 ---
-next_project_number: 552
+next_project_number: 553
 ---
 
 # TODO
@@ -9,6 +9,7 @@ next_project_number: 552
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
+- **552** [NOT STARTED] -- Add /sheet command and skill to present/ extension for agent system
 - **551** [COMPLETED] -- Fix discord-link.lua session discovery to match actual opencode session list output
 - **550** [COMPLETED] -- Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
 - **549** [COMPLETED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
@@ -19,6 +20,13 @@ next_project_number: 552
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 552. Add /sheet command and skill to present/ extension for agent system
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+
+**Description**: Port the /sheet command and skill from /home/benjamin/.config/zed/.claude/commands/sheet.md into the present/ extension so it can be loaded in the .claude/ agent system in this repo using the <leader>al extension loader in Neovim.
 
 ### 551. Fix discord-link.lua session discovery to match actual opencode session list output
 - **Effort**: 1-2 hours
@@ -165,6 +173,9 @@ Key files: `.opencode/`, NixOS configuration, Discord bot scaffolding
 | 533 | Fix extension loader to copy manifest.json | 2026-05-07 |
 | 528 | Update skill-implementer continuation loop and pattern documentation | 2026-05-05 |
 | 527 | Update handoff artifact naming convention in format specs and agent definitions | 2026-05-05 |
+
+## Recommended Order
+
 
 ## Recommended Order
 
