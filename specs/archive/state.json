@@ -1,6 +1,15 @@
 {
   "completed_projects": [
     {
+      "project_number": 552,
+      "project_name": "add_sheet_command_to_present_extension",
+      "status": "abandoned",
+      "task_type": "meta",
+      "created": "2026-05-11T17:52:25Z",
+      "last_updated": "2026-05-11T18:09:42Z",
+      "abandoned": "2026-05-11T18:12:30Z"
+    },
+    {
       "project_number": 515,
       "project_name": "fix_opencode_crash_spawn_agent_tools_format",
       "status": "completed",

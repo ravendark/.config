@@ -3,44 +3,6 @@
   "next_project_number": 553,
   "active_projects": [
     {
-      "project_number": 552,
-      "project_name": "add_sheet_command_to_present_extension",
-      "status": "planned",
-      "task_type": "meta",
-      "created": "2026-05-11T17:52:25Z",
-      "last_updated": "2026-05-11T18:09:42Z",
-      "session_id": "sess_1778521992_a443fd",
-      "next_artifact_number": 2,
-      "memory_candidates": [
-        {
-          "content": "The /sheet command (generic XLSX create/edit/analyze using openpyxl) exists in both the Zed repo and the nvim filetypes extension with identical content. The founder extension has a completely different /sheet command (cost breakdown with forcing questions). When porting commands between repos, always check if they already exist in a different extension before duplicating.",
-          "category": "INSIGHT",
-          "source_artifact": "specs/552_add_sheet_command_to_present_extension/reports/01_add-sheet-command.md",
-          "confidence": 0.85,
-          "suggested_keywords": [
-            "sheet",
-            "filetypes",
-            "extension",
-            "duplicate",
-            "porting",
-            "xlsx"
-          ]
-        }
-      ],
-      "artifacts": [
-        {
-          "path": "specs/552_add_sheet_command_to_present_extension/reports/01_add-sheet-command.md",
-          "type": "research",
-          "summary": "Research report: sheet command already exists in filetypes extension, three implementation options identified"
-        },
-        {
-          "path": "specs/552_add_sheet_command_to_present_extension/plans/01_add-sheet-command.md",
-          "type": "plan",
-          "summary": "Implementation plan with 2 phases to add filetypes as dependency to present extension for /sheet access"
-        }
-      ]
-    },
-    {
       "project_number": 551,
       "project_name": "fix_discord_link_session_discovery",
       "status": "completed",
