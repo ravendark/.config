@@ -12,6 +12,52 @@ Each entry includes:
 
 ---
 
+### 2026-05-12
+
+**Task 556: literature_awareness_planner_research**
+- Status: completed
+- Type: meta
+- Summary: Added literature awareness to planner-agent.md (Stage 4.5), lean-research-agent.md (Literature Extraction Protocol), lean4.md (Literature Fidelity section)
+
+**Task 555: update_proof_workflow_literature**
+- Status: completed
+- Type: meta
+- Summary: Added literature-first stages to lean-implementation-flow.md, end-to-end-proof-workflow.md, and proof-construction.md
+
+**Task 554: literature_fidelity_formal_policy**
+- Status: completed
+- Type: meta
+- Summary: Created literature-fidelity-policy.md (257 lines) for formal extension with 5 anti-patterns, escalation protocol, domain guidance for logic/math/physics
+
+**Task 553: literature_fidelity_lean_policy**
+- Status: completed
+- Type: meta
+- Summary: Created literature-fidelity-policy.md (126 lines) for Lean extension with 4 anti-patterns, escalation protocol, usage checklist
+
+**Task 551: fix_discord_link_session_discovery**
+- Status: completed
+- Type: neovim
+- Summary: Fixed discord-link.lua session discovery to use correct opencode CLI field names
+
+**Task 550: unify_ctrl_cr_toggle_and_agent_picker**
+- Status: completed
+- Type: neovim
+- Summary: Fixed C-CR toggle for ClaudeCode, added leader-ac agent picker keymap
+
+**Task 549: audit_relocate_temp_files**
+- Status: completed
+- Type: meta
+- Summary: Relocated ~50 /tmp/ path references to specs/tmp/ across 14 files
+
+**Task 547: research_mobile_agent_management**
+- Status: completed
+- Type: meta
+- Summary: Implemented Neovim-side Discord integration with session linking and Telescope session picker
+
+Memory harvest: 2 memories created (1 CONFIG, 1 INSIGHT) from task 547
+
+---
+
 ### 2026-03-06
 
 **Task OC_150: fix_todo_orphan_detection_completed_tasks**
