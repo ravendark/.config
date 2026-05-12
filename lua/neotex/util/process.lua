@@ -510,7 +510,7 @@ function M.launch(filepath)
 
   -- If this file already has a running process, open it in the browser
   for _, entry in pairs(M._registry) do
-    if entry.status == "running" and entry.cmd then
+    if entry.status == "running" and type(entry.cmd) == "table" then
       for _, arg in ipairs(entry.cmd) do
         if arg == filepath then
           if entry.port then
