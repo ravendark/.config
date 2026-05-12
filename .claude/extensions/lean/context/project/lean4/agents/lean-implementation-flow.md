@@ -32,6 +32,24 @@ Extract from input:
 
 ---
 
+## Stage 1.5: Check for Literature Source
+
+Before loading the plan, check whether the task involves a literature source:
+
+1. **Scan delegation context** for literature references in task description
+2. **Check plan artifacts** (if previously loaded) for literature step annotations
+3. **Determine mode**: If literature source found, enter **literature-guided mode**; otherwise, **first-principles mode**
+
+In literature-guided mode:
+- Load the literature source (paper, textbook section, proof sketch)
+- Identify the proof strategy prescribed by the source
+- Map source steps to expected proof development stages
+- Carry this mapping into Stage 4B for step-by-step translation
+
+See `literature-fidelity-policy.md` for full mode detection criteria and anti-patterns.
+
+---
+
 ## Stage 2: Load and Parse Implementation Plan
 
 Read the plan file and extract:
@@ -71,7 +89,12 @@ For each proof/theorem in the phase:
 
 1. **Read target file, locate proof point**
 2. **Check current proof state** using `lean_goal`
-3. **Develop proof iteratively**
+3. **Consult literature source** (literature-guided mode only)
+   - Identify which literature step corresponds to the current goal
+   - Translate the literature step into Lean tactics/terms
+   - If translation is clear, apply directly via Edit
+   - If translation is unclear, follow escalation protocol from `literature-fidelity-policy.md`
+4. **Develop proof iteratively** (first-principles mode, or when literature step is not applicable)
    ```
    REPEAT until goals closed or stuck:
      a. Use lean_goal to see current state
@@ -80,7 +103,7 @@ For each proof/theorem in the phase:
      d. If stuck, use lean_state_search, lean_hammer_premise
      e. If still stuck, log state and return partial
    ```
-4. **Verify step completion** with `lean_goal` and `lake build`
+5. **Verify step completion** with `lean_goal` and `lake build`
 
 ### 4C. Verify Phase Completion
 
@@ -141,6 +164,7 @@ Return 3-6 bullet points (NOT JSON).
 
 ### Tactic Selection Strategy
 
+0. **Literature step** (literature-guided mode): Follow the tactic/approach prescribed by the source for this step. See `literature-fidelity-policy.md`.
 1. **Start Simple**: `simp`, `rfl`, `trivial`, `decide`, `ring`, `omega`
 2. **Structural Tactics**: `intro`, `cases`, `rcases`, `induction`
 3. **Application Tactics**: `exact h`, `apply lemma`, `have`

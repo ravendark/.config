@@ -1,7 +1,7 @@
 # Implementation Plan: Task #555
 
 - **Task**: 555 - Update proof workflow docs with literature-first stages
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1 hour
 - **Dependencies**: Task #553 (Lean literature fidelity policy), Task #554 (Formal literature fidelity policy)
 - **Research Inputs**: specs/555_update_proof_workflow_literature/reports/01_proof-workflow-literature.md
@@ -66,14 +66,14 @@ No ROADMAP.md found.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Modify lean-implementation-flow.md [NOT STARTED]
+### Phase 1: Modify lean-implementation-flow.md [COMPLETED]
 
 **Goal**: Add literature-first stages to the Lean implementation agent's proof development workflow.
 
 **Tasks**:
-- [ ] Insert new "Stage 1.5: Check for Literature Source" section between Stage 1 (Parse Delegation Context, ends ~line 31) and Stage 2 (Load and Parse Implementation Plan, starts ~line 35). Content: scan delegation context for literature references, determine mode, load literature source if present, map source steps to proof development stages. Cross-reference `literature-fidelity-policy.md`.
-- [ ] Replace Stage 4B "Execute Proof Development" (lines 69-84) with expanded version that adds step 3 "Consult literature source" (literature-guided mode) between reading the target file and the iterative tactic loop. The existing REPEAT loop becomes step 4 for first-principles mode or when literature step is not applicable.
-- [ ] Prefix the "Tactic Selection Strategy" section (lines 142-147) with step 0: "Literature step (literature-guided mode): Follow the tactic/approach prescribed by the source for this step. See `literature-fidelity-policy.md`." Renumber existing steps 1-4 to remain after this new step 0.
+- [x] Insert new "Stage 1.5: Check for Literature Source" section between Stage 1 and Stage 2 *(completed)*
+- [x] Replace Stage 4B with expanded version adding step 3 "Consult literature source" before the REPEAT loop *(completed)*
+- [x] Prefix Tactic Selection Strategy with step 0 for literature-guided mode *(completed)*
 
 **Timing**: 20 minutes
 
@@ -90,15 +90,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Modify end-to-end-proof-workflow.md [NOT STARTED]
+### Phase 2: Modify end-to-end-proof-workflow.md [COMPLETED]
 
 **Goal**: Add literature-first prerequisite and modify proof outline step in the end-to-end proof workflow.
 
 **Tasks**:
-- [ ] Insert new "Step 0: Check for Literature Source" section before Step 1 (State the Theorem, ~line 19). Content: determine whether a literature source is provided, set mode (literature-guided vs. first-principles), extract proof structure from source before proceeding. Cross-reference `literature-fidelity-policy.md`.
-- [ ] Modify "Step 2: Outline the Proof" (lines 25-29) to add literature-guided behavior: "In literature-guided mode, extract the outline from the literature source rather than composing one independently." Validation should note that in literature-guided mode the outline should mirror the source's argument structure.
-- [ ] Add `literature-fidelity-policy.md` to the "Context Dependencies" section (lines 43-47)
-- [ ] Add literature-guided success criterion to the "Success Criteria" section (lines 49-52): "When a literature source is provided, the proof structure mirrors the source."
+- [x] Insert new "Step 0: Check for Literature Source" section before Step 1 *(completed)*
+- [x] Modify Step 2 to add literature-guided outline behavior *(completed)*
+- [x] Add `literature-fidelity-policy.md` to Context Dependencies *(completed)*
+- [x] Add literature-guided success criterion to Success Criteria *(completed)*
 
 **Timing**: 15 minutes
 
@@ -115,14 +115,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Modify proof-construction.md [NOT STARTED]
+### Phase 3: Modify proof-construction.md [COMPLETED]
 
 **Goal**: Add literature-first strategy option to the formal extension's proof construction process.
 
 **Tasks**:
-- [ ] Expand "Choose Strategy" section (lines 21-25) to include literature-guided option as the primary choice when a reference proof is provided. Existing strategy options (direct/indirect, forward/backward, induction/case analysis) apply in first-principles mode. Cross-reference formal extension's `literature-fidelity-policy.md`.
-- [ ] Modify "Phase 1: Sketch" (within Proof Development Phases, ~lines 27-35) to support both modes: "Write informal proof idea (first-principles) OR extract proof structure from literature source (literature-guided)."
-- [ ] Add formal extension's `literature-fidelity-policy.md` to the "References" section (lines 138-143)
+- [x] Expand "Choose Strategy" with literature-guided option as primary choice *(completed)*
+- [x] Modify Phase 1 Sketch to support both modes *(completed)*
+- [x] Add formal extension's `literature-fidelity-policy.md` to References *(completed)*
 
 **Timing**: 15 minutes
 
@@ -138,11 +138,11 @@ Phases within the same wave can execute in parallel.
 
 ## Testing & Validation
 
-- [ ] All 3 modified files parse correctly as valid Markdown
-- [ ] Each file contains cross-reference to its extension's `literature-fidelity-policy.md`
-- [ ] Literature-guided behavior is explicitly gated (no unconditional literature checks)
-- [ ] Existing first-principles workflow logic is preserved unchanged
-- [ ] No references to the wrong extension's policy (lean files -> lean policy, formal files -> formal policy)
+- [x] All 3 modified files parse correctly as valid Markdown *(verified)*
+- [x] Each file contains cross-reference to its extension's `literature-fidelity-policy.md` *(verified)*
+- [x] Literature-guided behavior is explicitly gated (no unconditional literature checks) *(verified)*
+- [x] Existing first-principles workflow logic is preserved unchanged *(verified)*
+- [x] No references to the wrong extension's policy (lean files -> lean policy, formal files -> formal policy) *(verified)*
 
 ## Artifacts & Outputs
 

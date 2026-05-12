@@ -9,8 +9,8 @@ next_project_number: 557
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
-- **556** [PLANNED] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
-- **555** [PLANNED] -- Update proof workflow docs with literature-first stages (depends: 553)
+- **556** [IMPLEMENTING] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
+- **555** [COMPLETED] -- Update proof workflow docs with literature-first stages (depends: 553)
 - **554** [COMPLETED] -- Create literature fidelity policy for Formal extension
 - **553** [COMPLETED] -- Create literature fidelity policy for Lean extension
 - **551** [COMPLETED] -- Fix discord-link.lua session discovery to match actual opencode session list output
@@ -26,7 +26,7 @@ next_project_number: 557
 
 ### 556. Add literature awareness to planner, research agents, and lean4 rule
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #553
 - **Research**: [556_literature_awareness_planner_research/reports/01_literature-awareness-agents.md]
@@ -40,11 +40,14 @@ Key files: `.claude/agents/planner-agent.md`, `.claude/extensions/lean/agents/le
 
 ### 555. Update proof workflow docs with literature-first stages
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #553
 - **Research**: [555_update_proof_workflow_literature/reports/01_proof-workflow-literature.md]
 - **Plan**: [555_update_proof_workflow_literature/plans/01_proof-workflow-literature.md]
+- **Summary**: [555_update_proof_workflow_literature/summaries/01_proof-workflow-literature-summary.md]
+- **Completed**: 2026-05-12
+- **Summary**: Added literature-first stages to 3 proof workflow documents: Stage 1.5 and modified Stage 4B/Tactic Selection in lean-implementation-flow.md, Step 0 and modified Step 2/dependencies/criteria in end-to-end-proof-workflow.md, and literature-guided strategy/sketch/references in proof-construction.md. All changes are mode-gated.
 
 **Description**: Modify three proof workflow documents to integrate literature-first stages before tactic exploration and automation. (1) `lean-implementation-flow.md`: Add "Stage 1.5: Check for Literature Source" between parsing delegation context and loading plan -- if a literature source is referenced, load it and identify the proof strategy before entering the proof development loop. Modify Stage 4B proof loop to consult literature FIRST before trying `lean_multi_attempt` or automation. (2) `end-to-end-proof-workflow.md`: Add "Step 0: Check for Literature Source" prerequisite; modify Step 2 (Outline the Proof) to follow the literature's structure when provided. (3) `proof-construction.md` (formal extension): Add literature-first strategy to the "Choose Strategy" section -- when a reference proof exists, the strategy is "follow the reference" not "choose between direct/indirect/induction."
 

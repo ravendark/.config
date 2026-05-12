@@ -5,7 +5,7 @@
     {
       "project_number": 556,
       "project_name": "literature_awareness_planner_research",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Add literature-following guidance to planner-agent.md, lean-research-agent.md, lean4.md auto-applied rule, and update lean/index-entries.json to load the literature fidelity policy",
       "effort": "1-2 hours",
@@ -13,8 +13,9 @@
         553
       ],
       "created": "2026-05-12T00:00:00Z",
-      "last_updated": "2026-05-12T18:15:00Z",
-      "session_id": "sess_1778619807_f87b37",
+      "last_updated": "2026-05-12T19:15:00Z",
+      "session_id": "sess_1778620199_4b92cb",
+      "completion_summary": "Added literature awareness to 3 files: planner-agent.md (Stage 4.5 for literature-guided phase structuring, conditional @-references, plan template subsection), lean-research-agent.md (Literature Extraction Protocol with 5-step process and step map template, MUST NOT item 14), lean4.md (compact Literature Fidelity section with 3 FORBIDDEN patterns and escalation sequence). Verified lean/index-entries.json already has the correct entry.",
       "artifacts": [
         {
           "path": "specs/556_literature_awareness_planner_research/reports/01_literature-awareness-agents.md",
@@ -25,6 +26,11 @@
           "path": "specs/556_literature_awareness_planner_research/plans/01_literature-awareness-agents.md",
           "type": "plan",
           "summary": "Implementation plan with 3 parallel phases to add literature awareness to planner-agent, lean-research-agent, and lean4 rule"
+        },
+        {
+          "path": "specs/556_literature_awareness_planner_research/summaries/01_literature-awareness-agents-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary with verification results for all 3 phases"
         }
       ],
       "next_artifact_number": 2,
@@ -47,7 +53,7 @@
     {
       "project_number": 555,
       "project_name": "update_proof_workflow_literature",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Modify lean-implementation-flow.md, end-to-end-proof-workflow.md, and proof-construction.md to add literature-first stages before tactic exploration and automation",
       "effort": "1-2 hours",
@@ -55,8 +61,9 @@
         553
       ],
       "created": "2026-05-12T00:00:00Z",
-      "last_updated": "2026-05-12T18:35:00Z",
-      "session_id": "sess_1778619807_f87b37",
+      "last_updated": "2026-05-12T19:15:00Z",
+      "session_id": "sess_1778620199_4b92cb",
+      "completion_summary": "Added literature-first stages to 3 proof workflow documents: Stage 1.5 and modified Stage 4B/Tactic Selection in lean-implementation-flow.md, Step 0 and modified Step 2/dependencies/criteria in end-to-end-proof-workflow.md, and literature-guided strategy/sketch/references in proof-construction.md. All changes are mode-gated.",
       "artifacts": [
         {
           "path": "specs/555_update_proof_workflow_literature/reports/01_proof-workflow-literature.md",
@@ -67,6 +74,11 @@
           "path": "specs/555_update_proof_workflow_literature/plans/01_proof-workflow-literature.md",
           "type": "plan",
           "summary": "Implementation plan with 3 parallel phases to add literature-first stages to proof workflow documents"
+        },
+        {
+          "path": "specs/555_update_proof_workflow_literature/summaries/01_proof-workflow-literature-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary with verification results for all 3 phases"
         }
       ],
       "next_artifact_number": 2,
