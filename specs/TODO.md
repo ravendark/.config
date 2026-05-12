@@ -1,5 +1,5 @@
 ---
-next_project_number: 553
+next_project_number: 557
 ---
 
 # TODO
@@ -9,6 +9,10 @@ next_project_number: 553
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
+- **556** [NOT STARTED] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
+- **555** [NOT STARTED] -- Update proof workflow docs with literature-first stages (depends: 553)
+- **554** [RESEARCHED] -- Create literature fidelity policy for Formal extension
+- **553** [RESEARCHED] -- Create literature fidelity policy for Lean extension
 - **551** [COMPLETED] -- Fix discord-link.lua session discovery to match actual opencode session list output
 - **550** [COMPLETED] -- Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
 - **549** [COMPLETED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
@@ -19,6 +23,54 @@ next_project_number: 553
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 556. Add literature awareness to planner, research agents, and lean4 rule
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #553
+
+**Description**: Add literature-following guidance to three agent/rule files and update the context index. (1) `planner-agent.md`: For formal/lean tasks with literature references, structure plan phases to mirror the literature's proof steps rather than inventing a novel decomposition. (2) `lean-research-agent.md`: During research, extract and document the proof structure from provided literature so downstream agents have a step-by-step map. (3) `lean4.md` auto-applied rule: Add a "Literature Fidelity" section that fires on every `*.lean` file edit, reminding agents to follow provided literature when available. (4) Update `lean/index-entries.json` to load the literature fidelity policy (task 553) for lean-implementation-agent.
+
+Key files: `.claude/agents/planner-agent.md`, `.claude/extensions/lean/agents/lean-research-agent.md`, `.claude/extensions/lean/rules/lean4.md`, `.claude/extensions/lean/index-entries.json`
+
+---
+
+### 555. Update proof workflow docs with literature-first stages
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #553
+
+**Description**: Modify three proof workflow documents to integrate literature-first stages before tactic exploration and automation. (1) `lean-implementation-flow.md`: Add "Stage 1.5: Check for Literature Source" between parsing delegation context and loading plan -- if a literature source is referenced, load it and identify the proof strategy before entering the proof development loop. Modify Stage 4B proof loop to consult literature FIRST before trying `lean_multi_attempt` or automation. (2) `end-to-end-proof-workflow.md`: Add "Step 0: Check for Literature Source" prerequisite; modify Step 2 (Outline the Proof) to follow the literature's structure when provided. (3) `proof-construction.md` (formal extension): Add literature-first strategy to the "Choose Strategy" section -- when a reference proof exists, the strategy is "follow the reference" not "choose between direct/indirect/induction."
+
+Key files: `.claude/extensions/lean/context/project/lean4/agents/lean-implementation-flow.md`, `.claude/extensions/lean/context/project/lean4/processes/end-to-end-proof-workflow.md`, `.claude/extensions/formal/context/project/logic/processes/proof-construction.md`
+
+---
+
+### 554. Create literature fidelity policy for Formal extension
+- **Effort**: 1 hour
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Research**: [554_literature_fidelity_formal_policy/reports/01_literature-fidelity-formal.md]
+
+**Description**: Create a literature fidelity policy document for the formal extension at `.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md`, matching the pattern established in task 553 for the Lean extension. Covers logic, math, and physics domains. The policy defines: (1) When a literature source is provided (paper, textbook, notes), follow its proof/argument structure step-by-step. (2) When no literature is provided, derive from first principles. (3) Escalation protocol: when a literature step doesn't translate cleanly, document the gap and ask rather than improvising. (4) Anti-patterns: seeking shortcuts when the literature proof is hard, attempting novel approaches that bypass difficult steps, using automation to skip parts the literature handles explicitly. Update `formal/index-entries.json` to load this policy for formal research and implementation agents.
+
+Key files: `.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md`, `.claude/extensions/formal/index-entries.json`
+
+---
+
+### 553. Create literature fidelity policy for Lean extension
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Research**: [553_literature_fidelity_lean_policy/reports/01_literature-fidelity-lean.md]
+
+**Description**: Create a standalone literature fidelity policy document at `.claude/extensions/lean/context/project/lean4/standards/literature-fidelity-policy.md`. This is the core policy that all other literature-awareness tasks reference. The policy defines two modes: (1) **Literature-guided mode** (activated when a literature source is provided in the task description, plan, or research artifacts): Follow the source's proof structure step-by-step; do not seek shortcuts even when the proof is hard; translate each literature step into Lean tactics/terms faithfully; when a step doesn't translate, document the gap and escalate rather than improvising. (2) **First-principles mode** (default when no literature is provided): Current behavior -- use tactic exploration, MCP search, automation freely. The policy includes an anti-pattern catalog: (a) "The proof is hard so I'll try simp/omega/aesop instead" (b) "I'll find an easier approach" when the literature's approach is the standard one (c) Abandoning the literature's strategy after a single failed tactic attempt (d) Mixing literature steps with novel steps without flagging the deviation. Also includes an escalation protocol: when stuck on a literature step, re-read the source, try alternative Lean encodings of the same mathematical step, and only after exhausting faithful translations flag the gap to the user.
+
+Key files: `.claude/extensions/lean/context/project/lean4/standards/literature-fidelity-policy.md`
+
+---
 
 ### 551. Fix discord-link.lua session discovery to match actual opencode session list output
 - **Effort**: 1-2 hours

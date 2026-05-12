@@ -1,7 +1,69 @@
 {
   "version": "1.0.0",
-  "next_project_number": 553,
+  "next_project_number": 557,
   "active_projects": [
+    {
+      "project_number": 556,
+      "project_name": "literature_awareness_planner_research",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Add literature-following guidance to planner-agent.md, lean-research-agent.md, lean4.md auto-applied rule, and update lean/index-entries.json to load the literature fidelity policy",
+      "effort": "1-2 hours",
+      "dependencies": [553],
+      "created": "2026-05-12T00:00:00Z",
+      "last_updated": "2026-05-12T00:00:00Z"
+    },
+    {
+      "project_number": 555,
+      "project_name": "update_proof_workflow_literature",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Modify lean-implementation-flow.md, end-to-end-proof-workflow.md, and proof-construction.md to add literature-first stages before tactic exploration and automation",
+      "effort": "1-2 hours",
+      "dependencies": [553],
+      "created": "2026-05-12T00:00:00Z",
+      "last_updated": "2026-05-12T00:00:00Z"
+    },
+    {
+      "project_number": 554,
+      "project_name": "literature_fidelity_formal_policy",
+      "status": "researched",
+      "task_type": "meta",
+      "description": "Create literature fidelity policy for the formal extension covering logic/math/physics domains, matching the Lean policy pattern",
+      "effort": "1 hour",
+      "dependencies": [],
+      "created": "2026-05-12T00:00:00Z",
+      "last_updated": "2026-05-12T16:35:00Z",
+      "session_id": "sess_1778614021_c5f72c",
+      "artifacts": [
+        {
+          "path": "specs/554_literature_fidelity_formal_policy/reports/01_literature-fidelity-formal.md",
+          "type": "research",
+          "summary": "Research report documenting formal extension structure, agent gaps, anti-pattern catalog, and recommended policy document structure with index-entries.json integration plan"
+        }
+      ],
+      "next_artifact_number": 2
+    },
+    {
+      "project_number": 553,
+      "project_name": "literature_fidelity_lean_policy",
+      "status": "researched",
+      "task_type": "meta",
+      "description": "Create literature fidelity policy document for the Lean extension defining when to follow provided literature step-by-step vs. derive from first principles, with escalation protocol and anti-pattern catalog",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-12T00:00:00Z",
+      "last_updated": "2026-05-12T09:15:00Z",
+      "session_id": "sess_1778614021_c5f72c",
+      "artifacts": [
+        {
+          "path": "specs/553_literature_fidelity_lean_policy/reports/01_literature-fidelity-lean.md",
+          "type": "research",
+          "summary": "Research report documenting zero literature references in Lean extension, identifying all bypass points in agent/workflow/rule files, and recommending policy document structure with anti-pattern catalog"
+        }
+      ],
+      "next_artifact_number": 2
+    },
     {
       "project_number": 551,
       "project_name": "fix_discord_link_session_discovery",
