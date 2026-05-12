@@ -1,7 +1,7 @@
 # Implementation Plan: Task #556
 
 - **Task**: 556 - Add literature awareness to planner, research agents, and lean4 rule
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1 hour
 - **Dependencies**: Task #553 (completed), Task #554 (completed)
 - **Research Inputs**: specs/556_literature_awareness_planner_research/reports/01_literature-awareness-agents.md
@@ -60,15 +60,15 @@ No ROADMAP.md found.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add Literature-Guided Phase Structuring to planner-agent.md [NOT STARTED]
+### Phase 1: Add Literature-Guided Phase Structuring to planner-agent.md [COMPLETED]
 
 **Goal**: Add Stage 4.5, conditional @-references, and Literature Source Mapping subsection to the planner-agent so it mirrors literature proof structure in plan phases for lean4/formal tasks.
 
 **Tasks**:
-- [ ] Add conditional @-references to Context References section (after existing references): literature-fidelity-policy.md for lean4 and formal task types
-- [ ] Insert new Stage 4.5 ("Literature-Guided Phase Structuring") between Stage 4 and Stage 5, using draft content from research report
-- [ ] Add "Literature Source Mapping" subsection to the plan template in Stage 5, after the "Research Integration" subsection
-- [ ] Verify the file parses correctly (no broken markdown structure)
+- [x] Add conditional @-references to Context References section (after existing references): literature-fidelity-policy.md for lean4 and formal task types *(completed)*
+- [x] Insert new Stage 4.5 ("Literature-Guided Phase Structuring") between Stage 4 and Stage 5, using draft content from research report *(completed)*
+- [x] Add "Literature Source Mapping" subsection to the plan template in Stage 5, after the "Research Integration" subsection *(completed: after Roadmap Alignment subsection)*
+- [x] Verify the file parses correctly (no broken markdown structure) *(completed)*
 
 **Timing**: 20 minutes
 
@@ -85,14 +85,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add Literature Extraction Protocol to lean-research-agent.md [NOT STARTED]
+### Phase 2: Add Literature Extraction Protocol to lean-research-agent.md [COMPLETED]
 
 **Goal**: Add a Literature Extraction Protocol section so the lean-research-agent produces structured step maps from literature sources for downstream planner consumption.
 
 **Tasks**:
-- [ ] Insert "Literature Extraction Protocol" section between "Research Constraints for Lean Tasks" section and "Stage 0" section, using draft content from research report
-- [ ] Add MUST NOT item 14 to the Critical Requirements list: "Ignore literature sources referenced in the task"
-- [ ] Verify the file parses correctly (no broken markdown structure)
+- [x] Insert "Literature Extraction Protocol" section between "Research Constraints for Lean Tasks" section and "Stage 0" section, using draft content from research report *(completed)*
+- [x] Add MUST NOT item 14 to the Critical Requirements list: "Ignore literature sources referenced in the task" *(completed)*
+- [x] Verify the file parses correctly (no broken markdown structure) *(completed)*
 
 **Timing**: 15 minutes
 
@@ -108,14 +108,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Add Literature Fidelity section to lean4.md and verify index [NOT STARTED]
+### Phase 3: Add Literature Fidelity section to lean4.md and verify index [COMPLETED]
 
 **Goal**: Add a compact Literature Fidelity section to the lean4.md auto-applied rule and verify lean/index-entries.json already has the correct entry.
 
 **Tasks**:
-- [ ] Append "Literature Fidelity" section after "Build Commands" in lean4.md, using draft content from research report (~8 lines, compact bullet format)
-- [ ] Verify lean/index-entries.json contains the literature-fidelity-policy.md entry with correct agents (lean-implementation-agent, lean-research-agent)
-- [ ] Verify the lean4.md file parses correctly (no broken markdown structure)
+- [x] Append "Literature Fidelity" section after "Build Commands" in lean4.md, using draft content from research report (~8 lines, compact bullet format) *(completed: 12 lines added)*
+- [x] Verify lean/index-entries.json contains the literature-fidelity-policy.md entry with correct agents (lean-implementation-agent, lean-research-agent) *(completed: entry confirmed at lines 186-207)*
+- [x] Verify the lean4.md file parses correctly (no broken markdown structure) *(completed)*
 
 **Timing**: 10 minutes
 
@@ -135,11 +135,11 @@ Phases within the same wave can execute in parallel.
 
 ## Testing & Validation
 
-- [ ] All three modified files have valid markdown structure (no orphaned headings or broken links)
-- [ ] planner-agent.md Stage 4.5 references both lean and formal literature-fidelity-policy.md
-- [ ] lean-research-agent.md Literature Extraction Protocol includes structured step map template
-- [ ] lean4.md Literature Fidelity section is compact (under 10 lines of content)
-- [ ] lean/index-entries.json entry confirmed present (read-only verification)
+- [x] All three modified files have valid markdown structure (no orphaned headings or broken links)
+- [x] planner-agent.md Stage 4.5 references both lean and formal literature-fidelity-policy.md
+- [x] lean-research-agent.md Literature Extraction Protocol includes structured step map template
+- [x] lean4.md Literature Fidelity section is compact (under 10 lines of content)
+- [x] lean/index-entries.json entry confirmed present (read-only verification)
 
 ## Artifacts & Outputs
 

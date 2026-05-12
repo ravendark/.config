@@ -52,3 +52,16 @@ Rewriting: `rw`, `simp only`, `conv`
 ## Build Commands
 
 `lake build` | `lake build Module.Name` | `lake clean && lake build`
+
+## Literature Fidelity
+
+When a literature source (paper, textbook, proof sketch) is referenced in the task or plan:
+
+- **Follow the source step-by-step** -- do not seek shortcuts or alternative proofs
+- **FORBIDDEN**: Using `simp`/`omega`/`aesop` to bypass steps the literature handles explicitly
+- **FORBIDDEN**: Abandoning the literature's approach after a single tactic failure
+- **FORBIDDEN**: Mixing literature steps with novel steps without flagging the deviation
+- **Escalation**: Re-read source -> try alternative Lean encodings -> check for unstated lemmas -> flag gap to user
+- **No literature referenced?** First-principles mode: all tactics and strategies permitted freely
+
+See `literature-fidelity-policy.md` for full policy, anti-pattern catalog, and escalation protocol.

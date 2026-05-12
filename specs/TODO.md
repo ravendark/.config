@@ -9,7 +9,7 @@ next_project_number: 557
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
-- **556** [IMPLEMENTING] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
+- **556** [COMPLETED] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
 - **555** [COMPLETED] -- Update proof workflow docs with literature-first stages (depends: 553)
 - **554** [COMPLETED] -- Create literature fidelity policy for Formal extension
 - **553** [COMPLETED] -- Create literature fidelity policy for Lean extension
@@ -26,11 +26,14 @@ next_project_number: 557
 
 ### 556. Add literature awareness to planner, research agents, and lean4 rule
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #553
 - **Research**: [556_literature_awareness_planner_research/reports/01_literature-awareness-agents.md]
 - **Plan**: [556_literature_awareness_planner_research/plans/01_literature-awareness-agents.md]
+- **Summary**: [556_literature_awareness_planner_research/summaries/01_literature-awareness-agents-summary.md]
+- **Completed**: 2026-05-12
+- **Summary**: Added literature awareness to 3 files: planner-agent.md (Stage 4.5, conditional @-references, plan template subsection), lean-research-agent.md (Literature Extraction Protocol, MUST NOT item 14), lean4.md (Literature Fidelity section with 3 FORBIDDEN patterns). Verified lean/index-entries.json entry.
 
 **Description**: Add literature-following guidance to three agent/rule files and update the context index. (1) `planner-agent.md`: For formal/lean tasks with literature references, structure plan phases to mirror the literature's proof steps rather than inventing a novel decomposition. (2) `lean-research-agent.md`: During research, extract and document the proof structure from provided literature so downstream agents have a step-by-step map. (3) `lean4.md` auto-applied rule: Add a "Literature Fidelity" section that fires on every `*.lean` file edit, reminding agents to follow provided literature when available. (4) Update `lean/index-entries.json` to load the literature fidelity policy (task 553) for lean-implementation-agent.
 

@@ -18,6 +18,8 @@ Planning agent for creating phased implementation plans from task descriptions a
 - `@.claude/CLAUDE.md` - Project configuration and conventions
 - `@.claude/context/patterns/context-discovery.md` - Use with agent=`planner-agent`, command=`/plan`
 - `@.claude/context/formats/roadmap-format.md` - Roadmap structure (when roadmap_path provided)
+- `@.claude/extensions/lean/context/project/lean4/standards/literature-fidelity-policy.md` - Literature fidelity for Lean tasks (when task_type is lean4)
+- `@.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md` - Literature fidelity for formal tasks (when task_type is formal)
 - Prior plan loaded at Stage 2a when `prior_plan_path` provided (reference only, not template)
 
 ## Execution Flow
@@ -171,6 +173,36 @@ Apply task-breakdown.md guidelines:
    - Consider roadmap ordering when sequencing phases
    - Identify opportunities to advance adjacent roadmap items
 
+### Stage 4.5: Literature-Guided Phase Structuring
+
+When the task type is `lean4` or `formal` AND the research report or task description references a literature source (paper, textbook, proof sketch):
+
+1. **Extract the literature's proof structure** from the research report
+   - The lean-research-agent or formal-research-agent should have documented this in a "Literature Proof Structure" section
+   - If the research report includes a step-by-step map, use it directly
+   - If no structured extraction exists, read the relevant source and identify major proof steps
+
+2. **Mirror the literature's decomposition in plan phases**
+   - Each major literature step or proof section should correspond to a plan phase
+   - Do NOT reorganize the literature's structure into a "more efficient" ordering
+   - Do NOT merge multiple literature steps into one phase unless they are genuinely trivial
+   - Preserve the literature's lemma boundaries: if the source proves Lemma A then Lemma B then combines them, create separate phases for each
+
+3. **Label phases with literature references**
+   - Phase names should reference the source: "Phase 2: Prove completeness (Theorem 3.2 in [source])"
+   - Include the literature step number or section in each phase description
+   - This enables the implementation agent to trace each phase back to its source
+
+4. **Handle gaps between literature and formalization**
+   - If a literature step requires infrastructure not in the source (e.g., Lean type definitions, Mathlib imports), add a setup phase BEFORE the literature-mirroring phases
+   - If the literature omits "obvious" steps, add explicit phases for them with a note: "Implicit in [source], Step N"
+
+**When no literature source is referenced**, skip this stage entirely. Standard phase decomposition from Stage 4 applies.
+
+**Cross-references**:
+- Lean extension: `literature-fidelity-policy.md` (anti-patterns, escalation protocol)
+- Formal extension: `literature-fidelity-policy.md` (step translation protocol, domain-specific guidance)
+
 ### Stage 5: Create Plan File
 
 Create directory if needed:
@@ -213,6 +245,10 @@ Write plan file following plan-format.md structure:
 ### Roadmap Alignment
 
 {If roadmap was loaded: list roadmap items this plan advances. If no roadmap: "No ROADMAP.md found."}
+
+### Literature Source Mapping
+
+{If literature-guided (Stage 4.5 applied): table mapping each plan phase to its literature step/theorem/section. If not literature-guided: "No literature source referenced."}
 
 ## Goals & Non-Goals
 

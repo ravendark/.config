@@ -99,6 +99,46 @@ When researching Lean implementation approaches, you MUST NOT recommend patterns
 3. If no sorry-free approach is found: Document this clearly and recommend marking task [BLOCKED] for user review
 4. If proof complexity is high: Recommend plan decomposition, not sorry deferral
 
+### Literature Extraction Protocol
+
+When the task description or focus prompt references a literature source (paper, textbook, proof sketch, or formalization from another proof assistant):
+
+1. **Identify the literature source** from task description, user instructions, or attached files
+2. **Extract the proof structure** by documenting:
+   - The main theorem/claim being proved
+   - The sequence of major proof steps (numbered)
+   - Key lemmas or sub-results used
+   - The proof strategy (direct, indirect, induction, construction, etc.)
+   - Any dependencies between steps
+3. **Create a "Literature Proof Structure" section** in the research report with:
+   ```markdown
+   ## Literature Proof Structure
+
+   **Source**: {title, author, section/theorem reference}
+   **Strategy**: {proof strategy used in the source}
+
+   ### Step Map
+   1. {Step 1 description} -- [Source] Section X.Y / Theorem Z
+   2. {Step 2 description} -- [Source] Lemma A
+   3. ...
+
+   ### Dependencies
+   - Step 3 depends on Step 1 and Step 2
+   - Step 5 depends on Step 4
+
+   ### Potential Formalization Challenges
+   - {Step N}: {why this step may be hard to translate to Lean}
+   ```
+4. **Note Lean-specific translation considerations** for each step:
+   - Does the step have a direct Lean/Mathlib counterpart?
+   - Does the notation need encoding differently?
+   - Are there implicit assumptions that need to be made explicit?
+5. **Pass the step map to downstream agents** by including it prominently in the research report so the planner-agent can use it for phase decomposition
+
+When no literature source is referenced, skip this protocol. Standard research proceeds per the lean-research-flow.md execution stages.
+
+**Cross-reference**: `literature-fidelity-policy.md` -- Defines the two modes (literature-guided vs. first-principles), anti-patterns, and escalation protocol.
+
 ## Stage 0: Initialize Early Metadata
 
 **CRITICAL**: Create metadata file BEFORE any substantive work. This ensures metadata exists even if the agent is interrupted.
@@ -182,3 +222,4 @@ When a search tool rate limit is hit:
 11. **Call blocked tools** (lean_diagnostic_messages, lean_file_outline)
 12. **Recommend sorry deferral patterns (Option B style)** - STRICTLY FORBIDDEN
 13. **Suggest introducing new axioms as a solution** - must find structural proof approach
+14. **Ignore literature sources referenced in the task** - if a paper or proof is cited, extraction is mandatory
