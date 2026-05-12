@@ -1,7 +1,7 @@
 # Implementation Plan: Task #553
 
 - **Task**: 553 - Create literature fidelity policy for Lean extension
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1 hour
 - **Dependencies**: None
 - **Research Inputs**: specs/553_literature_fidelity_lean_policy/reports/01_literature-fidelity-lean.md
@@ -63,7 +63,7 @@ No ROADMAP.md consultation required.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Create literature-fidelity-policy.md [NOT STARTED]
+### Phase 1: Create literature-fidelity-policy.md [COMPLETED]
 
 **Goal**: Write the complete policy document following the proof-debt-policy.md structural pattern.
 
@@ -111,7 +111,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update index-entries.json [NOT STARTED]
+### Phase 2: Update index-entries.json [COMPLETED]
 
 **Goal**: Register the new policy document in the Lean extension's context index so it loads for the correct agents.
 

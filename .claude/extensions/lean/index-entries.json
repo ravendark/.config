@@ -184,6 +184,28 @@
       "summary": "Guidelines for writing readable Lean proofs"
     },
     {
+      "path": "project/lean4/standards/literature-fidelity-policy.md",
+      "description": "Policy for following literature sources vs. deriving from first principles",
+      "tags": [
+        "lean4",
+        "literature",
+        "fidelity",
+        "policy"
+      ],
+      "load_when": {
+        "languages": [
+          "lean4"
+        ],
+        "agents": [
+          "lean-implementation-agent",
+          "lean-research-agent"
+        ]
+      },
+      "domain": "project",
+      "subdomain": "lean",
+      "summary": "When to follow provided literature step-by-step vs. derive from first principles"
+    },
+    {
       "path": "project/lean4/tools/mcp-tools-guide.md",
       "description": "Lean LSP MCP server tools reference",
       "tags": [
