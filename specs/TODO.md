@@ -11,8 +11,8 @@ next_project_number: 557
 ### Pending
 - **556** [NOT STARTED] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
 - **555** [NOT STARTED] -- Update proof workflow docs with literature-first stages (depends: 553)
-- **554** [RESEARCHED] -- Create literature fidelity policy for Formal extension
-- **553** [RESEARCHED] -- Create literature fidelity policy for Lean extension
+- **554** [PLANNED] -- Create literature fidelity policy for Formal extension
+- **553** [PLANNED] -- Create literature fidelity policy for Lean extension
 - **551** [COMPLETED] -- Fix discord-link.lua session discovery to match actual opencode session list output
 - **550** [COMPLETED] -- Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
 - **549** [COMPLETED] -- Audit and relocate external /tmp/ references to specs/tmp/ (depends: 548)
@@ -50,9 +50,10 @@ Key files: `.claude/extensions/lean/context/project/lean4/agents/lean-implementa
 
 ### 554. Create literature fidelity policy for Formal extension
 - **Effort**: 1 hour
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Research**: [554_literature_fidelity_formal_policy/reports/01_literature-fidelity-formal.md]
+- **Plan**: [554_literature_fidelity_formal_policy/plans/01_literature-fidelity-formal.md]
 
 **Description**: Create a literature fidelity policy document for the formal extension at `.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md`, matching the pattern established in task 553 for the Lean extension. Covers logic, math, and physics domains. The policy defines: (1) When a literature source is provided (paper, textbook, notes), follow its proof/argument structure step-by-step. (2) When no literature is provided, derive from first principles. (3) Escalation protocol: when a literature step doesn't translate cleanly, document the gap and ask rather than improvising. (4) Anti-patterns: seeking shortcuts when the literature proof is hard, attempting novel approaches that bypass difficult steps, using automation to skip parts the literature handles explicitly. Update `formal/index-entries.json` to load this policy for formal research and implementation agents.
 
@@ -62,9 +63,10 @@ Key files: `.claude/extensions/formal/context/project/logic/standards/literature
 
 ### 553. Create literature fidelity policy for Lean extension
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Research**: [553_literature_fidelity_lean_policy/reports/01_literature-fidelity-lean.md]
+- **Plan**: [553_literature_fidelity_lean_policy/plans/01_literature-fidelity-lean.md]
 
 **Description**: Create a standalone literature fidelity policy document at `.claude/extensions/lean/context/project/lean4/standards/literature-fidelity-policy.md`. This is the core policy that all other literature-awareness tasks reference. The policy defines two modes: (1) **Literature-guided mode** (activated when a literature source is provided in the task description, plan, or research artifacts): Follow the source's proof structure step-by-step; do not seek shortcuts even when the proof is hard; translate each literature step into Lean tactics/terms faithfully; when a step doesn't translate, document the gap and escalate rather than improvising. (2) **First-principles mode** (default when no literature is provided): Current behavior -- use tactic exploration, MCP search, automation freely. The policy includes an anti-pattern catalog: (a) "The proof is hard so I'll try simp/omega/aesop instead" (b) "I'll find an easier approach" when the literature's approach is the standard one (c) Abandoning the literature's strategy after a single failed tactic attempt (d) Mixing literature steps with novel steps without flagging the deviation. Also includes an escalation protocol: when stuck on a literature step, re-read the source, try alternative Lean encodings of the same mathematical step, and only after exhausting faithful translations flag the gap to the user.
 
