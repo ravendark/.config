@@ -9,8 +9,8 @@ next_project_number: 557
 *Updated 2026-05-08. 6 active tasks remaining.*
 
 ### Pending
-- **556** [NOT STARTED] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
-- **555** [NOT STARTED] -- Update proof workflow docs with literature-first stages (depends: 553)
+- **556** [RESEARCHED] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
+- **555** [RESEARCHED] -- Update proof workflow docs with literature-first stages (depends: 553)
 - **554** [COMPLETED] -- Create literature fidelity policy for Formal extension
 - **553** [COMPLETED] -- Create literature fidelity policy for Lean extension
 - **551** [COMPLETED] -- Fix discord-link.lua session discovery to match actual opencode session list output
@@ -26,9 +26,10 @@ next_project_number: 557
 
 ### 556. Add literature awareness to planner, research agents, and lean4 rule
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #553
+- **Research**: [556_literature_awareness_planner_research/reports/01_literature-awareness-agents.md]
 
 **Description**: Add literature-following guidance to three agent/rule files and update the context index. (1) `planner-agent.md`: For formal/lean tasks with literature references, structure plan phases to mirror the literature's proof steps rather than inventing a novel decomposition. (2) `lean-research-agent.md`: During research, extract and document the proof structure from provided literature so downstream agents have a step-by-step map. (3) `lean4.md` auto-applied rule: Add a "Literature Fidelity" section that fires on every `*.lean` file edit, reminding agents to follow provided literature when available. (4) Update `lean/index-entries.json` to load the literature fidelity policy (task 553) for lean-implementation-agent.
 
@@ -38,9 +39,10 @@ Key files: `.claude/agents/planner-agent.md`, `.claude/extensions/lean/agents/le
 
 ### 555. Update proof workflow docs with literature-first stages
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #553
+- **Research**: [555_update_proof_workflow_literature/reports/01_proof-workflow-literature.md]
 
 **Description**: Modify three proof workflow documents to integrate literature-first stages before tactic exploration and automation. (1) `lean-implementation-flow.md`: Add "Stage 1.5: Check for Literature Source" between parsing delegation context and loading plan -- if a literature source is referenced, load it and identify the proof strategy before entering the proof development loop. Modify Stage 4B proof loop to consult literature FIRST before trying `lean_multi_attempt` or automation. (2) `end-to-end-proof-workflow.md`: Add "Step 0: Check for Literature Source" prerequisite; modify Step 2 (Outline the Proof) to follow the literature's structure when provided. (3) `proof-construction.md` (formal extension): Add literature-first strategy to the "Choose Strategy" section -- when a reference proof exists, the strategy is "follow the reference" not "choose between direct/indirect/induction."
 

@@ -5,7 +5,7 @@
     {
       "project_number": 556,
       "project_name": "literature_awareness_planner_research",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Add literature-following guidance to planner-agent.md, lean-research-agent.md, lean4.md auto-applied rule, and update lean/index-entries.json to load the literature fidelity policy",
       "effort": "1-2 hours",
@@ -13,12 +13,21 @@
         553
       ],
       "created": "2026-05-12T00:00:00Z",
-      "last_updated": "2026-05-12T00:00:00Z"
+      "last_updated": "2026-05-12T18:00:00Z",
+      "session_id": "sess_1778619190_95d72c",
+      "artifacts": [
+        {
+          "path": "specs/556_literature_awareness_planner_research/reports/01_literature-awareness-agents.md",
+          "type": "research",
+          "summary": "Research report with insertion points, draft content, and cross-references for adding literature awareness to planner-agent, lean-research-agent, lean4 rule, and index verification"
+        }
+      ],
+      "next_artifact_number": 2
     },
     {
       "project_number": 555,
       "project_name": "update_proof_workflow_literature",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Modify lean-implementation-flow.md, end-to-end-proof-workflow.md, and proof-construction.md to add literature-first stages before tactic exploration and automation",
       "effort": "1-2 hours",
@@ -26,7 +35,16 @@
         553
       ],
       "created": "2026-05-12T00:00:00Z",
-      "last_updated": "2026-05-12T00:00:00Z"
+      "last_updated": "2026-05-12T18:15:00Z",
+      "session_id": "sess_1778619190_95d72c",
+      "artifacts": [
+        {
+          "path": "specs/555_update_proof_workflow_literature/reports/01_proof-workflow-literature.md",
+          "type": "research",
+          "summary": "Research report documenting insertion points, draft content, and cross-references for adding literature-first stages to 3 proof workflow documents"
+        }
+      ],
+      "next_artifact_number": 2
     },
     {
       "project_number": 554,
