@@ -1,7 +1,7 @@
 # Implementation Plan: Task #554
 
 - **Task**: 554 - Create literature fidelity policy for Formal extension
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1 hour
 - **Dependencies**: None
 - **Research Inputs**: specs/554_literature_fidelity_formal_policy/reports/01_literature-fidelity-formal.md
@@ -67,21 +67,21 @@ No ROADMAP.md found.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Create Literature Fidelity Policy Document [NOT STARTED]
+### Phase 1: Create Literature Fidelity Policy Document [COMPLETED]
 
 **Goal**: Create the complete literature-fidelity-policy.md document with all sections defined in the research report.
 
 **Tasks**:
-- [ ] Create the policy file at `.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md`
-- [ ] Write the Overview section explaining the policy's purpose and scope
-- [ ] Write the Two Modes section (Literature-Guided and First-Principles)
-- [ ] Write the Activation Criteria section defining how to determine which mode applies
-- [ ] Write the Step Translation Protocol for faithful literature step-by-step translation
-- [ ] Write the Escalation Protocol for handling steps that do not translate cleanly (re-read source, try alternative encodings, check for unstated lemmas, document gap, ask user)
-- [ ] Write the Anti-Pattern Catalog with 5 anti-patterns: (1) Skipping Steps, (2) Novel Arguments, (3) Premature Automation, (4) Abandoning After First Failure, (5) Mixing Strategies Without Flagging
-- [ ] Write the Domain-Specific Guidance section with subsections for Logic (frame conditions, canonical models, induction structure), Mathematics (lemma decomposition, topological characterizations, diagram following), and Physics (orbit construction, fixed point arguments)
-- [ ] Write the Interaction with Existing Processes section referencing proof-construction.md, verification-workflow.md, and proof-conventions.md
-- [ ] Write the Success Criteria checklist
+- [x] Create the policy file at `.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md` *(completed: 257 lines)*
+- [x] Write the Overview section explaining the policy's purpose and scope *(completed)*
+- [x] Write the Two Modes section (Literature-Guided and First-Principles) *(completed)*
+- [x] Write the Activation Criteria section defining how to determine which mode applies *(completed)*
+- [x] Write the Step Translation Protocol for faithful literature step-by-step translation *(completed)*
+- [x] Write the Escalation Protocol for handling steps that do not translate cleanly (re-read source, try alternative encodings, check for unstated lemmas, document gap, ask user) *(completed)*
+- [x] Write the Anti-Pattern Catalog with 5 anti-patterns: (1) Skipping Steps, (2) Novel Arguments, (3) Premature Automation, (4) Abandoning After First Failure, (5) Mixing Strategies Without Flagging *(completed)*
+- [x] Write the Domain-Specific Guidance section with subsections for Logic (frame conditions, canonical models, induction structure), Mathematics (lemma decomposition, topological characterizations, diagram following), and Physics (orbit construction, fixed point arguments) *(completed)*
+- [x] Write the Interaction with Existing Processes section referencing proof-construction.md, verification-workflow.md, and proof-conventions.md *(completed)*
+- [x] Write the Success Criteria checklist *(completed)*
 
 **Timing**: 40 minutes
 
@@ -99,19 +99,19 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update Index-Entries.json [NOT STARTED]
+### Phase 2: Update Index-Entries.json [COMPLETED]
 
 **Goal**: Add the new literature-fidelity-policy.md to the formal extension's index-entries.json so it loads for the correct agents and task types.
 
 **Tasks**:
-- [ ] Read current `formal/index-entries.json` to identify insertion point
-- [ ] Add new entry with path `project/logic/standards/literature-fidelity-policy.md`
-- [ ] Set load_when.agents to all 4 research agents plus general-implementation-agent: `["logic-research-agent", "formal-research-agent", "math-research-agent", "physics-research-agent", "general-implementation-agent"]`
-- [ ] Set load_when.languages to `["logic", "math", "physics", "formal"]`
-- [ ] Set load_when.topics to `["literature", "fidelity", "proof", "source", "reference"]`
-- [ ] Set category to `"standards"`, domain to `"project"`, subdomain to `"logic"`
-- [ ] Set line_count to match the actual line count of the created file
-- [ ] Verify the JSON is valid after editing
+- [x] Read current `formal/index-entries.json` to identify insertion point *(completed)*
+- [x] Add new entry with path `project/logic/standards/literature-fidelity-policy.md` *(completed)*
+- [x] Set load_when.agents to all 4 research agents plus general-implementation-agent: `["logic-research-agent", "formal-research-agent", "math-research-agent", "physics-research-agent", "general-implementation-agent"]` *(completed)*
+- [x] Set load_when.languages to `["logic", "math", "physics", "formal"]` *(completed)*
+- [x] Set load_when.topics to `["literature", "fidelity", "proof", "source", "reference"]` *(completed)*
+- [x] Set category to `"standards"`, domain to `"project"`, subdomain to `"logic"` *(completed)*
+- [x] Set line_count to match the actual line count of the created file *(completed: 257 lines)*
+- [x] Verify the JSON is valid after editing *(completed)*
 
 **Timing**: 20 minutes
 
@@ -129,12 +129,12 @@ Phases within the same wave can execute in parallel.
 
 ## Testing & Validation
 
-- [ ] Literature-fidelity-policy.md file exists at `.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md`
-- [ ] Policy contains Two Modes, Escalation Protocol, Anti-Pattern Catalog (5 items), Domain-Specific Guidance (3 domains)
-- [ ] No Lean-specific references in the formal policy
-- [ ] Index-entries.json is valid JSON after modification
-- [ ] New index entry targets all 4 research agents and general-implementation-agent
-- [ ] Languages filter covers logic, math, physics, formal
+- [x] Literature-fidelity-policy.md file exists at `.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md`
+- [x] Policy contains Two Modes, Escalation Protocol, Anti-Pattern Catalog (5 items), Domain-Specific Guidance (3 domains)
+- [x] No Lean-specific references in the formal policy
+- [x] Index-entries.json is valid JSON after modification
+- [x] New index entry targets all 4 research agents and general-implementation-agent
+- [x] Languages filter covers logic, math, physics, formal
 
 ## Artifacts & Outputs
 

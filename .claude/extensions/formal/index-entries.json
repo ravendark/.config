@@ -1045,6 +1045,36 @@
       },
       "domain": "project",
       "subdomain": "math"
+    },
+    {
+      "path": "project/logic/standards/literature-fidelity-policy.md",
+      "summary": "Policy for following provided literature sources in formal proofs across logic, math, and physics domains",
+      "category": "standards",
+      "line_count": 257,
+      "load_when": {
+        "agents": [
+          "logic-research-agent",
+          "formal-research-agent",
+          "math-research-agent",
+          "physics-research-agent",
+          "general-implementation-agent"
+        ],
+        "languages": [
+          "logic",
+          "math",
+          "physics",
+          "formal"
+        ],
+        "topics": [
+          "literature",
+          "fidelity",
+          "proof",
+          "source",
+          "reference"
+        ]
+      },
+      "domain": "project",
+      "subdomain": "logic"
     }
   ]
 }

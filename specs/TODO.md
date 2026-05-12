@@ -11,7 +11,7 @@ next_project_number: 557
 ### Pending
 - **556** [NOT STARTED] -- Add literature awareness to planner, research agents, and lean4 rule (depends: 553)
 - **555** [NOT STARTED] -- Update proof workflow docs with literature-first stages (depends: 553)
-- **554** [IMPLEMENTING] -- Create literature fidelity policy for Formal extension
+- **554** [COMPLETED] -- Create literature fidelity policy for Formal extension
 - **553** [COMPLETED] -- Create literature fidelity policy for Lean extension
 - **551** [COMPLETED] -- Fix discord-link.lua session discovery to match actual opencode session list output
 - **550** [COMPLETED] -- Unify Ctrl-CR toggle for OpenCode and ClaudeCode and add leader-ac agent picker
@@ -50,10 +50,13 @@ Key files: `.claude/extensions/lean/context/project/lean4/agents/lean-implementa
 
 ### 554. Create literature fidelity policy for Formal extension
 - **Effort**: 1 hour
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Research**: [554_literature_fidelity_formal_policy/reports/01_literature-fidelity-formal.md]
 - **Plan**: [554_literature_fidelity_formal_policy/plans/01_literature-fidelity-formal.md]
+- **Summary**: [554_literature_fidelity_formal_policy/summaries/01_literature-fidelity-formal-summary.md]
+- **Completed**: 2026-05-12
+- **Summary**: Created literature-fidelity-policy.md (257 lines) for the formal extension defining two agent modes (literature-guided and first-principles), 5 FORBIDDEN anti-patterns, 5-level escalation protocol, domain-specific guidance for logic/math/physics, and success criteria checklist. Registered in index-entries.json for all 4 research agents plus general-implementation-agent with languages filter.
 
 **Description**: Create a literature fidelity policy document for the formal extension at `.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md`, matching the pattern established in task 553 for the Lean extension. Covers logic, math, and physics domains. The policy defines: (1) When a literature source is provided (paper, textbook, notes), follow its proof/argument structure step-by-step. (2) When no literature is provided, derive from first principles. (3) Escalation protocol: when a literature step doesn't translate cleanly, document the gap and ask rather than improvising. (4) Anti-patterns: seeking shortcuts when the literature proof is hard, attempting novel approaches that bypass difficult steps, using automation to skip parts the literature handles explicitly. Update `formal/index-entries.json` to load this policy for formal research and implementation agents.
 
