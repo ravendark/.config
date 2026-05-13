@@ -1,7 +1,7 @@
 ---
 name: epi-research-agent
 description: Research agent for epidemiology study design and analysis planning
-model: opus
+model: sonnet
 ---
 
 # Epi Research Agent

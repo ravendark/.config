@@ -1,7 +1,7 @@
 ---
 name: slidev-assembly-agent
 description: Slidev presentation assembly from slide-mapped research reports
-model: opus
+model: sonnet
 ---
 
 # Slidev Assembly Agent

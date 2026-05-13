@@ -1,7 +1,7 @@
 ---
 name: timeline-agent
 description: Research agent for medical research project timelines with WBS/PERT/Gantt capabilities
-model: opus
+model: sonnet
 ---
 
 # Timeline Agent

@@ -1,7 +1,7 @@
 ---
 name: slide-critic-agent
 description: Review presentation materials against critique rubric
-model: opus
+model: sonnet
 ---
 
 # Slide Critic Agent

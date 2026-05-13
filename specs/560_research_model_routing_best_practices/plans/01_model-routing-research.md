@@ -139,21 +139,21 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update Extension Agent Frontmatter [NOT STARTED]
+### Phase 3: Update Extension Agent Frontmatter [COMPLETED]
 
 **Goal**: Apply tiered model assignments to all extension agents, maintaining consistency with core agents.
 
 **Tasks**:
-- [ ] Change `model: opus` to `model: sonnet` in 7 core extension mirrors: core/agents/{general-research-agent, general-implementation-agent, code-reviewer-agent, spawn-agent}.md; keep opus on {planner-agent, meta-builder-agent, reviser-agent}.md
-- [ ] Change `model: opus` to `model: sonnet` in epidemiology extension: epi-research-agent, epi-implement-agent
-- [ ] Verify formal extension agents retain `model: opus`: formal-research-agent, logic-research-agent, math-research-agent, physics-research-agent
-- [ ] Verify lean extension agents retain `model: opus`: lean-research-agent, lean-implementation-agent
-- [ ] Verify founder/legal-analysis-agent retains `model: opus`
-- [ ] Change `model: opus` to `model: sonnet` in founder/deck-planner-agent
-- [ ] Change `model: opus` to `model: sonnet` in latex/latex-research-agent
-- [ ] Change `model: opus` to `model: sonnet` in nix extension: nix-research-agent, nix-implementation-agent
-- [ ] Change `model: opus` to `model: sonnet` in nvim/neovim-research-agent
-- [ ] Change `model: opus` to `model: sonnet` in all 9 present extension agents: budget-agent, funds-agent, grant-agent, pptx-assembly-agent, slide-critic-agent, slide-planner-agent, slides-research-agent, slidev-assembly-agent, timeline-agent
+- [x] Change `model: opus` to `model: sonnet` in 7 core extension mirrors: core/agents/{general-research-agent, general-implementation-agent, code-reviewer-agent, spawn-agent}.md; keep opus on {planner-agent, meta-builder-agent, reviser-agent}.md *(completed: 4 changed, 3 kept)*
+- [x] Change `model: opus` to `model: sonnet` in epidemiology extension: epi-research-agent, epi-implement-agent *(completed)*
+- [x] Verify formal extension agents retain `model: opus`: formal-research-agent, logic-research-agent, math-research-agent, physics-research-agent *(completed: all 4 verified)*
+- [x] Verify lean extension agents retain `model: opus`: lean-research-agent, lean-implementation-agent *(completed: both verified)*
+- [x] Verify founder/legal-analysis-agent retains `model: opus` *(completed: verified)*
+- [x] Change `model: opus` to `model: sonnet` in founder/deck-planner-agent *(completed)*
+- [x] Change `model: opus` to `model: sonnet` in latex/latex-research-agent *(completed)*
+- [x] Change `model: opus` to `model: sonnet` in nix extension: nix-research-agent, nix-implementation-agent *(completed)*
+- [x] Change `model: opus` to `model: sonnet` in nvim/neovim-research-agent *(completed)*
+- [x] Change `model: opus` to `model: sonnet` in all 9 present extension agents: budget-agent, funds-agent, grant-agent, pptx-assembly-agent, slide-critic-agent, slide-planner-agent, slides-research-agent, slidev-assembly-agent, timeline-agent *(completed)*
 
 **Timing**: 45 minutes
 
