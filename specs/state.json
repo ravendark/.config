@@ -224,19 +224,24 @@
     {
       "project_number": 557,
       "project_name": "research_lifecycle_notification_patterns",
-      "status": "researched",
+      "status": "planned",
       "task_type": "general",
       "description": "Research best practices for Claude Code 2026 hook architectures, lifecycle-aware notification systems, and signal-based event patterns for reducing TTS/WezTerm notification spam",
       "effort": "1-3 hours",
       "dependencies": [],
       "created": "2026-05-13T12:00:00Z",
-      "last_updated": "2026-05-13T17:43:01Z",
-      "session_id": "sess_1778693692_cc2a7e",
+      "last_updated": "2026-05-13T17:50:08Z",
+      "session_id": "sess_1778694372_523b95",
       "artifacts": [
         {
           "path": "specs/557_research_lifecycle_notification_patterns/reports/01_lifecycle-notification-patterns.md",
           "type": "research",
           "summary": "B+A Hybrid approach: direct invocation from postflight scripts + signal file for Stop hook gating. Evaluates 4 architectures, documents Claude Code 2026 hook event model, WezTerm OSC 1337 limitations."
+        },
+        {
+          "path": "specs/557_research_lifecycle_notification_patterns/plans/01_lifecycle-notification-patterns.md",
+          "type": "plan",
+          "summary": "4-phase B+A Hybrid plan: core signal infrastructure, lifecycle TTS gating, WezTerm multi-state indicators, documentation update"
         }
       ],
       "next_artifact_number": 2,
@@ -278,7 +283,33 @@
             "2026-features"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 4,
+        "total_effort_hours": 3,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_lifecycle-notification-patterns.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-13"
+          }
+        ]
+      }
     },
     {
       "project_number": 558,
