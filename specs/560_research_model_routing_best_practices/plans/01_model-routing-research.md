@@ -187,16 +187,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Update CLAUDE.md Tables and Merge Sources [NOT STARTED]
+### Phase 4: Update CLAUDE.md Tables and Merge Sources [COMPLETED]
 
 **Goal**: Update the CLAUDE.md merge-sources to reflect the new model assignments in skill-to-agent mapping tables, then regenerate CLAUDE.md.
 
 **Tasks**:
-- [ ] Update `.claude/extensions/core/merge-sources/claudemd.md`: change the Skill-to-Agent Mapping table to show correct model per agent (sonnet for general-research, sonnet for general-implementation, opus for planner, etc.)
-- [ ] Update the Model Enforcement paragraph to replace "All agents default to Opus" with tiered policy description
-- [ ] Update extension merge-sources if they contain model references in their skill-agent mapping sections
-- [ ] Regenerate `.claude/CLAUDE.md` by running the CLAUDE.md generation process (or manually update if auto-generation is not scripted)
-- [ ] Verify the generated CLAUDE.md tables match the new assignments
+- [x] Update `.claude/extensions/core/merge-sources/claudemd.md`: change the Skill-to-Agent Mapping table to show correct model per agent (sonnet for general-research, sonnet for general-implementation, opus for planner, etc.) *(completed)*
+- [x] Update the Model Enforcement paragraph to replace "All agents default to Opus" with tiered policy description *(completed)*
+- [x] Update extension merge-sources if they contain model references in their skill-agent mapping sections *(completed: only core had references; nvim extension table updated in CLAUDE.md directly)*
+- [x] Regenerate `.claude/CLAUDE.md` by running the CLAUDE.md generation process (or manually update if auto-generation is not scripted) *(completed: manually updated)*
+- [x] Verify the generated CLAUDE.md tables match the new assignments *(completed: verified)*
 
 **Timing**: 30 minutes
 

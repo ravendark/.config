@@ -176,9 +176,9 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 
 | Skill | Agent | Model | Purpose |
 |-------|-------|-------|---------|
-| skill-researcher | general-research-agent | opus | General web/codebase research |
+| skill-researcher | general-research-agent | sonnet | General web/codebase research |
 | skill-planner | planner-agent | opus | Implementation plan creation |
-| skill-implementer | general-implementation-agent | opus | General file implementation |
+| skill-implementer | general-implementation-agent | sonnet | General file implementation |
 | skill-meta | meta-builder-agent | - | System building and task creation |
 | skill-status-sync | (direct execution) | - | Atomic status updates |
 | skill-refresh | (direct execution) | - | Process and file cleanup |
@@ -188,7 +188,7 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 | skill-team-plan | (team orchestration) | sonnet | Multi-agent parallel planning (--team flag) |
 | skill-team-implement | (team orchestration) | sonnet | Multi-agent parallel implementation (--team flag) |
 | skill-reviser | reviser-agent | opus | Plan revision and description update |
-| skill-spawn | spawn-agent | opus | Analyze blockers and spawn new tasks |
+| skill-spawn | spawn-agent | sonnet | Analyze blockers and spawn new tasks |
 | skill-orchestrator | (direct execution) | - | Route commands to appropriate workflows |
 | skill-git-workflow | (direct execution) | - | Create scoped git commits for task operations |
 | skill-fix-it | (direct execution) | - | Scan for FIX:/TODO:/NOTE: tags and create tasks |
@@ -207,7 +207,7 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 | reviser-agent | Plan revision with research synthesis |
 | spawn-agent | Blocker analysis and task decomposition |
 
-**Model Enforcement**: Agents declare preferred models via `model:` frontmatter field. All agents default to Opus. Two independent flag dimensions override behavior at invocation time: effort flags (`--fast`, `--hard`) control reasoning depth, and model flags (`--haiku`, `--sonnet`, `--opus`) select the model family. These flags work on `/research`, `/plan`, and `/implement`. See `.claude/docs/reference/standards/agent-frontmatter-standard.md` for details.
+**Model Enforcement**: Agents declare preferred models via `model:` frontmatter field using a tiered policy: Opus for deep-reasoning agents (planner, meta-builder, reviser, formal/lean/math/logic), Sonnet for general-purpose agents (research, implementation, review, spawn, domain tasks). Two independent flag dimensions override behavior at invocation time: effort flags (`--fast`, `--hard`) control reasoning depth, and model flags (`--haiku`, `--sonnet`, `--opus`) select the model family. These flags work on `/research`, `/plan`, and `/implement`. See `.claude/docs/reference/standards/agent-frontmatter-standard.md` for details.
 
 **User-Only Skills**: Skills marked as "user-only" cannot be invoked by agents. These are for human-controlled operations like deployment (`skill-tag`).
 
@@ -483,8 +483,8 @@ This project includes Neovim configuration development support via the nvim exte
 
 | Skill | Agent | Model | Purpose |
 |-------|-------|-------|---------|
-| skill-neovim-research | neovim-research-agent | opus | Neovim/plugin research |
-| skill-neovim-implementation | neovim-implementation-agent | - | Neovim configuration implementation |
+| skill-neovim-research | neovim-research-agent | sonnet | Neovim/plugin research |
+| skill-neovim-implementation | neovim-implementation-agent | sonnet | Neovim configuration implementation |
 
 ### Rules
 
