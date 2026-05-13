@@ -296,7 +296,7 @@ Skipped: {count}
    - `--opus` -> `model_flag = "opus"` (use Opus model)
 
    If multiple are provided, last one wins.
-   If none: `model_flag = null` (use agent default, currently opus for all agents)
+   If none: `model_flag = null` (use agent's frontmatter default: opus for planner/meta-builder/reviser; sonnet for general-purpose agents)
 
 5. **Extract Clean Flag**
    Check remaining args for memory retrieval suppression:
@@ -400,7 +400,7 @@ If `model_flag` is set, pass the `model` parameter to override the agent's defau
 - `model_flag="haiku"` -> pass `model: haiku`
 - `model_flag="sonnet"` -> pass `model: sonnet`
 - `model_flag="opus"` -> pass `model: opus`
-- `model_flag=null` -> omit `model` parameter (use agent default, currently opus for all agents)
+- `model_flag=null` -> omit `model` parameter (use agent's frontmatter default: opus for planner/meta-builder/reviser; sonnet for general-purpose agents)
 
 If `effort_flag` is set, pass it as prompt context to the skill/agent for reasoning depth guidance.
 

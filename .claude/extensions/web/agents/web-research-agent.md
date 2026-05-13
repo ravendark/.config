@@ -2,6 +2,7 @@
 name: web-research-agent
 description: Research web development tasks using Astro, Tailwind CSS v4, and Cloudflare documentation
 disallowedTools: mcp__playwright__*
+model: sonnet
 ---
 
 # Web Research Agent

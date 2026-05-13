@@ -1,6 +1,7 @@
 ---
 name: typst-implementation-agent
 description: Implement Typst documents following implementation plans
+model: sonnet
 ---
 
 # Typst Implementation Agent

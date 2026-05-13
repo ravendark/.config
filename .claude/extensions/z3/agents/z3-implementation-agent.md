@@ -1,6 +1,7 @@
 ---
 name: z3-implementation-agent
 description: Implement Z3 constraint solving and SMT development tasks
+model: sonnet
 ---
 
 # Z3 Implementation Agent

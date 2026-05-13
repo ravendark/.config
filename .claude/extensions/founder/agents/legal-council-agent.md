@@ -1,6 +1,7 @@
 ---
 name: legal-council-agent
 description: Contract review and negotiation counsel for AI startup founders
+model: opus
 ---
 
 # Legal Council Agent

@@ -1,7 +1,7 @@
 # Implementation Plan: Task #561
 
 - **Task**: 561 - implement_tiered_model_defaults
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 0.75 hours
 - **Dependencies**: Task 560 (completed)
 - **Research Inputs**: specs/561_implement_tiered_model_defaults/reports/01_tiered-model-audit.md
@@ -59,7 +59,7 @@ This plan advances the ROADMAP item "Agent frontmatter validation" under Phase 1
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Fix Stale Command Documentation [NOT STARTED]
+### Phase 1: Fix Stale Command Documentation [COMPLETED]
 
 **Goal**: Replace 6 occurrences of "currently opus for all agents" with accurate tiered description in 3 command files.
 
@@ -86,7 +86,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Fix Nix Extension Table in CLAUDE.md [NOT STARTED]
+### Phase 2: Fix Nix Extension Table in CLAUDE.md [COMPLETED]
 
 **Goal**: Add Model column with "sonnet" values to the nix extension skill-agent table, matching the nvim extension table format.
 
@@ -110,7 +110,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Add Explicit Model Fields to Extension Agents [NOT STARTED]
+### Phase 3: Add Explicit Model Fields to Extension Agents [COMPLETED]
 
 **Goal**: Add `model: sonnet` to 13 pattern-execution agents and `model: opus` to 1 high-stakes agent, eliminating inherit-tier ambiguity for these files.
 
@@ -156,7 +156,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Verification and Consistency Check [NOT STARTED]
+### Phase 4: Verification and Consistency Check [COMPLETED]
 
 **Goal**: Validate all changes are correct and no stale text or missing model fields remain.
 

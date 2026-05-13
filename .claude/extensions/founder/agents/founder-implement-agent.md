@@ -1,6 +1,7 @@
 ---
 name: founder-implement-agent
 description: Execute founder plans and generate strategy reports using plan and research context
+model: sonnet
 ---
 
 # Founder Implement Agent

@@ -1,6 +1,7 @@
 ---
 name: python-research-agent
 description: Research Python development tasks using codebase exploration and documentation
+model: sonnet
 ---
 
 # Python Research Agent

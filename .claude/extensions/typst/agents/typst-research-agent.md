@@ -1,6 +1,7 @@
 ---
 name: typst-research-agent
 description: Research Typst documentation tasks using domain context and codebase exploration
+model: sonnet
 ---
 
 # Typst Research Agent

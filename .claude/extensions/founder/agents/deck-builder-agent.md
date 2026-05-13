@@ -1,6 +1,7 @@
 ---
 name: deck-builder-agent
 description: Generate Slidev pitch decks from plans and research by assembling library content
+model: sonnet
 ---
 
 # Deck Builder Agent

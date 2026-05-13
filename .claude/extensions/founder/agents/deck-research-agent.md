@@ -1,6 +1,7 @@
 ---
 name: deck-research-agent
 description: Pitch deck content research through material synthesis and slide mapping
+model: sonnet
 ---
 
 # Deck Research Agent

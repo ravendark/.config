@@ -1,6 +1,7 @@
 ---
 name: founder-plan-agent
 description: Create founder analysis plans by reading research reports
+model: sonnet
 ---
 
 # Founder Plan Agent

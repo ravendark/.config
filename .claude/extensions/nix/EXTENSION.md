@@ -10,10 +10,10 @@ This project includes NixOS and Home Manager configuration support via the nix e
 
 ### Skill-Agent Mapping
 
-| Skill | Agent | Purpose |
-|-------|-------|---------|
-| skill-nix-research | nix-research-agent | NixOS/Home Manager/flakes research with MCP-NixOS |
-| skill-nix-implementation | nix-implementation-agent | Nix configuration implementation with verification |
+| Skill | Agent | Model | Purpose |
+|-------|-------|-------|---------|
+| skill-nix-research | nix-research-agent | sonnet | NixOS/Home Manager/flakes research with MCP-NixOS |
+| skill-nix-implementation | nix-implementation-agent | sonnet | Nix configuration implementation with verification |
 
 ### Key Technologies
 

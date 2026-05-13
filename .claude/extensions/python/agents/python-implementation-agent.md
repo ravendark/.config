@@ -1,6 +1,7 @@
 ---
 name: python-implementation-agent
 description: Implement Python development tasks with testing and verification
+model: sonnet
 ---
 
 # Python Implementation Agent

@@ -2,6 +2,7 @@
 name: web-implementation-agent
 description: Implement web (Astro/Tailwind/TypeScript) changes from plans
 disallowedTools: mcp__context7__*
+model: sonnet
 ---
 
 # Web Implementation Agent

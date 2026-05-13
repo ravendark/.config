@@ -1,6 +1,7 @@
 ---
 name: z3-research-agent
 description: Research Z3 SMT solving and constraint development tasks
+model: sonnet
 ---
 
 # Z3 Research Agent
