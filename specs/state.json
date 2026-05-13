@@ -447,7 +447,7 @@
     {
       "project_number": 561,
       "project_name": "implement_tiered_model_defaults",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Based on research findings from task 560, update agent frontmatter model: fields to use appropriate model tiers. Update agent-frontmatter-standard.md, CLAUDE.md skill-agent mapping tables, command frontmatter, context references, and templates. Ensure --opus/--sonnet/--haiku runtime overrides still work. Consider model: inherit for user-controlled agents. Verify team-mode skills continue defaulting teammates to sonnet.",
       "effort": "2-4 hours",
@@ -455,13 +455,18 @@
         560
       ],
       "created": "2026-05-13T20:00:00Z",
-      "last_updated": "2026-05-13T19:25:51Z",
-      "session_id": "sess_1778700049_4e3fb3",
+      "last_updated": "2026-05-13T19:36:11Z",
+      "session_id": "sess_1778700746_f3dc0e",
       "artifacts": [
         {
           "path": "specs/561_implement_tiered_model_defaults/reports/01_tiered-model-audit.md",
           "type": "research",
           "summary": "Audit of tiered model implementation status: task 560 completed core work; 3 gaps remain (stale command docs, nix table inconsistency, 29 inherit-tier agents needing explicit model decisions)"
+        },
+        {
+          "path": "specs/561_implement_tiered_model_defaults/plans/01_tiered-model-defaults.md",
+          "type": "plan",
+          "summary": "4-phase plan to fix 3 remaining gaps in tiered model defaults: stale command docs, nix table missing Model column, and 14 extension agents needing explicit model fields"
         }
       ],
       "next_artifact_number": 2,
@@ -474,7 +479,31 @@
           "keyword": "opus sonnet model tier agents",
           "content": "Agent model tier assignments (2026-05-13): Opus tier - planner-agent, meta-builder-agent, reviser-agent, formal/lean/math/logic/physics agents, legal-analysis-agent. Sonnet tier - all general research/implementation/review agents, spawn, neovim, nix, epi, present, latex-research, founder-deck-planner. Inherit tier - filetypes, founder-utility (market, strategy, analyze etc.), python/typst/web/z3 (pending task 561 explicit assignment). Team-mode skills default teammates to sonnet."
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 4,
+        "total_effort_hours": 0.75,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_tiered-model-audit.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-13"
+          }
+        ]
+      }
     }
   ],
   "completed_projects": [],
