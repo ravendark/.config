@@ -1,7 +1,7 @@
 # Implementation Plan: Model Routing Optimization
 
 - **Task**: 560 - Research Model Routing Best Practices
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/560_research_model_routing_best_practices/reports/01_model-routing-research.md
