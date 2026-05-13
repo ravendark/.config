@@ -102,17 +102,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update Core Agent and Command Frontmatter [NOT STARTED]
+### Phase 2: Update Core Agent and Command Frontmatter [COMPLETED]
 
 **Goal**: Apply tiered model assignments to all 11 core agents and 15 commands.
 
 **Tasks**:
-- [ ] Change `model: opus` to `model: sonnet` in 7 core agents: general-research-agent, general-implementation-agent, code-reviewer-agent, spawn-agent, neovim-research-agent, nix-research-agent, nix-implementation-agent
-- [ ] Add `model: sonnet` to neovim-implementation-agent (currently has no model field)
-- [ ] Verify 3 core agents retain `model: opus`: planner-agent, meta-builder-agent, reviser-agent
-- [ ] Change `model: opus` to `model: sonnet` in 3 dispatch commands: research.md, plan.md, implement.md (these route to agents whose model takes precedence)
-- [ ] Change `model: opus` to `model: sonnet` in project-overview.md (lower complexity)
-- [ ] Verify remaining 11 commands retain `model: opus`: errors, fix-it, merge, meta, refresh, review, revise, spawn, tag, task, todo
+- [x] Change `model: opus` to `model: sonnet` in 7 core agents: general-research-agent, general-implementation-agent, code-reviewer-agent, spawn-agent, neovim-research-agent, nix-research-agent, nix-implementation-agent *(completed)*
+- [x] Add `model: sonnet` to neovim-implementation-agent (currently has no model field) *(completed)*
+- [x] Verify 3 core agents retain `model: opus`: planner-agent, meta-builder-agent, reviser-agent *(completed: verified)*
+- [x] Change `model: opus` to `model: sonnet` in 3 dispatch commands: research.md, plan.md, implement.md (these route to agents whose model takes precedence) *(completed)*
+- [x] Change `model: opus` to `model: sonnet` in project-overview.md (lower complexity) *(completed)*
+- [x] Verify remaining 11 commands retain `model: opus`: errors, fix-it, merge, meta, refresh, review, revise, spawn, tag, task, todo *(completed: all 11 verified)*
 
 **Timing**: 45 minutes
 

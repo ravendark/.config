@@ -1,7 +1,7 @@
 ---
 name: nix-research-agent
 description: Research NixOS and Home Manager configuration tasks
-model: opus
+model: sonnet
 ---
 
 # Nix Research Agent

@@ -1,7 +1,7 @@
 ---
 name: neovim-research-agent
 description: Research Neovim configuration and plugin tasks
-model: opus
+model: sonnet
 ---
 
 # Neovim Research Agent
