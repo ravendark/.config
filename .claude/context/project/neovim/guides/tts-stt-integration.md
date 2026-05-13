@@ -161,9 +161,84 @@ export TTS_COOLDOWN=5
 | Event | Trigger | Message |
 |-------|---------|---------|
 | Stop | Claude finishes responding | "Tab N" |
+| Stop (lifecycle suppressed) | Claude finishes after postflight | (silent -- lifecycle TTS already fired) |
+| Lifecycle (postflight) | Task status transition completes | "Tab N researched/planned/completed" |
 | permission_prompt | Claude needs tool permission | "Tab N" |
 | idle_prompt | Claude is waiting for user input | "Tab N" |
 | elicitation_dialog | Claude asks a clarifying question | "Tab N" |
+
+### Lifecycle-Aware TTS (B+A Hybrid Architecture)
+
+Multi-step agent workflows (e.g., `/research`, `/plan`, `/implement`) cause multiple Stop events, each triggering "Tab N" TTS. The B+A Hybrid architecture eliminates this spam while preserving notifications for non-workflow stops.
+
+#### Architecture Overview
+
+The system uses two complementary layers:
+
+1. **Layer B (Direct Invocation)**: After a successful postflight status transition (e.g., researching -> researched), `update-task-status.sh` calls `tts-notify.sh --lifecycle STATUS` directly. This speaks a lifecycle-contextual message like "Tab 3 researched" immediately.
+
+2. **Layer A (Signal File)**: Simultaneously, `update-task-status.sh` writes a signal file to `specs/tmp/tts-lifecycle-signal`. When the subsequent Stop hook fires, `tts-notify.sh` checks for this signal file. If present and fresh (<60 seconds old), it consumes the file and skips the redundant "Tab N" TTS.
+
+```
+Postflight Success
+    |
+    +-- write signal file: specs/tmp/tts-lifecycle-signal
+    |
+    +-- call tts-notify.sh --lifecycle "researched"   (speaks "Tab 3 researched")
+    |
+    +-- call wezterm-notify.sh "researched"            (colors tab green)
+    |
+    v
+Stop Hook fires
+    |
+    +-- tts-notify.sh reads signal file
+    |
+    +-- signal file present + fresh? -> consume + SKIP TTS
+    |
+    +-- signal file absent?          -> speak "Tab N" normally
+```
+
+#### The --lifecycle Flag
+
+```bash
+# Called by postflight scripts (not by hooks directly)
+bash .claude/hooks/tts-notify.sh --lifecycle researched   # "Tab 3 researched"
+bash .claude/hooks/tts-notify.sh --lifecycle planned       # "Tab 3 planned"
+bash .claude/hooks/tts-notify.sh --lifecycle completed     # "Tab 3 completed"
+```
+
+When `--lifecycle STATUS` is passed:
+- Speaks "Tab N STATUS" (e.g., "Tab 3 researched")
+- Bypasses the cooldown timer
+- Skips stdin JSON parsing (not called from a hook)
+- Does not write or check the signal file
+
+#### Signal File Mechanism
+
+| File | Purpose |
+|------|---------|
+| `specs/tmp/tts-lifecycle-signal` | Contains the lifecycle status value (e.g., "researched") |
+
+**Lifecycle**:
+1. Written by `update-task-status.sh` after postflight success
+2. Read and consumed by `tts-notify.sh` during Stop hook
+3. Stale files (>60 seconds old) are deleted and ignored
+4. Non-workflow stops (no signal file) trigger normal "Tab N" TTS
+
+#### Troubleshooting Lifecycle TTS
+
+**Double TTS (both lifecycle and Stop hook)**:
+- Check signal file was written: `cat specs/tmp/tts-lifecycle-signal`
+- Verify file age: `stat -c %Y specs/tmp/tts-lifecycle-signal`
+- Check log: `grep "signal" specs/tmp/claude-tts-notify.log`
+
+**No lifecycle TTS fires**:
+- Verify `update-task-status.sh` postflight path runs: check exit code
+- Check tts-notify.sh is executable: `ls -la .claude/hooks/tts-notify.sh`
+
+**Stale signal file blocks normal TTS**:
+- Signal files older than 60 seconds are automatically cleaned up
+- Manual cleanup: `rm -f specs/tmp/tts-lifecycle-signal`
 
 ### Troubleshooting
 

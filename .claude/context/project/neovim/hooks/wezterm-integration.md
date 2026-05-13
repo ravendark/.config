@@ -37,10 +37,15 @@ The integration enables:
 ### wezterm-notify.sh
 
 **Path**: `.claude/hooks/wezterm-notify.sh`
-**Hook Event**: `Stop`
-**Purpose**: Set amber tab notification when Claude awaits input
+**Hook Event**: `Stop` (also called directly by `update-task-status.sh`)
+**Purpose**: Set tab notification color based on lifecycle state
 
-Sets `CLAUDE_STATUS=needs_input` via OSC 1337 to the pane TTY. The WezTerm `format-tab-title` handler reads this variable and applies amber background (#e5b566) to inactive tabs.
+Sets `CLAUDE_STATUS` via OSC 1337 to the pane TTY. The WezTerm `format-tab-title` handler reads this variable and applies color-coded background to inactive tabs.
+
+**Usage**:
+- `bash wezterm-notify.sh` -- Sets `CLAUDE_STATUS=needs_input` (Stop hook, gray tab)
+- `bash wezterm-notify.sh researched` -- Sets `CLAUDE_STATUS=researched` (dark green tab)
+- `bash wezterm-notify.sh completed` -- Sets `CLAUDE_STATUS=completed` (bright green tab)
 
 ### wezterm-clear-status.sh
 
@@ -74,7 +79,30 @@ This ensures task numbers persist correctly during Claude's responses and tool e
 | Variable | Purpose | Values |
 |----------|---------|--------|
 | `TASK_NUMBER` | Task number for tab title | Numeric string (e.g., "792") |
-| `CLAUDE_STATUS` | Notification state | "needs_input" or empty |
+| `CLAUDE_STATUS` | Notification/lifecycle state | See lifecycle states below, or empty |
+
+### CLAUDE_STATUS Lifecycle States
+
+The `CLAUDE_STATUS` user variable supports multiple values for lifecycle-aware tab coloring:
+
+| Value | Trigger | Tab Color | Description |
+|-------|---------|-----------|-------------|
+| `needs_input` | Stop hook (default) | Gray (#3a3a3a) | Claude awaits user input |
+| `researched` | Postflight: research done | Dark green (#2a4a2a) | Research phase completed |
+| `planned` | Postflight: planning done | Dark blue (#2a2a5a) | Planning phase completed |
+| `completed` | Postflight: implementation done | Bright green (#1a5a1a) | Implementation completed |
+| `blocked` | Postflight: task blocked | Dark red (#5a2a2a) | Task is blocked |
+| `researching` | Preflight: research starting | Dim green (#2a4a2a) | Research in progress |
+| `planning` | Preflight: planning starting | Dim blue (#2a2a5a) | Planning in progress |
+| `implementing` | Preflight: implementation starting | Dim yellow (#3a3a1a) | Implementation in progress |
+| (empty) | User views tab / prompt submit | Default (#202020) | Normal inactive tab |
+| (unknown) | Any unrecognized value | Default (#202020) | Safe degradation |
+
+**Safe Degradation**: Unknown `CLAUDE_STATUS` values fall through to default inactive tab styling. This ensures forward compatibility when new states are added.
+
+**Clearing**: CLAUDE_STATUS is cleared (reset to empty) when:
+1. The user switches to the tab (via `update-status` handler)
+2. The user submits a prompt (via `wezterm-clear-status.sh`)
 
 ## Configuration
 

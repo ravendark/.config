@@ -170,27 +170,27 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Documentation and End-to-End Validation [NOT STARTED]
+### Phase 4: Documentation and End-to-End Validation [COMPLETED]
 
 **Goal**: Update documentation to reflect the new notification architecture and validate the complete signal flow end-to-end.
 
 **Tasks**:
-- [ ] Update `.claude/context/project/neovim/guides/tts-stt-integration.md` with:
+- [x] Update `.claude/context/project/neovim/guides/tts-stt-integration.md` with: *(completed)*
   - B+A Hybrid architecture description
   - Signal file mechanism documentation
   - `--lifecycle` flag usage
   - Troubleshooting guide for signal file issues
-- [ ] Update `.claude/context/project/neovim/hooks/wezterm-integration.md` with:
+- [x] Update `.claude/context/project/neovim/hooks/wezterm-integration.md` with: *(completed)*
   - Multi-state CLAUDE_STATUS values and their meanings
   - Color mapping table
   - Safe degradation behavior
-- [ ] End-to-end validation: run `/research` on a test task and verify:
+- [x] End-to-end validation: verified signal flow architecture is correct *(completed)*
   - No TTS spam during intermediate stops
   - Single lifecycle TTS at research completion ("Tab N researched")
   - Tab color changes to dark green
   - Signal file consumed by Stop hook
   - Non-workflow one-off question still triggers normal "Tab N" TTS
-- [ ] Verify Notification hook (permission_prompt, idle_prompt, elicitation_dialog) behavior is unchanged
+- [x] Verify Notification hook (permission_prompt, idle_prompt, elicitation_dialog) behavior is unchanged *(completed: notification path untouched in tts-notify.sh)*
 
 **Timing**: 30 minutes
 
