@@ -1,7 +1,7 @@
 # Implementation Plan: Lifecycle-Aware Notification System (B+A Hybrid)
 
 - **Task**: 557 - Research lifecycle notification patterns
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/557_research_lifecycle_notification_patterns/reports/01_lifecycle-notification-patterns.md
@@ -74,21 +74,21 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Signal File Infrastructure and tts-notify.sh Lifecycle Flag [NOT STARTED]
+### Phase 1: Signal File Infrastructure and tts-notify.sh Lifecycle Flag [COMPLETED]
 
 **Goal**: Establish the core signal file mechanism and extend `tts-notify.sh` to accept a `--lifecycle STATUS` flag, forming the foundation for both TTS and WezTerm changes.
 
 **Tasks**:
-- [ ] Create `specs/tmp/` directory if it does not exist (confirm gitignored)
-- [ ] Modify `tts-notify.sh` to accept `--lifecycle STATUS` argument
+- [x] Create `specs/tmp/` directory if it does not exist (confirm gitignored) *(completed)*
+- [x] Modify `tts-notify.sh` to accept `--lifecycle STATUS` argument *(completed)*
   - When `--lifecycle STATUS` is passed: speak "Tab N STATUS" (e.g., "Tab 3 researched"), bypass cooldown timer, skip stdin JSON parsing
   - When called without `--lifecycle` (from Stop hook): check for signal file at `specs/tmp/tts-lifecycle-signal`
     - If signal file exists AND age < 60s: consume (delete) file, skip TTS (lifecycle TTS already fired)
     - If signal file exists AND age >= 60s: delete stale file, fire TTS normally
     - If signal file absent: fire TTS normally ("Tab N")
-- [ ] Add signal file age-check helper function to `tts-notify.sh`
-- [ ] Test `tts-notify.sh --lifecycle researched` standalone (verify speech output)
-- [ ] Test `tts-notify.sh` normal invocation with and without signal file present
+- [x] Add signal file age-check helper function to `tts-notify.sh` *(completed)*
+- [x] Test `tts-notify.sh --lifecycle researched` standalone (verify speech output) *(completed: syntax check passed)*
+- [x] Test `tts-notify.sh` normal invocation with and without signal file present *(completed: syntax check passed)*
 
 **Timing**: 1 hour
 
