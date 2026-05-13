@@ -9,7 +9,7 @@ next_project_number: 560
 *Updated 2026-05-13. 7 active tasks remaining.*
 
 ### Pending
-- **557** [PLANNED] -- Research lifecycle-aware notification patterns for Claude Code hooks
+- **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
 - **558** [NOT STARTED] -- Implement lifecycle-triggered TTS notifications (depends: 557)
 - **559** [NOT STARTED] -- Implement lifecycle-triggered WezTerm amber tab indicator (depends: 557)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -21,11 +21,12 @@ next_project_number: 560
 
 ### 557. Research lifecycle-aware notification patterns for Claude Code hooks
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: general
 - **Dependencies**: None
 - **Research**: [557_research_lifecycle_notification_patterns/reports/01_lifecycle-notification-patterns.md]
 - **Plan**: [557_research_lifecycle_notification_patterns/plans/01_lifecycle-notification-patterns.md]
+- **Summary**: [557_research_lifecycle_notification_patterns/summaries/01_lifecycle-notification-summary.md]
 
 **Description**: Research best practices for Claude Code 2026 hook architectures, lifecycle-aware notification systems, and signal-based event patterns. Investigate: (1) Claude Code hook event model -- what data is available in Stop vs Notification vs SubagentStop stdin JSON, and whether lifecycle context can be inferred. (2) Signal file patterns vs direct invocation vs state-based approaches for coordinating postflight scripts with notification hooks. (3) Notification UX patterns for agent-based dev tools -- when to interrupt the user vs stay silent. (4) WezTerm OSC 1337 user variable best practices for multi-state indicators beyond binary needs_input. Evaluate the four candidate approaches (signal file, direct invocation, state-based, unified dispatcher) with pros/cons. Currently tts-notify.sh and wezterm-notify.sh fire on every Stop event (every Claude response), creating notification spam. They should only fire at task management lifecycle checkpoints: research report ready, plan ready, implementation done, task blocked.
 
