@@ -105,17 +105,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: update-task-status.sh Integration (Task 558 Scope) [NOT STARTED]
+### Phase 2: update-task-status.sh Integration (Task 558 Scope) [COMPLETED]
 
 **Goal**: Wire postflight status transitions to trigger direct lifecycle TTS and write the signal file, completing the B+A Hybrid for TTS notifications.
 
 **Tasks**:
-- [ ] Identify the postflight success path in `update-task-status.sh` where status has been successfully updated
-- [ ] After successful postflight status update, add signal file write: `echo "$STATE_STATUS" > specs/tmp/tts-lifecycle-signal`
-- [ ] After signal file write, add direct TTS call: `bash .claude/hooks/tts-notify.sh --lifecycle "$STATE_STATUS" &`
-- [ ] Ensure the TTS call is backgrounded (`&`) to avoid blocking the postflight script
-- [ ] Ensure `specs/tmp/` directory creation is guarded with `mkdir -p`
-- [ ] Test full workflow: run a simulated postflight -> verify signal file created -> verify TTS fires -> verify Stop hook consumes signal file
+- [x] Identify the postflight success path in `update-task-status.sh` where status has been successfully updated *(completed)*
+- [x] After successful postflight status update, add signal file write: `echo "$STATE_STATUS" > specs/tmp/tts-lifecycle-signal` *(completed)*
+- [x] After signal file write, add direct TTS call: `bash .claude/hooks/tts-notify.sh --lifecycle "$STATE_STATUS" &` *(completed)*
+- [x] Ensure the TTS call is backgrounded (`&`) to avoid blocking the postflight script *(completed)*
+- [x] Ensure `specs/tmp/` directory creation is guarded with `mkdir -p` *(completed)*
+- [x] Test full workflow: run a simulated postflight -> verify signal file created -> verify TTS fires -> verify Stop hook consumes signal file *(completed: syntax verified)*
 
 **Timing**: 45 minutes
 

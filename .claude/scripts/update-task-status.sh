@@ -322,6 +322,24 @@ fi
 # Execute plan file update
 update_plan_file
 
+# ============================================================
+# PHASE 5: Lifecycle notifications (postflight only)
+# Write signal file and fire direct TTS for lifecycle-aware
+# notification suppression (B+A Hybrid architecture)
+# ============================================================
+if [[ "$operation" == "postflight" && "$DRY_RUN" != "true" ]]; then
+  # Write lifecycle signal file so the Stop hook can detect and skip redundant TTS
+  mkdir -p "$TMP_DIR"
+  echo "$STATE_STATUS" > "$TMP_DIR/tts-lifecycle-signal"
+
+  # Fire direct lifecycle TTS in background (non-blocking)
+  # This speaks "Tab N researched/planned/completed" immediately
+  tts_script="$SCRIPT_DIR/../hooks/tts-notify.sh"
+  if [[ -x "$tts_script" ]] || [[ -f "$tts_script" ]]; then
+    bash "$tts_script" --lifecycle "$STATE_STATUS" &
+  fi
+fi
+
 # Report result
 if [[ "$todo_failed" == "true" && "$DRY_RUN" != "true" ]]; then
   echo "Warning: TODO.md updates had issues (state.json was updated successfully)" >&2
