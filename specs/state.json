@@ -447,7 +447,7 @@
     {
       "project_number": 561,
       "project_name": "implement_tiered_model_defaults",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Based on research findings from task 560, update agent frontmatter model: fields to use appropriate model tiers. Update agent-frontmatter-standard.md, CLAUDE.md skill-agent mapping tables, command frontmatter, context references, and templates. Ensure --opus/--sonnet/--haiku runtime overrides still work. Consider model: inherit for user-controlled agents. Verify team-mode skills continue defaulting teammates to sonnet.",
       "effort": "2-4 hours",
@@ -455,7 +455,7 @@
         560
       ],
       "created": "2026-05-13T20:00:00Z",
-      "last_updated": "2026-05-13T19:37:37Z",
+      "last_updated": "2026-05-13T19:44:17Z",
       "session_id": "sess_1778701040_84f3c0",
       "artifacts": [
         {
@@ -467,6 +467,11 @@
           "path": "specs/561_implement_tiered_model_defaults/plans/01_tiered-model-defaults.md",
           "type": "plan",
           "summary": "4-phase plan to fix 3 remaining gaps in tiered model defaults: stale command docs, nix table missing Model column, and 14 extension agents needing explicit model fields"
+        },
+        {
+          "path": "specs/561_implement_tiered_model_defaults/summaries/01_tiered-model-defaults-summary.md",
+          "type": "summary",
+          "summary": "Fixed 3 remaining gaps in tiered model defaults: corrected stale 'currently opus' text in 6 command files (12 total occurrences across active commands and core sources), added Model column to nix extension CLAUDE.md and EXTENSION.md tables, added explicit model fields to 14 extension agents (13 sonnet + 1 opus for legal-council-agent)"
         }
       ],
       "next_artifact_number": 2,
@@ -503,7 +508,8 @@
             "integrated_date": "2026-05-13"
           }
         ]
-      }
+      },
+      "completion_summary": "Fixed 3 remaining gaps in tiered model defaults: corrected stale 'currently opus' text in 6 command files (12 total occurrences across active commands and core sources), added Model column to nix extension CLAUDE.md and EXTENSION.md tables, added explicit model fields to 14 extension agents (13 sonnet + 1 opus for legal-council-agent)."
     }
   ],
   "completed_projects": [],

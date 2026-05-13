@@ -1,7 +1,7 @@
 # Implementation Plan: Task #561
 
 - **Task**: 561 - implement_tiered_model_defaults
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 0.75 hours
 - **Dependencies**: Task 560 (completed)
 - **Research Inputs**: specs/561_implement_tiered_model_defaults/reports/01_tiered-model-audit.md
