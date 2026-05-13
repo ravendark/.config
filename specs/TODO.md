@@ -10,7 +10,7 @@ next_project_number: 562
 
 ### Pending
 - **560** [COMPLETED] -- Research model routing best practices for agent system
-- **561** [PLANNED] -- Implement tiered model defaults across agent system (depends: 560)
+- **561** [IMPLEMENTING] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
@@ -34,7 +34,7 @@ next_project_number: 562
 
 ### 561. Implement tiered model defaults across agent system
 - **Effort**: 2-4 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #560
 - **Research**: [561_implement_tiered_model_defaults/reports/01_tiered-model-audit.md]

@@ -447,7 +447,7 @@
     {
       "project_number": 561,
       "project_name": "implement_tiered_model_defaults",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "description": "Based on research findings from task 560, update agent frontmatter model: fields to use appropriate model tiers. Update agent-frontmatter-standard.md, CLAUDE.md skill-agent mapping tables, command frontmatter, context references, and templates. Ensure --opus/--sonnet/--haiku runtime overrides still work. Consider model: inherit for user-controlled agents. Verify team-mode skills continue defaulting teammates to sonnet.",
       "effort": "2-4 hours",
@@ -455,8 +455,8 @@
         560
       ],
       "created": "2026-05-13T20:00:00Z",
-      "last_updated": "2026-05-13T19:36:11Z",
-      "session_id": "sess_1778700746_f3dc0e",
+      "last_updated": "2026-05-13T19:37:37Z",
+      "session_id": "sess_1778701040_84f3c0",
       "artifacts": [
         {
           "path": "specs/561_implement_tiered_model_defaults/reports/01_tiered-model-audit.md",

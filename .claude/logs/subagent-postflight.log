@@ -21569,3 +21569,176 @@
 [2026-05-12T14:14:51-07:00] No postflight marker, allowing stop
 [2026-05-12T14:14:52-07:00] No postflight marker, allowing stop
 [2026-05-12T14:15:23-07:00] No postflight marker, allowing stop
+[2026-05-13T10:29:37-07:00] No postflight marker, allowing stop
+[2026-05-13T10:30:10-07:00] No postflight marker, allowing stop
+[2026-05-13T10:30:43-07:00] No postflight marker, allowing stop
+[2026-05-13T10:31:10-07:00] No postflight marker, allowing stop
+[2026-05-13T10:36:34-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T10:36:34-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T10:36:34-07:00] Loop guard initialized to 1
+[2026-05-13T10:36:34-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T10:37:32-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T10:37:32-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T10:37:32-07:00] Loop guard incremented to 2
+[2026-05-13T10:37:32-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T10:37:45-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T10:37:45-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T10:37:45-07:00] Loop guard incremented to 3
+[2026-05-13T10:37:45-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T10:39:15-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T10:39:15-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T10:39:15-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T10:39:15-07:00] Loop guard prevented continuation
+[2026-05-13T10:39:48-07:00] No postflight marker, allowing stop
+[2026-05-13T10:40:20-07:00] No postflight marker, allowing stop
+[2026-05-13T10:42:23-07:00] No postflight marker, allowing stop
+[2026-05-13T10:42:47-07:00] No postflight marker, allowing stop
+[2026-05-13T10:48:12-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T10:48:12-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T10:48:12-07:00] Loop guard initialized to 1
+[2026-05-13T10:48:12-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T10:49:49-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T10:49:49-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T10:49:49-07:00] Loop guard incremented to 2
+[2026-05-13T10:49:49-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T10:49:52-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T10:49:52-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T10:49:52-07:00] Loop guard incremented to 3
+[2026-05-13T10:49:52-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T10:49:55-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T10:49:55-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T10:49:55-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T10:49:55-07:00] Loop guard prevented continuation
+[2026-05-13T11:01:22-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T11:01:22-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T11:01:22-07:00] Loop guard initialized to 1
+[2026-05-13T11:01:22-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:03:36-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T11:03:36-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T11:03:36-07:00] Loop guard incremented to 2
+[2026-05-13T11:03:36-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:03:50-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T11:03:50-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T11:03:50-07:00] Loop guard incremented to 3
+[2026-05-13T11:03:50-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:04:04-07:00] Postflight marker found at: specs/557_research_lifecycle_notification_patterns/.postflight-pending
+[2026-05-13T11:04:04-07:00] Task directory: specs/557_research_lifecycle_notification_patterns
+[2026-05-13T11:04:04-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T11:04:04-07:00] Loop guard prevented continuation
+[2026-05-13T11:04:36-07:00] No postflight marker, allowing stop
+[2026-05-13T11:05:08-07:00] No postflight marker, allowing stop
+[2026-05-13T11:05:41-07:00] No postflight marker, allowing stop
+[2026-05-13T11:06:13-07:00] No postflight marker, allowing stop
+[2026-05-13T11:06:46-07:00] No postflight marker, allowing stop
+[2026-05-13T11:07:02-07:00] No postflight marker, allowing stop
+[2026-05-13T11:34:09-07:00] No postflight marker, allowing stop
+[2026-05-13T11:34:42-07:00] No postflight marker, allowing stop
+[2026-05-13T11:35:15-07:00] No postflight marker, allowing stop
+[2026-05-13T11:35:50-07:00] No postflight marker, allowing stop
+[2026-05-13T11:36:13-07:00] No postflight marker, allowing stop
+[2026-05-13T11:45:55-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T11:45:55-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T11:45:55-07:00] Loop guard initialized to 1
+[2026-05-13T11:45:55-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:50:21-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T11:50:21-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T11:50:21-07:00] Loop guard incremented to 2
+[2026-05-13T11:50:21-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:51:48-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T11:51:48-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T11:51:48-07:00] Loop guard incremented to 3
+[2026-05-13T11:51:48-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:52:04-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T11:52:04-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T11:52:04-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T11:52:04-07:00] Loop guard prevented continuation
+[2026-05-13T11:55:19-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T11:55:19-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T11:55:19-07:00] Loop guard initialized to 1
+[2026-05-13T11:55:19-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:57:20-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T11:57:20-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T11:57:20-07:00] Loop guard incremented to 2
+[2026-05-13T11:57:20-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:57:52-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T11:57:52-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T11:57:52-07:00] Loop guard incremented to 3
+[2026-05-13T11:57:52-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T11:58:04-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T11:58:04-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T11:58:04-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T11:58:04-07:00] Loop guard prevented continuation
+[2026-05-13T12:05:08-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T12:05:08-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T12:05:08-07:00] Loop guard initialized to 1
+[2026-05-13T12:05:08-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:06:31-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T12:06:31-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T12:06:31-07:00] Loop guard incremented to 2
+[2026-05-13T12:06:31-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:06:44-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T12:06:44-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T12:06:44-07:00] Loop guard incremented to 3
+[2026-05-13T12:06:44-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:06:49-07:00] Postflight marker found at: specs/560_research_model_routing_best_practices/.postflight-pending
+[2026-05-13T12:06:49-07:00] Task directory: specs/560_research_model_routing_best_practices
+[2026-05-13T12:06:49-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T12:06:49-07:00] Loop guard prevented continuation
+[2026-05-13T12:07:22-07:00] No postflight marker, allowing stop
+[2026-05-13T12:07:54-07:00] No postflight marker, allowing stop
+[2026-05-13T12:08:32-07:00] No postflight marker, allowing stop
+[2026-05-13T12:09:04-07:00] No postflight marker, allowing stop
+[2026-05-13T12:09:37-07:00] No postflight marker, allowing stop
+[2026-05-13T12:10:09-07:00] No postflight marker, allowing stop
+[2026-05-13T12:10:42-07:00] No postflight marker, allowing stop
+[2026-05-13T12:11:14-07:00] No postflight marker, allowing stop
+[2026-05-13T12:11:47-07:00] No postflight marker, allowing stop
+[2026-05-13T12:12:21-07:00] No postflight marker, allowing stop
+[2026-05-13T12:12:53-07:00] No postflight marker, allowing stop
+[2026-05-13T12:13:26-07:00] No postflight marker, allowing stop
+[2026-05-13T12:14:00-07:00] No postflight marker, allowing stop
+[2026-05-13T12:14:33-07:00] No postflight marker, allowing stop
+[2026-05-13T12:15:12-07:00] No postflight marker, allowing stop
+[2026-05-13T12:15:44-07:00] No postflight marker, allowing stop
+[2026-05-13T12:16:18-07:00] No postflight marker, allowing stop
+[2026-05-13T12:16:52-07:00] No postflight marker, allowing stop
+[2026-05-13T12:17:26-07:00] No postflight marker, allowing stop
+[2026-05-13T12:17:26-07:00] No postflight marker, allowing stop
+[2026-05-13T12:34:12-07:00] Postflight marker found at: specs/561_implement_tiered_model_defaults/.postflight-pending
+[2026-05-13T12:34:12-07:00] Task directory: specs/561_implement_tiered_model_defaults
+[2026-05-13T12:34:12-07:00] Loop guard initialized to 1
+[2026-05-13T12:34:12-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:35:37-07:00] Postflight marker found at: specs/561_implement_tiered_model_defaults/.postflight-pending
+[2026-05-13T12:35:37-07:00] Task directory: specs/561_implement_tiered_model_defaults
+[2026-05-13T12:35:37-07:00] Loop guard incremented to 2
+[2026-05-13T12:35:37-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:35:40-07:00] Postflight marker found at: specs/561_implement_tiered_model_defaults/.postflight-pending
+[2026-05-13T12:35:40-07:00] Task directory: specs/561_implement_tiered_model_defaults
+[2026-05-13T12:35:40-07:00] Loop guard incremented to 3
+[2026-05-13T12:35:40-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:35:45-07:00] Postflight marker found at: specs/561_implement_tiered_model_defaults/.postflight-pending
+[2026-05-13T12:35:45-07:00] Task directory: specs/561_implement_tiered_model_defaults
+[2026-05-13T12:35:45-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T12:35:45-07:00] Loop guard prevented continuation
+[2026-05-13T12:39:08-07:00] Postflight marker found at: specs/561_implement_tiered_model_defaults/.postflight-pending
+[2026-05-13T12:39:08-07:00] Task directory: specs/561_implement_tiered_model_defaults
+[2026-05-13T12:39:08-07:00] Loop guard initialized to 1
+[2026-05-13T12:39:08-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:39:57-07:00] Postflight marker found at: specs/561_implement_tiered_model_defaults/.postflight-pending
+[2026-05-13T12:39:57-07:00] Task directory: specs/561_implement_tiered_model_defaults
+[2026-05-13T12:39:57-07:00] Loop guard incremented to 2
+[2026-05-13T12:39:57-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:40:23-07:00] Postflight marker found at: specs/561_implement_tiered_model_defaults/.postflight-pending
+[2026-05-13T12:40:23-07:00] Task directory: specs/561_implement_tiered_model_defaults
+[2026-05-13T12:40:23-07:00] Loop guard incremented to 3
+[2026-05-13T12:40:23-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-13T12:40:44-07:00] Postflight marker found at: specs/561_implement_tiered_model_defaults/.postflight-pending
+[2026-05-13T12:40:44-07:00] Task directory: specs/561_implement_tiered_model_defaults
+[2026-05-13T12:40:44-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T12:40:44-07:00] Loop guard prevented continuation
+[2026-05-13T12:41:37-07:00] No postflight marker, allowing stop
+[2026-05-13T12:42:10-07:00] No postflight marker, allowing stop
+[2026-05-13T12:42:43-07:00] No postflight marker, allowing stop
+[2026-05-13T12:43:15-07:00] No postflight marker, allowing stop
+[2026-05-13T12:43:47-07:00] No postflight marker, allowing stop
+[2026-05-13T12:43:48-07:00] No postflight marker, allowing stop
