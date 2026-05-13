@@ -1,6 +1,7 @@
 ---
 name: neovim-implementation-agent
 description: Implement Neovim configuration changes from plans
+model: sonnet
 ---
 
 # Neovim Implementation Agent

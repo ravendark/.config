@@ -213,17 +213,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Validation and Consistency Check [NOT STARTED]
+### Phase 5: Validation and Consistency Check [COMPLETED]
 
 **Goal**: Verify all changes are internally consistent and no files were missed.
 
 **Tasks**:
-- [ ] Run comprehensive grep to confirm `model: opus` only appears in expected files (planner-agent, meta-builder-agent, reviser-agent, formal/*, lean/*, legal-analysis-agent, and 11 direct-execution commands)
-- [ ] Run comprehensive grep to confirm `model: sonnet` appears in all expected files
-- [ ] Verify no agent files lack a model field that should have one (check neovim-implementation-agent got its new field)
-- [ ] Cross-reference CLAUDE.md tables against actual agent frontmatter for accuracy
-- [ ] Verify `--opus`/`--sonnet`/`--haiku` override flags still work (check flag handling code is unchanged)
-- [ ] Spot-check 2-3 extension agents to confirm frontmatter is well-formed after edits
+- [x] Run comprehensive grep to confirm `model: opus` only appears in expected files (planner-agent, meta-builder-agent, reviser-agent, formal/*, lean/*, legal-analysis-agent, and 11 direct-execution commands) *(completed: 13 agent files verified, all expected)*
+- [x] Run comprehensive grep to confirm `model: sonnet` appears in all expected files *(completed: 29 agent files verified)*
+- [x] Verify no agent files lack a model field that should have one (check neovim-implementation-agent got its new field) *(completed: both core and extension copies updated)*
+- [x] Cross-reference CLAUDE.md tables against actual agent frontmatter for accuracy *(completed: tables match)*
+- [x] Verify `--opus`/`--sonnet`/`--haiku` override flags still work (check flag handling code is unchanged) *(completed: flag docs intact)*
+- [x] Spot-check 2-3 extension agents to confirm frontmatter is well-formed after edits *(completed: grant-agent, epi-research-agent, deck-planner-agent verified)*
 
 **Timing**: 30 minutes
 
@@ -240,13 +240,13 @@ Phases within the same wave can execute in parallel.
 
 ## Testing & Validation
 
-- [ ] `grep -rl "^model: opus" .claude/agents/*.md` returns exactly 3 files (planner, meta-builder, reviser)
-- [ ] `grep -rl "^model: sonnet" .claude/agents/*.md` returns exactly 8 files
-- [ ] `grep -rl "^model: opus" .claude/extensions/*/agents/*.md` returns exactly 7 files (formal/4, lean/2, founder/legal-analysis/1)
-- [ ] `grep -rl "^model: sonnet" .claude/commands/*.md` returns exactly 4 files (research, plan, implement, project-overview)
-- [ ] `grep "All agents default to Opus" .claude/` returns zero matches across all files
-- [ ] CLAUDE.md skill-agent table model column is accurate
-- [ ] agent-frontmatter-standard.md documents the three-tier policy
+- [x] `grep -rl "^model: opus" .claude/agents/*.md` returns exactly 3 files (planner, meta-builder, reviser) *(verified)*
+- [x] `grep -rl "^model: sonnet" .claude/agents/*.md` returns exactly 8 files *(verified)*
+- [x] `grep -rl "^model: opus" .claude/extensions/*/agents/*.md` returns exactly 10 files (formal/4, lean/2, founder/legal-analysis/1, core planner/meta-builder/reviser/3) *(verified: plan said 7 non-core, actual is 10 including 3 core mirrors)*
+- [x] `grep -rl "^model: sonnet" .claude/commands/*.md` returns exactly 4 files (research, plan, implement, project-overview) *(verified)*
+- [x] `grep "All agents default to Opus" .claude/` returns zero matches across all files *(verified)*
+- [x] CLAUDE.md skill-agent table model column is accurate *(verified)*
+- [x] agent-frontmatter-standard.md documents the three-tier policy *(verified)*
 
 ## Artifacts & Outputs
 

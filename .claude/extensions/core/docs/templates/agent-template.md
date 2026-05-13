@@ -1,7 +1,11 @@
 ---
 name: <agent-name>
 description: <brief description of agent purpose>
-model: opus
+model: sonnet
+# Model tier guide:
+#   opus   - Deep reasoning: planning, formal verification, architecture (planner, meta-builder, reviser, lean/formal/math/logic agents)
+#   sonnet - General purpose: research, implementation, review, domain tasks (most agents)
+#   (omit) - Inherit: utility agents that should respect CLAUDE_CODE_SUBAGENT_MODEL env var
 ---
 
 # <Agent Name>
