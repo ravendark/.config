@@ -329,36 +329,6 @@
         ]
       },
       "completion_summary": "Implemented B+A Hybrid lifecycle-aware notification system: tts-notify.sh --lifecycle flag with signal file suppression, update-task-status.sh postflight TTS/WezTerm triggers, wezterm.lua 8-state color-coded tab titles, and comprehensive documentation updates."
-    },
-    {
-      "project_number": 558,
-      "project_name": "implement_lifecycle_tts_notifications",
-      "status": "not_started",
-      "task_type": "meta",
-      "description": "Implement lifecycle-aware TTS notification system: remove tts-notify.sh from Stop hook, add TTS triggering at postflight lifecycle boundaries (research, plan, implement), preserve Notification hook for permissions",
-      "effort": "1-3 hours",
-      "dependencies": [
-        557
-      ],
-      "created": "2026-05-13T12:00:00Z",
-      "last_updated": "2026-05-13T12:00:00Z",
-      "session_id": "sess_1747180800_meta557",
-      "artifacts": []
-    },
-    {
-      "project_number": 559,
-      "project_name": "implement_lifecycle_wezterm_indicator",
-      "status": "not_started",
-      "task_type": "meta",
-      "description": "Apply lifecycle-aware pattern to wezterm-notify.sh: remove from Stop hook, add CLAUDE_STATUS=needs_input at postflight lifecycle boundaries, update context docs",
-      "effort": "< 1 hour",
-      "dependencies": [
-        557
-      ],
-      "created": "2026-05-13T12:00:00Z",
-      "last_updated": "2026-05-13T12:00:00Z",
-      "session_id": "sess_1747180800_meta557",
-      "artifacts": []
     }
   ],
   "completed_projects": [],

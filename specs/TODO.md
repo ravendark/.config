@@ -6,12 +6,10 @@ next_project_number: 560
 
 ## Task Order
 
-*Updated 2026-05-13. 7 active tasks remaining.*
+*Updated 2026-05-13. 5 active tasks remaining.*
 
 ### Pending
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
-- **558** [NOT STARTED] -- Implement lifecycle-triggered TTS notifications (depends: 557)
-- **559** [NOT STARTED] -- Implement lifecycle-triggered WezTerm amber tab indicator (depends: 557)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
@@ -29,26 +27,6 @@ next_project_number: 560
 - **Summary**: [557_research_lifecycle_notification_patterns/summaries/01_lifecycle-notification-summary.md]
 
 **Description**: Research best practices for Claude Code 2026 hook architectures, lifecycle-aware notification systems, and signal-based event patterns. Investigate: (1) Claude Code hook event model -- what data is available in Stop vs Notification vs SubagentStop stdin JSON, and whether lifecycle context can be inferred. (2) Signal file patterns vs direct invocation vs state-based approaches for coordinating postflight scripts with notification hooks. (3) Notification UX patterns for agent-based dev tools -- when to interrupt the user vs stay silent. (4) WezTerm OSC 1337 user variable best practices for multi-state indicators beyond binary needs_input. Evaluate the four candidate approaches (signal file, direct invocation, state-based, unified dispatcher) with pros/cons. Currently tts-notify.sh and wezterm-notify.sh fire on every Stop event (every Claude response), creating notification spam. They should only fire at task management lifecycle checkpoints: research report ready, plan ready, implementation done, task blocked.
-
----
-
-### 558. Implement lifecycle-triggered TTS notifications
-- **Effort**: 1-3 hours
-- **Status**: [NOT STARTED]
-- **Task Type**: meta
-- **Dependencies**: Task #557
-
-**Description**: Based on research findings from task 557, implement lifecycle-aware TTS notification system. Remove tts-notify.sh from the Stop hook in settings.json. Add TTS triggering at lifecycle boundaries via postflight scripts: postflight-research.sh (research report ready for review), postflight-plan.sh (plan ready for review), postflight-implement.sh (implementation done). Preserve existing Notification hook for permission_prompt/idle_prompt/elicitation_dialog (already correctly scoped). Handle edge cases: blocked tasks, partial implementations, error states. Ensure subagent suppression and cooldown logic still work correctly when invoked from postflight scripts. Update tts-stt-integration.md and wezterm-integration.md context documentation to reflect the new architecture.
-
----
-
-### 559. Implement lifecycle-triggered WezTerm amber tab indicator
-- **Effort**: < 1 hour
-- **Status**: [NOT STARTED]
-- **Task Type**: meta
-- **Dependencies**: Task #557
-
-**Description**: Apply the same lifecycle-aware pattern from task 557 research to wezterm-notify.sh. Remove it from the Stop hook in settings.json. Add CLAUDE_STATUS=needs_input setting at lifecycle boundaries (same postflight scripts as TTS task 558). The amber tab highlight should only appear when Claude has finished a lifecycle milestone and is waiting for human review -- not on every intermediate response. Ensure wezterm-clear-status.sh (UserPromptSubmit hook) still correctly clears the indicator when the user starts typing. Update wezterm-integration.md context documentation.
 
 ---
 
@@ -108,13 +86,10 @@ next_project_number: 560
 
 | Priority | Task | Status | Next Action |
 |----------|------|--------|-------------|
-| 1 | 557 | [NOT STARTED] | /research 557 |
-| 2 | 558 | [NOT STARTED] | (after 557) /research 558 |
-| 3 | 559 | [NOT STARTED] | (after 557) /research 559 |
-| 4 | 500 | [RESEARCHED] | /plan 500 |
-| 5 | 501 | [PLANNED] | /implement 501 |
-| 6 | 87 | [RESEARCHED] | /plan 87 |
-| 7 | 78 | [PLANNED] | /implement 78 |
+| 1 | 500 | [RESEARCHED] | /plan 500 |
+| 2 | 501 | [PLANNED] | /implement 501 |
+| 3 | 87 | [RESEARCHED] | /plan 87 |
+| 4 | 78 | [PLANNED] | /implement 78 |
 
 ---
 
