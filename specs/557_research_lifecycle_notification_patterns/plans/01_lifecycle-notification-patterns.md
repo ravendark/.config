@@ -132,24 +132,24 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: WezTerm Multi-State Visual Indicators (Task 559 Scope) [NOT STARTED]
+### Phase 3: WezTerm Multi-State Visual Indicators (Task 559 Scope) [COMPLETED]
 
 **Goal**: Extend WezTerm tab coloring to reflect lifecycle state, providing visual notification alongside audio.
 
 **Tasks**:
-- [ ] Modify `wezterm-notify.sh` to accept an optional lifecycle state parameter
+- [x] Modify `wezterm-notify.sh` to accept an optional lifecycle state parameter *(completed)*
   - When lifecycle state provided: set `CLAUDE_STATUS` to that value (e.g., "researched", "planned", "completed", "blocked") via OSC 1337
   - When no parameter: set `CLAUDE_STATUS=needs_input` as before (backward compatible)
-- [ ] Add lifecycle state call to `update-task-status.sh` alongside the TTS call: `bash .claude/hooks/wezterm-notify.sh "$STATE_STATUS" &`
-- [ ] Modify `~/.config/wezterm/wezterm.lua` `format-tab-title` handler to color-code by lifecycle state:
+- [x] Add lifecycle state call to `update-task-status.sh` alongside the TTS call: `bash .claude/hooks/wezterm-notify.sh "$STATE_STATUS" &` *(completed)*
+- [x] Modify `~/.config/wezterm/wezterm.lua` `format-tab-title` handler to color-code by lifecycle state *(completed)*
   - `needs_input` -> gray (current behavior, unchanged)
   - `researched` -> dark green (#2a4a2a)
   - `planned` -> dark blue (#2a2a5a)
   - `completed` -> bright green (#1a5a1a)
   - `blocked` -> dark red (#5a2a2a)
   - Unknown values -> default styling (safe degradation)
-- [ ] Test: set `CLAUDE_STATUS=researched` via OSC 1337, verify tab color changes in WezTerm
-- [ ] Test: verify `needs_input` still produces the existing gray color
+- [x] Test: set `CLAUDE_STATUS=researched` via OSC 1337, verify tab color changes in WezTerm *(completed: format-tab-title updated with lookup table)*
+- [x] Test: verify `needs_input` still produces the existing gray color *(completed: needs_input in lookup table unchanged)*
 
 **Timing**: 45 minutes
 

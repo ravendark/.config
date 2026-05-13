@@ -338,6 +338,13 @@ if [[ "$operation" == "postflight" && "$DRY_RUN" != "true" ]]; then
   if [[ -x "$tts_script" ]] || [[ -f "$tts_script" ]]; then
     bash "$tts_script" --lifecycle "$STATE_STATUS" &
   fi
+
+  # Update WezTerm tab color to reflect lifecycle state in background
+  # This sets CLAUDE_STATUS user variable to the lifecycle state value
+  wezterm_script="$SCRIPT_DIR/../hooks/wezterm-notify.sh"
+  if [[ -x "$wezterm_script" ]] || [[ -f "$wezterm_script" ]]; then
+    bash "$wezterm_script" "$STATE_STATUS" &
+  fi
 fi
 
 # Report result
