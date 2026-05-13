@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 560,
+  "next_project_number": 562,
   "active_projects": [
     {
       "project_number": 87,
@@ -329,6 +329,36 @@
         ]
       },
       "completion_summary": "Implemented B+A Hybrid lifecycle-aware notification system: tts-notify.sh --lifecycle flag with signal file suppression, update-task-status.sh postflight TTS/WezTerm triggers, wezterm.lua 8-state color-coded tab titles, and comprehensive documentation updates."
+    },
+    {
+      "project_number": 560,
+      "project_name": "research_model_routing_best_practices",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Research optimal model assignments for each agent role in the .claude/ system. Analyze which agents genuinely need Opus-level reasoning vs which could default to Sonnet or inherit. Evaluate implementation agents, research agents, planner, meta-builder, spawn, reviser, and code reviewer roles. Research opusplan mode, model: inherit pattern, effort levels, and CLAUDE_CODE_SUBAGENT_MODEL integration. Produce a model assignment matrix with cost projections based on 2026 best practices.",
+      "effort": "1-3 hours",
+      "dependencies": [],
+      "created": "2026-05-13T20:00:00Z",
+      "last_updated": "2026-05-13T20:00:00Z",
+      "session_id": "sess_1747180800_meta_models",
+      "artifacts": [],
+      "next_artifact_number": 1
+    },
+    {
+      "project_number": 561,
+      "project_name": "implement_tiered_model_defaults",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Based on research findings from task 560, update agent frontmatter model: fields to use appropriate model tiers. Update agent-frontmatter-standard.md, CLAUDE.md skill-agent mapping tables, command frontmatter, context references, and templates. Ensure --opus/--sonnet/--haiku runtime overrides still work. Consider model: inherit for user-controlled agents. Verify team-mode skills continue defaulting teammates to sonnet.",
+      "effort": "2-4 hours",
+      "dependencies": [
+        560
+      ],
+      "created": "2026-05-13T20:00:00Z",
+      "last_updated": "2026-05-13T20:00:00Z",
+      "session_id": "sess_1747180800_meta_models",
+      "artifacts": [],
+      "next_artifact_number": 1
     }
   ],
   "completed_projects": [],

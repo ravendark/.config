@@ -1,14 +1,16 @@
 ---
-next_project_number: 560
+next_project_number: 562
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-13. 5 active tasks remaining.*
+*Updated 2026-05-13. 7 active tasks remaining.*
 
 ### Pending
+- **560** [NOT STARTED] -- Research model routing best practices for agent system
+- **561** [NOT STARTED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
@@ -16,6 +18,26 @@ next_project_number: 560
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 560. Research model routing best practices for agent system
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Research optimal model assignments for each agent role in the .claude/ system. Analyze which agents genuinely need Opus-level reasoning vs which could default to Sonnet or inherit. Evaluate implementation agents, research agents, planner, meta-builder, spawn, reviser, and code reviewer roles. Research opusplan mode, model: inherit pattern, effort levels, and CLAUDE_CODE_SUBAGENT_MODEL integration. Produce a model assignment matrix with cost projections based on 2026 best practices.
+
+---
+
+### 561. Implement tiered model defaults across agent system
+- **Effort**: 2-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #560
+
+**Description**: Based on research findings from task 560, update agent frontmatter model: fields to use appropriate model tiers. Update agent-frontmatter-standard.md, CLAUDE.md skill-agent mapping tables, command frontmatter, context references, and templates. Ensure --opus/--sonnet/--haiku runtime overrides still work. Consider model: inherit for user-controlled agents. Verify team-mode skills continue defaulting teammates to sonnet.
+
+---
 
 ### 557. Research lifecycle-aware notification patterns for Claude Code hooks
 - **Effort**: 1-3 hours
@@ -86,10 +108,12 @@ next_project_number: 560
 
 | Priority | Task | Status | Next Action |
 |----------|------|--------|-------------|
-| 1 | 500 | [RESEARCHED] | /plan 500 |
-| 2 | 501 | [PLANNED] | /implement 501 |
-| 3 | 87 | [RESEARCHED] | /plan 87 |
-| 4 | 78 | [PLANNED] | /implement 78 |
+| 1 | 560 | [NOT STARTED] | /research 560 |
+| 2 | 561 | [NOT STARTED] | (depends on 560) |
+| 3 | 500 | [RESEARCHED] | /plan 500 |
+| 4 | 501 | [PLANNED] | /implement 501 |
+| 5 | 87 | [RESEARCHED] | /plan 87 |
+| 6 | 78 | [PLANNED] | /implement 78 |
 
 ---
 
