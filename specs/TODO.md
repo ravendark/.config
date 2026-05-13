@@ -10,7 +10,7 @@ next_project_number: 562
 
 ### Pending
 - **560** [COMPLETED] -- Research model routing best practices for agent system
-- **561** [NOT STARTED] -- Implement tiered model defaults across agent system (depends: 560)
+- **561** [RESEARCHED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
@@ -34,9 +34,10 @@ next_project_number: 562
 
 ### 561. Implement tiered model defaults across agent system
 - **Effort**: 2-4 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #560
+- **Research**: [561_implement_tiered_model_defaults/reports/01_tiered-model-audit.md]
 
 **Description**: Based on research findings from task 560, update agent frontmatter model: fields to use appropriate model tiers. Update agent-frontmatter-standard.md, CLAUDE.md skill-agent mapping tables, command frontmatter, context references, and templates. Ensure --opus/--sonnet/--haiku runtime overrides still work. Consider model: inherit for user-controlled agents. Verify team-mode skills continue defaulting teammates to sonnet.
 
