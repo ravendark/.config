@@ -9,7 +9,7 @@ next_project_number: 562
 *Updated 2026-05-13. 7 active tasks remaining.*
 
 ### Pending
-- **560** [RESEARCHED] -- Research model routing best practices for agent system
+- **560** [PLANNED] -- Research model routing best practices for agent system
 - **561** [NOT STARTED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -21,10 +21,11 @@ next_project_number: 562
 
 ### 560. Research model routing best practices for agent system
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [560_research_model_routing_best_practices/reports/01_model-routing-research.md]
+- **Plan**: [560_research_model_routing_best_practices/plans/01_model-routing-research.md]
 
 **Description**: Research optimal model assignments for each agent role in the .claude/ system. Analyze which agents genuinely need Opus-level reasoning vs which could default to Sonnet or inherit. Evaluate implementation agents, research agents, planner, meta-builder, spawn, reviser, and code reviewer roles. Research opusplan mode, model: inherit pattern, effort levels, and CLAUDE_CODE_SUBAGENT_MODEL integration. Produce a model assignment matrix with cost projections based on 2026 best practices.
 

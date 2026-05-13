@@ -333,19 +333,24 @@
     {
       "project_number": 560,
       "project_name": "research_model_routing_best_practices",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Research optimal model assignments for each agent role in the .claude/ system. Analyze which agents genuinely need Opus-level reasoning vs which could default to Sonnet or inherit. Evaluate implementation agents, research agents, planner, meta-builder, spawn, reviser, and code reviewer roles. Research opusplan mode, model: inherit pattern, effort levels, and CLAUDE_CODE_SUBAGENT_MODEL integration. Produce a model assignment matrix with cost projections based on 2026 best practices.",
       "effort": "1-3 hours",
       "dependencies": [],
       "created": "2026-05-13T20:00:00Z",
-      "last_updated": "2026-05-13T18:52:14Z",
-      "session_id": "sess_1747181000_r560ab",
+      "last_updated": "2026-05-13T18:58:19Z",
+      "session_id": "sess_1747182000_p560cd",
       "artifacts": [
         {
           "path": "specs/560_research_model_routing_best_practices/reports/01_model-routing-research.md",
           "type": "research",
           "summary": "Model routing research report with complete inventory, pricing analysis, cognitive complexity assessment, model assignment matrix, and cost projections"
+        },
+        {
+          "path": "specs/560_research_model_routing_best_practices/plans/01_model-routing-research.md",
+          "type": "plan",
+          "summary": "5-phase implementation plan for tiered model routing with dependency analysis and validation"
         }
       ],
       "next_artifact_number": 2,
@@ -389,7 +394,36 @@
             "tokenizer"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 5,
+        "total_effort_hours": 3,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_model-routing-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-13"
+          }
+        ]
+      }
     },
     {
       "project_number": 561,
