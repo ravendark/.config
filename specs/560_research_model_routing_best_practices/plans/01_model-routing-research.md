@@ -1,7 +1,7 @@
 # Implementation Plan: Model Routing Optimization
 
 - **Task**: 560 - Research Model Routing Best Practices
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/560_research_model_routing_best_practices/reports/01_model-routing-research.md
@@ -75,15 +75,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Update Standards and Documentation [NOT STARTED]
+### Phase 1: Update Standards and Documentation [COMPLETED]
 
 **Goal**: Establish the tiered model policy in documentation before applying it to files, so the standard is in place for reference during subsequent phases.
 
 **Tasks**:
-- [ ] Update `.claude/docs/reference/standards/agent-frontmatter-standard.md`: replace "All agents default to Opus" with tiered policy (Opus for deep reasoning, Sonnet for general, inherit for utility)
-- [ ] Update `.claude/docs/templates/agent-template.md`: change default `model: opus` to `model: sonnet` with comments explaining when to use opus vs sonnet vs inherit
-- [ ] Update `.claude/docs/guides/creating-commands.md`: add model selection guidance for new commands
-- [ ] Update `.claude/extensions/core/agents/README.md`: resolve contradiction, document tiered approach consistently
+- [x] Update `.claude/docs/reference/standards/agent-frontmatter-standard.md`: replace "All agents default to Opus" with tiered policy (Opus for deep reasoning, Sonnet for general, inherit for utility) *(completed)*
+- [x] Update `.claude/docs/templates/agent-template.md`: change default `model: opus` to `model: sonnet` with comments explaining when to use opus vs sonnet vs inherit *(completed)*
+- [x] Update `.claude/docs/guides/creating-commands.md`: add model selection guidance for new commands *(completed)*
+- [x] Update `.claude/extensions/core/agents/README.md`: resolve contradiction, document tiered approach consistently *(completed)*
 
 **Timing**: 30 minutes
 

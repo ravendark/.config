@@ -58,7 +58,19 @@ model: opus
 | `description` | Yes | One-line summary shown in `/help` output |
 | `allowed-tools` | Yes | Scoped tool allowlist (e.g., `Read(specs/*), Bash(git:*)`) |
 | `argument-hint` | Yes | Usage hint shown to the user |
-| `model` | No | Preferred model (`opus`, `sonnet`, or omit for default) |
+| `model` | No | Preferred model (`opus`, `sonnet`, or omit for default). See Model Selection below |
+
+### Model Selection
+
+Commands that dispatch to agents should use `model: sonnet` in their frontmatter. The agent's own frontmatter model takes precedence during execution, so the command-level model primarily affects the command's own preflight/postflight reasoning.
+
+| Command Type | Recommended Model | Rationale |
+|-------------|-------------------|-----------|
+| Dispatch commands (`/research`, `/plan`, `/implement`) | `sonnet` | Lightweight routing; agent model takes precedence |
+| Direct-execution commands (`/todo`, `/meta`, `/review`) | `opus` | Command itself does the reasoning work |
+| Utility commands (`/refresh`, `/tag`) | `opus` or omit | Simple operations; model matters less |
+
+See `.claude/docs/reference/standards/agent-frontmatter-standard.md` for the full tiered model policy.
 
 ### Step 4: Implement the Four Checkpoint Stages
 

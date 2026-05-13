@@ -22,13 +22,16 @@ All agents follow the minimal frontmatter format (see `.claude/docs/reference/st
 ---
 name: agent-name
 description: Brief description of agent purpose
-model: opus
+model: sonnet
 ---
 ```
 
 **Required fields**: `name`, `description`
 
-**Optional field**: `model` (values: `opus`, `sonnet`). Omit for default model behavior. Research and planning agents typically use `opus`; implementation agents typically omit the field.
+**Optional field**: `model` (values: `opus`, `sonnet`). Agents use a tiered model policy:
+- **Opus**: Deep reasoning agents -- planner-agent, meta-builder-agent, reviser-agent, formal/lean/math/logic agents
+- **Sonnet**: General-purpose agents -- research, implementation, review, spawn, and domain-specific agents
+- **Omit**: Utility agents that should inherit from `CLAUDE_CODE_SUBAGENT_MODEL` env var
 
 ## Usage
 
