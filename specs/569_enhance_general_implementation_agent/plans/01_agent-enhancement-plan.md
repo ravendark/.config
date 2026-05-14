@@ -1,7 +1,7 @@
 # Implementation Plan: Enhance General Implementation Agent
 
 - **Task**: 569 - enhance_general_implementation_agent
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: 568
 - **Research Inputs**: specs/569_enhance_general_implementation_agent/reports/01_agent-enhancement-research.md
@@ -71,13 +71,13 @@ Phases are sequential because all edits target the same file and later phases de
 
 ---
 
-### Phase 1: Deviation Annotation in Stage 4B-ii [NOT STARTED]
+### Phase 1: Deviation Annotation in Stage 4B-ii [COMPLETED]
 
 **Goal**: Add Step 4 to Stage 4B-ii to support deviation annotations (skipped/altered/deferred) during phase execution.
 
 **Tasks**:
-- [ ] **Task 1.1**: Read `.claude/agents/general-implementation-agent.md` and locate Stage 4B-ii "Check Off Completed Items in Plan File", specifically the existing Step 3 block and the `**Note**` paragraph that follows it
-- [ ] **Task 1.2**: Insert Step 4 (deviation annotation format) between Step 3 and the **Note** paragraph, using exact wording from the research report Recommendation 1
+- [x] **Task 1.1**: Read `.claude/agents/general-implementation-agent.md` and locate Stage 4B-ii "Check Off Completed Items in Plan File", specifically the existing Step 3 block and the `**Note**` paragraph that follows it *(completed)*
+- [x] **Task 1.2**: Insert Step 4 (deviation annotation format) between Step 3 and the **Note** paragraph, using exact wording from the research report Recommendation 1 *(completed)*
 
 **Timing**: 15 minutes
 
@@ -93,14 +93,14 @@ Phases are sequential because all edits target the same file and later phases de
 
 ---
 
-### Phase 2: Post-Phase Self-Review and Progressive Handoff [NOT STARTED]
+### Phase 2: Post-Phase Self-Review and Progressive Handoff [COMPLETED]
 
 **Goal**: Insert two new sub-stages (4D-ii and 4D-iii) between Stage 4D "Mark Phase Complete" and Stage 4E "Handoff on Context Pressure".
 
 **Tasks**:
-- [ ] **Task 2.1**: Locate the boundary between Stage 4D's closing content and `#### E. Handoff on Context Pressure`
-- [ ] **Task 2.2**: Insert `#### 4D-ii. Post-Phase Self-Review` section using exact wording from research report (5-step self-review protocol with deviation recording and plan annotation)
-- [ ] **Task 2.3**: Insert `#### 4D-iii. Progressive Handoff Update` section immediately after 4D-ii, using exact wording from research report (3-step handoff protocol with condensed template)
+- [x] **Task 2.1**: Locate the boundary between Stage 4D's closing content and `#### E. Handoff on Context Pressure` *(completed)*
+- [x] **Task 2.2**: Insert `#### 4D-ii. Post-Phase Self-Review` section using exact wording from research report (5-step self-review protocol with deviation recording and plan annotation) *(completed)*
+- [x] **Task 2.3**: Insert `#### 4D-iii. Progressive Handoff Update` section immediately after 4D-ii, using exact wording from research report (3-step handoff protocol with condensed template) *(completed)*
 
 **Timing**: 30 minutes
 
@@ -118,13 +118,13 @@ Phases are sequential because all edits target the same file and later phases de
 
 ---
 
-### Phase 3: Context-Exhaustion Final Checkpoint [NOT STARTED]
+### Phase 3: Context-Exhaustion Final Checkpoint [COMPLETED]
 
 **Goal**: Insert Step 1.5 into Stage 4E (Handoff on Context Pressure) to ensure the plan file is annotated before writing the handoff document.
 
 **Tasks**:
-- [ ] **Task 3.1**: Locate Stage 4E's Step 1 ("Update progress file") and Step 2 ("Write handoff artifact") in the agent file
-- [ ] **Task 3.2**: Insert Step 1.5 ("Annotate plan file (final checkpoint)") between Step 1 and Step 2, using exact wording from research report
+- [x] **Task 3.1**: Locate Stage 4E's Step 1 ("Update progress file") and Step 2 ("Write handoff artifact") in the agent file *(completed)*
+- [x] **Task 3.2**: Insert Step 1.5 ("Annotate plan file (final checkpoint)") between Step 1 and Step 2, using exact wording from research report *(completed)*
 
 **Timing**: 15 minutes
 
@@ -140,14 +140,14 @@ Phases are sequential because all edits target the same file and later phases de
 
 ---
 
-### Phase 4: Summary Template and Protocol Updates [NOT STARTED]
+### Phase 4: Summary Template and Protocol Updates [COMPLETED]
 
 **Goal**: Update the Stage 6 summary template to include `## Plan Deviations` and update the Phase Checkpoint Protocol step 4 to reference new stages 4D-ii and 4D-iii.
 
 **Tasks**:
-- [ ] **Task 4.1**: Locate the markdown code block in Stage 6 containing the summary template and replace it with the updated template from the research report (sections: Overview, What Changed, Decisions, Plan Deviations, Verification, Notes)
-- [ ] **Task 4.2**: Add instruction text after the template block directing the agent to populate `## Plan Deviations` from progress file `deviations` arrays
-- [ ] **Task 4.3**: Locate the Phase Checkpoint Protocol section and update step 4 to read: "Update phase status to `[COMPLETED]` (Stage 4D), then perform post-phase self-review (Stage 4D-ii) and write a progressive handoff (Stage 4D-iii)"
+- [x] **Task 4.1**: Locate the markdown code block in Stage 6 containing the summary template and replace it with the updated template from the research report (sections: Overview, What Changed, Decisions, Plan Deviations, Verification, Notes) *(completed)*
+- [x] **Task 4.2**: Add instruction text after the template block directing the agent to populate `## Plan Deviations` from progress file `deviations` arrays *(completed)*
+- [x] **Task 4.3**: Locate the Phase Checkpoint Protocol section and update step 4 to read: "Update phase status to `[COMPLETED]` (Stage 4D), then perform post-phase self-review (Stage 4D-ii) and write a progressive handoff (Stage 4D-iii)" *(completed)*
 
 **Timing**: 30 minutes
 
@@ -163,15 +163,15 @@ Phases are sequential because all edits target the same file and later phases de
 
 ---
 
-### Phase 5: Full-File Verification [NOT STARTED]
+### Phase 5: Full-File Verification [COMPLETED]
 
 **Goal**: Read the complete agent file end-to-end and verify all insertions are correct, stage numbering is consistent, and cross-references are accurate.
 
 **Tasks**:
-- [ ] **Task 5.1**: Read the full `.claude/agents/general-implementation-agent.md` file
-- [ ] **Task 5.2**: Verify stage ordering: 4A -> 4B -> 4B-ii (with Steps 1-4) -> 4C -> 4D -> 4D-ii -> 4D-iii -> 4E (with Steps 1, 1.5, 2, 3, 4) -> Stage 5 -> Stage 6 (updated template) -> Phase Checkpoint Protocol (updated step 4)
-- [ ] **Task 5.3**: Verify cross-references: 4D-ii references progress-file.md schema; 4D-iii references handoff-artifact.md format; Step 4 in 4B-ii references plan-format-enforcement.md; Stage 6 template aligns with summary-format.md
-- [ ] **Task 5.4**: Fix any issues found during verification (typos, broken references, inconsistent formatting)
+- [x] **Task 5.1**: Read the full `.claude/agents/general-implementation-agent.md` file *(completed)*
+- [x] **Task 5.2**: Verify stage ordering: 4A -> 4B -> 4B-ii (with Steps 1-4) -> 4C -> 4D -> 4D-ii -> 4D-iii -> 4E (with Steps 1, 1.5, 2, 3, 4) -> Stage 5 -> Stage 6 (updated template) -> Phase Checkpoint Protocol (updated step 4) *(completed)*
+- [x] **Task 5.3**: Verify cross-references: 4D-ii references progress-file.md schema; 4D-iii references handoff-artifact.md format; Step 4 in 4B-ii references plan-format-enforcement.md; Stage 6 template aligns with summary-format.md *(completed)*
+- [x] **Task 5.4**: Fix any issues found during verification (typos, broken references, inconsistent formatting) *(completed: no issues found)*
 
 **Timing**: 30 minutes
 

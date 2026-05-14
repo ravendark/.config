@@ -35,7 +35,7 @@
     {
       "project_number": 569,
       "project_name": "enhance_general_implementation_agent",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Enhance general-implementation-agent.md with: (1) Post-phase self-review step (new Stage 4D-ii) — after marking a phase [COMPLETED], re-read the phase subtask list and verify each objective was addressed, noting any skipped items; (2) Progressive handoff updates — update the handoff document incrementally as phases complete, not only at context exhaustion; (3) Deviation annotation in plan — when deviating from plan, annotate the checklist item with what was done differently and why; (4) Final context-exhaustion checkpoint — when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.",
       "effort": "2-3 hours",
@@ -43,8 +43,8 @@
         568
       ],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-14T06:58:02Z",
-      "session_id": "sess_1747094800_e5f6g7",
+      "last_updated": "2026-05-14T07:02:27Z",
+      "session_id": "sess_1747094900_f6g7h8",
       "artifacts": [
         {
           "path": "specs/569_enhance_general_implementation_agent/reports/01_agent-enhancement-research.md",
@@ -55,8 +55,14 @@
           "path": "specs/569_enhance_general_implementation_agent/plans/01_agent-enhancement-plan.md",
           "type": "plan",
           "summary": "5-phase plan to add post-phase self-review, progressive handoffs, deviation annotation, and final checkpoint to general-implementation-agent.md"
+        },
+        {
+          "path": "specs/569_enhance_general_implementation_agent/summaries/01_agent-enhancement-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: added 4D-ii post-phase self-review, 4D-iii progressive handoff, 4B-ii deviation annotation Step 4, 4E Step 1.5 final checkpoint, and updated Stage 6 template + Phase Checkpoint Protocol"
         }
-      ]
+      ],
+      "completion_summary": "Enhanced general-implementation-agent.md with post-phase self-review (4D-ii), progressive handoffs (4D-iii), deviation annotation during execution (4B-ii Step 4), final plan annotation checkpoint (4E Step 1.5), updated summary template with Plan Deviations section, and Phase Checkpoint Protocol update."
     },
     {
       "project_number": 570,
