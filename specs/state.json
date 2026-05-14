@@ -90,7 +90,7 @@
     {
       "project_number": 563,
       "project_name": "consult_auto_task_creation",
-      "status": "planning",
+      "status": "planned",
       "task_type": "meta",
       "description": "Make /consult always create a task automatically. Update consult.md command Gate In to auto-generate task slug from input and create task entry in state.json + TODO.md before delegation. Update skill-consult to remove standalone/temp-file mode and always use task directory for report storage. Update command Gate Out to display task number and next steps (Run /plan N). Keep existing task-number input type for attaching to existing tasks.",
       "effort": "1-3 hours",
@@ -98,12 +98,17 @@
         562
       ],
       "created": "2026-05-13T23:00:00Z",
-      "last_updated": "2026-05-14T04:58:49Z",
+      "last_updated": "2026-05-14T05:02:49Z",
       "artifacts": [
         {
           "path": "specs/563_consult_auto_task_creation/reports/01_consult-auto-task-research.md",
           "type": "research",
           "summary": "Research report on auto-task creation for /consult command"
+        },
+        {
+          "path": "specs/563_consult_auto_task_creation/plans/01_consult-auto-task-plan.md",
+          "type": "plan",
+          "summary": "3-phase plan: Gate In auto-task creation, skill standalone mode removal, Vision project mirroring"
         }
       ],
       "session_id": "sess_1747189900_b7e4d1",
@@ -668,7 +673,7 @@
     {
       "project_number": 565,
       "project_name": "plan_compliance_spot_check_gate",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "description": "Add plan-compliance spot-check gate to the .opencode/ lean skill and GATE OUT context in /home/benjamin/Projects/ProofChecker/.opencode/. Add Stage 6b to skill-lean-implementation/SKILL.md: read plan Key Theorems/Deliverables section, verify each listed theorem exists in the implementation with a non-vacuous definition body. Add delivery integrity check: if plan says implement X as replacement for Y, verify X does not call Y. Add lean4-specific verification hook to checkpoint-gate-out.md.",
       "effort": "1-3 hours",
@@ -676,16 +681,16 @@
         564
       ],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-14T04:59:04Z",
+      "last_updated": "2026-05-14T05:00:45Z",
       "artifacts": [
         {
           "path": "specs/565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md",
           "type": "research",
-          "summary": "Research on plan-compliance spot-check gate design for lean skill"
+          "summary": "Research on plan-compliance spot-check gate design for lean skill: current file states, deliverable extraction strategy, delivery integrity check design, and lean4 GATE OUT hook"
         }
       ],
-      "next_artifact_number": 1,
-      "session_id": "sess_1747189000_r565"
+      "next_artifact_number": 2,
+      "session_id": "sess_1747189100_p565"
     },
     {
       "project_number": 566,
