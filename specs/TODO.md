@@ -21,7 +21,7 @@ next_project_number: 573
 
 ### 572. Diagnose OpenCode lean routing failure and improve agent system
 - **Effort**: medium
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Research**: [572_diagnose_opencode_lean_routing_failure/reports/01_opencode-routing-diagnosis.md]
 - **Plan**: [572_diagnose_opencode_lean_routing_failure/plans/01_opencode-routing-fix.md]

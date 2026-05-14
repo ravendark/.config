@@ -1,0 +1,26 @@
+{
+  "phase": 1,
+  "phase_name": "Audit and Replace Core Routing Commands in All Child Projects",
+  "started_at": "2026-05-14T00:00:00Z",
+  "last_updated": "2026-05-14T00:10:00Z",
+  "objectives": [
+    {"id": 1, "description": "Read nvim canonical versions of implement.md, research.md, plan.md to establish baseline", "status": "done"},
+    {"id": 2, "description": "Diff child projects against nvim versions to identify project-specific customizations", "status": "done", "note": "No project-specific customizations found. All differences were outdated routing code and hardcoded tables."},
+    {"id": 3, "description": "Replace implement.md in all 5 existing child projects with nvim canonical version", "status": "done"},
+    {"id": 4, "description": "Replace research.md in all 5 existing child projects with nvim canonical version", "status": "done"},
+    {"id": 5, "description": "Replace plan.md in all 5 existing child projects with nvim canonical version", "status": "done"},
+    {"id": 6, "description": "Verify all replaced files contain project_root fix, COMMAND EXECUTION MODE preamble, and manifest_count warning", "status": "done"}
+  ],
+  "current_objective": null,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": [
+    {
+      "task_id": "1.3",
+      "description": "For each of the 3 child projects without routing code (OpenCode, ModelChecker, protocol)",
+      "type": "altered",
+      "reason": "opencode project at /home/benjamin/Projects/opencode has no .opencode/commands directory, so it was skipped. ModelChecker and protocol were updated normally.",
+      "annotation": "*(deviation: altered — opencode project has no .opencode/commands dir, skipped; 5 total projects updated instead of 6)*"
+    }
+  ]
+}

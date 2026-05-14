@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode Extension Routing in Child Projects
 
 - **Task**: 572 - diagnose_opencode_lean_routing_failure
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/572_diagnose_opencode_lean_routing_failure/reports/01_opencode-routing-diagnosis.md
@@ -72,20 +72,20 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Audit and Replace Core Routing Commands in All Child Projects [NOT STARTED]
+### Phase 1: Audit and Replace Core Routing Commands in All Child Projects [COMPLETED]
 
 **Goal**: Bring implement.md, research.md, and plan.md to full nvim parity across all 6 child projects by replacing them with the canonical nvim versions.
 
 **Tasks**:
-- [ ] Read the nvim canonical versions of implement.md, research.md, and plan.md to establish the baseline
-- [ ] For each of the 3 child projects with routing code (ProofChecker, dotfiles, zed): diff their implement.md, research.md, and plan.md against nvim versions to identify any project-specific customizations
-- [ ] For each of the 3 child projects without routing code (OpenCode, ModelChecker, protocol): diff their implement.md, research.md, and plan.md against nvim versions to identify any project-specific customizations
-- [ ] Replace implement.md in all 6 child projects with the nvim canonical version
-- [ ] Replace research.md in all 6 child projects with the nvim canonical version
-- [ ] Replace plan.md in all 6 child projects with the nvim canonical version
-- [ ] Verify each replaced file contains the `project_root=$(git rev-parse --show-toplevel` fix
-- [ ] Verify each replaced file contains the `COMMAND EXECUTION MODE` preamble
-- [ ] Verify each replaced file contains `manifest_count` warning logic
+- [x] Read the nvim canonical versions of implement.md, research.md, and plan.md to establish the baseline *(completed)*
+- [x] For each of the 3 child projects with routing code (ProofChecker, dotfiles, zed): diff their implement.md, research.md, and plan.md against nvim versions to identify any project-specific customizations *(completed: no project-specific customizations found, only outdated routing code and hardcoded tables)*
+- [x] For each of the 3 child projects without routing code (OpenCode, ModelChecker, protocol): diff their implement.md, research.md, and plan.md against nvim versions to identify any project-specific customizations *(deviation: altered — opencode project has no .opencode/commands dir, skipped; ModelChecker and protocol done)*
+- [x] Replace implement.md in all 6 child projects with the nvim canonical version *(completed: 5 projects updated; opencode project skipped — no .opencode/commands dir)*
+- [x] Replace research.md in all 6 child projects with the nvim canonical version *(completed: 5 projects updated)*
+- [x] Replace plan.md in all 6 child projects with the nvim canonical version *(completed: 5 projects updated)*
+- [x] Verify each replaced file contains the `project_root=$(git rev-parse --show-toplevel` fix *(completed: all 5 show count=2)*
+- [x] Verify each replaced file contains the `COMMAND EXECUTION MODE` preamble *(completed: all 5 show count=1)*
+- [x] Verify each replaced file contains `manifest_count` warning logic *(completed: all 5 show count=3)*
 
 **Timing**: 1.5 hours
 

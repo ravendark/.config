@@ -22216,3 +22216,20 @@
 [2026-05-14T10:04:43-07:00] Task directory: specs/572_diagnose_opencode_lean_routing_failure
 [2026-05-14T10:04:43-07:00] Loop guard triggered: 3 >= 3
 [2026-05-14T10:04:43-07:00] Loop guard prevented continuation
+[2026-05-14T10:08:23-07:00] Postflight marker found at: specs/572_diagnose_opencode_lean_routing_failure/.postflight-pending
+[2026-05-14T10:08:23-07:00] Task directory: specs/572_diagnose_opencode_lean_routing_failure
+[2026-05-14T10:08:23-07:00] Loop guard initialized to 1
+[2026-05-14T10:08:23-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T10:08:47-07:00] Postflight marker found at: specs/572_diagnose_opencode_lean_routing_failure/.postflight-pending
+[2026-05-14T10:08:47-07:00] Task directory: specs/572_diagnose_opencode_lean_routing_failure
+[2026-05-14T10:08:47-07:00] Loop guard incremented to 2
+[2026-05-14T10:08:47-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T10:09:06-07:00] Postflight marker found at: specs/572_diagnose_opencode_lean_routing_failure/.postflight-pending
+[2026-05-14T10:09:06-07:00] Task directory: specs/572_diagnose_opencode_lean_routing_failure
+[2026-05-14T10:09:06-07:00] Loop guard incremented to 3
+[2026-05-14T10:09:06-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T10:09:19-07:00] Postflight marker found at: specs/572_diagnose_opencode_lean_routing_failure/.postflight-pending
+[2026-05-14T10:09:19-07:00] Task directory: specs/572_diagnose_opencode_lean_routing_failure
+[2026-05-14T10:09:19-07:00] Loop guard triggered: 3 >= 3
+[2026-05-14T10:09:19-07:00] Loop guard prevented continuation
+[2026-05-14T10:09:50-07:00] No postflight marker, allowing stop
