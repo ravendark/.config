@@ -21900,3 +21900,4 @@
 [2026-05-13T22:02:30-07:00] Task directory: specs/565_plan_compliance_spot_check_gate
 [2026-05-13T22:02:30-07:00] Loop guard triggered: 3 >= 3
 [2026-05-13T22:02:30-07:00] Loop guard prevented continuation
+[2026-05-13T22:03:12-07:00] No postflight marker, allowing stop
