@@ -99,8 +99,15 @@
       ],
       "created": "2026-05-13T23:00:00Z",
       "last_updated": "2026-05-14T04:56:56Z",
-      "artifacts": [],
-      "session_id": "sess_1747183200_a9f3c2"
+      "artifacts": [
+        {
+          "path": "specs/563_consult_auto_task_creation/reports/01_consult-auto-task-research.md",
+          "type": "research",
+          "summary": "Research report on auto-task creation for /consult command"
+        }
+      ],
+      "session_id": "sess_1747183200_a9f3c2",
+      "next_artifact_number": 2
     },
     {
       "project_number": 87,
