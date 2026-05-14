@@ -1,7 +1,7 @@
 # Implementation Plan: Task #563
 
 - **Task**: 563 - Make /consult always create a task automatically
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2.5 hours
 - **Dependencies**: Task 562 (completed)
 - **Research Inputs**: specs/563_consult_auto_task_creation/reports/01_consult-auto-task-research.md
@@ -67,7 +67,7 @@ No ROADMAP.md items are directly advanced by this task. This is a founder extens
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Update consult.md Gate In and Gate Out [NOT STARTED]
+### Phase 1: Update consult.md Gate In and Gate Out [COMPLETED]
 
 **Goal**: Add auto-task creation logic to Gate In (Step 4) and update Gate Out to always display task number and next steps.
 
@@ -103,7 +103,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update skill-consult and legal-analysis-agent [NOT STARTED]
+### Phase 2: Update skill-consult and legal-analysis-agent [COMPLETED]
 
 **Goal**: Remove standalone/temp-file mode from skill-consult and update the agent's standalone path comment.
 
@@ -131,7 +131,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Mirror Changes to Vision Project and Verify [NOT STARTED]
+### Phase 3: Mirror Changes to Vision Project and Verify [IN PROGRESS]
 
 **Goal**: Copy updated files to the Vision project and verify consistency.
 

@@ -349,7 +349,7 @@ If the user selects "No", proceed to Stage 6.
 
 ### Stage 6: Compile Checklist Report
 
-Write the consultation report to the path determined by the skill wrapper (typically `specs/{NNN}_{SLUG}/reports/{NN}_{short-slug}.md` if task-attached, or a standalone path if immediate-mode).
+Write the consultation report to the path determined by the skill wrapper (`specs/{NNN}_{SLUG}/reports/{NN}_{short-slug}.md` -- the task directory is always present since every consultation creates or attaches to a task).
 
 **Report template**:
 

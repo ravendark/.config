@@ -1,6 +1,6 @@
 ---
 description: Collaborative design consultation with domain expert perspective
-allowed-tools: Skill, Bash(jq:*), Bash(git:*), Bash(date:*), Read, Edit, AskUserQuestion
+allowed-tools: Skill, Bash(jq:*), Bash(git:*), Bash(date:*), Bash(mkdir:*), Bash(sed:*), Bash(od:*), Bash(tr:*), Read, Edit, AskUserQuestion
 argument-hint: --legal [file_path|"text"|design question]
 ---
 
@@ -12,14 +12,14 @@ Collaborative design consultation command that routes to domain-specific design 
 
 This command initiates a collaborative consultation where a design partner agent helps the user describe their product in language that domain professionals recognize. Unlike review or critique commands, `/consult` uses Socratic dialogue to understand user intent and suggest reframings -- it is collaborative, not adversarial.
 
-The command operates in **standalone immediate-mode** -- no task pipeline required. It can optionally be attached to an existing task for artifact tracking.
+Every `/consult` invocation automatically creates a task entry in state.json and TODO.md for artifact tracking. The consultation report is always stored in the task directory. To attach to an existing task instead, pass the task number after the domain flag.
 
 ## Syntax
 
-- `/consult --legal /path/to/document.typ` - Review document from attorney perspective
-- `/consult --legal "product description text"` - Analyze inline text from attorney perspective
-- `/consult --legal How should I describe formal verification to attorneys?` - Design question dialogue
-- `/consult --legal 458` - Attach consultation to existing task (artifacts stored in task directory)
+- `/consult --legal /path/to/document.typ` - Review document from attorney perspective (auto-creates task)
+- `/consult --legal "product description text"` - Analyze inline text from attorney perspective (auto-creates task)
+- `/consult --legal How should I describe formal verification to attorneys?` - Design question dialogue (auto-creates task)
+- `/consult --legal 458` - Attach consultation to existing task 458 (artifacts stored in task directory)
 
 ## Domain Flags
 
@@ -36,10 +36,10 @@ The command operates in **standalone immediate-mode** -- no task pipeline requir
 
 | Input | Behavior |
 |-------|----------|
-| File path (after flag) | Read file as document for translation analysis |
-| Quoted string (after flag) | Treat as inline product description snippet |
+| File path (after flag) | Read file as document for translation analysis; auto-creates task |
+| Quoted string (after flag) | Treat as inline product description snippet; auto-creates task |
 | Task number (after flag) | Attach consultation to existing task, store artifacts in task directory |
-| Bare text (after flag) | Treat as design question for Socratic dialogue |
+| Bare text (after flag) | Treat as design question for Socratic dialogue; auto-creates task |
 
 ---
 
@@ -107,10 +107,11 @@ else
 fi
 ```
 
-### Step 4: Resolve Task Context (if task number)
+### Step 4: Create or Resolve Task
 
 ```bash
 if [ "$input_type" = "task_number" ]; then
+  # Existing task path: resolve from state.json (unchanged)
   task_data=$(jq -r --argjson num "$task_number" \
     '.active_projects[] | select(.project_number == $num)' \
     specs/state.json)
@@ -122,6 +123,68 @@ if [ "$input_type" = "task_number" ]; then
 
   project_name=$(echo "$task_data" | jq -r '.project_name')
   description=$(echo "$task_data" | jq -r '.description // ""')
+
+else
+  # Auto-create path: generate task for this consultation
+
+  # 1. Read next project number
+  next_num=$(jq -r '.next_project_number' specs/state.json)
+
+  # 2. Generate slug from input (consult_{domain}_{slugified input})
+  if [ "$input_type" = "file_path" ]; then
+    slug_input=$(basename "$file_path" | sed 's/\.[^.]*$//')
+  elif [ "$input_type" = "inline_text" ]; then
+    slug_input="$inline_text"
+  else
+    slug_input="$design_question"
+  fi
+  input_slug=$(echo "$slug_input" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9 ]//g' | sed 's/  */ /g' | sed 's/^ *//;s/ *$//' | sed 's/ /_/g' | cut -c1-35)
+  task_slug="consult_${domain}_${input_slug}"
+  task_slug=$(echo "$task_slug" | cut -c1-50)
+
+  # 3. Generate description
+  if [ "$input_type" = "file_path" ]; then
+    description="Legal design consultation: $(basename "$file_path")"
+  elif [ "$input_type" = "inline_text" ]; then
+    desc_short=$(echo "$inline_text" | cut -c1-60)
+    description="Legal design consultation: ${desc_short}"
+  else
+    desc_short=$(echo "$design_question" | cut -c1-60)
+    description="Legal design consultation: ${desc_short}"
+  fi
+
+  # 4. Update state.json: increment next_project_number, prepend entry
+  mkdir -p specs/tmp
+  new_num=$((next_num + 1))
+  ts=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  jq --arg ts "$ts" \
+     --arg name "$task_slug" \
+     --arg desc "$description" \
+     --argjson num "$next_num" \
+     --argjson new_num "$new_num" \
+    '.next_project_number = $new_num |
+     .active_projects = [{
+       "project_number": $num,
+       "project_name": $name,
+       "status": "not_started",
+       "task_type": "founder",
+       "description": $desc,
+       "created": $ts,
+       "last_updated": $ts
+     }] + .active_projects' \
+    specs/state.json > specs/tmp/state.json && \
+    mv specs/tmp/state.json specs/state.json
+
+  # 5. Update TODO.md frontmatter: increment next_project_number
+  sed -i "s/^next_project_number: ${next_num}$/next_project_number: ${new_num}/" specs/TODO.md
+
+  # 6. Prepend task entry to TODO.md after "## Tasks" line
+  padded_num=$(printf "%03d" "$next_num")
+  task_entry="- **[${next_num}]** \`${task_slug}\` [NOT STARTED] — ${description}"
+  sed -i "/^## Tasks/a ${task_entry}" specs/TODO.md
+
+  # 7. Set task_number for downstream use
+  task_number="$next_num"
 fi
 ```
 
@@ -144,7 +207,7 @@ The skill-consult wrapper will:
 1. Spawn legal-analysis-agent via Agent tool
 2. Pass delegation context including input type and content
 3. Agent conducts Socratic dialogue and produces consultation report
-4. Skill handles postflight (artifact linking if task-attached)
+4. Skill handles postflight (artifact linking)
 
 ---
 
@@ -155,26 +218,25 @@ The skill-consult wrapper will:
 ```
 Legal design consultation complete.
 
+Task: #{task_number} — {task_slug}
 Input: {file path or description}
 Translation gaps found: {N}
 Consultation report: {report_path}
 
-Top recommendation: {highest priority reframing}
+Next: /plan {task_number}
 
 Advisory: This consultation models attorney thinking but does not replace attorney review.
 Recommend professional review for materials targeting legal professionals in high-stakes contexts.
 ```
 
-### Step 2: Git Commit (if task-attached)
+### Step 2: Git Commit
 
 ```bash
-if [ -n "$task_number" ]; then
-  git add -A
-  git commit -m "task ${task_number}: legal design consultation
+git add -A
+git commit -m "task ${task_number}: legal design consultation
 
 Session: ${session_id}
 "
-fi
 ```
 
 ---
@@ -205,18 +267,24 @@ Error: --{domain} flag is not yet implemented.
 Currently available: --legal
 ```
 
+### Task Creation Failure
+
+```
+Error: Failed to create task entry. Check that specs/state.json is valid JSON.
+```
+
 ---
 
 ## Examples
 
 ```bash
-# Review a product document from attorney perspective
+# Review a product document from attorney perspective (auto-creates task)
 /consult --legal ~/Projects/Logos/Vision/shared/strategy/legal-ai-example.typ
 
-# Analyze a product description snippet
+# Analyze a product description snippet (auto-creates task)
 /consult --legal "Logos formally verifies all legal reasoning and discovers concealment patterns"
 
-# Ask a design question
+# Ask a design question (auto-creates task)
 /consult --legal How should I describe formal verification to litigation partners?
 
 # Attach consultation to an existing task

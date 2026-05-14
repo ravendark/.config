@@ -1,7 +1,7 @@
 # Implementation Plan: Plan Compliance Spot-Check Gate
 
 - **Task**: 565 - plan_compliance_spot_check_gate
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: reports/01_compliance-gate-research.md
@@ -64,7 +64,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Add Stage 6b to skill-lean-implementation/SKILL.md [NOT STARTED]
+### Phase 1: Add Stage 6b to skill-lean-implementation/SKILL.md [COMPLETED]
 
 **Goal**: Insert the plan compliance spot-check stage between the existing Stage 6 (Zero-Debt Gate) and Stage 7 (Status Update).
 
@@ -93,7 +93,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add Section 2b to checkpoint-gate-out.md [NOT STARTED]
+### Phase 2: Add Section 2b to checkpoint-gate-out.md [COMPLETED]
 
 **Goal**: Add a lean4-specific compliance verification hook that reads the `compliance_check` field from metadata and blocks progression if it reports failure.
 
@@ -121,7 +121,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: End-to-End Verification [NOT STARTED]
+### Phase 3: End-to-End Verification [COMPLETED]
 
 **Goal**: Validate that the two modified files are internally consistent and the data flow from Stage 6b to GATE OUT section 2b is correct.
 

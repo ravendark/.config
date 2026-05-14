@@ -47,6 +47,7 @@ Do not invoke for:
 Validate required inputs:
 - `domain` - Required, currently only "legal" supported
 - `input_type` - Required, one of: file_path, inline_text, design_question, task_number
+- `task_number` - Required (always provided by consult.md Gate In)
 - `session_id` - Required
 
 ```bash
@@ -65,30 +66,25 @@ esac
 
 ---
 
-### Stage 2: Resolve Task Context (if task-attached)
+### Stage 2: Resolve Task Context
 
-If `task_number` is provided, resolve task directory for artifact storage:
+Resolve task directory for artifact storage. `task_number` is always provided by the command's Gate In:
 
 ```bash
-if [ -n "$task_number" ]; then
-  task_data=$(jq -r --argjson num "$task_number" \
-    '.active_projects[] | select(.project_number == $num)' \
-    specs/state.json)
+task_data=$(jq -r --argjson num "$task_number" \
+  '.active_projects[] | select(.project_number == $num)' \
+  specs/state.json)
 
-  if [ -z "$task_data" ]; then
-    return error "Task $task_number not found"
-  fi
-
-  project_name=$(echo "$task_data" | jq -r '.project_name')
-  padded_num=$(printf "%03d" "$task_number")
-  task_dir="specs/${padded_num}_${project_name}"
-  metadata_file="${task_dir}/.return-meta.json"
-
-  mkdir -p "$task_dir"
-else
-  # Standalone mode: no task directory, agent writes report to a temp location
-  metadata_file="/tmp/consult-meta-${session_id}.json"
+if [ -z "$task_data" ]; then
+  return error "Task $task_number not found"
 fi
+
+project_name=$(echo "$task_data" | jq -r '.project_name')
+padded_num=$(printf "%03d" "$task_number")
+task_dir="specs/${padded_num}_${project_name}"
+metadata_file="${task_dir}/.return-meta.json"
+
+mkdir -p "$task_dir"
 ```
 
 ---
@@ -106,7 +102,7 @@ fi
   "file_path": "{file path if applicable}",
   "inline_text": "{inline text if applicable}",
   "design_question": "{design question if applicable}",
-  "task_number": "{task number if task-attached, null otherwise}",
+  "task_number": "{task_number}",
   "metadata_file_path": "{metadata_file}",
   "metadata": {
     "session_id": "{session_id}",
@@ -173,53 +169,45 @@ fi
 
 ---
 
-### Stage 6: Link Artifacts (if task-attached)
+### Stage 6: Link Artifacts
 
-If a task number was provided, link the consultation artifact to the task:
+Link the consultation artifact to the task in state.json:
 
 ```bash
-if [ -n "$task_number" ] && [ -n "$artifact_path" ]; then
+if [ -n "$artifact_path" ]; then
     # Add consultation artifact to state.json
+    mkdir -p specs/tmp
     jq --arg path "$artifact_path" \
        --arg type "$artifact_type" \
        --arg summary "$artifact_summary" \
-      '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
+       --argjson num "$task_number" \
+      '(.active_projects[] | select(.project_number == $num)).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 fi
 ```
 
 ---
 
-### Stage 7: Git Commit (if task-attached)
+### Stage 7: Git Commit
 
 ```bash
-if [ -n "$task_number" ]; then
-  git add -A
-  git commit -m "task ${task_number}: legal design consultation
+git add -A
+git commit -m "task ${task_number}: legal design consultation
 
 Session: ${session_id}
 "
-fi
 ```
 
 ---
 
-### Stage 8: Cleanup
-
-```bash
-rm -f "$metadata_file"
-```
-
----
-
-### Stage 9: Return Brief Summary
+### Stage 8: Return Brief Summary
 
 ```
 Design consultation complete ({domain}):
 - Input: {input type and description}
 - Translation gaps: {N} identified
 - Consultation report: {artifact_path}
-- Task attached: {task_number or "standalone"}
+- Task: #{task_number}
 - Advisory: recommend attorney review for high-stakes materials
 ```
 
@@ -236,7 +224,7 @@ Brief text summary (NOT JSON).
 ### Unsupported Domain
 Return immediately with supported domain list.
 
-### Task Not Found (if task-attached)
+### Task Not Found
 Return error, do not proceed.
 
 ### Metadata File Missing

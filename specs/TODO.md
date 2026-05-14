@@ -10,12 +10,12 @@ next_project_number: 568
 
 ### Pending
 - **564** [COMPLETED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
-- **565** [PLANNED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
+- **565** [COMPLETED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
   - **Research**: specs/565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md
 - **566** [NOT STARTED] -- Apply .claude/ lean integrity improvements: vacuous rules + metadata-based compliance (depends: 565)
 - **567** [NOT STARTED] -- Apply 564+565 integrity improvements to nvim .opencode/ seed (depends: 565)
 - **562** [COMPLETED] -- Upgrade consult report to interactive actionable checklist format
-- **563** [PLANNED] -- Make /consult always create a task automatically (depends: 562)
+- **563** [IMPLEMENTING] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
@@ -39,11 +39,12 @@ next_project_number: 568
 
 ### 565. Add plan-compliance spot-check gate to lean skill (.opencode/)
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: 564
 - **Research**: [565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md]
 - **Plan**: [565_plan_compliance_spot_check_gate/plans/01_compliance-gate-plan.md]
+- **Summary**: [565_plan_compliance_spot_check_gate/summaries/01_compliance-gate-summary.md]
 - **Description**: Add plan-compliance spot-check gate to the .opencode/ lean skill and GATE OUT context in /home/benjamin/Projects/ProofChecker/.opencode/. Add Stage 6b to skill-lean-implementation/SKILL.md: read plan Key Theorems/Deliverables section, verify each listed theorem exists in the implementation with a non-vacuous definition body. Add delivery integrity check: if plan says implement X as replacement for Y, verify X does not call Y. Add lean4-specific verification hook to checkpoint-gate-out.md.
   - **Target files**: `.opencode/skills/skill-lean-implementation/SKILL.md`, `.opencode/context/checkpoints/checkpoint-gate-out.md`, `.opencode/context/orchestration/orchestration-validation.md`
 
@@ -75,7 +76,7 @@ next_project_number: 568
 
 ### 563. Make /consult always create a task automatically
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: 562
 - **Research**: [563_consult_auto_task_creation/reports/01_consult-auto-task-research.md]
