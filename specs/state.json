@@ -5,13 +5,21 @@
     {
       "project_number": 568,
       "project_name": "update_artifact_formats_deviation_tracking",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Add deviation tracking fields to core artifact formats: handoff-artifact.md (new Deviations from Plan section), summary-format.md (new Plan Deviations section), progress-file.md (deviations array in schema), context-exhaustion-detection.md (final checkpoint protocol), and plan-format-enforcement.md (deviation annotation requirements). These format changes define the contract that tasks 569 and 570 implement.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-13T00:00:00Z"
+      "last_updated": "2026-05-13T00:30:00Z",
+      "session_id": "sess_1747094400_a1b2c3",
+      "artifacts": [
+        {
+          "path": "specs/568_update_artifact_formats_deviation_tracking/reports/01_artifact-formats-research.md",
+          "type": "research",
+          "summary": "Research report documenting current state of 5 artifact format files and specific proposed changes for deviation tracking support"
+        }
+      ]
     },
     {
       "project_number": 569,

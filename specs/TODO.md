@@ -9,7 +9,7 @@ next_project_number: 571
 *Updated 2026-05-13. 7 active tasks remaining.*
 
 ### Pending
-- **568** [NOT STARTED] -- Update artifact formats for deviation tracking
+- **568** [RESEARCHED] -- Update artifact formats for deviation tracking
 - **569** [NOT STARTED] -- Enhance general implementation agent (depends: 568)
 - **570** [NOT STARTED] -- Propagate improvements to extension agents (depends: 569)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -21,9 +21,10 @@ next_project_number: 571
 
 ### 568. Update artifact formats for deviation tracking
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [568_update_artifact_formats_deviation_tracking/reports/01_artifact-formats-research.md]
 
 **Description**: Add deviation tracking fields to core artifact formats: `handoff-artifact.md` (new `## Deviations from Plan` section), `summary-format.md` (new `## Plan Deviations` section), `progress-file.md` (`deviations` array in schema), `context-exhaustion-detection.md` (final checkpoint protocol — update both progress file AND plan file as last actions before writing handoff when exhaustion is imminent), and `plan-format-enforcement.md` (deviation annotation requirements). These format changes define the contract that tasks 569 and 570 implement.
   - **Target files**: `.claude/context/formats/handoff-artifact.md`, `.claude/context/formats/summary-format.md`, `.claude/context/formats/progress-file.md`, `.claude/context/patterns/context-exhaustion-detection.md`, `.claude/rules/plan-format-enforcement.md`
