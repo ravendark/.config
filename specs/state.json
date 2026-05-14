@@ -1,7 +1,16 @@
 {
   "version": "1.0.0",
-  "next_project_number": 574,
+  "next_project_number": 575,
   "active_projects": [
+    {
+      "project_number": 574,
+      "project_name": "fix_temp_file_usage_opencode_agent_system",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue — all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.",
+      "created": "2026-05-14T22:43:50Z",
+      "last_updated": "2026-05-14T22:43:50Z"
+    },
     {
       "project_number": 572,
       "project_name": "diagnose_opencode_lean_routing_failure",

@@ -1,5 +1,5 @@
 ---
-next_project_number: 574
+next_project_number: 575
 ---
 
 # TODO
@@ -18,6 +18,15 @@ next_project_number: 574
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 574. Fix temp file usage in .opencode/ agent system to use specs/ instead of /tmp/
+- **Effort**: TBD
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+
+**Description**: Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue — all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.
+
+---
 
 ### 572. Diagnose OpenCode lean routing failure and improve agent system
 - **Effort**: medium
