@@ -109,6 +109,11 @@
           "path": "specs/563_consult_auto_task_creation/plans/01_consult-auto-task-plan.md",
           "type": "plan",
           "summary": "3-phase plan: Gate In auto-task creation, skill standalone mode removal, Vision project mirroring"
+        },
+        {
+          "path": "specs/563_consult_auto_task_creation/summaries/01_consult-auto-task-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 563 consult auto-task creation"
         }
       ],
       "session_id": "sess_1747190500_c3a8e2",

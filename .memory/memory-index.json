@@ -22,7 +22,7 @@
       "created": "2026-04-13",
       "modified": "2026-04-13",
       "last_retrieved": "2026-05-14",
-      "retrieval_count": 22
+      "retrieval_count": 23
     },
     {
       "id": "MEM-config-nextcord-discord-nixos",
@@ -63,8 +63,8 @@
       "token_count": 91,
       "created": "2026-05-12",
       "modified": "2026-05-12",
-      "last_retrieved": null,
-      "retrieval_count": 0
+      "last_retrieved": "2026-05-14",
+      "retrieval_count": 1
     }
   ]
 }
