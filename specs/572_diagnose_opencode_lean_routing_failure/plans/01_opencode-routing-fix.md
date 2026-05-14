@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode Extension Routing in Child Projects
 
 - **Task**: 572 - diagnose_opencode_lean_routing_failure
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/572_diagnose_opencode_lean_routing_failure/reports/01_opencode-routing-diagnosis.md

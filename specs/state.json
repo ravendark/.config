@@ -5,10 +5,10 @@
     {
       "project_number": 572,
       "project_name": "diagnose_opencode_lean_routing_failure",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-14T16:44:59Z",
-      "last_updated": "2026-05-14T17:07:06Z",
+      "last_updated": "2026-05-14T17:13:28Z",
       "session_id": "sess_1747241800_572impl",
       "next_artifact_number": 2,
       "artifacts": [
@@ -21,6 +21,11 @@
           "path": "specs/572_diagnose_opencode_lean_routing_failure/plans/01_opencode-routing-fix.md",
           "type": "plan",
           "summary": "4-phase plan to fix OpenCode extension routing across 6 child projects, create sync script, and add validation warnings"
+        },
+        {
+          "path": "specs/572_diagnose_opencode_lean_routing_failure/summaries/01_opencode-routing-fix-summary.md",
+          "type": "summary",
+          "summary": "Fixed OpenCode extension routing across 5 child projects, created sync script, added routing validation warnings"
         }
       ],
       "memory_candidates": [
@@ -65,8 +70,36 @@
             "hidden-directory",
             "sync-script"
           ]
+        },
+        {
+          "content": "OpenCode Glob tool silently returns zero results for relative paths into hidden directories. Fix: derive project root via git rev-parse --show-toplevel then use $project_root/.opencode/extensions for manifest discovery. Use sync-core-commands.sh to propagate to child projects.",
+          "category": "INSIGHT",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "glob",
+            "hidden-directory",
+            "manifest-discovery",
+            "routing",
+            "extension",
+            "relative-path"
+          ]
+        },
+        {
+          "content": "When multiple projects share common command infrastructure, use a sync script pattern: one canonical source (nvim .opencode/commands/) and a registry of child project paths. The script supports --dry-run, --check (detect drift), and --commands (select subset). Template: .opencode/scripts/sync-core-commands.sh.",
+          "category": "PATTERN",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "sync-script",
+            "command-propagation",
+            "canonical-source",
+            "drift-detection",
+            "opencode",
+            "child-projects"
+          ]
         }
-      ]
+      ],
+      "completion_summary": "Fixed OpenCode extension routing failure (task 129 lean routing bug) by replacing relative-path Glob-based manifest discovery with absolute git-root-derived paths in all 5 child project command files, created a reusable sync script (sync-core-commands.sh) for future propagation, and added explicit routing validation warnings to the canonical nvim source for implement.md, research.md, and plan.md."
     },
     {
       "project_number": 571,
