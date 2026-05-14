@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 573,
+  "next_project_number": 574,
   "active_projects": [
+    {
+      "project_number": 573,
+      "project_name": "bidirectional_discord_opencode_relay",
+      "status": "not_started",
+      "task_type": "general",
+      "created": "2026-05-14T19:41:25Z",
+      "last_updated": "2026-05-14T19:41:25Z"
+    },
     {
       "project_number": 572,
       "project_name": "diagnose_opencode_lean_routing_failure",

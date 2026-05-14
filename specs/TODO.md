@@ -1,5 +1,5 @@
 ---
-next_project_number: 573
+next_project_number: 574
 ---
 
 # TODO
@@ -18,6 +18,13 @@ next_project_number: 573
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 573. Implement bidirectional Discord-OpenCode relay
+- **Effort**: medium
+- **Status**: [NOT STARTED]
+- **Task Type**: general
+
+**Description**: Subscribe to OpenCode TUI SSE events and push assistant responses to linked Discord threads. Currently the bot only relays Discord->OpenCode. When a user types in the OpenCode TUI and gets an assistant response, that exchange should automatically appear in the corresponding Discord thread via SSE event subscription on each linked TUI instance.
 
 ### 572. Diagnose OpenCode lean routing failure and improve agent system
 - **Effort**: medium
