@@ -21823,6 +21823,564 @@
         ]
       },
       "archived": "2026-05-12T21:19:51Z"
+    },
+    {
+      "project_number": 562,
+      "project_name": "consult_checklist_report_format",
+      "status": "completed",
+      "task_type": "meta",
+      "description": "Upgrade legal-analysis-agent report format to interactive actionable checklist. Change Stage 3-6 flow so findings are presented one-at-a-time via AskUserQuestion with Accept/Reject/Modify decisions (grouped by category). After all findings, offer a revision pass, then compile the full checklist report with per-finding decision checkboxes and a summary revision checklist table. Based on the format in Vision specs/203_legal_consult_revisions/reports/01_legal-consult-revisions.md.",
+      "effort": "1-3 hours",
+      "dependencies": [],
+      "created": "2026-05-13T23:00:00Z",
+      "last_updated": "2026-05-14T04:51:19Z",
+      "artifacts": [
+        {
+          "path": "specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md",
+          "type": "research",
+          "summary": "Comprehensive research report covering example format analysis, file inventory (2 files), stage-by-stage new flow design, AskUserQuestion per-finding design, report compilation template, and Vision repo sync requirements"
+        },
+        {
+          "path": "specs/562_consult_checklist_report_format/plans/01_consult-checklist-plan.md",
+          "type": "plan",
+          "summary": "3-phase implementation plan for interactive checklist consultation format in legal-analysis-agent"
+        },
+        {
+          "path": "specs/562_consult_checklist_report_format/summaries/01_consult-checklist-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for legal-analysis-agent interactive checklist format upgrade"
+        }
+      ],
+      "session_id": "sess_1778733973_f144f1",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "The /consult legal-analysis-agent uses a four-category output structure for consultation reports: (1) Translation Gaps, (2) Credibility Concerns, (3) Missing Concerns, (4) Strengths to Preserve. The canonical example is at /home/benjamin/Projects/Logos/Vision/specs/203_legal_consult_revisions/reports/01_legal-consult-revisions.md. Each finding uses a **Decision**: [x] Accept  [ ] Reject  [ ] Modify: {notes} checkbox pattern. The Revision Checklist table at the end has columns: # | Item | Lines | Priority | Status ([ ]) and includes only accepted/modified findings.",
+          "category": "PATTERN",
+          "source_artifact": "specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "legal-analysis-agent",
+            "consult",
+            "checklist",
+            "report-format",
+            "decision-checkboxes",
+            "founder-extension"
+          ]
+        },
+        {
+          "content": "The legal-analysis-agent.md exists in TWO locations that must stay in sync: (1) /home/benjamin/.config/nvim/.claude/extensions/founder/agents/legal-analysis-agent.md and (2) /home/benjamin/Projects/Logos/Vision/.claude/agents/legal-analysis-agent.md. These files were identical at task 562 research time (2026-05-13). The consult.md command and skill-consult/SKILL.md files also have Vision mirrors but do NOT need changes for the checklist format upgrade.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "legal-analysis-agent",
+            "vision-project",
+            "sync",
+            "mirror-files",
+            "founder-extension"
+          ]
+        }
+      ],
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 2,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_consult-checklist-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-14"
+          }
+        ]
+      },
+      "completion_summary": "Upgraded legal-analysis-agent to interactive checklist format: Stage 3 silent analysis, Stage 4 one-at-a-time AskUserQuestion per finding, Stage 5 revision pass, Stage 6 checklist report with decision checkboxes and Revision Checklist table. Both copies synced.",
+      "archived": "2026-05-14T06:31:40Z"
+    },
+    {
+      "project_number": 563,
+      "project_name": "consult_auto_task_creation",
+      "status": "completed",
+      "task_type": "meta",
+      "description": "Make /consult always create a task automatically. Update consult.md command Gate In to auto-generate task slug from input and create task entry in state.json + TODO.md before delegation. Update skill-consult to remove standalone/temp-file mode and always use task directory for report storage. Update command Gate Out to display task number and next steps (Run /plan N). Keep existing task-number input type for attaching to existing tasks.",
+      "effort": "1-3 hours",
+      "dependencies": [
+        562
+      ],
+      "created": "2026-05-13T23:00:00Z",
+      "last_updated": "2026-05-14T05:13:00Z",
+      "artifacts": [
+        {
+          "path": "specs/563_consult_auto_task_creation/reports/01_consult-auto-task-research.md",
+          "type": "research",
+          "summary": "Research report on auto-task creation for /consult command"
+        },
+        {
+          "path": "specs/563_consult_auto_task_creation/plans/01_consult-auto-task-plan.md",
+          "type": "plan",
+          "summary": "3-phase plan: Gate In auto-task creation, skill standalone mode removal, Vision project mirroring"
+        },
+        {
+          "path": "specs/563_consult_auto_task_creation/summaries/01_consult-auto-task-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 563 consult auto-task creation"
+        }
+      ],
+      "session_id": "sess_1747190500_c3a8e2",
+      "next_artifact_number": 2,
+      "completion_summary": "Updated /consult command to always auto-create task entries (state.json + TODO.md) in Gate In for non-task-number inputs, removing standalone mode from skill-consult and updating Gate Out to always display task number and recommend /plan N.",
+      "archived": "2026-05-14T06:31:40Z"
+    },
+    {
+      "project_number": 557,
+      "project_name": "research_lifecycle_notification_patterns",
+      "status": "completed",
+      "task_type": "general",
+      "description": "Research best practices for Claude Code 2026 hook architectures, lifecycle-aware notification systems, and signal-based event patterns for reducing TTS/WezTerm notification spam",
+      "effort": "1-3 hours",
+      "dependencies": [],
+      "created": "2026-05-13T12:00:00Z",
+      "last_updated": "2026-05-13T18:07:40Z",
+      "session_id": "sess_1778695191_8a1e66",
+      "artifacts": [
+        {
+          "path": "specs/557_research_lifecycle_notification_patterns/reports/01_lifecycle-notification-patterns.md",
+          "type": "research",
+          "summary": "B+A Hybrid approach: direct invocation from postflight scripts + signal file for Stop hook gating. Evaluates 4 architectures, documents Claude Code 2026 hook event model, WezTerm OSC 1337 limitations."
+        },
+        {
+          "path": "specs/557_research_lifecycle_notification_patterns/plans/01_lifecycle-notification-patterns.md",
+          "type": "plan",
+          "summary": "4-phase B+A Hybrid plan: core signal infrastructure, lifecycle TTS gating, WezTerm multi-state indicators, documentation update"
+        },
+        {
+          "path": "specs/557_research_lifecycle_notification_patterns/summaries/01_lifecycle-notification-summary.md",
+          "type": "summary",
+          "summary": "B+A Hybrid lifecycle notification system: 4 phases implemented (tts-notify.sh lifecycle flag, update-task-status.sh integration, WezTerm multi-state indicators, documentation)"
+        }
+      ],
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "Claude Code 2026 Stop hook stdin JSON includes stop_reason, last_assistant_message, agent_id, agent_type, stop_hook_active, and effort fields. The last_assistant_message field contains the full text of Claude's final response and can be pattern-matched for lifecycle detection. The existing memory-nudge.sh hook already demonstrates this pattern successfully.",
+          "category": "INSIGHT",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "claude-code",
+            "hooks",
+            "stop-event",
+            "stdin-json",
+            "lifecycle-detection",
+            "last-assistant-message"
+          ]
+        },
+        {
+          "content": "WezTerm OSC 1337 user variables are write-only from shell scripts (set via escape sequences to pane TTY). They cannot be read back from bash hooks -- only the WezTerm Lua config (format-tab-title, user-var-changed events) can read them via pane:get_user_vars(). This makes OSC 1337 unsuitable as a primary notification gate in hook scripts, though it works well for visual state indicators.",
+          "category": "INSIGHT",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "wezterm",
+            "osc-1337",
+            "user-variables",
+            "write-only",
+            "format-tab-title"
+          ]
+        },
+        {
+          "content": "Claude Code 2026 added TaskCreated, TaskCompleted, TeammateIdle, FileChanged, CwdChanged, WorktreeCreate, and WorktreeRemove hook events beyond the original 12. TaskCreated/TaskCompleted require CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1 and refer to Claude's internal task concept, not custom task management systems.",
+          "category": "INSIGHT",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "claude-code",
+            "hooks",
+            "task-events",
+            "agent-teams",
+            "2026-features"
+          ]
+        },
+        {
+          "content": "The B+A Hybrid notification architecture combines direct invocation (postflight calls tts-notify.sh --lifecycle STATUS) with signal file suppression (Stop hook checks specs/tmp/tts-lifecycle-signal before firing TTS). Signal files older than 60 seconds are treated as stale and ignored. Background execution with & prevents blocking the postflight script.",
+          "category": "PATTERN",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "notification",
+            "signal-file",
+            "lifecycle",
+            "tts",
+            "hook-suppression",
+            "B+A-hybrid"
+          ]
+        }
+      ],
+      "plan_metadata": {
+        "phases": 4,
+        "total_effort_hours": 3,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_lifecycle-notification-patterns.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-13"
+          }
+        ]
+      },
+      "completion_summary": "Implemented B+A Hybrid lifecycle-aware notification system: tts-notify.sh --lifecycle flag with signal file suppression, update-task-status.sh postflight TTS/WezTerm triggers, wezterm.lua 8-state color-coded tab titles, and comprehensive documentation updates.",
+      "archived": "2026-05-14T06:31:40Z"
+    },
+    {
+      "project_number": 560,
+      "project_name": "research_model_routing_best_practices",
+      "status": "completed",
+      "task_type": "meta",
+      "description": "Research optimal model assignments for each agent role in the .claude/ system. Analyze which agents genuinely need Opus-level reasoning vs which could default to Sonnet or inherit. Evaluate implementation agents, research agents, planner, meta-builder, spawn, reviser, and code reviewer roles. Research opusplan mode, model: inherit pattern, effort levels, and CLAUDE_CODE_SUBAGENT_MODEL integration. Produce a model assignment matrix with cost projections based on 2026 best practices.",
+      "effort": "1-3 hours",
+      "dependencies": [],
+      "created": "2026-05-13T20:00:00Z",
+      "last_updated": "2026-05-13T19:17:38Z",
+      "session_id": "sess_1747183000_i560ef",
+      "artifacts": [
+        {
+          "path": "specs/560_research_model_routing_best_practices/reports/01_model-routing-research.md",
+          "type": "research",
+          "summary": "Model routing research report with complete inventory, pricing analysis, cognitive complexity assessment, model assignment matrix, and cost projections"
+        },
+        {
+          "path": "specs/560_research_model_routing_best_practices/plans/01_model-routing-research.md",
+          "type": "plan",
+          "summary": "5-phase implementation plan for tiered model routing with dependency analysis and validation"
+        },
+        {
+          "path": "specs/560_research_model_routing_best_practices/summaries/01_model-routing-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary documenting all tiered model routing changes across the agent system"
+        }
+      ],
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "Claude Code subagent model resolution order: (1) CLAUDE_CODE_SUBAGENT_MODEL env var, (2) per-invocation model parameter, (3) frontmatter model field, (4) main conversation model. The env var does NOT override agents with explicit model set in frontmatter -- only agents that inherit. Setting model: opus in frontmatter blocks the CLAUDE_CODE_SUBAGENT_MODEL optimization path.",
+          "category": "INSIGHT",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "model",
+            "subagent",
+            "CLAUDE_CODE_SUBAGENT_MODEL",
+            "frontmatter",
+            "inherit",
+            "resolution-order"
+          ]
+        },
+        {
+          "content": "Anthropic official 2026 model selection matrix explicitly recommends Haiku 4.5 for sub-agent tasks and Sonnet 4.6 for code generation, agentic tool use. Claude Code built-in agents use tiered models: Explore uses Haiku, Plan inherits, statusline-setup uses Sonnet. The opusplan alias uses Opus during plan mode and Sonnet for execution.",
+          "category": "PATTERN",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "model-selection",
+            "opusplan",
+            "tiered-models",
+            "haiku",
+            "sonnet",
+            "anthropic-guidance"
+          ]
+        },
+        {
+          "content": "2026 Claude model pricing: Opus 4.7 = $5/$25 per MTok (input/output), Sonnet 4.6 = $3/$15, Haiku 4.5 = $1/$5. Opus 4.7 uses a new tokenizer that consumes up to 35% more tokens for the same text. Cache hits are 10% of input price across all models. Sonnet 4.6 scores 79.6% on SWE-bench Verified vs Opus 4.6 80.8% and Opus 4.7 87.6%.",
+          "category": "INSIGHT",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "pricing",
+            "opus-4.7",
+            "sonnet-4.6",
+            "haiku-4.5",
+            "SWE-bench",
+            "tokenizer"
+          ]
+        },
+        {
+          "content": "The .claude/ agent system uses a tiered model policy: Opus for deep-reasoning agents (planner-agent, meta-builder-agent, reviser-agent, all formal/lean/math/logic/physics agents, legal-analysis-agent), Sonnet for general-purpose agents (research, implementation, review, spawn, domain-specific agents like neovim/nix/epi/present/latex/founder). Dispatch commands (research, plan, implement) use model: sonnet since the agent model takes precedence. Direct-execution commands keep model: opus. Override flags --opus/--sonnet/--haiku work at invocation time.",
+          "category": "PATTERN",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "model-routing",
+            "tiered-policy",
+            "opus",
+            "sonnet",
+            "agent-frontmatter",
+            "cost-optimization"
+          ]
+        }
+      ],
+      "plan_metadata": {
+        "phases": 5,
+        "total_effort_hours": 3,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_model-routing-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-13"
+          }
+        ]
+      },
+      "completion_summary": "Implemented tiered model routing: Opus for deep-reasoning agents (planning, formal verification), Sonnet for general-purpose agents (research, implementation, review). Updated 28 agents, 4 commands, and all documentation.",
+      "archived": "2026-05-14T06:31:40Z"
+    },
+    {
+      "project_number": 561,
+      "project_name": "implement_tiered_model_defaults",
+      "status": "completed",
+      "task_type": "meta",
+      "description": "Based on research findings from task 560, update agent frontmatter model: fields to use appropriate model tiers. Update agent-frontmatter-standard.md, CLAUDE.md skill-agent mapping tables, command frontmatter, context references, and templates. Ensure --opus/--sonnet/--haiku runtime overrides still work. Consider model: inherit for user-controlled agents. Verify team-mode skills continue defaulting teammates to sonnet.",
+      "effort": "2-4 hours",
+      "dependencies": [
+        560
+      ],
+      "created": "2026-05-13T20:00:00Z",
+      "last_updated": "2026-05-13T19:44:17Z",
+      "session_id": "sess_1778701040_84f3c0",
+      "artifacts": [
+        {
+          "path": "specs/561_implement_tiered_model_defaults/reports/01_tiered-model-audit.md",
+          "type": "research",
+          "summary": "Audit of tiered model implementation status: task 560 completed core work; 3 gaps remain (stale command docs, nix table inconsistency, 29 inherit-tier agents needing explicit model decisions)"
+        },
+        {
+          "path": "specs/561_implement_tiered_model_defaults/plans/01_tiered-model-defaults.md",
+          "type": "plan",
+          "summary": "4-phase plan to fix 3 remaining gaps in tiered model defaults: stale command docs, nix table missing Model column, and 14 extension agents needing explicit model fields"
+        },
+        {
+          "path": "specs/561_implement_tiered_model_defaults/summaries/01_tiered-model-defaults-summary.md",
+          "type": "summary",
+          "summary": "Fixed 3 remaining gaps in tiered model defaults: corrected stale 'currently opus' text in 6 command files (12 total occurrences across active commands and core sources), added Model column to nix extension CLAUDE.md and EXTENSION.md tables, added explicit model fields to 14 extension agents (13 sonnet + 1 opus for legal-council-agent)"
+        }
+      ],
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "keyword": "tiered model defaults",
+          "content": "Task 560 completed core tiered model implementation: 8 core agents and 20+ extension agents changed from opus to sonnet; 3 deep-reasoning agents kept at opus (planner, meta-builder, reviser). Task 561 found 3 remaining gaps: stale 'currently opus' text in research/plan/implement commands (6 occurrences), missing Model column in nix extension CLAUDE.md table, and 29 inherit-tier extension agents needing explicit model decisions."
+        },
+        {
+          "keyword": "opus sonnet model tier agents",
+          "content": "Agent model tier assignments (2026-05-13): Opus tier - planner-agent, meta-builder-agent, reviser-agent, formal/lean/math/logic/physics agents, legal-analysis-agent. Sonnet tier - all general research/implementation/review agents, spawn, neovim, nix, epi, present, latex-research, founder-deck-planner. Inherit tier - filetypes, founder-utility (market, strategy, analyze etc.), python/typst/web/z3 (pending task 561 explicit assignment). Team-mode skills default teammates to sonnet."
+        }
+      ],
+      "plan_metadata": {
+        "phases": 4,
+        "total_effort_hours": 0.75,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_tiered-model-audit.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-13"
+          }
+        ]
+      },
+      "completion_summary": "Fixed 3 remaining gaps in tiered model defaults: corrected stale 'currently opus' text in 6 command files (12 total occurrences across active commands and core sources), added Model column to nix extension CLAUDE.md and EXTENSION.md tables, added explicit model fields to 14 extension agents (13 sonnet + 1 opus for legal-council-agent).",
+      "archived": "2026-05-14T06:31:40Z"
+    },
+    {
+      "project_number": 564,
+      "project_name": "lean_agent_escalation_protocol_vacuous_prohibition",
+      "status": "completed",
+      "task_type": "meta",
+      "description": "Add formal escalation protocol and vacuous-definition prohibition to the lean-implementation-agent in /home/benjamin/Projects/ProofChecker/.opencode/. When a phase cannot be completed properly, agent MUST mark it [BLOCKED] with documented blocker and return status partial — never create vacuous Lean definitions (def X := True, def X := Unit) to paper over inability. Also: define vacuous proof explicitly with examples, enforce phase-granular commits (commit after each phase, not batch), add task complexity warning to GATE IN for plans with >20h estimated effort.",
+      "effort": "1-3 hours",
+      "dependencies": [],
+      "created": "2026-05-13T00:00:00Z",
+      "last_updated": "2026-05-14T04:54:10Z",
+      "artifacts": [
+        {
+          "path": "specs/564_lean_agent_escalation_protocol_vacuous_prohibition/reports/01_escalation-protocol-research.md",
+          "type": "research",
+          "summary": "Research on current .opencode/ lean agent state and gaps for escalation protocol task"
+        },
+        {
+          "path": "specs/564_lean_agent_escalation_protocol_vacuous_prohibition/plans/01_escalation-protocol-plan.md",
+          "type": "plan",
+          "summary": "Implementation plan for lean agent escalation protocol and vacuous-definition prohibition"
+        },
+        {
+          "path": "specs/564_lean_agent_escalation_protocol_vacuous_prohibition/summaries/01_escalation-protocol-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for lean agent escalation protocol and vacuous-definition prohibition"
+        }
+      ],
+      "next_artifact_number": 2,
+      "session_id": "sess_1747188300_i564",
+      "completion_summary": "Added escalation protocol, vacuous-definition prohibition, phase-granular commits, and complexity warning to lean-implementation-agent (both .opencode/ and .claude/extensions/lean/), lean4.md rules, and skill-lean-implementation/SKILL.md",
+      "memory_candidates": [
+        {
+          "content": "When a lean agent cannot complete a proof phase, it must follow an Escalation Protocol: (1) mark the phase [BLOCKED] in the plan file, (2) document the blocker with what was tried and what is needed, (3) return status 'partial' with requires_user_review: true and blocked_phase field. Never create vacuous definitions (def X := True, theorem X := trivial, etc.) to paper over inability — these are semantically equivalent to sorry and are caught by the Zero-Debt Verification Gate grep pattern.",
+          "category": "PATTERN",
+          "source_artifact": "specs/564_lean_agent_escalation_protocol_vacuous_prohibition/summaries/01_escalation-protocol-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "lean4",
+            "escalation-protocol",
+            "vacuous-definition",
+            "blocked-phase",
+            "zero-debt",
+            "sorry-equivalent"
+          ]
+        }
+      ],
+      "archived": "2026-05-14T06:31:40Z"
+    },
+    {
+      "project_number": 565,
+      "project_name": "plan_compliance_spot_check_gate",
+      "status": "completed",
+      "task_type": "meta",
+      "description": "Add plan-compliance spot-check gate to the .opencode/ lean skill and GATE OUT context in /home/benjamin/Projects/ProofChecker/.opencode/. Add Stage 6b to skill-lean-implementation/SKILL.md: read plan Key Theorems/Deliverables section, verify each listed theorem exists in the implementation with a non-vacuous definition body. Add delivery integrity check: if plan says implement X as replacement for Y, verify X does not call Y. Add lean4-specific verification hook to checkpoint-gate-out.md.",
+      "effort": "1-3 hours",
+      "dependencies": [
+        564
+      ],
+      "created": "2026-05-13T00:00:00Z",
+      "last_updated": "2026-05-14T05:08:00Z",
+      "artifacts": [
+        {
+          "path": "specs/565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md",
+          "type": "research",
+          "summary": "Research on plan-compliance spot-check gate design for lean skill: current file states, deliverable extraction strategy, delivery integrity check design, and lean4 GATE OUT hook"
+        },
+        {
+          "path": "specs/565_plan_compliance_spot_check_gate/plans/01_compliance-gate-plan.md",
+          "type": "plan",
+          "summary": "3-phase plan for adding plan-compliance spot-check gate to .opencode/ lean skill and checkpoint-gate-out"
+        },
+        {
+          "path": "specs/565_plan_compliance_spot_check_gate/summaries/01_compliance-gate-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for plan-compliance spot-check gate"
+        }
+      ],
+      "next_artifact_number": 2,
+      "session_id": "sess_1747189200_i565",
+      "completion_summary": "Added Stage 6b plan-compliance spot-check (deliverable existence + replacement-integrity) to ProofChecker .opencode/ lean skill and lean4 compliance hook to checkpoint-gate-out.md",
+      "archived": "2026-05-14T06:31:40Z"
+    },
+    {
+      "project_number": 566,
+      "project_name": "upstream_claude_reference_parity",
+      "status": "completed",
+      "task_type": "meta",
+      "description": "Apply appropriate lean agent integrity improvements to the .claude/ reference system at ~/.config/nvim/.claude/. Scope: (1) .claude/extensions/lean/agents/lean-implementation-agent.md — ALREADY updated by task 564 (escalation protocol, vacuous prohibition, Phase Checkpoint Protocol); no further changes needed. (2) .claude/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section (same content as task 564 added to ProofChecker). (3) .claude/extensions/lean/skills/skill-lean-implementation/SKILL.md — add plan-compliance check ADAPTED to the .claude/ architecture: since the .claude/ skill MUST NOT re-run lake build or grep (per postflight-tool-restrictions.md), the check must read compliance_check from agent metadata (verification.compliance_check) rather than executing grep itself. This is architecturally different from the .opencode/ approach. (4) Check if .claude/ has a checkpoint-gate-out context file equivalent and add lean4 compliance hook if it does. IMPORTANT: Do not make changes that duplicate task 564 work or that violate the .claude/ postflight-tool-restrictions architecture.",
+      "effort": "1-3 hours",
+      "dependencies": [
+        565
+      ],
+      "created": "2026-05-13T00:00:00Z",
+      "last_updated": "2026-05-14T06:27:20Z",
+      "artifacts": [
+        {
+          "path": "specs/566_upstream_claude_reference_parity/reports/01_claude-reference-parity-research.md",
+          "type": "research",
+          "summary": "Research report on .claude/ lean extension gaps with architecture analysis of postflight restrictions"
+        },
+        {
+          "path": "specs/566_upstream_claude_reference_parity/plans/01_claude-reference-parity-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan for .claude/ lean extension parity"
+        },
+        {
+          "path": "specs/566_upstream_claude_reference_parity/summaries/01_claude-reference-parity-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for .claude/ lean extension parity"
+        }
+      ],
+      "next_artifact_number": 2,
+      "session_id": "sess_1778735516_212c23",
+      "completion_summary": "Applied lean agent integrity improvements to .claude/ reference system: vacuous definitions section in lean4.md, plan compliance spot-check in lean-implementation-agent.md, metadata-read Stage 6b in SKILL.md, and lean4 compliance hook in both checkpoint-gate-out.md copies",
+      "archived": "2026-05-14T06:31:40Z"
+    },
+    {
+      "project_number": 567,
+      "project_name": "opencode_seed_lean_agent_integrity",
+      "status": "completed",
+      "task_type": "meta",
+      "description": "Apply the same agent integrity improvements from tasks 564-565 to the nvim .opencode/ seed at ~/.config/nvim/.opencode/. This seed is used by the <leader>al picker to initialize new projects with the OpenCode agent system. Files to update: (1) .opencode/extensions/lean/agents/lean-implementation-agent.md — add escalation protocol, vacuous-definition prohibition, vacuous-def check in Zero-Debt Gate, Phase Checkpoint Protocol (same as task 564 applied to ProofChecker); (2) .opencode/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section; (3) .opencode/extensions/lean/skills/skill-lean-implementation/SKILL.md — add Stage 6b plan-compliance spot-check gate, complexity warning in GATE IN, conditional Stage 9 commit; (4) .opencode/context/checkpoints/checkpoint-gate-out.md — add lean4-specific compliance hook reading compliance_check from metadata. All changes mirror what was done to ProofChecker in tasks 564-565.",
+      "effort": "1-2 hours",
+      "dependencies": [
+        565
+      ],
+      "created": "2026-05-13T00:00:00Z",
+      "last_updated": "2026-05-14T06:26:34Z",
+      "artifacts": [
+        {
+          "path": "specs/567_opencode_seed_lean_agent_integrity/reports/01_opencode-seed-integrity-research.md",
+          "type": "research",
+          "summary": "Research report on .opencode/ seed lean extension gaps vs ProofChecker reference"
+        },
+        {
+          "path": "specs/567_opencode_seed_lean_agent_integrity/plans/01_opencode-seed-integrity-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan for .opencode/ seed lean integrity mirroring tasks 564-565"
+        }
+      ],
+      "next_artifact_number": 2,
+      "session_id": "sess_1778735516_212c23",
+      "completion_summary": "Applied all lean agent integrity improvements from tasks 564-565 to the .opencode/ seed: vacuous_count check and escalation/checkpoint protocols in lean-implementation-agent.md, vacuous definitions section in lean4.md, complexity warning + vacuous check + Stage 6b compliance + conditional commit in SKILL.md, and lean4 compliance hook in checkpoint-gate-out.md",
+      "archived": "2026-05-14T06:31:40Z"
     }
   ],
   "abandoned_projects": []

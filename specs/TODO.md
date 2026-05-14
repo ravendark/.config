@@ -6,128 +6,15 @@ next_project_number: 568
 
 ## Task Order
 
-*Updated 2026-05-13. 13 active tasks remaining.*
+*Updated 2026-05-14. 4 active tasks remaining.*
 
 ### Pending
-- **564** [COMPLETED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
-- **565** [COMPLETED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
-  - **Research**: specs/565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md
-- **566** [COMPLETED] -- Apply .claude/ lean integrity improvements: vacuous rules + metadata-based compliance (depends: 565)
-- **567** [COMPLETED] -- Apply 564+565 integrity improvements to nvim .opencode/ seed (depends: 565)
-- **562** [COMPLETED] -- Upgrade consult report to interactive actionable checklist format
-- **563** [COMPLETED] -- Make /consult always create a task automatically (depends: 562)
-- **560** [COMPLETED] -- Research model routing best practices for agent system
-- **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
-- **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
-
-### 564. Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
-- **Effort**: 1-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: None
-- **Research**: [564_lean_agent_escalation_protocol_vacuous_prohibition/reports/01_escalation-protocol-research.md]
-- **Plan**: [564_lean_agent_escalation_protocol_vacuous_prohibition/plans/01_escalation-protocol-plan.md]
-- **Summary**: [564_lean_agent_escalation_protocol_vacuous_prohibition/summaries/01_escalation-protocol-summary.md]
-- **Description**: Add formal escalation protocol and vacuous-definition prohibition to the lean-implementation-agent in /home/benjamin/Projects/ProofChecker/.opencode/. When a phase cannot be completed properly, agent MUST mark it [BLOCKED] with documented blocker and return status partial — never create vacuous Lean definitions (def X := True, def X := Unit) to paper over inability. Also: define vacuous proof explicitly with examples, enforce phase-granular commits (commit after each phase, not batch), add task complexity warning to GATE IN for plans with >20h estimated effort.
-  - **Target files**: `.opencode/agent/subagents/lean-implementation-agent.md`, `.opencode/rules/lean4.md`
-
-### 565. Add plan-compliance spot-check gate to lean skill (.opencode/)
-- **Effort**: 1-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: 564
-- **Research**: [565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md]
-- **Plan**: [565_plan_compliance_spot_check_gate/plans/01_compliance-gate-plan.md]
-- **Summary**: [565_plan_compliance_spot_check_gate/summaries/01_compliance-gate-summary.md]
-- **Description**: Add plan-compliance spot-check gate to the .opencode/ lean skill and GATE OUT context in /home/benjamin/Projects/ProofChecker/.opencode/. Add Stage 6b to skill-lean-implementation/SKILL.md: read plan Key Theorems/Deliverables section, verify each listed theorem exists in the implementation with a non-vacuous definition body. Add delivery integrity check: if plan says implement X as replacement for Y, verify X does not call Y. Add lean4-specific verification hook to checkpoint-gate-out.md.
-  - **Target files**: `.opencode/skills/skill-lean-implementation/SKILL.md`, `.opencode/context/checkpoints/checkpoint-gate-out.md`, `.opencode/context/orchestration/orchestration-validation.md`
-
-### 566. Port escalation/compliance fixes to .claude/ reference system
-- **Effort**: 1-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: 565
-- **Research**: [566_upstream_claude_reference_parity/reports/01_claude-reference-parity-research.md]
-- **Plan**: [566_upstream_claude_reference_parity/plans/01_claude-reference-parity-plan.md]
-- **Summary**: [566_upstream_claude_reference_parity/summaries/01_claude-reference-parity-summary.md]
-- **Description**: Apply appropriate lean agent integrity improvements to the .claude/ reference system at ~/.config/nvim/.claude/. Scope: (1) .claude/extensions/lean/agents/lean-implementation-agent.md — ALREADY updated by task 564; no further changes needed. (2) .claude/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section. (3) .claude/extensions/lean/skills/skill-lean-implementation/SKILL.md — add plan-compliance check ADAPTED for .claude/ architecture: since the .claude/ skill MUST NOT re-run grep or lake build (per postflight-tool-restrictions.md), check must read compliance_check from agent metadata rather than executing grep. (4) Check if .claude/ has a checkpoint-gate-out context equivalent and add lean4 compliance hook if so.
-  - **Target files**: `.claude/extensions/lean/rules/lean4.md`, `.claude/extensions/lean/skills/skill-lean-implementation/SKILL.md`, any checkpoint-gate-out equivalent
-
-### 567. Apply 564+565 integrity improvements to nvim .opencode/ seed
-- **Effort**: 1-2 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: 565
-- **Research**: [567_opencode_seed_lean_agent_integrity/reports/01_opencode-seed-integrity-research.md]
-- **Plan**: [567_opencode_seed_lean_agent_integrity/plans/01_opencode-seed-integrity-plan.md]
-- **Summary**: [567_opencode_seed_lean_agent_integrity/summaries/01_opencode-seed-integrity-summary.md]
-- **Description**: Apply the same agent integrity improvements from tasks 564-565 to the nvim .opencode/ seed at ~/.config/nvim/.opencode/. This seed is used by the <leader>al picker to initialize new projects with the OpenCode agent system. Files: (1) .opencode/extensions/lean/agents/lean-implementation-agent.md — add escalation protocol, vacuous-definition prohibition, vacuous-def check in Zero-Debt Gate, Phase Checkpoint Protocol; (2) .opencode/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section; (3) .opencode/extensions/lean/skills/skill-lean-implementation/SKILL.md — add Stage 6b plan-compliance spot-check, complexity warning in GATE IN, conditional Stage 9 commit; (4) .opencode/context/checkpoints/checkpoint-gate-out.md — add lean4-specific compliance hook reading compliance_check from metadata.
-  - **Target files**: `~/.config/nvim/.opencode/extensions/lean/` agents, rules, skills + `.opencode/context/checkpoints/checkpoint-gate-out.md`
-
-### 562. Upgrade consult report to interactive actionable checklist format
-- **Effort**: 1-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: None
-- **Research**: [562_consult_checklist_report_format/reports/01_consult-checklist-research.md]
-- **Plan**: [562_consult_checklist_report_format/plans/01_consult-checklist-plan.md]
-- **Summary**: [562_consult_checklist_report_format/summaries/01_consult-checklist-summary.md]
-- **Description**: Upgrade legal-analysis-agent report format to interactive actionable checklist. Change Stage 3-6 flow so findings are presented one-at-a-time via AskUserQuestion with Accept/Reject/Modify decisions (grouped by category). After all findings, offer a revision pass, then compile the full checklist report with per-finding decision checkboxes and a summary revision checklist table.
-
-### 563. Make /consult always create a task automatically
-- **Effort**: 1-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: 562
-- **Research**: [563_consult_auto_task_creation/reports/01_consult-auto-task-research.md]
-- **Plan**: [563_consult_auto_task_creation/plans/01_consult-auto-task-plan.md]
-- **Summary**: [563_consult_auto_task_creation/summaries/01_consult-auto-task-summary.md]
-- **Description**: Update consult.md command and skill-consult to always create a task on invocation. Auto-generate task slug from input, create state.json + TODO.md entries before delegation, remove standalone/temp-file mode, display task number and next steps at Gate Out.
-
-### 560. Research model routing best practices for agent system
-- **Effort**: 1-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: None
-- **Research**: [560_research_model_routing_best_practices/reports/01_model-routing-research.md]
-- **Plan**: [560_research_model_routing_best_practices/plans/01_model-routing-research.md]
-- **Summary**: [560_research_model_routing_best_practices/summaries/01_model-routing-summary.md]
-
-**Description**: Research optimal model assignments for each agent role in the .claude/ system. Analyze which agents genuinely need Opus-level reasoning vs which could default to Sonnet or inherit. Evaluate implementation agents, research agents, planner, meta-builder, spawn, reviser, and code reviewer roles. Research opusplan mode, model: inherit pattern, effort levels, and CLAUDE_CODE_SUBAGENT_MODEL integration. Produce a model assignment matrix with cost projections based on 2026 best practices.
-
----
-
-### 561. Implement tiered model defaults across agent system
-- **Effort**: 2-4 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: Task #560
-- **Research**: [561_implement_tiered_model_defaults/reports/01_tiered-model-audit.md]
-- **Plan**: [561_implement_tiered_model_defaults/plans/01_tiered-model-defaults.md]
-- **Summary**: [561_implement_tiered_model_defaults/summaries/01_tiered-model-defaults-summary.md]
-
-**Description**: Based on research findings from task 560, update agent frontmatter model: fields to use appropriate model tiers. Update agent-frontmatter-standard.md, CLAUDE.md skill-agent mapping tables, command frontmatter, context references, and templates. Ensure --opus/--sonnet/--haiku runtime overrides still work. Consider model: inherit for user-controlled agents. Verify team-mode skills continue defaulting teammates to sonnet.
-
----
-
-### 557. Research lifecycle-aware notification patterns for Claude Code hooks
-- **Effort**: 1-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: general
-- **Dependencies**: None
-- **Research**: [557_research_lifecycle_notification_patterns/reports/01_lifecycle-notification-patterns.md]
-- **Plan**: [557_research_lifecycle_notification_patterns/plans/01_lifecycle-notification-patterns.md]
-- **Summary**: [557_research_lifecycle_notification_patterns/summaries/01_lifecycle-notification-summary.md]
-
-**Description**: Research best practices for Claude Code 2026 hook architectures, lifecycle-aware notification systems, and signal-based event patterns. Investigate: (1) Claude Code hook event model -- what data is available in Stop vs Notification vs SubagentStop stdin JSON, and whether lifecycle context can be inferred. (2) Signal file patterns vs direct invocation vs state-based approaches for coordinating postflight scripts with notification hooks. (3) Notification UX patterns for agent-based dev tools -- when to interrupt the user vs stay silent. (4) WezTerm OSC 1337 user variable best practices for multi-state indicators beyond binary needs_input. Evaluate the four candidate approaches (signal file, direct invocation, state-based, unified dispatcher) with pros/cons. Currently tts-notify.sh and wezterm-notify.sh fire on every Stop event (every Claude response), creating notification spam. They should only fire at task management lifecycle checkpoints: research report ready, plan ready, implementation done, task blocked.
-
----
 
 ### 500. Add context: fork frontmatter to core delegating skills
 - **Effort**: 1-3 hours
@@ -185,14 +72,10 @@ next_project_number: 568
 
 | Priority | Task | Status | Next Action |
 |----------|------|--------|-------------|
-| 1 | 562 | [NOT STARTED] | /research 562 |
-| 2 | 563 | [NOT STARTED] | /research 563 (depends: 562) |
-| 3 | 560 | [COMPLETED] | /todo |
-| 4 | 561 | [COMPLETED] | /todo |
-| 5 | 500 | [RESEARCHED] | /plan 500 |
-| 6 | 501 | [PLANNED] | /implement 501 |
-| 7 | 87 | [RESEARCHED] | /plan 87 |
-| 8 | 78 | [PLANNED] | /implement 78 |
+| 1 | 500 | [RESEARCHED] | /plan 500 |
+| 2 | 501 | [PLANNED] | /implement 501 |
+| 3 | 87 | [RESEARCHED] | /plan 87 |
+| 4 | 78 | [PLANNED] | /implement 78 |
 
 ---
 
@@ -200,12 +83,13 @@ next_project_number: 568
 
 | Task | Name | Completed |
 |------|------|-----------|
-| 556 | Add literature awareness to planner, research agents, lean4 rule | 2026-05-12 |
-| 555 | Update proof workflow docs with literature-first stages | 2026-05-12 |
-| 554 | Create literature fidelity policy for Formal extension | 2026-05-12 |
-| 553 | Create literature fidelity policy for Lean extension | 2026-05-12 |
-| 551 | Fix discord-link.lua session discovery | 2026-05-09 |
-| 550 | Unify Ctrl-CR toggle and agent picker | 2026-05-08 |
-| 549 | Audit and relocate /tmp/ references | 2026-05-08 |
-| 547 | Research mobile agent management via Discord bot | 2026-05-08 |
+| 567 | Apply 564+565 integrity improvements to nvim .opencode/ seed | 2026-05-14 |
+| 566 | Port escalation/compliance fixes to .claude/ reference system | 2026-05-14 |
+| 565 | Add plan-compliance spot-check gate to lean skill | 2026-05-14 |
+| 564 | Add lean agent escalation protocol and vacuous-definition prohibition | 2026-05-14 |
+| 563 | Make /consult always create a task automatically | 2026-05-13 |
+| 562 | Upgrade consult report to interactive actionable checklist format | 2026-05-13 |
+| 561 | Implement tiered model defaults across agent system | 2026-05-13 |
+| 560 | Research model routing best practices for agent system | 2026-05-13 |
+| 557 | Research lifecycle-aware notification patterns for Claude Code hooks | 2026-05-13 |
 
