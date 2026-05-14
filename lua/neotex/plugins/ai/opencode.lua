@@ -34,27 +34,28 @@ return {
   config = function()
     -- Set server functions directly on opts (bypasses vim.g serialization limitation)
     local opts = require("opencode.config").opts
+
+    local attach_cmd = "opencode --port"
     local opencode_win_opts = {
       win = {
         position = "right",
-        width = 0.40, -- 40% window width per user standards
-        enter = true, -- Enter terminal on toggle
+        width = 0.40,
+        enter = true,
         on_win = function(win)
-          -- Attach opencode keymaps (<C-u>/<C-d>/gg/G/<Esc>) and process cleanup
           require("opencode.terminal").setup(win.win)
         end,
       },
     }
     opts.server = {
       start = function()
-        require("snacks.terminal").open("opencode --port", opencode_win_opts)
+        require("snacks.terminal").open(attach_cmd, opencode_win_opts)
       end,
       stop = function()
-        local term = require("snacks.terminal").get("opencode --port", opencode_win_opts)
+        local term = require("snacks.terminal").get(attach_cmd, opencode_win_opts)
         if term then term:close() end
       end,
       toggle = function()
-        require("snacks.terminal").toggle("opencode --port", opencode_win_opts)
+        require("snacks.terminal").toggle(attach_cmd, opencode_win_opts)
       end,
     }
 
