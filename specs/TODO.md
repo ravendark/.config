@@ -10,10 +10,11 @@ next_project_number: 567
 
 ### Pending
 - **564** [COMPLETED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
-- **565** [RESEARCHING] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
+- **565** [RESEARCHED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
+  - **Research**: specs/565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md
 - **566** [NOT STARTED] -- Port escalation/compliance fixes to .claude/ reference system (depends: 565)
 - **562** [COMPLETED] -- Upgrade consult report to interactive actionable checklist format
-- **563** [RESEARCHED] -- Make /consult always create a task automatically (depends: 562)
+- **563** [PLANNING] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
@@ -63,7 +64,7 @@ next_project_number: 567
 
 ### 563. Make /consult always create a task automatically
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Dependencies**: 562
 - **Research**: [563_consult_auto_task_creation/reports/01_consult-auto-task-research.md]
