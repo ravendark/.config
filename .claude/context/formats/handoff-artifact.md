@@ -6,6 +6,8 @@ Handoff artifacts enable graceful context exhaustion recovery by providing minim
 
 **Design Principle**: Plan FOR context exhaustion, not against it. Handoffs are expected events, not failures.
 
+**Progressive handoff practice**: Handoffs should be written (or updated) at the end of each phase, not only when context exhaustion is detected. A phase-end handoff ensures that if context exhaustion occurs at any point, the most recent handoff reflects completed work accurately.
+
 ## File Location
 
 ```
@@ -55,6 +57,10 @@ The handoff document must be **one screen maximum** (~40 lines). It uses progres
 1. {Decision}: {Brief rationale (one sentence)}
 2. {Decision}: {Brief rationale}
 
+## Deviations from Plan
+- **Skipped**: Task {P}.{N} "{description}" — {reason (one sentence)}
+- **Altered**: Task {P}.{N} "{description}" — {what changed and why}
+
 ## What NOT to Try
 1. {Approach}: {Why it failed (one sentence)}
 2. {Approach}: {Why it failed}
@@ -87,6 +93,12 @@ The handoff document must be **one screen maximum** (~40 lines). It uses progres
 - Only decisions that affect the successor's approach
 - Include rationale to prevent re-evaluation
 - Max 3-4 decisions
+
+**Deviations from Plan**:
+- Records plan steps that were skipped or altered during this session
+- Always present even when empty (use `- None` when no deviations occurred)
+- Max 5 items; use the progress file `deviations` array as source
+- Format: `- **Skipped**: Task {P}.{N} "{description}" — {reason}`
 
 **What NOT to Try**:
 - Approaches that were attempted and failed

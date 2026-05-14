@@ -1,7 +1,7 @@
 # Implementation Plan: Update Artifact Formats for Deviation Tracking
 
 - **Task**: 568 - Update artifact formats for deviation tracking
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/568_update_artifact_formats_deviation_tracking/reports/01_artifact-formats-research.md
@@ -66,17 +66,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Foundation Formats (progress-file.md + plan-format-enforcement.md) [NOT STARTED]
+### Phase 1: Foundation Formats (progress-file.md + plan-format-enforcement.md) [COMPLETED]
 
 **Goal**: Define the deviation schema and annotation syntax that other format files will reference.
 
 **Tasks**:
-- [ ] **Task 1.1**: Add `deviations` array field specification to `progress-file.md` schema section (after `approaches_tried`). Include the JSON schema with fields: `task_id` (string), `description` (string), `type` (enum: `"skipped"`, `"altered"`, `"deferred"`), `reason` (string), `annotation` (string).
-- [ ] **Task 1.2**: Add field specification table for deviation entries to `progress-file.md` (matching the table format used for `objectives` and `approaches_tried` entries).
-- [ ] **Task 1.3**: Add step 2.5 to the Update Protocol section in `progress-file.md`: "After completing a phase (post-phase self-review): Re-read the phase task checklist in the plan. For each unchecked item that will not be completed, add a deviation entry. Write deviation annotations into the plan file checklist."
-- [ ] **Task 1.4**: Add a `deviations` entry to the Example section in `progress-file.md` showing a sample deviation in the example JSON block.
-- [ ] **Task 1.5**: Append "Checklist item annotation format" section to `plan-format-enforcement.md` with completed, completed-with-note, in-progress, and in-progress-at-handoff variants.
-- [ ] **Task 1.6**: Append "Deviation annotation format" section to `plan-format-enforcement.md` with skipped, altered, and deferred variants using the `*(deviation: ...)*` syntax.
+- [x] **Task 1.1**: Add `deviations` array field specification to `progress-file.md` schema section (after `approaches_tried`). Include the JSON schema with fields: `task_id` (string), `description` (string), `type` (enum: `"skipped"`, `"altered"`, `"deferred"`), `reason` (string), `annotation` (string). *(completed)*
+- [x] **Task 1.2**: Add field specification table for deviation entries to `progress-file.md` (matching the table format used for `objectives` and `approaches_tried` entries). *(completed)*
+- [x] **Task 1.3**: Add step 2.5 to the Update Protocol section in `progress-file.md`: "After completing a phase (post-phase self-review): Re-read the phase task checklist in the plan. For each unchecked item that will not be completed, add a deviation entry. Write deviation annotations into the plan file checklist." *(completed)*
+- [x] **Task 1.4**: Add a `deviations` entry to the Example section in `progress-file.md` showing a sample deviation in the example JSON block. *(completed)*
+- [x] **Task 1.5**: Append "Checklist item annotation format" section to `plan-format-enforcement.md` with completed, completed-with-note, in-progress, and in-progress-at-handoff variants. *(completed)*
+- [x] **Task 1.6**: Append "Deviation annotation format" section to `plan-format-enforcement.md` with skipped, altered, and deferred variants using the `*(deviation: ...)*` syntax. *(completed)*
 
 **Timing**: 45 minutes
 
@@ -95,16 +95,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Handoff and Context Exhaustion Formats [NOT STARTED]
+### Phase 2: Handoff and Context Exhaustion Formats [COMPLETED]
 
 **Goal**: Add deviation tracking to the handoff artifact template and the context exhaustion protocol.
 
 **Tasks**:
-- [ ] **Task 2.1**: Add progressive handoff preamble note to `handoff-artifact.md` (near the top, after the Design Principle line): "Handoffs should be written (or updated) at the end of each phase, not only when context exhaustion is detected."
-- [ ] **Task 2.2**: Insert `## Deviations from Plan` section into the handoff document template in `handoff-artifact.md`, between `## Key Decisions Made` and `## What NOT to Try`. Include template lines for skipped and altered items, plus the `- None` default.
-- [ ] **Task 2.3**: Update the Section Guidelines in `handoff-artifact.md` to add guidance for the new `## Deviations from Plan` section (purpose, max items, format).
-- [ ] **Task 2.4**: Insert step 1.5 "Annotate Plan File (Final Checkpoint)" into `context-exhaustion-detection.md` between step 1 (Update Progress File FIRST) and step 2 (Write Handoff Artifact). Include the three sub-steps: mark completed tasks `*(completed)*`, mark in-progress task `*(in progress -- handoff)*`, write deviation annotations from progress file.
-- [ ] **Task 2.5**: Add anti-pattern item 6 to `context-exhaustion-detection.md`: "Skip plan file annotation at handoff -- If you hand off without annotating the plan file, successors must re-discover which tasks were completed versus pending. Always annotate the plan before handing off."
+- [x] **Task 2.1**: Add progressive handoff preamble note to `handoff-artifact.md` (near the top, after the Design Principle line): "Handoffs should be written (or updated) at the end of each phase, not only when context exhaustion is detected." *(completed)*
+- [x] **Task 2.2**: Insert `## Deviations from Plan` section into the handoff document template in `handoff-artifact.md`, between `## Key Decisions Made` and `## What NOT to Try`. Include template lines for skipped and altered items, plus the `- None` default. *(completed)*
+- [x] **Task 2.3**: Update the Section Guidelines in `handoff-artifact.md` to add guidance for the new `## Deviations from Plan` section (purpose, max items, format). *(completed)*
+- [x] **Task 2.4**: Insert step 1.5 "Annotate Plan File (Final Checkpoint)" into `context-exhaustion-detection.md` between step 1 (Update Progress File FIRST) and step 2 (Write Handoff Artifact). Include the three sub-steps: mark completed tasks `*(completed)*`, mark in-progress task `*(in progress — handoff)*`, write deviation annotations from progress file. *(completed)*
+- [x] **Task 2.5**: Add anti-pattern item 6 to `context-exhaustion-detection.md`: "Skip plan file annotation at handoff — If you hand off without annotating the plan file, successors must re-discover which tasks were completed versus pending. Always annotate the plan before handing off." *(completed)*
 
 **Timing**: 40 minutes
 
@@ -123,13 +123,13 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Summary Format [NOT STARTED]
+### Phase 3: Summary Format [COMPLETED]
 
 **Goal**: Add the plan deviations section to the summary format specification.
 
 **Tasks**:
-- [ ] **Task 3.1**: Insert `## Plan Deviations` section into the Structure list in `summary-format.md`, immediately after item 3 (Decisions). Renumber subsequent items (Impacts becomes 5, Follow-ups becomes 6, References becomes 7).
-- [ ] **Task 3.2**: Add the `## Plan Deviations` section to the Example Skeleton in `summary-format.md`, between `## Decisions` and `## Impacts`, with template content showing the skipped/altered format and the `- None (implementation followed plan)` default.
+- [x] **Task 3.1**: Insert `## Plan Deviations` section into the Structure list in `summary-format.md`, immediately after item 3 (Decisions). Renumber subsequent items (Impacts becomes 5, Follow-ups becomes 6, References becomes 7). *(completed)*
+- [x] **Task 3.2**: Add the `## Plan Deviations` section to the Example Skeleton in `summary-format.md`, between `## Decisions` and `## Impacts`, with template content showing the skipped/altered format and the `- None (implementation followed plan)` default. *(completed)*
 
 **Timing**: 15 minutes
 
@@ -145,15 +145,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Cross-File Consistency Verification [NOT STARTED]
+### Phase 4: Cross-File Consistency Verification [COMPLETED]
 
 **Goal**: Verify all five files are internally consistent and cross-references are correct.
 
 **Tasks**:
-- [ ] **Task 4.1**: Verify that the deviation annotation syntax in `plan-format-enforcement.md` matches the `annotation` field description in `progress-file.md` and the annotation instructions in `context-exhaustion-detection.md` step 1.5.
-- [ ] **Task 4.2**: Verify that the `## Deviations from Plan` section heading and field format in `handoff-artifact.md` are consistent with the `## Plan Deviations` section format in `summary-format.md`.
-- [ ] **Task 4.3**: Verify that all Related Documentation links in the five files still point to valid paths and that new cross-references are not needed.
-- [ ] **Task 4.4**: Read each of the five modified files end-to-end and confirm no formatting issues (broken markdown, orphaned headings, incorrect numbering).
+- [x] **Task 4.1**: Verify that the deviation annotation syntax in `plan-format-enforcement.md` matches the `annotation` field description in `progress-file.md` and the annotation instructions in `context-exhaustion-detection.md` step 1.5. *(completed)*
+- [x] **Task 4.2**: Verify that the `## Deviations from Plan` section heading and field format in `handoff-artifact.md` are consistent with the `## Plan Deviations` section format in `summary-format.md`. *(completed)*
+- [x] **Task 4.3**: Verify that all Related Documentation links in the five files still point to valid paths and that new cross-references are not needed. *(completed)*
+- [x] **Task 4.4**: Read each of the five modified files end-to-end and confirm no formatting issues (broken markdown, orphaned headings, incorrect numbering). *(completed: also updated handoff example in context-exhaustion-detection.md to include Deviations from Plan section)*
 
 **Timing**: 20 minutes
 

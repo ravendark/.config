@@ -5,14 +5,14 @@
     {
       "project_number": 568,
       "project_name": "update_artifact_formats_deviation_tracking",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Add deviation tracking fields to core artifact formats: handoff-artifact.md (new Deviations from Plan section), summary-format.md (new Plan Deviations section), progress-file.md (deviations array in schema), context-exhaustion-detection.md (final checkpoint protocol), and plan-format-enforcement.md (deviation annotation requirements). These format changes define the contract that tasks 569 and 570 implement.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-14T06:44:58Z",
-      "session_id": "sess_1747094500_b2c3d4",
+      "last_updated": "2026-05-14T06:50:27Z",
+      "session_id": "sess_1747094600_c3d4e5",
       "artifacts": [
         {
           "path": "specs/568_update_artifact_formats_deviation_tracking/reports/01_artifact-formats-research.md",
@@ -23,8 +23,14 @@
           "path": "specs/568_update_artifact_formats_deviation_tracking/plans/01_artifact-formats-plan.md",
           "type": "plan",
           "summary": "4-phase plan to update 5 artifact format files with deviation tracking fields, checklist annotation format, and final checkpoint protocol"
+        },
+        {
+          "path": "specs/568_update_artifact_formats_deviation_tracking/summaries/01_artifact-formats-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 568: updated 5 artifact format files with deviation tracking fields"
         }
-      ]
+      ],
+      "completion_summary": "Added deviation tracking schema (deviations array), annotation syntax (*(deviation: skipped|altered|deferred — ...)*), and new sections (## Deviations from Plan in handoffs, ## Plan Deviations in summaries) across five core artifact format files, establishing the format contract for tasks 569 and 570."
     },
     {
       "project_number": 569,
