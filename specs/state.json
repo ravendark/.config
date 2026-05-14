@@ -5,11 +5,20 @@
     {
       "project_number": 574,
       "project_name": "fix_temp_file_usage_opencode_agent_system",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue — all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.",
       "created": "2026-05-14T22:43:50Z",
-      "last_updated": "2026-05-14T22:43:50Z"
+      "last_updated": "2026-05-14T22:53:57Z",
+      "session_id": "sess_1778798743_d4f2",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/574_fix_temp_file_usage_opencode_agent_system/reports/01_temp_file_audit.md",
+          "type": "report",
+          "summary": "Audit of /tmp/ temp file usage in .opencode/ agent system with root cause analysis and migration recommendations"
+        }
+      ]
     },
     {
       "project_number": 572,
