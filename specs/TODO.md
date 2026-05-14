@@ -10,10 +10,10 @@ next_project_number: 567
 
 ### Pending
 - **564** [COMPLETED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
-- **565** [NOT STARTED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
+- **565** [RESEARCHING] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
 - **566** [NOT STARTED] -- Port escalation/compliance fixes to .claude/ reference system (depends: 565)
 - **562** [COMPLETED] -- Upgrade consult report to interactive actionable checklist format
-- **563** [RESEARCHING] -- Make /consult always create a task automatically (depends: 562)
+- **563** [RESEARCHED] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
@@ -37,7 +37,7 @@ next_project_number: 567
 
 ### 565. Add plan-compliance spot-check gate to lean skill (.opencode/)
 - **Effort**: 1-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: 564
 - **Description**: Add plan-compliance spot-check gate to the .opencode/ lean skill and GATE OUT context in /home/benjamin/Projects/ProofChecker/.opencode/. Add Stage 6b to skill-lean-implementation/SKILL.md: read plan Key Theorems/Deliverables section, verify each listed theorem exists in the implementation with a non-vacuous definition body. Add delivery integrity check: if plan says implement X as replacement for Y, verify X does not call Y. Add lean4-specific verification hook to checkpoint-gate-out.md.
@@ -63,9 +63,10 @@ next_project_number: 567
 
 ### 563. Make /consult always create a task automatically
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: 562
+- **Research**: [563_consult_auto_task_creation/reports/01_consult-auto-task-research.md]
 - **Description**: Update consult.md command and skill-consult to always create a task on invocation. Auto-generate task slug from input, create state.json + TODO.md entries before delegation, remove standalone/temp-file mode, display task number and next steps at Gate Out.
 
 ### 560. Research model routing best practices for agent system
