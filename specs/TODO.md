@@ -1,20 +1,56 @@
 ---
-next_project_number: 568
+next_project_number: 571
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-14. 4 active tasks remaining.*
+*Updated 2026-05-13. 7 active tasks remaining.*
 
 ### Pending
+- **568** [NOT STARTED] -- Update artifact formats for deviation tracking
+- **569** [NOT STARTED] -- Enhance general implementation agent (depends: 568)
+- **570** [NOT STARTED] -- Propagate improvements to extension agents (depends: 569)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 568. Update artifact formats for deviation tracking
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Add deviation tracking fields to core artifact formats: `handoff-artifact.md` (new `## Deviations from Plan` section), `summary-format.md` (new `## Plan Deviations` section), `progress-file.md` (`deviations` array in schema), `context-exhaustion-detection.md` (final checkpoint protocol — update both progress file AND plan file as last actions before writing handoff when exhaustion is imminent), and `plan-format-enforcement.md` (deviation annotation requirements). These format changes define the contract that tasks 569 and 570 implement.
+  - **Target files**: `.claude/context/formats/handoff-artifact.md`, `.claude/context/formats/summary-format.md`, `.claude/context/formats/progress-file.md`, `.claude/context/patterns/context-exhaustion-detection.md`, `.claude/rules/plan-format-enforcement.md`
+
+---
+
+### 569. Enhance general implementation agent with post-phase self-review and deviation tracking
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 568
+
+**Description**: Enhance `general-implementation-agent.md` with four improvements: (1) **Post-phase self-review** (new Stage 4D-ii) — after marking a phase `[COMPLETED]`, re-read the phase subtask list and verify each objective was addressed, noting any skipped items before proceeding to the next phase; (2) **Progressive handoff updates** — update the handoff document incrementally as each phase completes, not only at context exhaustion, so the handoff is always current; (3) **Deviation annotation in plan** — when deviating from plan, annotate the checklist item inline (e.g. `- [x] Task: ... *(deviation: used approach B instead of A — reason)*`); (4) **Final context-exhaustion checkpoint** — when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.
+  - **Target files**: `.claude/agents/general-implementation-agent.md`
+
+---
+
+### 570. Propagate implementation improvements to extension agents
+- **Effort**: 2-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 569
+
+**Description**: Propagate the post-phase self-review, deviation tracking, progressive handoff updates, and final context checkpoint improvements from task 569 to all extension implementation agents. Research confirmed these agents are missing most of general-implementation-agent.md's progress tracking, self-review, handoff, and deviation features: `nix-implementation-agent.md` (0 handoff/deviation/self-check mentions), `neovim-implementation-agent.md` (0 matches), `lean-implementation-agent.md` (has some handoff support but lacks post-phase self-review and deviation tracking). Also check for python, web, z3, latex, typst agents if present. Bring each to parity using the updated formats from task 568 and patterns from task 569.
+  - **Target files**: `.claude/extensions/*/agents/*-implementation-agent.md` (nix, neovim, lean, and any others present)
+
+---
 
 ### 500. Add context: fork frontmatter to core delegating skills
 - **Effort**: 1-3 hours
