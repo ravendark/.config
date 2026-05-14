@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 572,
+  "next_project_number": 573,
   "active_projects": [
+    {
+      "project_number": 572,
+      "project_name": "diagnose_opencode_lean_routing_failure",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-14T16:44:59Z",
+      "last_updated": "2026-05-14T16:44:59Z"
+    },
     {
       "project_number": 571,
       "project_name": "create_guide_discord_opencode_agents_neovim",
