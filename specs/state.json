@@ -5,11 +5,49 @@
     {
       "project_number": 572,
       "project_name": "diagnose_opencode_lean_routing_failure",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "created": "2026-05-14T16:44:59Z",
-      "last_updated": "2026-05-14T16:47:03Z",
-      "session_id": "sess_1747241120_572res"
+      "last_updated": "2026-05-14T16:58:35Z",
+      "session_id": "sess_1747241120_572res",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/572_diagnose_opencode_lean_routing_failure/reports/01_opencode-routing-diagnosis.md",
+          "type": "research",
+          "summary": "Root cause: OpenCode Glob tool silently returns 0 results for relative paths starting with .opencode/ (hidden directory). ProofChecker and 5 other child projects have unfixed routing. 9 issues cataloged."
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "OpenCode Glob tool limitation: relative paths starting with .opencode/ (hidden directory prefix) return 0 results. Absolute paths work correctly. Fix: use project_root=$(git rev-parse --show-toplevel) then glob $manifest_dir/*/manifest.json.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/572_diagnose_opencode_lean_routing_failure/reports/01_opencode-routing-diagnosis.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode",
+            "glob",
+            "hidden-directory",
+            "routing",
+            "extension-manifest",
+            "absolute-path"
+          ]
+        },
+        {
+          "content": "OpenCode child project commands (implement.md, research.md, plan.md) are NOT automatically updated when the nvim config versions are fixed. Core system commands in .opencode/commands/ are set up once during project initialization and never automatically synced.",
+          "category": "PATTERN",
+          "source_artifact": "specs/572_diagnose_opencode_lean_routing_failure/reports/01_opencode-routing-diagnosis.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "command-sync",
+            "child-project",
+            "propagation",
+            "core-commands",
+            "extension-loader"
+          ]
+        }
+      ]
     },
     {
       "project_number": 571,
