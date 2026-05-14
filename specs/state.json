@@ -712,7 +712,7 @@
     {
       "project_number": 566,
       "project_name": "upstream_claude_reference_parity",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Apply appropriate lean agent integrity improvements to the .claude/ reference system at ~/.config/nvim/.claude/. Scope: (1) .claude/extensions/lean/agents/lean-implementation-agent.md — ALREADY updated by task 564 (escalation protocol, vacuous prohibition, Phase Checkpoint Protocol); no further changes needed. (2) .claude/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section (same content as task 564 added to ProofChecker). (3) .claude/extensions/lean/skills/skill-lean-implementation/SKILL.md — add plan-compliance check ADAPTED to the .claude/ architecture: since the .claude/ skill MUST NOT re-run lake build or grep (per postflight-tool-restrictions.md), the check must read compliance_check from agent metadata (verification.compliance_check) rather than executing grep itself. This is architecturally different from the .opencode/ approach. (4) Check if .claude/ has a checkpoint-gate-out context file equivalent and add lean4 compliance hook if it does. IMPORTANT: Do not make changes that duplicate task 564 work or that violate the .claude/ postflight-tool-restrictions architecture.",
       "effort": "1-3 hours",
@@ -720,15 +720,21 @@
         565
       ],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-14T05:12:12Z",
-      "artifacts": [],
-      "next_artifact_number": 1,
+      "last_updated": "2026-05-14T05:18:27Z",
+      "artifacts": [
+        {
+          "path": "specs/566_upstream_claude_reference_parity/reports/01_claude-reference-parity-research.md",
+          "type": "research",
+          "summary": "Research report on .claude/ lean extension gaps with architecture analysis of postflight restrictions"
+        }
+      ],
+      "next_artifact_number": 2,
       "session_id": "sess_1778735516_212c23"
     },
     {
       "project_number": 567,
       "project_name": "opencode_seed_lean_agent_integrity",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Apply the same agent integrity improvements from tasks 564-565 to the nvim .opencode/ seed at ~/.config/nvim/.opencode/. This seed is used by the <leader>al picker to initialize new projects with the OpenCode agent system. Files to update: (1) .opencode/extensions/lean/agents/lean-implementation-agent.md — add escalation protocol, vacuous-definition prohibition, vacuous-def check in Zero-Debt Gate, Phase Checkpoint Protocol (same as task 564 applied to ProofChecker); (2) .opencode/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section; (3) .opencode/extensions/lean/skills/skill-lean-implementation/SKILL.md — add Stage 6b plan-compliance spot-check gate, complexity warning in GATE IN, conditional Stage 9 commit; (4) .opencode/context/checkpoints/checkpoint-gate-out.md — add lean4-specific compliance hook reading compliance_check from metadata. All changes mirror what was done to ProofChecker in tasks 564-565.",
       "effort": "1-2 hours",
@@ -736,9 +742,15 @@
         565
       ],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-14T05:12:12Z",
-      "artifacts": [],
-      "next_artifact_number": 1,
+      "last_updated": "2026-05-14T05:18:27Z",
+      "artifacts": [
+        {
+          "path": "specs/567_opencode_seed_lean_agent_integrity/reports/01_opencode-seed-integrity-research.md",
+          "type": "research",
+          "summary": "Research report on .opencode/ seed lean extension gaps vs ProofChecker reference"
+        }
+      ],
+      "next_artifact_number": 2,
       "session_id": "sess_1778735516_212c23"
     }
   ],
