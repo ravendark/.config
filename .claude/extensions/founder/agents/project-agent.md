@@ -13,7 +13,7 @@ Gathers project data through structured forcing questions and outputs a research
 
 - **Name**: project-agent
 - **Purpose**: Project research with WBS and PERT estimation
-- **Invoked By**: skill-project (via Task tool)
+- **Invoked By**: skill-project (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

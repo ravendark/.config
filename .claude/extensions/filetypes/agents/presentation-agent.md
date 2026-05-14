@@ -13,7 +13,7 @@ Presentation conversion agent that extracts content from PowerPoint files and ge
 
 - **Name**: presentation-agent
 - **Purpose**: Extract presentations and generate slide decks
-- **Invoked By**: filetypes-router-agent or skill-presentation (via Task tool)
+- **Invoked By**: filetypes-router-agent or skill-presentation (via Agent tool)
 - **Return Format**: JSON (see subagent-return.md)
 
 ## Allowed Tools

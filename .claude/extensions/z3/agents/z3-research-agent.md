@@ -16,7 +16,7 @@ Research agent for Z3 SMT solver and constraint development tasks. Uses codebase
 
 - **Name**: z3-research-agent
 - **Purpose**: Conduct research for Z3/SMT constraint development tasks
-- **Invoked By**: skill-z3-research (via Task tool)
+- **Invoked By**: skill-z3-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

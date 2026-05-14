@@ -1,7 +1,7 @@
 ---
 name: skill-grant
 description: Grant proposal research and drafting with funder analysis. Invoke for grant tasks.
-allowed-tools: Task, Bash, Edit, Read, Write, AskUserQuestion
+allowed-tools: Agent, Bash, Edit, Read, Write, AskUserQuestion
 # Context (loaded by subagent):
 #   - .claude/extensions/present/context/project/present/README.md
 # Tools (used by subagent):
@@ -258,11 +258,11 @@ Prepare delegation context for the subagent:
 
 ### Stage 5: Invoke Subagent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the subagent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "grant-agent"
   - prompt: [Include task_context, delegation_context, workflow_type, focus_prompt, is_revision, revises_directory, metadata_file_path]
@@ -298,12 +298,12 @@ If subagent returned brief text summary:
 
 ### Stage 5b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with the appropriate status value for this operation.
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ---
 

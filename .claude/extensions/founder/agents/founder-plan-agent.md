@@ -14,7 +14,7 @@ Creates implementation plans for founder tasks (market sizing, competitive analy
 
 - **Name**: founder-plan-agent
 - **Purpose**: Create founder implementation plans from research reports
-- **Invoked By**: skill-founder-plan (via Task tool)
+- **Invoked By**: skill-founder-plan (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

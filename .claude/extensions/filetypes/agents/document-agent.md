@@ -13,7 +13,7 @@ Document conversion agent that transforms files between document formats. Suppor
 
 - **Name**: document-agent
 - **Purpose**: Convert documents between formats
-- **Invoked By**: filetypes-router-agent or skill-filetypes (via Task tool)
+- **Invoked By**: filetypes-router-agent or skill-filetypes (via Agent tool)
 - **Return Format**: JSON (see subagent-return.md)
 
 ## Allowed Tools

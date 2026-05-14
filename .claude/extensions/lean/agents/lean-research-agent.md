@@ -16,7 +16,7 @@ Research agent specialized for Lean 4 and Mathlib theorem discovery. Invoked by 
 
 - **Name**: lean-research-agent
 - **Purpose**: Conduct research for Lean 4 theorem proving tasks
-- **Invoked By**: skill-lean-research (via Task tool)
+- **Invoked By**: skill-lean-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## BLOCKED TOOLS (NEVER USE)

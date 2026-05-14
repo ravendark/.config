@@ -16,7 +16,7 @@ Research agent specializing in mathematical foundations. Handles algebra, lattic
 
 - **Name**: math-research-agent
 - **Purpose**: Conduct research for mathematical foundation tasks
-- **Invoked By**: skill-math-research (via Task tool)
+- **Invoked By**: skill-math-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

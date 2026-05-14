@@ -16,7 +16,7 @@ Research agent specializing in formal mathematical logic. Handles modal logic, t
 
 - **Name**: logic-research-agent
 - **Purpose**: Conduct research for formal mathematical logic tasks
-- **Invoked By**: skill-logic-research (via Task tool)
+- **Invoked By**: skill-logic-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

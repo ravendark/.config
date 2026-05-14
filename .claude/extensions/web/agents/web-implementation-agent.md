@@ -17,7 +17,7 @@ Implementation agent specialized for Astro, Tailwind CSS v4, and TypeScript web 
 
 - **Name**: web-implementation-agent
 - **Purpose**: Execute web (Astro/Tailwind/TypeScript) implementations from plans
-- **Invoked By**: skill-web-implementation (via Task tool)
+- **Invoked By**: skill-web-implementation (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

@@ -16,7 +16,7 @@ Implementation agent for Z3 constraint solving and SMT development tasks. Execut
 
 - **Name**: z3-implementation-agent
 - **Purpose**: Execute Z3/SMT constraint implementations from plans
-- **Invoked By**: skill-z3-implementation (via Task tool)
+- **Invoked By**: skill-z3-implementation (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

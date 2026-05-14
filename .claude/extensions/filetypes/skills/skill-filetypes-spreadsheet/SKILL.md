@@ -1,7 +1,7 @@
 ---
 name: skill-filetypes-spreadsheet
 description: Spreadsheet to table conversion routing
-allowed-tools: Task
+allowed-tools: Agent
 ---
 
 # Spreadsheet Skill
@@ -111,11 +111,11 @@ Prepare delegation context:
 
 ### 3. Invoke Agent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the agent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the agent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "filetypes-spreadsheet-agent"
   - prompt: [Include source_path, output_path, output_format, sheet_name, metadata]

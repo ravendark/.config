@@ -1,7 +1,7 @@
 ---
 name: skill-slide-planning
 description: Interactive slide planning with narrative arc review and per-slide feedback. Invoke for /plan on present:slides tasks.
-allowed-tools: Task, Bash, Edit, Read, Write, AskUserQuestion
+allowed-tools: Agent, Bash, Edit, Read, Write, AskUserQuestion
 context: fork
 agent: slide-planner-agent
 ---
@@ -317,10 +317,10 @@ Assemble the complete delegation context:
 }
 ```
 
-**CRITICAL**: Use the **Task** tool to spawn slide-planner-agent. Do NOT use `Skill(...)`.
+**CRITICAL**: Use the **Agent** tool to spawn slide-planner-agent. Do NOT use `Skill(...)`.
 
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "slide-planner-agent"
   - prompt: [Include full delegation context above]
@@ -338,12 +338,12 @@ Also store design decisions in state.json before delegation:
 
 ### Stage 7b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with the appropriate status value for this operation.
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ---
 

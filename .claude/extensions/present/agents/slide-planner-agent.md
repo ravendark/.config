@@ -16,7 +16,7 @@ Slide-aware planning agent that consumes structured design decisions (from skill
 
 - **Name**: slide-planner-agent
 - **Purpose**: Generate slide-by-slide implementation plans from design feedback and research reports
-- **Invoked By**: skill-slide-planning (via Task tool)
+- **Invoked By**: skill-slide-planning (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

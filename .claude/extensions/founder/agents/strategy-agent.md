@@ -13,7 +13,7 @@ GTM strategy research agent that gathers strategic context through forcing quest
 
 - **Name**: strategy-agent
 - **Purpose**: GTM strategy research with forcing questions
-- **Invoked By**: skill-strategy (via Task tool)
+- **Invoked By**: skill-strategy (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

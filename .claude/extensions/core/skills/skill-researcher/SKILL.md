@@ -1,7 +1,7 @@
 ---
 name: skill-researcher
 description: Conduct general research using web search, documentation, and codebase exploration. Invoke for general research tasks.
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 # Original context (now loaded by subagent):
 #   - .claude/context/formats/report-format.md
 # Original tools (now used by subagent):
@@ -171,7 +171,7 @@ Prepare delegation context for the subagent:
 
 **Note**: The `artifact_number` field tells the agent which sequence number to use for artifact naming (e.g., `01`, `02`).
 
-**Model/Effort Flags**: If `model_flag` is set (haiku, sonnet, opus), pass it as the `model` parameter on the Task tool to override the agent's frontmatter default. If `effort_flag` is set (fast, hard), include it as prompt context for reasoning depth guidance.
+**Model/Effort Flags**: If `model_flag` is set (haiku, sonnet, opus), pass it as the `model` parameter on the Agent tool to override the agent's frontmatter default. If `effort_flag` is set (fast, hard), include it as prompt context for reasoning depth guidance.
 
 ---
 
@@ -189,11 +189,11 @@ The format content will be included as a delimited section in the Stage 5 prompt
 
 ### Stage 5: Invoke Subagent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the subagent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "general-research-agent"
   - prompt: [Include task_context, delegation_context, focus_prompt, metadata_file_path,
@@ -238,12 +238,12 @@ The subagent will:
 
 ### Stage 5b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with status value `"researched"` and the appropriate artifact information.
 
-If you DID use the Task tool (Stage 5), skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool (Stage 5), skip this stage -- the subagent already wrote the metadata.
 
 ---
 

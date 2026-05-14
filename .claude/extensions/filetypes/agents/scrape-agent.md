@@ -13,7 +13,7 @@ Annotation extraction agent that reads embedded annotations from PDF files. Supp
 
 - **Name**: scrape-agent
 - **Purpose**: Extract PDF annotations
-- **Invoked By**: skill-scrape (via Task tool)
+- **Invoked By**: skill-scrape (via Agent tool)
 - **Return Format**: JSON (see subagent-return.md)
 
 ## Allowed Tools

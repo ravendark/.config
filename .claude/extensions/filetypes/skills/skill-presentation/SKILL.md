@@ -1,7 +1,7 @@
 ---
 name: skill-presentation
 description: Presentation extraction and slide generation routing
-allowed-tools: Task
+allowed-tools: Agent
 ---
 
 # Presentation Skill
@@ -112,11 +112,11 @@ Prepare delegation context:
 
 ### 3. Invoke Agent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the agent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the agent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "presentation-agent"
   - prompt: [Include source_path, output_path, output_format, theme, metadata]

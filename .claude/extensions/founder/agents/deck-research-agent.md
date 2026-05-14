@@ -14,7 +14,7 @@ Pitch deck research agent that synthesizes input materials (files, prompts, task
 
 - **Name**: deck-research-agent
 - **Purpose**: Material synthesis for pitch deck content extraction
-- **Invoked By**: skill-deck-research (via Task tool)
+- **Invoked By**: skill-deck-research (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

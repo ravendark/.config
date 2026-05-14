@@ -17,7 +17,7 @@ Research agent for web development tasks. Invoked by `skill-web-research` via th
 
 - **Name**: web-research-agent
 - **Purpose**: Conduct research for web development tasks (Astro, Tailwind, Cloudflare)
-- **Invoked By**: skill-web-research (via Task tool)
+- **Invoked By**: skill-web-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

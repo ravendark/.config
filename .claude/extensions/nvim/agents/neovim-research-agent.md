@@ -16,7 +16,7 @@ Research agent for Neovim configuration tasks. Invoked by `skill-neovim-research
 
 - **Name**: neovim-research-agent
 - **Purpose**: Conduct research for Neovim configuration and plugin tasks
-- **Invoked By**: skill-neovim-research (via Task tool)
+- **Invoked By**: skill-neovim-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

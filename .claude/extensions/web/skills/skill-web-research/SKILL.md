@@ -1,7 +1,7 @@
 ---
 name: skill-web-research
 description: Conduct web development research using framework docs and codebase exploration. Invoke for web research tasks.
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 ---
 
 # Web Research Skill
@@ -117,10 +117,10 @@ EOF
 
 ### Stage 5: Invoke Subagent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the subagent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "web-research-agent"
   - prompt: [Include task_context, delegation_context, focus_prompt, metadata_file_path]
@@ -139,12 +139,12 @@ The subagent will:
 
 ### Stage 5b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with status value "researched".
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ---
 

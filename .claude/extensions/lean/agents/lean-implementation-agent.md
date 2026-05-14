@@ -16,7 +16,7 @@ Implementation agent specialized for Lean 4 proof development. Invoked by `skill
 
 - **Name**: lean-implementation-agent
 - **Purpose**: Execute Lean 4 proof implementations from plans
-- **Invoked By**: skill-lean-implementation (via Task tool)
+- **Invoked By**: skill-lean-implementation (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## BLOCKED TOOLS (NEVER USE)

@@ -16,7 +16,7 @@ Contract review and negotiation counsel agent that produces research reports thr
 
 - **Name**: legal-council-agent
 - **Purpose**: Contract review research with forcing questions
-- **Invoked By**: skill-legal (via Task tool)
+- **Invoked By**: skill-legal (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

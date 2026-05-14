@@ -16,7 +16,7 @@ Implementation agent for Nix configuration tasks. Invoked by `skill-nix-implemen
 
 - **Name**: nix-implementation-agent
 - **Purpose**: Execute Nix configuration implementations from plans
-- **Invoked By**: skill-nix-implementation (via Task tool)
+- **Invoked By**: skill-nix-implementation (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

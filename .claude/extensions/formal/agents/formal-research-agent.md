@@ -16,7 +16,7 @@ Coordinator agent for multi-domain formal reasoning research. Routes research ta
 
 - **Name**: formal-research-agent
 - **Purpose**: Coordinate research across logic, math, and physics domains
-- **Invoked By**: skill-formal-research (via Task tool)
+- **Invoked By**: skill-formal-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Domain Routing

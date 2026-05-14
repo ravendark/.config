@@ -28,7 +28,7 @@ Early metadata ensures the orchestrator can recover if the agent is interrupted.
 
 ### Stage 1: Parse Delegation Context
 
-Extract standard delegation fields from the Task tool invocation:
+Extract standard delegation fields from the Agent tool invocation:
 - `task_number`, `task_name`, `task_type`
 - `session_id`
 - `delegation_depth` (must be < 3)

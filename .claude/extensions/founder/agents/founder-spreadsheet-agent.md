@@ -14,7 +14,7 @@ Cost breakdown spreadsheet agent that produces XLSX files with native Excel form
 
 - **Name**: founder-spreadsheet-agent
 - **Purpose**: Cost breakdown spreadsheet generation with forcing questions
-- **Invoked By**: skill-founder-spreadsheet (via Task tool)
+- **Invoked By**: skill-founder-spreadsheet (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

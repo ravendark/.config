@@ -13,7 +13,7 @@ Router agent that detects file formats and delegates to specialized sub-agents f
 
 - **Name**: filetypes-router-agent
 - **Purpose**: Route file format operations to specialized sub-agents
-- **Invoked By**: skill-filetypes (via Task tool)
+- **Invoked By**: skill-filetypes (via Agent tool)
 - **Return Format**: JSON (passthrough from sub-agent)
 
 ## Allowed Tools
@@ -131,10 +131,10 @@ else:
 
 ### Stage 5: Delegate to Sub-Agent
 
-**CRITICAL**: Use the Task tool to invoke the selected sub-agent.
+**CRITICAL**: Use the Agent tool to invoke the selected sub-agent.
 
 ```
-Tool: Task
+Tool: Agent
 Parameters:
   - subagent_type: "{selected_agent}"
   - prompt: |

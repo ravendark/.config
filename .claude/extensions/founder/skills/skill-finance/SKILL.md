@@ -1,7 +1,7 @@
 ---
 name: skill-finance
 description: Financial analysis and verification for founders
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 ---
 
 # Finance Skill
@@ -176,11 +176,11 @@ The agent will use pre-gathered data and only ask follow-up questions for missin
 
 ### Stage 5: Invoke Agent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the agent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the agent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "finance-agent"
   - prompt: [Include task_context, forcing_data, mode, metadata_file_path, metadata]
@@ -202,12 +202,12 @@ The agent will:
 
 ### Stage 5b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with the appropriate status value for this operation.
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ---
 

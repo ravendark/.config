@@ -14,7 +14,7 @@ Planning agent for pitch deck tasks that receives pre-selected user choices (pat
 
 - **Name**: deck-planner-agent
 - **Purpose**: Pitch deck plan generation from pre-selected pattern, theme, content, and ordering
-- **Invoked By**: skill-deck-plan (via Task tool)
+- **Invoked By**: skill-deck-plan (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

@@ -18,7 +18,7 @@ This agent is format-agnostic -- the research report is the same regardless of w
 
 - **Name**: slides-research-agent
 - **Purpose**: Synthesize research materials into slide-mapped reports for academic presentations
-- **Invoked By**: skill-slides (via Task tool)
+- **Invoked By**: skill-slides (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

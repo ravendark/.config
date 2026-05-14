@@ -16,7 +16,7 @@ Implementation agent for R-based epidemiology analysis. Invoked by `skill-epi-im
 
 - **Name**: epi-implement-agent
 - **Purpose**: Implement R-based epidemiology analysis scripts and produce findings report
-- **Invoked By**: skill-epi-implement (via Task tool)
+- **Invoked By**: skill-epi-implement (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

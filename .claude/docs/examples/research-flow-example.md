@@ -30,7 +30,7 @@ User Input: /research 427
        |
        | 1. Validate task exists
        | 2. Prepare delegation context
-       | 3. Invoke general-research-agent via Task tool
+       | 3. Invoke general-research-agent via Agent tool
        v
 [Layer 3: Agent] general-research-agent.md
        |
@@ -150,7 +150,7 @@ description="Systematically document the framework..."
 
 **Skill Step 3: Invoke Subagent**
 
-The skill invokes `general-research-agent` via the Task tool.
+The skill invokes `general-research-agent` via the Agent tool.
 
 ### Step 4: Agent Executes Research
 

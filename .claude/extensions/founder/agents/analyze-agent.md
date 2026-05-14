@@ -15,7 +15,7 @@ Competitive analysis research agent that gathers competitive intelligence throug
 
 - **Name**: analyze-agent
 - **Purpose**: Competitive research with forcing questions
-- **Invoked By**: skill-analyze (via Task tool)
+- **Invoked By**: skill-analyze (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

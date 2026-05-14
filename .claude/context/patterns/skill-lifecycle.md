@@ -47,7 +47,7 @@ Skills that manage lifecycle need these tools.
 ---
 name: skill-{name}
 description: {description}
-allowed-tools: Task, Bash, Edit, Read
+allowed-tools: Agent, Bash, Edit, Read
 ---
 ```
 

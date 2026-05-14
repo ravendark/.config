@@ -19,7 +19,7 @@ Supports two modes:
 
 - **Name**: meeting-agent
 - **Purpose**: Meeting note processing with web research and CSV tracking
-- **Invoked By**: skill-meeting (via Task tool)
+- **Invoked By**: skill-meeting (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

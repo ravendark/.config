@@ -16,7 +16,7 @@ Implementation agent for Neovim configuration tasks. Invoked by `skill-neovim-im
 
 - **Name**: neovim-implementation-agent
 - **Purpose**: Execute Neovim configuration implementations from plans
-- **Invoked By**: skill-neovim-implementation (via Task tool)
+- **Invoked By**: skill-neovim-implementation (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

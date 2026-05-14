@@ -1,7 +1,7 @@
 ---
 name: skill-nix-implementation
 description: Implement Nix configuration changes from plans. Invoke for nix implementation tasks.
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 ---
 
 # Nix Implementation Skill
@@ -138,13 +138,13 @@ Prepare delegation context:
 
 ### 3. Invoke Subagent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the subagent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
 The `agent` field in this skill's frontmatter specifies the target: `nix-implementation-agent`
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "nix-implementation-agent"
   - prompt: [Include task_context, delegation_context, plan_path]
@@ -188,12 +188,12 @@ This validation:
 
 ### 3b. Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with status value "implemented".
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ---
 

@@ -159,7 +159,7 @@ For each validated task, spawn an independent research agent using the orchestra
 
 1. Extract task_type per task from state.json
 2. Route to the appropriate research skill per task (extension routing or default `skill-researcher`)
-3. Spawn one agent per task via parallel Task tool calls
+3. Spawn one agent per task via parallel Agent tool calls
 4. Each agent runs the full single-task research lifecycle independently (preflight, research, postflight)
 5. Collect results from all agents
 

@@ -1,7 +1,7 @@
 ---
 name: skill-z3-research
 description: Research Z3/SMT tasks. Invoke for Z3-language research.
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 ---
 
 # Z3 Research Skill
@@ -27,16 +27,16 @@ Update status to "researching" BEFORE invoking subagent.
 Include task_context, focus_prompt, metadata_file_path.
 
 ### Stage 4: Invoke Subagent
-Use Task tool with subagent_type: "z3-research-agent".
+Use Agent tool with subagent_type: "z3-research-agent".
 
 ### Stage 4b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with status value "researched".
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ## Postflight (ALWAYS EXECUTE)
 

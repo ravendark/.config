@@ -14,7 +14,7 @@ Executes founder implementation plans created by `founder-plan-agent`, generatin
 
 - **Name**: founder-implement-agent
 - **Purpose**: Execute founder plans and generate strategy reports
-- **Invoked By**: skill-founder-implement (via Task tool)
+- **Invoked By**: skill-founder-implement (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

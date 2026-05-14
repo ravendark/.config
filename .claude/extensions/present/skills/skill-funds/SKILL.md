@@ -1,7 +1,7 @@
 ---
 name: skill-funds
 description: Funding landscape analysis with funder portfolio mapping. Invoke for funds tasks.
-allowed-tools: Task, Bash, Edit, Read, Write, AskUserQuestion
+allowed-tools: Agent, Bash, Edit, Read, Write, AskUserQuestion
 # Context (loaded by subagent):
 #   - .claude/extensions/present/context/project/present/README.md
 #   - .claude/extensions/present/context/project/present/domain/funding-analysis.md
@@ -218,11 +218,11 @@ The format content will be included as a delimited section in the Stage 5 prompt
 
 ### Stage 5: Invoke Subagent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the subagent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "funds-agent"
   - prompt: [Include task_context, delegation_context, mode, forcing_data, artifact_number, metadata_file_path,
@@ -263,12 +263,12 @@ If the subagent's text return parses as valid JSON, log a warning (v1 pattern in
 
 ### Stage 5b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with the appropriate status value for this operation.
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ---
 

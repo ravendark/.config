@@ -8,7 +8,7 @@ Before creating a command, understand:
 
 1. **Checkpoint-based execution**: Every command follows GATE IN -> DELEGATE -> GATE OUT -> COMMIT
 2. **Task-number arguments**: Most commands operate on task numbers from `specs/TODO.md`, not free-form topics
-3. **Skill delegation**: Commands invoke skills via the Skill tool; skills spawn agents via the Task tool
+3. **Skill delegation**: Commands invoke skills via the Skill tool; skills spawn agents via the Agent tool
 4. **Separation of concerns**: Commands parse arguments and validate; skills prepare context; agents execute
 
 **Required reading**:
@@ -101,7 +101,7 @@ Arguments: {
 }
 ```
 
-The skill invokes the agent via the Task tool and receives a return-metadata file path.
+The skill invokes the agent via the Agent tool and receives a return-metadata file path.
 
 #### GATE OUT (Postflight)
 

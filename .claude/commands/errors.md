@@ -1,6 +1,6 @@
 ---
 description: Analyze errors and create fix plans
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), TaskCreate, TaskUpdate, Task
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), TaskCreate, TaskUpdate, Agent
 argument-hint: [--fix TASK_NUMBER]
 model: opus
 ---

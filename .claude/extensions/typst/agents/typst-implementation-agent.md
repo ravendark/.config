@@ -16,7 +16,7 @@ Implementation agent specialized for Typst document creation and compilation. In
 
 - **Name**: typst-implementation-agent
 - **Purpose**: Execute Typst document implementations from plans
-- **Invoked By**: skill-typst-implementation (via Task tool)
+- **Invoked By**: skill-typst-implementation (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

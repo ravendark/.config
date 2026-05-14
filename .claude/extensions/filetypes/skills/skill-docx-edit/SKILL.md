@@ -1,7 +1,7 @@
 ---
 name: skill-docx-edit
 description: In-place DOCX editing routing to docx-edit-agent
-allowed-tools: Task
+allowed-tools: Agent
 ---
 
 # DOCX Edit Skill
@@ -112,11 +112,11 @@ Prepare delegation context:
 
 ### 3. Invoke Agent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the docx-edit agent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the docx-edit agent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "docx-edit-agent"
   - prompt: [Include file_path, instruction, mode, metadata]
@@ -207,4 +207,4 @@ Return failed status with installation instructions for SuperDoc MCP or python-d
 - Run the postflight step (git commit, status update) -- that is the command's responsibility
 - Modify the return from docx-edit-agent before propagating
 - Load context files eagerly -- only reference them when needed
-- Use the Skill tool to invoke docx-edit-agent (use Task tool instead)
+- Use the Skill tool to invoke docx-edit-agent (use Agent tool instead)

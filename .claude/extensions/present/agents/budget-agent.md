@@ -15,7 +15,7 @@ Grant budget spreadsheet agent that produces XLSX files with native Excel formul
 
 - **Name**: budget-agent
 - **Purpose**: Grant budget spreadsheet generation with forcing questions
-- **Invoked By**: skill-budget (via Task tool)
+- **Invoked By**: skill-budget (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

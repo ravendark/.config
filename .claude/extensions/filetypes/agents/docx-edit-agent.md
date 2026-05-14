@@ -13,7 +13,7 @@ In-place DOCX editing agent that modifies Word documents using SuperDoc MCP tool
 
 - **Name**: docx-edit-agent
 - **Purpose**: Edit DOCX files in-place with optional tracked changes
-- **Invoked By**: skill-docx-edit (via Task tool)
+- **Invoked By**: skill-docx-edit (via Agent tool)
 - **Return Format**: JSON (see subagent-return.md)
 
 ## Allowed Tools

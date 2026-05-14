@@ -1,7 +1,7 @@
 ---
 name: skill-sheet
 description: XLSX creation, editing, and analysis routing to sheet-agent
-allowed-tools: Task
+allowed-tools: Agent
 ---
 
 # XLSX Skill
@@ -117,11 +117,11 @@ Prepare delegation context:
 
 ### 3. Invoke Agent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the sheet-agent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the sheet-agent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "sheet-agent"
   - prompt: [Include file_path, instruction, mode, metadata]
@@ -214,4 +214,4 @@ Return failed status with installation instructions for openpyxl and pandas.
 - Run the postflight step (git commit, status update) -- that is the command's responsibility
 - Modify the return from sheet-agent before propagating
 - Load context files eagerly -- only reference them when needed
-- Use the Skill tool to invoke sheet-agent (use Task tool instead)
+- Use the Skill tool to invoke sheet-agent (use Agent tool instead)

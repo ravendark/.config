@@ -53,7 +53,7 @@ Full command documentation: [docs/guides/user-guide.md](docs/guides/user-guide.m
     │   Validate inputs, prepare context, invoke agents        │
     └─────────────────────────────────────────────────────────┘
                                 |
-                                | Task tool invocation
+                                | Agent tool invocation
                                 v
     ┌─────────────────────────────────────────────────────────┐
     │                       AGENTS                             │

@@ -48,7 +48,7 @@ Arguments: {
 }
 ```
 
-The skill prepares delegation context and spawns a subagent through the Task tool. The agent does the real work (research, planning, implementation, etc.) and writes artifacts and a return-metadata file.
+The skill prepares delegation context and spawns a subagent through the Agent tool. The agent does the real work (research, planning, implementation, etc.) and writes artifacts and a return-metadata file.
 
 ### 3. GATE OUT (Postflight)
 

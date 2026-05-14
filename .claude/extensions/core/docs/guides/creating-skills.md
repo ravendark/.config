@@ -20,7 +20,7 @@ Skills use the **thin wrapper pattern** - they do minimal work themselves and de
 
 ### What It Is
 
-Skills are "thin wrappers" that delegate to agents via the Task tool. This pattern provides:
+Skills are "thin wrappers" that delegate to agents via the Agent tool. This pattern provides:
 
 - **Token Efficiency**: Context loaded only in the agent's conversation
 - **Isolation**: Agent context does not bloat the skill's conversation
@@ -39,7 +39,7 @@ Skill receives invocation
 2. Prepare delegation context (session_id, task info)
     |
     v
-3. Invoke agent via Task tool
+3. Invoke agent via Agent tool
     |
     v
 4. Validate agent return matches schema
@@ -85,7 +85,7 @@ Every skill starts with YAML frontmatter:
 ---
 name: skill-{name}
 description: {Brief description}. Invoke for {use case}.
-allowed-tools: Task
+allowed-tools: Agent
 context: fork
 agent: {target-agent-name}
 # Original context (now loaded by subagent):
@@ -101,7 +101,7 @@ agent: {target-agent-name}
 |-------|-------|---------|
 | `name` | `skill-{name}` | Skill identifier |
 | `description` | Brief text | Helps orchestrator route correctly |
-| `allowed-tools` | `Task` | Only tool needed for delegation |
+| `allowed-tools` | `Agent` | Only tool needed for delegation |
 | `context` | `fork` | Signals NOT to load context eagerly |
 | `agent` | `{name}-agent` | Target agent to invoke |
 
@@ -168,7 +168,7 @@ Create `.claude/skills/skill-{name}/SKILL.md`:
 ---
 name: skill-{name}
 description: {Description}. Invoke for {use case}.
-allowed-tools: Task
+allowed-tools: Agent
 context: fork
 agent: {agent-name}
 ---
@@ -250,7 +250,7 @@ Describe what the agent will do:
 ```markdown
 ### 3. Invoke Subagent
 
-Invoke `{agent-name}` via Task tool with:
+Invoke `{agent-name}` via Agent tool with:
 - Task context (number, name, description, language)
 - Delegation context (session_id, depth, path)
 - Focus prompt (if provided)
@@ -311,7 +311,7 @@ Here is a complete skill for Rust research:
 ---
 name: skill-rust-research
 description: Research Rust crates and APIs for implementation tasks. Invoke for Rust-language research.
-allowed-tools: Task
+allowed-tools: Agent
 context: fork
 agent: rust-research-agent
 # Original context (now loaded by subagent):
@@ -375,7 +375,7 @@ Prepare delegation context:
 
 ### 3. Invoke Subagent
 
-Invoke `rust-research-agent` via Task tool with:
+Invoke `rust-research-agent` via Agent tool with:
 - Task context (number, name, description, task_type)
 - Delegation context (session_id, depth, path)
 - Focus prompt (if provided)
@@ -450,7 +450,7 @@ Before finalizing a new skill, verify:
 ### Frontmatter
 - [ ] `name` matches directory name
 - [ ] `description` is clear and includes "Invoke for" pattern
-- [ ] `allowed-tools` is `Task` (for thin wrapper skills)
+- [ ] `allowed-tools` is `Agent` (for thin wrapper skills)
 - [ ] `context` is `fork` (for lazy loading)
 - [ ] `agent` specifies target agent
 
@@ -508,7 +508,7 @@ Skill blindly returns whatever agent returns.
 **Right**:
 Skill validates return matches `subagent-return.md` schema before propagating.
 
-### 4. Not Using Task Tool
+### 4. Not Using Agent Tool
 
 **Wrong**:
 ```yaml
@@ -517,7 +517,7 @@ allowed-tools: Read, Write, Bash, WebSearch
 
 **Right**:
 ```yaml
-allowed-tools: Task
+allowed-tools: Agent
 ```
 
 ---

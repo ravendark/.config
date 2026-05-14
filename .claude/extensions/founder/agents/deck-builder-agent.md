@@ -14,7 +14,7 @@ Generates complete Slidev pitch deck projects from plans and research reports. R
 
 - **Name**: deck-builder-agent
 - **Purpose**: Generate Slidev pitch decks from plan + research via library assembly
-- **Invoked By**: skill-deck-implement (via Task tool)
+- **Invoked By**: skill-deck-implement (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

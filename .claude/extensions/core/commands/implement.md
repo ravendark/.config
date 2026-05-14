@@ -179,7 +179,7 @@ For each validated task, spawn an independent implementation agent using the orc
 
 - Extract task type per task (from state.json)
 - Route per task using existing task-type-based routing from extension manifests
-- Spawn one agent per task via parallel Task tool calls
+- Spawn one agent per task via parallel Agent tool calls
 - Per-task lifecycle: preflight status update, agent execution, postflight status update
 - Collect results from all agents
 
@@ -533,7 +533,7 @@ The skill will spawn the appropriate agent(s) which execute plan phases (in para
 
 7. **Post-Delegation Takeover Detection (Future Work)**
 
-   > **Note**: A future enhancement should detect if the skill performed source-file reads, builds, or codebase exploration after the subagent returned. If the skill's tool-call sequence shows Read/Grep/Glob/Bash operations on non-specs files after the Task tool returned, log a warning: "Skill violated postflight boundary -- source operations detected after delegation." This is not currently enforced automatically but is documented as a desired GATE OUT validation.
+   > **Note**: A future enhancement should detect if the skill performed source-file reads, builds, or codebase exploration after the subagent returned. If the skill's tool-call sequence shows Read/Grep/Glob/Bash operations on non-specs files after the Agent tool returned, log a warning: "Skill violated postflight boundary -- source operations detected after delegation." This is not currently enforced automatically but is documented as a desired GATE OUT validation.
 
 **RETRY** skill if validation fails.
 

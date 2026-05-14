@@ -1,7 +1,7 @@
 ---
 name: skill-implementer
 description: Execute general implementation tasks following a plan. Invoke for general implementation work.
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 ---
 
 # Implementer Skill
@@ -185,7 +185,7 @@ Prepare delegation context for the subagent:
 
 **Note**: The `artifact_number` field tells the agent which sequence number to use for artifact naming (e.g., `01`, `02`). Summary uses the same round number as the research and plan that preceded it.
 
-**Model/Effort Flags**: If `model_flag` is set (haiku, sonnet, opus), pass it as the `model` parameter on the Task tool to override the agent's frontmatter default. If `effort_flag` is set (fast, hard), include it as prompt context for reasoning depth guidance.
+**Model/Effort Flags**: If `model_flag` is set (haiku, sonnet, opus), pass it as the `model` parameter on the Agent tool to override the agent's frontmatter default. If `effort_flag` is set (fast, hard), include it as prompt context for reasoning depth guidance.
 
 > **CRITICAL: No Source Reading Before Delegation** -- Between preparing the delegation context (Stage 4) and spawning the sub-agent (Stage 5), the lead skill MUST NOT read, grep, glob, or analyze source files. The plan file and state.json are the only files the lead reads. All codebase exploration (reading source files, grepping for patterns, using MCP tools) is the exclusive responsibility of the sub-agent after it is spawned.
 
@@ -205,11 +205,11 @@ The format content will be included as a delimited section in the Stage 5 prompt
 
 ### Stage 5: Invoke Subagent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the subagent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "general-implementation-agent"
   - prompt: [Include task_context, delegation_context, plan_path, metadata_file_path,
@@ -261,12 +261,12 @@ If the subagent's text return parses as valid JSON, log a warning (v1 pattern in
 
 ### Stage 5b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with status value `"implemented"` and the appropriate artifact information.
 
-If you DID use the Task tool (Stage 5), skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool (Stage 5), skip this stage -- the subagent already wrote the metadata.
 
 ---
 
@@ -467,7 +467,7 @@ if [ -n "$handoff_path" ] && [ -f "$handoff_path" ] && [ "$continuation_count" -
     # - delegation_depth: incremented by 1
     # - continuation_context: { is_successor: true, continuation_number: N, handoff_path: ..., progress_path: ..., previous_phases_completed: N }
 
-    # Spawn successor subagent via Task tool with updated context
+    # Spawn successor subagent via Agent tool with updated context
     # (Same as Stage 5, but with continuation_context injected into delegation context JSON)
 
     # Continue loop — next iteration reads successor's metadata
@@ -599,7 +599,7 @@ The pre-delegation phase is LIMITED TO:
 - Reading state.json and TODO.md for status updates
 - Preparing the delegation context JSON
 - Reading the summary format file for injection (Stage 4b)
-- Spawning the sub-agent with the Task tool
+- Spawning the sub-agent with the Agent tool
 
 ## MUST NOT (Postflight Boundary)
 

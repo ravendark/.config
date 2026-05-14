@@ -412,7 +412,7 @@ Create `skills/skill-your-domain-research/SKILL.md`:
 ---
 name: skill-your-domain-research
 description: Conduct [Your Domain] research. Invoke for your-domain research tasks.
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 ---
 
 # Your Domain Research Skill
@@ -434,7 +434,7 @@ Invoked by the orchestrator when:
 4. Create postflight marker file
 
 ### DELEGATE
-5. Invoke `your-domain-research-agent` via Task tool with delegation context
+5. Invoke `your-domain-research-agent` via Agent tool with delegation context
 
 ### GATE OUT (Postflight)
 6. Read metadata file from agent
@@ -456,7 +456,7 @@ Create `skills/skill-your-domain-implementation/SKILL.md`:
 ---
 name: skill-your-domain-implementation
 description: Implement [Your Domain] changes from plans. Invoke for your-domain implementation.
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 ---
 
 # Your Domain Implementation Skill
@@ -478,7 +478,7 @@ Invoked by the orchestrator when:
 4. Create postflight marker file
 
 ### DELEGATE
-5. Invoke `your-domain-implementation-agent` via Task tool with delegation context
+5. Invoke `your-domain-implementation-agent` via Agent tool with delegation context
 
 ### GATE OUT (Postflight)
 6. Read metadata file from agent

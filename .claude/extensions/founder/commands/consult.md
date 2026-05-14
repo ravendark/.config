@@ -141,7 +141,7 @@ args: "domain=legal input_type={input_type} file_path={file_path} inline_text={i
 ```
 
 The skill-consult wrapper will:
-1. Spawn legal-analysis-agent via Task tool
+1. Spawn legal-analysis-agent via Agent tool
 2. Pass delegation context including input type and content
 3. Agent conducts Socratic dialogue and produces consultation report
 4. Skill handles postflight (artifact linking if task-attached)

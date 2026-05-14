@@ -253,12 +253,12 @@ Per-task session: {batch_session_id}_{task_num}
 
 ### Spawning Pattern
 
-The batch skill spawns one agent per validated task using parallel Task tool calls:
+The batch skill spawns one agent per validated task using parallel Agent tool calls:
 
 ```
 # All invoked in a single message (parallel execution)
 For each task_num in validated_tasks:
-  Tool: Task
+  Tool: Agent
   Parameters:
     subagent_type: "{agent_type}"  # e.g., "general-research-agent"
     prompt: |
@@ -506,7 +506,7 @@ Multi-task dispatch is handled by the orchestrator loop built into each command 
 
 - Task type extraction per task (from state.json)
 - Agent routing per task (using existing task-type-based routing from extension manifests)
-- Parallel Task tool spawning (one agent per task)
+- Parallel Agent tool spawning (one agent per task)
 - Result collection
 - Consolidated status update and batch git commit
 

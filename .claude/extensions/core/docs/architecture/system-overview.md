@@ -37,7 +37,7 @@ The agent system uses a three-layer architecture that separates user interaction
     │   └── ...                                            │
     └─────────────────────────────────────────────────────┘
                              |
-                             | Task tool invocation
+                             | Agent tool invocation
                              v
     ┌─────────────────────────────────────────────────────┐
     │                   LAYER 3: AGENTS                    │
@@ -99,7 +99,7 @@ Commands are user-facing entry points invoked via `/command` syntax. They:
 Skills are thin wrappers that validate inputs and delegate to agents. They:
 - Validate task exists and arguments are correct
 - Prepare delegation context (session_id, depth tracking)
-- Invoke agents via the Task tool
+- Invoke agents via the Agent tool
 - Pass through agent returns
 
 **Key skills**:
@@ -142,7 +142,7 @@ When you run `/research 1`:
    - Generate session_id: sess_1736700000_abc123
    - Validate: task exists, status allows research
    - Prepare: delegation context
-   - Invoke: general-research-agent via Task tool
+   - Invoke: general-research-agent via Agent tool
 
 3. Agent: general-research-agent
    - Load: relevant context files

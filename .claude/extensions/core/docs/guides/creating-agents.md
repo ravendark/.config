@@ -12,7 +12,7 @@ Agents are execution components that:
 - Create artifacts in proper locations
 - Return standardized JSON results
 
-Agents are invoked by skills via the Task tool and never directly by users.
+Agents are invoked by skills via the Agent tool and never directly by users.
 
 ---
 
@@ -98,7 +98,7 @@ Agents are located in `.claude/agents/{name}-agent.md`:
 
 - **Name**: {name}-agent
 - **Purpose**: {purpose}
-- **Invoked By**: skill-{name} (via Task tool)
+- **Invoked By**: skill-{name} (via Agent tool)
 - **Return Format**: JSON (see subagent-return.md)
 
 ## Allowed Tools

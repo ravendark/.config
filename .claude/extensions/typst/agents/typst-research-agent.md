@@ -16,7 +16,7 @@ Research agent specializing in Typst documentation. Handles Typst patterns, docu
 
 - **Name**: typst-research-agent
 - **Purpose**: Conduct research for Typst documentation tasks
-- **Invoked By**: skill-typst-research (via Task tool)
+- **Invoked By**: skill-typst-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

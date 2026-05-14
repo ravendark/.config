@@ -18,7 +18,7 @@ System building agent that handles the `/meta` command for creating tasks relate
 
 - **Name**: meta-builder-agent
 - **Purpose**: Create structured tasks for .claude/ system modifications
-- **Invoked By**: skill-meta (via Task tool)
+- **Invoked By**: skill-meta (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Constraints

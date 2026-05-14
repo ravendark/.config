@@ -1,7 +1,7 @@
 ---
 name: skill-orchestrator
 description: Route commands to appropriate workflows based on task type and status. Invoke when executing /task, /research, /plan, /implement commands.
-allowed-tools: Read, Glob, Grep, Task
+allowed-tools: Read, Glob, Grep, Agent
 # Context loaded on-demand via @-references (see Context Loading section)
 ---
 
@@ -84,7 +84,7 @@ Prepare context package for delegated skill:
 3. Validate status for operation
 4. Determine target skill by task_type
 5. Prepare context package
-6. Invoke target skill via Task tool
+6. Invoke target skill via Agent tool
 7. Receive and validate result
 8. Return result to caller
 ```

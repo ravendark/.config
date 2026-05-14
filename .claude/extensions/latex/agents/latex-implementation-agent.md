@@ -16,7 +16,7 @@ Implementation agent specialized for LaTeX document creation and compilation. In
 
 - **Name**: latex-implementation-agent
 - **Purpose**: Execute LaTeX document implementations from plans
-- **Invoked By**: skill-latex-implementation (via Task tool)
+- **Invoked By**: skill-latex-implementation (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

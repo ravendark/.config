@@ -1,7 +1,7 @@
 ---
 name: skill-deck-plan
 description: Pitch deck planning with interactive template, content, and ordering selection
-allowed-tools: Task, Bash, Edit, Read, Write, Glob, AskUserQuestion
+allowed-tools: Agent, Bash, Edit, Read, Write, Glob, AskUserQuestion
 ---
 
 # Deck Plan Skill
@@ -388,11 +388,11 @@ Bundle all user selections into the delegation context for the agent:
 
 ### Stage 5: Invoke Agent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the agent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the agent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "deck-planner-agent"
   - prompt: [Include task_context, research_path, metadata_file_path, metadata, user_selections]
@@ -408,12 +408,12 @@ The agent will:
 
 ### Stage 5b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with the appropriate status value for this operation.
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ## Postflight (ALWAYS EXECUTE)
 

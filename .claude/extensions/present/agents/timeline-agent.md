@@ -16,7 +16,7 @@ Interactive research agent for medical research project timelines. Conducts forc
 
 - **Name**: timeline-agent
 - **Purpose**: Elicit research project timeline details via forcing questions; produce structured timeline reports
-- **Invoked By**: skill-timeline (via Task tool)
+- **Invoked By**: skill-timeline (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

@@ -1,7 +1,7 @@
 ---
 name: skill-epi-research
 description: Research skill for epidemiology study design and analysis planning. Invoke for epi/epi:study research tasks.
-allowed-tools: Task, Bash, Edit, Read, Write, AskUserQuestion
+allowed-tools: Agent, Bash, Edit, Read, Write, AskUserQuestion
 # Context (loaded by subagent):
 #   - .claude/extensions/epidemiology/context/project/epidemiology/domain/
 #   - .claude/extensions/epidemiology/context/project/epidemiology/tools/
@@ -137,10 +137,10 @@ EOF
 
 ### Stage 5: Invoke Subagent
 
-**CRITICAL**: Use the **Task** tool to spawn the subagent.
+**CRITICAL**: Use the **Agent** tool to spawn the subagent.
 
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "epi-research-agent"
   - prompt: [Include task_context, delegation_context, workflow_type, forcing_data, metadata_file_path]
@@ -153,12 +153,12 @@ Parameters:
 
 ### Stage 5b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding to postflight. Use the schema from
 `return-metadata-file.md` with the appropriate status value for this operation.
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ---
 

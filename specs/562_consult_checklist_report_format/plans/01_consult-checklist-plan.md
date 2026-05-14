@@ -1,7 +1,7 @@
 # Implementation Plan: Upgrade Legal Analysis Agent to Interactive Checklist Format
 
 - **Task**: 562 - consult_checklist_report_format
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md
@@ -69,7 +69,7 @@ No literature source referenced.
 | 2 | 2 | 1 |
 | 3 | 3 | 2 |
 
-### Phase 1: Rewrite Stages 3-4 (Internal Analysis + Interactive Per-Finding Loop) [NOT STARTED]
+### Phase 1: Rewrite Stages 3-4 (Internal Analysis + Interactive Per-Finding Loop) [IN PROGRESS]
 
 **Goal**: Replace the current Stage 3 (Read and Translate) and Stage 4 (Reframe and Probe) with the new silent analysis pass and interactive per-finding AskUserQuestion loop.
 

@@ -7,13 +7,13 @@ description: XLSX creation, editing, and analysis using openpyxl and pandas
 
 ## Overview
 
-Spreadsheet manipulation agent that creates, edits, and analyzes XLSX files using openpyxl for workbook operations and pandas for data analysis. Invoked by `skill-sheet` via the Task tool. Supports three modes: create (build new workbooks from scratch with formulas, formatting, and multi-sheet layouts), edit (modify existing workbooks preserving formulas and styles), and analyze (read and summarize spreadsheet data).
+Spreadsheet manipulation agent that creates, edits, and analyzes XLSX files using openpyxl for workbook operations and pandas for data analysis. Invoked by `skill-sheet` via the Agent tool. Supports three modes: create (build new workbooks from scratch with formulas, formatting, and multi-sheet layouts), edit (modify existing workbooks preserving formulas and styles), and analyze (read and summarize spreadsheet data).
 
 ## Agent Metadata
 
 - **Name**: sheet-agent
 - **Purpose**: XLSX creation, editing, and analysis using openpyxl and pandas
-- **Invoked By**: skill-sheet (via Task tool)
+- **Invoked By**: skill-sheet (via Agent tool)
 - **Return Format**: JSON (see subagent-return.md)
 
 ## Allowed Tools

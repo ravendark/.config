@@ -16,7 +16,7 @@ Research agent specializing in LaTeX documentation. Handles LaTeX patterns, docu
 
 - **Name**: latex-research-agent
 - **Purpose**: Conduct research for LaTeX documentation tasks
-- **Invoked By**: skill-latex-research (via Task tool)
+- **Invoked By**: skill-latex-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

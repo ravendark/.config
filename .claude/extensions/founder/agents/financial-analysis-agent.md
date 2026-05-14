@@ -14,7 +14,7 @@ Financial analysis agent that produces XLSX spreadsheets with native Excel formu
 
 - **Name**: financial-analysis-agent
 - **Purpose**: Financial analysis data gathering and spreadsheet generation
-- **Invoked By**: skill-financial-analysis (via Task tool)
+- **Invoked By**: skill-financial-analysis (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

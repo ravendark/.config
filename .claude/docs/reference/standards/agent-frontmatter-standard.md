@@ -207,7 +207,7 @@ To add model enforcement to existing agents:
 3. Add `model: sonnet` or `model: opus` to frontmatter based on tier
 4. Document rationale in agent comments
 
-No other changes are required - the Task tool will respect the model field when spawning agents.
+No other changes are required - the Agent tool will respect the model field when spawning agents.
 
 ## Related Documentation
 

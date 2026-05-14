@@ -9,10 +9,10 @@ next_project_number: 567
 *Updated 2026-05-13. 12 active tasks remaining.*
 
 ### Pending
-- **564** [RESEARCHING] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
+- **564** [PLANNED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **565** [NOT STARTED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
 - **566** [NOT STARTED] -- Port escalation/compliance fixes to .claude/ reference system (depends: 565)
-- **562** [PLANNED] -- Upgrade consult report to interactive actionable checklist format
+- **562** [IMPLEMENTING] -- Upgrade consult report to interactive actionable checklist format
 - **563** [NOT STARTED] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
@@ -26,9 +26,11 @@ next_project_number: 567
 
 ### 564. Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [564_lean_agent_escalation_protocol_vacuous_prohibition/reports/01_escalation-protocol-research.md]
+- **Plan**: [564_lean_agent_escalation_protocol_vacuous_prohibition/plans/01_escalation-protocol-plan.md]
 - **Description**: Add formal escalation protocol and vacuous-definition prohibition to the lean-implementation-agent in /home/benjamin/Projects/ProofChecker/.opencode/. When a phase cannot be completed properly, agent MUST mark it [BLOCKED] with documented blocker and return status partial — never create vacuous Lean definitions (def X := True, def X := Unit) to paper over inability. Also: define vacuous proof explicitly with examples, enforce phase-granular commits (commit after each phase, not batch), add task complexity warning to GATE IN for plans with >20h estimated effort.
   - **Target files**: `.opencode/agent/subagents/lean-implementation-agent.md`, `.opencode/rules/lean4.md`
 
@@ -50,7 +52,7 @@ next_project_number: 567
 
 ### 562. Upgrade consult report to interactive actionable checklist format
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [562_consult_checklist_report_format/reports/01_consult-checklist-research.md]

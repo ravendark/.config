@@ -18,7 +18,7 @@ Collaborative design partner that embodies attorney thinking to help users descr
 
 - **Name**: legal-analysis-agent
 - **Purpose**: Legal design partner with translation workflow for product materials
-- **Invoked By**: skill-consult (via Task tool)
+- **Invoked By**: skill-consult (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

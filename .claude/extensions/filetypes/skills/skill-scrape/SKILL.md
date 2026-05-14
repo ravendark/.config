@@ -1,7 +1,7 @@
 ---
 name: skill-scrape
 description: PDF annotation extraction routing to scrape-agent
-allowed-tools: Task
+allowed-tools: Agent
 ---
 
 # Scrape Skill
@@ -108,11 +108,11 @@ Prepare delegation context:
 
 ### 3. Invoke Agent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the scrape agent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the scrape agent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "scrape-agent"
   - prompt: [Include pdf_path, output_path, annotation_types, output_format, metadata]
@@ -199,4 +199,4 @@ Return failed status with installation instructions for PDF annotation tools (e.
 - Run the postflight step (git commit, status update) — that is the command's responsibility
 - Modify the return from scrape-agent before propagating
 - Load context files eagerly — only reference them when needed
-- Use the Skill tool to invoke scrape-agent (use Task tool instead)
+- Use the Skill tool to invoke scrape-agent (use Agent tool instead)

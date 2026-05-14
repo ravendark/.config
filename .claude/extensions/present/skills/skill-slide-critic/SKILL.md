@@ -1,7 +1,7 @@
 ---
 name: skill-slide-critic
 description: Interactive critique loop for slide presentations. Delegates to slide-critic-agent, presents findings to user, collects accept/reject/modify decisions, produces filtered critique report.
-allowed-tools: Task, Bash, Edit, Read, Write, AskUserQuestion
+allowed-tools: Agent, Bash, Edit, Read, Write, AskUserQuestion
 context: fork
 agent: slide-critic-agent
 ---
@@ -171,10 +171,10 @@ Build the materials array from discovered files, or use the `materials_to_review
 
 ### Stage 4: Invoke Subagent
 
-**CRITICAL**: Use the **Task** tool to spawn the slide-critic-agent. Do NOT use `Skill(...)`.
+**CRITICAL**: Use the **Agent** tool to spawn the slide-critic-agent. Do NOT use `Skill(...)`.
 
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "slide-critic-agent"
   - prompt: [Include full delegation context from Stage 3]
@@ -194,12 +194,12 @@ The slide-critic-agent will:
 
 ### Stage 4b: Self-Execution Fallback
 
-**CRITICAL**: If you performed the work above WITHOUT using the Task tool (i.e., you read files,
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
 wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
 `.return-meta.json` file now before proceeding. Use the schema from `return-metadata-file.md`
 with status `researched`.
 
-If you DID use the Task tool, skip this stage -- the subagent already wrote the metadata.
+If you DID use the Agent tool, skip this stage -- the subagent already wrote the metadata.
 
 ---
 

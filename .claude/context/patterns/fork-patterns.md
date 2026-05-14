@@ -27,7 +27,7 @@ subagent will load it fresh anyway.
 
 ### `CLAUDE_CODE_FORK_SUBAGENT=1` (environment variable)
 
-**What it does**: When set, Agent/Task tool invocations that **omit `subagent_type`** spawn a
+**What it does**: When set, Agent/Agent tool invocations that **omit `subagent_type`** spawn a
 forked subprocess that inherits the parent's prompt cache. This can reduce input token costs by
 ~90% for the child compared to a fresh session.
 
@@ -68,13 +68,13 @@ a known agent type. The trade-off is no FORK_SUBAGENT cache sharing.
 
 ## Decision Matrix: Which Delegation Pattern to Use
 
-### Pattern A: Explicit Task tool with `subagent_type` (core skill pattern)
+### Pattern A: Explicit Agent tool with `subagent_type` (core skill pattern)
 
 ```yaml
 ---
 name: skill-implementer
 description: Execute implementation tasks.
-allowed-tools: Task, Bash, Edit, Read, Write
+allowed-tools: Agent, Bash, Edit, Read, Write
 ---
 ```
 
@@ -86,7 +86,7 @@ allowed-tools: Task, Bash, Edit, Read, Write
 
 **How delegation works**:
 ```
-Tool: Task
+Tool: Agent
 Parameters:
   subagent_type: "general-implementation-agent"
   prompt: [full structured context JSON + instructions]
@@ -100,7 +100,7 @@ Parameters:
 ---
 name: skill-lean-research
 description: Research Lean4 patterns. Invoke for lean research tasks.
-allowed-tools: Task
+allowed-tools: Agent
 context: fork
 agent: lean-research-agent
 ---
@@ -114,7 +114,7 @@ agent: lean-research-agent
 
 **How delegation works**:
 ```
-Tool: Task (implicitly routed via `agent:` frontmatter)
+Tool: Agent (implicitly routed via `agent:` frontmatter)
 Prompt: simple task instructions (no structured context JSON required)
 ```
 

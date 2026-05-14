@@ -13,7 +13,7 @@ Spreadsheet conversion agent that transforms Excel, CSV, and ODS files into LaTe
 
 - **Name**: filetypes-spreadsheet-agent
 - **Purpose**: Convert spreadsheets to LaTeX/Typst tables
-- **Invoked By**: filetypes-router-agent or skill-filetypes-spreadsheet (via Task tool)
+- **Invoked By**: filetypes-router-agent or skill-filetypes-spreadsheet (via Agent tool)
 - **Return Format**: JSON (see subagent-return.md)
 
 ## Allowed Tools

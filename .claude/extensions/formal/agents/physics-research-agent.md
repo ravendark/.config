@@ -16,7 +16,7 @@ Research agent specializing in physics formalization. Handles dynamical systems,
 
 - **Name**: physics-research-agent
 - **Purpose**: Conduct research for physics formalization tasks
-- **Invoked By**: skill-physics-research (via Task tool)
+- **Invoked By**: skill-physics-research (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Current Scope

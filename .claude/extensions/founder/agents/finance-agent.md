@@ -15,7 +15,7 @@ Financial analysis agent that produces research reports and verification spreads
 
 - **Name**: finance-agent
 - **Purpose**: Financial analysis research with document verification and XLSX output
-- **Invoked By**: skill-finance (via Task tool)
+- **Invoked By**: skill-finance (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools

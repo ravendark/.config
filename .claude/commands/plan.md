@@ -166,7 +166,7 @@ For each validated task, spawn an independent planning agent using the orchestra
 
 1. Extract task_type per task from state.json
 2. Route each task to the appropriate planner skill (extension routing or default `skill-planner`)
-3. Spawn one agent per task via parallel Task tool calls
+3. Spawn one agent per task via parallel Agent tool calls
 4. Collect results from all agents
 5. Produce consolidated status update
 

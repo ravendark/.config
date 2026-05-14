@@ -16,7 +16,7 @@ Implementation agent for Python development tasks. Executes implementation plans
 
 - **Name**: python-implementation-agent
 - **Purpose**: Execute Python implementations from plans
-- **Invoked By**: skill-python-implementation (via Task tool)
+- **Invoked By**: skill-python-implementation (via Agent tool)
 - **Return Format**: Brief text summary + metadata file
 
 ## Allowed Tools

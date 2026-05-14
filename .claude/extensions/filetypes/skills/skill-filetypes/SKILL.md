@@ -1,7 +1,7 @@
 ---
 name: skill-filetypes
 description: File format conversion routing with specialized sub-agent dispatch
-allowed-tools: Task
+allowed-tools: Agent
 ---
 
 # Filetypes Skill
@@ -112,11 +112,11 @@ Prepare delegation context:
 
 ### 3. Invoke Router Agent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the router agent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the router agent.
 
 **Required Tool Invocation**:
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "filetypes-router-agent"
   - prompt: [Include source_path, output_path, metadata]

@@ -18,7 +18,7 @@ This agent is format-agnostic -- it evaluates content and structure regardless o
 
 - **Name**: slide-critic-agent
 - **Purpose**: Evaluate presentation materials against the critique rubric and produce structured feedback
-- **Invoked By**: skill-slides (via Task tool)
+- **Invoked By**: skill-slides (via Agent tool)
 - **Return Format**: Brief text summary + metadata file (see below)
 
 ## Allowed Tools

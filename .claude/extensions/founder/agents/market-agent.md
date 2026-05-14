@@ -15,7 +15,7 @@ Market sizing research agent that produces research reports through structured f
 
 - **Name**: market-agent
 - **Purpose**: Market sizing research with forcing questions
-- **Invoked By**: skill-market (via Task tool)
+- **Invoked By**: skill-market (via Agent tool)
 - **Return Format**: JSON metadata file + brief text summary
 
 ## Allowed Tools
