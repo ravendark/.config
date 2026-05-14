@@ -1,14 +1,16 @@
 ---
-next_project_number: 562
+next_project_number: 564
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-13. 7 active tasks remaining.*
+*Updated 2026-05-13. 9 active tasks remaining.*
 
 ### Pending
+- **562** [RESEARCHED] -- Upgrade consult report to interactive actionable checklist format
+- **563** [NOT STARTED] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
@@ -18,6 +20,21 @@ next_project_number: 562
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 562. Upgrade consult report to interactive actionable checklist format
+- **Effort**: 1-3 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Research**: [562_consult_checklist_report_format/reports/01_consult-checklist-research.md]
+- **Description**: Upgrade legal-analysis-agent report format to interactive actionable checklist. Change Stage 3-6 flow so findings are presented one-at-a-time via AskUserQuestion with Accept/Reject/Modify decisions (grouped by category). After all findings, offer a revision pass, then compile the full checklist report with per-finding decision checkboxes and a summary revision checklist table.
+
+### 563. Make /consult always create a task automatically
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 562
+- **Description**: Update consult.md command and skill-consult to always create a task on invocation. Auto-generate task slug from input, create state.json + TODO.md entries before delegation, remove standalone/temp-file mode, display task number and next steps at Gate Out.
 
 ### 560. Research model routing best practices for agent system
 - **Effort**: 1-3 hours
@@ -114,12 +131,14 @@ next_project_number: 562
 
 | Priority | Task | Status | Next Action |
 |----------|------|--------|-------------|
-| 1 | 560 | [NOT STARTED] | /research 560 |
-| 2 | 561 | [NOT STARTED] | (depends on 560) |
-| 3 | 500 | [RESEARCHED] | /plan 500 |
-| 4 | 501 | [PLANNED] | /implement 501 |
-| 5 | 87 | [RESEARCHED] | /plan 87 |
-| 6 | 78 | [PLANNED] | /implement 78 |
+| 1 | 562 | [NOT STARTED] | /research 562 |
+| 2 | 563 | [NOT STARTED] | /research 563 (depends: 562) |
+| 3 | 560 | [COMPLETED] | /todo |
+| 4 | 561 | [COMPLETED] | /todo |
+| 5 | 500 | [RESEARCHED] | /plan 500 |
+| 6 | 501 | [PLANNED] | /implement 501 |
+| 7 | 87 | [RESEARCHED] | /plan 87 |
+| 8 | 78 | [PLANNED] | /implement 78 |
 
 ---
 

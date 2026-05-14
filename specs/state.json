@@ -1,7 +1,70 @@
 {
   "version": "1.0.0",
-  "next_project_number": 562,
+  "next_project_number": 564,
   "active_projects": [
+    {
+      "project_number": 562,
+      "project_name": "consult_checklist_report_format",
+      "status": "researched",
+      "task_type": "meta",
+      "description": "Upgrade legal-analysis-agent report format to interactive actionable checklist. Change Stage 3-6 flow so findings are presented one-at-a-time via AskUserQuestion with Accept/Reject/Modify decisions (grouped by category). After all findings, offer a revision pass, then compile the full checklist report with per-finding decision checkboxes and a summary revision checklist table. Based on the format in Vision specs/203_legal_consult_revisions/reports/01_legal-consult-revisions.md.",
+      "effort": "1-3 hours",
+      "dependencies": [],
+      "created": "2026-05-13T23:00:00Z",
+      "last_updated": "2026-05-14T04:25:56Z",
+      "artifacts": [
+        {
+          "path": "specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md",
+          "type": "research",
+          "summary": "Comprehensive research report covering example format analysis, file inventory (2 files), stage-by-stage new flow design, AskUserQuestion per-finding design, report compilation template, and Vision repo sync requirements"
+        }
+      ],
+      "session_id": "sess_1778732454_d40193",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "The /consult legal-analysis-agent uses a four-category output structure for consultation reports: (1) Translation Gaps, (2) Credibility Concerns, (3) Missing Concerns, (4) Strengths to Preserve. The canonical example is at /home/benjamin/Projects/Logos/Vision/specs/203_legal_consult_revisions/reports/01_legal-consult-revisions.md. Each finding uses a **Decision**: [x] Accept  [ ] Reject  [ ] Modify: {notes} checkbox pattern. The Revision Checklist table at the end has columns: # | Item | Lines | Priority | Status ([ ]) and includes only accepted/modified findings.",
+          "category": "PATTERN",
+          "source_artifact": "specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "legal-analysis-agent",
+            "consult",
+            "checklist",
+            "report-format",
+            "decision-checkboxes",
+            "founder-extension"
+          ]
+        },
+        {
+          "content": "The legal-analysis-agent.md exists in TWO locations that must stay in sync: (1) /home/benjamin/.config/nvim/.claude/extensions/founder/agents/legal-analysis-agent.md and (2) /home/benjamin/Projects/Logos/Vision/.claude/agents/legal-analysis-agent.md. These files were identical at task 562 research time (2026-05-13). The consult.md command and skill-consult/SKILL.md files also have Vision mirrors but do NOT need changes for the checklist format upgrade.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "legal-analysis-agent",
+            "vision-project",
+            "sync",
+            "mirror-files",
+            "founder-extension"
+          ]
+        }
+      ]
+    },
+    {
+      "project_number": 563,
+      "project_name": "consult_auto_task_creation",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Make /consult always create a task automatically. Update consult.md command Gate In to auto-generate task slug from input and create task entry in state.json + TODO.md before delegation. Update skill-consult to remove standalone/temp-file mode and always use task directory for report storage. Update command Gate Out to display task number and next steps (Run /plan N). Keep existing task-number input type for attaching to existing tasks.",
+      "effort": "1-3 hours",
+      "dependencies": [
+        562
+      ],
+      "created": "2026-05-13T23:00:00Z",
+      "last_updated": "2026-05-13T23:00:00Z",
+      "artifacts": []
+    },
     {
       "project_number": 87,
       "project_name": "investigate_wezterm_terminal_directory_change",
