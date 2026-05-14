@@ -414,6 +414,21 @@ fi
 
 # Fallback to default implementer if no extension routing found
 skill_name=${skill_name:-"skill-implementer"}
+
+# Routing validation warning: fire when a non-default task type was requested
+# but no extension routing was found (and manifests did exist to search through)
+if [ -z "$skill_name" ] || [ "$skill_name" = "skill-implementer" ]; then
+  case "$task_type" in
+    general|meta|markdown)
+      : # Default task types — no warning needed
+      ;;
+    *)
+      if [ "$manifest_count" -gt 0 ]; then
+        echo "[WARN] Task type '$task_type' requested but no extension routing found in $manifest_count manifest(s). Falling back to skill-implementer. If this task should use a specialized implementer, check that the correct extension is installed and its manifest.json has a 'routing.implement.$task_type' entry."
+      fi
+      ;;
+  esac
+fi
 ```
 
 **Extension Skills Location**: Extension skills are located in `.opencode/extensions/{ext}/skills/`. OpenCode discovers these skills dynamically by reading `routing` entries from each extension's `manifest.json`. The bash discovery code above is the authoritative runtime mechanism; no hardcoded tables are used.

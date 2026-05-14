@@ -148,15 +148,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Add Routing Validation Warning [NOT STARTED]
+### Phase 3: Add Routing Validation Warning [COMPLETED]
 
 **Goal**: Add explicit warning logic to implement.md, research.md, and plan.md in the nvim canonical source when a non-default task type is detected but no extension routing was found, making silent fallback visible.
 
 **Tasks**:
-- [ ] Add a warning block after the manifest discovery loop in the nvim implement.md that warns when `task_type` is not `general`/`meta`/`markdown` AND `skill_name` is empty AND `manifest_count > 0`
-- [ ] Add the same warning block to the nvim research.md
-- [ ] Add the same warning block to the nvim plan.md
-- [ ] Re-run the sync script from Phase 2 to propagate the validation warning to all child projects
+- [x] Add a warning block after the manifest discovery loop in the nvim implement.md that warns when `task_type` is not `general`/`meta`/`markdown` AND `skill_name` is empty AND `manifest_count > 0` *(completed)*
+- [x] Add the same warning block to the nvim research.md *(completed)*
+- [x] Add the same warning block to the nvim plan.md *(completed)*
+- [x] Re-run the sync script from Phase 2 to propagate the validation warning to all child projects *(completed: 15 files updated across 5 child projects)*
 
 **Timing**: 30 minutes
 
