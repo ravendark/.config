@@ -1,7 +1,7 @@
 # Implementation Plan: Upgrade Legal Analysis Agent to Interactive Checklist Format
 
 - **Task**: 562 - consult_checklist_report_format
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md

@@ -9,11 +9,11 @@ next_project_number: 567
 *Updated 2026-05-13. 12 active tasks remaining.*
 
 ### Pending
-- **564** [IMPLEMENTING] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
+- **564** [COMPLETED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **565** [NOT STARTED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
 - **566** [NOT STARTED] -- Port escalation/compliance fixes to .claude/ reference system (depends: 565)
 - **562** [COMPLETED] -- Upgrade consult report to interactive actionable checklist format
-- **563** [NOT STARTED] -- Make /consult always create a task automatically (depends: 562)
+- **563** [RESEARCHING] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
@@ -26,11 +26,12 @@ next_project_number: 567
 
 ### 564. Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **Effort**: 1-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [564_lean_agent_escalation_protocol_vacuous_prohibition/reports/01_escalation-protocol-research.md]
 - **Plan**: [564_lean_agent_escalation_protocol_vacuous_prohibition/plans/01_escalation-protocol-plan.md]
+- **Summary**: [564_lean_agent_escalation_protocol_vacuous_prohibition/summaries/01_escalation-protocol-summary.md]
 - **Description**: Add formal escalation protocol and vacuous-definition prohibition to the lean-implementation-agent in /home/benjamin/Projects/ProofChecker/.opencode/. When a phase cannot be completed properly, agent MUST mark it [BLOCKED] with documented blocker and return status partial — never create vacuous Lean definitions (def X := True, def X := Unit) to paper over inability. Also: define vacuous proof explicitly with examples, enforce phase-granular commits (commit after each phase, not batch), add task complexity warning to GATE IN for plans with >20h estimated effort.
   - **Target files**: `.opencode/agent/subagents/lean-implementation-agent.md`, `.opencode/rules/lean4.md`
 
@@ -62,7 +63,7 @@ next_project_number: 567
 
 ### 563. Make /consult always create a task automatically
 - **Effort**: 1-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: 562
 - **Description**: Update consult.md command and skill-consult to always create a task on invocation. Auto-generate task slug from input, create state.json + TODO.md entries before delegation, remove standalone/temp-file mode, display task number and next steps at Gate Out.
