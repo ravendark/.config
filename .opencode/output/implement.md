@@ -1,7 +1,7 @@
 # /implement Command
 Execute implementation plan with automatic resume support by delegating to the appropriate implementation skill/subagent.
 ## Arguments
-- `107 Follow the plan and Burgess's method given in /home/benjamin/Projects/ProofChecker/literature/Burgess_1982_Axioms_for_tense_logic_Since_and_Until.md rather than attempting novel solutions that promise to be simpler but won't work.` - Task number(s) (required). Supports:
+- `129` - Task number(s) (required). Supports:
   - Single task: `353`
   - Comma-separated: `7, 22, 59`
   - Ranges: `22-24`
@@ -32,7 +32,7 @@ Parse raw arguments to extract task numbers and remaining arguments (flags, focu
 **Algorithm** (inline `parse_task_args()`):
 ```bash
 parse_task_args() {
-  local input="107 Follow the plan and Burgess's method given in /home/benjamin/Projects/ProofChecker/literature/Burgess_1982_Axioms_for_tense_logic_Since_and_Until.md rather than attempting novel solutions that promise to be simpler but won't work."
+  local input="129"
   local task_spec=""
   local remaining=""
   # Match leading task specification: digits, commas, hyphens, spaces
@@ -439,146 +439,126 @@ Next: /implement {N}
 - Skill returns partial/failed status
 - Error details included in result
 - User can fix issues and re-run /implement
-Thinking: The user is running /implement 107 with additional context about following the plan and Burgess's method. Let me parse this:
-Task number: 107
-The remaining text is context/focus for the implementation, not flags.
-Let me follow the execution flow:
-1. Parse task numbers - single task 107
-2. Fall through to CHECKPOINT 1: GATE IN
-Let me start by looking up task 107 in state.json and finding the implementation plan.
-# Lookup task 107 in state.json
-$ jq -r '.active_projects[] | select(.project_number == 107)' specs/state.json
+Thinking: The user wants to implement task 129. This is a single task, so I need to follow the single-task flow. Let me parse the task number and go through the checkpoints.
+The task number is 129, and there are no other flags (no --team, --force, etc. visible in the command).
+Let me start by looking up the task in state.json and finding the implementation plan.
+# Lookup task 129 in state.json
+$ jq -r --argjson num 129 '.active_projects[] | select(.project_number == $num)' specs/state.json
 {
-  "project_number": 107,
-  "project_name": "chain_design_diagnostics_for_representation_theorem",
+  "project_number": 129,
+  "project_name": "weak_reflexive_completeness_conservative_extension",
   "status": "implementing",
-  "language": "lean4",
   "task_type": "lean4",
   "priority": "critical",
-  "description": "Design diagnostics for a modified chain construction that supports a mathematically correct representation theorem for TM bimodal logic. Six rounds of team research completed on until_alt branch, identifying Burgess 1982 chronicle construction as the correct approach. Key findings: (1) A3a/A4a NOT derivable under reflexive semantics, (2) strict G/H semantics (already on irr_until branch) enable direct application of Burgess proof, (3) Box+G+H-only representation theorem is a quick-win entry point (8-15h), (4) full Burgess chronicle construction for Until/Since estimated 60-90h additional.",
-  "created": "2026-04-23T22:39:08Z",
-  "last_updated": "2026-05-07T17:57:57Z",
+  "description": "Develop a weak/reflexive temporal sub-language for discrete frames where G_w evaluates over the reflexive closure (y >= x) rather than the strict order (y > x). Prove completeness for this sub-language using standard Henkin canonical model methods (no chronicle construction, no IR rule), then transfer completeness to the strict system via model-theoretic argument, bypassing the succ_cofinal gap entirely.\n\nPhase 1: Weak sub-language definition (~100 lines). G_w(phi) := phi AND G(phi), H_w := phi AND H(phi), F_w := phi OR F(phi), P_w := phi OR P(phi). Weak Until/Since with reflexive endpoints.\n\nPhase 2: Weak axiom system (~200 lines). Derive weak axioms in the strict system. G_w(phi)->phi is trivial. Weak Z1 (FG_w(phi)->G_w(phi)) derivable from strict Z1.\n\nPhase 3: Weak Henkin canonical model (~500-800 lines). Standard construction where each point is a distinct MCS. No chronicle, no IR rule, no gap scenario. Constant-MCS structurally impossible.\n\nPhase 4: Z1 + IsSuccArchimedean in the weak model (~200-400 lines). Doets maximum principle (Claim 10) + compression from sum-of-zeta to single zeta (Claims 9-11).\n\nPhase 5: Model-theoretic completeness transfer (~100 lines). IMPORTANT: Expressing strict G in terms of weak operators is impossible (U_w(phi,bot) = phi in weak semantics, so Next is not definable). Instead use model-theoretic argument: if psi is not provable in the strict system, then neg-psi is consistent in the strict system. Since every weak axiom is a strict theorem (G_w = phi AND G), neg-psi is consistent in the weak system. By weak completeness, there exists a weak countermodel. This is also a strict countermodel (same domain, same valuation, reinterpret <= as <). Contrapositive: valid under strict -> provable.\n\nPhase 6: Integration (~100 lines). Wire weak completeness + transfer into existing pipeline.\n\nPhase 7: Close the sorry (~50 lines). Replace the admitted limitDomSubtype_isSuccArchimedean in ChronicleToCountermodel.lean with the Henkin-derived IsSuccArchimedean, making dd_countermodel_chronicle_discrete sorry-free.",
+  "dependencies": [],
+  "created": "2026-05-13T07:34:37Z",
+  "last_updated": "2026-05-14T16:22:37Z",
 …
 Click to expand
-✱ Glob "specs/107_*/plans/*.md" (42 matches)
-Thinking: Let me analyze what I have:
-1. Task 107 exists, status is "implementing", language is "lean4"
-2. The latest plan is 64_implementation-plan.md
-3. The user message says "Follow the plan and Burgess's method given in /home/benjamin/Projects/ProofChecker/literature/Burgess_1982_Axioms_for_tense_logic_Since_and_Until.md rather than attempting novel solutions that promise to be simpler but won't work."
-This is a single task (107). I need to:
-1. Checkpoint 1: Gate in - already validated (task exists, status "implementing" is valid)
-2. Stage 1.5: Parse flags - no team flag, no force flag, no special flags
-3. Stage 2: Delegate to appropriate skill
-Since this is a lean4 task and no team mode, I need to check extension routing. Let me first read the plan to understand the resume point, then delegate.
-Let me read the plan and check for extension manifests.
-→ Read specs/107_chain_design_diagnostics_for_representation_theorem/plans/64_implementation-plan.md 
+✱ Glob "specs/129_*/plans/*.md" (3 matches)
+Thinking: Let me parse the task: task 129, status is "implementing", with resume_phase = 1. Let me read the latest plan file to understand the phases.
+→ Read specs/129_weak_reflexive_completeness_conservative_extension/plans/05_chronicle-reynolds-plan.md 
+Thinking: Let me analyze the state:
+1. Task 129 exists and status is "implementing" - valid for implementation
+2. Plan file: 05_chronicle-reynolds-plan.md with status PARTIAL
+3. resume_phase is 1 (Phase 1 is IN PROGRESS)
+4. No team flag, no --force flag
+This is a single-task flow (exactly one task number). Let me proceed through the checkpoints.
+First: CHECKPOINT 1 - GATE IN
+- Task exists: ✓
+- Status is "implementing" (not terminal): ✓
+- Plan exists: ✓
+- Resume point: Phase 1 IN PROGRESS
+Now STAGE 1.5 - PARSE FLAGS
+- No team flag -> team_mode = false
+- No --force -> force_mode = false
+- No effort/model flags
+- No clean flag -> clean_flag = false
+Now STAGE 2 - DELEGATE
+- Not team mode, so check extension routing
+- task_type is "lean4" - need to check extension manifests
+- Let me check if there's a routing for "lean4" implement
+Let me check extension manifests and then delegate.
+Implementing Task 129: weak_reflexive_completeness_conservative_extension
 ✱ Glob ".opencode/extensions/*/manifest.json" 
-Thinking: Let me analyze the task:
-1. Task 107 exists in state.json with status "implementing"
-2. The latest plan is 64_implementation-plan.md
-3. Plan shows:
-   - Phases 1-5: COMPLETED
-   - Phase 6: PARTIAL (2 sorries remain at CC:1598,1633)
-   - Phases 7-11: NOT STARTED
-4. Resume point is Phase 6 (partial)
-5. No extension manifests exist, so task type "lean4" falls back to default skill-implementer
-6. No --team flag, no effort flags, no model flags
-7. The user's remaining args include: "Follow the plan and Burgess's method given in /home/benjamin/Projects/ProofChecker/literature/Burgess_1982_Axioms_for_tense_logic_Since_and_Until.md rather than attempting novel solutions that promise to be simpler but won't work."
-This is a single-task mode. Let me proceed with the CHECKPOINT 1 → STAGE 1.5 → STAGE 2 flow.
-Session ID generation... Let me proceed to delegate to skill-implementer.
-Let me first read the Burgess paper to understand the method, then delegate.
-Wait, actually the instructions say to immediately continue to CHECKPOINT 1 (GATE IN), then STAGE 1.5, then STAGE 2 (DELEGATE). Let me follow the flow.
-Implementing Task 107: chain_design_diagnostics_for_representation_theorem
-- Task found, status is "implementing" (not terminal), valid
-- Plan found: 64_implementation-plan.md
-- Resume point: Phase 6 (PARTIAL)
-- No flags to parse (no --team, --force, --fast, --hard, --clean, --haiku, --sonnet, --opus)
-- No extension manifests → route to skill-implementer
-Session ID: I need to generate one. Let me use the current timestamp.
-Let me now invoke the skill-implementer with the appropriate parameters.
-Implementing Task 107: chain_design_diagnostics_for_representation_theorem
-# Generate session ID for task 107
-$ echo "sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
-sess_1778197668_abb387
-Thinking: Let me analyze the current state:
-1. Task 107 exists in state.json with status "implementing"
-2. Latest plan is 64_implementation-plan.md with status IN PROGRESS
-3. Phases 1-5 are COMPLETED
-4. Phase 6 is PARTIAL - 2 sorries remain at CC:1598,1633
-5. Phase 7-11 are NOT STARTED
-The plan says resume_phase is 6. The status is "implementing" which is valid for resumption.
+Thinking: Let me understand the current state:
+1. Task 129 exists and has status "implementing"
+2. The latest plan is 05_chronicle-reynolds-plan.md
+3. The plan has 7 phases, Phase 1 is IN PROGRESS, Phases 2-7 are NOT STARTED
+4. No --team flag was given, so single-agent mode
+5. No extension routing found, so the default skill is skill-implementer
+6. Session ID from state is sess_1778774251_c60081, resume_phase is 1
 Now I need to:
-- Parse remaining args from "Follow the plan and Burgess's method given in /home/benjamin/Projects/ProofChecker/literature/Burgess_1982_Axioms_for_tense_logic_Since_and_Until.md rather than attempting novel solutions that promise to be simpler but won't work."
-- This is a single task (107)
-- No --team flag
-- No --force flag
-- No model flags
-- The remaining text is essentially a focus prompt/directive
-Let me parse:
-- task_spec = "107"
-- remaining = "Follow the plan and Burgess's method given in ..."
-Since this is a single task, I'll use the default skill-implementer route. No extension manifests found, so I'll route to skill-implementer.
-Let me invoke the skill with the task details.
-Single task #107. Status implementing, plan v64 [IN PROGRESS], resume from Phase 6 (2 sorries remain). Routing to skill-implementer.
+1. Generate a session ID
+2. Delegate to skill-implementer with the appropriate parameters
+The session ID is already in the state, but let me generate a fresh one for this run. Actually wait, the state has session_id: "sess_1778774251_c60081" and resume_phase: 1. I should use the existing session_id so it can be associated with the task.
+Let me delegate to skill-implementer with:
+- task_number=129
+- plan_path=specs/129_weak_reflexive_completeness_conservative_extension/plans/05_chronicle-reynolds-plan.md
+- resume_phase=1
+- session_id=sess_1778774251_c60081
+- effort_flag=null
+- model_flag=null
+- clean_flag=false
 → Skill "skill-implementer"
-Thinking: The skill has been loaded. Now I need to follow the skill-implementer workflow:
-1. Stage 1: Input Validation - already done (task 107 exists, status is "implementing")
+Thinking: The skill-implementer has been loaded. Now I need to follow its execution flow. Let me proceed with the stages:
+1. Stage 1: Input Validation - I already have the task data from state.json
 2. Stage 2: Preflight Status Update
 3. Stage 3: Create Postflight Marker
-4. Stage 4: Prepare Delegation Context
-5. Stage 4b: Read Format Specification
-6. Stage 5: Invoke Subagent
-Let me proceed step by step. First, Stage 2: preflight status update, then Stage 3: create postflight marker, and Stage 4b: read format spec, all in parallel since they're independent.
-# Preflight status update for task 107
-$ bash .opencode/scripts/update-task-status.sh preflight "107" implement "sess_1778197668_abb387"
+4. Stage 3a: Calculate Artifact Number
+5. Stage 4: Prepare Delegation Context
+6. Stage 4b: Read Format Specification
+7. Stage 5: Invoke Subagent
+The task is already at implementing status with resume_phase: 1 from the state data. Let me proceed with the preflight and delegation.
+The session_id from the state is sess_1778774251_c60081. I should reuse this.
+Let me execute the preflight status update, create the marker, and then delegate.
+The skill is loaded. Let me proceed with the execution flow.
+# Preflight status update for task 129
+$ bash .opencode/scripts/update-task-status.sh preflight "129" implement "sess_1778774251_c60081"
 (no output)
-→ Read .opencode/context/formats/summary-format.md 
-↳ Loaded .opencode/AGENTS.md
-# Create postflight marker for task 107
-$ cat > "specs/107_chain_design_diagnostics_for_representation_theorem/.postflight-pending" << 'EOF'
+# Read summary format specification
+$ cat .opencode/context/formats/summary-format.md
+# Summary Artifact Standard
+**Scope:** Implementation summaries, plan summaries, research summaries, and project rollups produced by /implement, /plan, /research, /review, and related agents.
+## Metadata (required)
+- **Task**: `{id} - {title}`
+- **Status**: `[NOT STARTED]` | `[IN PROGRESS]` | `[BLOCKED]` | `[ABANDONED]` | `[COMPLETED]`
+- **Started**: `{ISO8601}` when summary drafting begins
+- **Completed**: `{ISO8601}` when published
+- **Effort**: `{estimate}` (time to produce summary)
+…
+Click to expand
+# Create postflight pending marker
+$ padded_num=$(printf "%03d" "129") && task_dir="specs/${padded_num}_weak_reflexive_completeness_conservative_extension" && mkdir -p "$task_dir" && cat > "${task_dir}/.postflight-pending" << 'EOF'
 {
-  "session_id": "sess_1778197668_abb387",
+  "session_id": "sess_1778774251_c60081",
   "skill": "skill-implementer",
-  "task_number": 107,
+  "task_number": 129,
   "operation": "implement",
   "reason": "Postflight pending: status update, artifact linking, git commit",
-  "created": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  "created": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "stop_hook_active": false
 }
 EOF
-(no output)
-Thinking: Let me continue with the implementation flow. I've completed:
-1. Task lookup and validation
-2. Plan file identification (v64, IN PROGRESS, resume from Phase 6)
-3. Preflight status update
-4. Postflight marker creation
-5. Read summary format file
-Now I need to:
-- Calculate artifact number
-- Retrieve memories (skip clean_flag check)
-- Spawn the subagent via Task tool
-Let me calculate the artifact number first.
-# Calculate artifact number for task 107
-$ next_num=$(jq -r --argjson num 107 '.active_projects[] | select(.project_number == $num) | .next_artifact_number // 1' specs/state.json)
-if [ "$next_num" -le 1 ]; then
-  artifact_number=1
-else
-  artifact_number=$((next_num - 1))
-fi
-echo "artifact_number=$artifact_number"
-artifact_number=64
-# Retrieve relevant memories for task 107
-$ bash .opencode/scripts/memory-retrieve.sh "Design diagnostics for a modified chain construction that supports a mathematically correct representation theorem for TM bimodal logic" "lean4" "" 2>/dev/null || echo ""
-Thinking: Let me now invoke the subagent. I have all the context I need:
-- Task 107, status "implementing"
-- Plan v64 is the latest plan, status IN PROGRESS
-- Resume from Phase 6 (2 sorries remain)
-- Artifact number: 64
-- No memories retrieved
-- Session ID: sess_1778197668_abb387
-- Plan path: specs/107_chain_design_diagnostics_for_representation_theorem/plans/64_implementation-plan.md
-- Metadata file path: specs/107_chain_design_diagnostics_for_representation_theorem/.return-meta.json
-The task type is "lean4" - I need to check if there's extension routing for this. Looking at the AGENTS.md, there's no extension routing for lean4 implement - it falls back to skill-implementer, which routes to general-implementation-agent.
-The remaining user instruction says: "Follow the plan and Burgess's method given in /home/benjamin/Projects/ProofChecker/literature/Burgess_1982_Axioms_for_tense_logic_Since_and_Until.md rather than attempting novel solutions that promise to be simpler but won't work."
-Let me now spawn the general-implementation-agent with the full context.
-│ General-Implementation-Agent Task — Execute implementation for task 107
-└ 9 toolcalls · 1m 55s
+echo "Marker created"
+Marker created
+Thinking: Let me now proceed to calculate the artifact number, then spawn the subagent.
+# Calculate artifact number for task 129
+$ next_num=$(jq -r --argjson num 129 '.active_projects[] | select(.project_number == $num) | .next_artifact_number // 1' specs/state.json) && if [ "$next_num" -le 1 ]; then echo 1; else echo $((next_num - 1)); fi
+5
+Thinking: The artifact number is 5. Now I need to spawn the subagent. Let me prepare the full prompt with:
+- task context
+- delegation context
+- plan path
+- metadata file path
+- format specification
+- memory context
+- task-specific instructions
+Let me also check if we need memory retrieval. The --clean flag was not specified.
+# Retrieve relevant memories
+$ desc=$(jq -r --argjson num 129 '.active_projects[] | select(.project_number == $num) | .description // ""' specs/state.json) && task_type=$(jq -r --argjson num 129 '.active_projects[] | select(.project_number == $num) | .task_type // "general"' specs/state.json) && bash .opencode/scripts/memory-retrieve.sh "$desc" "$task_type" "" 2>/dev/null || echo ""
+Thinking: The memory retrieval returned empty, so no memory context to inject. Now I need to spawn the general-implementation-agent via the Task tool. Let me prepare a comprehensive prompt with all the required context.
+Now spawning the implementation subagent.
+│ General-Implementation-Agent Task — Execute implementation for task 129
+└ 5 toolcalls · 28.2s

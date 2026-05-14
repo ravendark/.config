@@ -21,7 +21,7 @@ next_project_number: 573
 
 ### 572. Diagnose OpenCode lean routing failure and improve agent system
 - **Effort**: medium
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 
 **Description**: Diagnose why `/implement 129` in /home/benjamin/Projects/ProofChecker/ invoked a general implementation agent instead of a lean implementation agent (output logged to ~/.config/nvim/.opencode/output/implement.md). Use this failure to identify all related issues in the OpenCode agent system routing, task type detection, and extension loading to improve reliability

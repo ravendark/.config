@@ -5,10 +5,11 @@
     {
       "project_number": 572,
       "project_name": "diagnose_opencode_lean_routing_failure",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "created": "2026-05-14T16:44:59Z",
-      "last_updated": "2026-05-14T16:44:59Z"
+      "last_updated": "2026-05-14T16:47:03Z",
+      "session_id": "sess_1747241120_572res"
     },
     {
       "project_number": 571,
