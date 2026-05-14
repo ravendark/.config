@@ -1,6 +1,61 @@
 {
   "completed_projects": [
     {
+      "project_number": 573,
+      "project_name": "bidirectional_discord_opencode_relay",
+      "status": "abandoned",
+      "task_type": "general",
+      "created": "2026-05-14T19:41:25Z",
+      "last_updated": "2026-05-14T22:04:16Z",
+      "session_id": "sess_1778796063_614ba8",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "The OpenCode TUI embedded HTTP server (started by opencode --port) exposes a Server-Sent Events endpoint at GET /event with no authentication required. Events use standard SSE format. Key assistant-response events: message.part.updated (streaming text), message.updated (role=assistant), and session.idle (clean completion signal). Pure aiohttp can consume the stream via async iteration over response.content.",
+          "category": "PATTERN",
+          "source_artifact": "specs/573_bidirectional_discord_opencode_relay/reports/01_discord-opencode-relay.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "SSE",
+            "event-stream",
+            "TUI",
+            "aiohttp",
+            "message.part.updated",
+            "session.idle"
+          ]
+        },
+        {
+          "content": "When implementing a bidirectional relay where one path uses blocking POST and another uses SSE subscription, deduplication is required to prevent double-posting. Pattern: maintain a set of in-progress session IDs; add session_id before relay, remove after response is posted; SSE subscriber checks the set before posting.",
+          "category": "TECHNIQUE",
+          "source_artifact": "specs/573_bidirectional_discord_opencode_relay/reports/01_discord-opencode-relay.md",
+          "confidence": 0.88,
+          "suggested_keywords": [
+            "discord",
+            "opencode",
+            "relay",
+            "deduplication",
+            "SSE",
+            "bidirectional",
+            "asyncio"
+          ]
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "specs/573_bidirectional_discord_opencode_relay/reports/01_discord-opencode-relay.md",
+          "type": "research",
+          "summary": "Full analysis of OpenCode SSE event API, current bot architecture, deduplication strategy, and concrete implementation plan for TUI->Discord relay via TuiSseSubscriber class"
+        },
+        {
+          "path": "specs/573_bidirectional_discord_opencode_relay/plans/01_bidirectional-discord-opencode-relay.md",
+          "type": "plan",
+          "summary": "Implementation plan for bidirectional Discord-OpenCode relay with TuiSseSubscriber, deduplication, and integration hooks"
+        }
+      ],
+      "abandoned": "2026-05-14T22:24:53Z"
+    },
+    {
       "project_number": 559,
       "project_name": "implement_lifecycle_wezterm_indicator",
       "status": "abandoned",

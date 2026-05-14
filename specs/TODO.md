@@ -19,15 +19,6 @@ next_project_number: 574
 
 ## Tasks
 
-### 573. Implement bidirectional Discord-OpenCode relay
-- **Effort**: medium
-- **Status**: [PLANNED]
-- **Task Type**: general
-- **Research**: [573_bidirectional_discord_opencode_relay/reports/01_discord-opencode-relay.md]
-- **Plan**: [573_bidirectional_discord_opencode_relay/plans/01_bidirectional-discord-opencode-relay.md]
-
-**Description**: Subscribe to OpenCode TUI SSE events and push assistant responses to linked Discord threads. Currently the bot only relays Discord->OpenCode. When a user types in the OpenCode TUI and gets an assistant response, that exchange should automatically appear in the corresponding Discord thread via SSE event subscription on each linked TUI instance.
-
 ### 572. Diagnose OpenCode lean routing failure and improve agent system
 - **Effort**: medium
 - **Status**: [COMPLETED]
