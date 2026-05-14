@@ -22,6 +22,18 @@ Two research reports inform this plan:
 
 2. **reports/02_link-api-token-setup.md** -- Documents the completed sops-nix wiring of `link_api_token` through the full pipeline: `secrets.yaml` -> sops-nix decryption -> `/run/secrets/link_api_token` -> both the discord-bot service (via LoadCredential) and fish shell init (for Neovim). This supersedes the "empty token" issue described in report 01.
 
+### Corrections from Debug Session (post-research)
+
+Three bugs were discovered and fixed during bring-up; the guide must reflect the corrected state:
+
+1. **`setup_hook` never called**: This version of nextcord does not implement `setup_hook()`, so the HTTP API server (port 8080) was silently never started. Fixed by overriding `start()` in `bot.py`. Symptom: `ss -tlnp | grep 8080` shows nothing despite the service being "active".
+
+2. **`link_api_token` loaded as file path**: `config.py` used `os.environ.get("LINK_API_TOKEN")` instead of `read_credential()`, so the bot compared the Bearer token against the credential file path string, not its contents. Fixed in `config.py`. Auth IS enforced — `DISCORD_BOT_LINK_TOKEN` must match the sops secret exactly, not "any non-empty string".
+
+3. **`DISCORD_CHANNEL_ID` loaded as file path**: Same bug — `config.py` tried to `int()` the file path, failed, and defaulted to 0. Fixed in `config.py`. The channel must also be a **TextChannel** (not VoiceChannel); threads cannot be created in voice channels.
+
+4. **Credential files require service restart**: After `sudo nixos-rebuild switch`, the `/run/credentials/discord-bot.service/*` files are only updated when the service restarts. `nixos-rebuild` alone is not sufficient.
+
 ### Prior Plan Reference
 
 No prior plan.
@@ -88,14 +100,20 @@ Phases within the same wave can execute in parallel.
   - Managing sessions with `<leader>as` (Telescope picker: `<CR>` kills, `<C-o>` copies URL)
 - [ ] Write **Keybinding Reference** table (`<leader>ar`, `<leader>as`, Telescope actions)
 - [ ] Write **Bot HTTP API Reference** section with endpoint table and example curl commands (health, sessions, link, kill)
-- [ ] Write **Environment Variables** section covering both user-side (`DISCORD_BOT_URL`, `DISCORD_BOT_LINK_TOKEN`) and bot-side (managed by systemd, not user-set)
+- [ ] Write **Environment Variables** section covering:
+  - `DISCORD_BOT_LINK_TOKEN`: set automatically by fish shell init from `/run/secrets/link_api_token` (the sops-managed secret); must exactly match the bot's `link_api_token` secret — not "any non-empty string"
+  - `DISCORD_BOT_URL`: optional, defaults to `http://localhost:8080`
+  - Bot-side variables managed by systemd via LoadCredential (not user-set); note that all three credential variables (`DISCORD_BOT_TOKEN`, `OPENCODE_SERVER_PASSWORD`, `DISCORD_CHANNEL_ID`, `LINK_API_TOKEN`) are now read via `read_credential()` in `config.py`
 - [ ] Write **Service Management** section with systemctl commands (status, restart, logs via journalctl)
 - [ ] Write **Troubleshooting** section covering:
-  - HTTP API unresponsive / heartbeat blocking (symptom, diagnosis via journalctl, fix via restart)
-  - `DISCORD_BOT_LINK_TOKEN not set` error (verify fish shell init, check `/run/secrets/link_api_token` exists)
+  - Port 8080 not listening (`ss -tlnp | grep 8080` shows nothing): caused by the `setup_hook` bug (now fixed); if it recurs, restart the service
+  - Heartbeat blocking warnings in journalctl: normal — these do NOT prevent the HTTP API from working; no action needed unless port 8080 is also down
+  - `DISCORD_BOT_LINK_TOKEN mismatch` error: token must exactly match the sops `link_api_token` secret; fish sets it automatically from `/run/secrets/link_api_token` — verify with `echo $DISCORD_BOT_LINK_TOKEN` and compare to `cat /run/secrets/link_api_token`
+  - `DISCORD_BOT_LINK_TOKEN not set` error: Neovim was launched from a shell that did not source fish init; open a new fish terminal and launch Neovim from there
+  - Channel ID wrong type: `DISCORD_CHANNEL_ID` must point to a TextChannel; voice channels do not support threads; after changing the sops secret, restart the service (`sudo systemctl restart discord-bot`) — nixos-rebuild alone does not update running credentials
   - Session discovery failures (no session for CWD, multiple sessions)
   - OpenCode server not running (check `opencode-serve.service`)
-  - Discord thread not appearing (check bot token validity, channel ID)
+  - Discord thread not appearing (check bot token validity, channel ID via journalctl)
 - [ ] Write **Security Model** section (brief: sops-nix pipeline, no plaintext tokens, RAM-only tmpfs)
 - [ ] Write **Related Resources** section with links to `discord-bot.md`, plugin source files, bot source code
 - [ ] Review full document for accuracy against both research reports
@@ -144,7 +162,7 @@ Phases within the same wave can execute in parallel.
 - [ ] All required sections are present (Architecture, Prerequisites, Quick Start, Everyday Workflow, Keybinding Reference, API Reference, Environment Variables, Service Management, Troubleshooting, Security Model, Related Resources)
 - [ ] `guides/README.md` includes the new guide entry
 - [ ] No broken cross-references or dead links
-- [ ] Token setup information reflects the sops-nix pipeline (report 02), not the outdated "any non-empty string" pattern
+- [ ] Token setup information reflects the corrected state: auth IS enforced, `DISCORD_BOT_LINK_TOKEN` must match the sops `link_api_token` secret, fish sets it automatically
 - [ ] Guide follows existing conventions from `tts-stt-integration.md` (markdown structure, table formats, code block style)
 
 ## Artifacts & Outputs

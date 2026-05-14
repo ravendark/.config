@@ -5,17 +5,22 @@
     {
       "project_number": 572,
       "project_name": "diagnose_opencode_lean_routing_failure",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "created": "2026-05-14T16:44:59Z",
-      "last_updated": "2026-05-14T16:58:35Z",
-      "session_id": "sess_1747241120_572res",
+      "last_updated": "2026-05-14T17:04:55Z",
+      "session_id": "sess_1747241300_572plan",
       "next_artifact_number": 2,
       "artifacts": [
         {
           "path": "specs/572_diagnose_opencode_lean_routing_failure/reports/01_opencode-routing-diagnosis.md",
           "type": "research",
           "summary": "Root cause: OpenCode Glob tool silently returns 0 results for relative paths starting with .opencode/ (hidden directory). ProofChecker and 5 other child projects have unfixed routing. 9 issues cataloged."
+        },
+        {
+          "path": "specs/572_diagnose_opencode_lean_routing_failure/plans/01_opencode-routing-fix.md",
+          "type": "plan",
+          "summary": "4-phase plan to fix OpenCode extension routing across 6 child projects, create sync script, and add validation warnings"
         }
       ],
       "memory_candidates": [
@@ -45,6 +50,20 @@
             "propagation",
             "core-commands",
             "extension-loader"
+          ]
+        },
+        {
+          "content": "OpenCode Glob tool silently returns zero results for relative paths starting with hidden directories. All manifest discovery code must use absolute paths derived via git rev-parse --show-toplevel. Core routing commands are not managed by the extension loader and require manual propagation to child projects.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/572_diagnose_opencode_lean_routing_failure/plans/01_opencode-routing-fix.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode",
+            "glob",
+            "routing",
+            "manifest-discovery",
+            "hidden-directory",
+            "sync-script"
           ]
         }
       ]
