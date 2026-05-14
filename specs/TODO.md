@@ -10,7 +10,7 @@ next_project_number: 571
 
 ### Pending
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
-- **569** [NOT STARTED] -- Enhance general implementation agent (depends: 568)
+- **569** [RESEARCHED] -- Enhance general implementation agent (depends: 568)
 - **570** [NOT STARTED] -- Propagate improvements to extension agents (depends: 569)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
@@ -35,9 +35,10 @@ next_project_number: 571
 
 ### 569. Enhance general implementation agent with post-phase self-review and deviation tracking
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: 568
+- **Research**: [569_enhance_general_implementation_agent/reports/01_agent-enhancement-research.md]
 
 **Description**: Enhance `general-implementation-agent.md` with four improvements: (1) **Post-phase self-review** (new Stage 4D-ii) — after marking a phase `[COMPLETED]`, re-read the phase subtask list and verify each objective was addressed, noting any skipped items before proceeding to the next phase; (2) **Progressive handoff updates** — update the handoff document incrementally as each phase completes, not only at context exhaustion, so the handoff is always current; (3) **Deviation annotation in plan** — when deviating from plan, annotate the checklist item inline (e.g. `- [x] Task: ... *(deviation: used approach B instead of A — reason)*`); (4) **Final context-exhaustion checkpoint** — when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.
   - **Target files**: `.claude/agents/general-implementation-agent.md`

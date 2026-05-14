@@ -35,7 +35,7 @@
     {
       "project_number": 569,
       "project_name": "enhance_general_implementation_agent",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "description": "Enhance general-implementation-agent.md with: (1) Post-phase self-review step (new Stage 4D-ii) — after marking a phase [COMPLETED], re-read the phase subtask list and verify each objective was addressed, noting any skipped items; (2) Progressive handoff updates — update the handoff document incrementally as phases complete, not only at context exhaustion; (3) Deviation annotation in plan — when deviating from plan, annotate the checklist item with what was done differently and why; (4) Final context-exhaustion checkpoint — when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.",
       "effort": "2-3 hours",
@@ -43,7 +43,15 @@
         568
       ],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-13T00:00:00Z"
+      "last_updated": "2026-05-13T00:10:00Z",
+      "session_id": "sess_1747094700_d4e5f6",
+      "artifacts": [
+        {
+          "path": "specs/569_enhance_general_implementation_agent/reports/01_agent-enhancement-research.md",
+          "type": "research",
+          "summary": "Research report with exact insertion points and wording for 4 improvements to general-implementation-agent.md"
+        }
+      ]
     },
     {
       "project_number": 570,
