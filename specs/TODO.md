@@ -11,7 +11,7 @@ next_project_number: 571
 ### Pending
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
 - **569** [COMPLETED] -- Enhance general implementation agent (depends: 568)
-- **570** [RESEARCHED] -- Propagate improvements to extension agents (depends: 569)
+- **570** [PLANNED] -- Propagate improvements to extension agents (depends: 569)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
@@ -49,10 +49,11 @@ next_project_number: 571
 
 ### 570. Propagate implementation improvements to extension agents
 - **Effort**: 2-4 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: 569
 - **Research**: [570_propagate_improvements_extension_agents/reports/01_extension-agents-research.md]
+- **Plan**: [570_propagate_improvements_extension_agents/plans/01_extension-agents-plan.md]
 
 **Description**: Propagate the post-phase self-review, deviation tracking, progressive handoff updates, and final context checkpoint improvements from task 569 to all extension implementation agents. Research confirmed these agents are missing most of general-implementation-agent.md's progress tracking, self-review, handoff, and deviation features: `nix-implementation-agent.md` (0 handoff/deviation/self-check mentions), `neovim-implementation-agent.md` (0 matches), `lean-implementation-agent.md` (has some handoff support but lacks post-phase self-review and deviation tracking). Also check for python, web, z3, latex, typst agents if present. Bring each to parity using the updated formats from task 568 and patterns from task 569.
   - **Target files**: `.claude/extensions/*/agents/*-implementation-agent.md` (nix, neovim, lean, and any others present)
