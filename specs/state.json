@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 571,
+  "next_project_number": 572,
   "active_projects": [
+    {
+      "project_number": 571,
+      "project_name": "create_guide_discord_opencode_agents_neovim",
+      "status": "not_started",
+      "task_type": "general",
+      "created": "2026-05-14T15:40:29Z",
+      "last_updated": "2026-05-14T15:40:29Z"
+    },
     {
       "project_number": 568,
       "project_name": "update_artifact_formats_deviation_tracking",

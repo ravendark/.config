@@ -1,5 +1,5 @@
 ---
-next_project_number: 571
+next_project_number: 572
 ---
 
 # TODO
@@ -18,6 +18,13 @@ next_project_number: 571
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
+
+### 571. Create guide for using Discord to manage OpenCode agents from Neovim
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: general
+
+**Description**: Create a workflow guide in `/home/benjamin/.config/nvim/.opencode/docs/guides/` for using Discord to manage OpenCode agents. Reference `/home/benjamin/.dotfiles/docs/discord-bot.md` which outlines the existing NixOS Discord bot setup. Research how to use these resources from within Neovim, describing the most convenient and low-friction workflow for everyday use.
 
 ### 568. Update artifact formats for deviation tracking
 - **Effort**: 1-2 hours
@@ -137,4 +144,7 @@ next_project_number: 571
 | 561 | Implement tiered model defaults across agent system | 2026-05-13 |
 | 560 | Research model routing best practices for agent system | 2026-05-13 |
 | 557 | Research lifecycle-aware notification patterns for Claude Code hooks | 2026-05-13 |
+
+
+## Recommended Order
 
