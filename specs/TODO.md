@@ -9,7 +9,7 @@ next_project_number: 567
 *Updated 2026-05-13. 12 active tasks remaining.*
 
 ### Pending
-- **564** [PLANNED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
+- **564** [IMPLEMENTING] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **565** [NOT STARTED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
 - **566** [NOT STARTED] -- Port escalation/compliance fixes to .claude/ reference system (depends: 565)
 - **562** [IMPLEMENTING] -- Upgrade consult report to interactive actionable checklist format
@@ -26,7 +26,7 @@ next_project_number: 567
 
 ### 564. Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [564_lean_agent_escalation_protocol_vacuous_prohibition/reports/01_escalation-protocol-research.md]

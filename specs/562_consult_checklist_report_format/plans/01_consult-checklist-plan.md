@@ -69,7 +69,7 @@ No literature source referenced.
 | 2 | 2 | 1 |
 | 3 | 3 | 2 |
 
-### Phase 1: Rewrite Stages 3-4 (Internal Analysis + Interactive Per-Finding Loop) [IN PROGRESS]
+### Phase 1: Rewrite Stages 3-4 (Internal Analysis + Interactive Per-Finding Loop) [COMPLETED]
 
 **Goal**: Replace the current Stage 3 (Read and Translate) and Stage 4 (Reframe and Probe) with the new silent analysis pass and interactive per-finding AskUserQuestion loop.
 
@@ -181,7 +181,7 @@ No literature source referenced.
 
 ---
 
-### Phase 2: Rewrite Stages 5-6, Update Stage 7 and Critical Requirements [NOT STARTED]
+### Phase 2: Rewrite Stages 5-6, Update Stage 7 and Critical Requirements [COMPLETED]
 
 **Goal**: Add the revision pass (Stage 5), compile checklist report (Stage 6), update Stage 7 metadata fields, and update the MUST DO / MUST NOT lists to reflect the new flow.
 
@@ -351,7 +351,7 @@ No literature source referenced.
 
 ---
 
-### Phase 3: Sync to Vision Project and Verify [NOT STARTED]
+### Phase 3: Sync to Vision Project and Verify [COMPLETED]
 
 **Goal**: Copy the modified agent file to the Vision project and verify both copies are identical.
 

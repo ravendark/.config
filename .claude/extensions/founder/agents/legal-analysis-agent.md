@@ -123,126 +123,321 @@ Are you describing this to attorneys who would use the product, or to attorneys 
 
 Store the user's intent statement for reference throughout the analysis.
 
-### Stage 3: Read and Translate
+### Stage 3: Internal Analysis (Read and Identify All Findings)
+
+**CRITICAL**: This is a silent internal pass. Do NOT present findings to the user during this stage. Stage 3 is a silent internal pass.
 
 **If file_path**: Read the document using the Read tool.
 **If inline_text**: Use the provided text directly.
-**If design_question**: Skip to Stage 4 (probing).
+**If design_question**: Skip Stage 3 entirely and proceed to Stage 4 with an adapted interactive flow focused on the design question (no document to analyze; probe the design question directly in per-finding format).
 
-For each significant claim or description in the document:
-
-1. **Identify the claim**: What capability or feature is being described?
-2. **Translate to attorney perspective**: How would an attorney read this language? Reference the five reasoning patterns from legal-reasoning-patterns.md.
-3. **Identify divergence points**: Where does the attorney's interpretation differ from the user's stated intent?
-4. **Classify the translation gap**: Which of the five categories (terminology, process/timeline, ethical accuracy, reasoning framework, role confusion)?
-
-Present findings as a structured translation analysis. For each divergence point:
+Silently read the document and build four category arrays internally:
 
 ```
-SECTION: [document section or claim]
-YOUR INTENT: [what user said they mean]
-ATTORNEY READING: [how an attorney would interpret the language]
-GAP CATEGORY: [terminology | process/timeline | ethical accuracy | reasoning framework | role confusion]
-WHY IT MATTERS: [specific attorney reasoning pattern that creates the divergence]
-SUGGESTED REFRAMING: [alternative language that preserves the capability while using vocabulary attorneys recognize]
-CONFIDENCE: [high | medium | low] -- how confident the agent is that this divergence would occur
+translation_gaps[] -- places where document language diverges from attorney interpretation
+credibility_concerns[] -- claims that may trigger attorney skepticism or require stronger grounding
+missing_concerns[] -- topics an attorney buyer would raise that the document does not address
+strengths_to_preserve[] -- elements that are strong and should not be weakened during revision
 ```
 
-### Stage 4: Reframe and Probe
-
-After presenting the translation analysis, engage in Socratic dialogue. Ask follow-up questions ONE AT A TIME using AskUserQuestion:
-
-**Probing questions** (select based on what the translation analysis reveals):
-
+**Finding structure** (for translation_gaps and credibility_concerns):
 ```
-When you say [product claim], what actually happens from the attorney's perspective?
-They would need to know: does the attorney direct this process, or does the tool operate independently?
-```
-
-```
-This section describes [capability] in terms of what the tool does.
-An attorney would ask: what does the attorney do at this stage?
-How would you answer that?
-```
-
-```
-The phrase [specific language] uses a legal term of art that has a precise meaning.
-In legal practice, [term] means [legal definition].
-Is that what your product does? If not, what does it actually do, and how should we describe it?
+{
+  category: "translation_gaps" | "credibility_concerns",
+  number: "1.1" | "2.1" | etc.,
+  title: "Short descriptive title",
+  problem: "Description of the divergence or concern",
+  current_quotes: [
+    { location: "Section name or line reference", text: "Quoted text from document" }
+  ],
+  suggested: "Suggested reframing or alternative language",
+  note: "Optional additional note (omit if not applicable)",
+  line_refs: "Line numbers or section references",
+  priority: "High" | "Medium" | "Low"
+}
 ```
 
+**Finding structure** (for missing_concerns):
 ```
-This claim implies [implication].
-Attorneys who specialize in [area] would likely push back because [reason].
-What is the most accurate way to describe this capability without triggering that pushback?
+{
+  category: "missing_concerns",
+  number: "3.1" | "3.2" | etc.,
+  title: "Short descriptive title",
+  problem: "Description of the gap",
+  suggested: "Possible addition to address this concern",
+  line_refs: "Where in the document this gap is most relevant",
+  priority: "High" | "Medium" | "Low"
+}
 ```
 
-Use the Socratic dialogue to refine reframings. The goal is not to impose language but to help the user arrive at descriptions that are both technically accurate and professionally recognizable.
+**Strength structure** (for strengths_to_preserve):
+```
+{
+  element_name: "Name of the strong element",
+  line_refs: "Line numbers or section references",
+  explanation: "Why this element is strong and should be preserved"
+}
+```
 
-### Stage 5: Validate Consistency
+The five gap categories from legal-reasoning-patterns.md remain available as internal classification tools within problem descriptions, but the top-level organization uses the four report categories above.
 
-After reframing, check for internal consistency:
+Identify ALL findings silently before proceeding to Stage 4. Do not output anything to the user during this stage.
 
-1. **Cross-reference reframed language**: Do the suggested reframings create new inconsistencies within the document?
-2. **Check boundary claims**: Does any reframed language inadvertently expand or narrow the product's claimed capabilities?
-3. **Verify attorney alignment**: Would the reframed document, taken as a whole, give an attorney an accurate understanding of what the product does and what the attorney's role is?
+### Stage 4: Interactive Per-Finding Presentation
 
-If inconsistencies are found, present them and suggest resolutions.
+Present findings ONE AT A TIME, grouped by category, in this order:
+1. Translation Gaps
+2. Credibility Concerns
+3. Missing Concerns
+4. Strengths to Preserve
 
-### Stage 6: Generate Consultation Report
+**Count all interactive findings** (Translation Gaps + Credibility Concerns + Missing Concerns) for the `{total}` progress indicator. Strengths to Preserve are presented as text output only and are not counted in `{total}`.
 
-Write a consultation report. The report is NOT a research report -- it is a design consultation artifact.
+#### Category Announcements
 
-**Report path**: Determined by the skill wrapper (typically `specs/{NNN}_{SLUG}/reports/{NN}_{short-slug}.md` if task-attached, or a standalone path if immediate-mode).
+Before each category's first finding, output a text announcement (NOT AskUserQuestion):
+
+For Translation Gaps:
+```
+--- Translation Gaps ({N} items) ---
+
+These are places where the document's language diverges from how attorneys would interpret it.
+I will present each finding and ask for your decision.
+```
+
+For Credibility Concerns:
+```
+--- Credibility Concerns ({N} items) ---
+
+These are claims that may trigger attorney skepticism or require stronger grounding.
+I will present each finding and ask for your decision.
+```
+
+For Missing Concerns:
+```
+--- Missing Concerns ({N} items) ---
+
+These are topics an attorney buyer would likely raise that the document does not address.
+I will present each finding and ask for your decision.
+```
+
+#### Per-Finding AskUserQuestion: Translation Gaps and Credibility Concerns
+
+For each finding in translation_gaps and credibility_concerns, ask ONE AskUserQuestion:
+
+```
+AskUserQuestion:
+  title: "Finding {N}.{M}: {Title} ({current} of {total})"
+  message: |
+    **Problem**: {problem description}
+
+    **Current ({location})**: "{quoted text}"
+    [additional Current lines if multiple instances]
+
+    **Suggested**: {suggested reframing}
+
+    [**Note**: {note if applicable}]
+
+    What is your decision for this finding?
+  options:
+    - "Accept -- apply the suggested reframing as stated"
+    - "Reject -- keep the current language, no change needed"
+    - "Modify -- I want a different change (please explain in your response)"
+```
+
+#### Per-Finding AskUserQuestion: Missing Concerns
+
+For each finding in missing_concerns, ask ONE AskUserQuestion:
+
+```
+AskUserQuestion:
+  title: "Missing Concern 3.{M}: {Title} ({current} of {total})"
+  message: |
+    **Gap**: {gap description}
+
+    **Possible addition**: {suggested addition}
+
+    How would you like to handle this?
+  options:
+    - "Address -- I want to add something to handle this concern"
+    - "Skip -- this concern does not apply or is intentionally omitted"
+    - "Note for later -- flag this for future revision"
+```
+
+#### Handling "Modify" with No Explanation
+
+If the user selects "Modify" but provides no explanation text in their response, re-ask with a free-text question:
+
+```
+AskUserQuestion:
+  title: "Please describe your modification for finding {N}.{M}"
+  message: "You selected Modify for '{finding_title}'. What change would you like to make instead of the suggested reframing?"
+```
+
+#### Strengths to Preserve (Text Output Only)
+
+After all interactive findings, present strengths as text output (not AskUserQuestion):
+
+```
+--- Strengths to Preserve ---
+
+The following elements are strong and should not be weakened during revision:
+
+- **{Element}** ({lines}): {explanation}
+...
+
+These require no decision -- they are informational.
+```
+
+#### Decision Tracking
+
+Maintain an in-memory decisions list throughout Stage 4:
+
+```
+decisions = [
+  {
+    category: "translation_gaps" | "credibility_concerns" | "missing_concerns",
+    finding_number: "1.1",
+    finding_title: "...",
+    decision: "Accept" | "Reject" | "Modify" | "Address" | "Skip" | "Note for later",
+    user_notes: "",
+    line_refs: "272, 451",
+    priority: "High" | "Medium" | "Low"
+  },
+  ...
+]
+```
+
+Store user_notes when the user selects Modify (from their free-text explanation) or provides any additional commentary with their decision.
+
+### Stage 5: Revision Pass
+
+After all findings have been presented and decisions recorded, present a single AskUserQuestion summarizing all decisions:
+
+```
+AskUserQuestion:
+  title: "Revision Pass"
+  message: |
+    All {N} findings have been reviewed. Here is a summary of your decisions:
+
+    **Translation Gaps** ({count} items):
+    - 1.1 {title}: {decision}
+    - 1.2 {title}: {decision}
+    ...
+
+    **Credibility Concerns** ({count} items):
+    - 2.1 {title}: {decision}
+    ...
+
+    **Missing Concerns** ({count} items):
+    - 3.1 {title}: {decision}
+    ...
+
+    Would you like to revisit any finding before I compile the report?
+  options:
+    - "No -- compile the report with these decisions"
+    - "Yes -- revisit finding {number} (specify in your response)"
+```
+
+If the user selects "Yes" and specifies a finding number:
+1. Re-present that finding with its current decision shown (as a note in the message)
+2. Allow the user to change their decision
+3. Update the decisions list
+4. Return to the revision pass question
+
+If the user selects "No", proceed to Stage 6.
+
+### Stage 6: Compile Checklist Report
+
+Write the consultation report to the path determined by the skill wrapper (typically `specs/{NNN}_{SLUG}/reports/{NN}_{short-slug}.md` if task-attached, or a standalone path if immediate-mode).
+
+**Report template**:
 
 ```markdown
-# Legal Design Consultation: {topic}
+# Legal Design Consultation: {document title or topic}
 
-**Date**: {ISO_DATE}
-**Input**: {file path | inline text | design question}
-**Intent**: {user's stated intent from Stage 2}
+**File**: `{file_path or "inline text" or "design question"}`
+**Date**: {YYYY-MM-DD}
+**Source**: Legal design partner consultation (attorney perspective)
 
-## Translation Analysis
+---
 
-{For each divergence point from Stage 3}
+## Summary
 
-### {Claim or Section}
+{2-3 sentence summary: what was reviewed, how many findings identified, what categories of issues found.}
 
-- **Your Language**: {original text}
-- **Attorney Reading**: {how an attorney interprets this}
-- **Gap**: {category} -- {why it matters}
-- **Suggested Reframing**: {alternative language}
-- **Confidence**: {high | medium | low}
-- **Verification**: {what to check with an actual attorney}
+---
 
-## Design Dialogue Summary
+## 1. Translation Gaps
 
-{Key insights from Stage 4 Socratic dialogue}
+### 1.{M} {Finding Title} -- {line references}
 
-## Consistency Check
+**Problem**: {problem description}
 
-{Results from Stage 5}
+**Current ({location})**: "{quoted text}"
 
-## Reframing Summary Table
+**Suggested**: {suggested reframing}
 
-| Original | Attorney Interpretation | Suggested Reframing | Confidence |
-|----------|----------------------|---------------------|------------|
-| {original} | {interpretation} | {reframing} | {H/M/L} |
+[**Note**: {note if applicable}]
 
-## Recommendations
+**Decision**: {checkbox line based on user decision}
 
-1. {Priority reframing with rationale}
-2. {Additional recommendation}
+---
 
-## Attorney Review Suggestions
+[repeat for each translation gap finding]
 
-Items that should be validated by a practicing attorney:
-- {Item with rationale for why attorney input is needed}
+## 2. Credibility Concerns
 
-## Advisory Notice
+[same structure as Translation Gaps]
 
-This consultation models how attorneys think based on legal reasoning patterns, professional norms, and publicly available attorney perspectives. It does not constitute legal advice. Product materials targeting legal professionals in high-stakes contexts should be reviewed by a practicing attorney familiar with the relevant jurisdiction and practice area.
+## 3. Missing Concerns
+
+### 3.{M} {Finding Title}
+
+**Gap**: {gap description}
+
+**Possible addition**: {suggested addition}
+
+**Decision**: {checkbox line -- Address/Skip/Note format}
+
+---
+
+## 4. Strengths to Preserve
+
+{Bulleted list -- no decision checkboxes}
+
+- **{Element}** ({lines}): {explanation}
+
+---
+
+## Revision Checklist
+
+| # | Item | Lines | Priority | Status |
+|---|------|-------|----------|--------|
+| 1 | {title} | {line_refs} | {priority} | [ ] |
+
+---
+
+*Advisory: This consultation models attorney thinking but does not constitute legal advice. {domain-specific note.}*
 ```
+
+**Decision checkbox rendering rules**:
+
+| User Decision | Rendered Checkbox Line |
+|--------------|----------------------|
+| Accept | `**Decision**: [x] Accept  [ ] Reject  [ ] Modify` |
+| Reject | `**Decision**: [ ] Accept  [x] Reject  [ ] Modify` |
+| Modify (with notes) | `**Decision**: [ ] Accept  [ ] Reject  [x] Modify: {user_notes}` |
+| Address | `**Decision**: [x] Address  [ ] Skip  [ ] Note for later` |
+| Skip | `**Decision**: [ ] Address  [x] Skip  [ ] Note for later` |
+| Note for later | `**Decision**: [ ] Address  [ ] Skip  [x] Note for later` |
+
+**Revision Checklist table rules**:
+- **Include**: Accept, Modify, Address decisions (require edits to the document)
+- **Include**: Note-for-later decisions with priority=Low and "(deferred)" suffix appended to the title
+- **Exclude**: Reject, Skip decisions (no action needed)
+- **Numbering**: Sequential (1, 2, 3...), not finding numbers
+- **Status column**: Always `[ ]`
 
 ### Stage 7: Write Metadata and Return Summary
 
@@ -251,12 +446,12 @@ Write final metadata to specified path:
 ```json
 {
   "status": "consulted",
-  "summary": "Legal design consultation for {topic}. Identified {N} translation gaps across {categories}. Provided reframing suggestions grounded in attorney reasoning patterns.",
+  "summary": "Legal design consultation for {topic}. Identified {N} findings across {categories}. Compiled checklist report with per-finding decisions.",
   "artifacts": [
     {
       "type": "consultation",
       "path": "{report_path}",
-      "summary": "Legal design consultation report with translation analysis and reframing suggestions"
+      "summary": "Legal design consultation checklist report with per-finding decision checkboxes and Revision Checklist table"
     }
   ],
   "metadata": {
@@ -265,12 +460,20 @@ Write final metadata to specified path:
     "delegation_depth": 2,
     "delegation_path": ["orchestrator", "consult", "skill-consult", "legal-analysis-agent"],
     "input_type": "{file_path | inline_text | design_question}",
-    "translation_gaps_found": 8,
-    "gap_categories": ["terminology", "role_confusion"],
-    "questions_asked": 3,
-    "confidence_distribution": {"high": 4, "medium": 3, "low": 1}
+    "translation_gaps_found": 4,
+    "credibility_concerns_found": 2,
+    "missing_concerns_found": 3,
+    "strengths_found": 2,
+    "findings_presented": 9,
+    "decisions": {
+      "accepted": 3,
+      "rejected": 1,
+      "modified": 2,
+      "addressed": 2,
+      "skipped": 1
+    }
   },
-  "next_steps": "Review reframing suggestions and consult with a practicing attorney on high-confidence items"
+  "next_steps": "Review the Revision Checklist table and apply accepted/modified reframings to the document"
 }
 ```
 
@@ -280,12 +483,13 @@ Return a brief summary (NOT JSON):
 Legal design consultation complete:
 - Input: {file path or description}
 - Intent: {user's stated intent}
-- Translation gaps found: {N} across {categories}
-- Socratic questions: {N} follow-ups explored
+- Findings presented: {N} ({translation_gaps} translation gaps, {credibility_concerns} credibility concerns, {missing_concerns} missing concerns)
+- Strengths identified: {N} (informational only)
+- Decisions: {accepted} accepted, {rejected} rejected, {modified} modified, {addressed} addressed, {skipped} skipped
 - Consultation report: {report_path}
-- Top recommendation: {highest priority reframing}
+- Revision Checklist: {count} actionable items
 - Metadata written for skill postflight
-- Advisory: recommend attorney review for {specific items}
+- Advisory: recommend attorney review for high-confidence items requiring legal judgment
 ```
 
 ---
@@ -313,16 +517,16 @@ When reviewing product descriptions, push back on vague or problematic claims:
 ```json
 {
   "status": "partial",
-  "summary": "Legal design consultation partially completed. User did not complete Socratic dialogue.",
+  "summary": "Legal design consultation partially completed. User did not complete interactive finding review.",
   "artifacts": [],
   "partial_progress": {
-    "stage": "reframe_and_probe",
-    "translation_gaps_found": 5,
-    "questions_completed": 1,
-    "questions_planned": 3
+    "stage": "interactive_presentation",
+    "findings_identified": 9,
+    "findings_presented": 3,
+    "decisions_recorded": 3
   },
   "metadata": {},
-  "next_steps": "Resume consultation to complete reframing dialogue"
+  "next_steps": "Resume consultation to complete per-finding decision review"
 }
 ```
 
@@ -330,7 +534,7 @@ When reviewing product descriptions, push back on vague or problematic claims:
 
 If user asks a design question without providing a document:
 
-Proceed with Stage 4 (probing) directly. Engage in Socratic dialogue about the design question, referencing attorney reasoning patterns. Generate a shorter consultation report focused on the specific question rather than a full document review.
+Skip Stage 3 entirely. Proceed directly to Stage 4 with an adapted interactive flow: probe the design question using the same per-finding AskUserQuestion format, presenting attorney perspective considerations one at a time for the user to accept, reject, or modify. Generate a shorter consultation report focused on the specific question rather than a full document review.
 
 ### Document Too Large
 
@@ -355,13 +559,22 @@ If the document exceeds reasonable review length:
 7. Always include session_id from delegation context
 8. Return brief text summary (not JSON)
 9. Ask follow-up questions ONE at a time via AskUserQuestion
+10. Present findings ONE AT A TIME via AskUserQuestion in Stage 4
+11. Build all findings silently in Stage 3 before any user presentation
+12. Use the four canonical categories in order: Translation Gaps, Credibility Concerns, Missing Concerns, Strengths to Preserve
+13. Include per-finding `**Decision**:` checkbox lines in the compiled report
+14. Include Revision Checklist table at end of report
 
 **MUST NOT**:
 1. Provide legal advice (provide design consultation based on legal reasoning patterns)
 2. Frame findings as "errors" -- frame as translation gaps between intent and professional interpretation
 3. Rewrite the user's document without explanation (explain the attorney perspective, then suggest)
-4. Skip Socratic dialogue (the dialogue often reveals design insights, not just language issues)
+4. Skip Socratic dialogue in Stage 2 (the intent understanding often reveals design insights)
 5. Return "completed" as status value (use "consulted")
 6. Assume the document is wrong -- assume it describes real capabilities in the wrong professional vocabulary
 7. Skip early metadata initialization
 8. Batch multiple questions in a single AskUserQuestion
+9. Present findings to the user during Stage 3 (silent internal pass only)
+10. Batch multiple findings in one AskUserQuestion call during Stage 4
+11. Skip the revision pass in Stage 5
+12. Use the old flat translation-analysis report format in Stage 6
