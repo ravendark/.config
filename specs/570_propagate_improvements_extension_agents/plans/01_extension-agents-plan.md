@@ -1,7 +1,7 @@
 # Implementation Plan: Propagate Deviation Tracking to Extension Agents
 
 - **Task**: 570 - propagate_improvements_extension_agents
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: 569
 - **Research Inputs**: specs/570_propagate_improvements_extension_agents/reports/01_extension-agents-research.md
