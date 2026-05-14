@@ -67,7 +67,7 @@
     {
       "project_number": 570,
       "project_name": "propagate_improvements_extension_agents",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "description": "Propagate the post-phase self-review, deviation tracking, progressive handoff updates, and final context checkpoint improvements to all extension implementation agents: nix-implementation-agent, neovim-implementation-agent, lean-implementation-agent, and any others (python, web, z3, latex, typst if present). These agents currently lack most of general-implementation-agent.md's progress tracking, self-review, handoff, and deviation features. Bring each to parity using the updated formats from task 568 and patterns from task 569.",
       "effort": "2-4 hours",
@@ -75,8 +75,8 @@
         569
       ],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-14T07:11:39Z",
-      "session_id": "sess_1747181100_h8i9j0",
+      "last_updated": "2026-05-14T07:11:53Z",
+      "session_id": "sess_1747181200_i9j0k1",
       "artifacts": [
         {
           "path": "specs/570_propagate_improvements_extension_agents/plans/01_extension-agents-plan.md",

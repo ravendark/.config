@@ -11,7 +11,7 @@ next_project_number: 571
 ### Pending
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
 - **569** [COMPLETED] -- Enhance general implementation agent (depends: 568)
-- **570** [PLANNED] -- Propagate improvements to extension agents (depends: 569)
+- **570** [IMPLEMENTING] -- Propagate improvements to extension agents (depends: 569)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
@@ -49,7 +49,7 @@ next_project_number: 571
 
 ### 570. Propagate implementation improvements to extension agents
 - **Effort**: 2-4 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: 569
 - **Research**: [570_propagate_improvements_extension_agents/reports/01_extension-agents-research.md]

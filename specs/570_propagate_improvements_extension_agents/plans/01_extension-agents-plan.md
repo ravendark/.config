@@ -1,7 +1,7 @@
 # Implementation Plan: Propagate Deviation Tracking to Extension Agents
 
 - **Task**: 570 - propagate_improvements_extension_agents
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: 569
 - **Research Inputs**: specs/570_propagate_improvements_extension_agents/reports/01_extension-agents-research.md
@@ -70,7 +70,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Core Extension Copy (Type A) [NOT STARTED]
+### Phase 1: Core Extension Copy (Type A) [COMPLETED]
 
 **Goal**: Update `extensions/core/agents/general-implementation-agent.md` to match the post-569 general-implementation-agent exactly.
 
@@ -98,7 +98,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Paired Domain Agents (Type B - Nix and Neovim) [NOT STARTED]
+### Phase 2: Paired Domain Agents (Type B - Nix and Neovim) [COMPLETED]
 
 **Goal**: Add all six deviation tracking improvements to the nix pair (2 files) and neovim pair (2 files), adapted to their Stage 4 structure.
 
@@ -142,7 +142,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Web Agent (Type B - Standalone) [NOT STARTED]
+### Phase 3: Web Agent (Type B - Standalone) [COMPLETED]
 
 **Goal**: Add all six deviation tracking improvements to the web implementation agent, adapted for web-specific build references.
 
@@ -168,7 +168,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Lean Agent (Type B - Unique Structure) [NOT STARTED]
+### Phase 4: Lean Agent (Type B - Unique Structure) [COMPLETED]
 
 **Goal**: Add adapted versions of all six deviation tracking improvements to the lean implementation agent, respecting its unique structure (no progress file tracking, different section layout, escalation protocol).
 
@@ -196,7 +196,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Thin Wrapper Agents (Type C) [NOT STARTED]
+### Phase 5: Thin Wrapper Agents (Type C) [COMPLETED]
 
 **Goal**: Add minimal deviation tracking notes to all four thin wrapper agents (latex, python, typst, z3) using a uniform pattern.
 

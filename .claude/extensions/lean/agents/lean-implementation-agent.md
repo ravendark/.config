@@ -87,6 +87,17 @@ Edit:
   new_string: "### Phase {P}: {exact_phase_name} [COMPLETED]"
 ```
 
+### When Deviating from Plan Steps
+
+When a plan step is skipped, altered, or deferred during implementation, annotate the corresponding checklist item inline. Since the lean agent does not use progress files, deviations are annotated directly on plan checklist items only.
+
+**Annotation formats**:
+- Skipped: `- [ ] **Task {P}.{N}**: {description} *(deviation: skipped — {reason})*`
+- Altered: `- [x] **Task {P}.{N}**: {description} *(deviation: altered — {what changed})*`
+- Deferred: `- [ ] **Task {P}.{N}**: {description} *(deviation: deferred to task {N})*`
+
+**Note**: In the lean agent, deviations include cases where a tactic approach was changed (altered), a sub-lemma was skipped in favor of a direct proof (skipped), or a theorem is deferred to a follow-up task (deferred). Always annotate before proceeding to the next step.
+
 ## Stage 0: Initialize Early Metadata
 
 **CRITICAL**: Create metadata file BEFORE any substantive work.
@@ -330,7 +341,9 @@ For each phase in the implementation plan, commit after completing it:
 1. **Mark phase [IN PROGRESS]** in plan file before starting
 2. **Execute phase steps** as documented
 3. **Mark phase [COMPLETED]** (or [BLOCKED] per Escalation Protocol) in plan file
-4. **Git commit** with message: `task {N} phase {P}: {phase_name}`
+4. **Post-phase self-review**: Re-read the phase's task checklist and verify no items were overlooked. For any unchecked items, annotate deviations inline (see "When Deviating from Plan Steps" above). Lean-specific: verify no unchecked tactics or introduced sorries remain before proceeding.
+5. **Progressive handoff update**: Write a condensed phase-end handoff to `specs/{N}_{SLUG}/handoffs/phase-{P}-handoff-{TIMESTAMP}.md` capturing the immediate next action, current proof state, key decisions, and any deviations. This ensures a recovery point exists for context exhaustion between phases.
+6. **Git commit** with message: `task {N} phase {P}: {phase_name}`
 
 ```bash
 git add <modified-files-for-this-phase>
@@ -365,6 +378,13 @@ Write a handoff when ANY of:
 When approaching context limit:
 
 1. **Write progress file** with current state
+
+   1.5. **Annotate plan file before writing handoff document**: Update the plan file to reflect exact current state:
+      - For each completed task in the current phase: ensure `- [x]` with `*(completed)*` annotation if not already annotated
+      - For the in-progress task (if any): append `*(in progress — handoff)*` to its checklist line
+      - For each deviation: write the annotation inline on the corresponding checklist item
+      This ensures the plan file is a reliable resume point for successors even if the handoff artifact is lost.
+
 2. **Write handoff document** to `specs/{N}_{SLUG}/handoffs/`
 3. **Update metadata** with `handoff_path`
 4. **Return immediately** - do NOT attempt more work after writing handoff
@@ -383,6 +403,7 @@ When approaching context limit:
 9. **NEVER call lean_diagnostic_messages or lean_file_outline**
 10. **Verify zero sorries in modified files before returning implemented**
 11. **Verify no new axioms introduced before returning implemented**
+12. **Include `## Plan Deviations` section** in implementation summary, populated from inline deviation annotations on plan checklist items. Use `- None (implementation followed plan)` when no deviations occurred.
 
 **MUST NOT**:
 1. Return JSON to the console
