@@ -43,7 +43,7 @@
       "created": "2026-05-12",
       "modified": "2026-05-12",
       "last_retrieved": "2026-05-14",
-      "retrieval_count": 2
+      "retrieval_count": 3
     },
     {
       "id": "MEM-insight-opencode-headless-cli-api",
@@ -64,7 +64,7 @@
       "created": "2026-05-12",
       "modified": "2026-05-12",
       "last_retrieved": "2026-05-14",
-      "retrieval_count": 6
+      "retrieval_count": 7
     }
   ]
 }

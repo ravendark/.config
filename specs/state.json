@@ -5,11 +5,11 @@
     {
       "project_number": 573,
       "project_name": "bidirectional_discord_opencode_relay",
-      "status": "researched",
+      "status": "planned",
       "task_type": "general",
       "created": "2026-05-14T19:41:25Z",
-      "last_updated": "2026-05-14T20:01:13Z",
-      "session_id": "sess_1747259400_a3b7c1",
+      "last_updated": "2026-05-14T22:04:16Z",
+      "session_id": "sess_1778796063_614ba8",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -48,6 +48,11 @@
           "path": "specs/573_bidirectional_discord_opencode_relay/reports/01_discord-opencode-relay.md",
           "type": "research",
           "summary": "Full analysis of OpenCode SSE event API, current bot architecture, deduplication strategy, and concrete implementation plan for TUI->Discord relay via TuiSseSubscriber class"
+        },
+        {
+          "path": "specs/573_bidirectional_discord_opencode_relay/plans/01_bidirectional-discord-opencode-relay.md",
+          "type": "plan",
+          "summary": "Implementation plan for bidirectional Discord-OpenCode relay with TuiSseSubscriber, deduplication, and integration hooks"
         }
       ]
     },

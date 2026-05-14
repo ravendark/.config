@@ -209,7 +209,8 @@ end
 --- @param session_id string
 --- @param session_name string
 --- @param server_url string
-local function _link_session(session_id, session_name, server_url)
+--- @param directory string|nil
+local function _link_session(session_id, session_name, server_url, directory)
   local auth = _auth_header()
   if not auth then
     vim.notify("DISCORD_BOT_LINK_TOKEN not set", vim.log.levels.ERROR)
@@ -220,6 +221,7 @@ local function _link_session(session_id, session_name, server_url)
     session_id = session_id,
     session_name = session_name,
     server_url = server_url,
+    directory = directory or "",
   }, function(err, data)
     if err then
       if err:match("409") then
@@ -330,7 +332,7 @@ local function _pick_and_link(sessions, server_url)
         if not entry then return end
         actions.close(prompt_bufnr)
         local sess = entry.value
-        _link_session(sess.id, sess.title or sess.id, server_url)
+        _link_session(sess.id, sess.title or sess.id, server_url, sess.directory)
       end)
       return true
     end,
@@ -362,7 +364,7 @@ function M.link_current_session()
 
       if #sessions == 1 then
         local sess = sessions[1]
-        _link_session(sess.id, sess.title or sess.id, server_url)
+        _link_session(sess.id, sess.title or sess.id, server_url, sess.directory)
       else
         _pick_and_link(sessions, server_url)
       end
