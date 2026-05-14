@@ -12,10 +12,10 @@ next_project_number: 568
 - **564** [COMPLETED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **565** [COMPLETED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
   - **Research**: specs/565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md
-- **566** [NOT STARTED] -- Apply .claude/ lean integrity improvements: vacuous rules + metadata-based compliance (depends: 565)
-- **567** [NOT STARTED] -- Apply 564+565 integrity improvements to nvim .opencode/ seed (depends: 565)
+- **566** [RESEARCHING] -- Apply .claude/ lean integrity improvements: vacuous rules + metadata-based compliance (depends: 565)
+- **567** [RESEARCHING] -- Apply 564+565 integrity improvements to nvim .opencode/ seed (depends: 565)
 - **562** [COMPLETED] -- Upgrade consult report to interactive actionable checklist format
-- **563** [IMPLEMENTING] -- Make /consult always create a task automatically (depends: 562)
+- **563** [COMPLETED] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
 - **557** [COMPLETED] -- Research lifecycle-aware notification patterns for Claude Code hooks
@@ -50,7 +50,7 @@ next_project_number: 568
 
 ### 566. Port escalation/compliance fixes to .claude/ reference system
 - **Effort**: 1-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: 565
 - **Description**: Apply appropriate lean agent integrity improvements to the .claude/ reference system at ~/.config/nvim/.claude/. Scope: (1) .claude/extensions/lean/agents/lean-implementation-agent.md — ALREADY updated by task 564; no further changes needed. (2) .claude/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section. (3) .claude/extensions/lean/skills/skill-lean-implementation/SKILL.md — add plan-compliance check ADAPTED for .claude/ architecture: since the .claude/ skill MUST NOT re-run grep or lake build (per postflight-tool-restrictions.md), check must read compliance_check from agent metadata rather than executing grep. (4) Check if .claude/ has a checkpoint-gate-out context equivalent and add lean4 compliance hook if so.
@@ -58,7 +58,7 @@ next_project_number: 568
 
 ### 567. Apply 564+565 integrity improvements to nvim .opencode/ seed
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: 565
 - **Description**: Apply the same agent integrity improvements from tasks 564-565 to the nvim .opencode/ seed at ~/.config/nvim/.opencode/. This seed is used by the <leader>al picker to initialize new projects with the OpenCode agent system. Files: (1) .opencode/extensions/lean/agents/lean-implementation-agent.md — add escalation protocol, vacuous-definition prohibition, vacuous-def check in Zero-Debt Gate, Phase Checkpoint Protocol; (2) .opencode/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section; (3) .opencode/extensions/lean/skills/skill-lean-implementation/SKILL.md — add Stage 6b plan-compliance spot-check, complexity warning in GATE IN, conditional Stage 9 commit; (4) .opencode/context/checkpoints/checkpoint-gate-out.md — add lean4-specific compliance hook reading compliance_check from metadata.
@@ -76,11 +76,12 @@ next_project_number: 568
 
 ### 563. Make /consult always create a task automatically
 - **Effort**: 1-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: 562
 - **Research**: [563_consult_auto_task_creation/reports/01_consult-auto-task-research.md]
 - **Plan**: [563_consult_auto_task_creation/plans/01_consult-auto-task-plan.md]
+- **Summary**: [563_consult_auto_task_creation/summaries/01_consult-auto-task-summary.md]
 - **Description**: Update consult.md command and skill-consult to always create a task on invocation. Auto-generate task slug from input, create state.json + TODO.md entries before delegation, remove standalone/temp-file mode, display task number and next steps at Gate Out.
 
 ### 560. Research model routing best practices for agent system
