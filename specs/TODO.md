@@ -9,10 +9,10 @@ next_project_number: 567
 *Updated 2026-05-13. 12 active tasks remaining.*
 
 ### Pending
-- **564** [NOT STARTED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
+- **564** [RESEARCHING] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **565** [NOT STARTED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
 - **566** [NOT STARTED] -- Port escalation/compliance fixes to .claude/ reference system (depends: 565)
-- **562** [PLANNING] -- Upgrade consult report to interactive actionable checklist format
+- **562** [PLANNED] -- Upgrade consult report to interactive actionable checklist format
 - **563** [NOT STARTED] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
@@ -26,7 +26,7 @@ next_project_number: 567
 
 ### 564. Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **Effort**: 1-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Description**: Add formal escalation protocol and vacuous-definition prohibition to the lean-implementation-agent in /home/benjamin/Projects/ProofChecker/.opencode/. When a phase cannot be completed properly, agent MUST mark it [BLOCKED] with documented blocker and return status partial — never create vacuous Lean definitions (def X := True, def X := Unit) to paper over inability. Also: define vacuous proof explicitly with examples, enforce phase-granular commits (commit after each phase, not batch), add task complexity warning to GATE IN for plans with >20h estimated effort.
@@ -50,10 +50,11 @@ next_project_number: 567
 
 ### 562. Upgrade consult report to interactive actionable checklist format
 - **Effort**: 1-3 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [562_consult_checklist_report_format/reports/01_consult-checklist-research.md]
+- **Plan**: [562_consult_checklist_report_format/plans/01_consult-checklist-plan.md]
 - **Description**: Upgrade legal-analysis-agent report format to interactive actionable checklist. Change Stage 3-6 flow so findings are presented one-at-a-time via AskUserQuestion with Accept/Reject/Modify decisions (grouped by category). After all findings, offer a revision pass, then compile the full checklist report with per-finding decision checkboxes and a summary revision checklist table.
 
 ### 563. Make /consult always create a task automatically

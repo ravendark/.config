@@ -5,18 +5,23 @@
     {
       "project_number": 562,
       "project_name": "consult_checklist_report_format",
-      "status": "planning",
+      "status": "planned",
       "task_type": "meta",
       "description": "Upgrade legal-analysis-agent report format to interactive actionable checklist. Change Stage 3-6 flow so findings are presented one-at-a-time via AskUserQuestion with Accept/Reject/Modify decisions (grouped by category). After all findings, offer a revision pass, then compile the full checklist report with per-finding decision checkboxes and a summary revision checklist table. Based on the format in Vision specs/203_legal_consult_revisions/reports/01_legal-consult-revisions.md.",
       "effort": "1-3 hours",
       "dependencies": [],
       "created": "2026-05-13T23:00:00Z",
-      "last_updated": "2026-05-14T04:38:28Z",
+      "last_updated": "2026-05-14T04:42:33Z",
       "artifacts": [
         {
           "path": "specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md",
           "type": "research",
           "summary": "Comprehensive research report covering example format analysis, file inventory (2 files), stage-by-stage new flow design, AskUserQuestion per-finding design, report compilation template, and Vision repo sync requirements"
+        },
+        {
+          "path": "specs/562_consult_checklist_report_format/plans/01_consult-checklist-plan.md",
+          "type": "plan",
+          "summary": "3-phase implementation plan for interactive checklist consultation format in legal-analysis-agent"
         }
       ],
       "session_id": "sess_1778733495_d1192a",
@@ -49,7 +54,32 @@
             "founder-extension"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 2,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_consult-checklist-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-14"
+          }
+        ]
+      }
     },
     {
       "project_number": 563,
@@ -577,15 +607,16 @@
     {
       "project_number": 564,
       "project_name": "lean_agent_escalation_protocol_vacuous_prohibition",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "description": "Add formal escalation protocol and vacuous-definition prohibition to the lean-implementation-agent in /home/benjamin/Projects/ProofChecker/.opencode/. When a phase cannot be completed properly, agent MUST mark it [BLOCKED] with documented blocker and return status partial — never create vacuous Lean definitions (def X := True, def X := Unit) to paper over inability. Also: define vacuous proof explicitly with examples, enforce phase-granular commits (commit after each phase, not batch), add task complexity warning to GATE IN for plans with >20h estimated effort.",
       "effort": "1-3 hours",
       "dependencies": [],
       "created": "2026-05-13T00:00:00Z",
-      "last_updated": "2026-05-13T00:00:00Z",
+      "last_updated": "2026-05-14T04:41:37Z",
       "artifacts": [],
-      "next_artifact_number": 1
+      "next_artifact_number": 1,
+      "session_id": "sess_1747188100_r564"
     },
     {
       "project_number": 565,
