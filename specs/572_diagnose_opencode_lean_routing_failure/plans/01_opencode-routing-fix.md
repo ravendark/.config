@@ -119,20 +119,20 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Create Core Command Sync Script [NOT STARTED]
+### Phase 2: Create Core Command Sync Script [COMPLETED]
 
 **Goal**: Create a reusable script that propagates canonical core command files from the nvim source to all registered child projects, preventing future drift.
 
 **Tasks**:
-- [ ] Create `.opencode/scripts/sync-core-commands.sh` in the nvim config
-- [ ] Define the list of core routing commands to sync: implement.md, research.md, plan.md
-- [ ] Define the registry of child project paths (hardcoded list with existence checks)
-- [ ] Implement dry-run mode (`--dry-run`) that shows what would be copied without modifying files
-- [ ] Implement actual sync mode that copies canonical files to each child project
-- [ ] Add diff-based reporting: show which files changed vs which were already current
-- [ ] Add a `--check` mode that only reports drift without fixing (exit code 1 if drift detected)
-- [ ] Make the script idempotent (re-running produces the same result)
-- [ ] Add `--commands` flag to optionally specify which commands to sync (default: all three routing commands)
+- [x] Create `.opencode/scripts/sync-core-commands.sh` in the nvim config *(completed)*
+- [x] Define the list of core routing commands to sync: implement.md, research.md, plan.md *(completed)*
+- [x] Define the registry of child project paths (hardcoded list with existence checks) *(completed)*
+- [x] Implement dry-run mode (`--dry-run`) that shows what would be copied without modifying files *(completed)*
+- [x] Implement actual sync mode that copies canonical files to each child project *(completed)*
+- [x] Add diff-based reporting: show which files changed vs which were already current *(completed)*
+- [x] Add a `--check` mode that only reports drift without fixing (exit code 1 if drift detected) *(completed)*
+- [x] Make the script idempotent (re-running produces the same result) *(completed)*
+- [x] Add `--commands` flag to optionally specify which commands to sync (default: all three routing commands) *(completed)*
 
 **Timing**: 45 minutes
 
