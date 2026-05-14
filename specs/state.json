@@ -1,17 +1,17 @@
 {
   "version": "1.0.0",
-  "next_project_number": 564,
+  "next_project_number": 567,
   "active_projects": [
     {
       "project_number": 562,
       "project_name": "consult_checklist_report_format",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "description": "Upgrade legal-analysis-agent report format to interactive actionable checklist. Change Stage 3-6 flow so findings are presented one-at-a-time via AskUserQuestion with Accept/Reject/Modify decisions (grouped by category). After all findings, offer a revision pass, then compile the full checklist report with per-finding decision checkboxes and a summary revision checklist table. Based on the format in Vision specs/203_legal_consult_revisions/reports/01_legal-consult-revisions.md.",
       "effort": "1-3 hours",
       "dependencies": [],
       "created": "2026-05-13T23:00:00Z",
-      "last_updated": "2026-05-14T04:25:56Z",
+      "last_updated": "2026-05-14T04:38:28Z",
       "artifacts": [
         {
           "path": "specs/562_consult_checklist_report_format/reports/01_consult-checklist-research.md",
@@ -19,7 +19,7 @@
           "summary": "Comprehensive research report covering example format analysis, file inventory (2 files), stage-by-stage new flow design, AskUserQuestion per-finding design, report compilation template, and Vision repo sync requirements"
         }
       ],
-      "session_id": "sess_1778732454_d40193",
+      "session_id": "sess_1778733495_d1192a",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -573,6 +573,49 @@
         ]
       },
       "completion_summary": "Fixed 3 remaining gaps in tiered model defaults: corrected stale 'currently opus' text in 6 command files (12 total occurrences across active commands and core sources), added Model column to nix extension CLAUDE.md and EXTENSION.md tables, added explicit model fields to 14 extension agents (13 sonnet + 1 opus for legal-council-agent)."
+    },
+    {
+      "project_number": 564,
+      "project_name": "lean_agent_escalation_protocol_vacuous_prohibition",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Add formal escalation protocol and vacuous-definition prohibition to the lean-implementation-agent in /home/benjamin/Projects/ProofChecker/.opencode/. When a phase cannot be completed properly, agent MUST mark it [BLOCKED] with documented blocker and return status partial — never create vacuous Lean definitions (def X := True, def X := Unit) to paper over inability. Also: define vacuous proof explicitly with examples, enforce phase-granular commits (commit after each phase, not batch), add task complexity warning to GATE IN for plans with >20h estimated effort.",
+      "effort": "1-3 hours",
+      "dependencies": [],
+      "created": "2026-05-13T00:00:00Z",
+      "last_updated": "2026-05-13T00:00:00Z",
+      "artifacts": [],
+      "next_artifact_number": 1
+    },
+    {
+      "project_number": 565,
+      "project_name": "plan_compliance_spot_check_gate",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Add plan-compliance spot-check gate to the .opencode/ lean skill and GATE OUT context in /home/benjamin/Projects/ProofChecker/.opencode/. Add Stage 6b to skill-lean-implementation/SKILL.md: read plan Key Theorems/Deliverables section, verify each listed theorem exists in the implementation with a non-vacuous definition body. Add delivery integrity check: if plan says implement X as replacement for Y, verify X does not call Y. Add lean4-specific verification hook to checkpoint-gate-out.md.",
+      "effort": "1-3 hours",
+      "dependencies": [
+        564
+      ],
+      "created": "2026-05-13T00:00:00Z",
+      "last_updated": "2026-05-13T00:00:00Z",
+      "artifacts": [],
+      "next_artifact_number": 1
+    },
+    {
+      "project_number": 566,
+      "project_name": "upstream_claude_reference_parity",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Port the escalation protocol and plan-compliance fixes from .opencode/ (tasks 564-565) to the upstream .claude/ reference system at ~/.config/nvim/.claude/. Research what lean extension files exist in .claude/extensions/lean/ and update them accordingly. Note: the .claude/ system is currently MORE trusting than .opencode/ (reads verification_passed from agent metadata without redundant check) — research findings may require different treatment or amendment to postflight-tool-restrictions.md.",
+      "effort": "1-3 hours",
+      "dependencies": [
+        565
+      ],
+      "created": "2026-05-13T00:00:00Z",
+      "last_updated": "2026-05-13T00:00:00Z",
+      "artifacts": [],
+      "next_artifact_number": 1
     }
   ],
   "completed_projects": [],

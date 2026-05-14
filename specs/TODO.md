@@ -1,15 +1,18 @@
 ---
-next_project_number: 564
+next_project_number: 567
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-13. 9 active tasks remaining.*
+*Updated 2026-05-13. 12 active tasks remaining.*
 
 ### Pending
-- **562** [RESEARCHED] -- Upgrade consult report to interactive actionable checklist format
+- **564** [NOT STARTED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
+- **565** [NOT STARTED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
+- **566** [NOT STARTED] -- Port escalation/compliance fixes to .claude/ reference system (depends: 565)
+- **562** [PLANNING] -- Upgrade consult report to interactive actionable checklist format
 - **563** [NOT STARTED] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
 - **561** [COMPLETED] -- Implement tiered model defaults across agent system (depends: 560)
@@ -21,9 +24,33 @@ next_project_number: 564
 
 ## Tasks
 
+### 564. Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Description**: Add formal escalation protocol and vacuous-definition prohibition to the lean-implementation-agent in /home/benjamin/Projects/ProofChecker/.opencode/. When a phase cannot be completed properly, agent MUST mark it [BLOCKED] with documented blocker and return status partial — never create vacuous Lean definitions (def X := True, def X := Unit) to paper over inability. Also: define vacuous proof explicitly with examples, enforce phase-granular commits (commit after each phase, not batch), add task complexity warning to GATE IN for plans with >20h estimated effort.
+  - **Target files**: `.opencode/agent/subagents/lean-implementation-agent.md`, `.opencode/rules/lean4.md`
+
+### 565. Add plan-compliance spot-check gate to lean skill (.opencode/)
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 564
+- **Description**: Add plan-compliance spot-check gate to the .opencode/ lean skill and GATE OUT context in /home/benjamin/Projects/ProofChecker/.opencode/. Add Stage 6b to skill-lean-implementation/SKILL.md: read plan Key Theorems/Deliverables section, verify each listed theorem exists in the implementation with a non-vacuous definition body. Add delivery integrity check: if plan says implement X as replacement for Y, verify X does not call Y. Add lean4-specific verification hook to checkpoint-gate-out.md.
+  - **Target files**: `.opencode/skills/skill-lean-implementation/SKILL.md`, `.opencode/context/checkpoints/checkpoint-gate-out.md`, `.opencode/context/orchestration/orchestration-validation.md`
+
+### 566. Port escalation/compliance fixes to .claude/ reference system
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 565
+- **Description**: Port the escalation protocol and plan-compliance fixes from .opencode/ (tasks 564-565) to the upstream .claude/ reference system at ~/.config/nvim/.claude/. Research what lean extension files exist in .claude/extensions/lean/ and update them accordingly. Note: the .claude/ system is currently MORE trusting than .opencode/ (reads verification_passed from agent metadata without redundant check) — research findings may require different treatment or amendment to postflight-tool-restrictions.md.
+  - **Target files**: `.claude/extensions/lean/` agent, skill, and rules files
+
 ### 562. Upgrade consult report to interactive actionable checklist format
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [562_consult_checklist_report_format/reports/01_consult-checklist-research.md]
