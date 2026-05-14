@@ -21,9 +21,10 @@ next_project_number: 575
 
 ### 574. Fix temp file usage in .opencode/ agent system to use specs/ instead of /tmp/
 - **Effort**: TBD
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Research**: [574_fix_temp_file_usage_opencode_agent_system/reports/01_temp_file_audit.md]
+- **Plan**: [574_fix_temp_file_usage_opencode_agent_system/plans/01_temp_file_fix.md]
 
 **Description**: Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue — all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.
 
