@@ -1,7 +1,7 @@
 # Implementation Plan: Task #574
 
 - **Task**: 574 - fix_temp_file_usage_opencode_agent_system
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1 hour
 - **Dependencies**: None
 - **Research Inputs**: specs/574_fix_temp_file_usage_opencode_agent_system/reports/01_temp_file_audit.md
@@ -63,15 +63,15 @@ No ROADMAP.md items are directly addressed by this plan. The fix is tactical mai
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Fix update-recommended-order.sh [NOT STARTED]
+### Phase 1: Fix update-recommended-order.sh [COMPLETED]
 
 **Goal**: Replace all 8 bare `mktemp` calls with `mktemp -p specs/tmp tmp.XXXXXXXXXX` and add `mkdir -p specs/tmp` guard in all 4 directory copies.
 
 **Tasks**:
-- [ ] **Task 1.1**: Fix `.opencode/scripts/update-recommended-order.sh` (8 mktemp calls + mkdir guard)
-- [ ] **Task 1.2**: Fix `.opencode/extensions/core/scripts/update-recommended-order.sh` (identical copy)
-- [ ] **Task 1.3**: Fix `.claude/scripts/update-recommended-order.sh` (identical copy)
-- [ ] **Task 1.4**: Fix `.claude/extensions/core/scripts/update-recommended-order.sh` (identical copy)
+- [x] **Task 1.1**: Fix `.opencode/scripts/update-recommended-order.sh` (8 mktemp calls + mkdir guard) *(completed)*
+- [x] **Task 1.2**: Fix `.opencode/extensions/core/scripts/update-recommended-order.sh` (identical copy) *(completed)*
+- [x] **Task 1.3**: Fix `.claude/scripts/update-recommended-order.sh` (identical copy) *(completed)*
+- [x] **Task 1.4**: Fix `.claude/extensions/core/scripts/update-recommended-order.sh` (identical copy) *(completed)*
 
 **Timing**: 0.5 hours
 
@@ -89,15 +89,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Fix setup-lean-mcp.sh [NOT STARTED]
+### Phase 2: Fix setup-lean-mcp.sh [COMPLETED]
 
 **Goal**: Replace all 3 bare `mktemp` calls with `mktemp -p specs/tmp tmp.XXXXXXXXXX` and add `mkdir -p specs/tmp` guard in all 4 directory copies.
 
 **Tasks**:
-- [ ] **Task 2.1**: Fix `.opencode/scripts/setup-lean-mcp.sh` (3 mktemp calls + mkdir guard)
-- [ ] **Task 2.2**: Fix `.opencode/extensions/core/scripts/setup-lean-mcp.sh` (identical copy)
-- [ ] **Task 2.3**: Fix `.claude/scripts/setup-lean-mcp.sh` (identical copy)
-- [ ] **Task 2.4**: Fix `.claude/extensions/core/scripts/setup-lean-mcp.sh` (identical copy)
+- [x] **Task 2.1**: Fix `.opencode/scripts/setup-lean-mcp.sh` (3 mktemp calls + mkdir guard) *(completed)*
+- [x] **Task 2.2**: Fix `.opencode/extensions/core/scripts/setup-lean-mcp.sh` (identical copy) *(completed)*
+- [x] **Task 2.3**: Fix `.claude/scripts/setup-lean-mcp.sh` (identical copy) *(completed)*
+- [x] **Task 2.4**: Fix `.claude/extensions/core/scripts/setup-lean-mcp.sh` (identical copy) *(completed)*
 
 **Timing**: 0.25 hours
 
@@ -115,14 +115,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Verification and Cleanup [NOT STARTED]
+### Phase 3: Verification and Cleanup [COMPLETED]
 
 **Goal**: Confirm zero bare `mktemp` calls remain across the entire codebase and verify scripts are syntactically sound.
 
 **Tasks**:
-- [ ] **Task 3.1**: Run final audit grep for bare `mktemp` across `.opencode/` and `.claude/` directories
-- [ ] **Task 3.2**: Verify each modified script passes shell syntax check (`bash -n`)
-- [ ] **Task 3.3**: Confirm `specs/tmp/` directory exists
+- [x] **Task 3.1**: Run final audit grep for bare `mktemp` across `.opencode/` and `.claude/` directories *(completed: zero matches)*
+- [x] **Task 3.2**: Verify each modified script passes shell syntax check (`bash -n`) *(completed: all 8 OK)*
+- [x] **Task 3.3**: Confirm `specs/tmp/` directory exists *(completed)*
 
 **Timing**: 0.25 hours
 

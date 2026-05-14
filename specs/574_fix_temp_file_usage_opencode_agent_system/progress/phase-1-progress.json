@@ -1,0 +1,15 @@
+{
+  "phase": 1,
+  "phase_name": "Fix update-recommended-order.sh",
+  "started_at": "2026-05-14T00:00:00Z",
+  "last_updated": "2026-05-14T00:00:00Z",
+  "objectives": [
+    {"id": 1, "description": "Fix .opencode/scripts/update-recommended-order.sh (8 mktemp calls + mkdir guard)", "status": "done"},
+    {"id": 2, "description": "Fix .opencode/extensions/core/scripts/update-recommended-order.sh", "status": "done"},
+    {"id": 3, "description": "Fix .claude/scripts/update-recommended-order.sh", "status": "done"},
+    {"id": 4, "description": "Fix .claude/extensions/core/scripts/update-recommended-order.sh", "status": "done"}
+  ],
+  "current_objective": 4,
+  "approaches_tried": [],
+  "handoff_count": 0
+}
