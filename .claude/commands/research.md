@@ -1,8 +1,8 @@
 ---
 description: Research a task and create reports
-allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit
+allowed-tools: Skill, Agent, Bash(jq:*), Bash(git:*), Read, Edit
 argument-hint: TASK_NUMBERS [FOCUS] [--team [--team-size N]] [--fast|--hard] [--haiku|--sonnet|--opus]
-model: sonnet
+model: opus
 ---
 
 # /research Command

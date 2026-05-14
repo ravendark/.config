@@ -65,3 +65,49 @@ When a literature source (paper, textbook, proof sketch) is referenced in the ta
 - **No literature referenced?** First-principles mode: all tactics and strategies permitted freely
 
 See `literature-fidelity-policy.md` for full policy, anti-pattern catalog, and escalation protocol.
+
+## Vacuous Definitions (PROHIBITED)
+
+The following definition patterns are **strictly prohibited** and are semantically equivalent to `sorry`. They create no real proof obligation and will be caught by the Zero-Debt Verification Gate.
+
+### Prohibited Patterns
+
+```lean
+-- def variants
+def Foo := True
+def Foo := Unit
+def Foo := trivial
+def Foo := Trivial
+noncomputable def Foo := True
+
+-- theorem variants
+theorem Foo := True
+theorem Foo := trivial
+theorem Foo := Trivial
+
+-- lemma variants
+lemma Foo := True
+lemma Foo := trivial
+lemma Foo := Trivial
+
+-- instance variants
+instance Foo := trivial
+instance Foo := True
+```
+
+### Why These Are Prohibited
+
+- `def X := True` compiles but proves nothing about `X`'s actual semantics
+- `theorem X := trivial` only type-checks when the goal is literally `True`, not the real goal
+- These patterns paper over inability to implement by substituting a semantically empty placeholder
+- They are indistinguishable from `sorry` in terms of proof value: the definition exists but the intent is unfulfilled
+
+### What to Do Instead
+
+If you cannot implement `X`:
+1. Mark the phase **[BLOCKED]** in the plan file
+2. Document the blocker with what was tried, what goal state was reached, and what is needed to unblock
+3. Return `status: "partial"` with `requires_user_review: true`
+4. **Do NOT create `def X := True` or any vacuous placeholder**
+
+The Escalation Protocol in `lean-implementation-agent.md` specifies the exact procedure.

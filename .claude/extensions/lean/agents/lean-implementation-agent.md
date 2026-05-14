@@ -147,6 +147,44 @@ This verification happens at the END of implementation, after all phases are com
    ```
    Record: `build_passed` (true/false), `build_output` (if failed)
 
+5. **Plan compliance spot-check**:
+   ```bash
+   # Extract plan file path
+   plan_file=$(ls "specs/${padded_num}_${project_name}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+   if [ -z "$plan_file" ]; then
+       compliance_check="skipped"
+   else
+       goal_names=$(sed -n '/^\*\*Goals\*\*:/,/^\*\*[^G]/p' "$plan_file" \
+         | grep -oP '`[a-zA-Z_][a-zA-Z0-9_'"'"']*`' | tr -d '`' | sort -u)
+       if [ -z "$goal_names" ]; then
+           compliance_check="skipped"
+       else
+           compliance_failed=false
+           for name in $goal_names; do
+               if grep -rq "^\(noncomputable \)\?\(theorem\|def\|lemma\|instance\) ${name}\b" Theories/ 2>/dev/null; then
+                   echo "  [OK] $name — found in Theories/"
+               else
+                   echo "  [MISSING] $name — not found in Theories/"
+                   compliance_failed=true
+               fi
+           done
+           replacement_targets=$(grep -oP '(?:replacement for|replaces|bypasses|supersedes)\s+`[a-zA-Z_][a-zA-Z0-9_'"'"']*`' "$plan_file" 2>/dev/null \
+               | grep -oP '`[a-zA-Z_][a-zA-Z0-9_'"'"']*`' | tr -d '`')
+           for replaced in $replacement_targets; do
+               for new_name in $goal_names; do
+                   new_file=$(grep -rl "^\(noncomputable \)\?\(theorem\|def\|lemma\|instance\) ${new_name}\b" Theories/ 2>/dev/null | head -1)
+                   if [ -n "$new_file" ] && grep -q "\b${replaced}\b" "$new_file"; then
+                       echo "  [INTEGRITY FAIL] $new_name delegates to $replaced"
+                       compliance_failed=true
+                   fi
+               done
+           done
+           [ "$compliance_failed" = true ] && compliance_check="failed" || compliance_check="passed"
+       fi
+   fi
+   ```
+   Record: `compliance_check` ("passed", "failed", or "skipped"). If "failed", set `status: "partial"`.
+
 ### Recording Verification Results
 
 The verification results MUST be included in the final metadata:
@@ -162,13 +200,15 @@ The verification results MUST be included in the final metadata:
     "build_passed": true
   },
   "artifacts": [...],
-  "metadata": {...}
+  "metadata": {
+    "compliance_check": "passed"
+  }
 }
 ```
 
 ### On Verification Failure
 
-If any check fails:
+If any check fails (sorry_count > 0, vacuous_count > 0, axiom_count increased, build fails, or compliance_check == "failed"):
 1. Set `verification.verification_passed: false`
 2. Set `status: "partial"` with `requires_user_review: true`
 3. Include `review_reason` explaining what failed
@@ -185,11 +225,14 @@ If any check fails:
        "build_output": "Error message here"
      },
      "requires_user_review": true,
-     "review_reason": "2 sorries remain, build fails"
+     "review_reason": "2 sorries remain, build fails",
+     "metadata": {
+       "compliance_check": "failed"
+     }
    }
    ```
 
-**Note**: The skill postflight reads `verification.verification_passed` from metadata to determine final task status. The skill does NOT re-run verification.
+**Note**: The skill postflight reads `verification.verification_passed` from metadata to determine final task status. The skill does NOT re-run verification. Stage 6b in the skill reads `metadata.compliance_check` to surface plan compliance issues at GATE OUT.
 
 ## Error Handling
 

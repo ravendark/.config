@@ -51,6 +51,25 @@ if [ "$task_type" != "lean" ] && [ "$task_type" != "lean4" ]; then
 fi
 ```
 
+#### Task Complexity Warning (GATE IN)
+
+After identifying the plan file, extract the estimated effort and warn if total exceeds 20 hours:
+
+```bash
+plan_file="specs/${padded_num}_${project_name}/plans/$(ls specs/${padded_num}_${project_name}/plans/ 2>/dev/null | tail -1)"
+if [ -f "$plan_file" ]; then
+    effort_line=$(grep -i "Effort\|estimate\|hours\?" "$plan_file" 2>/dev/null | head -5)
+    effort_hours=$(echo "$effort_line" | grep -oP '\d+(?=\s*h(our)?s?)' | head -1)
+    if [ -n "$effort_hours" ] && [ "$effort_hours" -gt 20 ] 2>/dev/null; then
+        echo "WARNING: Task complexity exceeds 20 hours estimated effort (${effort_hours}h)."
+        echo "  Consider using /team-implement or breaking into smaller phases."
+        echo "  Proceeding with single-agent implementation."
+    fi
+fi
+```
+
+This warning is non-blocking. If effort hours cannot be parsed, no warning is emitted.
+
 ---
 
 ### Stage 2: Preflight Status Update
@@ -153,16 +172,90 @@ If status from metadata is "implemented":
 # Check for sorries in modified files
 sorry_count=$(grep -r "\bsorry\b" Theories/ 2>/dev/null | grep -v "^[[:space:]]*--" | wc -l)
 
+# Check for vacuous definitions (semantically equivalent to sorry)
+vacuous_count=$(grep -rn "^\s*\(noncomputable \)\?\(def\|theorem\|lemma\|instance\).*:= \(True\|Unit\|trivial\|Trivial\)\s*$" Theories/ 2>/dev/null | wc -l)
+if [ "$vacuous_count" -gt 0 ]; then
+    echo "  vacuous_count=$vacuous_count (def/theorem/lemma/instance := True|Unit|trivial|Trivial)"
+fi
+
 # Verify build passes
 if ! lake build 2>/dev/null; then
     build_failed=true
 fi
 
-if [ "$sorry_count" -gt 0 ] || [ "$build_failed" = true ]; then
+if [ "$sorry_count" -gt 0 ] || [ "$vacuous_count" -gt 0 ] || [ "$build_failed" = true ]; then
     echo "Zero-debt gate FAILED"
     status="partial"
 fi
 ```
+
+---
+
+### Stage 6b: Plan Compliance Spot-Check (MANDATORY)
+
+After the Zero-Debt gate passes, verify that plan-declared deliverables exist and that no replacement function delegates to the function it purports to replace.
+
+**This stage only runs if status from metadata is "implemented".** If the agent returned "partial" or "failed", skip Stage 6b and proceed to Stage 7.
+
+**Step 1: Extract plan goal names**
+
+```bash
+# plan_file is available from Stage 1 (GATE IN complexity warning)
+if [ ! -f "$plan_file" ]; then
+    echo "WARNING: Plan file not found — skipping compliance check"
+    compliance_check="skipped"
+else
+    # Extract backtick-wrapped identifiers from **Goals**: section
+    goal_names=$(sed -n '/^\*\*Goals\*\*:/,/^\*\*[^G]/p' "$plan_file" \
+      | grep -oP '`[a-zA-Z_][a-zA-Z0-9_'"'"']*`' \
+      | tr -d '`' | sort -u)
+
+    if [ -z "$goal_names" ]; then
+        echo "INFO: No goal names found in plan **Goals**: section — skipping compliance check"
+        compliance_check="skipped"
+    else
+        compliance_failed=false
+
+        # Step 2: Deliverable existence check
+        for name in $goal_names; do
+            if grep -rq "^\(noncomputable \)\?\(theorem\|def\|lemma\|instance\) $name\b" Theories/ 2>/dev/null; then
+                echo "  [OK] $name — found in Theories/"
+            else
+                echo "  [MISSING] $name — not found in Theories/ (plan deliverable absent)"
+                compliance_failed=true
+            fi
+        done
+
+        # Step 3: Delivery integrity check
+        replacement_targets=$(grep -oP '(?:replacement for|replaces|bypasses|supersedes)\s+`[a-zA-Z_][a-zA-Z0-9_'"'"']*`' "$plan_file" 2>/dev/null \
+            | grep -oP '`[a-zA-Z_][a-zA-Z0-9_'"'"']*`' | tr -d '`')
+
+        for replaced in $replacement_targets; do
+            for new_name in $goal_names; do
+                new_file=$(grep -rl "^\(noncomputable \)\?\(theorem\|def\|lemma\|instance\) $new_name\b" Theories/ 2>/dev/null | head -1)
+                if [ -n "$new_file" ] && grep -q "\b${replaced}\b" "$new_file"; then
+                    echo "  [INTEGRITY FAIL] $new_name references $replaced in $new_file"
+                    echo "    Plan declared $new_name as replacement for $replaced, but implementation delegates to it."
+                    compliance_failed=true
+                fi
+            done
+        done
+
+        if [ "$compliance_failed" = true ]; then
+            echo "Plan compliance spot-check FAILED"
+            compliance_check="failed"
+            status="partial"
+        else
+            echo "Plan compliance spot-check PASSED"
+            compliance_check="passed"
+        fi
+    fi
+fi
+```
+
+**Step 4: Record compliance result in metadata**
+
+The `compliance_check` value ("passed", "failed", or "skipped") must be included in the `.return-meta.json` update passed to the GATE OUT stage. Update the metadata read logic to propagate this field.
 
 ---
 
@@ -207,18 +300,33 @@ fi
 
 ### Stage 9: Git Commit
 
-Commit changes with session ID:
+Commit changes with session ID. If the subagent already created per-phase commits (Phase Checkpoint Protocol), skip the batch commit to avoid redundant history:
 
 ```bash
-git add \
-  "Theories/" \
-  "specs/${padded_num}_${project_name}/summaries/" \
-  "specs/${padded_num}_${project_name}/plans/" \
-  "specs/TODO.md" \
-  "specs/state.json"
-git commit -m "task ${task_number}: complete implementation
+# Check if per-phase commits already exist from subagent Phase Checkpoint Protocol
+if git log --oneline -10 | grep -q "phase [0-9]\+:"; then
+    echo "Per-phase commits detected — skipping batch commit."
+    echo "Phase commits already capture implementation history."
+else
+    # No per-phase commits found — create a batch commit
+    git add \
+      "Theories/" \
+      "specs/${padded_num}_${project_name}/summaries/" \
+      "specs/${padded_num}_${project_name}/plans/" \
+      "specs/TODO.md" \
+      "specs/state.json"
+    git commit -m "task ${task_number}: complete implementation
 
 Session: ${session_id}
+"
+fi
+
+# Always commit state updates if not already staged
+git add "specs/TODO.md" "specs/state.json" 2>/dev/null || true
+git diff --cached --quiet || git commit -m "task ${task_number}: update task state
+
+Session: ${session_id}
+"
 ```
 
 ---

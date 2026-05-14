@@ -21967,3 +21967,37 @@
 [2026-05-13T22:14:05-07:00] Loop guard incremented to 2
 [2026-05-13T22:14:05-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
 [2026-05-13T22:14:40-07:00] No postflight marker, allowing stop
+[2026-05-13T22:43:46-07:00] Postflight marker found at: specs/566_upstream_claude_reference_parity/.postflight-pending
+[2026-05-13T22:43:46-07:00] Task directory: specs/566_upstream_claude_reference_parity
+[2026-05-13T22:43:46-07:00] Loop guard initialized to 1
+[2026-05-13T22:43:46-07:00] Blocking stop: Postflight operations pending
+[2026-05-13T22:44:07-07:00] Postflight marker found at: specs/566_upstream_claude_reference_parity/.postflight-pending
+[2026-05-13T22:44:07-07:00] Task directory: specs/566_upstream_claude_reference_parity
+[2026-05-13T22:44:07-07:00] Loop guard incremented to 2
+[2026-05-13T22:44:07-07:00] Blocking stop: Postflight operations pending
+[2026-05-13T22:44:10-07:00] Postflight marker found at: specs/566_upstream_claude_reference_parity/.postflight-pending
+[2026-05-13T22:44:10-07:00] Task directory: specs/566_upstream_claude_reference_parity
+[2026-05-13T22:44:10-07:00] Loop guard incremented to 3
+[2026-05-13T22:44:10-07:00] Blocking stop: Postflight operations pending
+[2026-05-13T22:44:11-07:00] Postflight marker found at: specs/566_upstream_claude_reference_parity/.postflight-pending
+[2026-05-13T22:44:11-07:00] Task directory: specs/566_upstream_claude_reference_parity
+[2026-05-13T22:44:11-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T22:44:11-07:00] Loop guard prevented continuation
+[2026-05-13T23:25:58-07:00] Postflight marker found at: specs/567_opencode_seed_lean_agent_integrity/.postflight-pending
+[2026-05-13T23:25:58-07:00] Task directory: specs/567_opencode_seed_lean_agent_integrity
+[2026-05-13T23:25:58-07:00] Loop guard initialized to 1
+[2026-05-13T23:25:58-07:00] Blocking stop: Postflight operations pending
+[2026-05-13T23:26:09-07:00] Postflight marker found at: specs/567_opencode_seed_lean_agent_integrity/.postflight-pending
+[2026-05-13T23:26:09-07:00] Task directory: specs/567_opencode_seed_lean_agent_integrity
+[2026-05-13T23:26:09-07:00] Loop guard incremented to 2
+[2026-05-13T23:26:09-07:00] Blocking stop: Postflight operations pending
+[2026-05-13T23:27:03-07:00] Postflight marker found at: specs/567_opencode_seed_lean_agent_integrity/.postflight-pending
+[2026-05-13T23:27:03-07:00] Task directory: specs/567_opencode_seed_lean_agent_integrity
+[2026-05-13T23:27:03-07:00] Loop guard incremented to 3
+[2026-05-13T23:27:03-07:00] Blocking stop: Postflight operations pending
+[2026-05-13T23:27:17-07:00] Postflight marker found at: specs/567_opencode_seed_lean_agent_integrity/.postflight-pending
+[2026-05-13T23:27:17-07:00] Task directory: specs/567_opencode_seed_lean_agent_integrity
+[2026-05-13T23:27:17-07:00] Loop guard triggered: 3 >= 3
+[2026-05-13T23:27:17-07:00] Loop guard prevented continuation
+[2026-05-13T23:27:29-07:00] No postflight marker, allowing stop
+[2026-05-13T23:27:48-07:00] No postflight marker, allowing stop

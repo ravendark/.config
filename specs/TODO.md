@@ -12,8 +12,8 @@ next_project_number: 568
 - **564** [COMPLETED] -- Add lean agent escalation protocol and vacuous-definition prohibition (.opencode/)
 - **565** [COMPLETED] -- Add plan-compliance spot-check gate to lean skill (.opencode/) (depends: 564)
   - **Research**: specs/565_plan_compliance_spot_check_gate/reports/01_compliance-gate-research.md
-- **566** [PLANNED] -- Apply .claude/ lean integrity improvements: vacuous rules + metadata-based compliance (depends: 565)
-- **567** [PLANNED] -- Apply 564+565 integrity improvements to nvim .opencode/ seed (depends: 565)
+- **566** [COMPLETED] -- Apply .claude/ lean integrity improvements: vacuous rules + metadata-based compliance (depends: 565)
+- **567** [COMPLETED] -- Apply 564+565 integrity improvements to nvim .opencode/ seed (depends: 565)
 - **562** [COMPLETED] -- Upgrade consult report to interactive actionable checklist format
 - **563** [COMPLETED] -- Make /consult always create a task automatically (depends: 562)
 - **560** [COMPLETED] -- Research model routing best practices for agent system
@@ -50,21 +50,23 @@ next_project_number: 568
 
 ### 566. Port escalation/compliance fixes to .claude/ reference system
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: 565
 - **Research**: [566_upstream_claude_reference_parity/reports/01_claude-reference-parity-research.md]
 - **Plan**: [566_upstream_claude_reference_parity/plans/01_claude-reference-parity-plan.md]
+- **Summary**: [566_upstream_claude_reference_parity/summaries/01_claude-reference-parity-summary.md]
 - **Description**: Apply appropriate lean agent integrity improvements to the .claude/ reference system at ~/.config/nvim/.claude/. Scope: (1) .claude/extensions/lean/agents/lean-implementation-agent.md — ALREADY updated by task 564; no further changes needed. (2) .claude/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section. (3) .claude/extensions/lean/skills/skill-lean-implementation/SKILL.md — add plan-compliance check ADAPTED for .claude/ architecture: since the .claude/ skill MUST NOT re-run grep or lake build (per postflight-tool-restrictions.md), check must read compliance_check from agent metadata rather than executing grep. (4) Check if .claude/ has a checkpoint-gate-out context equivalent and add lean4 compliance hook if so.
   - **Target files**: `.claude/extensions/lean/rules/lean4.md`, `.claude/extensions/lean/skills/skill-lean-implementation/SKILL.md`, any checkpoint-gate-out equivalent
 
 ### 567. Apply 564+565 integrity improvements to nvim .opencode/ seed
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: 565
 - **Research**: [567_opencode_seed_lean_agent_integrity/reports/01_opencode-seed-integrity-research.md]
 - **Plan**: [567_opencode_seed_lean_agent_integrity/plans/01_opencode-seed-integrity-plan.md]
+- **Summary**: [567_opencode_seed_lean_agent_integrity/summaries/01_opencode-seed-integrity-summary.md]
 - **Description**: Apply the same agent integrity improvements from tasks 564-565 to the nvim .opencode/ seed at ~/.config/nvim/.opencode/. This seed is used by the <leader>al picker to initialize new projects with the OpenCode agent system. Files: (1) .opencode/extensions/lean/agents/lean-implementation-agent.md — add escalation protocol, vacuous-definition prohibition, vacuous-def check in Zero-Debt Gate, Phase Checkpoint Protocol; (2) .opencode/extensions/lean/rules/lean4.md — add Vacuous Definitions (PROHIBITED) section; (3) .opencode/extensions/lean/skills/skill-lean-implementation/SKILL.md — add Stage 6b plan-compliance spot-check, complexity warning in GATE IN, conditional Stage 9 commit; (4) .opencode/context/checkpoints/checkpoint-gate-out.md — add lean4-specific compliance hook reading compliance_check from metadata.
   - **Target files**: `~/.config/nvim/.opencode/extensions/lean/` agents, rules, skills + `.opencode/context/checkpoints/checkpoint-gate-out.md`
 

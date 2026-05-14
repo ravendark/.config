@@ -1,7 +1,7 @@
 # Implementation Plan: Upstream .claude/ Reference System Parity
 
 - **Task**: 566 - upstream_claude_reference_parity
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: Task 564 (completed), Task 565 (completed)
 - **Research Inputs**: specs/566_upstream_claude_reference_parity/reports/01_claude-reference-parity-research.md
@@ -46,7 +46,7 @@ Apply lean agent integrity improvements to the `.claude/extensions/lean/` refere
 
 Phases are sequential since each phase builds on the previous (agent change enables SKILL Stage 6b which is referenced by checkpoint).
 
-### Phase 1: Add Vacuous Definitions Section to lean4.md [NOT STARTED]
+### Phase 1: Add Vacuous Definitions Section to lean4.md [COMPLETED]
 
 - **Goal:** Add the "Vacuous Definitions (PROHIBITED)" section to the lean4 rules file, identical to the ProofChecker version
 - **Tasks:**
@@ -102,7 +102,7 @@ Phases are sequential since each phase builds on the previous (agent change enab
 - **Timing:** 15 minutes
 - **Depends on:** none
 
-### Phase 2: Add Plan Compliance Step to lean-implementation-agent.md [NOT STARTED]
+### Phase 2: Add Plan Compliance Step to lean-implementation-agent.md [COMPLETED]
 
 - **Goal:** Add step 5 (plan compliance spot-check) to the Final Verification Stage of the agent, so the agent runs the check and records `compliance_check` in metadata
 - **Tasks:**
@@ -152,7 +152,7 @@ Phases are sequential since each phase builds on the previous (agent change enab
 - **Timing:** 30 minutes
 - **Depends on:** 1
 
-### Phase 3: Add Stage 6b to SKILL.md [NOT STARTED]
+### Phase 3: Add Stage 6b to SKILL.md [COMPLETED]
 
 - **Goal:** Insert Stage 6b (metadata-read compliance check) between Stage 5 and Stage 6 of `.claude/extensions/lean/skills/skill-lean-implementation/SKILL.md`
 - **Tasks:**
@@ -192,7 +192,7 @@ Phases are sequential since each phase builds on the previous (agent change enab
 - **Timing:** 20 minutes
 - **Depends on:** 2
 
-### Phase 4: Add Section 2b to checkpoint-gate-out.md [NOT STARTED]
+### Phase 4: Add Section 2b to checkpoint-gate-out.md [COMPLETED]
 
 - **Goal:** Add lean4-specific plan compliance verification hook (section 2b) to `.claude/context/checkpoints/checkpoint-gate-out.md`
 - **Tasks:**

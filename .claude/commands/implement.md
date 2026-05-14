@@ -1,8 +1,8 @@
 ---
 description: Execute implementation with resume support
-allowed-tools: Skill, Bash(jq:*), Bash(git:*), Read, Edit, Glob
+allowed-tools: Skill, Agent, Bash(jq:*), Bash(git:*), Read, Edit, Glob
 argument-hint: TASK_NUMBERS [--team [--team-size N]] [--force] [--fast|--hard] [--haiku|--sonnet|--opus]
-model: sonnet
+model: opus
 ---
 
 # /implement Command

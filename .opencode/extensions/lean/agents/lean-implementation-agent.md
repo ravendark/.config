@@ -126,13 +126,19 @@ Before returning "implemented" status, you MUST verify zero proof debt:
    ```
    If ANY match: Cannot return "implemented" status
 
-2. **Check for new axioms**:
+2. **Check for vacuous definitions (PROHIBITED patterns)**:
+   ```bash
+   vacuous_count=$(grep -rn "^\s*\(noncomputable \)\?\(def\|theorem\|lemma\|instance\).*:= \(True\|Unit\|trivial\|Trivial\)\s*$" Theories/ 2>/dev/null | wc -l)
+   ```
+   If ANY match: Cannot return "implemented" status. Vacuous definitions are semantically equivalent to sorry. Note: this grep covers single-line patterns; multi-line vacuous definitions require manual review.
+
+3. **Check for new axioms**:
    ```bash
    grep -n "^axiom " <file>
    ```
    If count increased: Cannot return "implemented" status
 
-3. **Verify build passes**:
+4. **Verify build passes**:
    ```bash
    lake build
    ```
@@ -140,10 +146,10 @@ Before returning "implemented" status, you MUST verify zero proof debt:
 
 ### On Verification Failure
 
-If any check fails:
+If any check fails (sorries, vacuous definitions, new axioms, or build failure):
 1. Do NOT return "implemented" status
 2. Set `status: "partial"` with `requires_user_review: true`
-3. Include `review_reason` explaining what failed
+3. Include `review_reason` explaining what failed (mention vacuous_count if > 0)
 4. Document the blocking issue in metadata
 
 ## Error Handling
@@ -201,6 +207,86 @@ When approaching context limit:
 3. **Update metadata** with `handoff_path`
 4. **Return immediately** - do NOT attempt more work after writing handoff
 
+## Escalation Protocol (MANDATORY)
+
+When a phase cannot be completed properly — due to missing mathlib lemmas, unsolvable goals, unclear spec, or any other blocker — you MUST follow this protocol. Never paper over the inability with vacuous definitions.
+
+### Step 1: Mark the Phase [BLOCKED] in the Plan File
+
+```
+Edit:
+  file_path: specs/{N}_{SLUG}/plans/MM_{short-slug}.md
+  old_string: "### Phase {P}: {exact_phase_name} [IN PROGRESS]"
+  new_string: "### Phase {P}: {exact_phase_name} [BLOCKED]"
+```
+
+### Step 2: Document the Blocker
+
+Immediately below the phase heading (or in the plan's "Risks" section), add a structured blocker entry:
+
+```markdown
+**BLOCKER** (Phase {P}):
+- **What failed**: {Exact description — which theorem, which tactic, which goal state}
+- **What was tried**: {List of approaches attempted with lean_goal state at each attempt}
+- **Why it's stuck**: {Root cause — missing lemma X, circular dependency, spec ambiguity, etc.}
+- **What is needed**: {Concrete action needed to unblock — find lemma Y, clarify spec, split into sub-theorem}
+- **Prohibited workarounds**: Do NOT use `sorry`, `def X := True`, or any vacuous placeholder
+```
+
+### Step 3: Return Partial Status
+
+Write metadata with `status: "partial"`, `requires_user_review: true`, and `blocked_phase`:
+
+```json
+{
+  "status": "partial",
+  "requires_user_review": true,
+  "blocked_phase": {P},
+  "review_reason": "Phase {P} blocked: {one-line description of blocker}",
+  "partial_progress": {
+    "stage": "phase_{P}_blocked",
+    "details": "Phase {P} could not be completed. See plan file for blocker documentation.",
+    "phases_completed": {N-1},
+    "phases_total": {M}
+  },
+  "metadata": {
+    "session_id": "{session_id}",
+    "agent_type": "lean-implementation-agent"
+  }
+}
+```
+
+### Prohibition
+
+**NEVER return `status: "implemented"` if any phase is marked [BLOCKED].** A task with a blocked phase is not complete, regardless of how many other phases succeeded. The user must review and resolve the blocker before the task can be marked implemented.
+
+---
+
+## Phase Checkpoint Protocol
+
+For each phase in the implementation plan, commit after completing it:
+
+1. **Mark phase [IN PROGRESS]** in plan file before starting
+2. **Execute phase steps** as documented
+3. **Mark phase [COMPLETED]** (or [BLOCKED] per Escalation Protocol) in plan file
+4. **Git commit** with message: `task {N} phase {P}: {phase_name}`
+
+```bash
+git add <modified-files-for-this-phase>
+git commit -m "task {N} phase {P}: {phase_name}
+
+Session: {session_id}
+"
+```
+
+**Why phase-granular commits**:
+- Resume point is always discoverable from plan file
+- Git history reflects phase-level progress
+- Blocked phases can be recovered cleanly without losing prior phases
+- Avoids large batch commits that obscure what changed per phase
+
+---
+
 ## Critical Requirements
 
 **MUST DO**:
@@ -229,3 +315,11 @@ When approaching context limit:
 10. **Return implemented status if any sorry remains**
 11. **Return implemented status if any new axiom was introduced**
 12. **Defer sorry resolution to a follow-up task**
+13. **Create vacuous definitions to paper over inability to implement**: The following patterns are STRICTLY PROHIBITED and semantically equivalent to `sorry`:
+    - `def X := True` / `def X := Unit` / `def X := trivial` / `def X := Trivial`
+    - `theorem X := True` / `theorem X := trivial` / `theorem X := Trivial`
+    - `lemma X := True` / `lemma X := trivial` / `lemma X := Trivial`
+    - `noncomputable def X := True` (and all `noncomputable` variants of the above)
+    - `instance X := trivial` / `instance X := True`
+    - Any definition whose body is solely a trivially-true placeholder with no connection to the actual goal
+    If you cannot implement X, see the Escalation Protocol above — mark the phase [BLOCKED], not X := True.

@@ -1,7 +1,7 @@
 # Implementation Plan: OpenCode Seed Lean Agent Integrity
 
 - **Task**: 567 - opencode_seed_lean_agent_integrity
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: Task 564 (completed), Task 565 (completed)
 - **Research Inputs**: specs/567_opencode_seed_lean_agent_integrity/reports/01_opencode-seed-integrity-research.md
@@ -50,7 +50,7 @@ Apply all lean agent integrity improvements from tasks 564–565 to the nvim `.o
 
 Phases 1 and 2 (agent and rules) are independent and can execute in parallel. Phase 3 (SKILL) depends on understanding what's in the agent. Phase 4 (checkpoint) is independent but last for logical grouping.
 
-### Phase 1: Update lean-implementation-agent.md [NOT STARTED]
+### Phase 1: Update lean-implementation-agent.md [COMPLETED]
 
 - **Goal:** Add all missing items from task 564 to the .opencode/ seed agent: vacuous_count check, escalation protocol, phase checkpoint, item 13
 - **Tasks:**
@@ -71,7 +71,7 @@ Phases 1 and 2 (agent and rules) are independent and can execute in parallel. Ph
 - **Timing:** 45 minutes
 - **Depends on:** none
 
-### Phase 2: Add Vacuous Definitions Section to lean4.md [NOT STARTED]
+### Phase 2: Add Vacuous Definitions Section to lean4.md [COMPLETED]
 
 - **Goal:** Append the "Vacuous Definitions (PROHIBITED)" section to `.opencode/extensions/lean/rules/lean4.md`
 - **Tasks:**
@@ -85,7 +85,7 @@ Phases 1 and 2 (agent and rules) are independent and can execute in parallel. Ph
 - **Timing:** 15 minutes
 - **Depends on:** none
 
-### Phase 3: Update SKILL.md [NOT STARTED]
+### Phase 3: Update SKILL.md [COMPLETED]
 
 - **Goal:** Add complexity warning, vacuous_count check, Stage 6b, and conditional Stage 9 to `.opencode/extensions/lean/skills/skill-lean-implementation/SKILL.md`
 - **Tasks:**
@@ -146,7 +146,7 @@ Phases 1 and 2 (agent and rules) are independent and can execute in parallel. Ph
 - **Timing:** 45 minutes
 - **Depends on:** 1, 2
 
-### Phase 4: Add Section 2b to checkpoint-gate-out.md [NOT STARTED]
+### Phase 4: Add Section 2b to checkpoint-gate-out.md [COMPLETED]
 
 - **Goal:** Add lean4-specific plan compliance verification hook to `.opencode/context/checkpoints/checkpoint-gate-out.md`
 - **Tasks:**

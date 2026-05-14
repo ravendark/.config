@@ -165,6 +165,36 @@ fi
 
 ---
 
+### Stage 6b: Plan Compliance Check (Read from Metadata)
+
+**This stage only runs if status from metadata is "implemented".**
+
+Read the agent-reported compliance result from metadata (agent ran the grep check in Final Verification Stage; SKILL reads the result — MUST NOT re-run grep per postflight-tool-restrictions.md):
+
+```bash
+if [ "$status" = "implemented" ]; then
+    compliance_check=$(jq -r '.metadata.compliance_check // "skipped"' "$metadata_file" 2>/dev/null)
+
+    case "$compliance_check" in
+        "failed")
+            echo "Stage 6b: Plan compliance check FAILED (agent reported)"
+            echo "  See agent output for missing deliverables or integrity violations"
+            status="partial"
+            ;;
+        "passed")
+            echo "Stage 6b: Plan compliance check PASSED"
+            ;;
+        "skipped"|*)
+            echo "Stage 6b: INFO — compliance_check absent or skipped; proceeding"
+            ;;
+    esac
+fi
+```
+
+**Architecture note**: The `.claude/` skill MUST NOT run grep or shell analysis in postflight (see postflight-tool-restrictions.md). The lean-implementation-agent runs the check during Final Verification Stage and records results in metadata. This stage reads that result only.
+
+---
+
 ### Stage 6: Update Task Status (Postflight)
 
 **If status is "implemented" AND verification_passed is true**:
