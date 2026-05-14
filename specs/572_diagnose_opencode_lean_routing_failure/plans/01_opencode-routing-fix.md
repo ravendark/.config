@@ -175,16 +175,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: End-to-End Validation [NOT STARTED]
+### Phase 4: End-to-End Validation [COMPLETED]
 
 **Goal**: Verify the routing fix works correctly across all child projects by running manifest discovery logic and confirming the fix in ProofChecker specifically.
 
 **Tasks**:
-- [ ] In ProofChecker, run the absolute-path manifest discovery logic via Bash to confirm manifests are found: `project_root=$(git rev-parse --show-toplevel); ls "$project_root/.opencode/extensions/"*/manifest.json`
-- [ ] In each child project that has extensions installed, verify the manifest discovery returns results
-- [ ] Verify the nvim source commands have no regressions by checking for all required sections (routing, preamble, delegation chain notes)
-- [ ] Run the sync script in `--check` mode to confirm zero drift across all child projects
-- [ ] Document the fix and sync script location in the implementation summary
+- [x] In ProofChecker, run the absolute-path manifest discovery logic via Bash to confirm manifests are found: `project_root=$(git rev-parse --show-toplevel); ls "$project_root/.opencode/extensions/"*/manifest.json` *(completed: found 7 manifests including lean/manifest.json)*
+- [x] In each child project that has extensions installed, verify the manifest discovery returns results *(completed: ProofChecker confirmed; other projects don't have extensions dir)*
+- [x] Verify the nvim source commands have no regressions by checking for all required sections (routing, preamble, delegation chain notes) *(completed: all sections verified present)*
+- [x] Run the sync script in `--check` mode to confirm zero drift across all child projects *(completed: exit code 0, 15 files all current)*
+- [x] Document the fix and sync script location in the implementation summary *(completed: see summaries/01_opencode-routing-fix-summary.md)*
 
 **Timing**: 15 minutes
 
