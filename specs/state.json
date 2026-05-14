@@ -5,10 +5,64 @@
     {
       "project_number": 571,
       "project_name": "create_guide_discord_opencode_agents_neovim",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "general",
       "created": "2026-05-14T15:40:29Z",
-      "last_updated": "2026-05-14T15:40:29Z"
+      "last_updated": "2026-05-14T15:50:42Z",
+      "session_id": "sess_1747237240_a3f2c1",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md",
+          "type": "research",
+          "summary": "Research report on using Discord to manage OpenCode agents from Neovim, covering existing infrastructure, Neovim integration plugins, and everyday workflow"
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "The discord-bot Neovim integration requires DISCORD_BOT_LINK_TOKEN to be set to any non-empty string in the shell environment, even though the bot side has LINK_API_TOKEN empty (no auth enforced). The Neovim plugin (discord-link.lua) returns an error at line 52 when TOKEN is nil/empty, before making any HTTP request. Set DISCORD_BOT_LINK_TOKEN to any value in home.sessionVariables to enable the integration.",
+          "category": "CONFIG",
+          "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "discord",
+            "bot",
+            "LINK_API_TOKEN",
+            "DISCORD_BOT_LINK_TOKEN",
+            "neovim",
+            "env-var"
+          ]
+        },
+        {
+          "content": "The discord-bot.service has a recurring heartbeat blocking issue: nextcord.gateway warnings indicate the asyncio event loop is stuck, making the aiohttp HTTP API server (port 8080) unresponsive. Fix: systemctl restart discord-bot. The HTTP API is needed for Neovim leader>ar (link) and leader>as (session picker) commands to work.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "discord-bot",
+            "heartbeat",
+            "asyncio",
+            "HTTP-API",
+            "8080",
+            "blocked",
+            "restart"
+          ]
+        },
+        {
+          "content": "The OpenCode serve endpoint is fixed at port 4096 (127.0.0.1:4096). The NixOS service config uses --port 4096 explicitly. The bot service has OPENCODE_SERVER_URL=http://127.0.0.1:4096 hardcoded.",
+          "category": "CONFIG",
+          "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "serve",
+            "port",
+            "4096",
+            "NixOS",
+            "headless"
+          ]
+        }
+      ]
     },
     {
       "project_number": 568,
