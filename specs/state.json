@@ -5,17 +5,22 @@
     {
       "project_number": 571,
       "project_name": "create_guide_discord_opencode_agents_neovim",
-      "status": "researched",
+      "status": "planned",
       "task_type": "general",
       "created": "2026-05-14T15:40:29Z",
-      "last_updated": "2026-05-14T15:50:42Z",
-      "session_id": "sess_1747237240_a3f2c1",
+      "last_updated": "2026-05-14T16:33:37Z",
+      "session_id": "sess_1747237650_b4e8d2",
       "next_artifact_number": 2,
       "artifacts": [
         {
           "path": "specs/571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md",
           "type": "research",
           "summary": "Research report on using Discord to manage OpenCode agents from Neovim, covering existing infrastructure, Neovim integration plugins, and everyday workflow"
+        },
+        {
+          "path": "specs/571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide.md",
+          "type": "plan",
+          "summary": "Implementation plan with 2 phases for creating a Discord+OpenCode+Neovim workflow guide"
         }
       ],
       "memory_candidates": [

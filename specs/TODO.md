@@ -21,9 +21,10 @@ next_project_number: 572
 
 ### 571. Create guide for using Discord to manage OpenCode agents from Neovim
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: general
 - **Research**: [571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md]
+- **Plan**: [571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide.md]
 
 **Description**: Create a workflow guide in `/home/benjamin/.config/nvim/.opencode/docs/guides/` for using Discord to manage OpenCode agents. Reference `/home/benjamin/.dotfiles/docs/discord-bot.md` which outlines the existing NixOS Discord bot setup. Research how to use these resources from within Neovim, describing the most convenient and low-friction workflow for everyday use.
 
