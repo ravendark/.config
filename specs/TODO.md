@@ -9,7 +9,7 @@ next_project_number: 579
 *Updated 2026-05-14. 11 active tasks remaining.*
 
 ### Pending
-- **578** [RESEARCHED] -- Fix OpenCode /tmp/ file usage root cause everywhere
+- **578** [PLANNING] -- Fix OpenCode /tmp/ file usage root cause everywhere
 - **577** [COMPLETED] -- Investigate root cause of .opencode/ output path corruption after extension reload
 - **576** [COMPLETED] -- Fix OpenCode session picker restore/browse options (depends: 575)
 - **575** [COMPLETED] -- Audit OpenCode session picker failure modes
@@ -25,7 +25,7 @@ next_project_number: 579
 
 ### 578. Fix OpenCode /tmp/ file usage root cause everywhere
 - **Effort**: 2-4 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Research**: [578_fix_opencode_tmp_file_usage_root_cause/reports/01_tmp-file-root-cause.md]
 
@@ -93,12 +93,14 @@ next_project_number: 579
 
 ### 571. Create guide for using Discord to manage OpenCode agents from Neovim
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: general
 - **Research**:
   - [571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md]
   - [571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md]
-- **Plan**: [571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide.md]
+- **Plan**:
+  - [571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide.md]
+  - [571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide-revised.md]
 
 **Description**: Create a workflow guide in `/home/benjamin/.config/nvim/.opencode/docs/guides/` for using Discord to manage OpenCode agents. Reference `/home/benjamin/.dotfiles/docs/discord-bot.md` which outlines the existing NixOS Discord bot setup. Research how to use these resources from within Neovim, describing the most convenient and low-friction workflow for everyday use.
 

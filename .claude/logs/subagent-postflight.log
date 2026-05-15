@@ -22408,3 +22408,14 @@
 [2026-05-14T18:25:30-07:00] Task directory: specs/571_create_guide_discord_opencode_agents_neovim
 [2026-05-14T18:25:30-07:00] Loop guard triggered: 3 >= 3
 [2026-05-14T18:25:30-07:00] Loop guard prevented continuation
+[2026-05-14T18:26:02-07:00] No postflight marker, allowing stop
+[2026-05-14T18:26:34-07:00] No postflight marker, allowing stop
+[2026-05-14T18:26:36-07:00] No postflight marker, allowing stop
+[2026-05-14T18:31:49-07:00] Postflight marker found at: specs/578_fix_opencode_tmp_file_usage_root_cause/.postflight-pending
+[2026-05-14T18:31:49-07:00] Task directory: specs/578_fix_opencode_tmp_file_usage_root_cause
+[2026-05-14T18:31:49-07:00] Loop guard initialized to 1
+[2026-05-14T18:31:49-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T18:34:04-07:00] Postflight marker found at: specs/578_fix_opencode_tmp_file_usage_root_cause/.postflight-pending
+[2026-05-14T18:34:04-07:00] Task directory: specs/578_fix_opencode_tmp_file_usage_root_cause
+[2026-05-14T18:34:04-07:00] Loop guard incremented to 2
+[2026-05-14T18:34:04-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
