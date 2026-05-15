@@ -98,24 +98,24 @@ Phases are sequential because Phase 1 establishes the canonical architecture des
 
 ---
 
-### Phase 2: Update Command File Step 3 Sections (research.md, plan.md, implement.md) [IN PROGRESS]
+### Phase 2: Update Command File Step 3 Sections (research.md, plan.md, implement.md) [COMPLETED]
 
 **Goal**: Replace "parallel Agent tool calls" with "parallel Skill tool calls" in the MULTI-TASK DISPATCH Step 3 of all three command files. Align the dispatch description with the updated multi-task-operations.md Section 6.
 
 **Tasks**:
-- [ ] **research.md** (lines ~158-166): Replace Step 3 dispatch description
+- [x] **research.md** (lines ~158-166): Replace Step 3 dispatch description *(completed)*
   - Change "Spawn one agent per task via parallel Agent tool calls" to "Invoke the appropriate research skill per task via parallel Skill tool calls"
   - Update the numbered steps to: (1) extract task_type, (2) route to skill, (3) invoke all skills in a single message, (4) each skill runs full lifecycle (preflight, agent delegation, postflight), (5) collect text results
   - Remove or update the "Note: Batch dispatch is handled directly by this command's orchestrator loop, not by a separate skill" to say dispatch is via parallel Skill calls from the orchestrator loop
-- [ ] **plan.md** (lines ~163-174): Same changes as research.md but for planning skills
+- [x] **plan.md** (lines ~163-174): Same changes as research.md but for planning skills *(completed)*
   - Change "parallel Agent tool calls" to "parallel Skill tool calls"
   - Update dispatch steps to route to planner skills
   - Update the note about orchestrator loop
-- [ ] **implement.md** (lines ~178-188): Same changes as research.md but for implementation skills
+- [x] **implement.md** (lines ~178-188): Same changes as research.md but for implementation skills *(completed)*
   - Change "parallel Agent tool calls" to "parallel Skill tool calls"
   - Update dispatch steps to route to implementation skills
   - Update the note about orchestrator loop
-- [ ] Update Step 4 (Batch Git Commit) in all three files to add a note: "Per-skill postflight may have already committed individual task changes. This batch commit captures any remaining unstaged changes and may be empty."
+- [x] Update Step 4 (Batch Git Commit) in all three files to add a note: "Per-skill postflight may have already committed individual task changes. This batch commit captures any remaining unstaged changes and may be empty." *(completed)*
 
 **Timing**: 1 hour
 
@@ -134,7 +134,7 @@ Phases are sequential because Phase 1 establishes the canonical architecture des
 
 ---
 
-### Phase 3: Update Skill Lifecycle and Cross-References [NOT STARTED]
+### Phase 3: Update Skill Lifecycle and Cross-References [IN PROGRESS]
 
 **Goal**: Update skill-lifecycle.md and any cross-references to reflect that skills may now be invoked in parallel from the orchestrator for multi-task dispatch.
 
