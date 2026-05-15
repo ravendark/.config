@@ -554,13 +554,13 @@
     {
       "project_number": 584,
       "project_name": "research_parallel_skill_dispatch",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Investigate replacing parallel Agent dispatch with parallel Skill invocation in multi-task commands (/research, /plan, /implement). Confirm Skill tool supports parallel invocation, check for state.json race conditions with concurrent skill writes, audit all 4 files (multi-task-operations.md, research.md, plan.md, implement.md) for exact change locations, and check if batch commit/result collection changes are needed when skills (not agents) return results.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-15T22:00:00Z",
-      "last_updated": "2026-05-15T21:40:04Z",
+      "last_updated": "2026-05-15T21:47:53Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -572,6 +572,11 @@
           "path": "specs/584_research_parallel_skill_dispatch/plans/01_parallel-skill-dispatch.md",
           "type": "plan",
           "summary": "4-phase plan to replace parallel Agent dispatch with parallel Skill invocation in multi-task commands, resolving multi-task-operations.md architecture conflict"
+        },
+        {
+          "path": "specs/584_research_parallel_skill_dispatch/summaries/01_parallel-skill-dispatch-summary.md",
+          "type": "summary",
+          "summary": "Replaced parallel Agent dispatch with parallel Skill invocation in multi-task commands, resolving architecture conflict in multi-task-operations.md and updating research.md, plan.md, implement.md Step 3 sections"
         }
       ],
       "session_id": "sess_1779116400_i584c1",
@@ -606,6 +611,19 @@
             "batch",
             "collection"
           ]
+        },
+        {
+          "content": "When editing .claude/commands/*.md files for architecture changes, also check .claude/extensions/core/commands/ for identical canonical copies that need the same edits. The commands/ directory contains installed copies and extensions/core/ contains the canonical sources. Both must be kept in sync.",
+          "category": "PATTERN",
+          "source_artifact": "specs/584_research_parallel_skill_dispatch/summaries/01_parallel-skill-dispatch-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "extensions-core",
+            "commands",
+            "sync",
+            "canonical",
+            "installed-copies"
+          ]
         }
       ],
       "plan_metadata": {
@@ -635,7 +653,8 @@
             "integrated_date": "2026-05-15"
           }
         ]
-      }
+      },
+      "completion_summary": "Replaced parallel Agent dispatch with parallel Skill invocation in multi-task commands, resolving the Section 6 vs Section 12 architecture conflict in multi-task-operations.md and updating Step 3 in research.md, plan.md, and implement.md; also added Parallel Invocation subsection to skill-lifecycle.md and synced all changes to extensions/core canonical sources."
     },
     {
       "project_number": 585,
