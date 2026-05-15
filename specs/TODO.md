@@ -14,7 +14,7 @@ next_project_number: 584
 
 ### Wave 2 (depends on Wave 1)
 - **581** [RESEARCHED] -- Port update-task-status.sh Phase 3 rewrite (depends: 579)
-- **582** [RESEARCHING] -- Port command integration: task.md, todo.md, review.md (depends: 579, 580)
+- **582** [RESEARCHED] -- Port command integration: task.md, todo.md, review.md (depends: 579, 580)
 - **583** [RESEARCHED] -- Port agent & skill integration (depends: 579, 580)
 
 ### Pending (pre-existing)
@@ -70,9 +70,10 @@ next_project_number: 584
 
 ### 582. Port command integration (task.md, todo.md, review.md)
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
+- **Research**: [582_port_command_integration/reports/01_port-command-integration.md]
 
 **Description**: Port task order auto-sync and topic support into task.md, todo.md, and review.md commands. task.md: add Step 4.5 topic picker (generalized — read active_topics from state.json, no hardcoded keywords), Part C regen call, topic inheritance in expand/sync/review modes, topic backfill in sync mode. todo.md: add Step 5.8 post-archival regen and Step 5.8.8a post-vault regen. review.md: replace ~330 lines of manual Task Order management (sections 6.5-6.7) with single generate-task-order.sh call, generalize topic inference to use extension-aware path matching instead of .lean-specific heuristics.
 

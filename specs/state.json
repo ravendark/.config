@@ -359,7 +359,7 @@
     {
       "project_number": 582,
       "project_name": "port_command_integration",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Port task order auto-sync and topic support into task.md, todo.md, and review.md commands. task.md: add Step 4.5 topic picker (generalized — read active_topics from state.json, no hardcoded keywords), Part C regen call, topic inheritance in expand/sync/review modes, topic backfill in sync mode. todo.md: add Step 5.8 post-archival regen and Step 5.8.8a post-vault regen. review.md: replace ~330 lines of manual Task Order management (sections 6.5-6.7) with single generate-task-order.sh call, generalize topic inference to use extension-aware path matching instead of .lean-specific heuristics.",
       "effort": "2-3 hours",
@@ -368,8 +368,44 @@
         580
       ],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T21:10:50Z",
-      "session_id": "sess_1778879364_88a29d"
+      "last_updated": "2026-05-15T21:14:40Z",
+      "session_id": "sess_1778879364_88a29d",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/582_port_command_integration/reports/01_port-command-integration.md",
+          "type": "research",
+          "summary": "Detailed diff of task.md, todo.md, review.md between nvim-config and ProofChecker; exact insertion points, generalization requirements, and 330-line replacement in review.md."
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "When porting topic picker logic from ProofChecker to other projects, the keyword-to-topic mapping in Step 4.5 of task.md is always project-specific and must be removed. The canonical statement is: show only topics from active_topics in state.json (not hardcoded).",
+          "category": "PATTERN",
+          "source_artifact": "specs/582_port_command_integration/reports/01_port-command-integration.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "topic-picker",
+            "active-topics",
+            "generalization",
+            "task-md",
+            "port"
+          ]
+        },
+        {
+          "content": "The review.md Task Order management refactor replaces ~330 lines of manual pruning/insertion with a single generate-task-order.sh --update-todo call (~30 lines) plus a tombstone note. Section 6.7 simplified from 5 interactive sub-prompts to goal-statement-only.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/582_port_command_integration/reports/01_port-command-integration.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "review-md",
+            "task-order",
+            "generate-task-order",
+            "refactor",
+            "simplification"
+          ]
+        }
+      ]
     },
     {
       "project_number": 583,
