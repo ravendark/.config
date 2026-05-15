@@ -5,11 +5,36 @@
     {
       "project_number": 578,
       "project_name": "fix_opencode_tmp_file_usage_root_cause",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "created": "2026-05-15T00:26:48Z",
-      "last_updated": "2026-05-15T01:13:13Z",
-      "session_id": "sess_1778807575_1c85e1"
+      "last_updated": "2026-05-15T01:26:47Z",
+      "session_id": "sess_1778807575_1c85e1",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/578_fix_opencode_tmp_file_usage_root_cause/reports/01_tmp-file-root-cause.md",
+          "type": "research",
+          "summary": "Root cause analysis of /tmp/state.json.tmp generation: LLM-generated bash commands with 3 inconsistent temp file patterns across 19 files in both nvim and dotfiles .opencode/ directories."
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "OpenCode LLM agents generate /tmp/state.json.tmp when they compose jq atomic-write commands without explicit guidance. Root pattern: two conflicting temp file conventions exist in the agent system - canonical specs/tmp/state.json (used in most skills) vs. in-place specs/state.json.tmp (used in todo.md, review.md, skill-todo, skill-project-overview) and bare state.json.tmp in research-flow-example.md (no specs/ prefix). LLM combines .tmp suffix from examples with /tmp/ from training data. Fix: standardize all to specs/tmp/state.json and add MUST NOT /tmp/ prohibition to AGENTS.md.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/578_fix_opencode_tmp_file_usage_root_cause/reports/01_tmp-file-root-cause.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode",
+            "tmp",
+            "specs/tmp",
+            "atomic-write",
+            "jq",
+            "LLM-generation",
+            "permission-prompt"
+          ]
+        }
+      ]
     },
     {
       "project_number": 577,
@@ -456,7 +481,48 @@
             "NixOS",
             "headless"
           ]
-        }
+        },
+        [
+          {
+            "content": "OpenCode's Glob tool silently returns 0 results for relative paths into hidden directories (e.g., `.opencode/extensions/`). The fix is to derive an absolute path via `git rev-parse --show-toplevel` before constructing the manifest search path. This pattern affects all child project command files and was the root cause of task 572's lean routing failure.",
+            "category": "PATTERN",
+            "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
+            "confidence": 0.9,
+            "suggested_keywords": [
+              "opencodelua",
+              "glob",
+              "hidden-directory",
+              "routing",
+              "child-project"
+            ]
+          },
+          {
+            "content": "The `snacks.terminal.open()` API bypasses dedup logic -- it always creates a new terminal. To prevent duplicate terminal creation, always use `snacks.terminal.get()` with `create = false` first, then conditionally call `open()` only if no terminal exists. This pattern was critical to fixing the OpenCode session picker race condition in tasks 575/576.",
+            "category": "PATTERN",
+            "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
+            "confidence": 0.85,
+            "suggested_keywords": [
+              "snacks.terminal",
+              "dedup",
+              "opencode",
+              "race-condition",
+              "neovim"
+            ]
+          },
+          {
+            "content": "OpenCode events dispatched via `opencode.events` use a wrapper structure: `event.data = { event = { type, properties }, port = N }`. The actual properties (e.g., `sessionID`) are nested at `event.data.event.properties`, not at the top level of `event.data`. This caused session tracking to fail silently in task 576.",
+            "category": "INSIGHT",
+            "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
+            "confidence": 0.9,
+            "suggested_keywords": [
+              "opencode",
+              "events",
+              "session-id",
+              "autocmd",
+              "neovim"
+            ]
+          }
+        ]
       ]
     },
     {
