@@ -1,7 +1,7 @@
 # Implementation Plan: Task #582
 
 - **Task**: 582 - Port command integration (task.md, todo.md, review.md)
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2.5 hours
 - **Dependencies**: Task 579 (generate-task-order.sh), Task 580 (topic schema)
 - **Research Inputs**: specs/582_port_command_integration/reports/01_port-command-integration.md

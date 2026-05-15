@@ -395,7 +395,7 @@
     {
       "project_number": 582,
       "project_name": "port_command_integration",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Port task order auto-sync and topic support into task.md, todo.md, and review.md commands. task.md: add Step 4.5 topic picker (generalized — read active_topics from state.json, no hardcoded keywords), Part C regen call, topic inheritance in expand/sync/review modes, topic backfill in sync mode. todo.md: add Step 5.8 post-archival regen and Step 5.8.8a post-vault regen. review.md: replace ~330 lines of manual Task Order management (sections 6.5-6.7) with single generate-task-order.sh call, generalize topic inference to use extension-aware path matching instead of .lean-specific heuristics.",
       "effort": "2-3 hours",
@@ -404,7 +404,7 @@
         580
       ],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T21:21:40Z",
+      "last_updated": "2026-05-15T21:30:01Z",
       "session_id": "sess_1778880056_cffbd9",
       "next_artifact_number": 2,
       "artifacts": [
@@ -417,6 +417,11 @@
           "path": "specs/582_port_command_integration/plans/01_port-command-integration.md",
           "type": "plan",
           "summary": "4-phase plan for porting topic picker, Task Order regen, and simplified management into task.md, todo.md, review.md"
+        },
+        {
+          "path": "specs/582_port_command_integration/summaries/01_port-command-integration-summary.md",
+          "type": "summary",
+          "summary": "Ported topic picker, Task Order auto-sync, and simplified management into task.md, todo.md, review.md"
         }
       ],
       "memory_candidates": [
@@ -444,6 +449,20 @@
             "generate-task-order",
             "refactor",
             "simplification"
+          ]
+        },
+        {
+          "content": "When porting command files between projects, use | not pattern for jq empty-string checks (e.g., if ($topic == \"\" | not)) instead of != to avoid Claude Code Issue #1132 jq escaping.",
+          "category": "TECHNIQUE",
+          "source_artifact": "specs/582_port_command_integration/summaries/01_port-command-integration-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "jq",
+            "escaping",
+            "issue-1132",
+            "not-pattern",
+            "empty-string",
+            "bash"
           ]
         }
       ],
@@ -474,7 +493,8 @@
             "integrated_date": "2026-05-15"
           }
         ]
-      }
+      },
+      "completion_summary": "Ported topic picker (dynamic active_topics), Task Order auto-sync (generate-task-order.sh), and topic inheritance into task.md; added post-archival and post-vault regen to todo.md; replaced 639-line manual Task Order management in review.md with script-based approach."
     },
     {
       "project_number": 583,
@@ -534,13 +554,13 @@
     {
       "project_number": 584,
       "project_name": "research_parallel_skill_dispatch",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "description": "Investigate replacing parallel Agent dispatch with parallel Skill invocation in multi-task commands (/research, /plan, /implement). Confirm Skill tool supports parallel invocation, check for state.json race conditions with concurrent skill writes, audit all 4 files (multi-task-operations.md, research.md, plan.md, implement.md) for exact change locations, and check if batch commit/result collection changes are needed when skills (not agents) return results.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-15T22:00:00Z",
-      "last_updated": "2026-05-15T21:25:11Z",
+      "last_updated": "2026-05-15T21:29:59Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -549,7 +569,7 @@
           "summary": "Investigated parallel Skill dispatch for multi-task commands: found current code uses parallel Agent calls (not Skill calls), identified architecture mismatch between multi-task-operations.md Section 6 and Section 12, documented state.json race conditions and batch commit conflicts, confirmed single-task flow is fully isolated."
         }
       ],
-      "session_id": "sess_1779116400_a3b2c1",
+      "session_id": "sess_1779116400_p584b1",
       "memory_candidates": [
         {
           "content": "multi-task-operations.md contains an architecture conflict: Section 6 describes Batch Skill Dispatch (Option B) with a separate batch skill, while Section 12 and all three command files (research.md, plan.md, implement.md) explicitly state dispatch is handled by the orchestrator loop using direct parallel Agent calls, NOT a separate skill. The Section 12 description matches the actual implementation.",

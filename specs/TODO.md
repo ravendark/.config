@@ -11,7 +11,7 @@ next_project_number: 586
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,582,584 | -- | -- |
+| 1 | 78,87,500,501,584 | -- | -- |
 | 2 | 585 | 584 | -- |
 
 **Grouped by Topic** (indented = must complete first):
@@ -22,17 +22,16 @@ next_project_number: 586
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
-582 [IMPLEMENTING] — Port task order auto-sync and topic support into task.md, todo.md
-584 [RESEARCHED] — Investigate replacing parallel Agent dispatch with parallel Skill
+584 [PLANNING] — Investigate replacing parallel Agent dispatch with parallel Skill
 585 [NOT STARTED] — Rewrite multi-task dispatch in /research, /plan, and /implement t
-  └─ 584 [RESEARCHING] — Investigate replacing parallel Agent dispatch with parallel Skill (see above)
+  └─ 584 [PLANNING] — Investigate replacing parallel Agent dispatch with parallel Skill (see above)
 ```
 
 ## Tasks
 
 ### 584. Research parallel Skill dispatch approach
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [584_research_parallel_skill_dispatch/reports/01_parallel-skill-dispatch.md]
@@ -98,11 +97,12 @@ next_project_number: 586
 
 ### 582. Port command integration (task.md, todo.md, review.md)
 - **Effort**: 2-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 - **Research**: [582_port_command_integration/reports/01_port-command-integration.md]
 - **Plan**: [582_port_command_integration/plans/01_port-command-integration.md]
+- **Summary**: [582_port_command_integration/summaries/01_port-command-integration-summary.md]
 
 **Description**: Port task order auto-sync and topic support into task.md, todo.md, and review.md commands. task.md: add Step 4.5 topic picker (generalized — read active_topics from state.json, no hardcoded keywords), Part C regen call, topic inheritance in expand/sync/review modes, topic backfill in sync mode. todo.md: add Step 5.8 post-archival regen and Step 5.8.8a post-vault regen. review.md: replace ~330 lines of manual Task Order management (sections 6.5-6.7) with single generate-task-order.sh call, generalize topic inference to use extension-aware path matching instead of .lean-specific heuristics.
 
