@@ -374,7 +374,7 @@
     {
       "project_number": 583,
       "project_name": "port_agent_skill_integration",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Port topic support into meta-builder-agent.md and skills. meta-builder-agent.md: add Topic column to Stage 5 confirmation table and topic field in Stage 6 state.json entry. skill-fix-it: add Step 9.1 topic auto-inference (generalized — .claude/specs/ -> agent-system, extension-aware for other paths, no .lean-specific heuristic). skill-todo: add Stage 10.5 RegenerateTaskOrder (call generate-task-order.sh after archival + post-vault re-run).",
       "effort": "1-2 hours",
@@ -383,8 +383,16 @@
         580
       ],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T21:10:59Z",
-      "session_id": "sess_1778879364_88a29d"
+      "last_updated": "2026-05-15T21:14:14Z",
+      "session_id": "sess_1778879364_88a29d",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/583_port_agent_skill_integration/reports/01_port-agent-skill.md",
+          "type": "research",
+          "summary": "Line-by-line comparison of meta-builder-agent.md, skill-fix-it, and skill-todo against ProofChecker versions; exact insertion points and diff content documented."
+        }
+      ]
     }
   ],
   "completed_projects": [],
