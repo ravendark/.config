@@ -10,9 +10,9 @@ next_project_number: 579
 
 ### Pending
 - **578** [NOT STARTED] -- Fix OpenCode /tmp/ file usage root cause everywhere
-- **577** [NOT STARTED] -- Investigate root cause of .opencode/ output path corruption after extension reload
+- **577** [RESEARCHING] -- Investigate root cause of .opencode/ output path corruption after extension reload
 - **576** [NOT STARTED] -- Fix OpenCode session picker restore/browse options (depends: 575)
-- **575** [RESEARCHED] -- Audit OpenCode session picker failure modes
+- **575** [PLANNED] -- Audit OpenCode session picker failure modes
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
 - **569** [COMPLETED] -- Enhance general implementation agent (depends: 568)
 - **570** [COMPLETED] -- Propagate improvements to extension agents (depends: 569)
@@ -32,7 +32,7 @@ next_project_number: 579
 
 ### 577. Investigate root cause of .opencode/ output path corruption after extension reload and add protections
 - **Effort**: 2-4 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 
 **Description**: After reloading the .opencode/ agent system in ~/.dotfiles/ using the <leader>al extension loader, running `/plan 57` produces output at /home/benjamin/.config/nvim/.opencode/output/implement.md instead of the correct specs/ artifact path. This keeps happening when working on the opencode agent system. Find the root cause of why the output path gets corrupted and implement protections to prevent it in the future.
@@ -51,10 +51,11 @@ next_project_number: 579
 ### 575. Audit OpenCode session picker failure modes
 
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: neovim
 - **Dependencies**: None (builds on prior research from archived task 544)
 - **Research**: [575_audit_opencode_session_picker_failure/reports/01_session-picker-audit.md]
+- **Plan**: [575_audit_opencode_session_picker_failure/plans/01_session-picker-fix.md]
 
 **Description**: Diagnose the actual current failure modes for the OpenCode session picker invoked via `<C-CR>` -> OpenCode. Both "Restore last session" and "Browse all sessions" options fail despite a prior fix attempt (task 544). Investigate cold-start races, `snacks.terminal` dedup, port mismatch, `select_session()` API behavior, error swallowing, and `/tui/select-session` TUI endpoint behavior. Prior research from archived task 544 at `specs/archive/544_fix_opencode_session_picker/`. Key file: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`.
 

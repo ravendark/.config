@@ -13,10 +13,11 @@
     {
       "project_number": 577,
       "project_name": "investigate_opencode_output_path_corruption",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "created": "2026-05-15T00:23:44Z",
-      "last_updated": "2026-05-15T00:23:44Z"
+      "last_updated": "2026-05-15T00:28:50Z",
+      "session_id": "sess_1747268700_a3c1b2"
     },
     {
       "project_number": 576,
@@ -36,12 +37,12 @@
     {
       "project_number": 575,
       "project_name": "audit_opencode_session_picker_failure",
-      "status": "researched",
+      "status": "planned",
       "task_type": "neovim",
       "description": "Diagnose the actual current failure modes for the OpenCode session picker invoked via <C-CR> -> OpenCode. Both restore and browse options fail despite a prior fix attempt (task 544).",
       "created": "2026-05-14T23:30:00Z",
-      "last_updated": "2026-05-15T00:23:42Z",
-      "session_id": "sess_1778804025_5b8fef",
+      "last_updated": "2026-05-15T00:31:50Z",
+      "session_id": "sess_1778804860_75ef42",
       "depends_on": [],
       "next_artifact_number": 2,
       "artifacts": [
@@ -49,6 +50,11 @@
           "path": "specs/575_audit_opencode_session_picker_failure/reports/01_session-picker-audit.md",
           "type": "report",
           "summary": "Diagnosed OpenCode session picker failure modes: duplicate terminal creation race, missing port config, redundant toggle() call, and fire-and-forget select_session API"
+        },
+        {
+          "path": "specs/575_audit_opencode_session_picker_failure/plans/01_session-picker-fix.md",
+          "type": "plan",
+          "summary": "Implementation plan with 4 phases to fix duplicate terminal creation race in OpenCode session picker"
         }
       ]
     },
