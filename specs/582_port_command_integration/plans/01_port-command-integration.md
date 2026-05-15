@@ -1,7 +1,7 @@
 # Implementation Plan: Task #582
 
 - **Task**: 582 - Port command integration (task.md, todo.md, review.md)
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2.5 hours
 - **Dependencies**: Task 579 (generate-task-order.sh), Task 580 (topic schema)
 - **Research Inputs**: specs/582_port_command_integration/reports/01_port-command-integration.md
@@ -71,14 +71,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: task.md -- Topic picker and state.json updates [NOT STARTED]
+### Phase 1: task.md -- Topic picker and state.json updates [COMPLETED]
 
 **Goal**: Add Step 4.5 topic picker, include topic field in state.json writes, and replace Part C regen call in the Create Task Mode section.
 
 **Tasks**:
-- [ ] Insert Step 4.5 (topic picker) after Step 4 (task_type detection, around line 131). Content: read `active_topics` from state.json via jq, present AskUserQuestion picker with dynamic options plus "New topic..." and "Skip (no topic)" fallbacks. No hardcoded keyword heuristic -- purely dynamic from state.json.
-- [ ] Update Step 6 (state.json update, around line 138-152) to include `--arg topic "$topic"` and the conditional topic field in the jq command. Use `| not` pattern for the empty-string check to avoid jq escaping issues.
-- [ ] Replace Part C (lines 177-183) old `update-recommended-order.sh` call with new `generate-task-order.sh --update-todo` call pattern.
+- [x] Insert Step 4.5 (topic picker) after Step 4 (task_type detection, around line 131). Content: read `active_topics` from state.json via jq, present AskUserQuestion picker with dynamic options plus "New topic..." and "Skip (no topic)" fallbacks. No hardcoded keyword heuristic -- purely dynamic from state.json. *(completed)*
+- [x] Update Step 6 (state.json update, around line 138-152) to include `--arg topic "$topic"` and the conditional topic field in the jq command. Use `| not` pattern for the empty-string check to avoid jq escaping issues. *(completed)*
+- [x] Replace Part C (lines 177-183) old `update-recommended-order.sh` call with new `generate-task-order.sh --update-todo` call pattern. *(completed)*
 
 **Timing**: 0.5 hours
 
@@ -94,14 +94,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: task.md -- Expand, Sync, and Review mode topic inheritance [NOT STARTED]
+### Phase 2: task.md -- Expand, Sync, and Review mode topic inheritance [COMPLETED]
 
 **Goal**: Add topic inheritance and backfill support to the Expand, Sync, and Review modes of task.md.
 
 **Tasks**:
-- [ ] Expand Mode: Insert Step 2.5 (read parent topic from state.json) between Step 2 "Analyze description" and Step 3 "Create 2-5 subtasks" (around line 269-271). Update Step 3 to include topic inheritance in the subtask jq entries.
-- [ ] Sync Mode: Insert Step 6.5 (topic backfill) after Step 6 (git commit, around line 313). Content: detect active tasks missing topic field, present AskUserQuestion multiSelect for user to assign topics from `active_topics`. No auto-inference heuristic -- purely picker-based.
-- [ ] Review Mode: Insert Step 7.5 (read parent topic for inheritance) between Step 7 (interactive selection, around line 479-492) and Step 8 (create follow-up tasks). Update Step 8 jq command (around line 498-523) to include `--arg topic "$parent_topic"` and conditional topic field.
+- [x] Expand Mode: Insert Step 2.5 (read parent topic from state.json) between Step 2 "Analyze description" and Step 3 "Create 2-5 subtasks" (around line 269-271). Update Step 3 to include topic inheritance in the subtask jq entries. *(completed)*
+- [x] Sync Mode: Insert Step 6.5 (topic backfill) after Step 6 (git commit, around line 313). Content: detect active tasks missing topic field, present AskUserQuestion multiSelect for user to assign topics from `active_topics`. No auto-inference heuristic -- purely picker-based. *(completed)*
+- [x] Review Mode: Insert Step 7.5 (read parent topic for inheritance) between Step 7 (interactive selection, around line 479-492) and Step 8 (create follow-up tasks). Update Step 8 jq command (around line 498-523) to include `--arg topic "$parent_topic"` and conditional topic field. *(completed)*
 
 **Timing**: 0.75 hours
 
