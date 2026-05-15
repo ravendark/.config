@@ -224,20 +224,25 @@
     {
       "project_number": 579,
       "project_name": "port_task_order_script",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Port generate-task-order.sh (834 lines) from ProofChecker with generalized topic heuristic. Rewrite task-order-format.md from flat categories to wave+tree+topic format. The script uses Kahn's algorithm for dependency waves, DFS for tree rendering, and atomic TODO.md section replacement. Generalize assign_topic_heuristic() to remove ProofChecker-specific keywords — either make it read a project-local config or rely solely on state.json active_topics. Replace ProofChecker-specific examples in format doc with generic ones.",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T20:42:42Z",
-      "session_id": "sess_1778877510_008adc_t579",
+      "last_updated": "2026-05-15T20:56:11Z",
+      "session_id": "sess_1778878405_a671d7_t579",
       "next_artifact_number": 2,
       "artifacts": [
         {
           "path": "specs/579_port_task_order_script/reports/01_port-task-order.md",
           "type": "research",
           "summary": "Full architecture analysis of generate-task-order.sh: section map, portability matrix, ProofChecker-specific content identification, state.json schema diff, format doc change matrix, and implementation recommendations."
+        },
+        {
+          "path": "specs/579_port_task_order_script/plans/01_port-task-order.md",
+          "type": "plan",
+          "summary": "3-phase implementation plan for porting generate-task-order.sh and rewriting task-order-format.md"
         }
       ],
       "memory_candidates": [
@@ -253,27 +258,77 @@
             "portability"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 2.5,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_port-task-order.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-15"
+          }
+        ]
+      }
     },
     {
       "project_number": 580,
       "project_name": "port_topic_schema_rules",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Port topic system schema and rules from ProofChecker. Add active_topics (top-level string[]) and per-task topic (string, optional) fields to state-management-schema.md. Add Task Order Synchronization section (+49 lines) to state-management.md rule documenting derivation relationships, regeneration triggers, responsible scripts, and non-regeneration events.",
       "effort": "30-60 min",
       "dependencies": [],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T20:41:01Z",
-      "session_id": "sess_1778877510_008adc_t580",
+      "last_updated": "2026-05-15T20:56:11Z",
+      "session_id": "sess_1778878405_a671d7_t580",
       "next_artifact_number": 2,
       "artifacts": [
         {
           "path": "specs/580_port_topic_schema_rules/reports/01_port-topic-schema.md",
           "type": "research",
           "summary": "Complete diff analysis of all ProofChecker additions with exact insertion instructions for both target files"
+        },
+        {
+          "path": "specs/580_port_topic_schema_rules/plans/01_port-topic-schema.md",
+          "type": "plan",
+          "summary": "2-phase plan for porting topic schema fields and task order sync rules"
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 2,
+        "total_effort_hours": 0.5,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1,
+            2
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_port-topic-schema.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-15"
+          }
+        ]
+      }
     },
     {
       "project_number": 581,
