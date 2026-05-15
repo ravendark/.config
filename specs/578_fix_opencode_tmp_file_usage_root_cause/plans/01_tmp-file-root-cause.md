@@ -149,7 +149,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Fix Patterns in nvim .opencode/extensions/ [NOT STARTED]
+### Phase 3: Fix Patterns in nvim .opencode/extensions/ [COMPLETED]
 
 **Goal**: Fix all 7 files in the nvim `.opencode/extensions/` subdirectories (core and web extensions).
 
