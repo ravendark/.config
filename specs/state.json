@@ -1,7 +1,15 @@
 {
   "version": "1.0.0",
-  "next_project_number": 578,
+  "next_project_number": 579,
   "active_projects": [
+    {
+      "project_number": 578,
+      "project_name": "fix_opencode_tmp_file_usage_root_cause",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-15T00:26:48Z",
+      "last_updated": "2026-05-15T00:26:48Z"
+    },
     {
       "project_number": 577,
       "project_name": "investigate_opencode_output_path_corruption",
