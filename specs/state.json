@@ -272,7 +272,7 @@
       "project_name": "fix_temp_file_usage_opencode_agent_system",
       "status": "completed",
       "task_type": "meta",
-      "description": "Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue — all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.",
+      "description": "Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue \u2014 all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.",
       "created": "2026-05-14T22:43:50Z",
       "last_updated": "2026-05-14T23:15:53Z",
       "session_id": "sess_1778799500_m7k2",
@@ -482,47 +482,45 @@
             "headless"
           ]
         },
-        [
-          {
-            "content": "OpenCode's Glob tool silently returns 0 results for relative paths into hidden directories (e.g., `.opencode/extensions/`). The fix is to derive an absolute path via `git rev-parse --show-toplevel` before constructing the manifest search path. This pattern affects all child project command files and was the root cause of task 572's lean routing failure.",
-            "category": "PATTERN",
-            "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
-            "confidence": 0.9,
-            "suggested_keywords": [
-              "opencodelua",
-              "glob",
-              "hidden-directory",
-              "routing",
-              "child-project"
-            ]
-          },
-          {
-            "content": "The `snacks.terminal.open()` API bypasses dedup logic -- it always creates a new terminal. To prevent duplicate terminal creation, always use `snacks.terminal.get()` with `create = false` first, then conditionally call `open()` only if no terminal exists. This pattern was critical to fixing the OpenCode session picker race condition in tasks 575/576.",
-            "category": "PATTERN",
-            "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
-            "confidence": 0.85,
-            "suggested_keywords": [
-              "snacks.terminal",
-              "dedup",
-              "opencode",
-              "race-condition",
-              "neovim"
-            ]
-          },
-          {
-            "content": "OpenCode events dispatched via `opencode.events` use a wrapper structure: `event.data = { event = { type, properties }, port = N }`. The actual properties (e.g., `sessionID`) are nested at `event.data.event.properties`, not at the top level of `event.data`. This caused session tracking to fail silently in task 576.",
-            "category": "INSIGHT",
-            "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
-            "confidence": 0.9,
-            "suggested_keywords": [
-              "opencode",
-              "events",
-              "session-id",
-              "autocmd",
-              "neovim"
-            ]
-          }
-        ]
+        {
+          "content": "OpenCode's Glob tool silently returns 0 results for relative paths into hidden directories (e.g., `.opencode/extensions/`). The fix is to derive an absolute path via `git rev-parse --show-toplevel` before constructing the manifest search path. This pattern affects all child project command files and was the root cause of task 572's lean routing failure.",
+          "category": "PATTERN",
+          "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencodelua",
+            "glob",
+            "hidden-directory",
+            "routing",
+            "child-project"
+          ]
+        },
+        {
+          "content": "The `snacks.terminal.open()` API bypasses dedup logic -- it always creates a new terminal. To prevent duplicate terminal creation, always use `snacks.terminal.get()` with `create = false` first, then conditionally call `open()` only if no terminal exists. This pattern was critical to fixing the OpenCode session picker race condition in tasks 575/576.",
+          "category": "PATTERN",
+          "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "snacks.terminal",
+            "dedup",
+            "opencode",
+            "race-condition",
+            "neovim"
+          ]
+        },
+        {
+          "content": "OpenCode events dispatched via `opencode.events` use a wrapper structure: `event.data = { event = { type, properties }, port = N }`. The actual properties (e.g., `sessionID`) are nested at `event.data.event.properties`, not at the top level of `event.data`. This caused session tracking to fail silently in task 576.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "opencode",
+            "events",
+            "session-id",
+            "autocmd",
+            "neovim"
+          ]
+        }
       ]
     },
     {
@@ -553,14 +551,14 @@
           "summary": "Implementation summary for task 568: updated 5 artifact format files with deviation tracking fields"
         }
       ],
-      "completion_summary": "Added deviation tracking schema (deviations array), annotation syntax (*(deviation: skipped|altered|deferred — ...)*), and new sections (## Deviations from Plan in handoffs, ## Plan Deviations in summaries) across five core artifact format files, establishing the format contract for tasks 569 and 570."
+      "completion_summary": "Added deviation tracking schema (deviations array), annotation syntax (*(deviation: skipped|altered|deferred \u2014 ...)*), and new sections (## Deviations from Plan in handoffs, ## Plan Deviations in summaries) across five core artifact format files, establishing the format contract for tasks 569 and 570."
     },
     {
       "project_number": 569,
       "project_name": "enhance_general_implementation_agent",
       "status": "completed",
       "task_type": "meta",
-      "description": "Enhance general-implementation-agent.md with: (1) Post-phase self-review step (new Stage 4D-ii) — after marking a phase [COMPLETED], re-read the phase subtask list and verify each objective was addressed, noting any skipped items; (2) Progressive handoff updates — update the handoff document incrementally as phases complete, not only at context exhaustion; (3) Deviation annotation in plan — when deviating from plan, annotate the checklist item with what was done differently and why; (4) Final context-exhaustion checkpoint — when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.",
+      "description": "Enhance general-implementation-agent.md with: (1) Post-phase self-review step (new Stage 4D-ii) \u2014 after marking a phase [COMPLETED], re-read the phase subtask list and verify each objective was addressed, noting any skipped items; (2) Progressive handoff updates \u2014 update the handoff document incrementally as phases complete, not only at context exhaustion; (3) Deviation annotation in plan \u2014 when deviating from plan, annotate the checklist item with what was done differently and why; (4) Final context-exhaustion checkpoint \u2014 when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.",
       "effort": "2-3 hours",
       "dependencies": [
         568
