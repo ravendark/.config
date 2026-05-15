@@ -46,6 +46,7 @@ next_project_number: 578
 - **Status**: [RESEARCHED]
 - **Task Type**: neovim
 - **Dependencies**: None (builds on prior research from archived task 544)
+- **Research**: [575_audit_opencode_session_picker_failure/reports/01_session-picker-audit.md]
 
 **Description**: Diagnose the actual current failure modes for the OpenCode session picker invoked via `<C-CR>` -> OpenCode. Both "Restore last session" and "Browse all sessions" options fail despite a prior fix attempt (task 544). Investigate cold-start races, `snacks.terminal` dedup, port mismatch, `select_session()` API behavior, error swallowing, and `/tui/select-session` TUI endpoint behavior. Prior research from archived task 544 at `specs/archive/544_fix_opencode_session_picker/`. Key file: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`.
 

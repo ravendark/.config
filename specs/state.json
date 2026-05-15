@@ -35,8 +35,14 @@
       "last_updated": "2026-05-15T00:23:42Z",
       "session_id": "sess_1778804025_5b8fef",
       "depends_on": [],
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/575_audit_opencode_session_picker_failure/reports/01_session-picker-audit.md",
+          "type": "report",
+          "summary": "Diagnosed OpenCode session picker failure modes: duplicate terminal creation race, missing port config, redundant toggle() call, and fire-and-forget select_session API"
+        }
+      ]
     },
     {
       "project_number": 574,
