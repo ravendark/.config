@@ -668,9 +668,31 @@
       ],
       "created": "2026-05-15T22:00:00Z",
       "last_updated": "2026-05-15T21:58:13Z",
-      "next_artifact_number": 1,
-      "artifacts": [],
-      "session_id": "sess_1778882088_ebfff3"
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/585_rewrite_multitask_dispatch/reports/01_rewrite-multitask-dispatch.md",
+          "type": "research",
+          "summary": "Research report confirming task 584 already implemented the parallel Skill dispatch rewrite"
+        }
+      ],
+      "session_id": "sess_1778882088_ebfff3",
+      "memory_candidates": [
+        {
+          "content": "When a task dependency (task 584) fully implements the same changes described in the dependent task (task 585), the dependent task can be verified as complete without additional implementation.",
+          "category": "WORKFLOW",
+          "source_artifact": "specs/585_rewrite_multitask_dispatch/reports/01_rewrite-multitask-dispatch.md",
+          "confidence": 0.8,
+          "suggested_keywords": [
+            "dependency",
+            "already-done",
+            "verification",
+            "task-585",
+            "task-584",
+            "multi-task-dispatch"
+          ]
+        }
+      ]
     }
   ],
   "completed_projects": [],
