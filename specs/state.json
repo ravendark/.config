@@ -5,10 +5,10 @@
     {
       "project_number": 578,
       "project_name": "fix_opencode_tmp_file_usage_root_cause",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-15T00:26:48Z",
-      "last_updated": "2026-05-15T01:38:45Z",
+      "last_updated": "2026-05-15T01:49:56Z",
       "session_id": "sess_1778809112_c7fdbc",
       "next_artifact_number": 2,
       "artifacts": [
@@ -21,6 +21,11 @@
           "path": "specs/578_fix_opencode_tmp_file_usage_root_cause/plans/01_tmp-file-root-cause.md",
           "type": "plan",
           "summary": "5-phase implementation plan to fix /tmp/ temp file patterns across 26 files in two OpenCode repositories"
+        },
+        {
+          "path": "specs/578_fix_opencode_tmp_file_usage_root_cause/summaries/01_tmp-file-root-cause-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for fixing /tmp/ usage root cause across 26 files in two .opencode/ repositories"
         }
       ],
       "memory_candidates": [
@@ -51,6 +56,20 @@
             "llm-pattern-replication",
             "specs-tmp"
           ]
+        },
+        {
+          "content": "In LLM-driven agent systems (like OpenCode), documentation files ARE effectively code. The LLM reads skill files, command files, and example documents to learn patterns, then generates bash commands based on those patterns. Inconsistent temp file conventions in documentation will cause the LLM to generate ad-hoc combinations that may include system /tmp/ paths. Fix: (1) make all examples consistent, (2) add explicit prohibitions in AGENTS.md loaded at session start, (3) add mkdir -p guards before all temp file writes.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/578_fix_opencode_tmp_file_usage_root_cause/summaries/01_tmp-file-root-cause-summary.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "tmp",
+            "temp-file",
+            "llm-pattern",
+            "agent-documentation",
+            "specs-tmp"
+          ]
         }
       ],
       "plan_metadata": {
@@ -79,7 +98,8 @@
             "integrated_date": "2026-05-15"
           }
         ]
-      }
+      },
+      "completion_summary": "Standardized all temp file references across 26 files in ~/.config/nvim/.opencode/ and ~/.dotfiles/.opencode/ to use the canonical specs/tmp/ pattern, eliminated bare and in-place .tmp suffix patterns, added mkdir -p specs/tmp guards, and added explicit /tmp/ prohibition to both AGENTS.md files."
     },
     {
       "project_number": 577,
@@ -317,7 +337,7 @@
       "project_name": "fix_temp_file_usage_opencode_agent_system",
       "status": "completed",
       "task_type": "meta",
-      "description": "Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue \u2014 all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.",
+      "description": "Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue — all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.",
       "created": "2026-05-14T22:43:50Z",
       "last_updated": "2026-05-14T23:15:53Z",
       "session_id": "sess_1778799500_m7k2",
@@ -615,14 +635,14 @@
           "summary": "Implementation summary for task 568: updated 5 artifact format files with deviation tracking fields"
         }
       ],
-      "completion_summary": "Added deviation tracking schema (deviations array), annotation syntax (*(deviation: skipped|altered|deferred \u2014 ...)*), and new sections (## Deviations from Plan in handoffs, ## Plan Deviations in summaries) across five core artifact format files, establishing the format contract for tasks 569 and 570."
+      "completion_summary": "Added deviation tracking schema (deviations array), annotation syntax (*(deviation: skipped|altered|deferred — ...)*), and new sections (## Deviations from Plan in handoffs, ## Plan Deviations in summaries) across five core artifact format files, establishing the format contract for tasks 569 and 570."
     },
     {
       "project_number": 569,
       "project_name": "enhance_general_implementation_agent",
       "status": "completed",
       "task_type": "meta",
-      "description": "Enhance general-implementation-agent.md with: (1) Post-phase self-review step (new Stage 4D-ii) \u2014 after marking a phase [COMPLETED], re-read the phase subtask list and verify each objective was addressed, noting any skipped items; (2) Progressive handoff updates \u2014 update the handoff document incrementally as phases complete, not only at context exhaustion; (3) Deviation annotation in plan \u2014 when deviating from plan, annotate the checklist item with what was done differently and why; (4) Final context-exhaustion checkpoint \u2014 when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.",
+      "description": "Enhance general-implementation-agent.md with: (1) Post-phase self-review step (new Stage 4D-ii) — after marking a phase [COMPLETED], re-read the phase subtask list and verify each objective was addressed, noting any skipped items; (2) Progressive handoff updates — update the handoff document incrementally as phases complete, not only at context exhaustion; (3) Deviation annotation in plan — when deviating from plan, annotate the checklist item with what was done differently and why; (4) Final context-exhaustion checkpoint — when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.",
       "effort": "2-3 hours",
       "dependencies": [
         568
