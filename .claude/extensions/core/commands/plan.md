@@ -160,21 +160,21 @@ fi
 batch_session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 ```
 
-#### Step 3: Dispatch Agents
+#### Step 3: Dispatch Skills
 
-For each validated task, spawn an independent planning agent using the orchestrator's built-in batch loop:
+For each validated task, invoke the appropriate planner skill using parallel Skill tool calls from the orchestrator's built-in batch loop:
 
 1. Extract task_type per task from state.json
 2. Route each task to the appropriate planner skill (extension routing or default `skill-planner`)
-3. Spawn one agent per task via parallel Agent tool calls
-4. Collect results from all agents
-5. Produce consolidated status update
+3. Invoke all skills in a single message (parallel execution, one skill per task)
+4. Each skill runs the full single-task planning lifecycle independently (preflight, agent delegation, postflight)
+5. Collect text results from all skills; read `.return-meta.json` in each task directory for structured data if needed
 
-**Note**: Batch dispatch is handled directly by this command's orchestrator loop, not by a separate skill.
+**Note**: Batch dispatch is handled directly by this command's orchestrator loop via parallel Skill tool calls, not by a separate batch skill.
 
 #### Step 4: Batch Git Commit
 
-After the batch skill returns, produce a single git commit:
+After all skills return, produce a single git commit. Per-skill postflight may have already committed individual task changes; this batch commit captures any remaining unstaged changes and may be empty (which fails gracefully).
 
 **Full success**:
 ```

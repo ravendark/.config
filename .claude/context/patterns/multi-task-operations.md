@@ -368,7 +368,7 @@ Failed tasks remain in their "in progress" status and are NOT included in the co
 
 ## 9. Consolidated Output Format
 
-The batch skill produces a consolidated output displayed to the user after all agents complete.
+The orchestrator produces a consolidated output displayed to the user after all skills complete.
 
 ```markdown
 ## Batch {Command} Results
