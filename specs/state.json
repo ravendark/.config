@@ -13,10 +13,10 @@
     {
       "project_number": 577,
       "project_name": "investigate_opencode_output_path_corruption",
-      "status": "planning",
+      "status": "planned",
       "task_type": "meta",
       "created": "2026-05-15T00:23:44Z",
-      "last_updated": "2026-05-15T00:46:13Z",
+      "last_updated": "2026-05-15T00:50:13Z",
       "session_id": "sess_1747269200_b4d2c3",
       "next_artifact_number": 2,
       "artifacts": [
@@ -24,6 +24,11 @@
           "path": "specs/577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md",
           "type": "research",
           "summary": "Root cause: extension loader overwrites active commands with outdated extension source, stripping COMMAND EXECUTION MODE preamble and routing fixes"
+        },
+        {
+          "path": "specs/577_investigate_opencode_output_path_corruption/plans/01_output-path-fix.md",
+          "type": "plan",
+          "summary": "4-phase implementation plan: backport commands, add syncprotect to loader, create drift detection script, integration verification"
         }
       ],
       "memory_candidates": [
@@ -67,6 +72,19 @@
             "cwd-mismatch",
             "snacks-terminal",
             "session_export"
+          ]
+        },
+        {
+          "content": "The extension loader (loader.lua) and the sync operation (sync.lua) are independent file-copy mechanisms that both write to the same target directories (.claude/ or .opencode/). Improvements made to sync.lua (like .syncprotect support) do not automatically apply to the extension loader. When adding a protection or validation mechanism to one copy path, always check whether the other path needs the same treatment.",
+          "category": "PATTERN",
+          "source_artifact": "specs/577_investigate_opencode_output_path_corruption/plans/01_output-path-fix.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "extension-loader",
+            "sync",
+            "syncprotect",
+            "copy-file",
+            "dual-path"
           ]
         }
       ]
