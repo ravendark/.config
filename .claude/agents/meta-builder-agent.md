@@ -563,14 +563,15 @@ Options per task:
 
 **Tasks to Create** ({N} total):
 
-| # | Title | Language | Effort | Dependencies |
-|---|-------|----------|--------|--------------|
-| {N} | {title} | {lang} | {hrs} | None |
-| {N} | {title} | {lang} | {hrs} | Task {M}, #{ext_task} |
+| # | Title | Language | Topic | Effort | Dependencies |
+|---|-------|----------|-------|--------|--------------|
+| {N} | {title} | {lang} | {topic} | {hrs} | None |
+| {N} | {title} | {lang} | {topic} | {hrs} | Task {M}, #{ext_task} |
 
 **Dependencies Legend**:
 - "Task {M}" = internal dependency on another new task in this batch
 - "#{ext_task}" = external dependency on existing task in TODO
+- Topics are auto-inferred from task title/description; user can revise by selecting "Revise"
 
 **Total Estimated Effort**: {sum} hours
 ```
@@ -672,6 +673,8 @@ for position, task_idx in enumerate(sorted_indices):
   # 3. Update TODO.md
 ```
 
+**Topic Auto-Inference**: Before building the state.json entry, run the keyword heuristic (same as `/task` topic inference) against each task's title and description. The inferred topic is shown in the Stage 5 confirmation table (Topic column). If the user selects "Revise", they can change topic assignments.
+
 **state.json Entry** (with dependencies):
 ```json
 {
@@ -679,10 +682,13 @@ for position, task_idx in enumerate(sorted_indices):
   "project_name": "task_slug",
   "status": "not_started",
   "task_type": "meta",
+  "topic": "agent-system",
   "dependencies": [35, 34],
   "artifacts": []
 }
 ```
+
+Note: Include `"topic"` field only if a topic was inferred or assigned; omit if null/skipped.
 
 **TODO.md Entry Format**:
 ```markdown

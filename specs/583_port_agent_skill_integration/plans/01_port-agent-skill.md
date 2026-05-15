@@ -1,7 +1,7 @@
 # Implementation Plan: Task #583
 
 - **Task**: 583 - port_agent_skill_integration
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: Task #579 (generate-task-order.sh ported), Task #580 (topic schema ported)
 - **Research Inputs**: specs/583_port_agent_skill_integration/reports/01_port-agent-skill.md
@@ -63,7 +63,7 @@ No specific ROADMAP.md items are directly addressed by this task. The work falls
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: meta-builder-agent.md Edits [NOT STARTED]
+### Phase 1: meta-builder-agent.md Edits [COMPLETED]
 
 **Goal**: Add Topic column to Stage 5 confirmation table and topic field with auto-inference to Stage 6 state.json entry.
 
@@ -89,7 +89,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: skill-fix-it/SKILL.md Edits [NOT STARTED]
+### Phase 2: skill-fix-it/SKILL.md Edits [COMPLETED]
 
 **Goal**: Add topic auto-inference logic in Step 9.1 and Topic column in Step 10 display table.
 
@@ -115,7 +115,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: skill-todo/SKILL.md Edits [NOT STARTED]
+### Phase 3: skill-todo/SKILL.md Edits [COMPLETED]
 
 **Goal**: Add Stage 10.5 RegenerateTaskOrder block and update Stage 15 commit message.
 
