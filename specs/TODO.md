@@ -6,148 +6,15 @@ next_project_number: 579
 
 ## Task Order
 
-*Updated 2026-05-14. 11 active tasks remaining.*
+*Updated 2026-05-15. 4 active tasks remaining.*
 
 ### Pending
-- **578** [COMPLETED] -- Fix OpenCode /tmp/ file usage root cause everywhere
-- **577** [COMPLETED] -- Investigate root cause of .opencode/ output path corruption after extension reload
-- **576** [COMPLETED] -- Fix OpenCode session picker restore/browse options (depends: 575)
-- **575** [COMPLETED] -- Audit OpenCode session picker failure modes
-- **568** [COMPLETED] -- Update artifact formats for deviation tracking
-- **569** [COMPLETED] -- Enhance general implementation agent (depends: 568)
-- **570** [COMPLETED] -- Propagate improvements to extension agents (depends: 569)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
 - **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
 - **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
 - **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
 
 ## Tasks
-
-### 578. Fix OpenCode /tmp/ file usage root cause everywhere
-- **Effort**: 2-4 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Research**: [578_fix_opencode_tmp_file_usage_root_cause/reports/01_tmp-file-root-cause.md]
-- **Plan**: [578_fix_opencode_tmp_file_usage_root_cause/plans/01_tmp-file-root-cause.md]
-- **Summary**: [578_fix_opencode_tmp_file_usage_root_cause/summaries/01_tmp-file-root-cause-summary.md]
-
-**Description**: The OpenCode agent system in ~/.dotfiles/ continues to write temp files to /tmp/ (e.g., /tmp/state.json.tmp) instead of specs/tmp/ despite prior fix attempts (task 574). Running `/research 575` in opencode triggered a "Permission required - Access external directory /tmp" prompt with pattern `/tmp/*`. Screenshot shows jq piping state.json output to `/tmp/state.json.tmp && mv /tmp/state.json.tmp`. Carefully study the root cause of what continues to produce /tmp/ paths instead of specs/tmp/ paths, and fix the issue everywhere it occurs in the .opencode/ agent system.
-
-### 577. Investigate root cause of .opencode/ output path corruption after extension reload and add protections
-- **Effort**: 2-4 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Research**: [577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md]
-- **Plan**: [577_investigate_opencode_output_path_corruption/plans/01_output-path-fix.md]
-- **Summary**: [577_investigate_opencode_output_path_corruption/summaries/01_output-path-fix-summary.md]
-
-**Description**: After reloading the .opencode/ agent system in ~/.dotfiles/ using the <leader>al extension loader, running `/plan 57` produces output at /home/benjamin/.config/nvim/.opencode/output/implement.md instead of the correct specs/ artifact path. This keeps happening when working on the opencode agent system. Find the root cause of why the output path gets corrupted and implement protections to prevent it in the future.
-
-### 576. Fix OpenCode session picker restore/browse options
-
-- **Effort**: 2-4 hours
-- **Status**: [COMPLETED]
-- **Task Type**: neovim
-- **Dependencies**: 575
-- **Summary**: [576_fix_opencode_session_picker/summaries/01_fix-opencode-session-picker-summary.md]
-- **Plan**: [576_fix_opencode_session_picker/plans/01_fix-opencode-session-picker.md]
-- **Research**: [576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md]
-
-**Description**: Fix the "Restore last session" and "Browse all sessions" options in the OpenCode session picker (`<C-CR>` -> OpenCode) based on the root cause identified in task 575. Target file: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`. May also need adjustments to `lua/neotex/plugins/ai/opencode.lua` server configuration.
-
----
-
-### 575. Audit OpenCode session picker failure modes
-
-- **Effort**: 2-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: neovim
-- **Dependencies**: None (builds on prior research from archived task 544)
-- **Research**: [575_audit_opencode_session_picker_failure/reports/01_session-picker-audit.md]
-- **Plan**: [575_audit_opencode_session_picker_failure/plans/01_session-picker-fix.md]
-- **Summary**: [575_audit_opencode_session_picker_failure/summaries/01_session-picker-fix-summary.md]
-
-**Description**: Diagnose the actual current failure modes for the OpenCode session picker invoked via `<C-CR>` -> OpenCode. Both "Restore last session" and "Browse all sessions" options fail despite a prior fix attempt (task 544). Investigate cold-start races, `snacks.terminal` dedup, port mismatch, `select_session()` API behavior, error swallowing, and `/tui/select-session` TUI endpoint behavior. Prior research from archived task 544 at `specs/archive/544_fix_opencode_session_picker/`. Key file: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`.
-
----
-
-### 574. Fix temp file usage in .opencode/ agent system to use specs/ instead of /tmp/
-- **Effort**: TBD
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Research**: [574_fix_temp_file_usage_opencode_agent_system/reports/01_temp_file_audit.md]
-- **Plan**: [574_fix_temp_file_usage_opencode_agent_system/plans/01_temp_file_fix.md]
-- **Summary**: [574_fix_temp_file_usage_opencode_agent_system/summaries/01_temp_file_fix-summary.md]
-
-**Description**: Find root cause of /tmp/ temp file usage in ProofChecker/.opencode/ agent system and audit nvim/.opencode/ for same issue — all temp files must live in specs/ in the project directory to avoid permission requests for editing external files.
-
----
-
-### 572. Diagnose OpenCode lean routing failure and improve agent system
-- **Effort**: medium
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Research**: [572_diagnose_opencode_lean_routing_failure/reports/01_opencode-routing-diagnosis.md]
-- **Plan**: [572_diagnose_opencode_lean_routing_failure/plans/01_opencode-routing-fix.md]
-- **Summary**: [572_diagnose_opencode_lean_routing_failure/summaries/01_opencode-routing-fix-summary.md]
-
-**Description**: Diagnose why `/implement 129` in /home/benjamin/Projects/ProofChecker/ invoked a general implementation agent instead of a lean implementation agent (output logged to ~/.config/nvim/.opencode/output/implement.md). Use this failure to identify all related issues in the OpenCode agent system routing, task type detection, and extension loading to improve reliability
-
-### 571. Create guide for using Discord to manage OpenCode agents from Neovim
-- **Effort**: 2-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: general
-- **Research**:
-  - [571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md]
-  - [571_create_guide_discord_opencode_agents_neovim/reports/02_guide-additions.md]
-- **Plan**:
-  - [571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide.md]
-  - [571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide-revised.md]
-- **Summary**: [571_create_guide_discord_opencode_agents_neovim/summaries/01_discord-opencode-guide-summary.md]
-
-**Description**: Create a workflow guide in `/home/benjamin/.config/nvim/.opencode/docs/guides/` for using Discord to manage OpenCode agents. Reference `/home/benjamin/.dotfiles/docs/discord-bot.md` which outlines the existing NixOS Discord bot setup. Research how to use these resources from within Neovim, describing the most convenient and low-friction workflow for everyday use.
-
-### 568. Update artifact formats for deviation tracking
-- **Effort**: 1-2 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: None
-- **Research**: [568_update_artifact_formats_deviation_tracking/reports/01_artifact-formats-research.md]
-- **Summary**: [568_update_artifact_formats_deviation_tracking/summaries/01_artifact-formats-summary.md]
-- **Plan**: [568_update_artifact_formats_deviation_tracking/plans/01_artifact-formats-plan.md]
-
-**Description**: Add deviation tracking fields to core artifact formats: `handoff-artifact.md` (new `## Deviations from Plan` section), `summary-format.md` (new `## Plan Deviations` section), `progress-file.md` (`deviations` array in schema), `context-exhaustion-detection.md` (final checkpoint protocol — update both progress file AND plan file as last actions before writing handoff when exhaustion is imminent), and `plan-format-enforcement.md` (deviation annotation requirements). These format changes define the contract that tasks 569 and 570 implement.
-  - **Target files**: `.claude/context/formats/handoff-artifact.md`, `.claude/context/formats/summary-format.md`, `.claude/context/formats/progress-file.md`, `.claude/context/patterns/context-exhaustion-detection.md`, `.claude/rules/plan-format-enforcement.md`
-
----
-
-### 569. Enhance general implementation agent with post-phase self-review and deviation tracking
-- **Effort**: 2-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: 568
-- **Research**: [569_enhance_general_implementation_agent/reports/01_agent-enhancement-research.md]
-- **Summary**: [569_enhance_general_implementation_agent/summaries/01_agent-enhancement-summary.md]
-- **Plan**: [569_enhance_general_implementation_agent/plans/01_agent-enhancement-plan.md]
-
-**Description**: Enhance `general-implementation-agent.md` with four improvements: (1) **Post-phase self-review** (new Stage 4D-ii) — after marking a phase `[COMPLETED]`, re-read the phase subtask list and verify each objective was addressed, noting any skipped items before proceeding to the next phase; (2) **Progressive handoff updates** — update the handoff document incrementally as each phase completes, not only at context exhaustion, so the handoff is always current; (3) **Deviation annotation in plan** — when deviating from plan, annotate the checklist item inline (e.g. `- [x] Task: ... *(deviation: used approach B instead of A — reason)*`); (4) **Final context-exhaustion checkpoint** — when detecting imminent exhaustion, update both progress file AND plan file as last actions before writing the handoff.
-  - **Target files**: `.claude/agents/general-implementation-agent.md`
-
----
-
-### 570. Propagate implementation improvements to extension agents
-- **Effort**: 2-4 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: 569
-- **Research**: [570_propagate_improvements_extension_agents/reports/01_extension-agents-research.md]
-- **Summary**: [570_propagate_improvements_extension_agents/summaries/01_extension-agents-summary.md]
-- **Plan**: [570_propagate_improvements_extension_agents/plans/01_extension-agents-plan.md]
-
-**Description**: Propagate the post-phase self-review, deviation tracking, progressive handoff updates, and final context checkpoint improvements from task 569 to all extension implementation agents. Research confirmed these agents are missing most of general-implementation-agent.md's progress tracking, self-review, handoff, and deviation features: `nix-implementation-agent.md` (0 handoff/deviation/self-check mentions), `neovim-implementation-agent.md` (0 matches), `lean-implementation-agent.md` (has some handoff support but lacks post-phase self-review and deviation tracking). Also check for python, web, z3, latex, typst agents if present. Bring each to parity using the updated formats from task 568 and patterns from task 569.
-  - **Target files**: `.claude/extensions/*/agents/*-implementation-agent.md` (nix, neovim, lean, and any others present)
-
----
 
 ### 500. Add context: fork frontmatter to core delegating skills
 - **Effort**: 1-3 hours
@@ -216,19 +83,14 @@ next_project_number: 579
 
 | Task | Name | Completed |
 |------|------|-----------|
-| 567 | Apply 564+565 integrity improvements to nvim .opencode/ seed | 2026-05-14 |
-| 566 | Port escalation/compliance fixes to .claude/ reference system | 2026-05-14 |
-| 565 | Add plan-compliance spot-check gate to lean skill | 2026-05-14 |
-| 564 | Add lean agent escalation protocol and vacuous-definition prohibition | 2026-05-14 |
-| 563 | Make /consult always create a task automatically | 2026-05-13 |
-| 562 | Upgrade consult report to interactive actionable checklist format | 2026-05-13 |
-| 561 | Implement tiered model defaults across agent system | 2026-05-13 |
-| 560 | Research model routing best practices for agent system | 2026-05-13 |
-| 557 | Research lifecycle-aware notification patterns for Claude Code hooks | 2026-05-13 |
-
-
-## Recommended Order
-
-
-## Recommended Order
+| 578 | Fix OpenCode /tmp/ file usage root cause everywhere | 2026-05-15 |
+| 577 | Investigate .opencode/ output path corruption after extension reload | 2026-05-15 |
+| 576 | Fix OpenCode session picker restore/browse options | 2026-05-15 |
+| 575 | Audit OpenCode session picker failure modes | 2026-05-15 |
+| 574 | Fix temp file usage in .opencode/ agent system | 2026-05-14 |
+| 572 | Diagnose OpenCode lean routing failure | 2026-05-14 |
+| 571 | Create guide for Discord to manage OpenCode agents | 2026-05-14 |
+| 570 | Propagate improvements to extension agents | 2026-05-14 |
+| 569 | Enhance general implementation agent | 2026-05-14 |
+| 568 | Update artifact formats for deviation tracking | 2026-05-14 |
 
