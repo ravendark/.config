@@ -6,12 +6,57 @@ local M = {}
 -- Dependencies
 local helpers = require("neotex.plugins.ai.claude.commands.picker.utils.helpers")
 
+--- Load .syncprotect file from a project directory
+--- Reads from project root ({project_dir}/.syncprotect), falling back to
+--- the legacy location ({project_dir}/{base_dir}/.syncprotect).
+--- Protected files will not be overwritten during extension load/reload.
+--- @param project_dir string Project root directory
+--- @param base_dir string|nil Base directory name for legacy fallback (".claude" or ".opencode")
+--- @return table protected_paths Set of relative paths {[path] = true}
+function M.load_syncprotect(project_dir, base_dir)
+  local protected = {}
+
+  -- Try project root first (canonical location)
+  local filepath = project_dir .. "/.syncprotect"
+  local file = io.open(filepath, "r")
+
+  -- Fall back to legacy location inside base_dir
+  if not file and base_dir then
+    local legacy_path = project_dir .. "/" .. base_dir .. "/.syncprotect"
+    file = io.open(legacy_path, "r")
+  end
+
+  if not file then
+    return protected
+  end
+
+  for line in file:lines() do
+    -- Trim whitespace
+    line = line:match("^%s*(.-)%s*$")
+    -- Skip empty lines and comments
+    if line ~= "" and line:sub(1, 1) ~= "#" then
+      protected[line] = true
+    end
+  end
+  file:close()
+
+  return protected
+end
+
 --- Copy a single file with directory creation
 --- @param source_path string Source file path
 --- @param target_path string Target file path
 --- @param preserve_perms boolean Preserve execute permissions
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
+--- @param rel_path string|nil Relative path for syncprotect check
 --- @return boolean success True if copy succeeded
-local function copy_file(source_path, target_path, preserve_perms)
+--- @return boolean skipped True if file was skipped due to syncprotect
+local function copy_file(source_path, target_path, preserve_perms, protected_paths, rel_path)
+  -- Check .syncprotect: skip protected files
+  if protected_paths and rel_path and protected_paths[rel_path] then
+    return false, true
+  end
+
   -- Ensure parent directory exists
   local parent_dir = vim.fn.fnamemodify(target_path, ":h")
   helpers.ensure_directory(parent_dir)
@@ -19,13 +64,13 @@ local function copy_file(source_path, target_path, preserve_perms)
   -- Read source file
   local content = helpers.read_file(source_path)
   if not content then
-    return false
+    return false, false
   end
 
   -- Write to target
   local success = helpers.write_file(target_path, content)
   if not success then
-    return false
+    return false, false
   end
 
   -- Preserve permissions for shell scripts
@@ -33,7 +78,7 @@ local function copy_file(source_path, target_path, preserve_perms)
     helpers.copy_file_permissions(source_path, target_path)
   end
 
-  return true
+  return true, false
 end
 
 --- Recursively scan a directory for files
@@ -85,14 +130,17 @@ end
 --- @param category string Category name (agents, commands, rules)
 --- @param extension string File extension (.md)
 --- @param agents_subdir string|nil Optional subdirectory for agents (e.g., "agent/subagents")
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_simple_files(manifest, source_dir, target_dir, category, extension, agents_subdir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_simple_files(manifest, source_dir, target_dir, category, extension, agents_subdir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides[category] then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_category_dir = source_dir .. "/" .. category
@@ -109,30 +157,37 @@ function M.copy_simple_files(manifest, source_dir, target_dir, category, extensi
   for _, filename in ipairs(manifest.provides[category]) do
     local source_path = source_category_dir .. "/" .. filename
     local target_path = target_category_dir .. "/" .. filename
+    local rel_path = target_category_name .. "/" .. filename
 
     if vim.fn.filereadable(source_path) == 1 then
       local preserve_perms = filename:match("%.sh$")
-      if copy_file(source_path, target_path, preserve_perms) then
+      local ok, skipped = copy_file(source_path, target_path, preserve_perms, protected_paths, rel_path)
+      if skipped then
+        skipped_count = skipped_count + 1
+      elseif ok then
         table.insert(copied_files, target_path)
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy skill directories (recursive)
 --- @param manifest table Extension manifest
 --- @param source_dir string Extension source directory
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_skill_dirs(manifest, source_dir, target_dir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_skill_dirs(manifest, source_dir, target_dir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides.skills then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_skills_dir = source_dir .. "/skills"
@@ -157,33 +212,40 @@ function M.copy_skill_dirs(manifest, source_dir, target_dir)
 
       -- Copy all files in skill directory
       local files = scan_directory_recursive(source_skill_dir)
-      for _, rel_path in ipairs(files) do
-        local source_path = source_skill_dir .. "/" .. rel_path
-        local target_path = target_skill_dir .. "/" .. rel_path
-        local preserve_perms = rel_path:match("%.sh$")
+      for _, file_rel_path in ipairs(files) do
+        local source_path = source_skill_dir .. "/" .. file_rel_path
+        local target_path = target_skill_dir .. "/" .. file_rel_path
+        local preserve_perms = file_rel_path:match("%.sh$")
+        local rel_path = "skills/" .. skill_name .. "/" .. file_rel_path
 
-        if copy_file(source_path, target_path, preserve_perms) then
+        local ok, skipped = copy_file(source_path, target_path, preserve_perms, protected_paths, rel_path)
+        if skipped then
+          skipped_count = skipped_count + 1
+        elseif ok then
           table.insert(copied_files, target_path)
         end
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy context directories (preserving structure)
 --- @param manifest table Extension manifest
 --- @param source_dir string Extension source directory
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_context_dirs(manifest, source_dir, target_dir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_context_dirs(manifest, source_dir, target_dir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides.context then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_context_dir = source_dir .. "/context"
@@ -208,37 +270,48 @@ function M.copy_context_dirs(manifest, source_dir, target_dir)
 
       -- Copy all files preserving structure
       local files = scan_directory_recursive(source_ctx_dir)
-      for _, rel_path in ipairs(files) do
-        local source_path = source_ctx_dir .. "/" .. rel_path
-        local target_path = target_ctx_dir .. "/" .. rel_path
+      for _, file_rel_path in ipairs(files) do
+        local source_path = source_ctx_dir .. "/" .. file_rel_path
+        local target_path = target_ctx_dir .. "/" .. file_rel_path
+        local rel_path = "context/" .. context_path .. "/" .. file_rel_path
 
-        if copy_file(source_path, target_path, false) then
+        local ok, skipped = copy_file(source_path, target_path, false, protected_paths, rel_path)
+        if skipped then
+          skipped_count = skipped_count + 1
+        elseif ok then
           table.insert(copied_files, target_path)
         end
       end
     elseif vim.fn.filereadable(source_ctx_dir) == 1 then
       -- Handle individual files at context root (mirrors copy_docs pattern)
-      if copy_file(source_ctx_dir, target_ctx_dir, false) then
+      local rel_path = "context/" .. context_path
+      local ok, skipped = copy_file(source_ctx_dir, target_ctx_dir, false, protected_paths, rel_path)
+      if skipped then
+        skipped_count = skipped_count + 1
+      elseif ok then
         table.insert(copied_files, target_ctx_dir)
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy scripts
 --- @param manifest table Extension manifest
 --- @param source_dir string Extension source directory
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_scripts(manifest, source_dir, target_dir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_scripts(manifest, source_dir, target_dir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides.scripts then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_scripts_dir = source_dir .. "/scripts"
@@ -253,29 +326,36 @@ function M.copy_scripts(manifest, source_dir, target_dir)
   for _, script_name in ipairs(manifest.provides.scripts) do
     local source_path = source_scripts_dir .. "/" .. script_name
     local target_path = target_scripts_dir .. "/" .. script_name
+    local rel_path = "scripts/" .. script_name
 
     if vim.fn.filereadable(source_path) == 1 then
-      if copy_file(source_path, target_path, true) then
+      local ok, skipped = copy_file(source_path, target_path, true, protected_paths, rel_path)
+      if skipped then
+        skipped_count = skipped_count + 1
+      elseif ok then
         table.insert(copied_files, target_path)
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy hooks (flat .sh files with execute permissions preserved)
 --- @param manifest table Extension manifest
 --- @param source_dir string Extension source directory
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_hooks(manifest, source_dir, target_dir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_hooks(manifest, source_dir, target_dir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides.hooks then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_hooks_dir = source_dir .. "/hooks"
@@ -290,30 +370,37 @@ function M.copy_hooks(manifest, source_dir, target_dir)
   for _, hook_name in ipairs(manifest.provides.hooks) do
     local source_path = source_hooks_dir .. "/" .. hook_name
     local target_path = target_hooks_dir .. "/" .. hook_name
+    local rel_path = "hooks/" .. hook_name
 
     if vim.fn.filereadable(source_path) == 1 then
       -- Always preserve execute permissions for hook scripts
-      if copy_file(source_path, target_path, true) then
+      local ok, skipped = copy_file(source_path, target_path, true, protected_paths, rel_path)
+      if skipped then
+        skipped_count = skipped_count + 1
+      elseif ok then
         table.insert(copied_files, target_path)
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy systemd unit files (flat files, no execute permissions)
 --- @param manifest table Extension manifest
 --- @param source_dir string Extension source directory
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_systemd(manifest, source_dir, target_dir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_systemd(manifest, source_dir, target_dir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides.systemd then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_systemd_dir = source_dir .. "/systemd"
@@ -328,29 +415,36 @@ function M.copy_systemd(manifest, source_dir, target_dir)
   for _, unit_name in ipairs(manifest.provides.systemd) do
     local source_path = source_systemd_dir .. "/" .. unit_name
     local target_path = target_systemd_dir .. "/" .. unit_name
+    local rel_path = "systemd/" .. unit_name
 
     if vim.fn.filereadable(source_path) == 1 then
-      if copy_file(source_path, target_path, false) then
+      local ok, skipped = copy_file(source_path, target_path, false, protected_paths, rel_path)
+      if skipped then
+        skipped_count = skipped_count + 1
+      elseif ok then
         table.insert(copied_files, target_path)
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy docs (flat files, no execute permissions)
 --- @param manifest table Extension manifest
 --- @param source_dir string Extension source directory
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_docs(manifest, source_dir, target_dir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_docs(manifest, source_dir, target_dir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides.docs then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_docs_dir = source_dir .. "/docs"
@@ -374,33 +468,48 @@ function M.copy_docs(manifest, source_dir, target_dir)
       end
 
       local files = scan_directory_recursive(source_path)
-      for _, rel_path in ipairs(files) do
-        if copy_file(source_path .. "/" .. rel_path, target_path .. "/" .. rel_path, false) then
-          table.insert(copied_files, target_path .. "/" .. rel_path)
+      for _, file_rel_path in ipairs(files) do
+        local rel_path = "docs/" .. doc_name .. "/" .. file_rel_path
+        local ok, skipped = copy_file(
+          source_path .. "/" .. file_rel_path,
+          target_path .. "/" .. file_rel_path,
+          false, protected_paths, rel_path
+        )
+        if skipped then
+          skipped_count = skipped_count + 1
+        elseif ok then
+          table.insert(copied_files, target_path .. "/" .. file_rel_path)
         end
       end
     elseif vim.fn.filereadable(source_path) == 1 then
-      if copy_file(source_path, target_path, false) then
+      local rel_path = "docs/" .. doc_name
+      local ok, skipped = copy_file(source_path, target_path, false, protected_paths, rel_path)
+      if skipped then
+        skipped_count = skipped_count + 1
+      elseif ok then
         table.insert(copied_files, target_path)
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy templates (flat files, no execute permissions)
 --- @param manifest table Extension manifest
 --- @param source_dir string Extension source directory
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_templates(manifest, source_dir, target_dir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_templates(manifest, source_dir, target_dir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides.templates then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_templates_dir = source_dir .. "/templates"
@@ -415,15 +524,19 @@ function M.copy_templates(manifest, source_dir, target_dir)
   for _, template_name in ipairs(manifest.provides.templates) do
     local source_path = source_templates_dir .. "/" .. template_name
     local target_path = target_templates_dir .. "/" .. template_name
+    local rel_path = "templates/" .. template_name
 
     if vim.fn.filereadable(source_path) == 1 then
-      if copy_file(source_path, target_path, false) then
+      local ok, skipped = copy_file(source_path, target_path, false, protected_paths, rel_path)
+      if skipped then
+        skipped_count = skipped_count + 1
+      elseif ok then
         table.insert(copied_files, target_path)
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy root files (files that go directly into target_dir, not a subdirectory)
@@ -431,14 +544,17 @@ end
 --- @param manifest table Extension manifest
 --- @param source_dir string Extension source directory
 --- @param target_dir string Target base directory (.claude/)
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table copied_files Array of copied file paths
 --- @return table created_dirs Array of created directory paths
-function M.copy_root_files(manifest, source_dir, target_dir)
+--- @return number skipped_count Number of files skipped due to .syncprotect
+function M.copy_root_files(manifest, source_dir, target_dir, protected_paths)
   local copied_files = {}
   local created_dirs = {}
+  local skipped_count = 0
 
   if not manifest.provides or not manifest.provides.root_files then
-    return copied_files, created_dirs
+    return copied_files, created_dirs, skipped_count
   end
 
   local source_root_dir = source_dir .. "/root-files"
@@ -446,15 +562,20 @@ function M.copy_root_files(manifest, source_dir, target_dir)
   for _, filename in ipairs(manifest.provides.root_files) do
     local source_path = source_root_dir .. "/" .. filename
     local target_path = target_dir .. "/" .. filename
+    -- Root files are at the base_dir level; rel_path is just the filename
+    local rel_path = filename
 
     if vim.fn.filereadable(source_path) == 1 then
-      if copy_file(source_path, target_path, false) then
+      local ok, skipped = copy_file(source_path, target_path, false, protected_paths, rel_path)
+      if skipped then
+        skipped_count = skipped_count + 1
+      elseif ok then
         table.insert(copied_files, target_path)
       end
     end
   end
 
-  return copied_files, created_dirs
+  return copied_files, created_dirs, skipped_count
 end
 
 --- Copy manifest.json to target extensions directory

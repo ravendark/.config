@@ -98,18 +98,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add .syncprotect Support to Extension Loader [NOT STARTED]
+### Phase 2: Add .syncprotect Support to Extension Loader [COMPLETED]
 
 **Goal**: Make the extension loader respect `.syncprotect` so that protected files are skipped during extension load and reload operations, matching the behavior already implemented in sync.lua.
 
 **Tasks**:
-- [ ] Add a `load_syncprotect(project_dir, base_dir)` function to `loader.lua` (modeled on sync.lua's implementation) that reads `{project_dir}/.syncprotect` and returns a set of relative paths
-- [ ] Modify the `copy_file()` function signature to accept an optional `protected_paths` table and `rel_path` string; skip the copy and return `false` when the file is protected
-- [ ] Update `copy_simple_files()` to accept and pass `protected_paths` to `copy_file()`, computing each file's relative path as `{category}/{filename}`
-- [ ] Update `copy_skill_dirs()`, `copy_context_dirs()`, `copy_scripts()`, `copy_hooks()`, `copy_docs()`, `copy_templates()`, `copy_systemd()`, and `copy_root_files()` similarly
-- [ ] In `init.lua` (`manager.load()`), call `load_syncprotect()` before the copy operations and pass the result through to all loader copy functions
-- [ ] Track and report the count of skipped (protected) files in the confirmation/notification message
-- [ ] Add a test: temporarily add a command to `.syncprotect`, reload the extension, verify the file was not overwritten
+- [x] Add a `load_syncprotect(project_dir, base_dir)` function to `loader.lua` (modeled on sync.lua's implementation) that reads `{project_dir}/.syncprotect` and returns a set of relative paths *(completed)*
+- [x] Modify the `copy_file()` function signature to accept an optional `protected_paths` table and `rel_path` string; skip the copy and return `false, true` when the file is protected *(completed)*
+- [x] Update `copy_simple_files()` to accept and pass `protected_paths` to `copy_file()`, computing each file's relative path as `{category}/{filename}` *(completed)*
+- [x] Update `copy_skill_dirs()`, `copy_context_dirs()`, `copy_scripts()`, `copy_hooks()`, `copy_docs()`, `copy_templates()`, `copy_systemd()`, and `copy_root_files()` similarly *(completed)*
+- [x] In `init.lua` (`manager.load()`), call `load_syncprotect()` before the copy operations and pass the result through to all loader copy functions *(completed)*
+- [x] Track and report the count of skipped (protected) files in the confirmation/notification message *(completed: notification includes ", N skipped (.syncprotect)" when N > 0)*
+- [ ] Add a test: temporarily add a command to `.syncprotect`, reload the extension, verify the file was not overwritten *(deviation: deferred to Phase 4 integration verification)*
 
 **Timing**: 1.5 hours
 
