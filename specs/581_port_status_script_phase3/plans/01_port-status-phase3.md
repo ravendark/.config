@@ -1,7 +1,7 @@
 # Implementation Plan: Task #581
 
 - **Task**: 581 - Port update-task-status.sh Phase 3 rewrite from ProofChecker
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 0.5 hours
 - **Dependencies**: Task 579 (generate-task-order.sh port), Task 580 (topic schema + state-management rules)
 - **Research Inputs**: specs/581_port_status_script_phase3/reports/01_port-status-phase3.md

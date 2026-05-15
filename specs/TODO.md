@@ -1,29 +1,55 @@
 ---
-next_project_number: 584
+next_project_number: 586
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-15. 9 active tasks remaining.*
+*Updated 2026-05-15. Generated from state.json dependency graph.*
 
-### Wave 1 (no dependencies)
-- **579** [COMPLETED] -- Port generate-task-order.sh + task-order-format.md
-- **580** [COMPLETED] -- Port topic schema & rules
+**Dependency Waves**:
+| Wave | Tasks | Blocked by | Topics |
+|------|-------|------------|--------|
+| 1 | 78,87,500,501,582,583,584 | -- | -- |
+| 2 | 585 | 584 | -- |
 
-### Wave 2 (depends on Wave 1)
-- **581** [PLANNED] -- Port update-task-status.sh Phase 3 rewrite (depends: 579)
-- **582** [PLANNED] -- Port command integration: task.md, todo.md, review.md (depends: 579, 580)
-- **583** [PLANNED] -- Port agent & skill integration (depends: 579, 580)
+**Grouped by Topic** (indented = must complete first):
 
-### Pending (pre-existing)
-- **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
-- **501** [PLANNED] -- Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing (depends: 499)
-- **87** [RESEARCHED] -- Investigate terminal directory change in wezterm
-- **78** [PLANNED] -- Fix Himalaya SMTP authentication failure
+### Uncategorized
+```
+78 [PLANNED] — fix_himalaya_smtp_authentication_failure
+87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
+500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
+501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
+582 [IMPLEMENTING] — Port task order auto-sync and topic support into task.md, todo.md
+583 [IMPLEMENTING] — Port topic support into meta-builder-agent.md and skills. meta-bu
+584 [RESEARCHING] — Investigate replacing parallel Agent dispatch with parallel Skill
+585 [NOT STARTED] — Rewrite multi-task dispatch in /research, /plan, and /implement t
+  └─ 584 [RESEARCHING] — Investigate replacing parallel Agent dispatch with parallel Skill (see above)
+```
 
 ## Tasks
+
+### 584. Research parallel Skill dispatch approach
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHING]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Investigate replacing parallel Agent dispatch with parallel Skill invocation in multi-task commands (/research, /plan, /implement). Confirm Skill tool supports parallel invocation, check for state.json race conditions with concurrent skill writes, audit all 4 files (multi-task-operations.md, research.md, plan.md, implement.md) for exact change locations, and check if batch commit/result collection changes are needed when skills (not agents) return results.
+
+---
+
+### 585. Rewrite multi-task dispatch to use parallel Skill invocation
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #584
+
+**Description**: Rewrite multi-task dispatch in /research, /plan, and /implement to invoke skills directly (parallel Skill tool calls) instead of wrapping each task in a dispatch Agent. Update multi-task-operations.md Section 6 architecture, update MULTI-TASK DISPATCH Step 3 in all three command files, and update any related docs referencing the dispatch pattern. This eliminates the 3-level nesting (orchestrator -> dispatch agent -> skill -> research agent) that causes timeouts, reducing to 2 levels (orchestrator -> skill -> agent).
+
+---
 
 ### 579. Port generate-task-order.sh and task-order-format.md
 - **Effort**: 2-3 hours
@@ -57,7 +83,7 @@ next_project_number: 584
 
 ### 581. Port update-task-status.sh Phase 3 rewrite
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #579
 - **Research**: [581_port_status_script_phase3/reports/01_port-status-phase3.md]
@@ -71,7 +97,7 @@ next_project_number: 584
 
 ### 582. Port command integration (task.md, todo.md, review.md)
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 - **Research**: [582_port_command_integration/reports/01_port-command-integration.md]
@@ -85,7 +111,7 @@ next_project_number: 584
 
 ### 583. Port agent and skill integration
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 - **Research**: [583_port_agent_skill_integration/reports/01_port-agent-skill.md]
