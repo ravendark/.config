@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 579,
+  "next_project_number": 584,
   "active_projects": [
     {
       "project_number": 87,
@@ -220,6 +220,79 @@
           }
         ]
       }
+    },
+    {
+      "project_number": 579,
+      "project_name": "port_task_order_script",
+      "status": "researching",
+      "task_type": "meta",
+      "description": "Port generate-task-order.sh (834 lines) from ProofChecker with generalized topic heuristic. Rewrite task-order-format.md from flat categories to wave+tree+topic format. The script uses Kahn's algorithm for dependency waves, DFS for tree rendering, and atomic TODO.md section replacement. Generalize assign_topic_heuristic() to remove ProofChecker-specific keywords — either make it read a project-local config or rely solely on state.json active_topics. Replace ProofChecker-specific examples in format doc with generic ones.",
+      "effort": "2-3 hours",
+      "dependencies": [],
+      "created": "2026-05-15T12:00:00Z",
+      "last_updated": "2026-05-15T20:38:39Z",
+      "session_id": "sess_1778877510_008adc_t579"
+    },
+    {
+      "project_number": 580,
+      "project_name": "port_topic_schema_rules",
+      "status": "researched",
+      "task_type": "meta",
+      "description": "Port topic system schema and rules from ProofChecker. Add active_topics (top-level string[]) and per-task topic (string, optional) fields to state-management-schema.md. Add Task Order Synchronization section (+49 lines) to state-management.md rule documenting derivation relationships, regeneration triggers, responsible scripts, and non-regeneration events.",
+      "effort": "30-60 min",
+      "dependencies": [],
+      "created": "2026-05-15T12:00:00Z",
+      "last_updated": "2026-05-15T20:41:01Z",
+      "session_id": "sess_1778877510_008adc_t580",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/580_port_topic_schema_rules/reports/01_port-topic-schema.md",
+          "type": "research",
+          "summary": "Complete diff analysis of all ProofChecker additions with exact insertion instructions for both target files"
+        }
+      ]
+    },
+    {
+      "project_number": 581,
+      "project_name": "port_status_script_phase3",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Port update-task-status.sh Phase 3 rewrite from ProofChecker. Replace current Phase 3 with two-mode strategy: Mode A (in-place sed for non-terminal status changes — fast, no full regen) + Mode B (full regeneration via generate-task-order.sh for terminal transitions COMPLETED/ABANDONED/EXPANDED). Add Mode A fallback to regen if task not found in tree. Preserve nvim-config-specific Phase 5 lifecycle notifications (TTS, WezTerm tab colors, OpenCode session renaming).",
+      "effort": "1-2 hours",
+      "dependencies": [
+        579
+      ],
+      "created": "2026-05-15T12:00:00Z",
+      "last_updated": "2026-05-15T12:00:00Z"
+    },
+    {
+      "project_number": 582,
+      "project_name": "port_command_integration",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Port task order auto-sync and topic support into task.md, todo.md, and review.md commands. task.md: add Step 4.5 topic picker (generalized — read active_topics from state.json, no hardcoded keywords), Part C regen call, topic inheritance in expand/sync/review modes, topic backfill in sync mode. todo.md: add Step 5.8 post-archival regen and Step 5.8.8a post-vault regen. review.md: replace ~330 lines of manual Task Order management (sections 6.5-6.7) with single generate-task-order.sh call, generalize topic inference to use extension-aware path matching instead of .lean-specific heuristics.",
+      "effort": "2-3 hours",
+      "dependencies": [
+        579,
+        580
+      ],
+      "created": "2026-05-15T12:00:00Z",
+      "last_updated": "2026-05-15T12:00:00Z"
+    },
+    {
+      "project_number": 583,
+      "project_name": "port_agent_skill_integration",
+      "status": "not_started",
+      "task_type": "meta",
+      "description": "Port topic support into meta-builder-agent.md and skills. meta-builder-agent.md: add Topic column to Stage 5 confirmation table and topic field in Stage 6 state.json entry. skill-fix-it: add Step 9.1 topic auto-inference (generalized — .claude/specs/ -> agent-system, extension-aware for other paths, no .lean-specific heuristic). skill-todo: add Stage 10.5 RegenerateTaskOrder (call generate-task-order.sh after archival + post-vault re-run).",
+      "effort": "1-2 hours",
+      "dependencies": [
+        579,
+        580
+      ],
+      "created": "2026-05-15T12:00:00Z",
+      "last_updated": "2026-05-15T12:00:00Z"
     }
   ],
   "completed_projects": [],
