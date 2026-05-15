@@ -1,0 +1,17 @@
+{
+  "phase": 4,
+  "phase_name": "review.md -- Replace Task Order management and add topic inference",
+  "started_at": "2026-05-15T00:35:00Z",
+  "last_updated": "2026-05-15T00:55:00Z",
+  "objectives": [
+    {"id": 1, "description": "Replace Section 2.6 (Parse Task Order) with wave+tree parsing format", "status": "done"},
+    {"id": 2, "description": "Add topic inference step to Section 5.6.3 (State Updates)", "status": "done"},
+    {"id": 3, "description": "Replace Sections 6.5-6.7 (manual Task Order management) with simplified script-based approach", "status": "done"},
+    {"id": 4, "description": "Update Section 7 git commit message to use regenerated_or_skipped format", "status": "done"},
+    {"id": 5, "description": "Update Standards Reference table Dependencies row and note", "status": "done"}
+  ],
+  "current_objective": 5,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}
