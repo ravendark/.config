@@ -1,7 +1,7 @@
 # Implementation Plan: Port generate-task-order.sh and Rewrite task-order-format.md
 
 - **Task**: 579 - Port generate-task-order.sh + task-order-format.md
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/579_port_task_order_script/reports/01_port-task-order.md

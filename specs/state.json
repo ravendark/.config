@@ -224,13 +224,13 @@
     {
       "project_number": 579,
       "project_name": "port_task_order_script",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Port generate-task-order.sh (834 lines) from ProofChecker with generalized topic heuristic. Rewrite task-order-format.md from flat categories to wave+tree+topic format. The script uses Kahn's algorithm for dependency waves, DFS for tree rendering, and atomic TODO.md section replacement. Generalize assign_topic_heuristic() to remove ProofChecker-specific keywords — either make it read a project-local config or rely solely on state.json active_topics. Replace ProofChecker-specific examples in format doc with generic ones.",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T20:58:42Z",
+      "last_updated": "2026-05-15T21:04:53Z",
       "session_id": "sess_1778878713_391547_t579",
       "next_artifact_number": 2,
       "artifacts": [
@@ -243,19 +243,24 @@
           "path": "specs/579_port_task_order_script/plans/01_port-task-order.md",
           "type": "plan",
           "summary": "3-phase implementation plan for porting generate-task-order.sh and rewriting task-order-format.md"
+        },
+        {
+          "path": "specs/579_port_task_order_script/summaries/01_port-task-order-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: script bug fix and format doc rewrite"
         }
       ],
       "memory_candidates": [
         {
-          "content": "generate-task-order.sh (ProofChecker) is portable to any agent system repo with only one change: remove assign_topic_heuristic() (lines 208-231). The function is not called internally. All other sections (Kahn's waves, DFS tree, Union-Find CC, wave table, grouped sections, goal reading, atomic section replacement) are fully project-agnostic.",
-          "category": "PATTERN",
+          "content": "When declaring bash arrays as global with set -u enabled, always initialize with =() to prevent unbound variable errors. Example: declare -a arr=() not declare -a arr.",
+          "category": "TECHNIQUE",
           "confidence": 0.9,
           "suggested_keywords": [
-            "generate-task-order",
-            "kahn-algorithm",
-            "task-order",
-            "topic-heuristic",
-            "portability"
+            "bash",
+            "set-u",
+            "array",
+            "declare",
+            "initialization"
           ]
         }
       ],
@@ -283,7 +288,8 @@
             "integrated_date": "2026-05-15"
           }
         ]
-      }
+      },
+      "completion_summary": "Fixed unbound variable bug in generate-task-order.sh and rewrote task-order-format.md from obsolete flat-category format to wave+tree+topic format with generic project-agnostic examples and topic taxonomy description"
     },
     {
       "project_number": 580,
