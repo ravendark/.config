@@ -195,7 +195,7 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
     status: $status,
     last_updated: $ts,
     researched: $ts
-  }' specs/tmp/test-specs/state.json > specs/tmp/test-specs/state.json.tmp && mv specs/tmp/test-specs/state.json.tmp specs/tmp/test-specs/state.json
+  }' specs/tmp/test-specs/state.json > specs/tmp/test-specs/state-updated.json && mv specs/tmp/test-specs/state-updated.json specs/tmp/test-specs/state.json
 
 # Step 2
 jq --arg path "$artifact_path" \

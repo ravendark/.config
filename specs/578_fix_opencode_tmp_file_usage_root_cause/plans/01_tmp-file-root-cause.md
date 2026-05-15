@@ -105,7 +105,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Fix Bare and In-Place Patterns in nvim .opencode/ (Primary) [NOT STARTED]
+### Phase 2: Fix Bare and In-Place Patterns in nvim .opencode/ (Primary) [COMPLETED]
 
 **Goal**: Fix all 17 files in the nvim `.opencode/` directory (excluding extensions) that contain incorrect temp file patterns.
 
