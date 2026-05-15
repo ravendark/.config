@@ -15,7 +15,7 @@ next_project_number: 584
 ### Wave 2 (depends on Wave 1)
 - **581** [PLANNED] -- Port update-task-status.sh Phase 3 rewrite (depends: 579)
 - **582** [PLANNING] -- Port command integration: task.md, todo.md, review.md (depends: 579, 580)
-- **583** [PLANNING] -- Port agent & skill integration (depends: 579, 580)
+- **583** [PLANNED] -- Port agent & skill integration (depends: 579, 580)
 
 ### Pending (pre-existing)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -84,10 +84,11 @@ next_project_number: 584
 
 ### 583. Port agent and skill integration
 - **Effort**: 1-2 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 - **Research**: [583_port_agent_skill_integration/reports/01_port-agent-skill.md]
+- **Plan**: [583_port_agent_skill_integration/plans/01_port-agent-skill.md]
 
 **Description**: Port topic support into meta-builder-agent.md and skills. meta-builder-agent.md: add Topic column to Stage 5 confirmation table and topic field in Stage 6 state.json entry. skill-fix-it: add Step 9.1 topic auto-inference (generalized — .claude/specs/ -> agent-system, extension-aware for other paths, no .lean-specific heuristic). skill-todo: add Stage 10.5 RegenerateTaskOrder (call generate-task-order.sh after archival + post-vault re-run).
 
