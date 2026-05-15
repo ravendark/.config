@@ -224,14 +224,36 @@
     {
       "project_number": 579,
       "project_name": "port_task_order_script",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Port generate-task-order.sh (834 lines) from ProofChecker with generalized topic heuristic. Rewrite task-order-format.md from flat categories to wave+tree+topic format. The script uses Kahn's algorithm for dependency waves, DFS for tree rendering, and atomic TODO.md section replacement. Generalize assign_topic_heuristic() to remove ProofChecker-specific keywords — either make it read a project-local config or rely solely on state.json active_topics. Replace ProofChecker-specific examples in format doc with generic ones.",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T20:38:39Z",
-      "session_id": "sess_1778877510_008adc_t579"
+      "last_updated": "2026-05-15T20:42:42Z",
+      "session_id": "sess_1778877510_008adc_t579",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/579_port_task_order_script/reports/01_port-task-order.md",
+          "type": "research",
+          "summary": "Full architecture analysis of generate-task-order.sh: section map, portability matrix, ProofChecker-specific content identification, state.json schema diff, format doc change matrix, and implementation recommendations."
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "generate-task-order.sh (ProofChecker) is portable to any agent system repo with only one change: remove assign_topic_heuristic() (lines 208-231). The function is not called internally. All other sections (Kahn's waves, DFS tree, Union-Find CC, wave table, grouped sections, goal reading, atomic section replacement) are fully project-agnostic.",
+          "category": "PATTERN",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "generate-task-order",
+            "kahn-algorithm",
+            "task-order",
+            "topic-heuristic",
+            "portability"
+          ]
+        }
+      ]
     },
     {
       "project_number": 580,

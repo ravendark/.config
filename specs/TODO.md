@@ -9,7 +9,7 @@ next_project_number: 584
 *Updated 2026-05-15. 9 active tasks remaining.*
 
 ### Wave 1 (no dependencies)
-- **579** [RESEARCHING] -- Port generate-task-order.sh + task-order-format.md
+- **579** [RESEARCHED] -- Port generate-task-order.sh + task-order-format.md
 - **580** [RESEARCHED] -- Port topic schema & rules
 
 ### Wave 2 (depends on Wave 1)
@@ -27,9 +27,10 @@ next_project_number: 584
 
 ### 579. Port generate-task-order.sh and task-order-format.md
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [579_port_task_order_script/reports/01_port-task-order.md]
 
 **Description**: Port generate-task-order.sh (834 lines) from ProofChecker with generalized topic heuristic. Rewrite task-order-format.md from flat categories to wave+tree+topic format. The script uses Kahn's algorithm for dependency waves, DFS for tree rendering, and atomic TODO.md section replacement. Generalize assign_topic_heuristic() to remove ProofChecker-specific keywords — either make it read a project-local config or rely solely on state.json active_topics. Replace ProofChecker-specific examples in format doc with generic ones.
 
