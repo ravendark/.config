@@ -1,7 +1,7 @@
 # Implementation Plan: Port Topic Schema and Rules
 
 - **Task**: 580 - port_topic_schema_rules
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 0.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/580_port_topic_schema_rules/reports/01_port-topic-schema.md
@@ -62,16 +62,16 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Schema Additions (state-management-schema.md) [NOT STARTED]
+### Phase 1: Schema Additions (state-management-schema.md) [COMPLETED]
 
 **Goal**: Add topic-related fields to the state management schema documentation
 
 **Tasks**:
-- [ ] Insert `active_topics` array into the `state.json Full Structure` JSON example block (after the `"next_project_number": 346,` line)
-- [ ] Insert `"topic": "completeness",` into the per-task entry JSON example block (after the `"task_type": "general",` line)
-- [ ] Insert the full "Top-Level Fields" table as a new `###` subsection before `### Project Entry Fields`
-- [ ] Insert `topic` row into the "Project Entry Fields" table (after the `task_type` row)
-- [ ] Verify all four insertions render correctly by reading the modified file
+- [x] Insert `active_topics` array into the `state.json Full Structure` JSON example block (after the `"next_project_number": 346,` line) *(completed)*
+- [x] Insert `"topic": "completeness",` into the per-task entry JSON example block (after the `"task_type": "general",` line) *(completed)*
+- [x] Insert the full "Top-Level Fields" table as a new `###` subsection before `### Project Entry Fields` *(completed)*
+- [x] Insert `topic` row into the "Project Entry Fields" table (after the `task_type` row) *(completed)*
+- [x] Verify all four insertions render correctly by reading the modified file *(completed)*
 
 **Timing**: 15 minutes
 
@@ -88,14 +88,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Rule Additions (state-management.md) [NOT STARTED]
+### Phase 2: Rule Additions (state-management.md) [COMPLETED]
 
 **Goal**: Add Task Order Synchronization documentation and expand Canonical Sources
 
 **Tasks**:
-- [ ] Expand the state.json Canonical Sources bullet to mention `topic` and `active_topics` (replace 1 line with 2 lines)
-- [ ] Insert the full "Task Order Synchronization" section (~49 lines) after the `## Two-Phase Update Pattern` section and before `## Error Handling`
-- [ ] Verify the section ordering is: Two-Phase Update Pattern -> Task Order Synchronization -> Error Handling
+- [x] Expand the state.json Canonical Sources bullet to mention `topic` and `active_topics` (replace 1 line with 2 lines) *(completed)*
+- [x] Insert the full "Task Order Synchronization" section (~49 lines) after the `## Two-Phase Update Pattern` section and before `## Error Handling` *(completed)*
+- [x] Verify the section ordering is: Two-Phase Update Pattern -> Task Order Synchronization -> Error Handling *(completed)*
 
 **Timing**: 10 minutes
 
