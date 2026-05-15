@@ -1,7 +1,43 @@
 {
   "version": "1.0.0",
-  "next_project_number": 575,
+  "next_project_number": 578,
   "active_projects": [
+    {
+      "project_number": 577,
+      "project_name": "investigate_opencode_output_path_corruption",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-15T00:23:44Z",
+      "last_updated": "2026-05-15T00:23:44Z"
+    },
+    {
+      "project_number": 576,
+      "project_name": "fix_opencode_session_picker",
+      "status": "not_started",
+      "task_type": "neovim",
+      "description": "Fix the \"Restore last session\" and \"Browse all sessions\" options in the OpenCode session picker (<C-CR> -> OpenCode) based on the root cause identified in task 575.",
+      "created": "2026-05-14T23:30:00Z",
+      "last_updated": "2026-05-14T23:30:00Z",
+      "session_id": "ses_1d7142de5ffeUuYk5Gxj52xz6R",
+      "depends_on": [
+        575
+      ],
+      "next_artifact_number": 1,
+      "artifacts": []
+    },
+    {
+      "project_number": 575,
+      "project_name": "audit_opencode_session_picker_failure",
+      "status": "researched",
+      "task_type": "neovim",
+      "description": "Diagnose the actual current failure modes for the OpenCode session picker invoked via <C-CR> -> OpenCode. Both restore and browse options fail despite a prior fix attempt (task 544).",
+      "created": "2026-05-14T23:30:00Z",
+      "last_updated": "2026-05-15T00:23:42Z",
+      "session_id": "sess_1778804025_5b8fef",
+      "depends_on": [],
+      "next_artifact_number": 1,
+      "artifacts": []
+    },
     {
       "project_number": 574,
       "project_name": "fix_temp_file_usage_opencode_agent_system",
