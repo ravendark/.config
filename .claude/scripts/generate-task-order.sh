@@ -181,7 +181,7 @@ build_graph() {
 # ============================================================================
 
 declare -A task_topic      # task_num -> topic string
-declare -a active_topics_order  # canonical topic order from state.json
+declare -a active_topics_order=()  # canonical topic order from state.json
 
 load_topics() {
   # Load topic field from state.json into task_topic associative array

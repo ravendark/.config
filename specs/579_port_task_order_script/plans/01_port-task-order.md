@@ -101,7 +101,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Rewrite task-order-format.md [IN PROGRESS]
+### Phase 2: Rewrite task-order-format.md [COMPLETED]
 
 **Goal**: Replace the flat-category format documentation with the wave+tree+topic format, using generic examples.
 
@@ -133,7 +133,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Test and Verify Integration [NOT STARTED]
+### Phase 3: Test and Verify Integration [COMPLETED]
 
 **Goal**: Run the script against the current repository state and verify correct output.
 
