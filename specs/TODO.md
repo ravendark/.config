@@ -23,7 +23,7 @@ next_project_number: 586
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
 582 [IMPLEMENTING] — Port task order auto-sync and topic support into task.md, todo.md
-584 [RESEARCHING] — Investigate replacing parallel Agent dispatch with parallel Skill
+584 [RESEARCHED] — Investigate replacing parallel Agent dispatch with parallel Skill
 585 [NOT STARTED] — Rewrite multi-task dispatch in /research, /plan, and /implement t
   └─ 584 [RESEARCHING] — Investigate replacing parallel Agent dispatch with parallel Skill (see above)
 ```
@@ -32,9 +32,10 @@ next_project_number: 586
 
 ### 584. Research parallel Skill dispatch approach
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Research**: [584_research_parallel_skill_dispatch/reports/01_parallel-skill-dispatch.md]
 
 **Description**: Investigate replacing parallel Agent dispatch with parallel Skill invocation in multi-task commands (/research, /plan, /implement). Confirm Skill tool supports parallel invocation, check for state.json race conditions with concurrent skill writes, audit all 4 files (multi-task-operations.md, research.md, plan.md, implement.md) for exact change locations, and check if batch commit/result collection changes are needed when skills (not agents) return results.
 

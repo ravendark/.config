@@ -534,16 +534,55 @@
     {
       "project_number": 584,
       "project_name": "research_parallel_skill_dispatch",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "description": "Investigate replacing parallel Agent dispatch with parallel Skill invocation in multi-task commands (/research, /plan, /implement). Confirm Skill tool supports parallel invocation, check for state.json race conditions with concurrent skill writes, audit all 4 files (multi-task-operations.md, research.md, plan.md, implement.md) for exact change locations, and check if batch commit/result collection changes are needed when skills (not agents) return results.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-15T22:00:00Z",
-      "last_updated": "2026-05-15T21:21:25Z",
-      "next_artifact_number": 1,
-      "artifacts": [],
-      "session_id": "sess_1779116400_a3b2c1"
+      "last_updated": "2026-05-15T21:25:11Z",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/584_research_parallel_skill_dispatch/reports/01_parallel-skill-dispatch.md",
+          "type": "research",
+          "summary": "Investigated parallel Skill dispatch for multi-task commands: found current code uses parallel Agent calls (not Skill calls), identified architecture mismatch between multi-task-operations.md Section 6 and Section 12, documented state.json race conditions and batch commit conflicts, confirmed single-task flow is fully isolated."
+        }
+      ],
+      "session_id": "sess_1779116400_a3b2c1",
+      "memory_candidates": [
+        {
+          "content": "multi-task-operations.md contains an architecture conflict: Section 6 describes Batch Skill Dispatch (Option B) with a separate batch skill, while Section 12 and all three command files (research.md, plan.md, implement.md) explicitly state dispatch is handled by the orchestrator loop using direct parallel Agent calls, NOT a separate skill. The Section 12 description matches the actual implementation.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/584_research_parallel_skill_dispatch/reports/01_parallel-skill-dispatch.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "multi-task",
+            "parallel",
+            "dispatch",
+            "agent",
+            "skill",
+            "architecture",
+            "multi-task-operations"
+          ]
+        },
+        {
+          "content": "Skills return brief text summaries (NOT JSON) and delete their .return-meta.json files during cleanup (Stage 9 of skill-researcher). When collecting results from parallel skill invocations at the orchestrator level, the orchestrator cannot read .return-meta.json after skill completion -- it must either parse the text summary or define a structured prefix convention.",
+          "category": "PATTERN",
+          "source_artifact": "specs/584_research_parallel_skill_dispatch/reports/01_parallel-skill-dispatch.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "skill",
+            "return",
+            "text",
+            "metadata",
+            "postflight",
+            "cleanup",
+            "batch",
+            "collection"
+          ]
+        }
+      ]
     },
     {
       "project_number": 585,
