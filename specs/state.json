@@ -434,11 +434,6 @@
         },
         {
           "path": "specs/571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide-revised.md",
-          "type": "",
-          "summary": ""
-        },
-        {
-          "path": "specs/571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide-revised.md",
           "type": "plan",
           "summary": "Revised implementation plan incorporating post-571 research findings"
         }
