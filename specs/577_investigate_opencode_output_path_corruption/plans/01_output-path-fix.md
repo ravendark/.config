@@ -71,17 +71,17 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Backport Commands and Update Manifest [IN PROGRESS]
+### Phase 1: Backport Commands and Update Manifest [COMPLETED]
 
 **Goal**: Copy all improved active command files to the core extension source directory and update the manifest to include the 3 new commands.
 
 **Tasks**:
-- [ ] Copy all 18 active command files from `~/.config/nvim/.opencode/commands/` to `~/.config/nvim/.opencode/extensions/core/commands/`, excluding `README.md` (which is not a command file)
-- [ ] Verify each copied file retains the COMMAND EXECUTION MODE preamble by grepping for the marker string
-- [ ] Verify `implement.md`, `plan.md`, `research.md` contain the `git rev-parse --show-toplevel` routing fix
-- [ ] Add `distill.md`, `learn.md`, `sheet.md` to the `provides.commands` array in `~/.config/nvim/.opencode/extensions/core/manifest.json`
-- [ ] Cross-check: run `ls ~/.config/nvim/.opencode/extensions/core/commands/` and compare against `manifest.json` provides.commands to ensure parity
-- [ ] Verify `diff` between active and extension source shows zero differences for all command files
+- [x] Copy all 18 active command files from `~/.config/nvim/.opencode/commands/` to `~/.config/nvim/.opencode/extensions/core/commands/`, excluding `README.md` (which is not a command file) *(completed: 17 files copied, sheet.md does not exist in active commands)*
+- [x] Verify each copied file retains the COMMAND EXECUTION MODE preamble by grepping for the marker string *(completed: all 17 have preamble)*
+- [x] Verify `implement.md`, `plan.md`, `research.md` contain the `git rev-parse --show-toplevel` routing fix *(completed)*
+- [x] Add `distill.md`, `learn.md`, `sheet.md` to the `provides.commands` array in `~/.config/nvim/.opencode/extensions/core/manifest.json` *(deviation: altered — only distill.md and learn.md added; sheet.md does not exist in active commands)*
+- [x] Cross-check: run `ls ~/.config/nvim/.opencode/extensions/core/commands/` and compare against `manifest.json` provides.commands to ensure parity *(completed: all 17 commands match)*
+- [x] Verify `diff` between active and extension source shows zero differences for all command files *(completed: zero content differences)*
 
 **Timing**: 1 hour
 
