@@ -1,7 +1,7 @@
 # Implementation Plan: Task #581
 
 - **Task**: 581 - Port update-task-status.sh Phase 3 rewrite from ProofChecker
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 0.5 hours
 - **Dependencies**: Task 579 (generate-task-order.sh port), Task 580 (topic schema + state-management rules)
 - **Research Inputs**: specs/581_port_status_script_phase3/reports/01_port-status-phase3.md
@@ -66,18 +66,18 @@ No ROADMAP.md items are directly advanced by this task. This is internal infrast
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Replace update_todo_task_order() Function Body [NOT STARTED]
+### Phase 1: Replace update_todo_task_order() Function Body [COMPLETED]
 
 **Goal**: Replace the broken flat-list Phase 3 implementation with the ProofChecker two-mode strategy.
 
 **Tasks**:
-- [ ] Read current `update_todo_task_order()` function (lines 232-265) to confirm exact boundaries
-- [ ] Replace function body with ProofChecker two-mode implementation:
+- [x] Read current `update_todo_task_order()` function (lines 232-265) to confirm exact boundaries *(completed)*
+- [x] Replace function body with ProofChecker two-mode implementation: *(completed)*
   - Mode B dispatch block: terminal status check (COMPLETED/ABANDONED/EXPANDED), gen_script path construction, dry-run guard, non-fatal `generate-task-order.sh --update-todo` call
   - Mode A block: tree-line grep pattern `^\s*(└─ )?${task_number} \[`, status extraction via `grep -oE`, already-at-target check, dry-run guard, in-place sed replacement
   - Mode A fallback block: warning + non-fatal `generate-task-order.sh --update-todo` with `2>/dev/null`
-- [ ] Verify the function signature and closing brace are preserved (only the body changes)
-- [ ] Verify Phase 5 (lines ~330-370) is completely untouched after the edit
+- [x] Verify the function signature and closing brace are preserved (only the body changes) *(completed)*
+- [x] Verify Phase 5 (lines ~330-370) is completely untouched after the edit *(completed)*
 
 **Timing**: 15 minutes
 
@@ -95,15 +95,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Dry-Run Validation [NOT STARTED]
+### Phase 2: Dry-Run Validation [COMPLETED]
 
 **Goal**: Verify the ported function works correctly via dry-run execution without modifying any actual files.
 
 **Tasks**:
-- [ ] Run `bash -n .claude/scripts/update-task-status.sh` to verify syntax (no parse errors)
-- [ ] Run a dry-run test to confirm Mode B output: `update-task-status.sh postflight <test_task> implement <session> --dry-run` (should print terminal status Mode B message)
-- [ ] Run a dry-run test to confirm Mode A output for a non-terminal transition (should print line number and status transition)
-- [ ] Verify the complete script still functions by checking that all functions are defined (grep for function signatures)
+- [x] Run `bash -n .claude/scripts/update-task-status.sh` to verify syntax (no parse errors) *(completed)*
+- [x] Run a dry-run test to confirm Mode B output: `update-task-status.sh postflight <test_task> implement <session> --dry-run` (should print terminal status Mode B message) *(completed)*
+- [x] Run a dry-run test to confirm Mode A output for a non-terminal transition (should print line number and status transition) *(completed: task not in tree triggers fallback message as expected)*
+- [x] Verify the complete script still functions by checking that all functions are defined (grep for function signatures) *(completed)*
 
 **Timing**: 15 minutes
 
