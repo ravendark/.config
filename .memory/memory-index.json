@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
-  "generated_at": "2026-05-12",
-  "entry_count": 3,
-  "total_tokens": 458,
+  "generated_at": "2026-05-15",
+  "entry_count": 4,
+  "total_tokens": 536,
   "entries": [
     {
       "id": "MEM-plan-delegation-required",
@@ -65,6 +65,28 @@
       "modified": "2026-05-12",
       "last_retrieved": "2026-05-15",
       "retrieval_count": 13
+    },
+    {
+      "id": "MEM-agent-system-reload-propagation",
+      "path": ".memory/10-Memories/MEM-agent-system-reload-propagation.md",
+      "title": "Agent system changes propagate via extension loader reload",
+      "summary": "Agent system changes in nvim-config propagate to child projects (ProofChecker etc.) by reloading via <leader>al -- no separate porting tasks needed.",
+      "topic": "agent-system/extension-loader",
+      "category": "WORKFLOW",
+      "keywords": [
+        "extension-loader",
+        "reload",
+        "leader-al",
+        "propagation",
+        "agent-system",
+        "neovim",
+        "child-projects"
+      ],
+      "token_count": 78,
+      "created": "2026-05-15",
+      "modified": "2026-05-15",
+      "last_retrieved": null,
+      "retrieval_count": 0
     }
   ]
 }
