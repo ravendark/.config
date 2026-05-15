@@ -1,7 +1,7 @@
 # Implementation Plan: Task #583
 
 - **Task**: 583 - port_agent_skill_integration
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: Task #579 (generate-task-order.sh ported), Task #580 (topic schema ported)
 - **Research Inputs**: specs/583_port_agent_skill_integration/reports/01_port-agent-skill.md

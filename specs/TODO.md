@@ -11,7 +11,7 @@ next_project_number: 586
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,582,583,584 | -- | -- |
+| 1 | 78,87,500,501,582,584 | -- | -- |
 | 2 | 585 | 584 | -- |
 
 **Grouped by Topic** (indented = must complete first):
@@ -23,7 +23,6 @@ next_project_number: 586
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
 582 [IMPLEMENTING] — Port task order auto-sync and topic support into task.md, todo.md
-583 [IMPLEMENTING] — Port topic support into meta-builder-agent.md and skills. meta-bu
 584 [RESEARCHING] — Investigate replacing parallel Agent dispatch with parallel Skill
 585 [NOT STARTED] — Rewrite multi-task dispatch in /research, /plan, and /implement t
   └─ 584 [RESEARCHING] — Investigate replacing parallel Agent dispatch with parallel Skill (see above)
@@ -112,11 +111,12 @@ next_project_number: 586
 
 ### 583. Port agent and skill integration
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 - **Research**: [583_port_agent_skill_integration/reports/01_port-agent-skill.md]
 - **Plan**: [583_port_agent_skill_integration/plans/01_port-agent-skill.md]
+- **Summary**: [583_port_agent_skill_integration/summaries/01_port-agent-skill-summary.md]
 
 **Description**: Port topic support into meta-builder-agent.md and skills. meta-builder-agent.md: add Topic column to Stage 5 confirmation table and topic field in Stage 6 state.json entry. skill-fix-it: add Step 9.1 topic auto-inference (generalized — .claude/specs/ -> agent-system, extension-aware for other paths, no .lean-specific heuristic). skill-todo: add Stage 10.5 RegenerateTaskOrder (call generate-task-order.sh after archival + post-vault re-run).
 

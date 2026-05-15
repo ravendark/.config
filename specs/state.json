@@ -479,7 +479,7 @@
     {
       "project_number": 583,
       "project_name": "port_agent_skill_integration",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Port topic support into meta-builder-agent.md and skills. meta-builder-agent.md: add Topic column to Stage 5 confirmation table and topic field in Stage 6 state.json entry. skill-fix-it: add Step 9.1 topic auto-inference (generalized — .claude/specs/ -> agent-system, extension-aware for other paths, no .lean-specific heuristic). skill-todo: add Stage 10.5 RegenerateTaskOrder (call generate-task-order.sh after archival + post-vault re-run).",
       "effort": "1-2 hours",
@@ -488,7 +488,7 @@
         580
       ],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T21:21:40Z",
+      "last_updated": "2026-05-15T21:24:50Z",
       "session_id": "sess_1778880056_cffbd9",
       "next_artifact_number": 2,
       "artifacts": [
@@ -501,6 +501,11 @@
           "path": "specs/583_port_agent_skill_integration/plans/01_port-agent-skill.md",
           "type": "plan",
           "summary": "3-phase parallel plan for porting topic support into meta-builder-agent, skill-fix-it, and skill-todo"
+        },
+        {
+          "path": "specs/583_port_agent_skill_integration/summaries/01_port-agent-skill-summary.md",
+          "type": "summary",
+          "summary": "Topic support ported to meta-builder-agent, skill-fix-it, and skill-todo"
         }
       ],
       "plan_metadata": {
@@ -523,7 +528,8 @@
             "integrated_date": "2026-05-15"
           }
         ]
-      }
+      },
+      "completion_summary": "Added topic support to meta-builder-agent.md (Stage 5 table, Stage 6 inference), skill-fix-it/SKILL.md (Step 9.1 inference, Step 10 table), and skill-todo/SKILL.md (Stage 10.5 regen, Stage 15 commit) with generalized extension-aware path inference."
     },
     {
       "project_number": 584,
