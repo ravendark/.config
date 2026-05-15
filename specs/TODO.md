@@ -13,9 +13,9 @@ next_project_number: 584
 - **580** [COMPLETED] -- Port topic schema & rules
 
 ### Wave 2 (depends on Wave 1)
-- **581** [NOT STARTED] -- Port update-task-status.sh Phase 3 rewrite (depends: 579)
-- **582** [NOT STARTED] -- Port command integration: task.md, todo.md, review.md (depends: 579, 580)
-- **583** [NOT STARTED] -- Port agent & skill integration (depends: 579, 580)
+- **581** [RESEARCHED] -- Port update-task-status.sh Phase 3 rewrite (depends: 579)
+- **582** [RESEARCHING] -- Port command integration: task.md, todo.md, review.md (depends: 579, 580)
+- **583** [RESEARCHING] -- Port agent & skill integration (depends: 579, 580)
 
 ### Pending (pre-existing)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -57,9 +57,10 @@ next_project_number: 584
 
 ### 581. Port update-task-status.sh Phase 3 rewrite
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #579
+- **Research**: [581_port_status_script_phase3/reports/01_port-status-phase3.md]
 
 **Description**: Port update-task-status.sh Phase 3 rewrite from ProofChecker. Replace current Phase 3 with two-mode strategy: Mode A (in-place sed for non-terminal status changes — fast, no full regen) + Mode B (full regeneration via generate-task-order.sh for terminal transitions COMPLETED/ABANDONED/EXPANDED). Add Mode A fallback to regen if task not found in tree. Preserve nvim-config-specific Phase 5 lifecycle notifications (TTS, WezTerm tab colors, OpenCode session renaming).
 
@@ -69,7 +70,7 @@ next_project_number: 584
 
 ### 582. Port command integration (task.md, todo.md, review.md)
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 
@@ -81,7 +82,7 @@ next_project_number: 584
 
 ### 583. Port agent and skill integration
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 
