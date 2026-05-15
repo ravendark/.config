@@ -395,11 +395,11 @@
     {
       "project_number": 571,
       "project_name": "create_guide_discord_opencode_agents_neovim",
-      "status": "planned",
+      "status": "researched",
       "task_type": "general",
       "created": "2026-05-14T15:40:29Z",
-      "last_updated": "2026-05-14T16:33:37Z",
-      "session_id": "sess_1747237650_b4e8d2",
+      "last_updated": "2026-05-15T01:25:13Z",
+      "session_id": "sess_1778807924_6138ab",
       "next_artifact_number": 2,
       "artifacts": [
         {

@@ -92,7 +92,7 @@ next_project_number: 579
 
 ### 571. Create guide for using Discord to manage OpenCode agents from Neovim
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [RESEARCHED]
 - **Task Type**: general
 - **Research**: [571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md]
 - **Plan**: [571_create_guide_discord_opencode_agents_neovim/plans/01_discord-opencode-guide.md]
