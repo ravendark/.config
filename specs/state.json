@@ -5,10 +5,11 @@
     {
       "project_number": 578,
       "project_name": "fix_opencode_tmp_file_usage_root_cause",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "created": "2026-05-15T00:26:48Z",
-      "last_updated": "2026-05-15T00:26:48Z"
+      "last_updated": "2026-05-15T01:13:13Z",
+      "session_id": "sess_1778807575_1c85e1"
     },
     {
       "project_number": 577,
@@ -140,12 +141,12 @@
     {
       "project_number": 576,
       "project_name": "fix_opencode_session_picker",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "neovim",
       "description": "Fix the \"Restore last session\" and \"Browse all sessions\" options in the OpenCode session picker (<C-CR> -> OpenCode) based on the root cause identified in task 575.",
       "created": "2026-05-14T23:30:00Z",
-      "last_updated": "2026-05-15T00:54:46Z",
-      "session_id": "sess_1778806288_5d345e",
+      "last_updated": "2026-05-15T01:12:52Z",
+      "session_id": "sess_1778807548_475b52",
       "depends_on": [
         575
       ],

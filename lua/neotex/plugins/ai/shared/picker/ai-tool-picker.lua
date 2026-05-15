@@ -390,6 +390,10 @@ function M.show_opencode_session_picker()
           end, 500)
         elseif choice == "restore" then
           if last_session_id then
+            local events_ok, events_mod = pcall(require, "opencode.events")
+            if events_ok and events_mod.disconnect then
+              events_mod.disconnect()
+            end
             local server_mod = require("opencode.server")
             server_mod.get()
               :next(function(server)
@@ -412,9 +416,25 @@ function M.show_opencode_session_picker()
                 end
               end)
           else
-            vim.notify("No previous OpenCode session to restore", vim.log.levels.WARN)
+            vim.notify("No previous session found — opening session browser", vim.log.levels.INFO)
+            local events_ok, events_mod = pcall(require, "opencode.events")
+            if events_ok and events_mod.disconnect then
+              events_mod.disconnect()
+            end
+            opencode_mod.select_session()
+            -- Register cleanup after terminal appears via Server.get() -> start()
+            vim.defer_fn(function()
+              local has, bufs = detect_active_opencode()
+              if has and bufs[1] then
+                _register_tool_cleanup("opencode", bufs[1])
+              end
+            end, 1500)
           end
         elseif choice == "browse" then
+          local events_ok, events_mod = pcall(require, "opencode.events")
+          if events_ok and events_mod.disconnect then
+            events_mod.disconnect()
+          end
           opencode_mod.select_session()
           -- Register cleanup after terminal appears via Server.get() -> start()
           vim.defer_fn(function()
@@ -518,7 +538,21 @@ function M.setup()
       if type(data) == "string" then
         session_id = data
       elseif type(data) == "table" then
-        session_id = data.session_id or data.id or data.session
+        -- Primary: event.data is { event = { type, properties }, port = N }
+        if type(data.event) == "table" then
+          local props = data.event.properties
+          if type(props) == "table" then
+            session_id = props.sessionID
+              or props.sessionId
+              or props.id
+              or props.session_id
+              or (type(props.session) == "table" and props.session.id)
+          end
+        end
+        -- Fallback: try flat keys on data directly
+        if not session_id then
+          session_id = data.session_id or data.id or data.session
+        end
       end
       if session_id then
         ensure_data_dir()

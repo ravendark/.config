@@ -1,0 +1,14 @@
+{
+  "phase": 2,
+  "phase_name": "Add stale server disconnect mitigation",
+  "started_at": "2026-05-14T18:00:00Z",
+  "last_updated": "2026-05-14T18:00:00Z",
+  "objectives": [
+    {"id": 1, "description": "Add disconnect before server_mod.get() in restore path", "status": "in_progress"},
+    {"id": 2, "description": "Add disconnect before opencode_mod.select_session() in browse path", "status": "not_started"},
+    {"id": 3, "description": "Verify disconnect() is available and safe", "status": "not_started"}
+  ],
+  "current_objective": 1,
+  "approaches_tried": [],
+  "handoff_count": 0
+}

@@ -9,9 +9,9 @@ next_project_number: 579
 *Updated 2026-05-14. 11 active tasks remaining.*
 
 ### Pending
-- **578** [NOT STARTED] -- Fix OpenCode /tmp/ file usage root cause everywhere
+- **578** [RESEARCHING] -- Fix OpenCode /tmp/ file usage root cause everywhere
 - **577** [COMPLETED] -- Investigate root cause of .opencode/ output path corruption after extension reload
-- **576** [PLANNED] -- Fix OpenCode session picker restore/browse options (depends: 575)
+- **576** [IMPLEMENTING] -- Fix OpenCode session picker restore/browse options (depends: 575)
 - **575** [COMPLETED] -- Audit OpenCode session picker failure modes
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
 - **569** [COMPLETED] -- Enhance general implementation agent (depends: 568)
@@ -25,7 +25,7 @@ next_project_number: 579
 
 ### 578. Fix OpenCode /tmp/ file usage root cause everywhere
 - **Effort**: 2-4 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 
 **Description**: The OpenCode agent system in ~/.dotfiles/ continues to write temp files to /tmp/ (e.g., /tmp/state.json.tmp) instead of specs/tmp/ despite prior fix attempts (task 574). Running `/research 575` in opencode triggered a "Permission required - Access external directory /tmp" prompt with pattern `/tmp/*`. Screenshot shows jq piping state.json output to `/tmp/state.json.tmp && mv /tmp/state.json.tmp`. Carefully study the root cause of what continues to produce /tmp/ paths instead of specs/tmp/ paths, and fix the issue everywhere it occurs in the .opencode/ agent system.
@@ -43,7 +43,7 @@ next_project_number: 579
 ### 576. Fix OpenCode session picker restore/browse options
 
 - **Effort**: 2-4 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: neovim
 - **Dependencies**: 575
 - **Plan**: [576_fix_opencode_session_picker/plans/01_fix-opencode-session-picker.md]

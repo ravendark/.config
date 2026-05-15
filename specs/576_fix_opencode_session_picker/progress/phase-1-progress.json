@@ -1,0 +1,14 @@
+{
+  "phase": 1,
+  "phase_name": "Fix session ID extraction in OpencodeEvent:session.idle autocmd",
+  "started_at": "2026-05-14T18:00:00Z",
+  "last_updated": "2026-05-14T18:00:00Z",
+  "objectives": [
+    {"id": 1, "description": "Update the OpencodeEvent:session.idle autocmd callback", "status": "in_progress"},
+    {"id": 2, "description": "Change extraction logic to traverse event.data.event.properties", "status": "not_started"},
+    {"id": 3, "description": "Verify type() guards handle string, table, and nested table cases", "status": "not_started"}
+  ],
+  "current_objective": 1,
+  "approaches_tried": [],
+  "handoff_count": 0
+}
