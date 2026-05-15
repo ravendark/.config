@@ -13,10 +13,10 @@
     {
       "project_number": 577,
       "project_name": "investigate_opencode_output_path_corruption",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-15T00:23:44Z",
-      "last_updated": "2026-05-15T00:52:48Z",
+      "last_updated": "2026-05-15T01:03:19Z",
       "session_id": "sess_1747270100_c5e3d4",
       "next_artifact_number": 2,
       "artifacts": [
@@ -29,6 +29,11 @@
           "path": "specs/577_investigate_opencode_output_path_corruption/plans/01_output-path-fix.md",
           "type": "plan",
           "summary": "4-phase implementation plan: backport commands, add syncprotect to loader, create drift detection script, integration verification"
+        },
+        {
+          "path": "specs/577_investigate_opencode_output_path_corruption/summaries/01_output-path-fix-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 577 covering all 4 phases"
         }
       ],
       "memory_candidates": [
@@ -86,8 +91,51 @@
             "copy-file",
             "dual-path"
           ]
+        },
+        {
+          "content": "When the OpenCode extension loader (loader.lua) copies files via copy_simple_files() and related functions, the relative path format for syncprotect checking uses the category-prefixed form: commands/plan.md, scripts/check-vault-threshold.sh, hooks/log-session.sh, etc.",
+          "category": "PATTERN",
+          "source_artifact": "specs/577_investigate_opencode_output_path_corruption/summaries/01_output-path-fix-summary.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "syncprotect",
+            "loader",
+            "extension",
+            "copy_file",
+            "relative_path",
+            "opencode"
+          ]
+        },
+        {
+          "content": "The extension loader (loader.lua copy_file) now returns (success, skipped) tuple: (true, false) = wrote file, (false, true) = skipped due to syncprotect, (false, false) = write failed.",
+          "category": "PATTERN",
+          "source_artifact": "specs/577_investigate_opencode_output_path_corruption/summaries/01_output-path-fix-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "loader",
+            "copy_file",
+            "return_value",
+            "skipped",
+            "syncprotect",
+            "extension_loader"
+          ]
+        },
+        {
+          "content": "Command drift between .opencode/commands/ (active) and .opencode/extensions/core/commands/ (source) is a recurring problem. After any manual command improvement, also copy the improved file to the extension source directory to prevent regression on next extension reload. Use check-command-drift.sh to detect drift.",
+          "category": "WORKFLOW",
+          "source_artifact": "specs/577_investigate_opencode_output_path_corruption/summaries/01_output-path-fix-summary.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "command_drift",
+            "extension_source",
+            "active_commands",
+            "check-command-drift",
+            "reload",
+            "regression"
+          ]
         }
-      ]
+      ],
+      "completion_summary": "Backported COMMAND EXECUTION MODE preamble and routing fixes to all 17 extension source commands, added .syncprotect awareness to the extension loader so protected files are skipped during reload, and created a drift detection script (check-command-drift.sh) that exits non-zero when active commands diverge from extension source."
     },
     {
       "project_number": 576,

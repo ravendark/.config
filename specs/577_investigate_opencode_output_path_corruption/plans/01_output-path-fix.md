@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode Extension Source Drift and Loader Protections
 
 - **Task**: 577 - investigate_opencode_output_path_corruption
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: None (Task 572 diagnosis and Task 574 temp file fix are informational only)
 - **Research Inputs**: specs/577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md

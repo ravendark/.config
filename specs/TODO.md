@@ -10,7 +10,7 @@ next_project_number: 579
 
 ### Pending
 - **578** [NOT STARTED] -- Fix OpenCode /tmp/ file usage root cause everywhere
-- **577** [IMPLEMENTING] -- Investigate root cause of .opencode/ output path corruption after extension reload
+- **577** [COMPLETED] -- Investigate root cause of .opencode/ output path corruption after extension reload
 - **576** [PLANNED] -- Fix OpenCode session picker restore/browse options (depends: 575)
 - **575** [COMPLETED] -- Audit OpenCode session picker failure modes
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
@@ -32,10 +32,11 @@ next_project_number: 579
 
 ### 577. Investigate root cause of .opencode/ output path corruption after extension reload and add protections
 - **Effort**: 2-4 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Research**: [577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md]
 - **Plan**: [577_investigate_opencode_output_path_corruption/plans/01_output-path-fix.md]
+- **Summary**: [577_investigate_opencode_output_path_corruption/summaries/01_output-path-fix-summary.md]
 
 **Description**: After reloading the .opencode/ agent system in ~/.dotfiles/ using the <leader>al extension loader, running `/plan 57` produces output at /home/benjamin/.config/nvim/.opencode/output/implement.md instead of the correct specs/ artifact path. This keeps happening when working on the opencode agent system. Find the root cause of why the output path gets corrupted and implement protections to prevent it in the future.
 
