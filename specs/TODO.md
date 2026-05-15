@@ -11,7 +11,7 @@ next_project_number: 579
 ### Pending
 - **578** [RESEARCHING] -- Fix OpenCode /tmp/ file usage root cause everywhere
 - **577** [COMPLETED] -- Investigate root cause of .opencode/ output path corruption after extension reload
-- **576** [IMPLEMENTING] -- Fix OpenCode session picker restore/browse options (depends: 575)
+- **576** [COMPLETED] -- Fix OpenCode session picker restore/browse options (depends: 575)
 - **575** [COMPLETED] -- Audit OpenCode session picker failure modes
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
 - **569** [COMPLETED] -- Enhance general implementation agent (depends: 568)
@@ -43,9 +43,10 @@ next_project_number: 579
 ### 576. Fix OpenCode session picker restore/browse options
 
 - **Effort**: 2-4 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: neovim
 - **Dependencies**: 575
+- **Summary**: [576_fix_opencode_session_picker/summaries/01_fix-opencode-session-picker-summary.md]
 - **Plan**: [576_fix_opencode_session_picker/plans/01_fix-opencode-session-picker.md]
 - **Research**: [576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md]
 

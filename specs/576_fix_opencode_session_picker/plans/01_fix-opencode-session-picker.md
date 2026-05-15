@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode Session Picker
 
 - **Task**: 576 - fix_opencode_session_picker
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 4 hours
 - **Dependencies**: Task 575 (audit_opencode_session_picker_failure)
 - **Research Inputs**: specs/576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md

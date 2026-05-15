@@ -141,11 +141,11 @@
     {
       "project_number": 576,
       "project_name": "fix_opencode_session_picker",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "neovim",
       "description": "Fix the \"Restore last session\" and \"Browse all sessions\" options in the OpenCode session picker (<C-CR> -> OpenCode) based on the root cause identified in task 575.",
       "created": "2026-05-14T23:30:00Z",
-      "last_updated": "2026-05-15T01:12:52Z",
+      "last_updated": "2026-05-15T01:16:42Z",
       "session_id": "sess_1778807548_475b52",
       "depends_on": [
         575
@@ -161,6 +161,11 @@
           "path": "specs/576_fix_opencode_session_picker/plans/01_fix-opencode-session-picker.md",
           "type": "plan",
           "summary": "Implementation plan with 4 sequential phases to fix OpenCode session picker session ID extraction and stale server mitigation"
+        },
+        {
+          "path": "specs/576_fix_opencode_session_picker/summaries/01_fix-opencode-session-picker-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary with 4 completed phases and verification results"
         }
       ],
       "memory_candidates": [
@@ -204,7 +209,8 @@
             "disconnect"
           ]
         }
-      ]
+      ],
+      "completion_summary": "Fixed the OpenCode session picker by correcting session ID extraction in the OpencodeEvent:session.idle autocmd (traversing event.data.event.properties with multiple candidate keys), adding pcall-guarded stale-server disconnect() calls before restore and browse operations, and implementing a fallback to browse sessions when no last session exists. All task 575 fixes remain intact."
     },
     {
       "project_number": 575,
