@@ -1,7 +1,7 @@
 # Implementation Plan: Discord OpenCode Agents Guide (Revised)
 
 - **Task**: 571 - Create guide for using Discord to manage OpenCode agents from Neovim
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2.5 hours
 - **Dependencies**: None
 - **Research Inputs**: reports/01_discord-opencode-guide.md, reports/02_guide-additions.md
