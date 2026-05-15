@@ -22288,3 +22288,19 @@
 [2026-05-14T17:30:21-07:00] Task directory: specs/577_investigate_opencode_output_path_corruption
 [2026-05-14T17:30:21-07:00] Loop guard initialized to 1
 [2026-05-14T17:30:21-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T17:32:16-07:00] Postflight marker found at: specs/577_investigate_opencode_output_path_corruption/.postflight-pending
+[2026-05-14T17:32:16-07:00] Task directory: specs/577_investigate_opencode_output_path_corruption
+[2026-05-14T17:32:16-07:00] Loop guard incremented to 2
+[2026-05-14T17:32:16-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T17:33:43-07:00] Postflight marker found at: specs/577_investigate_opencode_output_path_corruption/.postflight-pending
+[2026-05-14T17:33:43-07:00] Task directory: specs/577_investigate_opencode_output_path_corruption
+[2026-05-14T17:33:43-07:00] Loop guard incremented to 3
+[2026-05-14T17:33:43-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T17:34:04-07:00] Postflight marker found at: specs/577_investigate_opencode_output_path_corruption/.postflight-pending
+[2026-05-14T17:34:04-07:00] Task directory: specs/577_investigate_opencode_output_path_corruption
+[2026-05-14T17:34:04-07:00] Loop guard triggered: 3 >= 3
+[2026-05-14T17:34:04-07:00] Loop guard prevented continuation
+[2026-05-14T17:34:36-07:00] Postflight marker found at: specs/575_audit_opencode_session_picker_failure/.postflight-pending
+[2026-05-14T17:34:36-07:00] Task directory: specs/575_audit_opencode_session_picker_failure
+[2026-05-14T17:34:36-07:00] Loop guard initialized to 1
+[2026-05-14T17:34:36-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit

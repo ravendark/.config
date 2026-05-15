@@ -377,23 +377,30 @@ function M.show_opencode_session_picker()
         end
         local choice = selection.value.value
 
-        -- Toggle opens the terminal (defaults to new session in TUI)
-        opencode_mod.toggle()
+        if choice == "new" then
+          -- Toggle opens the terminal (defaults to new session in TUI)
+          opencode_mod.toggle()
 
-        -- Register active tool state after toggle creates the terminal
-        vim.defer_fn(function()
-          local has, bufs = detect_active_opencode()
-          if has and bufs[1] then
-            _register_tool_cleanup("opencode", bufs[1])
-          end
-        end, 500)
-
-        if choice == "restore" then
+          -- Register active tool state after toggle creates the terminal
+          vim.defer_fn(function()
+            local has, bufs = detect_active_opencode()
+            if has and bufs[1] then
+              _register_tool_cleanup("opencode", bufs[1])
+            end
+          end, 500)
+        elseif choice == "restore" then
           if last_session_id then
             local server_mod = require("opencode.server")
             server_mod.get()
               :next(function(server)
                 server:select_session(last_session_id)
+                -- Register cleanup after server connection establishes terminal
+                vim.defer_fn(function()
+                  local has, bufs = detect_active_opencode()
+                  if has and bufs[1] then
+                    _register_tool_cleanup("opencode", bufs[1])
+                  end
+                end, 1500)
               end)
               :catch(function(err)
                 if err then
@@ -409,8 +416,14 @@ function M.show_opencode_session_picker()
           end
         elseif choice == "browse" then
           opencode_mod.select_session()
+          -- Register cleanup after terminal appears via Server.get() -> start()
+          vim.defer_fn(function()
+            local has, bufs = detect_active_opencode()
+            if has and bufs[1] then
+              _register_tool_cleanup("opencode", bufs[1])
+            end
+          end, 1500)
         end
-        -- "new" needs no follow-up: toggle() already opens a fresh session in the TUI
       end)
       return true
     end,

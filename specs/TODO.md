@@ -12,7 +12,7 @@ next_project_number: 579
 - **578** [NOT STARTED] -- Fix OpenCode /tmp/ file usage root cause everywhere
 - **577** [RESEARCHING] -- Investigate root cause of .opencode/ output path corruption after extension reload
 - **576** [NOT STARTED] -- Fix OpenCode session picker restore/browse options (depends: 575)
-- **575** [PLANNED] -- Audit OpenCode session picker failure modes
+- **575** [COMPLETED] -- Audit OpenCode session picker failure modes
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
 - **569** [COMPLETED] -- Enhance general implementation agent (depends: 568)
 - **570** [COMPLETED] -- Propagate improvements to extension agents (depends: 569)
@@ -51,11 +51,12 @@ next_project_number: 579
 ### 575. Audit OpenCode session picker failure modes
 
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: neovim
 - **Dependencies**: None (builds on prior research from archived task 544)
 - **Research**: [575_audit_opencode_session_picker_failure/reports/01_session-picker-audit.md]
 - **Plan**: [575_audit_opencode_session_picker_failure/plans/01_session-picker-fix.md]
+- **Summary**: [575_audit_opencode_session_picker_failure/summaries/01_session-picker-fix-summary.md]
 
 **Description**: Diagnose the actual current failure modes for the OpenCode session picker invoked via `<C-CR>` -> OpenCode. Both "Restore last session" and "Browse all sessions" options fail despite a prior fix attempt (task 544). Investigate cold-start races, `snacks.terminal` dedup, port mismatch, `select_session()` API behavior, error swallowing, and `/tui/select-session` TUI endpoint behavior. Prior research from archived task 544 at `specs/archive/544_fix_opencode_session_picker/`. Key file: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`.
 

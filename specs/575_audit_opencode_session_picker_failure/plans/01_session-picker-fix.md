@@ -1,7 +1,7 @@
 # Implementation Plan: OpenCode Session Picker Fix
 
 - **Task**: 575 - audit_opencode_session_picker_failure
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: Task 544 (archived)
 - **Research Inputs**: specs/575_audit_opencode_session_picker_failure/reports/01_session-picker-audit.md
@@ -61,7 +61,7 @@ No ROADMAP.md items directly reference OpenCode session picker reliability. This
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Remove redundant toggle() from restore/browse paths [NOT STARTED]
+### Phase 1: Remove redundant toggle() from restore/browse paths [COMPLETED]
 
 **Goal**: Eliminate the duplicate-creation race by removing `opencode_mod.toggle()` from restore and browse code paths.
 
@@ -84,7 +84,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Fix start() to be idempotent [NOT STARTED]
+### Phase 2: Fix start() to be idempotent [COMPLETED]
 
 **Goal**: Prevent `Server.get()` from creating duplicate terminals when it calls `start()` after failed discovery.
 
@@ -114,7 +114,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Configure explicit port for faster discovery [NOT STARTED]
+### Phase 3: Configure explicit port for faster discovery [COMPLETED]
 
 **Goal**: Bypass slow `pgrep/lsof` process discovery by assigning a fixed port to the opencode server.
 
@@ -137,7 +137,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Runtime verification and testing [NOT STARTED]
+### Phase 4: Runtime verification and testing [COMPLETED]
 
 **Goal**: Confirm all three session picker options work correctly from cold and warm starts.
 

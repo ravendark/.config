@@ -37,12 +37,12 @@
     {
       "project_number": 575,
       "project_name": "audit_opencode_session_picker_failure",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "description": "Diagnose the actual current failure modes for the OpenCode session picker invoked via <C-CR> -> OpenCode. Both restore and browse options fail despite a prior fix attempt (task 544).",
       "created": "2026-05-14T23:30:00Z",
-      "last_updated": "2026-05-15T00:31:50Z",
-      "session_id": "sess_1778804860_75ef42",
+      "last_updated": "2026-05-15T00:38:25Z",
+      "session_id": "sess_1778805200_b8dc93",
       "depends_on": [],
       "next_artifact_number": 2,
       "artifacts": [
@@ -55,8 +55,14 @@
           "path": "specs/575_audit_opencode_session_picker_failure/plans/01_session-picker-fix.md",
           "type": "plan",
           "summary": "Implementation plan with 4 phases to fix duplicate terminal creation race in OpenCode session picker"
+        },
+        {
+          "path": "specs/575_audit_opencode_session_picker_failure/summaries/01_session-picker-fix-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 575: fixed OpenCode session picker duplicate terminal race, made start() idempotent, and configured explicit port 3000"
         }
-      ]
+      ],
+      "completion_summary": "Fixed OpenCode session picker failure modes by removing redundant toggle() from restore/browse paths, making start() idempotent via snacks.terminal.get() guard, and configuring explicit port 3000 to bypass slow pgrep/lsof discovery. All 4 phases completed. Files modified: ai-tool-picker.lua and opencode.lua."
     },
     {
       "project_number": 574,
