@@ -13,9 +13,9 @@ next_project_number: 584
 - **580** [COMPLETED] -- Port topic schema & rules
 
 ### Wave 2 (depends on Wave 1)
-- **581** [RESEARCHED] -- Port update-task-status.sh Phase 3 rewrite (depends: 579)
-- **582** [RESEARCHED] -- Port command integration: task.md, todo.md, review.md (depends: 579, 580)
-- **583** [RESEARCHED] -- Port agent & skill integration (depends: 579, 580)
+- **581** [PLANNED] -- Port update-task-status.sh Phase 3 rewrite (depends: 579)
+- **582** [PLANNING] -- Port command integration: task.md, todo.md, review.md (depends: 579, 580)
+- **583** [PLANNING] -- Port agent & skill integration (depends: 579, 580)
 
 ### Pending (pre-existing)
 - **500** [RESEARCHED] -- Add context: fork frontmatter to core delegating skills (depends: 499)
@@ -57,10 +57,11 @@ next_project_number: 584
 
 ### 581. Port update-task-status.sh Phase 3 rewrite
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #579
 - **Research**: [581_port_status_script_phase3/reports/01_port-status-phase3.md]
+- **Plan**: [581_port_status_script_phase3/plans/01_port-status-phase3.md]
 
 **Description**: Port update-task-status.sh Phase 3 rewrite from ProofChecker. Replace current Phase 3 with two-mode strategy: Mode A (in-place sed for non-terminal status changes — fast, no full regen) + Mode B (full regeneration via generate-task-order.sh for terminal transitions COMPLETED/ABANDONED/EXPANDED). Add Mode A fallback to regen if task not found in tree. Preserve nvim-config-specific Phase 5 lifecycle notifications (TTS, WezTerm tab colors, OpenCode session renaming).
 
@@ -70,7 +71,7 @@ next_project_number: 584
 
 ### 582. Port command integration (task.md, todo.md, review.md)
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 - **Research**: [582_port_command_integration/reports/01_port-command-integration.md]
@@ -83,7 +84,7 @@ next_project_number: 584
 
 ### 583. Port agent and skill integration
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Dependencies**: Task #579, Task #580
 - **Research**: [583_port_agent_skill_integration/reports/01_port-agent-skill.md]
