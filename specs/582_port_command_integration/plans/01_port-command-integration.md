@@ -118,14 +118,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: todo.md -- Post-archival and post-vault Task Order regeneration [NOT STARTED]
+### Phase 3: todo.md -- Post-archival and post-vault Task Order regeneration [COMPLETED]
 
 **Goal**: Add two Task Order regeneration calls to the /todo command: one after archival (Step 5.8) and one after vault renumbering (Step 5.8.8a).
 
 **Tasks**:
-- [ ] Insert new Step 5.8 (Regenerate Task Order) between the current Step 5.6 (Sync Repository Metrics, ending around line 674) and Step 5.7 (Vault Operation, starting at line 675). Content: non-fatal `generate-task-order.sh --update-todo` call with existence check and error handling.
-- [ ] Insert Step 5.8.8a (Re-run Task Order Regeneration after Renumbering) between Step 5.8.8 (Reset state, ending at line 784) and Step 5.8.9 (Add transition comment, starting at line 786). Content: same non-fatal regen call, needed because task numbers changed.
-- [ ] Update the git commit message section (Step 6, around line 799-825) to include note about appending ", regenerate task order" when Task Order regeneration ran.
+- [x] Insert new Step 5.8 (Regenerate Task Order) between the current Step 5.6 (Sync Repository Metrics, ending around line 674) and Step 5.7 (Vault Operation, starting at line 675). Content: non-fatal `generate-task-order.sh --update-todo` call with existence check and error handling. *(completed)*
+- [x] Insert Step 5.8.8a (Re-run Task Order Regeneration after Renumbering) between Step 5.8.8 (Reset state, ending at line 784) and Step 5.8.9 (Add transition comment, starting at line 786). Content: same non-fatal regen call, needed because task numbers changed. *(completed)*
+- [x] Update the git commit message section (Step 6, around line 799-825) to include note about appending ", regenerate task order" when Task Order regeneration ran. *(completed)*
 
 **Timing**: 0.5 hours
 
