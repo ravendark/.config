@@ -4,6 +4,8 @@ allowed-tools: Bash, Read, Glob, AskUserQuestion
 argument-hint: [--dry-run] [--force]
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /refresh Command
 
 Comprehensive cleanup of OpenCode resources - terminate orphaned processes and clean up ~/.opencode/ directory.

@@ -4,6 +4,8 @@ allowed-tools: Skill
 argument-hint: [PATH...]
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /fix-it Command
 
 Scans codebase files for embedded tags (`FIX:`, `NOTE:`, `TODO:`, `QUESTION:`) and creates structured tasks based on user selection. This command helps capture work items embedded in source code comments.
@@ -200,7 +202,7 @@ Selected tasks are created in TODO.md and state.json.
 
 ### NOTE: Tags (3)
 - `docs/guide.tex:89` - Document this pattern
-- `.opencode/agents/foo.md:12` - Update context routing
+- `.opencode/agent/subagents/foo.md:12` - Update context routing
 
 ### TODO: Tags (7)
 - `src/components/Modal.js:67` - Add LSP configuration
@@ -274,7 +276,7 @@ No task types selected. No tasks created.
 /fix-it docs/04-Metalogic.tex
 
 # Scan multiple paths
-/fix-it src/ .opencode/agents/
+/fix-it src/ .opencode/agent/subagents/
 ```
 
 ## Standards Reference

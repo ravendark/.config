@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode Extension Source Drift and Loader Protections
 
 - **Task**: 577 - investigate_opencode_output_path_corruption
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: None (Task 572 diagnosis and Task 574 temp file fix are informational only)
 - **Research Inputs**: specs/577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md
@@ -71,7 +71,7 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Backport Commands and Update Manifest [NOT STARTED]
+### Phase 1: Backport Commands and Update Manifest [IN PROGRESS]
 
 **Goal**: Copy all improved active command files to the core extension source directory and update the manifest to include the 3 new commands.
 

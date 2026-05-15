@@ -4,6 +4,8 @@ allowed-tools: Read(specs/*), Edit(specs/TODO.md), Bash(jq:*), Bash(git:*), Bash
 argument-hint: "description" | --recover N | --expand N | --sync | --abandon N | --review N
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /task Command
 
 Unified task lifecycle management. Parse $ARGUMENTS to determine operation mode.
@@ -159,15 +161,7 @@ When $ARGUMENTS contains a description (no flags).
      specs/TODO.md
    ```
 
-   **Part B - Add task entry** by prepending to `## Tasks` section:
-   ```markdown
-   ### {N}. {Title}
-   - **Effort**: {estimate}
-   - **Status**: [NOT STARTED]
-   - **Task Type**: {task_type}
-
-   **Description**: {description}
-   ```
+   **Part B - Add task entry** by inserting after `## Tasks` heading:
 
    **Insertion**: Use the Edit tool with heading-anchored pattern:
 
@@ -181,7 +175,9 @@ When $ARGUMENTS contains a description (no flags).
    ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
    The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
 
-   After inserting, re-read the first few lines after `## Tasks` and verify the task number.
+   After inserting, re-read the first few lines after `## Tasks`:
+   - Confirm the first task after ## Tasks has the expected task number
+   - If it doesn't match, the insertion went wrong — fix and re-verify
 
    **CRITICAL**: Both state.json AND TODO.md frontmatter MUST have matching next_project_number values.
 
@@ -255,7 +251,19 @@ Parse task ranges after --recover (e.g., "343-345", "337, 343"):
    ```
    Note: Recovered directories always use 3-digit padding regardless of source format.
 
-   **Update TODO.md**: Prepend recovered task entry to `## Tasks` section
+   **Update TODO.md**: Insert recovered task entry after `## Tasks` heading using Edit tool:
+
+   ```
+   oldString: "## Tasks\n"
+   newString: "## Tasks\n\n### {N}. {Title}\n- **Effort**: {estimate}\n- **Status**: [RECOVERED]\n- **Task Type**: {task_type}\n\n**Description**: {description}\n\n---\n"
+   ```
+
+   **WARNING**: DO NOT search for the last `---` separator and append text after it.
+   DO NOT insert at the bottom of the file.
+   ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
+   The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
+
+   After inserting, re-read the first few lines after `## Tasks` and verify.
 
 2. Git commit: "task: recover tasks {ranges}"
 
@@ -530,7 +538,23 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
      specs/state.json > specs/tmp/state.json && \
      mv specs/tmp/state.json specs/state.json
 
-# Update TODO.md (add entry and update frontmatter)
+# Update TODO.md — Collect all follow-up task entries first (loop at Step 8), then use batch insertion
+
+```
+# Build batch_markdown by joining all entries with \n\n, then use a single Edit tool call:
+oldString: "## Tasks\n"
+newString: "## Tasks\n\n{batch_markdown}\n"
+```
+
+**WARNING**: DO NOT search for the last `---` separator and append text after it.
+DO NOT insert at the bottom of the file.
+DO NOT prepend each task individually — individual prepending reverses task order (last task becomes first).
+ALWAYS use the heading-anchored Edit tool pattern with `oldString: "## Tasks\n"`.
+The heading `## Tasks` is unique in TODO.md and is the only reliable insertion anchor.
+
+After inserting, re-read the first few lines after `## Tasks`:
+- Confirm the first task after ## Tasks has the expected task number
+- If it doesn't match, the insertion went wrong — fix and re-verify
 ```
 
 ### Step 9: Output Results

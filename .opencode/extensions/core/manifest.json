@@ -15,12 +15,15 @@
       "spawn-agent.md"
     ],
     "commands": [
+      "distill.md",
       "errors.md",
       "fix-it.md",
       "implement.md",
+      "learn.md",
       "merge.md",
       "meta.md",
       "plan.md",
+      "project-overview.md",
       "refresh.md",
       "research.md",
       "review.md",
@@ -28,8 +31,7 @@
       "spawn.md",
       "tag.md",
       "task.md",
-      "todo.md",
-      "project-overview.md"
+      "todo.md"
     ],
     "rules": [
       "artifact-formats.md",

@@ -4,6 +4,8 @@ allowed-tools: Skill
 argument-hint: [PROMPT] | --analyze
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /meta Command
 
 Interactive system builder that delegates to `skill-meta` for creating TASKS for .opencode/ system changes. This command NEVER implements changes directly - it only creates tasks.
@@ -37,7 +39,7 @@ Interactive system builder that delegates to `skill-meta` for creating TASKS for
 **Scope**: This prohibition covers all paths under `.opencode/` including:
 - `.opencode/commands/*`
 - `.opencode/skills/*`
-- `.opencode/agents/*`
+- `.opencode/agent/subagents/*`
 - `.opencode/rules/*`
 - `.opencode/context/*`
 - `*/AGENTS.md`

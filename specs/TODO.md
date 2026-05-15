@@ -10,8 +10,8 @@ next_project_number: 579
 
 ### Pending
 - **578** [NOT STARTED] -- Fix OpenCode /tmp/ file usage root cause everywhere
-- **577** [PLANNED] -- Investigate root cause of .opencode/ output path corruption after extension reload
-- **576** [RESEARCHED] -- Fix OpenCode session picker restore/browse options (depends: 575)
+- **577** [IMPLEMENTING] -- Investigate root cause of .opencode/ output path corruption after extension reload
+- **576** [PLANNED] -- Fix OpenCode session picker restore/browse options (depends: 575)
 - **575** [COMPLETED] -- Audit OpenCode session picker failure modes
 - **568** [COMPLETED] -- Update artifact formats for deviation tracking
 - **569** [COMPLETED] -- Enhance general implementation agent (depends: 568)
@@ -32,7 +32,7 @@ next_project_number: 579
 
 ### 577. Investigate root cause of .opencode/ output path corruption after extension reload and add protections
 - **Effort**: 2-4 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Research**: [577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md]
 - **Plan**: [577_investigate_opencode_output_path_corruption/plans/01_output-path-fix.md]
@@ -42,9 +42,10 @@ next_project_number: 579
 ### 576. Fix OpenCode session picker restore/browse options
 
 - **Effort**: 2-4 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: neovim
 - **Dependencies**: 575
+- **Plan**: [576_fix_opencode_session_picker/plans/01_fix-opencode-session-picker.md]
 - **Research**: [576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md]
 
 **Description**: Fix the "Restore last session" and "Browse all sessions" options in the OpenCode session picker (`<C-CR>` -> OpenCode) based on the root cause identified in task 575. Target file: `lua/neotex/plugins/ai/shared/picker/ai-tool-picker.lua`. May also need adjustments to `lua/neotex/plugins/ai/opencode.lua` server configuration.

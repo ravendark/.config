@@ -3,6 +3,8 @@ description: Analyze repository and create task to generate project-overview.md
 allowed-tools: Skill
 ---
 
+> **COMMAND EXECUTION MODE** — You have been invoked as this command with arguments: `$ARGUMENTS`. Execute the workflow below immediately. Do not summarize this file, ask what to do with it, or describe its contents. Start execution now.
+
 # /project-overview Command
 
 Interactively analyzes the repository structure, technology stack, and development workflow, then creates a task with a research artifact for generating `project-overview.md`.

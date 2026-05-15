@@ -13,11 +13,11 @@
     {
       "project_number": 577,
       "project_name": "investigate_opencode_output_path_corruption",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "created": "2026-05-15T00:23:44Z",
-      "last_updated": "2026-05-15T00:50:13Z",
-      "session_id": "sess_1747269200_b4d2c3",
+      "last_updated": "2026-05-15T00:52:48Z",
+      "session_id": "sess_1747270100_c5e3d4",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -92,12 +92,12 @@
     {
       "project_number": 576,
       "project_name": "fix_opencode_session_picker",
-      "status": "researched",
+      "status": "planned",
       "task_type": "neovim",
       "description": "Fix the \"Restore last session\" and \"Browse all sessions\" options in the OpenCode session picker (<C-CR> -> OpenCode) based on the root cause identified in task 575.",
       "created": "2026-05-14T23:30:00Z",
-      "last_updated": "2026-05-15T00:49:30Z",
-      "session_id": "sess_1778805602_9c74c2",
+      "last_updated": "2026-05-15T00:54:46Z",
+      "session_id": "sess_1778806288_5d345e",
       "depends_on": [
         575
       ],
@@ -107,6 +107,11 @@
           "path": "specs/576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md",
           "type": "research",
           "summary": "Identified the root cause of broken OpenCode session picker: task 575 fixes for duplicate terminal race are correct, but the session tracking autocmd extracts session_id from the wrong path in event.data. Additional stale connected_server caching risk identified."
+        },
+        {
+          "path": "specs/576_fix_opencode_session_picker/plans/01_fix-opencode-session-picker.md",
+          "type": "plan",
+          "summary": "Implementation plan with 4 sequential phases to fix OpenCode session picker session ID extraction and stale server mitigation"
         }
       ],
       "memory_candidates": [
