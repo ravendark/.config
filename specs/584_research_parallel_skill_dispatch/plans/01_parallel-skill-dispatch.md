@@ -134,16 +134,16 @@ Phases are sequential because Phase 1 establishes the canonical architecture des
 
 ---
 
-### Phase 3: Update Skill Lifecycle and Cross-References [IN PROGRESS]
+### Phase 3: Update Skill Lifecycle and Cross-References [COMPLETED]
 
 **Goal**: Update skill-lifecycle.md and any cross-references to reflect that skills may now be invoked in parallel from the orchestrator for multi-task dispatch.
 
 **Tasks**:
-- [ ] Add a "Parallel Invocation" subsection to skill-lifecycle.md documenting that workflow commands may invoke multiple skills in a single message for multi-task dispatch
-- [ ] Note that each skill instance runs independently with its own preflight, agent delegation, and postflight
-- [ ] Note the concurrent state.json write consideration (scoped by project_number, acceptable risk)
-- [ ] Review multi-task-operations.md "See Also" section to ensure cross-references are current
-- [ ] Verify that CLAUDE.md multi-task syntax documentation does not reference "Agent" dispatch (it currently says "Each task is processed by a separate agent in parallel" which is technically still true since skills delegate to agents, but could be clarified)
+- [x] Add a "Parallel Invocation" subsection to skill-lifecycle.md documenting that workflow commands may invoke multiple skills in a single message for multi-task dispatch *(completed)*
+- [x] Note that each skill instance runs independently with its own preflight, agent delegation, and postflight *(completed)*
+- [x] Note the concurrent state.json write consideration (scoped by project_number, acceptable risk) *(completed)*
+- [x] Review multi-task-operations.md "See Also" section to ensure cross-references are current *(completed)*
+- [x] Verify that CLAUDE.md multi-task syntax documentation does not reference "Agent" dispatch *(completed: updated to "dispatched to the appropriate skill in parallel")*
 
 **Timing**: 30 minutes
 
@@ -160,7 +160,7 @@ Phases are sequential because Phase 1 establishes the canonical architecture des
 
 ---
 
-### Phase 4: Validation and Consistency Audit [NOT STARTED]
+### Phase 4: Validation and Consistency Audit [IN PROGRESS]
 
 **Goal**: Verify all changes are internally consistent, grep for stale references, and confirm the single-task flow is untouched.
 

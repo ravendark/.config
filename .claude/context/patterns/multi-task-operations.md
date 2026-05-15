@@ -508,6 +508,6 @@ This approach keeps dispatch logic co-located with each command's validation and
 ## See Also
 
 - `checkpoint-execution.md` -- Three-checkpoint command flow (GATE IN, DELEGATE, GATE OUT)
-- `team-orchestration.md` -- Wave-based parallel agent spawning (precedent for parallel Task calls)
+- `team-orchestration.md` -- Wave-based parallel agent spawning (precedent for parallel Skill/Task calls)
 - `skill-lifecycle.md` -- Self-contained skill lifecycle management
 - `routing.md` -- `parse_ranges()` function and task-type-based routing tables

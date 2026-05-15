@@ -147,6 +147,39 @@ These skills are intentionally excluded:
 - skill-orchestrator: Routes to workflow skills which handle state
 - skill-meta: Creates tasks via interview, no transitions
 
+## Parallel Invocation
+
+Workflow commands (`/research`, `/plan`, `/implement`) invoke multiple skills in a single message for multi-task dispatch. When more than one task number is provided, the command's orchestrator loop routes each task to the appropriate skill and invokes all skills in parallel.
+
+### How it works
+
+```
+/research 7, 22, 24
+  -> Skill(skill-researcher, task 7)   \
+  -> Skill(skill-researcher, task 22)   > all invoked in a single message
+  -> Skill(skill-researcher, task 24)  /
+```
+
+Each skill instance runs **independently** with its own:
+- Preflight status update
+- Agent delegation and execution
+- Postflight status update and artifact creation
+- Per-skill git commit
+
+### State.json concurrent write consideration
+
+Multiple parallel skill instances may write to `state.json` concurrently. This is acceptable because each skill writes to a specific `project_number` entry using scoped jq operations (`select(.project_number == $num)`), so no skill modifies another task's fields. Rapid concurrent writes could cause read-modify-write races in edge cases; this is a known limitation that scoped writes substantially mitigate.
+
+### Relationship to team mode
+
+Parallel invocation (multi-task) and team mode are orthogonal:
+- **Multi-task**: Invokes multiple skills in parallel (one per task), each for a different task
+- **Team mode**: A single team skill (e.g., `skill-team-research`) spawns multiple agents for one task
+
+When combined (`/research 7, 22 --team`), each task is routed to the team skill, resulting in `N_tasks * team_size` total agents.
+
+---
+
 ## Postflight Boundary Restrictions
 
 After agent delegation completes, skills must respect postflight boundary restrictions:
