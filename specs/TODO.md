@@ -88,6 +88,7 @@ next_project_number: 586
 - **Dependencies**: Task #579
 - **Research**: [581_port_status_script_phase3/reports/01_port-status-phase3.md]
 - **Plan**: [581_port_status_script_phase3/plans/01_port-status-phase3.md]
+- **Summary**: [581_port_status_script_phase3/summaries/01_port-status-phase3-summary.md]
 
 **Description**: Port update-task-status.sh Phase 3 rewrite from ProofChecker. Replace current Phase 3 with two-mode strategy: Mode A (in-place sed for non-terminal status changes — fast, no full regen) + Mode B (full regeneration via generate-task-order.sh for terminal transitions COMPLETED/ABANDONED/EXPANDED). Add Mode A fallback to regen if task not found in tree. Preserve nvim-config-specific Phase 5 lifecycle notifications (TTS, WezTerm tab colors, OpenCode session renaming).
 

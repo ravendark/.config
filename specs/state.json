@@ -361,6 +361,11 @@
           "path": "specs/581_port_status_script_phase3/plans/01_port-status-phase3.md",
           "type": "plan",
           "summary": "2-phase plan to replace broken Phase 3 with ProofChecker two-mode strategy"
+        },
+        {
+          "path": "specs/581_port_status_script_phase3/summaries/01_port-status-phase3-summary.md",
+          "type": "summary",
+          "summary": "Replaced broken Phase 3 with ProofChecker two-mode strategy (Mode A/B)"
         }
       ],
       "plan_metadata": {
@@ -384,7 +389,8 @@
             "integrated_date": "2026-05-15"
           }
         ]
-      }
+      },
+      "completion_summary": "Replaced the broken flat-list Phase 3 in update-task-status.sh with the ProofChecker two-mode strategy: Mode B triggers full regeneration via generate-task-order.sh for terminal transitions, Mode A does in-place sed for non-terminal with fallback to Mode B."
     },
     {
       "project_number": 582,
