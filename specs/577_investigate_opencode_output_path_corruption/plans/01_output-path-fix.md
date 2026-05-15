@@ -126,19 +126,19 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Create Drift Detection Script [NOT STARTED]
+### Phase 3: Create Drift Detection Script [COMPLETED]
 
 **Goal**: Create a validation script that detects when active command files have drifted from extension source, enabling early warning before drift becomes a problem.
 
 **Tasks**:
-- [ ] Create `~/.config/nvim/.opencode/scripts/check-command-drift.sh` that iterates over all `.md` files in `{base_dir}/commands/` and compares against `{base_dir}/extensions/core/commands/` using `diff -q`
-- [ ] Report drifted files with clear output (file name, direction of drift, size delta)
-- [ ] Report files present in active but missing from extension source (and vice versa)
-- [ ] Cross-check against `manifest.json` provides.commands for manifest completeness
-- [ ] Exit with non-zero status when drift is detected (for CI integration)
-- [ ] Make the script executable (`chmod +x`)
-- [ ] Add `check-command-drift.sh` to the core extension manifest's `provides.scripts` array
-- [ ] Document the script in a brief comment header (purpose, usage, exit codes)
+- [x] Create `~/.config/nvim/.opencode/scripts/check-command-drift.sh` that iterates over all `.md` files in `{base_dir}/commands/` and compares against `{base_dir}/extensions/core/commands/` using `diff -q` *(completed)*
+- [x] Report drifted files with clear output (file name, direction of drift, size delta) *(completed)*
+- [x] Report files present in active but missing from extension source (and vice versa) *(completed)*
+- [x] Cross-check against `manifest.json` provides.commands for manifest completeness *(completed)*
+- [x] Exit with non-zero status when drift is detected (for CI integration) *(completed: exit 0 on no drift, exit 1 on drift, exit 2 on usage error)*
+- [x] Make the script executable (`chmod +x`) *(completed)*
+- [x] Add `check-command-drift.sh` to the core extension manifest's `provides.scripts` array *(completed)*
+- [x] Document the script in a brief comment header (purpose, usage, exit codes) *(completed)*
 
 **Timing**: 0.5 hours
 

@@ -62,6 +62,7 @@
       "skill-todo"
     ],
     "scripts": [
+      "check-command-drift.sh",
       "check-extension-docs.sh",
       "check-vault-threshold.sh",
       "claude-cleanup.sh",
@@ -72,6 +73,7 @@
       "install-extension.sh",
       "install-systemd-timer.sh",
       "link-artifact-todo.sh",
+      "lint/lint-postflight-boundary.sh",
       "memory-retrieve.sh",
       "migrate-directory-padding.sh",
       "postflight-implement.sh",
@@ -87,8 +89,7 @@
       "validate-extension-index.sh",
       "validate-index.sh",
       "validate-wiring.sh",
-      "verify-lean-mcp.sh",
-      "lint/lint-postflight-boundary.sh"
+      "verify-lean-mcp.sh"
     ],
     "hooks": [
       "log-session.sh",
