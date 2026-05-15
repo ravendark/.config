@@ -224,14 +224,14 @@
     {
       "project_number": 579,
       "project_name": "port_task_order_script",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "description": "Port generate-task-order.sh (834 lines) from ProofChecker with generalized topic heuristic. Rewrite task-order-format.md from flat categories to wave+tree+topic format. The script uses Kahn's algorithm for dependency waves, DFS for tree rendering, and atomic TODO.md section replacement. Generalize assign_topic_heuristic() to remove ProofChecker-specific keywords — either make it read a project-local config or rely solely on state.json active_topics. Replace ProofChecker-specific examples in format doc with generic ones.",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T20:56:11Z",
-      "session_id": "sess_1778878405_a671d7_t579",
+      "last_updated": "2026-05-15T20:58:42Z",
+      "session_id": "sess_1778878713_391547_t579",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -288,14 +288,14 @@
     {
       "project_number": 580,
       "project_name": "port_topic_schema_rules",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "description": "Port topic system schema and rules from ProofChecker. Add active_topics (top-level string[]) and per-task topic (string, optional) fields to state-management-schema.md. Add Task Order Synchronization section (+49 lines) to state-management.md rule documenting derivation relationships, regeneration triggers, responsible scripts, and non-regeneration events.",
       "effort": "30-60 min",
       "dependencies": [],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T20:56:11Z",
-      "session_id": "sess_1778878405_a671d7_t580",
+      "last_updated": "2026-05-15T21:02:00Z",
+      "session_id": "sess_1778878713_391547_t580",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -307,6 +307,11 @@
           "path": "specs/580_port_topic_schema_rules/plans/01_port-topic-schema.md",
           "type": "plan",
           "summary": "2-phase plan for porting topic schema fields and task order sync rules"
+        },
+        {
+          "path": "specs/580_port_topic_schema_rules/summaries/01_port-topic-schema-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 580 topic schema and rules port"
         }
       ],
       "plan_metadata": {
@@ -328,7 +333,8 @@
             "integrated_date": "2026-05-15"
           }
         ]
-      }
+      },
+      "completion_summary": "Added active_topics and topic fields to state-management-schema.md and added Task Order Synchronization section to state-management.md, porting all topic system documentation from ProofChecker to the core agent system."
     },
     {
       "project_number": 581,

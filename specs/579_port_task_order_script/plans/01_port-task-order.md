@@ -1,7 +1,7 @@
 # Implementation Plan: Port generate-task-order.sh and Rewrite task-order-format.md
 
 - **Task**: 579 - Port generate-task-order.sh + task-order-format.md
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/579_port_task_order_script/reports/01_port-task-order.md
@@ -75,7 +75,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Port generate-task-order.sh [NOT STARTED]
+### Phase 1: Port generate-task-order.sh [COMPLETED]
 
 **Goal**: Create the ported script in `.claude/scripts/` with the ProofChecker-specific heuristic removed.
 
@@ -101,7 +101,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Rewrite task-order-format.md [NOT STARTED]
+### Phase 2: Rewrite task-order-format.md [IN PROGRESS]
 
 **Goal**: Replace the flat-category format documentation with the wave+tree+topic format, using generic examples.
 

@@ -9,8 +9,8 @@ next_project_number: 584
 *Updated 2026-05-15. 9 active tasks remaining.*
 
 ### Wave 1 (no dependencies)
-- **579** [PLANNED] -- Port generate-task-order.sh + task-order-format.md
-- **580** [PLANNED] -- Port topic schema & rules
+- **579** [IMPLEMENTING] -- Port generate-task-order.sh + task-order-format.md
+- **580** [COMPLETED] -- Port topic schema & rules
 
 ### Wave 2 (depends on Wave 1)
 - **581** [NOT STARTED] -- Port update-task-status.sh Phase 3 rewrite (depends: 579)
@@ -27,7 +27,7 @@ next_project_number: 584
 
 ### 579. Port generate-task-order.sh and task-order-format.md
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [579_port_task_order_script/reports/01_port-task-order.md]
@@ -41,11 +41,12 @@ next_project_number: 584
 
 ### 580. Port topic schema and rules
 - **Effort**: 30-60 min
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [580_port_topic_schema_rules/reports/01_port-topic-schema.md]
 - **Plan**: [580_port_topic_schema_rules/plans/01_port-topic-schema.md]
+- **Summary**: [580_port_topic_schema_rules/summaries/01_port-topic-schema-summary.md]
 
 **Description**: Port topic system schema and rules from ProofChecker. Add active_topics (top-level string[]) and per-task topic (string, optional) fields to state-management-schema.md. Add Task Order Synchronization section (+49 lines) to state-management.md rule documenting derivation relationships, regeneration triggers, responsible scripts, and non-regeneration events.
 
