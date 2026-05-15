@@ -13,11 +13,11 @@
     {
       "project_number": 577,
       "project_name": "investigate_opencode_output_path_corruption",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "created": "2026-05-15T00:23:44Z",
-      "last_updated": "2026-05-15T00:43:31Z",
-      "session_id": "sess_1747268700_a3c1b2",
+      "last_updated": "2026-05-15T00:46:13Z",
+      "session_id": "sess_1747269200_b4d2c3",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -74,17 +74,65 @@
     {
       "project_number": 576,
       "project_name": "fix_opencode_session_picker",
-      "status": "researching",
+      "status": "researched",
       "task_type": "neovim",
       "description": "Fix the \"Restore last session\" and \"Browse all sessions\" options in the OpenCode session picker (<C-CR> -> OpenCode) based on the root cause identified in task 575.",
       "created": "2026-05-14T23:30:00Z",
-      "last_updated": "2026-05-15T00:41:32Z",
+      "last_updated": "2026-05-15T00:49:30Z",
       "session_id": "sess_1778805602_9c74c2",
       "depends_on": [
         575
       ],
       "next_artifact_number": 1,
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md",
+          "type": "research",
+          "summary": "Identified the root cause of broken OpenCode session picker: task 575 fixes for duplicate terminal race are correct, but the session tracking autocmd extracts session_id from the wrong path in event.data. Additional stale connected_server caching risk identified."
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "opencode.nvim dispatches User autocmds with pattern OpencodeEvent:<type> and event.data structure { event = { type, properties }, port = N }. Any custom autocmd listeners must access event.data.event.properties, not event.data directly. This caused a session tracking bug where session_id was never extracted.",
+          "category": "PATTERN",
+          "source_artifact": "specs/576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "events",
+            "autocmd",
+            "session",
+            "properties"
+          ]
+        },
+        {
+          "content": "snacks.terminal.get(cmd, opts) with default create behavior is idempotent: it checks terminals[id] first and only calls open() if missing. This makes it safe for server start callbacks. However, get() returns the terminal object (never nil with default opts), so if-not-term guards are dead code.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "snacks",
+            "terminal",
+            "dedup",
+            "idempotent",
+            "get",
+            "open"
+          ]
+        },
+        {
+          "content": "opencode.events.connected_server caches the last connected server and Server.get() returns it immediately via find(). If the terminal was closed but the cache wasnt cleared, subsequent Server.get() calls return a dead server, causing API failures. Explicit disconnect() before get() mitigates this.",
+          "category": "PATTERN",
+          "source_artifact": "specs/576_fix_opencode_session_picker/reports/01_fix_opencode_session_picker.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "opencode",
+            "connected_server",
+            "cache",
+            "stale",
+            "disconnect"
+          ]
+        }
+      ]
     },
     {
       "project_number": 575,
