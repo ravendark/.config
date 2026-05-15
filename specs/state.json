@@ -13,21 +13,73 @@
     {
       "project_number": 577,
       "project_name": "investigate_opencode_output_path_corruption",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "created": "2026-05-15T00:23:44Z",
-      "last_updated": "2026-05-15T00:28:50Z",
-      "session_id": "sess_1747268700_a3c1b2"
+      "last_updated": "2026-05-15T00:43:31Z",
+      "session_id": "sess_1747268700_a3c1b2",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md",
+          "type": "research",
+          "summary": "Root cause: extension loader overwrites active commands with outdated extension source, stripping COMMAND EXECUTION MODE preamble and routing fixes"
+        }
+      ],
+      "memory_candidates": [
+        {
+          "content": "OpenCode extension reload (via Neovim extension picker) unconditionally overwrites active command files (.opencode/commands/*.md) with extension source files (.opencode/extensions/core/commands/*.md). Any improvements made directly to active command files are lost on reload. The fix is to keep the extension source in sync with the active files by backporting improvements. The loader.lua copy_file() function has no version checking or drift detection.",
+          "category": "PATTERN",
+          "source_artifact": "specs/577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "extension-reload",
+            "command-drift",
+            "copy_file",
+            "active-commands",
+            "extension-source"
+          ]
+        },
+        {
+          "content": "The COMMAND EXECUTION MODE preamble in OpenCode commands prevents the LLM from describing commands instead of executing them. All 15 core commands in ~/.config/nvim/.opencode/extensions/core/commands/ are missing this preamble (only in active ~/.config/nvim/.opencode/commands/ files). Extension reload strips the preamble, causing silent describe-instead-of-execute failures.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "command-execution-mode",
+            "preamble",
+            "describe-instead-execute",
+            "extension-source",
+            "commands"
+          ]
+        },
+        {
+          "content": "~/.config/nvim/.opencode/output/ is OpenCode session export directory (created when user presses <leader>x = session_export keybind). Files named after last command invoked. If OpenCode runs with cwd=~/.config/nvim/ rather than intended project directory, session exports and artifact writes target wrong specs/ directory.",
+          "category": "TECHNIQUE",
+          "source_artifact": "specs/577_investigate_opencode_output_path_corruption/reports/01_output-path-corruption.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "opencode",
+            "session-export",
+            "output-directory",
+            "cwd-mismatch",
+            "snacks-terminal",
+            "session_export"
+          ]
+        }
+      ]
     },
     {
       "project_number": 576,
       "project_name": "fix_opencode_session_picker",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "neovim",
       "description": "Fix the \"Restore last session\" and \"Browse all sessions\" options in the OpenCode session picker (<C-CR> -> OpenCode) based on the root cause identified in task 575.",
       "created": "2026-05-14T23:30:00Z",
-      "last_updated": "2026-05-14T23:30:00Z",
-      "session_id": "ses_1d7142de5ffeUuYk5Gxj52xz6R",
+      "last_updated": "2026-05-15T00:41:32Z",
+      "session_id": "sess_1778805602_9c74c2",
       "depends_on": [
         575
       ],

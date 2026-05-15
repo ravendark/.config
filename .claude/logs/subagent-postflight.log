@@ -22304,3 +22304,20 @@
 [2026-05-14T17:34:36-07:00] Task directory: specs/575_audit_opencode_session_picker_failure
 [2026-05-14T17:34:36-07:00] Loop guard initialized to 1
 [2026-05-14T17:34:36-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T17:41:40-07:00] Postflight marker found at: specs/576_fix_opencode_session_picker/.postflight-pending
+[2026-05-14T17:41:40-07:00] Task directory: specs/576_fix_opencode_session_picker
+[2026-05-14T17:41:40-07:00] Loop guard initialized to 1
+[2026-05-14T17:41:40-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T17:41:59-07:00] Postflight marker found at: specs/576_fix_opencode_session_picker/.postflight-pending
+[2026-05-14T17:41:59-07:00] Task directory: specs/576_fix_opencode_session_picker
+[2026-05-14T17:41:59-07:00] Loop guard incremented to 2
+[2026-05-14T17:41:59-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T17:42:33-07:00] Postflight marker found at: specs/576_fix_opencode_session_picker/.postflight-pending
+[2026-05-14T17:42:33-07:00] Task directory: specs/576_fix_opencode_session_picker
+[2026-05-14T17:42:33-07:00] Loop guard incremented to 3
+[2026-05-14T17:42:33-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-14T17:42:57-07:00] Postflight marker found at: specs/576_fix_opencode_session_picker/.postflight-pending
+[2026-05-14T17:42:57-07:00] Task directory: specs/576_fix_opencode_session_picker
+[2026-05-14T17:42:57-07:00] Loop guard triggered: 3 >= 3
+[2026-05-14T17:42:57-07:00] Loop guard prevented continuation
+[2026-05-14T17:43:11-07:00] No postflight marker, allowing stop
