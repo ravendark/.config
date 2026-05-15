@@ -1,0 +1,18 @@
+{
+  "phase": 1,
+  "phase_name": "Write Core Workflow Sections",
+  "started_at": "2026-05-14T00:00:00Z",
+  "last_updated": "2026-05-14T00:00:00Z",
+  "objectives": [
+    {"id": 1, "description": "Create file with title and introductory overview", "status": "done"},
+    {"id": 2, "description": "Write Architecture section with single-path SSE subscriber model", "status": "done"},
+    {"id": 3, "description": "Write Prerequisites section", "status": "done"},
+    {"id": 4, "description": "Write Quick Start section (5-step)", "status": "done"},
+    {"id": 5, "description": "Write Everyday Workflow section", "status": "done"},
+    {"id": 6, "description": "Write Keybinding Reference table", "status": "done"},
+    {"id": 7, "description": "Write Bot HTTP API Reference section", "status": "done"}
+  ],
+  "current_objective": 8,
+  "approaches_tried": [],
+  "handoff_count": 0
+}

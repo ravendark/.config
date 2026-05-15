@@ -1,7 +1,7 @@
 # Implementation Plan: Discord OpenCode Agents Guide (Revised)
 
 - **Task**: 571 - Create guide for using Discord to manage OpenCode agents from Neovim
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2.5 hours
 - **Dependencies**: None
 - **Research Inputs**: reports/01_discord-opencode-guide.md, reports/02_guide-additions.md
@@ -81,7 +81,7 @@ This task does not directly advance any items in ROADMAP.md. It is a standalone 
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Write Core Workflow Sections [NOT STARTED]
+### Phase 1: Write Core Workflow Sections [COMPLETED]
 
 **Goal**: Draft the Architecture, Prerequisites, Quick Start, Everyday Workflow, Keybinding Reference, and Bot HTTP API Reference sections.
 
@@ -142,7 +142,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Write Reference and Troubleshooting Sections [NOT STARTED]
+### Phase 2: Write Reference and Troubleshooting Sections [COMPLETED]
 
 **Goal**: Draft the Environment Variables, Service Management, Troubleshooting, Security Model, and Related Resources sections.
 
@@ -188,7 +188,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Review, Finalize, and Update Index [NOT STARTED]
+### Phase 3: Review, Finalize, and Update Index [COMPLETED]
 
 **Goal**: Review the complete guide for accuracy, ensure all corrections from research are applied, and update `guides/README.md`.
 

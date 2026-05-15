@@ -9,7 +9,7 @@ next_project_number: 579
 *Updated 2026-05-14. 11 active tasks remaining.*
 
 ### Pending
-- **578** [PLANNED] -- Fix OpenCode /tmp/ file usage root cause everywhere
+- **578** [IMPLEMENTING] -- Fix OpenCode /tmp/ file usage root cause everywhere
 - **577** [COMPLETED] -- Investigate root cause of .opencode/ output path corruption after extension reload
 - **576** [COMPLETED] -- Fix OpenCode session picker restore/browse options (depends: 575)
 - **575** [COMPLETED] -- Audit OpenCode session picker failure modes
@@ -25,7 +25,7 @@ next_project_number: 579
 
 ### 578. Fix OpenCode /tmp/ file usage root cause everywhere
 - **Effort**: 2-4 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Research**: [578_fix_opencode_tmp_file_usage_root_cause/reports/01_tmp-file-root-cause.md]
 - **Plan**: [578_fix_opencode_tmp_file_usage_root_cause/plans/01_tmp-file-root-cause.md]
@@ -94,7 +94,7 @@ next_project_number: 579
 
 ### 571. Create guide for using Discord to manage OpenCode agents from Neovim
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: general
 - **Research**:
   - [571_create_guide_discord_opencode_agents_neovim/reports/01_discord-opencode-guide.md]

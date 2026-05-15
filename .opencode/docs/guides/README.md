@@ -30,6 +30,10 @@ How-to guides for the OpenCode system.
 - `phase-synchronization.md` - Phase synchronization patterns
 - `tts-stt-integration.md` - Text-to-speech and speech-to-text integration
 
+### Mobile/Remote Access
+
+- `discord-opencode-agents.md` - Monitor and manage OpenCode agents from Discord
+
 ## Navigation
 
 - [← Parent Directory](../README.md)

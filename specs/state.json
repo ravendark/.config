@@ -5,11 +5,11 @@
     {
       "project_number": 578,
       "project_name": "fix_opencode_tmp_file_usage_root_cause",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "created": "2026-05-15T00:26:48Z",
-      "last_updated": "2026-05-15T01:37:04Z",
-      "session_id": "sess_1778808594_6023ae",
+      "last_updated": "2026-05-15T01:38:45Z",
+      "session_id": "sess_1778809112_c7fdbc",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -465,11 +465,11 @@
     {
       "project_number": 571,
       "project_name": "create_guide_discord_opencode_agents_neovim",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "general",
       "created": "2026-05-14T15:40:29Z",
-      "last_updated": "2026-05-15T01:35:35Z",
-      "session_id": "sess_1778808603_108221",
+      "last_updated": "2026-05-15T01:39:22Z",
+      "session_id": "sess_1778809120_04bff0",
       "next_artifact_number": 2,
       "artifacts": [
         {
