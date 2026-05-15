@@ -1,7 +1,7 @@
 # Implementation Plan: Fix OpenCode /tmp/ File Usage Root Cause
 
 - **Task**: 578 - fix_opencode_tmp_file_usage_root_cause
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: Task 574 (prior fix for mktemp calls -- already completed)
 - **Research Inputs**: reports/01_tmp-file-root-cause.md
@@ -77,7 +77,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Add /tmp/ Prohibition to AGENTS.md [NOT STARTED]
+### Phase 1: Add /tmp/ Prohibition to AGENTS.md [COMPLETED]
 
 **Goal**: Ensure agents receive the temp file convention constraint at session start, before any skill or command files are loaded.
 
