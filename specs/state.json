@@ -389,7 +389,7 @@
     {
       "project_number": 582,
       "project_name": "port_command_integration",
-      "status": "planning",
+      "status": "planned",
       "task_type": "meta",
       "description": "Port task order auto-sync and topic support into task.md, todo.md, and review.md commands. task.md: add Step 4.5 topic picker (generalized — read active_topics from state.json, no hardcoded keywords), Part C regen call, topic inheritance in expand/sync/review modes, topic backfill in sync mode. todo.md: add Step 5.8 post-archival regen and Step 5.8.8a post-vault regen. review.md: replace ~330 lines of manual Task Order management (sections 6.5-6.7) with single generate-task-order.sh call, generalize topic inference to use extension-aware path matching instead of .lean-specific heuristics.",
       "effort": "2-3 hours",
@@ -398,7 +398,7 @@
         580
       ],
       "created": "2026-05-15T12:00:00Z",
-      "last_updated": "2026-05-15T21:17:04Z",
+      "last_updated": "2026-05-15T21:20:19Z",
       "session_id": "sess_1778879774_643b51",
       "next_artifact_number": 2,
       "artifacts": [
@@ -406,6 +406,11 @@
           "path": "specs/582_port_command_integration/reports/01_port-command-integration.md",
           "type": "research",
           "summary": "Detailed diff of task.md, todo.md, review.md between nvim-config and ProofChecker; exact insertion points, generalization requirements, and 330-line replacement in review.md."
+        },
+        {
+          "path": "specs/582_port_command_integration/plans/01_port-command-integration.md",
+          "type": "plan",
+          "summary": "4-phase plan for porting topic picker, Task Order regen, and simplified management into task.md, todo.md, review.md"
         }
       ],
       "memory_candidates": [
@@ -435,7 +440,35 @@
             "simplification"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 4,
+        "total_effort_hours": 2.5,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_port-command-integration.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-15"
+          }
+        ]
+      }
     },
     {
       "project_number": 583,
