@@ -17,24 +17,24 @@ next_project_number: 586
 **Grouped by Topic** (indented = must complete first):
 
 ### Uncategorized
-```
+
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
-584 [PLANNING] — Investigate replacing parallel Agent dispatch with parallel Skill
+584 [PLANNED] — Investigate replacing parallel Agent dispatch with parallel Skill
 585 [NOT STARTED] — Rewrite multi-task dispatch in /research, /plan, and /implement t
   └─ 584 [PLANNING] — Investigate replacing parallel Agent dispatch with parallel Skill (see above)
-```
 
 ## Tasks
 
 ### 584. Research parallel Skill dispatch approach
 - **Effort**: 1-2 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [584_research_parallel_skill_dispatch/reports/01_parallel-skill-dispatch.md]
+- **Plan**: [584_research_parallel_skill_dispatch/plans/01_parallel-skill-dispatch.md]
 
 **Description**: Investigate replacing parallel Agent dispatch with parallel Skill invocation in multi-task commands (/research, /plan, /implement). Confirm Skill tool supports parallel invocation, check for state.json race conditions with concurrent skill writes, audit all 4 files (multi-task-operations.md, research.md, plan.md, implement.md) for exact change locations, and check if batch commit/result collection changes are needed when skills (not agents) return results.
 
