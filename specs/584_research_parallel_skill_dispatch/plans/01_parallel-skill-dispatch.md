@@ -1,7 +1,7 @@
 # Implementation Plan: Parallel Skill Dispatch for Multi-Task Commands
 
 - **Task**: 584 - research_parallel_skill_dispatch
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/584_research_parallel_skill_dispatch/reports/01_parallel-skill-dispatch.md
@@ -69,19 +69,19 @@ No ROADMAP.md items are directly advanced by this task. This is infrastructure w
 
 Phases are sequential because Phase 1 establishes the canonical architecture description that Phases 2-3 reference, and Phase 4 validates the complete set of changes.
 
-### Phase 1: Update multi-task-operations.md Section 6 and Resolve Section 12 Conflict [NOT STARTED]
+### Phase 1: Update multi-task-operations.md Section 6 and Resolve Section 12 Conflict [COMPLETED]
 
 **Goal**: Rewrite Section 6 to describe parallel Skill invocation from the orchestrator loop (not a separate batch skill), resolving the conflict with Section 12. Update Sections 8 and 10 to reflect the new dispatch model.
 
 **Tasks**:
-- [ ] Rewrite Section 6 heading from "Parallel Agent Spawning" to "Parallel Skill Dispatch"
-- [ ] Remove the "Architecture: Batch Skill Dispatch (Option B)" framing and the `Command -> Skill(batch dispatch) -> [Task(agent, task 7)...]` diagram
-- [ ] Replace with orchestrator-loop architecture: `Command -> [Skill(skill-researcher, task 7), Skill(skill-planner, task 22), ...]` showing parallel Skill tool calls
-- [ ] Update the "Spawning Pattern" subsection to show Skill tool invocations instead of Agent tool invocations, with routing per task_type
-- [ ] Update the "Result Collection" subsection to describe how skill text returns are collected (each Skill returns brief text; the orchestrator reads `.return-meta.json` files for structured data if needed)
-- [ ] Update Section 8 (Batch Git Commit): Add a note that per-skill postflight may produce individual commits before the batch commit; the batch commit is a cleanup/consolidation step that may be empty
-- [ ] Update Section 10 (Concurrent State Safety): Replace the "batch skill collects all results" mitigation with acknowledgment that per-skill postflight writes are scoped by project_number and are sufficient for most cases; a future consolidated-write enhancement can be added if races are observed
-- [ ] Verify Section 12 now aligns with the rewritten Section 6 (both describe orchestrator-loop with parallel Skill calls)
+- [x] Rewrite Section 6 heading from "Parallel Agent Spawning" to "Parallel Skill Dispatch" *(completed)*
+- [x] Remove the "Architecture: Batch Skill Dispatch (Option B)" framing and the `Command -> Skill(batch dispatch) -> [Task(agent, task 7)...]` diagram *(completed)*
+- [x] Replace with orchestrator-loop architecture: `Command -> [Skill(skill-researcher, task 7), Skill(skill-planner, task 22), ...]` showing parallel Skill tool calls *(completed)*
+- [x] Update the "Spawning Pattern" subsection to show Skill tool invocations instead of Agent tool invocations, with routing per task_type *(completed)*
+- [x] Update the "Result Collection" subsection to describe how skill text returns are collected (each Skill returns brief text; the orchestrator reads `.return-meta.json` files for structured data if needed) *(completed)*
+- [x] Update Section 8 (Batch Git Commit): Add a note that per-skill postflight may produce individual commits before the batch commit; the batch commit is a cleanup/consolidation step that may be empty *(completed)*
+- [x] Update Section 10 (Concurrent State Safety): Replace the "batch skill collects all results" mitigation with acknowledgment that per-skill postflight writes are scoped by project_number and are sufficient for most cases; a future consolidated-write enhancement can be added if races are observed *(completed)*
+- [x] Verify Section 12 now aligns with the rewritten Section 6 (both describe orchestrator-loop with parallel Skill calls) *(completed)*
 
 **Timing**: 1 hour
 
@@ -98,7 +98,7 @@ Phases are sequential because Phase 1 establishes the canonical architecture des
 
 ---
 
-### Phase 2: Update Command File Step 3 Sections (research.md, plan.md, implement.md) [NOT STARTED]
+### Phase 2: Update Command File Step 3 Sections (research.md, plan.md, implement.md) [IN PROGRESS]
 
 **Goal**: Replace "parallel Agent tool calls" with "parallel Skill tool calls" in the MULTI-TASK DISPATCH Step 3 of all three command files. Align the dispatch description with the updated multi-task-operations.md Section 6.
 

@@ -374,7 +374,7 @@ generate_grouped_section() {
     heading=$(echo "$topic" | sed 's/-/ /g; s/\b\(.\)/\u\1/g')
 
     echo "### ${heading}"
-    echo '```'
+    echo ""
 
     # Reset per-section visited tracking
     _topic_section_visited=()
@@ -387,7 +387,6 @@ generate_grouped_section() {
       fi
     done
 
-    echo '```'
     echo ""
   done
 
@@ -402,7 +401,7 @@ generate_grouped_section() {
 
   if [[ ${#uncategorized_tasks[@]} -gt 0 ]]; then
     echo "### Uncategorized"
-    echo '```'
+    echo ""
     _current_section_topic=""
     _topic_section_visited=()
     for tn in "${uncategorized_tasks[@]}"; do
@@ -410,7 +409,6 @@ generate_grouped_section() {
         _print_topic_node "$tn" 0
       fi
     done
-    echo '```'
     echo ""
   fi
 }
@@ -642,7 +640,7 @@ generate_dependency_tree() {
   sorted_roots=$(printf '%s\n' "${roots[@]}" | sort -n)
 
   echo "**Dependency Tree** (indented = must complete first):"
-  echo '```'
+  echo ""
 
   # Print tree for each root
   while IFS= read -r root; do
@@ -659,7 +657,6 @@ generate_dependency_tree() {
     fi
   done
 
-  echo '```'
 }
 
 # ============================================================================

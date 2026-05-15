@@ -22,7 +22,7 @@ next_project_number: 586
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
-584 [PLANNED] — Investigate replacing parallel Agent dispatch with parallel Skill
+584 [IMPLEMENTING] — Investigate replacing parallel Agent dispatch with parallel Skill
 585 [NOT STARTED] — Rewrite multi-task dispatch in /research, /plan, and /implement t
   └─ 584 [PLANNING] — Investigate replacing parallel Agent dispatch with parallel Skill (see above)
 
@@ -30,7 +30,7 @@ next_project_number: 586
 
 ### 584. Research parallel Skill dispatch approach
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [584_research_parallel_skill_dispatch/reports/01_parallel-skill-dispatch.md]

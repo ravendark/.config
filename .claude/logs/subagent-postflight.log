@@ -22592,3 +22592,262 @@
 [2026-05-15T14:03:53-07:00] No postflight marker, allowing stop
 [2026-05-15T14:04:27-07:00] No postflight marker, allowing stop
 [2026-05-15T14:04:38-07:00] No postflight marker, allowing stop
+[2026-05-15T14:05:37-07:00] No postflight marker, allowing stop
+[2026-05-15T14:10:59-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:10:59-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:10:59-07:00] Loop guard initialized to 1
+[2026-05-15T14:10:59-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:11:11-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:11:11-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:11:11-07:00] Loop guard initialized to 1
+[2026-05-15T14:11:11-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:11:23-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:11:23-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:11:23-07:00] Loop guard incremented to 2
+[2026-05-15T14:11:23-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:11:30-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:11:30-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:11:30-07:00] Loop guard incremented to 3
+[2026-05-15T14:11:30-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:11:38-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:11:38-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:11:38-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:11:38-07:00] Loop guard prevented continuation
+[2026-05-15T14:11:40-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:11:40-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:11:40-07:00] Loop guard incremented to 2
+[2026-05-15T14:11:40-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:11:47-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:11:47-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:11:47-07:00] Loop guard incremented to 3
+[2026-05-15T14:11:47-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:11:50-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:11:50-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:11:50-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:11:50-07:00] Loop guard prevented continuation
+[2026-05-15T14:11:51-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:11:51-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:11:51-07:00] Loop guard initialized to 1
+[2026-05-15T14:11:51-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:11:55-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:11:55-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:11:55-07:00] Loop guard incremented to 2
+[2026-05-15T14:11:55-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:11:59-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:11:59-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:11:59-07:00] Loop guard incremented to 3
+[2026-05-15T14:11:59-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:12:00-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:12:00-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:12:00-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:12:00-07:00] Loop guard prevented continuation
+[2026-05-15T14:12:02-07:00] No postflight marker, allowing stop
+[2026-05-15T14:12:09-07:00] No postflight marker, allowing stop
+[2026-05-15T14:12:21-07:00] No postflight marker, allowing stop
+[2026-05-15T14:12:32-07:00] No postflight marker, allowing stop
+[2026-05-15T14:12:54-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:12:54-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:12:54-07:00] Loop guard initialized to 1
+[2026-05-15T14:12:54-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:13:04-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:13:04-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:13:04-07:00] Loop guard incremented to 2
+[2026-05-15T14:13:04-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:13:21-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:13:21-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:13:21-07:00] Loop guard incremented to 3
+[2026-05-15T14:13:21-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:13:30-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:13:30-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:13:30-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:13:30-07:00] Loop guard prevented continuation
+[2026-05-15T14:13:46-07:00] No postflight marker, allowing stop
+[2026-05-15T14:13:48-07:00] No postflight marker, allowing stop
+[2026-05-15T14:13:48-07:00] No postflight marker, allowing stop
+[2026-05-15T14:14:13-07:00] No postflight marker, allowing stop
+[2026-05-15T14:14:22-07:00] No postflight marker, allowing stop
+[2026-05-15T14:14:50-07:00] No postflight marker, allowing stop
+[2026-05-15T14:15:06-07:00] No postflight marker, allowing stop
+[2026-05-15T14:15:29-07:00] No postflight marker, allowing stop
+[2026-05-15T14:17:32-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:17:32-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:17:32-07:00] Loop guard initialized to 1
+[2026-05-15T14:17:32-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:18:03-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:18:03-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:18:03-07:00] Loop guard incremented to 2
+[2026-05-15T14:18:03-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:18:06-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:18:06-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:18:06-07:00] Loop guard incremented to 3
+[2026-05-15T14:18:06-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:18:07-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:18:07-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:18:07-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:18:07-07:00] Loop guard prevented continuation
+[2026-05-15T14:18:12-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:18:12-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:18:12-07:00] Loop guard initialized to 1
+[2026-05-15T14:18:12-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:18:13-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:18:13-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:18:13-07:00] Loop guard incremented to 2
+[2026-05-15T14:18:13-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:18:15-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:18:15-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:18:15-07:00] Loop guard incremented to 3
+[2026-05-15T14:18:15-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:18:18-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:18:18-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:18:18-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:18:18-07:00] Loop guard prevented continuation
+[2026-05-15T14:18:18-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:18:18-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:18:18-07:00] Loop guard initialized to 1
+[2026-05-15T14:18:18-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:18:21-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:18:21-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:18:21-07:00] Loop guard incremented to 2
+[2026-05-15T14:18:21-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:18:21-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:18:21-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:18:21-07:00] Loop guard incremented to 3
+[2026-05-15T14:18:21-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:18:23-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:18:23-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:18:23-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:18:23-07:00] Loop guard prevented continuation
+[2026-05-15T14:18:29-07:00] No postflight marker, allowing stop
+[2026-05-15T14:18:37-07:00] No postflight marker, allowing stop
+[2026-05-15T14:19:04-07:00] No postflight marker, allowing stop
+[2026-05-15T14:19:04-07:00] No postflight marker, allowing stop
+[2026-05-15T14:19:34-07:00] No postflight marker, allowing stop
+[2026-05-15T14:20:00-07:00] No postflight marker, allowing stop
+[2026-05-15T14:20:13-07:00] No postflight marker, allowing stop
+[2026-05-15T14:20:46-07:00] No postflight marker, allowing stop
+[2026-05-15T14:20:55-07:00] No postflight marker, allowing stop
+[2026-05-15T14:22:08-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:22:08-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:22:08-07:00] Loop guard initialized to 1
+[2026-05-15T14:22:08-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:22:16-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:22:16-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:22:16-07:00] Loop guard incremented to 2
+[2026-05-15T14:22:16-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:22:18-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:22:18-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:22:18-07:00] Loop guard incremented to 3
+[2026-05-15T14:22:18-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:22:21-07:00] Postflight marker found at: specs/583_port_agent_skill_integration/.postflight-pending
+[2026-05-15T14:22:21-07:00] Task directory: specs/583_port_agent_skill_integration
+[2026-05-15T14:22:21-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:22:21-07:00] Loop guard prevented continuation
+[2026-05-15T14:22:30-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:22:30-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:22:30-07:00] Loop guard initialized to 1
+[2026-05-15T14:22:30-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:22:40-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:22:40-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:22:40-07:00] Loop guard incremented to 2
+[2026-05-15T14:22:40-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:22:41-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:22:41-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:22:41-07:00] Loop guard incremented to 3
+[2026-05-15T14:22:41-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:22:44-07:00] Postflight marker found at: specs/582_port_command_integration/.postflight-pending
+[2026-05-15T14:22:44-07:00] Task directory: specs/582_port_command_integration
+[2026-05-15T14:22:44-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:22:44-07:00] Loop guard prevented continuation
+[2026-05-15T14:22:59-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:22:59-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:22:59-07:00] Loop guard initialized to 1
+[2026-05-15T14:22:59-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:23:09-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:23:09-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:23:09-07:00] Loop guard incremented to 2
+[2026-05-15T14:23:09-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:23:17-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:23:17-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:23:17-07:00] Loop guard incremented to 3
+[2026-05-15T14:23:17-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:23:20-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:23:20-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:23:20-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:23:20-07:00] Loop guard prevented continuation
+[2026-05-15T14:23:35-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:23:35-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:23:35-07:00] Loop guard initialized to 1
+[2026-05-15T14:23:35-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:23:51-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:23:51-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:23:51-07:00] Loop guard incremented to 2
+[2026-05-15T14:23:51-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:23:51-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:23:51-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:23:51-07:00] Loop guard incremented to 3
+[2026-05-15T14:23:51-07:00] Blocking stop: Postflight operations pending
+[2026-05-15T14:23:52-07:00] Postflight marker found at: specs/581_port_status_script_phase3/.postflight-pending
+[2026-05-15T14:23:52-07:00] Task directory: specs/581_port_status_script_phase3
+[2026-05-15T14:23:52-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:23:52-07:00] Loop guard prevented continuation
+[2026-05-15T14:23:55-07:00] No postflight marker, allowing stop
+[2026-05-15T14:24:00-07:00] No postflight marker, allowing stop
+[2026-05-15T14:24:08-07:00] No postflight marker, allowing stop
+[2026-05-15T14:24:24-07:00] No postflight marker, allowing stop
+[2026-05-15T14:24:32-07:00] No postflight marker, allowing stop
+[2026-05-15T14:24:38-07:00] No postflight marker, allowing stop
+[2026-05-15T14:24:56-07:00] No postflight marker, allowing stop
+[2026-05-15T14:24:57-07:00] No postflight marker, allowing stop
+[2026-05-15T14:25:28-07:00] No postflight marker, allowing stop
+[2026-05-15T14:25:54-07:00] No postflight marker, allowing stop
+[2026-05-15T14:25:59-07:00] No postflight marker, allowing stop
+[2026-05-15T14:26:32-07:00] No postflight marker, allowing stop
+[2026-05-15T14:27:04-07:00] No postflight marker, allowing stop
+[2026-05-15T14:27:36-07:00] No postflight marker, allowing stop
+[2026-05-15T14:28:07-07:00] No postflight marker, allowing stop
+[2026-05-15T14:28:40-07:00] No postflight marker, allowing stop
+[2026-05-15T14:29:13-07:00] No postflight marker, allowing stop
+[2026-05-15T14:29:45-07:00] No postflight marker, allowing stop
+[2026-05-15T14:29:53-07:00] No postflight marker, allowing stop
+[2026-05-15T14:30:35-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:30:35-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:30:35-07:00] Loop guard initialized to 1
+[2026-05-15T14:30:35-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:30:49-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:30:49-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:30:49-07:00] Loop guard incremented to 2
+[2026-05-15T14:30:49-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:30:55-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:30:55-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:30:55-07:00] Loop guard incremented to 3
+[2026-05-15T14:30:55-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:30:58-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:30:58-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:30:58-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:30:58-07:00] Loop guard prevented continuation
+[2026-05-15T14:31:16-07:00] No postflight marker, allowing stop
+[2026-05-15T14:31:48-07:00] No postflight marker, allowing stop
+[2026-05-15T14:32:51-07:00] No postflight marker, allowing stop
+[2026-05-15T14:33:01-07:00] No postflight marker, allowing stop
+[2026-05-15T14:33:18-07:00] No postflight marker, allowing stop
+[2026-05-15T14:33:51-07:00] No postflight marker, allowing stop
+[2026-05-15T14:39:20-07:00] No postflight marker, allowing stop
+[2026-05-15T14:40:57-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:40:57-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:40:57-07:00] Loop guard initialized to 1
+[2026-05-15T14:40:57-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:41:03-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:41:03-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:41:03-07:00] Loop guard incremented to 2
+[2026-05-15T14:41:03-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:41:07-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:41:07-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:41:07-07:00] Loop guard incremented to 3
+[2026-05-15T14:41:07-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T14:41:10-07:00] Postflight marker found at: specs/584_research_parallel_skill_dispatch/.postflight-pending
+[2026-05-15T14:41:10-07:00] Task directory: specs/584_research_parallel_skill_dispatch
+[2026-05-15T14:41:10-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T14:41:10-07:00] Loop guard prevented continuation
+[2026-05-15T14:41:21-07:00] No postflight marker, allowing stop
+[2026-05-15T14:41:57-07:00] No postflight marker, allowing stop
+[2026-05-15T14:42:29-07:00] No postflight marker, allowing stop
