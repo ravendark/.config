@@ -150,7 +150,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Remove TTS and Signal File from update-task-status.sh [NOT STARTED]
+### Phase 3: Remove TTS and Signal File from update-task-status.sh [COMPLETED]
 
 **Goal**: Strip PHASE 5 of `update-task-status.sh` down to WezTerm tab coloring only. Remove signal file write and direct TTS invocation. TTS will now be fired by skill postflight Stage 8a via `lifecycle-notify.sh` instead.
 

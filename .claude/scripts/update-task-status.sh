@@ -356,22 +356,11 @@ fi
 update_plan_file
 
 # ============================================================
-# PHASE 5: Lifecycle notifications (postflight only)
-# Write signal file and fire direct TTS for lifecycle-aware
-# notification suppression (B+A Hybrid architecture)
+# PHASE 5: WezTerm tab coloring (postflight only)
+# Update tab color to reflect lifecycle state transition.
+# TTS is now fired by skill postflight Stage 8a via lifecycle-notify.sh.
 # ============================================================
 if [[ "$operation" == "postflight" && "$DRY_RUN" != "true" ]]; then
-  # Write lifecycle signal file so the Stop hook can detect and skip redundant TTS
-  mkdir -p "$TMP_DIR"
-  echo "$STATE_STATUS" > "$TMP_DIR/tts-lifecycle-signal"
-
-  # Fire direct lifecycle TTS in background (non-blocking)
-  # This speaks "Tab N researched/planned/completed" immediately
-  tts_script="$SCRIPT_DIR/../hooks/tts-notify.sh"
-  if [[ -x "$tts_script" ]] || [[ -f "$tts_script" ]]; then
-    bash "$tts_script" --lifecycle "$STATE_STATUS" &
-  fi
-
   # Update WezTerm tab color to reflect lifecycle state in background
   # This sets CLAUDE_STATUS user variable to the lifecycle state value
   wezterm_script="$SCRIPT_DIR/../hooks/wezterm-notify.sh"
