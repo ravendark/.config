@@ -1,7 +1,7 @@
 # Multi-Task Operations Pattern
 
 **Created**: 2026-04-02
-**Purpose**: Define how workflow commands parse multi-task arguments, dispatch parallel agents, and produce consolidated output
+**Purpose**: Define how workflow commands parse multi-task arguments, dispatch parallel skills, and produce consolidated output
 **Audience**: Command developers implementing multi-task support in /research, /plan, /implement
 
 ---

@@ -22895,3 +22895,20 @@
 [2026-05-15T15:07:37-07:00] Task directory: specs/585_rewrite_multitask_dispatch
 [2026-05-15T15:07:37-07:00] Loop guard triggered: 3 >= 3
 [2026-05-15T15:07:37-07:00] Loop guard prevented continuation
+[2026-05-15T17:33:26-07:00] Postflight marker found at: specs/585_rewrite_multitask_dispatch/.postflight-pending
+[2026-05-15T17:33:26-07:00] Task directory: specs/585_rewrite_multitask_dispatch
+[2026-05-15T17:33:26-07:00] Loop guard initialized to 1
+[2026-05-15T17:33:26-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T17:33:34-07:00] Postflight marker found at: specs/585_rewrite_multitask_dispatch/.postflight-pending
+[2026-05-15T17:33:34-07:00] Task directory: specs/585_rewrite_multitask_dispatch
+[2026-05-15T17:33:34-07:00] Loop guard incremented to 2
+[2026-05-15T17:33:34-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T17:33:40-07:00] Postflight marker found at: specs/585_rewrite_multitask_dispatch/.postflight-pending
+[2026-05-15T17:33:40-07:00] Task directory: specs/585_rewrite_multitask_dispatch
+[2026-05-15T17:33:40-07:00] Loop guard incremented to 3
+[2026-05-15T17:33:40-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-15T17:33:45-07:00] Postflight marker found at: specs/585_rewrite_multitask_dispatch/.postflight-pending
+[2026-05-15T17:33:45-07:00] Task directory: specs/585_rewrite_multitask_dispatch
+[2026-05-15T17:33:45-07:00] Loop guard triggered: 3 >= 3
+[2026-05-15T17:33:45-07:00] Loop guard prevented continuation
+[2026-05-15T17:33:50-07:00] No postflight marker, allowing stop

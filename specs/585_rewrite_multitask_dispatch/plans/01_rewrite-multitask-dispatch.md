@@ -1,7 +1,7 @@
 # Implementation Plan: Rewrite Multi-Task Dispatch
 
 - **Task**: 585 - rewrite_multitask_dispatch
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 0.5 hours
 - **Dependencies**: Task 584 (research_parallel_skill_dispatch) - COMPLETED
 - **Research Inputs**: specs/585_rewrite_multitask_dispatch/reports/01_rewrite-multitask-dispatch.md
@@ -64,14 +64,14 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Terminology Cleanup and Sync [NOT STARTED]
+### Phase 1: Terminology Cleanup and Sync [COMPLETED]
 
 **Goal**: Fix the remaining stale "dispatch parallel agents" wording in multi-task-operations.md and sync to canonical copy.
 
 **Tasks**:
-- [ ] Edit `.claude/context/patterns/multi-task-operations.md` line 4: change "dispatch parallel agents" to "dispatch parallel skills"
-- [ ] Edit `.claude/extensions/core/context/patterns/multi-task-operations.md` line 4: apply the same change to the canonical copy
-- [ ] Verify both files are still otherwise identical after the edit
+- [x] Edit `.claude/context/patterns/multi-task-operations.md` line 4: change "dispatch parallel agents" to "dispatch parallel skills" *(completed)*
+- [x] Edit `.claude/extensions/core/context/patterns/multi-task-operations.md` line 4: apply the same change to the canonical copy *(completed)*
+- [x] Verify both files are still otherwise identical after the edit *(completed: diff returns empty)*
 
 **Timing**: 15 minutes
 

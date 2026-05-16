@@ -21,7 +21,7 @@ next_project_number: 586
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
-585 [PLANNED] — Rewrite multi-task dispatch in /research, /plan, and /implement t
+585 [IMPLEMENTING] — Rewrite multi-task dispatch in /research, /plan, and /implement t
 
 ## Tasks
 
@@ -40,7 +40,7 @@ next_project_number: 586
 
 ### 585. Rewrite multi-task dispatch to use parallel Skill invocation
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: Task #584
 - **Research**: [585_rewrite_multitask_dispatch/reports/01_rewrite-multitask-dispatch.md]
