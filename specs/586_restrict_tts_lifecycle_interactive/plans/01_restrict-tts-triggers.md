@@ -237,7 +237,7 @@ Non-blocking: called in background after artifacts are linked. Speaks "Tab N STA
 
 ---
 
-### Phase 5: Update Documentation [NOT STARTED]
+### Phase 5: Update Documentation [COMPLETED]
 
 **Goal**: Update the 3 copies of `tts-stt-integration.md` to reflect the new lifecycle + interactive-only TTS model. Remove B+A Hybrid architecture description, remove idle_prompt from event tables, document the new `lifecycle-notify.sh` wrapper and skill Stage 8a pattern.
 

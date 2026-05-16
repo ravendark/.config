@@ -92,15 +92,12 @@ mv vosk-model-small-en-us-0.15 vosk-model-small-en-us
 
 ### How It Works
 
-Claude Code triggers `tts-notify.sh` via hooks when:
+TTS fires in two categories:
 
-1. **Stop Event**: Claude finishes responding - announces "Tab N"
-2. **Notification Events** (input-needed): `permission_prompt`, `idle_prompt`, `elicitation_dialog` - announces "Tab N"
+1. **Lifecycle transitions**: After a task status transition (researched, planned, completed), a skill's postflight Stage 8a calls `lifecycle-notify.sh`, which speaks "Tab N STATUS" (e.g., "Tab 3 researched").
+2. **Interactive prompts**: `permission_prompt` and `elicitation_dialog` Notification hook events trigger `tts-notify.sh` with no args, which speaks "Tab N" to alert the user that input is needed.
 
-The script:
-1. Checks a 10-second cooldown to prevent notification spam
-2. Detects the WezTerm tab number via `wezterm cli list`
-3. Speaks "Tab N" using Piper TTS
+The Stop hook no longer triggers TTS. This eliminates the "Tab N" announcement on every Claude turn.
 
 ### Hook Configuration
 
@@ -109,20 +106,9 @@ The hooks are configured in `.claude/settings.json`:
 ```json
 {
   "hooks": {
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash .claude/hooks/tts-notify.sh 2>/dev/null || echo '{}'"
-          }
-        ]
-      }
-    ],
     "Notification": [
       {
-        "matcher": "permission_prompt|idle_prompt|elicitation_dialog",
+        "matcher": "permission_prompt|elicitation_dialog",
         "hooks": [
           {
             "type": "command",
@@ -135,12 +121,13 @@ The hooks are configured in `.claude/settings.json`:
 }
 ```
 
+Lifecycle TTS is fired by skills via `lifecycle-notify.sh` (see Stage 8a pattern below).
+
 ### Environment Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PIPER_MODEL` | `~/.local/share/piper/en_US-lessac-medium.onnx` | Path to Piper voice model |
-| `TTS_COOLDOWN` | `10` | Seconds between notifications |
 | `TTS_ENABLED` | `1` | Set to `0` to disable notifications |
 
 ### Examples
@@ -151,96 +138,68 @@ export TTS_ENABLED=0
 
 # Use a different voice
 export PIPER_MODEL=~/.local/share/piper/en_GB-alba-medium.onnx
-
-# Reduce cooldown to 5 seconds
-export TTS_COOLDOWN=5
 ```
 
 ### Notification Event Types
 
 | Event | Trigger | Message |
 |-------|---------|---------|
-| Stop | Claude finishes responding | "Tab N" |
-| Stop (lifecycle suppressed) | Claude finishes after postflight | (silent -- lifecycle TTS already fired) |
-| Lifecycle (postflight) | Task status transition completes | "Tab N researched/planned/completed" |
+| Lifecycle (skill postflight) | Task status transition completes | "Tab N researched/planned/completed" |
 | permission_prompt | Claude needs tool permission | "Tab N" |
-| idle_prompt | Claude is waiting for user input | "Tab N" |
 | elicitation_dialog | Claude asks a clarifying question | "Tab N" |
 
-### Lifecycle-Aware TTS (B+A Hybrid Architecture)
+### Lifecycle TTS Architecture
 
-Multi-step agent workflows (e.g., `/research`, `/plan`, `/implement`) cause multiple Stop events, each triggering "Tab N" TTS. The B+A Hybrid architecture eliminates this spam while preserving notifications for non-workflow stops.
-
-#### Architecture Overview
-
-The system uses two complementary layers:
-
-1. **Layer B (Direct Invocation)**: After a successful postflight status transition (e.g., researching -> researched), `update-task-status.sh` calls `tts-notify.sh --lifecycle STATUS` directly. This speaks a lifecycle-contextual message like "Tab 3 researched" immediately.
-
-2. **Layer A (Signal File)**: Simultaneously, `update-task-status.sh` writes a signal file to `specs/tmp/tts-lifecycle-signal`. When the subsequent Stop hook fires, `tts-notify.sh` checks for this signal file. If present and fresh (<60 seconds old), it consumes the file and skips the redundant "Tab N" TTS.
+Skill postflight stages call `lifecycle-notify.sh` after artifact linking (Stage 8a):
 
 ```
-Postflight Success
-    |
-    +-- write signal file: specs/tmp/tts-lifecycle-signal
-    |
-    +-- call tts-notify.sh --lifecycle "researched"   (speaks "Tab 3 researched")
-    |
-    +-- call wezterm-notify.sh "researched"            (colors tab green)
+Skill Postflight (Stage 8: Link Artifacts)
     |
     v
-Stop Hook fires
+Stage 8a: Lifecycle TTS Notification
     |
-    +-- tts-notify.sh reads signal file
-    |
-    +-- signal file present + fresh? -> consume + SKIP TTS
-    |
-    +-- signal file absent?          -> speak "Tab N" normally
+    +-- bash .claude/scripts/lifecycle-notify.sh "$STATE_STATUS" &
+            |
+            +-- tts-notify.sh --lifecycle "$STATUS"   (speaks "Tab N STATUS")
+            |
+            +-- wezterm-notify.sh "$STATUS"            (colors tab for lifecycle state)
 ```
 
-#### The --lifecycle Flag
+#### The lifecycle-notify.sh Wrapper
+
+Located at `.claude/scripts/lifecycle-notify.sh`, this script wraps both TTS and WezTerm calls:
 
 ```bash
-# Called by postflight scripts (not by hooks directly)
-bash .claude/hooks/tts-notify.sh --lifecycle researched   # "Tab 3 researched"
-bash .claude/hooks/tts-notify.sh --lifecycle planned       # "Tab 3 planned"
-bash .claude/hooks/tts-notify.sh --lifecycle completed     # "Tab 3 completed"
+# Usage: bash lifecycle-notify.sh STATUS
+# STATUS: researched | planned | completed | partial | blocked
 ```
 
-When `--lifecycle STATUS` is passed:
+Skills invoke it in Stage 8a:
+
+```bash
+lifecycle_script=".claude/scripts/lifecycle-notify.sh"
+if [ -f "$lifecycle_script" ]; then
+    bash "$lifecycle_script" "$STATE_STATUS" &
+fi
+```
+
+#### The --lifecycle Flag in tts-notify.sh
+
+When called with `--lifecycle STATUS`:
 - Speaks "Tab N STATUS" (e.g., "Tab 3 researched")
-- Bypasses the cooldown timer
-- Skips stdin JSON parsing (not called from a hook)
-- Does not write or check the signal file
+- Non-blocking background invocation
+- No cooldown or signal file mechanism
 
-#### Signal File Mechanism
-
-| File | Purpose |
-|------|---------|
-| `specs/tmp/tts-lifecycle-signal` | Contains the lifecycle status value (e.g., "researched") |
-
-**Lifecycle**:
-1. Written by `update-task-status.sh` after postflight success
-2. Read and consumed by `tts-notify.sh` during Stop hook
-3. Stale files (>60 seconds old) are deleted and ignored
-4. Non-workflow stops (no signal file) trigger normal "Tab N" TTS
-
-#### Troubleshooting Lifecycle TTS
-
-**Double TTS (both lifecycle and Stop hook)**:
-- Check signal file was written: `cat specs/tmp/tts-lifecycle-signal`
-- Verify file age: `stat -c %Y specs/tmp/tts-lifecycle-signal`
-- Check log: `grep "signal" specs/tmp/claude-tts-notify.log`
-
-**No lifecycle TTS fires**:
-- Verify `update-task-status.sh` postflight path runs: check exit code
-- Check tts-notify.sh is executable: `ls -la .claude/hooks/tts-notify.sh`
-
-**Stale signal file blocks normal TTS**:
-- Signal files older than 60 seconds are automatically cleaned up
-- Manual cleanup: `rm -f specs/tmp/tts-lifecycle-signal`
+When called with no args (Notification hook):
+- Speaks "Tab N" immediately
+- For permission_prompt and elicitation_dialog only
 
 ### Troubleshooting
+
+**No lifecycle TTS fires**:
+- Check that the skill's Stage 8a runs: grep "lifecycle-notify" in skill SKILL.md files
+- Verify `lifecycle-notify.sh` is executable: `ls -la .claude/scripts/lifecycle-notify.sh`
+- Check log: `cat specs/tmp/claude-tts-notify.log`
 
 **No sound plays**:
 - Check that `piper` is installed: `which piper`
@@ -251,10 +210,6 @@ When `--lifecycle STATUS` is passed:
 - Ensure WezTerm is the terminal emulator
 - Check `WEZTERM_PANE` is set: `echo $WEZTERM_PANE`
 - Test CLI: `wezterm cli list --format=json`
-
-**Notifications too frequent/infrequent**:
-- Adjust `TTS_COOLDOWN` environment variable
-- Check `specs/tmp/claude-tts-last-notify` timestamp
 
 **View logs**:
 ```bash
@@ -356,7 +311,7 @@ require('neotex.plugins.tools.stt').setup({
 1. Open multiple WezTerm tabs with Claude Code sessions
 2. Start a long-running task (e.g., `/implement` or code review)
 3. Switch to another tab to work
-4. When Claude finishes, hear "Tab 2"
+4. When the task completes, hear "Tab 2 completed"
 5. Switch back to that tab to continue
 
 ### Using TTS for Permission Prompts
@@ -379,7 +334,7 @@ require('neotex.plugins.tools.stt').setup({
 1. In WezTerm Tab 1: Ask Claude to review code
 2. Switch to WezTerm Tab 2: Open Neovim
 3. Use STT to dictate documentation or comments
-4. When you hear "Tab 1", switch back
+4. When you hear "Tab 1 researched", switch back
 5. Continue working with Claude's response
 
 ## Technical Details
@@ -397,12 +352,12 @@ This format is optimal for speech recognition and keeps file sizes small.
 
 | File | Purpose |
 |------|---------|
-| `.claude/hooks/tts-notify.sh` | Claude Code TTS hook |
+| `.claude/hooks/tts-notify.sh` | Claude Code TTS hook (lifecycle + interactive) |
+| `.claude/scripts/lifecycle-notify.sh` | Lifecycle TTS + WezTerm wrapper (called by skills) |
 | `~/.config/nvim/lua/neotex/plugins/tools/stt/init.lua` | Neovim STT plugin |
 | `~/.config/nvim/lua/neotex/plugins/tools/stt-plugin.lua` | Lazy.nvim plugin spec |
 | `~/.config/nvim/lua/neotex/plugins/editor/which-key.lua` | Keybinding configuration |
 | `~/.local/bin/vosk-transcribe.py` | Vosk transcription script |
-| `specs/tmp/claude-tts-last-notify` | Cooldown timestamp |
 | `specs/tmp/claude-tts-notify.log` | TTS notification log |
 | `specs/tmp/nvim-stt-recording.wav` | Temporary recording file |
 
@@ -419,9 +374,10 @@ Total disk usage: ~95 MB for both features.
 
 ### Remove TTS Notifications
 
-1. Edit `.claude/settings.json`, remove TTS hook entries from Stop and Notification hooks
-2. Delete `.claude/hooks/tts-notify.sh`
-3. Optionally delete `~/.local/share/piper/` to remove voice models
+1. Edit `.claude/settings.json`, remove TTS hook entries from Notification hook
+2. Delete `.claude/hooks/tts-notify.sh` and `.claude/scripts/lifecycle-notify.sh`
+3. Remove Stage 8a blocks from skill SKILL.md files
+4. Optionally delete `~/.local/share/piper/` to remove voice models
 
 ### Remove STT Plugin
 
