@@ -104,7 +104,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Simplify tts-notify.sh and Create lifecycle-notify.sh [NOT STARTED]
+### Phase 2: Simplify tts-notify.sh and Create lifecycle-notify.sh [COMPLETED]
 
 **Goal**: Rewrite `tts-notify.sh` to remove the entire normal mode section (lines 140-274), remove the B+A Hybrid signal file mechanism, remove cooldown logic, and keep lifecycle mode + a minimal no-arg interactive prompt path. Create the new `lifecycle-notify.sh` wrapper script. Sync all 4 copies to the simplified version.
 
