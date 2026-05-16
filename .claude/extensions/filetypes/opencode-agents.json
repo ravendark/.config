@@ -6,11 +6,8 @@
       "prompt": "{file:.opencode/agent/subagents/filetypes-router-agent.md}",
       "tools": {
         "read": true,
-        "write": true,
-        "edit": true,
-        "glob": true,
         "grep": true,
-        "bash": true
+        "glob": true
       }
     },
     "document": {
@@ -26,10 +23,10 @@
         "bash": true
       }
     },
-    "spreadsheet": {
-      "description": "Convert and process spreadsheet files (XLSX, CSV, etc.)",
+    "filetypes-spreadsheet": {
+      "description": "Convert spreadsheets to LaTeX/Typst tables",
       "mode": "subagent",
-      "prompt": "{file:.opencode/agent/subagents/spreadsheet-agent.md}",
+      "prompt": "{file:.opencode/agent/subagents/filetypes-spreadsheet-agent.md}",
       "tools": {
         "read": true,
         "write": true,
@@ -40,7 +37,7 @@
       }
     },
     "presentation": {
-      "description": "Convert and process presentation files (PPTX, etc.)",
+      "description": "Extract presentations and generate slide decks",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/subagents/presentation-agent.md}",
       "tools": {
@@ -52,7 +49,35 @@
         "bash": true
       }
     },
-    "xlsx": {
+    "scrape": {
+      "description": "Web scraping and content extraction",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/scrape-agent.md}",
+      "tools": {
+        "read": true,
+        "write": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "bash": true,
+        "webfetch": true,
+        "websearch": true
+      }
+    },
+    "docx-edit": {
+      "description": "In-place DOCX document editing and manipulation",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/docx-edit-agent.md}",
+      "tools": {
+        "read": true,
+        "write": true,
+        "edit": true,
+        "glob": true,
+        "grep": true,
+        "bash": true
+      }
+    },
+    "sheet": {
       "description": "XLSX creation, editing, and analysis using openpyxl and pandas",
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/subagents/sheet-agent.md}",

@@ -1,7 +1,7 @@
 # Implementation Plan: Restrict TTS to Lifecycle and Interactive Prompts
 
 - **Task**: 586 - Restrict TTS announcements to lifecycle transitions and interactive prompts
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 4 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/586_restrict_tts_lifecycle_interactive/reports/01_restrict-tts-triggers.md
@@ -78,7 +78,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Remove Stop Hook TTS and Modify Notification Matcher [NOT STARTED]
+### Phase 1: Remove Stop Hook TTS and Modify Notification Matcher [COMPLETED]
 
 **Goal**: Eliminate TTS from the Stop hook and remove idle_prompt from the Notification hook across all settings.json files. This is the lowest-risk, highest-impact change and must happen first to prevent double TTS when Stage 8a is later added.
 

@@ -17,7 +17,7 @@ next_project_number: 586
 
 ### Uncategorized
 
-586 [PLANNED] — restrict_tts_lifecycle_interactive
+586 [IMPLEMENTING] — restrict_tts_lifecycle_interactive
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
@@ -27,7 +27,7 @@ next_project_number: 586
 
 ### 586. Restrict TTS to lifecycle transitions and interactive prompts
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [586_restrict_tts_lifecycle_interactive/reports/01_restrict-tts-triggers.md]

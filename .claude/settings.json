@@ -99,10 +99,6 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/tts-notify.sh 2>/dev/null || echo '{}'"
-          },
-          {
-            "type": "command",
             "command": "bash .claude/hooks/wezterm-notify.sh 2>/dev/null || echo '{}'"
           },
           {
@@ -141,7 +137,7 @@
     ],
     "Notification": [
       {
-        "matcher": "permission_prompt|idle_prompt|elicitation_dialog",
+        "matcher": "permission_prompt|elicitation_dialog",
         "hooks": [
           {
             "type": "command",

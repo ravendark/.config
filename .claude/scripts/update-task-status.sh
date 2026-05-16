@@ -5,7 +5,7 @@
 #   1. state.json (status field, timestamps, session_id)
 #   2. TODO.md task entry (- **Status**: [STATUS])
 #   3. TODO.md Task Order section (**{N}** [STATUS])
-#   4. Plan file (optional, via update-plan-status.sh)
+#   4. Plan file (for implement and plan operations, via update-plan-status.sh)
 #
 # Usage:
 #   .claude/scripts/update-task-status.sh <operation> <task_number> <target_status> <session_id> [--dry-run]
@@ -304,15 +304,12 @@ update_todo_task_order() {
 # PHASE 4: Plan file status (optional, implement only)
 # ============================================================
 update_plan_file() {
-  # Only update plan file for implement operations
-  if [[ "$target_status" != "implement" ]]; then
-    return 0
-  fi
-
   local plan_status
-  case "$operation" in
-    preflight)  plan_status="IMPLEMENTING" ;;
-    postflight) plan_status="COMPLETED" ;;
+  case "${target_status}:${operation}" in
+    implement:preflight)  plan_status="IMPLEMENTING" ;;
+    implement:postflight) plan_status="COMPLETED" ;;
+    plan:postflight)      plan_status="PLANNED" ;;
+    *) return 0 ;;
   esac
 
   # Look up project_name from state.json
@@ -337,10 +334,10 @@ update_plan_file() {
     return 0
   fi
 
-  # Call existing script; non-fatal if it fails
   cd "$PROJECT_ROOT"
-  "$plan_script" "$task_number" "$project_name" "$plan_status" 2>/dev/null || {
-    echo "Warning: plan file update failed (non-fatal)" >&2
+  local plan_output
+  plan_output=$("$plan_script" "$task_number" "$project_name" "$plan_status" 2>&1) || {
+    echo "Warning: plan file update failed: $plan_output" >&2
   }
 }
 

@@ -451,9 +451,10 @@ function M.verify_extension(extension_name, extension_dir, target_dir, config)
     table.insert(verification.errors, "Index entries not merged into context/index.json")
   end
 
-  -- Verify opencode.json fragment-to-manifest consistency (non-critical warning)
-  local opencode_json_result = verify_opencode_json_merge(extension_dir, manifest)
-  if not opencode_json_result.passed then
+  -- Verify opencode.json fragment-to-manifest consistency (only when manifest declares the merge target)
+  local has_opencode_merge = manifest.merge_targets and manifest.merge_targets.opencode_json
+  local opencode_json_result = has_opencode_merge and verify_opencode_json_merge(extension_dir, manifest)
+  if opencode_json_result and not opencode_json_result.passed then
     verification.opencode_json = {
       passed = false,
       missing_from_fragment = opencode_json_result.missing_from_fragment,

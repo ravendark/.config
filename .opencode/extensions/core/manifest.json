@@ -105,6 +105,7 @@
       "wezterm-task-number.sh"
     ],
     "context": [
+      "README.md",
       "routing.md",
       "validation.md",
       "index.schema.json",
