@@ -1,7 +1,54 @@
 {
   "version": "1.0.0",
-  "next_project_number": 586,
+  "next_project_number": 587,
   "active_projects": [
+    {
+      "project_number": 586,
+      "project_name": "restrict_tts_lifecycle_interactive",
+      "status": "researched",
+      "task_type": "meta",
+      "description": "Restrict TTS announcements to lifecycle transitions (researched/planned/completed) and interactive prompts (permission_prompt/elicitation_dialog). Remove Stop hook TTS, remove idle_prompt trigger, move lifecycle TTS to fire after artifact linking, simplify tts-notify.sh by removing dead normal mode and signal file mechanism.",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-15T00:00:00Z",
+      "last_updated": "2026-05-16T05:11:50Z",
+      "session_id": "sess_1778907931_d11559",
+      "next_artifact_number": 2,
+      "memory_candidates": [
+        {
+          "content": "TTS hook tts-notify.sh has 4 copies: .claude/hooks/ (current, 275 lines with B+A Hybrid), .claude/extensions/core/hooks/ (old, 178 lines), .opencode/hooks/ (old, 178 lines), .opencode/extensions/core/hooks/ (old, 178 lines identical to opencode/hooks). When updating tts-notify.sh, all four copies must be synchronized.",
+          "category": "PATTERN",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "tts-notify",
+            "hooks",
+            "copies",
+            "sync",
+            "extension-core",
+            "opencode"
+          ]
+        },
+        {
+          "content": "skill-nix-implementation uses a divergent postflight stage format: numbered 4-8 (not Stage N: prefix), combines status update + artifact linking in stage 5 inline jq rather than calling update-task-status.sh. All other extension skills (nvim, nix-research) follow the standard Stage 1-11 format matching core skills.",
+          "category": "INSIGHT",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "skill-nix-implementation",
+            "postflight",
+            "stage-format",
+            "divergent",
+            "inline-jq"
+          ]
+        }
+      ],
+      "artifacts": [
+        {
+          "path": "specs/586_restrict_tts_lifecycle_interactive/reports/01_restrict-tts-triggers.md",
+          "type": "research",
+          "summary": "Full audit of TTS system: 3 trigger paths, 4 hook copies, 8 skills requiring Stage 8a, settings.json changes across 4 files, proposed lifecycle-notify.sh design, and complete file change table (24 files)."
+        }
+      ]
+    },
     {
       "project_number": 87,
       "project_name": "investigate_wezterm_terminal_directory_change",

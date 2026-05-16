@@ -11,18 +11,44 @@ next_project_number: 586
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501 | -- | -- |
+| 1 | 78,87,500,501,586 | -- | -- |
 
 **Grouped by Topic** (indented = must complete first):
 
 ### Uncategorized
 
+586 [RESEARCHED] — restrict_tts_lifecycle_interactive
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
 
 ## Tasks
+
+### 586. Restrict TTS to lifecycle transitions and interactive prompts
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Research**: [586_restrict_tts_lifecycle_interactive/reports/01_restrict-tts-triggers.md]
+
+**Description**: Restrict TTS announcements to two trigger categories only: (1) lifecycle transitions at deliverable boundaries (researched, planned, completed) and (2) interactive prompts requiring user input (permission_prompt, elicitation_dialog). Currently the Stop hook fires TTS on every Claude turn ("Tab N") and idle_prompt fires a 60-second inactivity reminder — both unwanted.
+
+**Changes required:**
+
+1. **`settings.json`**: Remove `tts-notify.sh` from Stop hook entries (line ~102). Change Notification matcher from `permission_prompt|idle_prompt|elicitation_dialog` to `permission_prompt|elicitation_dialog` (line ~148).
+
+2. **`update-task-status.sh`**: Remove PHASE 5 TTS trigger (line 372 `bash tts-notify.sh --lifecycle`) and signal file write (line 366 `echo "$STATE_STATUS" > tts-lifecycle-signal`). Keep WezTerm tab color notify (line 379).
+
+3. **Create `scripts/lifecycle-notify.sh`**: New script that calls `tts-notify.sh --lifecycle STATUS` and optionally `wezterm-notify.sh STATUS`. This is the single entry point for lifecycle TTS, called by skills after artifact linking.
+
+4. **`tts-notify.sh`**: Remove entire "normal mode" section (lines 140-274 — stdin parsing, cooldown, signal file check, worktree detection, generic "Tab N" message). Remove signal file mechanism (check_signal_file, consume_signal_file helpers, LIFECYCLE_SIGNAL_FILE constant). Keep only lifecycle mode (lines 97-138). Remove LAST_NOTIFY_FILE cooldown since lifecycle mode already bypasses it. Update extension core copy.
+
+5. **Skill postflight pattern**: Add "Stage 8a: Lifecycle TTS" to all delegating skills, placed AFTER Stage 8 (artifact linking) and BEFORE Stage 9 (cleanup). This ensures artifacts are already linked when TTS fires. Skills to update: skill-researcher, skill-planner, skill-implementer, skill-reviser, and extension skills (skill-neovim-research, skill-neovim-implementation, skill-nix-research, skill-nix-implementation). Stage 8a calls `scripts/lifecycle-notify.sh` with the postflight status.
+
+6. **Documentation**: Update `tts-stt-integration.md` to reflect new trigger model (lifecycle + interactive only, no Stop hook, no idle_prompt).
+
+---
 
 ### 500. Add context: fork frontmatter to core delegating skills
 - **Effort**: 1-3 hours
@@ -80,10 +106,11 @@ next_project_number: 586
 
 | Priority | Task | Status | Next Action |
 |----------|------|--------|-------------|
-| 1 | 500 | [RESEARCHED] | /plan 500 |
-| 2 | 501 | [PLANNED] | /implement 501 |
-| 3 | 87 | [RESEARCHED] | /plan 87 |
-| 4 | 78 | [PLANNED] | /implement 78 |
+| 1 | 586 | [NOT STARTED] | /research 586 |
+| 2 | 500 | [RESEARCHED] | /plan 500 |
+| 3 | 501 | [PLANNED] | /implement 501 |
+| 4 | 87 | [RESEARCHED] | /plan 87 |
+| 5 | 78 | [PLANNED] | /implement 78 |
 
 ---
 
