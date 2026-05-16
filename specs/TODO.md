@@ -11,13 +11,12 @@ next_project_number: 586
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,586 | -- | -- |
+| 1 | 78,87,500,501 | -- | -- |
 
 **Grouped by Topic** (indented = must complete first):
 
 ### Uncategorized
 
-586 [IMPLEMENTING] — restrict_tts_lifecycle_interactive
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
@@ -27,11 +26,12 @@ next_project_number: 586
 
 ### 586. Restrict TTS to lifecycle transitions and interactive prompts
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [586_restrict_tts_lifecycle_interactive/reports/01_restrict-tts-triggers.md]
 - **Plan**: [586_restrict_tts_lifecycle_interactive/plans/01_restrict-tts-triggers.md]
+- **Summary**: [586_restrict_tts_lifecycle_interactive/summaries/01_restrict-tts-triggers-summary.md]
 
 **Description**: Restrict TTS announcements to two trigger categories only: (1) lifecycle transitions at deliverable boundaries (researched, planned, completed) and (2) interactive prompts requiring user input (permission_prompt, elicitation_dialog). Currently the Stop hook fires TTS on every Claude turn ("Tab N") and idle_prompt fires a 60-second inactivity reminder — both unwanted.
 

@@ -5,13 +5,13 @@
     {
       "project_number": 586,
       "project_name": "restrict_tts_lifecycle_interactive",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "description": "Restrict TTS announcements to lifecycle transitions (researched/planned/completed) and interactive prompts (permission_prompt/elicitation_dialog). Remove Stop hook TTS, remove idle_prompt trigger, move lifecycle TTS to fire after artifact linking, simplify tts-notify.sh by removing dead normal mode and signal file mechanism.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-15T00:00:00Z",
-      "last_updated": "2026-05-16T05:20:38Z",
+      "last_updated": "2026-05-16T05:30:22Z",
       "session_id": "sess_1778908822_de63f3",
       "next_artifact_number": 2,
       "memory_candidates": [
@@ -51,6 +51,11 @@
           "path": "specs/586_restrict_tts_lifecycle_interactive/plans/01_restrict-tts-triggers.md",
           "type": "plan",
           "summary": "5-phase implementation plan to restrict TTS to lifecycle transitions and interactive prompts across 24 files"
+        },
+        {
+          "path": "specs/586_restrict_tts_lifecycle_interactive/summaries/01_restrict-tts-triggers-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: 5 phases executed across settings, hooks, scripts, 12 skills, and documentation"
         }
       ],
       "plan_metadata": {
@@ -81,7 +86,8 @@
             "integrated_date": "2026-05-15"
           }
         ]
-      }
+      },
+      "completion_summary": "Restricted TTS announcements to lifecycle transitions (via new lifecycle-notify.sh called in skill Stage 8a) and interactive prompts (permission_prompt/elicitation_dialog); removed Stop hook TTS, removed idle_prompt, simplified tts-notify.sh, and updated all documentation."
     },
     {
       "project_number": 87,

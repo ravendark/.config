@@ -1,7 +1,7 @@
 # Implementation Plan: Restrict TTS to Lifecycle and Interactive Prompts
 
 - **Task**: 586 - Restrict TTS announcements to lifecycle transitions and interactive prompts
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 4 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/586_restrict_tts_lifecycle_interactive/reports/01_restrict-tts-triggers.md
