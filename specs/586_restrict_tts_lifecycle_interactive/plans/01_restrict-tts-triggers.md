@@ -176,7 +176,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Add Stage 8a to All Delegating Skills [NOT STARTED]
+### Phase 4: Add Stage 8a to All Delegating Skills [COMPLETED]
 
 **Goal**: Insert a "Stage 8a: Lifecycle TTS Notification" section into all delegating skill SKILL.md files, placed between artifact linking (Stage 8) and the next stage (git commit or cleanup). This enables lifecycle TTS to fire after artifacts are linked and status is updated.
 

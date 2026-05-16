@@ -310,6 +310,20 @@ fi
 
 **On failed**: Do NOT run postflight. Keep status as "implementing" for retry. Do not update plan file (leave as `[IMPLEMENTING]` for retry).
 
+### 5a. Lifecycle TTS Notification
+
+Fire TTS and WezTerm tab coloring after status update and artifact linking is complete:
+
+```bash
+lifecycle_script=".claude/scripts/lifecycle-notify.sh"
+if [ -f "$lifecycle_script" ]; then
+    bash "$lifecycle_script" "completed" &
+fi
+```
+
+Non-blocking: called in background after status is updated. Speaks "Tab N completed"
+to announce the lifecycle transition. Only fires when result.status == "implemented".
+
 ### 6. Git Commit
 
 Commit changes with session ID:

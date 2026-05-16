@@ -278,6 +278,22 @@ Add implementation artifacts to state.json.
 
 ---
 
+### Stage 8a: Lifecycle TTS Notification
+
+Fire TTS and WezTerm tab coloring after artifact linking is complete:
+
+```bash
+lifecycle_script=".claude/scripts/lifecycle-notify.sh"
+if [ -f "$lifecycle_script" ]; then
+    bash "$lifecycle_script" "$STATE_STATUS" &
+fi
+```
+
+Non-blocking: called in background after artifacts are linked. Speaks "Tab N STATUS"
+(e.g., "Tab 3 completed") to announce the lifecycle transition.
+
+---
+
 ### Stage 9: Git Commit
 
 ```bash
