@@ -1,7 +1,7 @@
 # Implementation Plan: Rewrite Multi-Task Dispatch
 
 - **Task**: 585 - rewrite_multitask_dispatch
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 0.5 hours
 - **Dependencies**: Task 584 (research_parallel_skill_dispatch) - COMPLETED
 - **Research Inputs**: specs/585_rewrite_multitask_dispatch/reports/01_rewrite-multitask-dispatch.md

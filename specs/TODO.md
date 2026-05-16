@@ -6,12 +6,12 @@ next_project_number: 586
 
 ## Task Order
 
-*Updated 2026-05-15. Generated from state.json dependency graph.*
+*Updated 2026-05-16. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,585 | -- | -- |
+| 1 | 78,87,500,501 | -- | -- |
 
 **Grouped by Topic** (indented = must complete first):
 
@@ -21,7 +21,6 @@ next_project_number: 586
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
-585 [IMPLEMENTING] — Rewrite multi-task dispatch in /research, /plan, and /implement t
 
 ## Tasks
 
@@ -40,11 +39,12 @@ next_project_number: 586
 
 ### 585. Rewrite multi-task dispatch to use parallel Skill invocation
 - **Effort**: 2-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #584
 - **Research**: [585_rewrite_multitask_dispatch/reports/01_rewrite-multitask-dispatch.md]
 - **Plan**: [585_rewrite_multitask_dispatch/plans/01_rewrite-multitask-dispatch.md]
+- **Summary**: [585_rewrite_multitask_dispatch/summaries/01_rewrite-multitask-dispatch-summary.md]
 
 **Description**: Rewrite multi-task dispatch in /research, /plan, and /implement to invoke skills directly (parallel Skill tool calls) instead of wrapping each task in a dispatch Agent. Update multi-task-operations.md Section 6 architecture, update MULTI-TASK DISPATCH Step 3 in all three command files, and update any related docs referencing the dispatch pattern. This eliminates the 3-level nesting (orchestrator -> dispatch agent -> skill -> research agent) that causes timeouts, reducing to 2 levels (orchestrator -> skill -> agent). See `.claude/output/implement.md` for a real-world example of the timeout failure from ProofChecker `/implement 153,154` where both dispatch agents returned prematurely before inner skill/agent chains finished.
 
