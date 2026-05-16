@@ -5,14 +5,14 @@
     {
       "project_number": 586,
       "project_name": "restrict_tts_lifecycle_interactive",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "description": "Restrict TTS announcements to lifecycle transitions (researched/planned/completed) and interactive prompts (permission_prompt/elicitation_dialog). Remove Stop hook TTS, remove idle_prompt trigger, move lifecycle TTS to fire after artifact linking, simplify tts-notify.sh by removing dead normal mode and signal file mechanism.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-15T00:00:00Z",
-      "last_updated": "2026-05-16T05:11:50Z",
-      "session_id": "sess_1778907931_d11559",
+      "last_updated": "2026-05-16T05:19:20Z",
+      "session_id": "sess_1778908506_3900c8",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -46,8 +46,42 @@
           "path": "specs/586_restrict_tts_lifecycle_interactive/reports/01_restrict-tts-triggers.md",
           "type": "research",
           "summary": "Full audit of TTS system: 3 trigger paths, 4 hook copies, 8 skills requiring Stage 8a, settings.json changes across 4 files, proposed lifecycle-notify.sh design, and complete file change table (24 files)."
+        },
+        {
+          "path": "specs/586_restrict_tts_lifecycle_interactive/plans/01_restrict-tts-triggers.md",
+          "type": "plan",
+          "summary": "5-phase implementation plan to restrict TTS to lifecycle transitions and interactive prompts across 24 files"
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 5,
+        "total_effort_hours": 4,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_restrict-tts-triggers.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-15"
+          }
+        ]
+      }
     },
     {
       "project_number": 87,
