@@ -110,6 +110,32 @@ function M.setup()
     end,
   })
 
+  -- Post-sleep rendering recovery. Only runs after prolonged absence (>5s),
+  -- not on brief focus changes (e.g., wl-copy stealing Wayland focus).
+  local focus_lost_at = 0
+  api.nvim_create_autocmd("FocusLost", {
+    pattern = "*",
+    callback = function()
+      focus_lost_at = vim.uv.now()
+    end,
+  })
+  api.nvim_create_autocmd({ "FocusGained", "VimResume" }, {
+    pattern = "*",
+    callback = function()
+      local gap = vim.uv.now() - focus_lost_at
+      if focus_lost_at > 0 and gap >= 5000 then
+        vim.cmd("mode")
+        vim.cmd("redraw!")
+        local bufnr = api.nvim_get_current_buf()
+        local ok, parser = pcall(vim.treesitter.get_parser, bufnr)
+        if ok and parser then
+          parser:invalidate(true)
+          pcall(function() parser:parse() end)
+        end
+      end
+    end,
+  })
+
   -- WezTerm OSC 7 integration for tab title updates
   -- Only runs when inside WezTerm (checked via WEZTERM_PANE env var)
   if vim.env.WEZTERM_PANE then

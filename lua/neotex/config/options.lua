@@ -18,6 +18,29 @@ function M.setup()
   vim.g.loaded_netrwFileHandlers = 1  -- Disable netrw file handlers
   vim.g.loaded_spellfile_plugin = 1  -- Disable spellfile plugin
   
+  -- Set clipboard provider BEFORE clipboard=unnamedplus to prevent Neovim
+  -- from caching the default wl-copy provider (which steals Wayland focus
+  -- on GNOME, causing title bar flicker -- see Neovim #12622, wl-clipboard #90).
+  -- OSC 52 writes through the terminal escape sequence (no external process).
+  -- Paste reads from Neovim's internal register (no wl-paste timeout risk).
+  if vim.env.WAYLAND_DISPLAY then
+    vim.g.clipboard = {
+      name = "osc52",
+      copy = {
+        ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+        ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+      },
+      paste = {
+        ["+"] = function()
+          return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+        end,
+        ["*"] = function()
+          return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+        end,
+      },
+    }
+  end
+
   local options = {
     -- GENERAL
     timeoutlen = 100,               -- time to wait for a mapped sequence to complete (in milliseconds)
@@ -152,7 +175,7 @@ function M.setup()
   
   -- Performance optimizations
   -- Reduce the frequency of status line updates
-  vim.opt.lazyredraw = true
+  -- lazyredraw removed: causes visual blinking on yank (Neovim #2253, #11806)
   
   -- Set higher CursorHold time to reduce CPU usage
   vim.opt.updatetime = 300

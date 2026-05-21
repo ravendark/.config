@@ -68,7 +68,7 @@ return {
 
       -- System clipboard integration
       system_clipboard = {
-        sync_with_ring = true,
+        sync_with_ring = false,
       },
 
       -- Highlighting settings - reduced duration for better performance
