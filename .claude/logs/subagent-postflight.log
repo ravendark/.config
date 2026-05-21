@@ -23018,3 +23018,23 @@
 [2026-05-19T17:20:08-07:00] No postflight marker, allowing stop
 [2026-05-19T17:20:56-07:00] No postflight marker, allowing stop
 [2026-05-19T17:21:11-07:00] No postflight marker, allowing stop
+[2026-05-21T12:06:14-07:00] Postflight marker found at: specs/587_fix_neovim_rendering_after_sleep_wezterm/.postflight-pending
+[2026-05-21T12:06:14-07:00] Task directory: specs/587_fix_neovim_rendering_after_sleep_wezterm
+[2026-05-21T12:06:14-07:00] Loop guard initialized to 1
+[2026-05-21T12:06:14-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-21T12:07:06-07:00] Postflight marker found at: specs/587_fix_neovim_rendering_after_sleep_wezterm/.postflight-pending
+[2026-05-21T12:07:06-07:00] Task directory: specs/587_fix_neovim_rendering_after_sleep_wezterm
+[2026-05-21T12:07:06-07:00] Loop guard incremented to 2
+[2026-05-21T12:07:06-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-21T12:07:34-07:00] Postflight marker found at: specs/587_fix_neovim_rendering_after_sleep_wezterm/.postflight-pending
+[2026-05-21T12:07:34-07:00] Task directory: specs/587_fix_neovim_rendering_after_sleep_wezterm
+[2026-05-21T12:07:34-07:00] Loop guard incremented to 3
+[2026-05-21T12:07:34-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-21T12:07:46-07:00] Postflight marker found at: specs/587_fix_neovim_rendering_after_sleep_wezterm/.postflight-pending
+[2026-05-21T12:07:46-07:00] Task directory: specs/587_fix_neovim_rendering_after_sleep_wezterm
+[2026-05-21T12:07:46-07:00] Loop guard triggered: 3 >= 3
+[2026-05-21T12:07:46-07:00] Loop guard prevented continuation
+[2026-05-21T12:08:17-07:00] No postflight marker, allowing stop
+[2026-05-21T12:08:48-07:00] No postflight marker, allowing stop
+[2026-05-21T12:09:21-07:00] No postflight marker, allowing stop
+[2026-05-21T12:09:27-07:00] No postflight marker, allowing stop

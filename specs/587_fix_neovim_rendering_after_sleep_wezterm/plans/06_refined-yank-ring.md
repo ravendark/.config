@@ -1,7 +1,7 @@
 # Implementation Plan: Task #587
 
 - **Task**: 587 - Fix Neovim rendering corruption after system sleep in WezTerm
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None (three prerequisite fixes already committed)
 - **Research Inputs**: reports/06_refined-yank-design.md

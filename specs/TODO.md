@@ -11,13 +11,9 @@ next_project_number: 588
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,587 | -- | neovim-plugins |
+| 1 | 78,87,500,501 | -- | -- |
 
 **Grouped by Topic** (indented = must complete first):
-
-### Neovim Plugins
-
-587 [PLANNED] — Fix Neovim rendering corruption after system sleep in WezTerm. Pr
 
 ### Uncategorized
 
@@ -30,7 +26,7 @@ next_project_number: 588
 
 ### 587. Fix Neovim rendering corruption after system sleep in WezTerm
 - **Effort**: 4-6 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: neovim
 - **Dependencies**: None
 - **Research**:
@@ -41,6 +37,9 @@ next_project_number: 588
   - [587_fix_neovim_rendering_after_sleep_wezterm/reports/05_team-research.md]
   - [587_fix_neovim_rendering_after_sleep_wezterm/reports/06_refined-yank-design.md]
 - **Plan**: [587_fix_neovim_rendering_after_sleep_wezterm/plans/06_refined-yank-ring.md]
+- **Summary**: [587_fix_neovim_rendering_after_sleep_wezterm/summaries/06_refined-yank-ring-summary.md]
+
+**Summary**: Replaced yanky.nvim with custom 4-module yank ring: ring.lua (circular buffer), highlight.lua (vim.hl.on_yank wrapper), telescope.lua (history picker), init.lua (entry point). Removed all yanky.nvim dependencies from telescope.lua, which-key.lua, and tools/init.lua. Deleted yanky.lua.
 
 **Description**: Fix Neovim rendering corruption after system sleep in WezTerm. Primary root cause: yanky.nvim system_clipboard.sync_with_ring = true triggers a blocking wl-paste call via FocusGained on wake. On Wayland/GNOME, wl-paste can hang indefinitely when the compositor clipboard state is stale after sleep, freezing the entire Neovim TUI. Solution: replace yanky.nvim with a custom yank ring module (~460 LOC across 6 modules under lua/neotex/yank/) that uses vim.system() with a 2-second timeout for all clipboard reads. Includes post-sleep rendering recovery autocommands (mode, redraw!, treesitter invalidation). Research completed in dotfiles task 59 -- 3 research reports copied over.
 

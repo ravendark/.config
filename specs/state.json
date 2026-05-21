@@ -5,14 +5,14 @@
     {
       "project_number": 587,
       "project_name": "fix_neovim_rendering_after_sleep_wezterm",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "topic": "neovim-plugins",
       "description": "Fix Neovim rendering corruption after system sleep in WezTerm. Primary root cause: yanky.nvim system_clipboard.sync_with_ring = true triggers a blocking wl-paste call via FocusGained on wake. On Wayland/GNOME, wl-paste can hang indefinitely when the compositor clipboard state is stale after sleep, freezing the entire Neovim TUI. Solution: replace yanky.nvim with a custom yank ring module (~460 LOC across 6 modules under lua/neotex/yank/) that uses vim.system() with a 2-second timeout for all clipboard reads. Includes post-sleep rendering recovery autocommands (mode, redraw!, treesitter invalidation). Research completed in dotfiles task 59 -- 3 research reports copied over.",
       "effort": "4-6 hours",
       "dependencies": [],
       "created": "2026-05-21T17:13:22Z",
-      "last_updated": "2026-05-21T18:41:44Z",
+      "last_updated": "2026-05-21T19:09:37Z",
       "next_artifact_number": 7,
       "artifacts": [
         {
@@ -54,9 +54,15 @@
           "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/plans/06_refined-yank-ring.md",
           "type": "plan",
           "summary": "Refined 3-phase plan: core modules, plugin spec wiring, reference cleanup. 2 hours estimated."
+        },
+        {
+          "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/summaries/06_refined-yank-ring-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: 3 phases, yanky.nvim replaced with custom yank ring"
         }
       ],
-      "session_id": "sess_1779388714_abc501"
+      "session_id": "sess_1779390252_211041",
+      "completion_summary": "Replaced yanky.nvim with custom 4-module yank ring: ring.lua (circular buffer), highlight.lua (vim.hl.on_yank wrapper), telescope.lua (history picker), init.lua (entry point). Removed all yanky.nvim dependencies from telescope.lua, which-key.lua, and tools/init.lua. Deleted yanky.lua."
     },
     {
       "project_number": 586,
