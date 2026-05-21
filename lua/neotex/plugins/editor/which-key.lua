@@ -231,7 +231,8 @@ return {
     _G.CloseOtherBuffers = function()
       local current = vim.api.nvim_get_current_buf()
       for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if buf ~= current and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
+        if buf ~= current and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted
+          and vim.bo[buf].buftype == "" then
           vim.api.nvim_buf_delete(buf, { force = false })
         end
       end

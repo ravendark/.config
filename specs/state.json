@@ -5,14 +5,14 @@
     {
       "project_number": 587,
       "project_name": "fix_neovim_rendering_after_sleep_wezterm",
-      "status": "researched",
+      "status": "planned",
       "task_type": "neovim",
       "topic": "neovim-plugins",
       "description": "Fix Neovim rendering corruption after system sleep in WezTerm. Primary root cause: yanky.nvim system_clipboard.sync_with_ring = true triggers a blocking wl-paste call via FocusGained on wake. On Wayland/GNOME, wl-paste can hang indefinitely when the compositor clipboard state is stale after sleep, freezing the entire Neovim TUI. Solution: replace yanky.nvim with a custom yank ring module (~460 LOC across 6 modules under lua/neotex/yank/) that uses vim.system() with a 2-second timeout for all clipboard reads. Includes post-sleep rendering recovery autocommands (mode, redraw!, treesitter invalidation). Research completed in dotfiles task 59 -- 3 research reports copied over.",
       "effort": "4-6 hours",
       "dependencies": [],
       "created": "2026-05-21T17:13:22Z",
-      "last_updated": "2026-05-21T17:14:15Z",
+      "last_updated": "2026-05-21T17:21:28Z",
       "next_artifact_number": 4,
       "artifacts": [
         {
@@ -29,8 +29,53 @@
           "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/reports/03_custom-yank-design.md",
           "type": "research",
           "summary": "Complete custom yank ring architecture: 6 modules under lua/neotex/yank/ (~460 LOC), production-quality code sketches, plugin spec, and file change list."
+        },
+        {
+          "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/plans/03_custom-yank-ring.md",
+          "type": "plan",
+          "summary": "5-phase plan: create core modules (ring, clipboard, highlight, recovery), telescope picker + init, plugin spec + remove yanky, update references, integration testing. 4 hours estimated."
         }
-      ]
+      ],
+      "session_id": "sess_1779383845_8a7331",
+      "plan_metadata": {
+        "phases": 5,
+        "total_effort_hours": 4,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ],
+          [
+            5
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_neovim-sleep-rendering.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-21"
+          },
+          {
+            "path": "reports/02_yanky-alternatives.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-21"
+          },
+          {
+            "path": "reports/03_custom-yank-design.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-21"
+          }
+        ]
+      }
     },
     {
       "project_number": 586,

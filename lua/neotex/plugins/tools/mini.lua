@@ -75,6 +75,7 @@ return {
 
     -- Configure highlighting
     vim.api.nvim_set_hl(0, 'MiniCursorword', { link = 'Pmenu' })
+    vim.api.nvim_set_hl(0, 'MiniCursorwordCurrent', { bg = '#5a3a1a', underline = false })
 
     -- Toggle function
     _G.LocalHighlightToggle = function()
