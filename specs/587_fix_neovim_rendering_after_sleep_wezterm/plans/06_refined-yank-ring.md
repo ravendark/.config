@@ -1,7 +1,7 @@
 # Implementation Plan: Task #587
 
 - **Task**: 587 - Fix Neovim rendering corruption after system sleep in WezTerm
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2 hours
 - **Dependencies**: None (three prerequisite fixes already committed)
 - **Research Inputs**: reports/06_refined-yank-design.md
@@ -75,16 +75,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Create core yank modules [NOT STARTED]
+### Phase 1: Create core yank modules [COMPLETED]
 
 **Goal**: Create the 4 modules under `lua/neotex/yank/` that form the custom yank ring implementation.
 
 **Tasks**:
-- [ ] Create directory `lua/neotex/yank/`
-- [ ] Create `lua/neotex/yank/ring.lua` (~65 LOC) -- Circular buffer: `M.setup({ max_size })`, `M.push(entry)` with consecutive deduplication, `M.all()`, `M.get(index)`, `M.count()`, `M.clear()`. Entries have `regcontents`, `regtype`, `filetype`, `timestamp` fields. Uses `vim.uv.now()` for timestamps.
-- [ ] Create `lua/neotex/yank/highlight.lua` (~20 LOC) -- Thin wrapper: `M.setup({ higroup, timeout, on_macro, on_visual })`, `M.on_yank()` calls `vim.hl.on_yank()` with stored config. Respects `on_macro` flag by checking `vim.fn.reg_executing()`.
-- [ ] Create `lua/neotex/yank/telescope.lua` (~65 LOC) -- Telescope picker: `M.open(ring)` creates picker with buffer previewer showing yanked text with filetype syntax highlighting. Paste action uses `vim.fn.setreg('"', selection.value.regcontents, selection.value.regtype)` then `vim.cmd('normal! p')` to avoid OSC 52 trigger. Adapted from existing custom picker in yanky.lua lines 92-162.
-- [ ] Create `lua/neotex/yank/init.lua` (~60 LOC) -- Entry point: `M.setup(opts)` merges defaults, initializes ring and highlight submodules, creates `NeoTexYank` augroup with `clear = true`. Registers `TextYankPost` (capture to ring + highlight) and `VimLeavePre` (cleanup) autocommands. Exports `M.telescope_history()`, `M.clear_history()`. NO clipboard sync, NO recovery setup, NO FocusGained handler.
+- [x] **Task 1.1**: Create directory `lua/neotex/yank/` *(completed)*
+- [x] **Task 1.2**: Create `lua/neotex/yank/ring.lua` (~65 LOC) -- Circular buffer: `M.setup({ max_size })`, `M.push(entry)` with consecutive deduplication, `M.all()`, `M.get(index)`, `M.count()`, `M.clear()`. Entries have `regcontents`, `regtype`, `filetype`, `timestamp` fields. Uses `vim.uv.now()` for timestamps. *(completed)*
+- [x] **Task 1.3**: Create `lua/neotex/yank/highlight.lua` (~20 LOC) -- Thin wrapper: `M.setup({ higroup, timeout, on_macro, on_visual })`, `M.on_yank()` calls `vim.hl.on_yank()` with stored config. Respects `on_macro` flag by checking `vim.fn.reg_executing()`. *(completed)*
+- [x] **Task 1.4**: Create `lua/neotex/yank/telescope.lua` (~65 LOC) -- Telescope picker: `M.open(ring)` creates picker with buffer previewer showing yanked text with filetype syntax highlighting. Paste action uses `vim.fn.setreg('"', selection.value.regcontents, selection.value.regtype)` then `vim.cmd('normal! p')` to avoid OSC 52 trigger. Adapted from existing custom picker in yanky.lua lines 92-162. *(completed)*
+- [x] **Task 1.5**: Create `lua/neotex/yank/init.lua` (~60 LOC) -- Entry point: `M.setup(opts)` merges defaults, initializes ring and highlight submodules, creates `NeoTexYank` augroup with `clear = true`. Registers `TextYankPost` (capture to ring + highlight) and `VimLeavePre` (cleanup) autocommands. Exports `M.telescope_history()`, `M.clear_history()`. NO clipboard sync, NO recovery setup, NO FocusGained handler. *(completed)*
 
 **Timing**: 1 hour
 
