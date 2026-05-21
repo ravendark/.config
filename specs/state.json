@@ -12,8 +12,8 @@
       "effort": "4-6 hours",
       "dependencies": [],
       "created": "2026-05-21T17:13:22Z",
-      "last_updated": "2026-05-21T17:57:19Z",
-      "next_artifact_number": 5,
+      "last_updated": "2026-05-21T18:08:45Z",
+      "next_artifact_number": 6,
       "artifacts": [
         {
           "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/reports/01_neovim-sleep-rendering.md",
@@ -44,6 +44,11 @@
           "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/reports/04_implementation-diagnostic.md",
           "type": "research",
           "summary": "Diagnostic report: implementation attempt reverted. Blinking persists even with all visual operations disabled, ruling out our code. Issue is at Neovim/WezTerm/Wayland clipboard provider layer."
+        },
+        {
+          "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/reports/05_team-research.md",
+          "type": "research",
+          "summary": "Team research (4 teammates): Root cause confirmed as wl-copy focus stealing on GNOME Wayland + provider caching preventing OSC 52 override. Fix: set vim.g.clipboard early in options.lua before clipboard=unnamedplus."
         }
       ],
       "session_id": "sess_1779384151_2b67eb"
