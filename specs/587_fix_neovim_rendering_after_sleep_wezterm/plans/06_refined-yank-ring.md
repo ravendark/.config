@@ -19,7 +19,7 @@ Replace yanky.nvim with a lightweight 4-module custom yank ring (~235 LOC) under
 Report 06 established the refined 4-module architecture after auditing which yanky features are actually used. Key findings:
 - Put cycling (`[y`/`]y`) and `<Plug>` operator interception are NOT used and should be dropped
 - The `keys` table in the previous plan's plugin spec was the direct cause of operator breakage (lazy.nvim hijacked native y/p/P/gp/gP)
-- `_G.YankyTelescopeHistory` must be preserved as the global function name (which-key.lua references it)
+- which-key.lua references to `_G.YankyTelescopeHistory` should be replaced with direct `require("neotex.yank").telescope_history()` calls for cleaner integration
 - Telescope paste action should use `vim.fn.setreg('"', ...)` + `normal! p` to avoid OSC 52 provider trigger
 - No `FocusGained` clipboard sync needed (OSC 52 paste-from-register approach is intentional)
 
@@ -28,7 +28,7 @@ Report 06 established the refined 4-module architecture after auditing which yan
 Plan 03 (custom-yank-ring.md) designed a 6-module architecture with clipboard.lua and recovery.lua. Lessons learned:
 - **Over-scoped**: clipboard.lua and recovery.lua were unnecessary -- those concerns are now handled by already-committed fixes in options.lua and autocmds.lua
 - **Keys table trap**: Including y/p/P/gp/gP in the lazy.nvim `keys` table broke native operators; the refined design uses NO keys table
-- **Global name mismatch**: Plan 03 used `_G.YankTelescopeHistory` (missing "y") but which-key.lua calls `_G.YankyTelescopeHistory` -- must preserve existing name
+- **Global name mismatch**: Plan 03 used `_G.YankTelescopeHistory` (missing "y") but which-key.lua calls `_G.YankyTelescopeHistory` -- the revised v2 plan eliminates all `_G` globals entirely in favor of direct requires
 - **Effort calibration**: Plan 03 estimated 4 hours for 6 modules; this refined plan is 2 hours for 4 modules + cleanup
 
 ### Roadmap Alignment
@@ -39,10 +39,10 @@ No ROADMAP.md found.
 
 **Goals**:
 - Create 4 modules under `lua/neotex/yank/` (ring, highlight, telescope, init)
-- Create plugin spec `lua/neotex/plugins/tools/yank-ring.lua` loading on VeryLazy with NO keys table
+- Create plugin spec `lua/neotex/plugins/tools/yank-ring.lua` loading on VeryLazy with NO keys table and NO `_G` globals
 - Remove all yanky.nvim references from telescope.lua, which-key.lua, and tools/init.lua
 - Delete `lua/neotex/plugins/tools/yanky.lua`
-- Preserve `_G.YankyTelescopeHistory` global for which-key compatibility
+- Update all which-key.lua references to use `require("neotex.yank")` directly instead of `_G` globals
 
 **Non-Goals**:
 - Put cycling (`[y`/`]y`) -- user does not use this
@@ -59,7 +59,7 @@ No ROADMAP.md found.
 | `dir`-based local plugin not recognized by lazy.nvim | H | L | Verified pattern from himalaya-plugin in same codebase; `init.lua` at module root is standard |
 | Telescope picker API change breaks custom picker | L | L | Using same patterns as existing custom picker in yanky.lua; core Telescope API is stable |
 | `vim.hl.on_yank()` must be called inside TextYankPost | M | L | Documented requirement in report 06; placed correctly in init.lua's TextYankPost callback |
-| which-key.lua line 821 `require("yanky")` not updated | H | L | Explicit task item in Phase 3; verified line number against current file |
+| which-key.lua `require("neotex.yank")` fails before VeryLazy loads the module | M | L | `require()` calls are inside `function()` wrappers, so they execute lazily at keypress time, not at which-key load time |
 | tools/init.lua `add_if_valid` rejects the new spec | M | L | Spec uses `dir` field which is checked by `add_if_valid` on line 95 |
 
 ## Implementation Phases
@@ -107,7 +107,7 @@ Phases within the same wave can execute in parallel.
 **Goal**: Create the lazy.nvim plugin spec that replaces yanky.lua and update tools/init.lua to load the new module.
 
 **Tasks**:
-- [ ] Create `lua/neotex/plugins/tools/yank-ring.lua` (~25 LOC) -- Plugin spec with `dir = vim.fn.stdpath("config") .. "/lua/neotex/yank"`, `lazy = true`, `event = "VeryLazy"`, `dependencies = { "nvim-telescope/telescope.nvim" }`. Config function calls `require("neotex.yank").setup()` and sets `_G.YankyTelescopeHistory = function() yank.telescope_history() end`. NO keys table.
+- [ ] Create `lua/neotex/plugins/tools/yank-ring.lua` (~20 LOC) -- Plugin spec with `dir = vim.fn.stdpath("config") .. "/lua/neotex/yank"`, `lazy = true`, `event = "VeryLazy"`, `dependencies = { "nvim-telescope/telescope.nvim" }`. Config function calls `require("neotex.yank").setup()`. NO keys table. NO `_G` globals.
 - [ ] Update `lua/neotex/plugins/tools/init.lua` line 82: Change `safe_require("neotex.plugins.tools.yanky")` to `safe_require("neotex.plugins.tools.yank-ring")` and rename variable from `yanky_module` to `yank_ring_module`
 - [ ] Update `lua/neotex/plugins/tools/init.lua` line 109: Change `add_if_valid(yanky_module)` to `add_if_valid(yank_ring_module)`
 - [ ] Delete `lua/neotex/plugins/tools/yanky.lua`
@@ -129,14 +129,14 @@ Phases within the same wave can execute in parallel.
 
 ### Phase 3: Update external references and verify [NOT STARTED]
 
-**Goal**: Remove all yanky.nvim references from telescope.lua and which-key.lua, verify clean startup, and confirm no remaining yanky references in the codebase.
+**Goal**: Remove all yanky.nvim references from telescope.lua and which-key.lua, replace `_G` globals and `require("yanky")` calls with direct `require("neotex.yank")` calls, verify clean startup, and confirm no remaining yanky references in the codebase.
 
 **Tasks**:
 - [ ] Update `lua/neotex/plugins/editor/telescope.lua` line 13: Remove `"gbprod/yanky.nvim"` from the dependencies list
 - [ ] Update `lua/neotex/plugins/editor/telescope.lua` line 132: Remove `telescope.load_extension("yank_history")`
-- [ ] Update `lua/neotex/plugins/editor/which-key.lua` line 821: Change `require("yanky").clear_history()` to `require("neotex.yank").clear_history()`
-- [ ] Line 499 (`_G.YankyTelescopeHistory`): Verify NO CHANGE needed (global name preserved)
-- [ ] Line 822 (`_G.YankyTelescopeHistory`): Verify NO CHANGE needed (global name preserved)
+- [ ] Update `lua/neotex/plugins/editor/which-key.lua` line 499: Change `function() _G.YankyTelescopeHistory() end` to `function() require("neotex.yank").telescope_history() end`
+- [ ] Update `lua/neotex/plugins/editor/which-key.lua` line 821: Change `function() require("yanky").clear_history() end` to `function() require("neotex.yank").clear_history() end`
+- [ ] Update `lua/neotex/plugins/editor/which-key.lua` line 822: Change `function() _G.YankyTelescopeHistory() end` to `function() require("neotex.yank").telescope_history() end`
 - [ ] Search codebase for remaining `yanky` references: `grep -r "yanky" lua/ --include="*.lua"` -- only comments or specs should remain
 - [ ] Verify clean Neovim startup: `nvim --headless -c "lua vim.defer_fn(function() print('OK') vim.cmd('q') end, 2000)"`
 - [ ] Verify yank ring autocommands registered and Telescope picker opens
@@ -148,11 +148,11 @@ Phases within the same wave can execute in parallel.
 
 **Files to modify**:
 - `lua/neotex/plugins/editor/telescope.lua` - Remove yanky dependency (line 13) and extension load (line 132)
-- `lua/neotex/plugins/editor/which-key.lua` - Update line 821 (clear_history reference)
+- `lua/neotex/plugins/editor/which-key.lua` - Update lines 499, 821, 822 (replace `_G.YankyTelescopeHistory` and `require("yanky")` with `require("neotex.yank")` calls)
 
 **Verification**:
 - No yanky references in telescope.lua: `grep -i yanky lua/neotex/plugins/editor/telescope.lua` returns nothing
-- No yanky require paths in which-key.lua: `grep 'require.*yanky' lua/neotex/plugins/editor/which-key.lua` returns nothing
+- No yanky require paths or `_G.Yanky` globals in which-key.lua: `grep -E 'require.*yanky|_G\.Yanky' lua/neotex/plugins/editor/which-key.lua` returns nothing
 - Clean Neovim startup with no errors in `:messages`
 - `<leader>fy` opens yank history picker (manual test)
 - `<leader>yc` clears history without error (manual test)
@@ -163,12 +163,14 @@ Phases within the same wave can execute in parallel.
 - [ ] All 4 modules load without error in headless mode
 - [ ] `NeoTexYank` augroup contains TextYankPost and VimLeavePre autocommands
 - [ ] Yanking text adds entries to the ring (verify via `require('neotex.yank')._ring.all()`)
-- [ ] `_G.YankyTelescopeHistory` is defined after VeryLazy event fires
+- [ ] `require("neotex.yank").telescope_history` is a function after VeryLazy event fires
+- [ ] `require("neotex.yank").clear_history` is a function after VeryLazy event fires
 - [ ] Telescope picker opens with `<leader>fy` and `<leader>yh` (manual test)
 - [ ] Selecting an entry from the picker pastes content correctly (manual test)
 - [ ] `<leader>yc` clears ring and shows notification (manual test)
 - [ ] Native y/p/P/gp/gP operators work correctly without interception (manual test)
 - [ ] `grep -r "yanky" lua/ --include="*.lua"` returns no require/dependency references
+- [ ] No `_G.Yanky` references remain in codebase: `grep -r "_G\.Yanky" lua/ --include="*.lua"` returns nothing
 - [ ] Clean Neovim startup with no error messages related to yank or yanky
 - [ ] Post-sleep test (manual): Sleep/wake cycle does not freeze Neovim
 
@@ -181,7 +183,7 @@ Phases within the same wave can execute in parallel.
 - `lua/neotex/plugins/tools/yank-ring.lua` - lazy.nvim plugin spec (replaces yanky.lua)
 - `lua/neotex/plugins/tools/init.lua` - Updated module loading (yanky -> yank-ring)
 - `lua/neotex/plugins/editor/telescope.lua` - Removed yanky dependency and extension load
-- `lua/neotex/plugins/editor/which-key.lua` - Updated clear_history reference
+- `lua/neotex/plugins/editor/which-key.lua` - Updated lines 499, 821, 822 to use direct requires
 - `lua/neotex/plugins/tools/yanky.lua` - Deleted
 
 ## Rollback/Contingency
