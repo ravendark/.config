@@ -5,14 +5,14 @@
     {
       "project_number": 587,
       "project_name": "fix_neovim_rendering_after_sleep_wezterm",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "topic": "neovim-plugins",
       "description": "Fix Neovim rendering corruption after system sleep in WezTerm. Primary root cause: yanky.nvim system_clipboard.sync_with_ring = true triggers a blocking wl-paste call via FocusGained on wake. On Wayland/GNOME, wl-paste can hang indefinitely when the compositor clipboard state is stale after sleep, freezing the entire Neovim TUI. Solution: replace yanky.nvim with a custom yank ring module (~460 LOC across 6 modules under lua/neotex/yank/) that uses vim.system() with a 2-second timeout for all clipboard reads. Includes post-sleep rendering recovery autocommands (mode, redraw!, treesitter invalidation). Research completed in dotfiles task 59 -- 3 research reports copied over.",
       "effort": "4-6 hours",
       "dependencies": [],
       "created": "2026-05-21T17:13:22Z",
-      "last_updated": "2026-05-21T17:21:28Z",
+      "last_updated": "2026-05-21T17:28:11Z",
       "next_artifact_number": 4,
       "artifacts": [
         {
@@ -34,9 +34,14 @@
           "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/plans/03_custom-yank-ring.md",
           "type": "plan",
           "summary": "5-phase plan: create core modules (ring, clipboard, highlight, recovery), telescope picker + init, plugin spec + remove yanky, update references, integration testing. 4 hours estimated."
+        },
+        {
+          "path": "specs/587_fix_neovim_rendering_after_sleep_wezterm/summaries/03_custom-yank-ring-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: 5 phases, 6 modules created, yanky.nvim replaced, all verified with nvim --headless"
         }
       ],
-      "session_id": "sess_1779383845_8a7331",
+      "session_id": "sess_1779384151_2b67eb",
       "plan_metadata": {
         "phases": 5,
         "total_effort_hours": 4,
@@ -75,7 +80,8 @@
             "integrated_date": "2026-05-21"
           }
         ]
-      }
+      },
+      "completion_summary": "Replaced yanky.nvim with a custom non-blocking yank ring module (6 files, ~270 LOC) under lua/neotex/yank/ that uses vim.system() with a 2-second timeout for all clipboard reads, structurally eliminating the post-sleep Wayland freeze caused by yanky's blocking wl-paste call on FocusGained."
     },
     {
       "project_number": 586,
