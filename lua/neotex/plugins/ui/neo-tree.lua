@@ -103,6 +103,7 @@ return {
               commands.open(state)
             end
           end,
+          ["-"] = "navigate_up",
           ["a"] = "add",
           ["d"] = function(state)
             local tree = state.tree
@@ -137,56 +138,12 @@ return {
           ["y"] = "copy_to_clipboard",
           ["x"] = "cut_to_clipboard",
           ["p"] = "paste_from_clipboard",
-          ["f"] = function(state)
-            local node = state.tree:get_node()
-            vim.fn.setreg("+", node.path)
-            vim.notify("Copied: " .. node.path)
-          end,
-          ["o"] = function(state)
-            local node = state.tree:get_node()
-            vim.fn.jobstart({ "xdg-open", node.path }, { detach = true })
-          end,
           ["q"] = "close_window",
+          ["R"] = "refresh",
           ["?"] = "show_help",
           ["H"] = "toggle_hidden",
+          ["v"] = "open_vsplit",
           ["<2-LeftMouse>"] = "open",
-          ["#"] = "none",
-          ["."] = "none",
-          ["/"] = "none",
-          ["<"] = "none",
-          [">"] = "none",
-          ["<space>"] = "none",
-          ["<C-b>"] = "none",
-          ["<C-f>"] = "none",
-          ["<C-r>"] = "none",
-          ["<C-x>"] = "none",
-          ["<bs>"] = "none",
-          ["A"] = "none",
-          ["C"] = "none",
-          ["D"] = "none",
-          ["P"] = "none",
-          ["R"] = "none",
-          ["S"] = "none",
-          ["[g"] = "none",
-          ["]g"] = "none",
-          ["b"] = "none",
-          ["c"] = "none",
-          ["e"] = "none",
-          ["<cr>"] = "none",
-          ["<esc>"] = "none",
-          ["i"] = "show_file_details",
-          ["m"] = "none",
-          ["oc"] = "none",
-          ["od"] = "none",
-          ["og"] = "none",
-          ["om"] = "none",
-          ["on"] = "none",
-          ["os"] = "none",
-          ["ot"] = "none",
-          ["s"] = "none",
-          ["t"] = "none",
-          ["w"] = "none",
-          ["z"] = "none",
         },
       },
 

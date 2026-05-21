@@ -231,8 +231,7 @@ return {
     _G.CloseOtherBuffers = function()
       local current = vim.api.nvim_get_current_buf()
       for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if buf ~= current and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted
-          and vim.bo[buf].buftype == "" then
+        if buf ~= current and vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted then
           vim.api.nvim_buf_delete(buf, { force = false })
         end
       end
@@ -497,7 +496,7 @@ return {
       { "<leader>fr", "<cmd>Telescope registers<CR>", desc = "registers", icon = "󰊄" },
       { "<leader>fs", "<cmd>Telescope grep_string<CR>", desc = "string", icon = "󰊄", mode = { "n", "v" } },
       { "<leader>fw", "<cmd>lua SearchWordUnderCursor()<CR>", desc = "word", icon = "󰊄", mode = { "n", "v" } },
-      { "<leader>fy", function() _G.YankTelescopeHistory() end, desc = "yanks", icon = "󰆏", mode = { "n", "v" } },
+      { "<leader>fy", function() _G.YankyTelescopeHistory() end, desc = "yanks", icon = "󰆏", mode = { "n", "v" } },
     })
 
     -- ============================================================================
@@ -819,8 +818,8 @@ return {
 
     wk.add({
       { "<leader>y", group = "yank", icon = "󰆏", mode = { "n", "v" } },
-      { "<leader>yc", function() require("neotex.yank").clear_history() end, desc = "clear history", icon = "󰃢" },
-      { "<leader>yh", function() _G.YankTelescopeHistory() end, desc = "yank history", icon = "󰞋", mode = { "n", "v" } },
+      { "<leader>yc", function() require("yanky").clear_history() end, desc = "clear history", icon = "󰃢" },
+      { "<leader>yh", function() _G.YankyTelescopeHistory() end, desc = "yank history", icon = "󰞋", mode = { "n", "v" } },
     })
   end,
 }

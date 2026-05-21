@@ -90,9 +90,9 @@ return {
       root_markers = { "typst.toml", ".git" },
       capabilities = capabilities,
       settings = {
-        formatterMode = "typstyle",
-        exportPdf = "onSave",
-        semanticTokens = "enable",
+        formatterMode = "typstyle",  -- Use typstyle for formatting (bundled with tinymist)
+        exportPdf = "onSave",        -- Export PDF when file is saved
+        semanticTokens = "enable",   -- Enable semantic highlighting
       },
     })
 
