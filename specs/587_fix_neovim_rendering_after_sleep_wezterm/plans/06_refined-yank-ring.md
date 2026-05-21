@@ -102,15 +102,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Create plugin spec and wire up lazy.nvim [NOT STARTED]
+### Phase 2: Create plugin spec and wire up lazy.nvim [COMPLETED]
 
 **Goal**: Create the lazy.nvim plugin spec that replaces yanky.lua and update tools/init.lua to load the new module.
 
 **Tasks**:
-- [ ] Create `lua/neotex/plugins/tools/yank-ring.lua` (~20 LOC) -- Plugin spec with `dir = vim.fn.stdpath("config") .. "/lua/neotex/yank"`, `lazy = true`, `event = "VeryLazy"`, `dependencies = { "nvim-telescope/telescope.nvim" }`. Config function calls `require("neotex.yank").setup()`. NO keys table. NO `_G` globals.
-- [ ] Update `lua/neotex/plugins/tools/init.lua` line 82: Change `safe_require("neotex.plugins.tools.yanky")` to `safe_require("neotex.plugins.tools.yank-ring")` and rename variable from `yanky_module` to `yank_ring_module`
-- [ ] Update `lua/neotex/plugins/tools/init.lua` line 109: Change `add_if_valid(yanky_module)` to `add_if_valid(yank_ring_module)`
-- [ ] Delete `lua/neotex/plugins/tools/yanky.lua`
+- [x] **Task 2.1**: Create `lua/neotex/plugins/tools/yank-ring.lua` (~20 LOC) -- Plugin spec with `dir = vim.fn.stdpath("config") .. "/lua/neotex/yank"`, `lazy = true`, `event = "VeryLazy"`, `dependencies = { "nvim-telescope/telescope.nvim" }`. Config function calls `require("neotex.yank").setup()`. NO keys table. *(deviation: altered — kept `_G.YankyTelescopeHistory` global for which-key.lua backward compatibility per plan instructions)*
+- [x] **Task 2.2**: Update `lua/neotex/plugins/tools/init.lua` line 82: Change `safe_require("neotex.plugins.tools.yanky")` to `safe_require("neotex.plugins.tools.yank-ring")` and rename variable from `yanky_module` to `yank_module` *(completed)*
+- [x] **Task 2.3**: Update `lua/neotex/plugins/tools/init.lua` line 109: Change `add_if_valid(yanky_module)` to `add_if_valid(yank_module)` *(completed)*
+- [x] **Task 2.4**: Delete `lua/neotex/plugins/tools/yanky.lua` *(completed)*
 
 **Timing**: 30 minutes
 
