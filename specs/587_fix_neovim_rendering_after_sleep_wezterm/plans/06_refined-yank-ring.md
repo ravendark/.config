@@ -1,0 +1,195 @@
+# Implementation Plan: Task #587
+
+- **Task**: 587 - Fix Neovim rendering corruption after system sleep in WezTerm
+- **Status**: [PLANNED]
+- **Effort**: 2 hours
+- **Dependencies**: None (three prerequisite fixes already committed)
+- **Research Inputs**: reports/06_refined-yank-design.md
+- **Artifacts**: plans/06_refined-yank-ring.md (this file)
+- **Standards**: plan-format.md, status-markers.md, artifact-management.md, tasks.md
+- **Type**: neovim
+- **Lean Intent**: false
+
+## Overview
+
+Replace yanky.nvim with a lightweight 4-module custom yank ring (~235 LOC) under `lua/neotex/yank/`. Three independent fixes are already committed (OSC 52 clipboard provider in options.lua, lazyredraw removal, post-sleep recovery autocommand in autocmds.lua), so this plan focuses solely on the yank ring replacement. The custom module captures yanks via `TextYankPost`, highlights via `vim.hl.on_yank()`, and provides a Telescope history picker -- covering exactly the features the user actually uses while removing yanky.nvim's problematic external process dependencies.
+
+### Research Integration
+
+Report 06 established the refined 4-module architecture after auditing which yanky features are actually used. Key findings:
+- Put cycling (`[y`/`]y`) and `<Plug>` operator interception are NOT used and should be dropped
+- The `keys` table in the previous plan's plugin spec was the direct cause of operator breakage (lazy.nvim hijacked native y/p/P/gp/gP)
+- `_G.YankyTelescopeHistory` must be preserved as the global function name (which-key.lua references it)
+- Telescope paste action should use `vim.fn.setreg('"', ...)` + `normal! p` to avoid OSC 52 provider trigger
+- No `FocusGained` clipboard sync needed (OSC 52 paste-from-register approach is intentional)
+
+### Prior Plan Reference
+
+Plan 03 (custom-yank-ring.md) designed a 6-module architecture with clipboard.lua and recovery.lua. Lessons learned:
+- **Over-scoped**: clipboard.lua and recovery.lua were unnecessary -- those concerns are now handled by already-committed fixes in options.lua and autocmds.lua
+- **Keys table trap**: Including y/p/P/gp/gP in the lazy.nvim `keys` table broke native operators; the refined design uses NO keys table
+- **Global name mismatch**: Plan 03 used `_G.YankTelescopeHistory` (missing "y") but which-key.lua calls `_G.YankyTelescopeHistory` -- must preserve existing name
+- **Effort calibration**: Plan 03 estimated 4 hours for 6 modules; this refined plan is 2 hours for 4 modules + cleanup
+
+### Roadmap Alignment
+
+No ROADMAP.md found.
+
+## Goals & Non-Goals
+
+**Goals**:
+- Create 4 modules under `lua/neotex/yank/` (ring, highlight, telescope, init)
+- Create plugin spec `lua/neotex/plugins/tools/yank-ring.lua` loading on VeryLazy with NO keys table
+- Remove all yanky.nvim references from telescope.lua, which-key.lua, and tools/init.lua
+- Delete `lua/neotex/plugins/tools/yanky.lua`
+- Preserve `_G.YankyTelescopeHistory` global for which-key compatibility
+
+**Non-Goals**:
+- Put cycling (`[y`/`]y`) -- user does not use this
+- `<Plug>` operator wrappers -- breaks native operators, adds nothing
+- Clipboard sync on FocusGained -- intentionally omitted (OSC 52 handles clipboard writes)
+- Post-sleep recovery autocommands -- already in autocmds.lua
+- Custom clipboard provider (`vim.g.clipboard`) -- already in options.lua
+- Persistent yank storage -- user uses memory storage
+
+## Risks & Mitigations
+
+| Risk | Impact | Likelihood | Mitigation |
+|------|--------|------------|------------|
+| `dir`-based local plugin not recognized by lazy.nvim | H | L | Verified pattern from himalaya-plugin in same codebase; `init.lua` at module root is standard |
+| Telescope picker API change breaks custom picker | L | L | Using same patterns as existing custom picker in yanky.lua; core Telescope API is stable |
+| `vim.hl.on_yank()` must be called inside TextYankPost | M | L | Documented requirement in report 06; placed correctly in init.lua's TextYankPost callback |
+| which-key.lua line 821 `require("yanky")` not updated | H | L | Explicit task item in Phase 3; verified line number against current file |
+| tools/init.lua `add_if_valid` rejects the new spec | M | L | Spec uses `dir` field which is checked by `add_if_valid` on line 95 |
+
+## Implementation Phases
+
+**Dependency Analysis**:
+| Wave | Phases | Blocked by |
+|------|--------|------------|
+| 1 | 1 | -- |
+| 2 | 2 | 1 |
+| 3 | 3 | 2 |
+
+Phases within the same wave can execute in parallel.
+
+---
+
+### Phase 1: Create core yank modules [NOT STARTED]
+
+**Goal**: Create the 4 modules under `lua/neotex/yank/` that form the custom yank ring implementation.
+
+**Tasks**:
+- [ ] Create directory `lua/neotex/yank/`
+- [ ] Create `lua/neotex/yank/ring.lua` (~65 LOC) -- Circular buffer: `M.setup({ max_size })`, `M.push(entry)` with consecutive deduplication, `M.all()`, `M.get(index)`, `M.count()`, `M.clear()`. Entries have `regcontents`, `regtype`, `filetype`, `timestamp` fields. Uses `vim.uv.now()` for timestamps.
+- [ ] Create `lua/neotex/yank/highlight.lua` (~20 LOC) -- Thin wrapper: `M.setup({ higroup, timeout, on_macro, on_visual })`, `M.on_yank()` calls `vim.hl.on_yank()` with stored config. Respects `on_macro` flag by checking `vim.fn.reg_executing()`.
+- [ ] Create `lua/neotex/yank/telescope.lua` (~65 LOC) -- Telescope picker: `M.open(ring)` creates picker with buffer previewer showing yanked text with filetype syntax highlighting. Paste action uses `vim.fn.setreg('"', selection.value.regcontents, selection.value.regtype)` then `vim.cmd('normal! p')` to avoid OSC 52 trigger. Adapted from existing custom picker in yanky.lua lines 92-162.
+- [ ] Create `lua/neotex/yank/init.lua` (~60 LOC) -- Entry point: `M.setup(opts)` merges defaults, initializes ring and highlight submodules, creates `NeoTexYank` augroup with `clear = true`. Registers `TextYankPost` (capture to ring + highlight) and `VimLeavePre` (cleanup) autocommands. Exports `M.telescope_history()`, `M.clear_history()`. NO clipboard sync, NO recovery setup, NO FocusGained handler.
+
+**Timing**: 1 hour
+
+**Depends on**: none
+
+**Files to modify**:
+- `lua/neotex/yank/ring.lua` - Create new file
+- `lua/neotex/yank/highlight.lua` - Create new file
+- `lua/neotex/yank/telescope.lua` - Create new file
+- `lua/neotex/yank/init.lua` - Create new file
+
+**Verification**:
+- Each module loads without error: `nvim --headless -c "lua require('neotex.yank.ring')" -c "q"`
+- Full module loads and registers autocommands: `nvim --headless -c "lua require('neotex.yank').setup({}); print(vim.inspect(vim.api.nvim_get_autocmds({group='NeoTexYank'})))" -c "q"`
+
+---
+
+### Phase 2: Create plugin spec and wire up lazy.nvim [NOT STARTED]
+
+**Goal**: Create the lazy.nvim plugin spec that replaces yanky.lua and update tools/init.lua to load the new module.
+
+**Tasks**:
+- [ ] Create `lua/neotex/plugins/tools/yank-ring.lua` (~25 LOC) -- Plugin spec with `dir = vim.fn.stdpath("config") .. "/lua/neotex/yank"`, `lazy = true`, `event = "VeryLazy"`, `dependencies = { "nvim-telescope/telescope.nvim" }`. Config function calls `require("neotex.yank").setup()` and sets `_G.YankyTelescopeHistory = function() yank.telescope_history() end`. NO keys table.
+- [ ] Update `lua/neotex/plugins/tools/init.lua` line 82: Change `safe_require("neotex.plugins.tools.yanky")` to `safe_require("neotex.plugins.tools.yank-ring")` and rename variable from `yanky_module` to `yank_ring_module`
+- [ ] Update `lua/neotex/plugins/tools/init.lua` line 109: Change `add_if_valid(yanky_module)` to `add_if_valid(yank_ring_module)`
+- [ ] Delete `lua/neotex/plugins/tools/yanky.lua`
+
+**Timing**: 30 minutes
+
+**Depends on**: 1
+
+**Files to modify**:
+- `lua/neotex/plugins/tools/yank-ring.lua` - Create new file
+- `lua/neotex/plugins/tools/init.lua` - Update lines 82 and 109
+- `lua/neotex/plugins/tools/yanky.lua` - Delete
+
+**Verification**:
+- Plugin spec loads via init.lua: `nvim --headless -c "lua local specs = require('neotex.plugins.tools'); for _, s in ipairs(specs) do if s.dir and s.dir:find('yank') then print('FOUND') end end" -c "q"`
+- Deleted yanky.lua no longer exists: `test ! -f lua/neotex/plugins/tools/yanky.lua`
+
+---
+
+### Phase 3: Update external references and verify [NOT STARTED]
+
+**Goal**: Remove all yanky.nvim references from telescope.lua and which-key.lua, verify clean startup, and confirm no remaining yanky references in the codebase.
+
+**Tasks**:
+- [ ] Update `lua/neotex/plugins/editor/telescope.lua` line 13: Remove `"gbprod/yanky.nvim"` from the dependencies list
+- [ ] Update `lua/neotex/plugins/editor/telescope.lua` line 132: Remove `telescope.load_extension("yank_history")`
+- [ ] Update `lua/neotex/plugins/editor/which-key.lua` line 821: Change `require("yanky").clear_history()` to `require("neotex.yank").clear_history()`
+- [ ] Line 499 (`_G.YankyTelescopeHistory`): Verify NO CHANGE needed (global name preserved)
+- [ ] Line 822 (`_G.YankyTelescopeHistory`): Verify NO CHANGE needed (global name preserved)
+- [ ] Search codebase for remaining `yanky` references: `grep -r "yanky" lua/ --include="*.lua"` -- only comments or specs should remain
+- [ ] Verify clean Neovim startup: `nvim --headless -c "lua vim.defer_fn(function() print('OK') vim.cmd('q') end, 2000)"`
+- [ ] Verify yank ring autocommands registered and Telescope picker opens
+- [ ] Run `:Lazy clean` to remove yanky.nvim from the lock file
+
+**Timing**: 30 minutes
+
+**Depends on**: 2
+
+**Files to modify**:
+- `lua/neotex/plugins/editor/telescope.lua` - Remove yanky dependency (line 13) and extension load (line 132)
+- `lua/neotex/plugins/editor/which-key.lua` - Update line 821 (clear_history reference)
+
+**Verification**:
+- No yanky references in telescope.lua: `grep -i yanky lua/neotex/plugins/editor/telescope.lua` returns nothing
+- No yanky require paths in which-key.lua: `grep 'require.*yanky' lua/neotex/plugins/editor/which-key.lua` returns nothing
+- Clean Neovim startup with no errors in `:messages`
+- `<leader>fy` opens yank history picker (manual test)
+- `<leader>yc` clears history without error (manual test)
+- `<leader>yh` opens yank history picker (manual test)
+
+## Testing & Validation
+
+- [ ] All 4 modules load without error in headless mode
+- [ ] `NeoTexYank` augroup contains TextYankPost and VimLeavePre autocommands
+- [ ] Yanking text adds entries to the ring (verify via `require('neotex.yank')._ring.all()`)
+- [ ] `_G.YankyTelescopeHistory` is defined after VeryLazy event fires
+- [ ] Telescope picker opens with `<leader>fy` and `<leader>yh` (manual test)
+- [ ] Selecting an entry from the picker pastes content correctly (manual test)
+- [ ] `<leader>yc` clears ring and shows notification (manual test)
+- [ ] Native y/p/P/gp/gP operators work correctly without interception (manual test)
+- [ ] `grep -r "yanky" lua/ --include="*.lua"` returns no require/dependency references
+- [ ] Clean Neovim startup with no error messages related to yank or yanky
+- [ ] Post-sleep test (manual): Sleep/wake cycle does not freeze Neovim
+
+## Artifacts & Outputs
+
+- `lua/neotex/yank/ring.lua` - Circular buffer data structure
+- `lua/neotex/yank/highlight.lua` - Yank highlighting wrapper
+- `lua/neotex/yank/telescope.lua` - Telescope picker for yank history
+- `lua/neotex/yank/init.lua` - Entry point and setup
+- `lua/neotex/plugins/tools/yank-ring.lua` - lazy.nvim plugin spec (replaces yanky.lua)
+- `lua/neotex/plugins/tools/init.lua` - Updated module loading (yanky -> yank-ring)
+- `lua/neotex/plugins/editor/telescope.lua` - Removed yanky dependency and extension load
+- `lua/neotex/plugins/editor/which-key.lua` - Updated clear_history reference
+- `lua/neotex/plugins/tools/yanky.lua` - Deleted
+
+## Rollback/Contingency
+
+If the custom implementation causes issues:
+
+1. **Quick revert**: Restore `yanky.lua` from git (`git checkout -- lua/neotex/plugins/tools/yanky.lua`), revert changes to telescope.lua, which-key.lua, and tools/init.lua. Delete `lua/neotex/yank/` directory. Run `:Lazy sync` to restore yanky.nvim.
+
+2. **Minimal fix fallback**: If the yank ring is problematic but yanky.nvim cannot be restored, simply delete the yank-ring spec and remove the yank-related keymaps from which-key.lua. Native yank/paste will work perfectly; only the history picker is lost.
+
+3. **Git safety**: All changes are in `lua/` and affect no system configuration. A `git stash` or selective `git checkout` reverts everything cleanly.
