@@ -1,19 +1,23 @@
 ---
-next_project_number: 586
+next_project_number: 588
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-16. Generated from state.json dependency graph.*
+*Updated 2026-05-21. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501 | -- | -- |
+| 1 | 78,87,500,501,587 | -- | neovim-plugins |
 
 **Grouped by Topic** (indented = must complete first):
+
+### Neovim Plugins
+
+587 [NOT STARTED] — Fix Neovim rendering corruption after system sleep in WezTerm. Pr
 
 ### Uncategorized
 
@@ -23,6 +27,16 @@ next_project_number: 586
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
 
 ## Tasks
+
+### 587. Fix Neovim rendering corruption after system sleep in WezTerm
+- **Effort**: 4-6 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+- **Dependencies**: None
+
+**Description**: Fix Neovim rendering corruption after system sleep in WezTerm. Primary root cause: yanky.nvim system_clipboard.sync_with_ring = true triggers a blocking wl-paste call via FocusGained on wake. On Wayland/GNOME, wl-paste can hang indefinitely when the compositor clipboard state is stale after sleep, freezing the entire Neovim TUI. Solution: replace yanky.nvim with a custom yank ring module (~460 LOC across 6 modules under lua/neotex/yank/) that uses vim.system() with a 2-second timeout for all clipboard reads. Includes post-sleep rendering recovery autocommands (mode, redraw!, treesitter invalidation). Research completed in dotfiles task 59 -- 3 research reports copied over.
+
+---
 
 ### 586. Restrict TTS to lifecycle transitions and interactive prompts
 - **Effort**: 1-2 hours
