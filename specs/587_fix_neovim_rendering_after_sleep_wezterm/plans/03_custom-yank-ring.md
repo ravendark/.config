@@ -1,7 +1,7 @@
 # Implementation Plan: Task #587
 
 - **Task**: 587 - Fix Neovim rendering corruption after system sleep in WezTerm
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Effort**: 4 hours
 - **Dependencies**: None
 - **Research Inputs**: reports/01_neovim-sleep-rendering.md, reports/02_yanky-alternatives.md, reports/03_custom-yank-design.md
@@ -74,7 +74,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Create core yank ring modules [NOT STARTED]
+### Phase 1: Create core yank ring modules [COMPLETED]
 
 **Goal**: Create the 4 foundational modules under `lua/neotex/yank/` that have no dependencies on other project files.
 
@@ -102,7 +102,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Create Telescope picker and init module [NOT STARTED]
+### Phase 2: Create Telescope picker and init module [COMPLETED]
 
 **Goal**: Create the Telescope picker (adapted from the user's existing custom picker) and the main `init.lua` entry point that wires all modules together.
 
@@ -125,7 +125,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Create plugin spec and remove yanky.nvim [NOT STARTED]
+### Phase 3: Create plugin spec and remove yanky.nvim [COMPLETED]
 
 **Goal**: Create the lazy.nvim plugin spec that replaces yanky.lua, and update tools/init.lua to load the new module instead.
 
@@ -151,7 +151,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Update telescope.lua and which-key.lua references [NOT STARTED]
+### Phase 4: Update telescope.lua and which-key.lua references [COMPLETED]
 
 **Goal**: Remove all yanky.nvim references from telescope.lua and which-key.lua, replacing them with the new custom module's API.
 
@@ -178,7 +178,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Integration testing and cleanup [NOT STARTED]
+### Phase 5: Integration testing and cleanup [COMPLETED]
 
 **Goal**: Verify the complete system works end-to-end, confirm no remaining yanky references in the codebase, and perform a clean Neovim startup test.
 

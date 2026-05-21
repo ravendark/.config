@@ -11,7 +11,7 @@
 -- - mini.lua: Mini plugins collection (pairs, comments, etc.)
 -- - surround.lua: Text surrounding functionality
 -- - todo-comments.lua: Highlight and search TODO comments
--- - yanky.lua: Enhanced yank and paste functionality
+-- - yank-ring.lua: Custom non-blocking yank ring (replaces yanky.nvim)
 -- - himalaya/: Email client integration with local storage
 --
 -- Note: The following remain in other modules:
@@ -79,7 +79,7 @@ local mini_module = safe_require("neotex.plugins.tools.mini")
 local autopairs_module = safe_require("neotex.plugins.tools.autopairs")
 local surround_module = safe_require("neotex.plugins.tools.surround")
 local todo_comments_module = safe_require("neotex.plugins.tools.todo-comments")
-local yanky_module = safe_require("neotex.plugins.tools.yanky")
+local yank_ring_module = safe_require("neotex.plugins.tools.yank-ring")
 local luasnip_module = safe_require("neotex.plugins.tools.luasnip")
 local himalaya_module = safe_require("neotex.plugins.tools.himalaya-plugin")
 local worktree_module = safe_require("neotex.plugins.tools.worktree")
@@ -106,7 +106,7 @@ add_if_valid(mini_module)
 add_if_valid(autopairs_module)
 add_if_valid(surround_module)
 add_if_valid(todo_comments_module)
-add_if_valid(yanky_module)
+add_if_valid(yank_ring_module)
 add_if_valid(luasnip_module)
 
 -- Himalaya returns a single spec, add it directly
