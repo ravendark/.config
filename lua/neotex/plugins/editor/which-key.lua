@@ -496,7 +496,7 @@ return {
       { "<leader>fr", "<cmd>Telescope registers<CR>", desc = "registers", icon = "󰊄" },
       { "<leader>fs", "<cmd>Telescope grep_string<CR>", desc = "string", icon = "󰊄", mode = { "n", "v" } },
       { "<leader>fw", "<cmd>lua SearchWordUnderCursor()<CR>", desc = "word", icon = "󰊄", mode = { "n", "v" } },
-      { "<leader>fy", function() _G.YankyTelescopeHistory() end, desc = "yanks", icon = "󰆏", mode = { "n", "v" } },
+      { "<leader>fy", function() require("neotex.yank").telescope_history() end, desc = "yanks", icon = "󰆏", mode = { "n", "v" } },
     })
 
     -- ============================================================================
@@ -818,8 +818,8 @@ return {
 
     wk.add({
       { "<leader>y", group = "yank", icon = "󰆏", mode = { "n", "v" } },
-      { "<leader>yc", function() require("yanky").clear_history() end, desc = "clear history", icon = "󰃢" },
-      { "<leader>yh", function() _G.YankyTelescopeHistory() end, desc = "yank history", icon = "󰞋", mode = { "n", "v" } },
+      { "<leader>yc", function() require("neotex.yank").clear_history() end, desc = "clear history", icon = "󰃢" },
+      { "<leader>yh", function() require("neotex.yank").telescope_history() end, desc = "yank history", icon = "󰞋", mode = { "n", "v" } },
     })
   end,
 }

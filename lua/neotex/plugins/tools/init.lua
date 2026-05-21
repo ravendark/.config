@@ -11,7 +11,7 @@
 -- - mini.lua: Mini plugins collection (pairs, comments, etc.)
 -- - surround.lua: Text surrounding functionality
 -- - todo-comments.lua: Highlight and search TODO comments
--- - yanky.lua: Enhanced yank and paste functionality
+-- - yank-ring.lua: Custom yank ring with telescope history picker
 -- - himalaya/: Email client integration with local storage
 --
 -- Note: The following remain in other modules:

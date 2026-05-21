@@ -10,7 +10,6 @@ return {
       build = "make",
     },
     "nvim-tree/nvim-web-devicons",
-    "gbprod/yanky.nvim",
     "nvim-telescope/telescope-ui-select.nvim",
   },
   config = function()
@@ -129,7 +128,6 @@ return {
     
     -- Load extensions
     telescope.load_extension("fzf")
-    telescope.load_extension("yank_history")
     telescope.load_extension("bibtex")
     telescope.load_extension("ui-select")
     
