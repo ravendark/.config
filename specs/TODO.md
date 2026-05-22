@@ -25,7 +25,7 @@ next_project_number: 605
 
 ### Wezterm Notifications
 
-601 [PLANNING] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
+601 [PLANNED] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
 602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
   └─ 601 [PLANNING] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
 
@@ -62,6 +62,7 @@ next_project_number: 605
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
+- **Research**: [605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md]
 
 **Description**: Reverse the Task Order dependency tree so prerequisite tasks (those depended upon) are roots and dependent tasks are indented children. Currently tasks show their prerequisites indented below; the desired display shows dependents indented below prerequisites, so users work on unindented tasks first and their children get promoted on completion. Changes: (1) generate-task-order.sh — build successors map, change `_print_topic_node` and `print_tree_node` to iterate successors instead of deps, roots become tasks with no active deps (wave 1). (2) task-order-format.md — update semantics from "indented = must complete first" to "indented = depends on parent above", update examples. (3) Extension core copy of task-order-format.md — keep in sync.
 
@@ -83,11 +84,12 @@ next_project_number: 605
 
 ### 601. Simplify notification pipeline and merge status vocabulary
 - **Effort**: 2-3 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: wezterm-notifications
 - **Dependencies**: None
 - **Research**: [601_simplify_notification_pipeline_merge_vocabulary/reports/01_team-research.md]
+- **Plan**: [601_simplify_notification_pipeline_merge_vocabulary/plans/02_notification-pipeline.md]
 
 **Description**: Simplify the WezTerm tab coloring and TTS notification pipeline. Merge to single lifecycle vocabulary (researching/researched/planning/planned/implementing/completed/needs_input), eliminating the artifact-type vocabulary (report/plan/summary/error). Move TTS to fire AFTER artifact linking from skill postflight instead of update-task-status.sh. Eliminate signal file mechanism entirely. Simplify Stop hook to only set needs_input for wezterm (no TTS from Stop). Consolidate TTY discovery boilerplate into shared function. Update all hook copies (4 locations), extension copies, .opencode copies, and wezterm-integration.md.
 

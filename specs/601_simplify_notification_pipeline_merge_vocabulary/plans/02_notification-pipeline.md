@@ -1,7 +1,7 @@
 # Implementation Plan: Simplify Notification Pipeline / Merge Vocabulary
 
 - **Task**: 601 - simplify_notification_pipeline_merge_vocabulary
-- **Status**: [NOT STARTED]
+- **Status**: [PLANNED]
 - **Effort**: 5 hours
 - **Dependencies**: None
 - **Research Inputs**: [reports/01_team-research.md]
