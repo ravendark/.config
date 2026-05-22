@@ -11,13 +11,9 @@ next_project_number: 591
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,589 | -- | wezterm-notifications |
+| 1 | 78,87,500,501 | -- | -- |
 
 **Grouped by Topic** (indented = must complete first):
-
-### Wezterm Notifications
-
-589 [PLANNED] — Expand wezterm tab color palette with per-artifact-type colors (r
 
 ### Uncategorized
 
@@ -43,11 +39,12 @@ next_project_number: 591
 
 ### 589. Expand wezterm tab colors and add preflight coloring
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: 588
 - Research: [589_wezterm_artifact_colors_preflight/reports/01_wezterm-artifact-colors.md]
 - **Plan**: [589_wezterm_artifact_colors_preflight/plans/01_wezterm-artifact-colors.md]
+- **Summary**: [589_wezterm_artifact_colors_preflight/summaries/01_wezterm-artifact-colors-summary.md]
 
 **Description**: Expand wezterm tab color palette with per-artifact-type colors (report=green, plan=blue, summary=gold, error=red, needs_input=gray). Add preflight tab coloring via UserPromptSubmit hook to show in-progress states (researching, planning, implementing). Include artifact type in signal file so wezterm can distinguish. Update wezterm.lua (nix-managed at ~/.dotfiles/config/wezterm.lua).
 

@@ -98,7 +98,7 @@
     {
       "project_number": 589,
       "project_name": "wezterm_artifact_colors_preflight",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "topic": "wezterm-notifications",
       "description": "Expand wezterm tab color palette with per-artifact-type colors (report=green, plan=blue, summary=gold, error=red, needs_input=gray). Add preflight tab coloring via UserPromptSubmit hook to show in-progress states (researching, planning, implementing). Include artifact type in signal file so wezterm can distinguish. Update wezterm.lua (nix-managed at ~/.dotfiles/config/wezterm.lua).",
@@ -107,7 +107,7 @@
         588
       ],
       "created": "2026-05-21T22:00:00Z",
-      "last_updated": "2026-05-22T03:46:51Z",
+      "last_updated": "2026-05-22T03:55:05Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -119,10 +119,40 @@
           "path": "specs/589_wezterm_artifact_colors_preflight/plans/01_wezterm-artifact-colors.md",
           "type": "plan",
           "summary": "4-phase plan: wezterm.lua palette expansion, artifact type dispatch, preflight status hook, extension parity and testing"
+        },
+        {
+          "path": "specs/589_wezterm_artifact_colors_preflight/summaries/01_wezterm-artifact-colors-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 589 wezterm artifact colors and preflight hook"
         }
       ],
-      "session_id": "sess_1779421292_be3991",
-      "researched": "2026-05-22T03:39:49Z"
+      "session_id": "sess_1779421662_f92a9c",
+      "researched": "2026-05-22T03:39:49Z",
+      "completion_summary": "Expanded wezterm tab color palette with per-artifact-type colors (report=green, plan=blue, summary=gold, error=red) and created wezterm-preflight-status.sh hook to show in-progress tab states immediately on lifecycle command submission.",
+      "memory_candidates": [
+        {
+          "content": "When adding new CLAUDE_STATUS values for wezterm tab coloring, add entries directly to the status_colors table in ~/.dotfiles/config/wezterm.lua. WezTerm hot-reloads config changes so no rebuild is needed.",
+          "category": "PATTERN",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "wezterm",
+            "CLAUDE_STATUS",
+            "tab-colors",
+            "status_colors"
+          ]
+        },
+        {
+          "content": "The wezterm-preflight-status.sh hook pattern: read prompt JSON from stdin via jq, use regex matching for lifecycle commands, encode the status value in base64, and write OSC 1337 SetUserVar escape sequence directly to the pane TTY. All 4 hook locations must receive byte-identical copies.",
+          "category": "PATTERN",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "wezterm-preflight-status",
+            "UserPromptSubmit",
+            "hook-pattern",
+            "OSC-1337"
+          ]
+        }
+      ]
     },
     {
       "project_number": 588,
