@@ -64,151 +64,38 @@ fi
 
 ### 2.5. Roadmap Integration
 
-**Context**: Load @.claude/context/formats/roadmap-format.md for parsing patterns.
+Run `roadmap-integration.sh` to parse ROADMAP.md, cross-reference with project state, and annotate completed items:
 
-**Ensure specs/ROADMAP.md exists** before parsing. If the file does not exist, create it with the default template:
-```markdown
-# Project Roadmap
-
-## Phase 1: Current Priorities (High Priority)
-
-- [ ] (No items yet -- add roadmap items here)
-
-## Success Metrics
-
-- (Define success metrics here)
-```
-
-Parse `specs/ROADMAP.md` to extract:
-1. **Phase headers**: `## Phase {N}: {Title} ({Priority})`
-2. **Checkboxes**: `- [ ]` (incomplete) and `- [x]` (complete)
-3. **Status tables**: Pipe-delimited rows with Component/Status/Location
-4. **Priority markers**: `(High Priority)`, `(Medium Priority)`, `(Low Priority)`
-
-Build `roadmap_state` structure:
-```json
-{
-  "phases": [
-    {
-      "number": 1,
-      "title": "Proof Quality and Organization",
-      "priority": "High",
-      "checkboxes": {
-        "total": 15,
-        "completed": 3,
-        "items": [
-          {"text": "Audit proof dependencies", "completed": false},
-          {"text": "Create proof architecture guide", "completed": true}
-        ]
-      }
-    }
-  ],
-  "status_tables": [
-    {
-      "component": "Soundness",
-      "status": "PROVEN",
-      "location": "src/plugins/lsp.lua"
-    }
-  ]
-}
-```
-
-**Error handling**: If ROADMAP.md fails to parse, log warning and continue review without roadmap integration.
-
-### 2.5.2. Cross-Reference Roadmap with Project State
-
-**Context**: Load @.claude/context/patterns/roadmap-update.md for matching strategy.
-
-Cross-reference roadmap items with project state to identify completed work:
-
-**1. Query TODO.md for completed tasks:**
 ```bash
-# Find completed task titles
-grep -E '^\#\#\#.*\[COMPLETED\]' specs/TODO.md
+# Run roadmap integration: parse, cross-reference, and annotate
+roadmap_output=$(bash .claude/scripts/roadmap-integration.sh \
+  --roadmap specs/ROADMAP.md \
+  --state specs/state.json \
+  --annotate)
+
+# Extract structured data for downstream use
+roadmap_state=$(echo "$roadmap_output" | jq '.roadmap_state')
+roadmap_matches=$(echo "$roadmap_output" | jq '.roadmap_matches')
+annotation_summary=$(echo "$roadmap_output" | jq '.annotation_summary')
+annotations_made=$(echo "$annotation_summary" | jq '.annotations_made')
 ```
 
-**2. Query state.json for completion data:**
+**Error handling**: If `roadmap-integration.sh` fails or is not found, log warning and continue review without roadmap integration:
+
 ```bash
-# Get completed tasks with dates
-jq '.active_projects[] | select(.status == "completed")' specs/state.json
+if [ ! -f .claude/scripts/roadmap-integration.sh ]; then
+  echo "Warning: roadmap-integration.sh not found -- skipping roadmap integration" >&2
+  roadmap_state='{"phases":[],"status_tables":[]}'
+  roadmap_matches='[]'
+  annotations_made=0
+fi
 ```
 
-**3. Check file existence for mentioned paths:**
-```bash
-# For each path in roadmap items, check if exists
-# E.g., docs/architecture/proof-structure.md
-```
-
-**4. Count TODOs in Lua files:**
-```bash
-# Current TODO count for metrics
-grep -r "TODO" . --include="*.lua" --include="*.py" --include="*.js" --include="*.ts" --include="*.tex" | wc -l
-```
-
-**Match roadmap items to completed work:**
-
-| Match Type | Confidence | Action |
-|------------|------------|--------|
-| Item contains `(Task {N})` | High | Auto-annotate |
-| Item text matches task title | Medium | Suggest annotation |
-| Item's file path exists | Medium | Suggest annotation |
-| Partial keyword match | Low | Report only |
-
-Build `roadmap_matches` list:
-```json
-[
-  {
-    "roadmap_item": "Create proof architecture guide",
-    "phase": 1,
-    "match_type": "title_match",
-    "confidence": "medium",
-    "matched_task": 628,
-    "completion_date": "2026-01-15"
-  }
-]
-```
-
-### 2.5.3. Annotate Completed Roadmap Items
-
-For high-confidence matches, update ROADMAP.md to mark items as complete.
-
-**Annotation format** (per roadmap-format.md):
-```markdown
-- [x] {item text} *(Completed: Task {N}, {DATE})*
-```
-
-**Edit process for checkboxes:**
-
-1. For each high-confidence match:
-   ```
-   old_string: "- [ ] Create proof architecture guide"
-   new_string: "- [x] Create proof architecture guide *(Completed: Task 628, 2026-01-15)*"
-   ```
-
-2. Use Edit tool with exact string matching
-
-**Edit process for status tables:**
-
-1. For components verified as complete:
-   ```
-   old_string: "| **Soundness** | PARTIAL |"
-   new_string: "| **Soundness** | PROVEN |"
-   ```
-
-**Safety rules:**
-- Skip items already annotated (contain `*(Completed:`)
-- Preserve existing formatting and indentation
-- One edit per item (no batch edits)
-- Log skipped items for report
-
-**Track changes:**
-```json
-{
-  "annotations_made": 3,
-  "items_skipped": 2,
-  "skipped_reasons": ["already_annotated", "low_confidence"]
-}
-```
+**Context loaded by the script**:
+- Parses ROADMAP.md phase headers, checkboxes, and status tables
+- Queries state.json for completed tasks
+- Checks archive/state.json for archived completed tasks
+- Applies high-confidence annotations to ROADMAP.md (Step 2.5.3 logic)
 
 ### 2.6. Parse Task Order
 
@@ -373,6 +260,8 @@ Write to `specs/reviews/review-{DATE}.md`:
 2. {Secondary recommendation}
 ```
 
+**Note**: Populate `## Roadmap Progress` using `roadmap_state` and `roadmap_matches` from Section 2.5. Use `roadmap_state.phases` to build the Current Focus table and `roadmap_matches` for completed-since-last-review entries.
+
 ### 4.5. Update Review State
 
 After creating the review report, update `specs/reviews/state.json`:
@@ -460,203 +349,85 @@ Combine issues from review findings and incomplete roadmap items:
 }
 ```
 
-#### 5.5.2. Extract Grouping Indicators
+Build `all_issues` as a JSON array combining both sources.
 
-For each issue, extract grouping indicators:
+#### 5.5.2-5.5.5. Issue Grouping (via issue-grouping.sh)
 
-| Indicator | Extraction Rule |
-|-----------|-----------------|
-| `file_section` | Path prefix up to first-level directory (e.g., `src/plugins/` from `src/plugins/lsp.lua:42`) |
-| `issue_type` | Map severity: Critical/High -> "fix", Medium -> "quality", Low -> "improvement". For roadmap: "roadmap" |
-| `priority` | Direct from severity (Critical=4, High=3, Medium=2, Low=1) or phase priority |
-| `key_terms` | Extract significant words (>4 chars, not stopwords) from description |
+Pipe `all_issues` through `issue-grouping.sh` to extract indicators, cluster, post-process, and score groups:
 
-**Example extracted indicators:**
-```json
-{
-  "file_section": "src/plugins/",
-  "issue_type": "fix",
-  "priority": 3,
-  "key_terms": ["pattern", "match", "evaluation", "incomplete"]
-}
+```bash
+# Run issue grouping: extracts indicators, clusters, post-processes, and scores
+grouped_issues=$(echo "$all_issues" | bash .claude/scripts/issue-grouping.sh)
+
+# Handle empty results
+if [ -z "$grouped_issues" ] || [ "$grouped_issues" = "[]" ]; then
+  grouped_issues="[]"
+fi
 ```
 
-#### 5.5.3. Clustering Algorithm
+**Error handling**: If `issue-grouping.sh` fails or is not found, fall back to ungrouped individual issues:
 
-Group issues using file_section + issue_type as primary criteria:
-
-```
-groups = []
-
-for each issue in all_issues:
-  matched = false
-
-  # Primary match: same file_section AND same issue_type
-  for each group in groups:
-    if issue.file_section == group.file_section AND issue.issue_type == group.issue_type:
-      add issue to group.items
-      matched = true
-      break
-
-  # Secondary match: 2+ shared key_terms AND same priority
-  if not matched:
-    for each group in groups:
-      shared_terms = intersection(issue.key_terms, group.key_terms)
-      if len(shared_terms) >= 2 AND issue.priority == group.priority:
-        add issue to group.items
-        update group.key_terms with union
-        matched = true
-        break
-
-  # No match: create new group
-  if not matched:
-    new_group = {
-      "file_section": issue.file_section,
-      "issue_type": issue.issue_type,
-      "priority": issue.priority,
-      "key_terms": issue.key_terms,
-      "items": [issue]
-    }
-    append new_group to groups
+```bash
+if [ ! -f .claude/scripts/issue-grouping.sh ]; then
+  echo "Warning: issue-grouping.sh not found -- using ungrouped issues" >&2
+  grouped_issues="[]"
+fi
 ```
 
-#### 5.5.4. Group Post-Processing
+The script implements the full clustering pipeline (Steps 5.5.2-5.5.5):
+- Extracts `file_section`, `issue_type`, `priority`, and `key_terms` indicators per issue
+- Clusters by primary match (same file_section + issue_type) then secondary match (2+ shared key_terms + same priority)
+- Post-processes: merges small groups (<2 items), caps at 10 groups, generates labels and metadata
+- Scores groups and returns sorted by descending score
 
-Apply size limits and generate labels:
+Output is a JSON array of group objects with `label`, `item_count`, `severity_breakdown`, `file_list`, `max_priority`, `total_score`, and `items` fields.
 
-**1. Combine small groups:**
-Groups with <2 items are merged into nearest match or "Other" group.
+#### 5.5.6-5.5.7. Tiered Selection (via tier-selection.sh)
 
-**2. Cap total groups:**
-Maximum 10 groups. If exceeded, merge lowest-priority groups.
+Use `tier-selection.sh` to generate AskUserQuestion prompts for each selection tier:
 
-**3. Generate group labels:**
+**Tier 1: Group selection**
 
-| Condition | Label Format |
-|-----------|--------------|
-| Has file_section | "{directory} {issue_type}s" (e.g., "Bimodal fixes") |
-| Same priority, no section | "{key_term} issues" (e.g., "Proof quality issues") |
-| Roadmap items | "Roadmap: {phase_name}" |
-| Mixed/Other | "Other {issue_type}s" |
+```bash
+# Generate Tier 1 prompt
+tier1_prompt=$(echo "$grouped_issues" | bash .claude/scripts/tier-selection.sh --mode tier1)
 
-**4. Calculate group metadata:**
-```json
-{
-  "label": "Bimodal fixes",
-  "item_count": 3,
-  "severity_breakdown": {"critical": 1, "high": 2},
-  "file_list": ["Soundness.lean", "Correctness.lean"],
-  "max_priority": 3,
-  "total_score": 11
-}
+# Present to user via AskUserQuestion using tier1_prompt fields:
+#   question, header, multiSelect, options
+# Capture selected indices (0-based) as comma-separated string: e.g., "0,2,3"
+selected_groups="0,2"  # (replace with actual user selection)
 ```
 
-#### 5.5.5. Score Groups for Ordering
+If the user selects nothing (empty selection), skip to Section 6.
 
-Sort groups by combined score:
+**Tier 2: Granularity selection**
 
-| Factor | Score |
-|--------|-------|
-| Contains critical issue | +10 |
-| Contains high issue | +5 |
-| Group max priority: Critical | +8 |
-| Group max priority: High | +6 |
-| Group max priority: Medium | +4 |
-| Group max priority: Low | +2 |
-| Number of items (capped at 5) | +N |
-| Roadmap "Near Term" items | +3 |
+```bash
+# Generate Tier 2 prompt for selected groups
+tier2_prompt=$(echo "$grouped_issues" | bash .claude/scripts/tier-selection.sh \
+  --mode tier2 \
+  --selected-groups "$selected_groups")
 
-Sort groups by descending score.
-
-#### 5.5.6. Interactive Group Selection (Tier 1)
-
-Present grouped task proposals via AskUserQuestion with multiSelect:
-
-```json
-{
-  "question": "Which task groups should be created?",
-  "header": "Review Task Proposals",
-  "multiSelect": true,
-  "options": [
-    {
-      "label": "[Group] {group_label} ({item_count} issues)",
-      "description": "{severity_breakdown} | Files: {file_list}"
-    }
-  ]
-}
+# Present to user via AskUserQuestion using tier2_prompt fields
+# Capture user choice: "grouped", "individual", or "manual"
+granularity="grouped"  # (replace with actual user selection)
 ```
 
-**Option generation:**
+**Tier 3: Manual selection (only if granularity == "manual")**
 
-For each group (sorted by score):
-```json
-{
-  "label": "[Group] Bimodal fixes (3 issues)",
-  "description": "Critical: 1, High: 2 | Files: Soundness.lean, Correctness.lean"
-}
+```bash
+if [ "$granularity" = "manual" ]; then
+  tier3_prompt=$(echo "$grouped_issues" | bash .claude/scripts/tier-selection.sh \
+    --mode tier3 \
+    --selected-groups "$selected_groups")
+
+  # Present to user via AskUserQuestion using tier3_prompt fields
+  # Capture selected issue indices as comma-separated string
+  # Extract selected issues from tier3_prompt._source_items using selected indices
+fi
 ```
 
-For ungrouped individual issues (if <2 items couldn't form groups):
-```json
-{
-  "label": "[Individual] {issue_title, truncated to 50 chars}",
-  "description": "{severity} | {file}:{line}"
-}
-```
-
-**Selection handling:**
-- Empty selection: No tasks created, proceed to Section 6
-- Any selection: Proceed to Tier 2 granularity selection
-
-#### 5.5.7. Granularity Selection (Tier 2)
-
-For selected groups, ask how tasks should be created:
-
-```json
-{
-  "question": "How should selected groups be created as tasks?",
-  "header": "Task Granularity",
-  "multiSelect": false,
-  "options": [
-    {
-      "label": "Keep as grouped tasks",
-      "description": "Creates {N} tasks (one per selected group)"
-    },
-    {
-      "label": "Expand into individual tasks",
-      "description": "Creates {M} tasks (one per issue in selected groups)"
-    },
-    {
-      "label": "Show issues and select manually",
-      "description": "See all issues in selected groups for manual selection"
-    }
-  ]
-}
-```
-
-**Option handling:**
-
-**"Keep as grouped tasks"**: Proceed to Section 5.6 with grouped task creation.
-
-**"Expand into individual tasks"**: Proceed to Section 5.6 with individual task creation for all issues in selected groups.
-
-**"Show issues and select manually"**: Present Tier 3 manual selection:
-
-```json
-{
-  "question": "Select individual issues to create as tasks:",
-  "header": "Issue Selection",
-  "multiSelect": true,
-  "options": [
-    {
-      "label": "{issue_description, truncated to 60 chars}",
-      "description": "{severity} | {file}:{line} | From: {group_label}"
-    }
-  ]
-}
-```
-
-After manual selection, proceed to Section 5.6 with individual task creation for selected issues.
+**Error handling**: If `tier-selection.sh` fails or is not found, fall back to a simple AskUserQuestion with raw issue descriptions.
 
 ### 5.6. Task Creation from Selection
 
@@ -995,7 +766,7 @@ This command implements the multi-task creation pattern. See `.claude/docs/refer
 |-----------|--------|-------|
 | Discovery | Yes | Code analysis + roadmap items |
 | Selection | Yes | Tier-1 group selection, Tier-2 granularity |
-| Grouping | Yes | file_section + issue_type clustering |
+| Grouping | Yes | file_section + issue_type clustering (via issue-grouping.sh) |
 | Dependencies | Partial | Declared in state.json; Task Order generated by script |
 | Ordering | No | Sequential creation |
 | Visualization | No | Not implemented |

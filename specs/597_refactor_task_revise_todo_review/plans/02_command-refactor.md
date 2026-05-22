@@ -288,19 +288,19 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 7: Refactor /review to use utility scripts [NOT STARTED]
+### Phase 7: Refactor /review to use utility scripts [COMPLETED]
 
 **Goal**: Rewire /review to call the extracted utility scripts, reducing it from 1039L to ~450L.
 
 **Tasks**:
-- [ ] Replace Steps 2.5-2.5.3 (roadmap integration, ~180L) with `bash .claude/scripts/roadmap-integration.sh` call
-- [ ] Replace Steps 5.5.2-5.5.5 (issue grouping, ~180L) with `bash .claude/scripts/issue-grouping.sh` call
-- [ ] Replace Steps 5.5.6-5.5.7 (tier selection, ~100L) with `bash .claude/scripts/tier-selection.sh` call
-- [ ] Verify issue grouping output is correctly consumed by task creation logic (Steps 5.6.1-5.6.4)
-- [ ] Verify roadmap_state structure is correctly consumed by review report generation (Step 4)
-- [ ] Ensure Task Order regeneration (Step 6.5) is preserved
-- [ ] Ensure review state tracking (Step 4.5) is preserved
-- [ ] Verify git commit section (Step 7) references all modified files
+- [x] Replace Steps 2.5-2.5.3 (roadmap integration, ~180L) with `bash .claude/scripts/roadmap-integration.sh` call *(completed: replaced ~148L inline with 35L wrapper calling --roadmap and --annotate flags)*
+- [x] Replace Steps 5.5.2-5.5.5 (issue grouping, ~180L) with `bash .claude/scripts/issue-grouping.sh` call *(completed: replaced ~108L inline with stdin pipe call)*
+- [x] Replace Steps 5.5.6-5.5.7 (tier selection, ~100L) with `bash .claude/scripts/tier-selection.sh` call *(completed: replaced ~90L inline with --mode tier1/tier2/tier3 calls)*
+- [x] Verify issue grouping output is correctly consumed by task creation logic (Steps 5.6.1-5.6.4) *(completed: grouped_issues JSON consumed by 5.6.1/5.6.2)*
+- [x] Verify roadmap_state structure is correctly consumed by review report generation (Step 4) *(completed: roadmap_state/roadmap_matches extracted from script output, referenced in Step 4 note)*
+- [x] Ensure Task Order regeneration (Step 6.5) is preserved *(completed)*
+- [x] Ensure review state tracking (Step 4.5) is preserved *(completed)*
+- [x] Verify git commit section (Step 7) references all modified files *(completed)*
 
 **Timing**: 1.5 hours
 
