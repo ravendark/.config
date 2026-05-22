@@ -419,7 +419,7 @@
     {
       "project_number": 600,
       "project_name": "revise_docs_architecture_post_refactor",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md — update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md — update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ — update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ — update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ — update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
@@ -428,16 +428,21 @@
         599
       ],
       "created": "2026-05-22T15:00:00Z",
-      "last_updated": "2026-05-22T21:49:16Z",
+      "last_updated": "2026-05-22T21:55:58Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
           "path": "specs/600_revise_docs_architecture_post_refactor/reports/01_team-research.md",
           "type": "research",
           "summary": "Team research with 3 teammates"
+        },
+        {
+          "path": "specs/600_revise_docs_architecture_post_refactor/plans/01_revise-docs-architecture.md",
+          "type": "plan",
+          "summary": "4-phase plan covering context/system-overview revision, guide updates, cosmetic fixes, and extension sync"
         }
       ],
-      "session_id": "sess_1779486007_86f4be"
+      "session_id": "sess_1779486634_e120da"
     },
     {
       "project_number": 602,

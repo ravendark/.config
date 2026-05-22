@@ -17,7 +17,7 @@ next_project_number: 608
 
 ### Workflow Refactor
 
-600 [RESEARCHED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
+600 [PLANNED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
 
 ### Uncategorized
 
@@ -64,11 +64,12 @@ next_project_number: 608
 
 ### 600. Revise .claude/docs/ architecture and guides post-refactor
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 599
 - **Research**: [600_revise_docs_architecture_post_refactor/reports/01_team-research.md]
+- **Plan**: [600_revise_docs_architecture_post_refactor/plans/01_revise-docs-architecture.md]
 
 **Description**: After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) system-overview.md — update to describe new unified workflow architecture. (2) docs/README.md — update index to reference new architecture documents. (3) Guides — update creating-commands.md, creating-skills.md, creating-agents.md. (4) Reference docs — update agent-frontmatter-standard.md, multi-task-creation-standard.md. (5) Templates — update to use shared base patterns. (6) Deprecate docs that describe pre-refactor architecture exclusively.
 
