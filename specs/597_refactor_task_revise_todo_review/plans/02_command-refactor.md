@@ -248,28 +248,28 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 6: Create /review utility scripts [IN PROGRESS]
+### Phase 6: Create /review utility scripts [COMPLETED]
 
 **Goal**: Extract three reusable components from /review's monolithic structure.
 
 **Tasks**:
-- [ ] Create `.claude/scripts/issue-grouping.sh` (~180L)
+- [x] Create `.claude/scripts/issue-grouping.sh` (~180L) *(completed)*
   - Extract Steps 5.5.2-5.5.5 (issue grouping indicators, clustering algorithm, post-processing, scoring)
   - Input: issue list as JSON array (via stdin or file argument)
   - Output: grouped issues JSON with scores to stdout
   - Preserve clustering algorithm exactly: primary match (file_section + issue_type), secondary match (2+ shared key_terms + same priority), new group fallback
   - Preserve group cap at 10 and small-group merging (< 2 items)
-- [ ] Create `.claude/scripts/roadmap-integration.sh` (~180L)
+- [x] Create `.claude/scripts/roadmap-integration.sh` (~180L) *(completed)*
   - Extract Steps 2.5-2.5.3 (parse ROADMAP.md, cross-reference with state, annotate completed items)
   - Input: ROADMAP.md path, state.json path
   - Output: roadmap_state JSON structure to stdout, applies annotations via Edit-style output
   - Preserve safety rules: skip already-annotated items, one edit per item
-- [ ] Create `.claude/scripts/tier-selection.sh` (~100L)
+- [x] Create `.claude/scripts/tier-selection.sh` (~100L) *(completed)*
   - Extract Steps 5.5.6-5.5.7 (Tier 1 group selection + Tier 2 granularity + Tier 3 manual)
   - Note: This script primarily generates the AskUserQuestion JSON prompts and parses responses
   - Input: grouped issues JSON
   - Output: selected issues list for task creation
-- [ ] Make all scripts executable
+- [x] Make all scripts executable *(completed)*
 
 **Timing**: 2 hours
 
