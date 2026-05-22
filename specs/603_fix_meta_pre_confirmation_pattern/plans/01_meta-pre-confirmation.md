@@ -71,13 +71,13 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Update skill-meta SKILL.md [IN PROGRESS]
+### Phase 1: Update skill-meta SKILL.md [COMPLETED]
 
 **Goal**: Add pre-confirmation stage for prompt mode so AskUserQuestion runs in the foreground before spawning meta-builder-agent
 
 **Tasks**:
-- [ ] Add `AskUserQuestion` to the `allowed-tools` frontmatter line (change from `Task, Bash, Edit, Read, Write` to `Task, Bash, Edit, Read, Write, AskUserQuestion`)
-- [ ] Add a new **Stage 2.5: Pre-Confirmation (prompt mode only)** section between "Context Preparation" and "Invoke Subagent" with these steps:
+- [x] Add `AskUserQuestion` to the `allowed-tools` frontmatter line (change from `Task, Bash, Edit, Read, Write` to `Task, Bash, Edit, Read, Write, AskUserQuestion`) *(completed)*
+- [x] Add a new **Stage 2.5: Pre-Confirmation (prompt mode only)** section between "Context Preparation" and "Invoke Subagent" with these steps: *(completed)*
   - Parse prompt for keywords, intent, and scope
   - Run `jq` query against `specs/state.json` to check for related active tasks
   - Propose task breakdown (1-3 tasks for typical prompts) with title, description, task_type, effort, dependencies
@@ -85,9 +85,9 @@ Phases within the same wave can execute in parallel.
   - On Cancel: return cancelled status immediately (no agent spawn)
   - On Revise: re-prompt with adjusted breakdown
   - On Yes: set `mode=confirmed` and add `confirmed_tasks` list to delegation context
-- [ ] Update Section 3 (Invoke Subagent) to pass `mode=confirmed` and `confirmed_tasks` in the delegation context when pre-confirmation succeeds
-- [ ] Add a `cancelled` return format example for when user cancels at the skill layer (no agent spawned)
-- [ ] Define the `confirmed_tasks` schema inline with an example matching the research report's proposed schema:
+- [x] Update Section 3 (Invoke Subagent) to pass `mode=confirmed` and `confirmed_tasks` in the delegation context when pre-confirmation succeeds *(completed)*
+- [x] Add a `cancelled` return format example for when user cancels at the skill layer (no agent spawned) *(completed)*
+- [x] Define the `confirmed_tasks` schema inline with an example matching the research report's proposed schema: *(completed)*
   ```json
   {
     "confirmed_tasks": [
