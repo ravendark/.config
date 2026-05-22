@@ -106,20 +106,20 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update Documentation [NOT STARTED]
+### Phase 2: Update Documentation [COMPLETED]
 
 **Goal**: Update both documentation files to describe the 3-tier behavior, expanded command list, and multi-task spec display.
 
 **Tasks**:
-- [ ] In `.claude/context/project/neovim/hooks/wezterm-integration.md`, update the `wezterm-task-number.sh` section (lines ~58-75):
+- [x] In `.claude/context/project/neovim/hooks/wezterm-integration.md`, update the `wezterm-task-number.sh` section (lines ~58-75): *(completed)*
   - Expand the workflow pattern list to include `/spawn N`, `/task --recover N`, `/task --expand N`, `/task --abandon N`, `/task --review N`, `/errors --fix N`
   - Update the behavior description from 2-tier to 3-tier:
     - **Workflow command with task number**: Sets `TASK_NUMBER` to compact spec
     - **Slash command without task number**: Clears `TASK_NUMBER`
     - **Free text / follow-up**: Preserves `TASK_NUMBER` (no change)
   - Update the User Variables table: change `TASK_NUMBER` values from `Numeric string (e.g., "792")` to `Numeric string or compact multi-task spec (e.g., "792", "7,22-24,59")`
-- [ ] Apply the same documentation updates to `.claude/extensions/nvim/context/project/neovim/hooks/wezterm-integration.md`
-- [ ] Verify both documentation files are consistent
+- [x] Apply the same documentation updates to `.claude/extensions/nvim/context/project/neovim/hooks/wezterm-integration.md` *(completed)*
+- [x] Verify both documentation files are consistent *(completed)*
 
 **Timing**: 30 minutes
 

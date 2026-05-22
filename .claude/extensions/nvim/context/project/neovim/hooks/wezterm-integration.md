@@ -56,24 +56,30 @@ Clears `CLAUDE_STATUS` by setting it to an empty value, restoring normal tab app
 **Hook Event**: `UserPromptSubmit`
 **Purpose**: Extract and display task number in tab title
 
-Parses `CLAUDE_USER_PROMPT` environment variable for workflow patterns:
-- `/research N`
-- `/plan N`
-- `/implement N`
+Parses user prompt for workflow patterns using 3-tier logic (task 590):
+- `/research N` or `/research N, N-N, N` (multi-task)
+- `/plan N` or `/plan N, N-N`
+- `/implement N` or `/implement N, N-N, N`
 - `/revise N`
+- `/spawn N`
+- `/task --recover N`
+- `/task --expand N`
+- `/task --abandon N`
+- `/task --review N`
+- `/errors --fix N`
 
-**Behavior** (task 795):
-- **Workflow command**: Sets `TASK_NUMBER` user variable to N
-- **Non-workflow command**: Clears `TASK_NUMBER` user variable
-- **Claude output**: No change (preserves current state - no hook fires)
+**Behavior** (task 590):
+- **Workflow command with task number**: Sets `TASK_NUMBER` to compact spec (e.g., `7,22-24,59`)
+- **Slash command without task number**: Clears `TASK_NUMBER` user variable
+- **Free text / follow-up**: Preserves `TASK_NUMBER` (no change)
 
-This ensures task numbers persist correctly during Claude's responses and tool executions, only changing when the user submits a new prompt.
+This 3-tier logic ensures task numbers persist during follow-up exchanges within a workflow (e.g., answering agent questions like "yes proceed"), only changing when the user explicitly starts a new command.
 
 ## User Variables
 
 | Variable | Purpose | Values |
 |----------|---------|--------|
-| `TASK_NUMBER` | Task number for tab title | Numeric string (e.g., "792") |
+| `TASK_NUMBER` | Task number for tab title | Numeric string or compact multi-task spec (e.g., "792", "7,22-24,59") |
 | `CLAUDE_STATUS` | Notification state | "needs_input" or empty |
 
 ## Configuration
