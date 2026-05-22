@@ -1,4 +1,6 @@
 **/.return-meta.json
 /specs/tmp
+/.claude/tmp/
+/.opencode/tmp/
 **/.postflight-pending
 .syncprotect
