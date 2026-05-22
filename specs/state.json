@@ -1134,8 +1134,13 @@
       "dependencies": [],
       "created": "2026-05-22T18:00:00Z",
       "last_updated": "2026-05-22T18:54:13Z",
-      "next_artifact_number": 2,
+      "next_artifact_number": 3,
       "artifacts": [
+        {
+          "path": "specs/601_simplify_notification_pipeline_merge_vocabulary/reports/01_team-research.md",
+          "type": "research",
+          "summary": "Team research with 4 teammates"
+        },
         {
           "path": "specs/601_simplify_notification_pipeline_merge_vocabulary/reports/01_team-research.md",
           "type": "research",
