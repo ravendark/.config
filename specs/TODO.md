@@ -20,7 +20,7 @@ next_project_number: 605
 
 ### Wezterm Notifications
 
-602 [PLANNING] — Update wezterm.lua color palette for dim/bright workflow stage se
+602 [PLANNED] — Update wezterm.lua color palette for dim/bright workflow stage se
 
 ### Workflow Refactor
 
@@ -43,7 +43,7 @@ next_project_number: 605
 
 ### 602. Update wezterm.lua dim/bright color palette and fix tab-switch clearing
 - **Effort**: 1-2 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: nix
 - **Topic**: wezterm-notifications
 - **Dependencies**: Task #601
