@@ -175,7 +175,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Delete Dead Code and Extract TTY Discovery [NOT STARTED]
+### Phase 3: Delete Dead Code and Extract TTY Discovery [COMPLETED]
 
 **Goal**: Remove unused scripts, extract shared TTY discovery boilerplate into `wezterm-utils.sh`, and update hooks to source it.
 

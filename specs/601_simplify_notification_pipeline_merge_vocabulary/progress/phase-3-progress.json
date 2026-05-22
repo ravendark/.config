@@ -1,0 +1,18 @@
+{
+  "phase": 3,
+  "phase_name": "Delete Dead Code and Extract TTY Discovery",
+  "started_at": "2026-05-22T00:11:00Z",
+  "last_updated": "2026-05-22T00:18:00Z",
+  "objectives": [
+    {"id": 1, "description": "Delete wezterm-clear-status.sh from .claude/hooks/", "status": "done"},
+    {"id": 2, "description": "Delete lifecycle-notify.sh from .claude/scripts/", "status": "done"},
+    {"id": 3, "description": "Remove temporary debug log from claude-stop-notify.sh", "status": "done"},
+    {"id": 4, "description": "Create .claude/hooks/wezterm-utils.sh with shared functions", "status": "done"},
+    {"id": 5, "description": "Refactor wezterm-notify.sh to source wezterm-utils.sh", "status": "done"},
+    {"id": 6, "description": "Refactor wezterm-preflight-status.sh to source wezterm-utils.sh", "status": "done"}
+  ],
+  "current_objective": 6,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

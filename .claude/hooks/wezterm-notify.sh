@@ -32,6 +32,12 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load shared WezTerm utilities (TTY discovery and OSC writes)
+# shellcheck source=wezterm-utils.sh
+source "$SCRIPT_DIR/wezterm-utils.sh"
+
 # Configuration with defaults
 WEZTERM_NOTIFY_ENABLED="${WEZTERM_NOTIFY_ENABLED:-1}"
 
@@ -56,24 +62,10 @@ if [[ -z "${WEZTERM_PANE:-}" ]]; then
     exit_success
 fi
 
-# Get the TTY for the current pane from WezTerm CLI
-# Claude Code hooks have redirected stdio, so we cannot use /dev/tty
-PANE_TTY=$(wezterm cli list --format=json 2>/dev/null | \
-    jq -r ".[] | select(.pane_id == $WEZTERM_PANE) | .tty_name" 2>/dev/null || echo "")
+# Get the TTY for the current pane (via shared utility)
+PANE_TTY=$(get_pane_tty) || exit_success
 
-# Check if we found a writable TTY
-if [[ -z "$PANE_TTY" ]] || [[ ! -w "$PANE_TTY" ]]; then
-    exit_success
-fi
-
-# Set CLAUDE_STATUS user variable via OSC 1337
-# Format: OSC 1337 ; SetUserVar=name=base64_value ST
-# base64 encode the status value
-STATUS_VALUE=$(echo -n "$STATUS" | base64 | tr -d '\n')
-
-# Write OSC 1337 escape sequence to the pane's TTY (not stdout)
-# \033] = OSC
-# \007 = ST (string terminator)
-printf '\033]1337;SetUserVar=CLAUDE_STATUS=%s\007' "$STATUS_VALUE" > "$PANE_TTY"
+# Set CLAUDE_STATUS user variable via OSC 1337 (via shared utility)
+set_user_var "CLAUDE_STATUS" "$STATUS" "$PANE_TTY"
 
 exit_success

@@ -38,10 +38,6 @@ exit_success() {
 # Read stdin JSON to check if this is a subagent stop event.
 # If agent_id is present in the stop context, suppress all lifecycle dispatch.
 STDIN_JSON=$(cat 2>/dev/null || echo '{}')
-
-# Debug log for troubleshooting (remove in Phase 3 cleanup)
-echo "[$(date -Iseconds)] STDIN: $STDIN_JSON" >> "$SCRIPT_DIR/../tmp/stop-debug.log" 2>/dev/null || true
-
 AGENT_ID=$(echo "$STDIN_JSON" | jq -r '.agent_id // empty' 2>/dev/null || echo "")
 if [[ -n "$AGENT_ID" ]]; then
     # This is a subagent stop -- suppress all dispatch

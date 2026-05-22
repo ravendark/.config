@@ -13,12 +13,19 @@
 #     /plan N      -> CLAUDE_STATUS = "planning"
 #     /implement N -> CLAUDE_STATUS = "implementing"
 #   Tier 2 (CLEAR): Any other slash command (new context, no in-progress state)
+#     Also clears workflow-active marker to handle ESC-cancel edge case
 #   Tier 3 (PRESERVE): Free text / follow-up (CLAUDE_STATUS unchanged)
 #
 # Note: Claude Code hooks run with redirected stdio (stdout is a socket),
 # so we must write the escape sequence directly to the pane's TTY.
 
 set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load shared WezTerm utilities (TTY discovery and OSC writes)
+# shellcheck source=wezterm-utils.sh
+source "$SCRIPT_DIR/wezterm-utils.sh"
 
 # Helper: return success JSON for hook
 exit_success() {
@@ -63,26 +70,16 @@ elif [[ "$PROMPT" =~ ^[[:space:]]*/[a-zA-Z] ]]; then
 # Tier 3: Free text / follow-up -> preserve CLAUDE_STATUS (no-op)
 fi
 
-# Get the TTY for the current pane from WezTerm CLI
-# Claude Code hooks have redirected stdio, so we cannot use /dev/tty
-PANE_TTY=$(wezterm cli list --format=json 2>/dev/null | \
-    jq -r ".[] | select(.pane_id == $WEZTERM_PANE) | .tty_name" 2>/dev/null || echo "")
-
-# Check if we found a writable TTY
-if [[ -z "$PANE_TTY" ]] || [[ ! -w "$PANE_TTY" ]]; then
-    exit_success
-fi
+# Get the TTY for the current pane (via shared utility)
+PANE_TTY=$(get_pane_tty) || exit_success
 
 if [[ "$SHOULD_SET" -eq 1 ]]; then
-    # Set CLAUDE_STATUS to in-progress lifecycle state via OSC 1337
-    # Format: OSC 1337 ; SetUserVar=name=base64_value ST
-    STATUS_ENCODED=$(echo -n "$STATUS_VALUE" | base64 | tr -d '\n')
-    printf '\033]1337;SetUserVar=CLAUDE_STATUS=%s\007' "$STATUS_ENCODED" > "$PANE_TTY"
+    # Set CLAUDE_STATUS to in-progress lifecycle state via OSC 1337 (via shared utility)
+    set_user_var "CLAUDE_STATUS" "$STATUS_VALUE" "$PANE_TTY"
 elif [[ "$SHOULD_CLEAR" -eq 1 ]]; then
-    # Clear CLAUDE_STATUS on non-lifecycle slash commands
-    printf '\033]1337;SetUserVar=CLAUDE_STATUS=\007' > "$PANE_TTY"
+    # Clear CLAUDE_STATUS on non-lifecycle slash commands (via shared utility)
+    set_user_var "CLAUDE_STATUS" "" "$PANE_TTY"
     # Clear workflow-active marker (handles ESC-cancel and non-lifecycle command cleanup)
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     rm -f "$SCRIPT_DIR/../tmp/workflow-active" 2>/dev/null || true
 fi
 # Tier 3: no-op (CLAUDE_STATUS preserved from previous state)

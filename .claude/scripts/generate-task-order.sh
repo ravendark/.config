@@ -116,6 +116,7 @@ get_description() {
 # Associative arrays for graph data
 declare -A task_status     # task_num -> status string (raw from state.json)
 declare -A task_deps       # task_num -> space-separated active dep IDs
+declare -A task_successors # task_num -> space-separated active successor IDs (inverse of task_deps)
 declare -A task_desc       # task_num -> description
 declare -a all_task_nums   # ordered list of all active task IDs
 
@@ -173,6 +174,25 @@ build_graph() {
       done
     fi
     task_deps["$tn"]="${clean_deps# }"  # trim leading space
+  done
+}
+
+# build_successors_map: inverts task_deps to build task_successors
+# For each task T with deps D1 D2..., add T as a successor of each Di.
+build_successors_map() {
+  for tn in "${all_task_nums[@]}"; do
+    local deps="${task_deps[$tn]:-}"
+    if [[ -n "$deps" ]]; then
+      read -ra dep_array <<< "$deps"
+      for dep in "${dep_array[@]}"; do
+        [[ -z "$dep" ]] && continue
+        task_successors["$dep"]="${task_successors[$dep]:-} ${tn}"
+      done
+    fi
+  done
+  # Trim leading spaces from all entries
+  for tn in "${all_task_nums[@]}"; do
+    task_successors["$tn"]="${task_successors[$tn]# }"
   done
 }
 
@@ -452,8 +472,8 @@ _print_topic_node() {
   _topic_section_visited["$task_num"]=1
   _globally_visited["$task_num"]=1
 
-  # Print this task's active dependencies (indented below)
-  local deps="${task_deps[$task_num]:-}"
+  # Print this task's active successors (tasks that depend on this task, indented below)
+  local deps="${task_successors[$task_num]:-}"
   if [[ -n "$deps" ]]; then
     local sorted_deps
     sorted_deps=$(echo "$deps" | tr ' ' '\n' | sort -n | tr '\n' ' ')
@@ -780,6 +800,9 @@ if [[ ${#all_task_nums[@]} -eq 0 ]]; then
   echo "INFO: No active non-terminal tasks found in $STATE_FILE" >&2
   exit 0
 fi
+
+# Build successors map (inverse of task_deps: dep -> tasks that depend on it)
+build_successors_map
 
 # Load topic assignments from state.json
 load_topics
