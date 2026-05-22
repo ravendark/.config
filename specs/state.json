@@ -709,7 +709,7 @@
     {
       "project_number": 592,
       "project_name": "design_unified_workflow_architecture",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Design the unified workflow architecture based on research findings from task 591. Covers: (1) shared command infrastructure to eliminate ~900 lines of duplicated arg parsing, flag handling, extension routing, and GATE IN/OUT across /research, /plan, /implement. (2) Shared skill base pattern to deduplicate ~80% identical preflight/postflight across workflow skills. (3) /orchestrate state machine design: task state detection -> action selection -> agent dispatch -> handoff consumption -> loop. (4) Fork vs. subagent decision tree (fork decision matrix) for each workflow stage: forks for same-turn re-dispatch (blocker escalation, team mode), fresh subagents for sequential phases. (5) dispatch_agent() abstraction: single function encapsulating fork-vs-named-subagent decision, future-proofing against Anthropic 'named fork' API when it arrives. (6) Handoff protocol specification: structured handoff objects (200-400 tokens) replacing raw artifact injection (2000-5000 tokens). (7) Extension integration points for the new architecture, including lifecycle hook interface. (8) Nested loop resolution: orchestrator outer loop and implementer inner continuation loop must be exclusive alternatives, not nested layers.",
@@ -718,16 +718,47 @@
         591
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T16:52:04Z",
+      "last_updated": "2026-05-22T17:03:02Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
           "path": "specs/592_design_unified_workflow_architecture/reports/02_architecture-design.md",
           "type": "research",
           "summary": "Full architectural blueprint: shared command infrastructure, shared skill base, /orchestrate state machine, dispatch_agent() spec, handoff schema, extension hooks, nested loop resolution"
+        },
+        {
+          "path": "specs/592_design_unified_workflow_architecture/plans/02_architecture-design.md",
+          "type": "plan",
+          "summary": "4-phase plan: architecture spec document, downstream task description updates, design guidance reports for 593-599, validation"
         }
       ],
-      "session_id": "sess_1779468372_388b41"
+      "session_id": "sess_1779469155_fb1bff",
+      "plan_metadata": {
+        "phases": 4,
+        "total_effort_hours": 3,
+        "complexity": "complex",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/02_architecture-design.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-22"
+          }
+        ]
+      }
     },
     {
       "project_number": 593,
