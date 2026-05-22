@@ -11,19 +11,17 @@ next_project_number: 608
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,597,598,607 | -- | workflow-refactor |
-| 2 | 599 | 597,598 | workflow-refactor |
+| 1 | 78,87,598,607 | -- | workflow-refactor |
+| 2 | 599 | 598 | workflow-refactor |
 | 3 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Workflow Refactor
 
-597 [IMPLEMENTING] — Refactor /task, /revise, /todo, /review for consistency with the 
+598 [RESEARCHED] — Update the context system for progressive disclosure and agent co
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
-598 [RESEARCHED] — Update the context system for progressive disclosure and agent co
-  └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
 607 [NOT STARTED] — improve_research_agents_multi_angle_team_strategy
 
 ### Uncategorized
@@ -105,7 +103,7 @@ next_project_number: 608
 
 ### 597. Refactor /task, /revise, /todo, /review commands for consistency
 - **Effort**: 2-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593
@@ -113,6 +111,7 @@ next_project_number: 608
   - [597_refactor_task_revise_todo_review/reports/01_seed-research.md]
   - [597_refactor_task_revise_todo_review/reports/02_command-refactor-analysis.md]
 - **Plan**: [597_refactor_task_revise_todo_review/plans/02_command-refactor.md]
+- **Summary**: [597_refactor_task_revise_todo_review/summaries/02_command-refactor-summary.md]
 
 **Description**: Refactor /task, /revise, /todo, /review for consistency with the new architecture from task 593. /task (710L): Use shared gate-in/gate-out scripts from task 593 for state operations; reduce redundancy across 5 modes. /revise (161L): Integrate with orchestrator handoff protocol (write .orchestrator-handoff.json when orchestrator_mode=true in delegation context). /todo (1047L): Decompose into utility modules: orphan detection, roadmap sync, vault operation, metrics. Critical: add memory harvest automation — harvest memory_candidates from tasks being archived (571 archived tasks have candidates but vault has only 3 memories). /review (1040L): Decompose into reusable components: issue grouping algorithm (180L), roadmap integration (120L), 3-tier selection flow. References: .claude/docs/architecture/architecture-spec.md Components 1-2 for gate-in/gate-out patterns.
 

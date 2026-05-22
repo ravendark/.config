@@ -1,7 +1,7 @@
 # Implementation Plan: Task #597
 
 - **Task**: 597 - Refactor /task, /revise, /todo, /review for consistency with new architecture
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 10 hours
 - **Dependencies**: Task 593 (shared utilities -- complete), Task 596 (orchestrator -- complete)
 - **Research Inputs**: specs/597_refactor_task_revise_todo_review/reports/01_seed-research.md, specs/597_refactor_task_revise_todo_review/reports/02_command-refactor-analysis.md, specs/597_refactor_task_revise_todo_review/reports/03_design-guidance.md

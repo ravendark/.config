@@ -188,7 +188,7 @@
     {
       "project_number": 597,
       "project_name": "refactor_task_revise_todo_review",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Refactor /task, /revise, /todo, /review for consistency with the new architecture from task 593. /task (710L): Use shared gate-in/gate-out scripts from task 593 for state operations; reduce redundancy across 5 modes. /revise (161L): Integrate with orchestrator handoff protocol (write .orchestrator-handoff.json when orchestrator_mode=true in delegation context). /todo (1047L): Decompose into utility modules: orphan detection, roadmap sync, vault operation, metrics. Critical: add memory harvest automation — harvest memory_candidates from tasks being archived (571 archived tasks have candidates but vault has only 3 memories). /review (1040L): Decompose into reusable components: issue grouping algorithm (180L), roadmap integration (120L), 3-tier selection flow. References: .claude/docs/architecture/architecture-spec.md Components 1-2 for gate-in/gate-out patterns.",
@@ -197,7 +197,7 @@
         593
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T20:17:39Z",
+      "last_updated": "2026-05-22T20:43:37Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -216,7 +216,8 @@
           "summary": "8-phase plan to refactor /task, /revise, /todo, /review with utility scripts, memory harvest, and orchestrator handoff."
         }
       ],
-      "session_id": "sess_1748000000_597impl"
+      "session_id": "sess_1748000000_597impl",
+      "completion_summary": "Refactored 4 commands with 8 utility scripts. /todo reduced from 1046L to 630L, /review from 1039L to 810L, /revise from 160L to 125L. Created memory-harvest.sh closing 47-task candidate gap. Added orchestrator handoff to /revise."
     },
     {
       "project_number": 598,
