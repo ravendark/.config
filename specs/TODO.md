@@ -22,7 +22,7 @@ next_project_number: 608
 598 [IMPLEMENTING] — Update the context system for progressive disclosure and agent co
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
-607 [PLANNING] — improve_research_agents_multi_angle_team_strategy
+607 [PLANNED] — improve_research_agents_multi_angle_team_strategy
 
 ### Uncategorized
 
@@ -33,10 +33,11 @@ next_project_number: 608
 
 ### 607. Improve research agents with multi-angle team research strategy
 - **Effort**: 4-8 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Research**: [607_improve_research_agents_multi_angle_team_strategy/reports/01_team-research.md]
+- **Plan**: [607_improve_research_agents_multi_angle_team_strategy/plans/01_improve-team-research.md]
 
 **Description**: Improve formal/lean/math/logic research agents with multi-angle team research strategy. Add a multi-angle analysis mode to research agents that launches parallel agents each assigned a distinct angle (e.g., backward from problem sites, infrastructure inventory with gap analysis, literature/documentation review, decomposition into small verifiable units). Improvements: (1) Add multi-angle analysis mode to domain research agents, (2) Always verify proposed solutions compile/work before reporting, (3) Add guidance for when to recommend team research after repeated blockers, (4) Add prototype-first research pattern, (5) Update research agents to auto-route to multi-angle team research when multiple handoffs indicate the same blocker. Adapted from ProofChecker task 156.
 

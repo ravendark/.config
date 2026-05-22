@@ -5,11 +5,11 @@
     {
       "project_number": 607,
       "project_name": "improve_research_agents_multi_angle_team_strategy",
-      "status": "planning",
+      "status": "planned",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "created": "2026-05-22T20:32:14Z",
-      "last_updated": "2026-05-22T20:56:47Z",
+      "last_updated": "2026-05-22T21:00:42Z",
       "session_id": "sess_1748000000_607abc",
       "next_artifact_number": 2,
       "artifacts": [
@@ -17,8 +17,43 @@
           "path": "specs/607_improve_research_agents_multi_angle_team_strategy/reports/01_team-research.md",
           "type": "research",
           "summary": "Team research with 4 teammates: domain-aware team architecture, exploit/explore modes, Wave 2 critic"
+        },
+        {
+          "path": "specs/607_improve_research_agents_multi_angle_team_strategy/plans/01_improve-team-research.md",
+          "type": "plan",
+          "summary": "6-phase plan: dynamic sizing, Wave 2 critic, domain injection, exploit/explore modes"
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 6,
+        "total_effort_hours": 6,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4,
+            5
+          ],
+          [
+            6
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_team-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-22"
+          }
+        ]
+      }
     },
     {
       "project_number": 87,
