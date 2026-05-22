@@ -1,5 +1,5 @@
 ---
-next_project_number: 591
+next_project_number: 600
 ---
 
 # TODO
@@ -11,9 +11,27 @@ next_project_number: 591
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501 | -- | -- |
+| 1 | 78,87,500,501,591 | -- | --,workflow-refactor |
+| 2 | 592 | 591 | workflow-refactor |
+| 3 | 593 | 592 | workflow-refactor |
+| 4 | 594,597 | 593 | workflow-refactor |
+| 5 | 595,596 | 593,594 | workflow-refactor |
+| 6 | 598 | 595,596 | workflow-refactor |
+| 7 | 599 | 595,596,597,598 | workflow-refactor |
 
 **Grouped by Topic** (indented = must complete first):
+
+### workflow-refactor
+
+591 [NOT STARTED] — research_claude_code_orchestration_practices
+  592 [NOT STARTED] — design_unified_workflow_architecture
+    593 [NOT STARTED] — extract_shared_workflow_utilities
+      594 [NOT STARTED] — refactor_workflow_skills_shared_base
+      597 [NOT STARTED] — refactor_task_revise_todo_review
+        595 [NOT STARTED] — refactor_research_plan_implement_commands
+        596 [NOT STARTED] — create_orchestrate_command_skill_agent
+          598 [NOT STARTED] — progressive_disclosure_context_system
+            599 [NOT STARTED] — update_claudemd_extension_documentation
 
 ### Uncategorized
 
@@ -23,6 +41,105 @@ next_project_number: 591
 501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
 
 ## Tasks
+
+### 599. Update CLAUDE.md, extension integration, and documentation
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 595, 596, 597, 598
+
+**Description**: Update CLAUDE.md, extension integration points, and documentation for the refactored system. (1) Regenerate .claude/CLAUDE.md to reflect: new /orchestrate command, refactored command/skill/agent inventory, updated routing table, new shared utilities, progressive disclosure architecture. (2) Update extension manifest schema if integration points changed. (3) Update .claude/docs/ guides: creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) Update rules if workflow/checkpoint patterns changed. (5) Verify extension compatibility — ensure nvim, nix, and other loaded extensions still integrate correctly with refactored core. (6) Update system-overview.md architecture documentation.
+
+---
+
+### 598. Update context system for progressive disclosure and agent context budgets
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 595, 596
+
+**Description**: Update the context system (97 index entries, ~22K lines of documentation) for progressive disclosure and agent context budgets. (1) Implement tiered context loading: Level 1 (always) — minimal bootstrap (~500 lines), Level 2 (command-specific) — loaded on command detection, Level 3 (agent-specific) — loaded at agent spawn, Level 4 (on-demand) — loaded via @-ref only when needed. (2) Add context budget metadata to index entries (estimated token cost per file). (3) Implement context budget caps per agent type (sonnet workers: ~8K tokens, opus planners: ~15K tokens). (4) Update load_when patterns to support the new tier system. (5) Audit which of the 97 entries are actually used by which agents and prune dead entries.
+
+---
+
+### 597. Refactor /task, /revise, /todo, /review commands for consistency
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 593
+
+**Description**: Refactor /task (710L), /revise (161L), /todo (1047L), and /review (1040L) for consistency with the new architecture from task 593. /task: Use shared utilities for state operations, reduce redundancy across 5 modes. /revise: Already compact, integrate with orchestrator handoff protocol. /todo: Decompose 1047-line monolith — extract orphan detection, roadmap sync, vault operation, and metrics into separate utility modules. /review: Decompose 1040-line monolith — extract issue grouping algorithm (180L), roadmap integration (120L), and 3-tier selection flow into reusable components.
+
+---
+
+### 596. Create /orchestrate command, skill, and orchestrator agent
+- **Effort**: 3-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 593, 594
+
+**Description**: Create the /orchestrate command, skill, and orchestrator agent. Usage: /orchestrate N [prompt]. Behavior: (1) Load task state from state.json — current status, artifacts, plan phases. (2) Determine next action: if not_started -> research; if researched -> plan; if planned -> implement; if implementing/partial -> resume from handoff; if blocked -> research blocker then revise plan. (3) Fork or spawn subagents as appropriate — forks for cache-sharing when context is warm, fresh subagents for independent work. (4) Each sub-operation writes a handoff artifact that the orchestrator reads to decide next steps without accumulating tool output. (5) Blocker escalation: implementation agents flag blockers in handoff, orchestrator dispatches research fork, uses findings to invoke reviser, then re-dispatches implementation. (6) Loop until task reaches completed or user interrupts. Replaces the vestigial skill-orchestrator (128L). Subsumes task 501 re: fork cache optimization.
+
+---
+
+### 595. Refactor /research, /plan, /implement commands to use shared infrastructure
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 593, 594
+
+**Description**: Refactor /research (500L), /plan (531L), /implement (612L) commands to use shared utilities from task 593 and refactored skills from task 594. Target: each command reduced to ~150-200 lines covering only command-specific logic (argument docs, mode-specific behavior, output formatting). Shared infrastructure handles arg parsing, flag processing, routing, GATE IN/OUT, multi-task dispatch, and COMMIT. Add progressive disclosure: commands load only the context needed for the current execution path rather than the full definition upfront.
+
+---
+
+### 594. Refactor workflow skills to shared base pattern
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 593
+
+**Description**: Refactor the 4 core workflow skills (skill-researcher 558L, skill-planner 490L, skill-implementer 629L, skill-reviser 489L) to use a shared base pattern, eliminating ~80% structural duplication. All share: input validation, preflight status update, artifact number calculation, memory retrieval, format injection, agent spawning, metadata reading, validation, postflight status update, artifact linking, git commit, cleanup, return summary. Target: each skill reduced to ~100-150 lines of unique logic (agent prompt construction, skill-specific context). Subsumes task 500 (context: fork frontmatter). Team skills (skill-team-research 616L, skill-team-plan 598L, skill-team-implement 677L) should also leverage the shared base where possible.
+
+---
+
+### 593. Extract shared workflow utilities module
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 592
+
+**Description**: Extract shared workflow utilities into reusable modules per the architecture from task 592. Target components: (1) parse_task_args() — multi-task number parsing with comma/range support, currently duplicated in /research, /plan, /implement (~30 lines x3). (2) Flag parsing — effort, model, clean, team flags (~50 lines x3). (3) Extension routing lookup — manifest-based task_type to skill resolution (~30 lines x3). (4) GATE IN template — preflight validation, status update, session generation. (5) GATE OUT template — postflight verification, defensive corrections, status assertion. (6) Multi-task dispatch — batch validation, parallel skill invocation, consolidated output. (7) COMMIT template — git commit with session ID. These may be implemented as shared command fragments, skill utilities, or shell scripts depending on the architecture design.
+
+---
+
+### 592. Design unified workflow architecture
+- **Effort**: 3-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 591
+
+**Description**: Design the unified workflow architecture based on research findings from task 591. Covers: (1) shared command infrastructure to eliminate ~900 lines of duplicated arg parsing, flag handling, extension routing, and GATE IN/OUT across /research, /plan, /implement. (2) Shared skill base pattern to deduplicate ~80% identical preflight/postflight across workflow skills. (3) /orchestrate state machine design: task state detection -> action selection -> agent dispatch -> handoff consumption -> loop. (4) Fork vs. subagent decision tree for each workflow stage. (5) Handoff protocol specification for orchestrator context preservation. (6) Extension integration points for the new architecture.
+
+---
+
+### 591. Research Claude Code 2026 orchestration best practices
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: None
+
+**Description**: Research Claude Code 2026 best practices for forking vs. subagent invocation, progressive disclosure, token-efficient context loading, and agent orchestration patterns. Audit current system (~18K lines across commands/skills/agents) for token waste, duplication hotspots, and missed opportunities. Deliverable: comprehensive report covering (1) fork cache sharing strategies, (2) progressive disclosure patterns, (3) handoff artifact design, (4) orchestration state machines, (5) specific recommendations for the 9-task refactor. Related: tasks 500, 501 partially address fork optimization and will be subsumed.
+
+---
 
 ### 590. Fix task number parsing and tab display consistency
 - **Effort**: 1-2 hours
