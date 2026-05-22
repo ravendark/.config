@@ -1,7 +1,7 @@
 # Implementation Plan: Task #589
 
 - **Task**: 589 - wezterm_artifact_colors_preflight
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: 588
 - **Research Inputs**: specs/589_wezterm_artifact_colors_preflight/reports/01_wezterm-artifact-colors.md
@@ -71,14 +71,14 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Expand wezterm.lua color palette [NOT STARTED]
+### Phase 1: Expand wezterm.lua color palette [COMPLETED]
 
 **Goal**: Add 4 new artifact-type color entries to the `status_colors` table in `wezterm.lua` so that wezterm can render per-artifact tab colors.
 
 **Tasks**:
-- [ ] Add `report`, `plan`, `summary`, `error` entries to `status_colors` table in `~/.dotfiles/config/wezterm.lua` (after existing 8 entries, around line 328)
-- [ ] Use recommended colors: report=`#1a5a2a`/`#d0d0d0` (bright green), plan=`#1a2a5a`/`#d0d0d0` (bright blue), summary=`#5a4a1a`/`#d0d0d0` (dark gold), error=`#5a1a1a`/`#d0d0d0` (bright red)
-- [ ] Update the comment block (line 313-314) to mention artifact-type states alongside lifecycle states
+- [x] Add `report`, `plan`, `summary`, `error` entries to `status_colors` table in `~/.dotfiles/config/wezterm.lua` (after existing 8 entries, around line 328) *(completed)*
+- [x] Use recommended colors: report=`#1a5a2a`/`#d0d0d0` (bright green), plan=`#1a2a5a`/`#d0d0d0` (bright blue), summary=`#5a4a1a`/`#d0d0d0` (dark gold), error=`#5a1a1a`/`#d0d0d0` (bright red) *(completed)*
+- [x] Update the comment block (line 313-314) to mention artifact-type states alongside lifecycle states *(completed)*
 
 **Timing**: 0.25 hours
 
