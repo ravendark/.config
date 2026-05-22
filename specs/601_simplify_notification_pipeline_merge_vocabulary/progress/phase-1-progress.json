@@ -1,0 +1,17 @@
+{
+  "phase": 1,
+  "phase_name": "Workflow-Active Marker and Stop Hook Fix",
+  "started_at": "2026-05-22T00:00:00Z",
+  "last_updated": "2026-05-22T00:00:00Z",
+  "objectives": [
+    {"id": 1, "description": "Create workflow-active marker file in update-task-status.sh preflight path", "status": "not_started"},
+    {"id": 2, "description": "Remove signal file mechanism from update-task-status.sh PHASE 5", "status": "not_started"},
+    {"id": 3, "description": "Rewrite claude-stop-notify.sh to check workflow-active marker", "status": "not_started"},
+    {"id": 4, "description": "Add workflow-active cleanup to wezterm-preflight-status.sh Tier 2", "status": "not_started"},
+    {"id": 5, "description": "Verify Stop hook receives proper stdin JSON by adding temporary debug log", "status": "not_started"}
+  ],
+  "current_objective": 1,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

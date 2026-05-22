@@ -1,7 +1,7 @@
 # Implementation Plan: Simplify Notification Pipeline / Merge Vocabulary
 
 - **Task**: 601 - simplify_notification_pipeline_merge_vocabulary
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 5 hours
 - **Dependencies**: None
 - **Research Inputs**: [reports/01_team-research.md]
@@ -73,7 +73,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Workflow-Active Marker and Stop Hook Fix [NOT STARTED]
+### Phase 1: Workflow-Active Marker and Stop Hook Fix [IN PROGRESS]
 
 **Goal**: Eliminate the signal file mechanism and replace it with a workflow-active marker file that suppresses the Stop hook during active workflows.
 

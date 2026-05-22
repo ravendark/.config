@@ -5,24 +5,54 @@
     {
       "project_number": 605,
       "project_name": "reverse_task_order_tree_direction",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "topic": "meta-system",
       "description": "Reverse the Task Order dependency tree so prerequisite tasks (those depended upon) are roots and dependent tasks are indented children. Currently tasks show their prerequisites indented below; the desired display shows dependents indented below prerequisites, so users work on unindented tasks first and their children get promoted on completion.",
       "effort": "1 hour",
       "dependencies": [],
       "created": "2026-05-22T20:00:00Z",
-      "last_updated": "2026-05-22T19:06:05Z",
+      "last_updated": "2026-05-22T19:12:03Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
           "path": "specs/605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md",
           "type": "research",
           "summary": "Analyzed generate-task-order.sh and task-order-format.md: 8 findings covering successors map construction, tree traversal reversal, root selection, label/format changes, update-task-status.sh compatibility, and concrete output mock"
+        },
+        {
+          "path": "specs/605_reverse_task_order_tree_direction/plans/01_reverse-tree-direction.md",
+          "type": "plan",
+          "summary": "3-phase plan: script changes (successors map, DFS reversal, labels), documentation updates, verification"
         }
       ],
-      "session_id": "sess_1779476484_b8369b",
-      "research_artifact": "specs/605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md"
+      "session_id": "sess_1779476945_1278cd",
+      "research_artifact": "specs/605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md",
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 1.5,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_reverse-tree-direction.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-22"
+          }
+        ]
+      }
     },
     {
       "project_number": 590,
@@ -1050,7 +1080,7 @@
     {
       "project_number": 595,
       "project_name": "refactor_research_plan_implement_commands",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Refactor /research, /plan, /implement commands to use shared utilities from task 593 and refactored skills from task 594. Target: each command reduced to ~150-200 lines covering only routing-only controller logic (argument docs, mode-specific behavior, extension routing table). Commands MUST NOT load Tier 3 context (agent-level context stays with agents, per four-tier model). Current commands embed agent-level context inline (full state machine logic, format specifications); these must move to Tier 3 agent context files. Add orchestrator_mode=true support: skills write .orchestrator-handoff.json when orchestrator_mode is detected in delegation context. Verify extension compatibility (nvim, nix) at each step. Reference: .claude/docs/architecture/architecture-spec.md Components 1-2.",
@@ -1061,7 +1091,7 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T12:00:00Z",
+      "last_updated": "2026-05-22T19:09:12Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -1069,7 +1099,8 @@
           "path": "595_refactor_research_plan_implement_commands/reports/01_seed-research.md",
           "created": "2026-05-22"
         }
-      ]
+      ],
+      "session_id": "sess_1779476934_b67d23"
     },
     {
       "project_number": 596,
@@ -1184,14 +1215,14 @@
     {
       "project_number": 601,
       "project_name": "simplify_notification_pipeline_merge_vocabulary",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "wezterm-notifications",
       "description": "Simplify the WezTerm tab coloring and TTS notification pipeline. Merge to single lifecycle vocabulary (researching/researched/planning/planned/implementing/completed/needs_input), eliminating the artifact-type vocabulary (report/plan/summary/error). Move TTS to fire AFTER artifact linking from skill postflight instead of update-task-status.sh. Eliminate signal file mechanism entirely. Simplify Stop hook to only set needs_input for wezterm (no TTS from Stop). Consolidate TTY discovery boilerplate into shared function. Update all hook copies (4 locations), extension copies, .opencode copies, and wezterm-integration.md.",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-22T18:00:00Z",
-      "last_updated": "2026-05-22T19:06:07Z",
+      "last_updated": "2026-05-22T19:10:10Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -1210,7 +1241,7 @@
           "summary": "4-phase plan: workflow-active marker, vocabulary merge, TTY utils, propagation"
         }
       ],
-      "session_id": "sess_1779476322_85cdea",
+      "session_id": "sess_1779476992_c28ae5",
       "plan_metadata": {
         "phases": 4,
         "total_effort_hours": 5,

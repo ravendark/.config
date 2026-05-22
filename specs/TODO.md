@@ -20,17 +20,17 @@ next_project_number: 605
 
 ### Meta System
 
-605 [RESEARCHED] — Reverse the Task Order dependency tree so prerequisite tasks (tho
+605 [PLANNED] — Reverse the Task Order dependency tree so prerequisite tasks (tho
 
 ### Wezterm Notifications
 
-601 [PLANNED] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
+601 [IMPLEMENTING] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
 602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
   └─ 601 [PLANNED] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
 
 ### Workflow Refactor
 
-595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util
+595 [RESEARCHING] — Refactor /research, /plan, /implement commands to use shared util
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
@@ -52,11 +52,12 @@ next_project_number: 605
 
 ### 605. Reverse Task Order tree to show dependents below prerequisites
 - **Effort**: 1 hour
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
 - **Research**: [605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md]
+- **Plan**: [605_reverse_task_order_tree_direction/plans/01_reverse-tree-direction.md]
 
 **Description**: Reverse the Task Order dependency tree so prerequisite tasks (those depended upon) are roots and dependent tasks are indented children. Currently tasks show their prerequisites indented below; the desired display shows dependents indented below prerequisites, so users work on unindented tasks first and their children get promoted on completion. Changes: (1) generate-task-order.sh — build successors map, change `_print_topic_node` and `print_tree_node` to iterate successors instead of deps, roots become tasks with no active deps (wave 1). (2) task-order-format.md — update semantics from "indented = must complete first" to "indented = depends on parent above", update examples. (3) Extension core copy of task-order-format.md — keep in sync.
 
@@ -78,7 +79,7 @@ next_project_number: 605
 
 ### 601. Simplify notification pipeline and merge status vocabulary
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: wezterm-notifications
 - **Dependencies**: None
@@ -175,7 +176,7 @@ next_project_number: 605
 
 ### 595. Refactor /research, /plan, /implement commands to use shared infrastructure
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 594, 598

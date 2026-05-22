@@ -141,6 +141,12 @@ update_state_json() {
     return 0
   fi
 
+  # Write workflow-active marker on preflight so Stop hook can suppress mid-workflow fires
+  if [[ "$operation" == "preflight" ]]; then
+    mkdir -p "$SCRIPT_DIR/../tmp"
+    echo "$task_number $(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$SCRIPT_DIR/../tmp/workflow-active"
+  fi
+
   # Use two-step jq pattern to avoid Issue #1132
   # Step 1: Update status and timestamp
   jq --arg num "$task_number" \
@@ -359,31 +365,15 @@ update_plan_file
 # PHASE 5: Dual-dispatch lifecycle notifications (postflight only)
 # Fires TTS and WezTerm tab coloring IMMEDIATELY from postflight so that
 # notifications work even in never-stopping workflows (/loop, chained cmds).
-# Also writes a signal file that the Stop hook (claude-stop-notify.sh) uses
-# as a suppress flag to avoid duplicate dispatch.
+# The Stop hook is suppressed during active workflows via workflow-active marker.
 #
-# Ordering: write signal file FIRST, then fire TTS+wezterm.
-# This ensures the suppress flag exists before Stop hook can check it.
-# See: task 588 (refactor_notification_signal_stop_hook)
+# See: task 601 (simplify_notification_pipeline_merge_vocabulary)
 # ============================================================
 if [[ "$operation" == "postflight" && "$DRY_RUN" != "true" ]]; then
-  # Write signal file FIRST so Stop hook suppress flag is set before notifications fire
-  mkdir -p "$SCRIPT_DIR/../tmp"
-  echo "$STATE_STATUS" > "$SCRIPT_DIR/../tmp/lifecycle-signal"
-
-  # Fire WezTerm tab color immediately (sets CLAUDE_STATUS to artifact type)
-  # Map lifecycle target_status to artifact type for distinct tab coloring:
-  #   research -> report (green), plan -> plan (blue), implement -> summary (gold)
-  # Falls back to lifecycle STATE_STATUS for non-artifact statuses (blocked, needs_input, etc.)
+  # Fire WezTerm tab color immediately using lifecycle STATE_STATUS directly
   wezterm_script="$SCRIPT_DIR/../hooks/wezterm-notify.sh"
   if [[ -x "$wezterm_script" ]] || [[ -f "$wezterm_script" ]]; then
-    case "$target_status" in
-      research)  WEZTERM_STATUS="report" ;;
-      plan)      WEZTERM_STATUS="plan" ;;
-      implement) WEZTERM_STATUS="summary" ;;
-      *)         WEZTERM_STATUS="$STATE_STATUS" ;;
-    esac
-    bash "$wezterm_script" "$WEZTERM_STATUS" &
+    bash "$wezterm_script" "$STATE_STATUS" &
   fi
 
   # Fire TTS announcement immediately (speaks "Tab N STATUS")
