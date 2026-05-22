@@ -711,8 +711,14 @@
       ],
       "created": "2026-05-22T12:00:00Z",
       "last_updated": "2026-05-22T12:00:00Z",
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "592_design_unified_workflow_architecture/reports/01_seed-research.md",
+          "created": "2026-05-22"
+        }
+      ]
     },
     {
       "project_number": 593,
@@ -727,8 +733,14 @@
       ],
       "created": "2026-05-22T12:00:00Z",
       "last_updated": "2026-05-22T12:00:00Z",
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "593_extract_shared_workflow_utilities/reports/01_seed-research.md",
+          "created": "2026-05-22"
+        }
+      ]
     },
     {
       "project_number": 594,
@@ -744,8 +756,14 @@
       ],
       "created": "2026-05-22T12:00:00Z",
       "last_updated": "2026-05-22T12:00:00Z",
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "594_refactor_workflow_skills_shared_base/reports/01_seed-research.md",
+          "created": "2026-05-22"
+        }
+      ]
     },
     {
       "project_number": 595,
@@ -762,8 +780,14 @@
       ],
       "created": "2026-05-22T12:00:00Z",
       "last_updated": "2026-05-22T12:00:00Z",
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "595_refactor_research_plan_implement_commands/reports/01_seed-research.md",
+          "created": "2026-05-22"
+        }
+      ]
     },
     {
       "project_number": 596,
@@ -780,8 +804,14 @@
       ],
       "created": "2026-05-22T12:00:00Z",
       "last_updated": "2026-05-22T12:00:00Z",
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "596_create_orchestrate_command_skill_agent/reports/01_seed-research.md",
+          "created": "2026-05-22"
+        }
+      ]
     },
     {
       "project_number": 597,
@@ -796,8 +826,14 @@
       ],
       "created": "2026-05-22T12:00:00Z",
       "last_updated": "2026-05-22T12:00:00Z",
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "597_refactor_task_revise_todo_review/reports/01_seed-research.md",
+          "created": "2026-05-22"
+        }
+      ]
     },
     {
       "project_number": 598,
@@ -812,8 +848,14 @@
       ],
       "created": "2026-05-22T12:00:00Z",
       "last_updated": "2026-05-22T12:00:00Z",
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "598_progressive_disclosure_context_system/reports/01_seed-research.md",
+          "created": "2026-05-22"
+        }
+      ]
     },
     {
       "project_number": 599,
@@ -832,8 +874,14 @@
       ],
       "created": "2026-05-22T12:00:00Z",
       "last_updated": "2026-05-22T12:00:00Z",
-      "next_artifact_number": 1,
-      "artifacts": []
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "599_update_claudemd_extension_documentation/reports/01_seed-research.md",
+          "created": "2026-05-22"
+        }
+      ]
     }
   ],
   "completed_projects": [],
