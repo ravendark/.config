@@ -202,7 +202,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Create budget validation script and final verification [IN PROGRESS]
+### Phase 5: Create budget validation script and final verification [COMPLETED]
 
 **Goal**: Create a reusable script that validates agent context budgets against caps, run it to confirm all agents are compliant, and perform final integrity checks on the refactored index.
 
