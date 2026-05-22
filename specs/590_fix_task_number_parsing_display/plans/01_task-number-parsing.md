@@ -1,7 +1,7 @@
 # Implementation Plan: Task #590
 
 - **Task**: 590 - fix_task_number_parsing_display
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/590_fix_task_number_parsing_display/reports/01_task-number-parsing.md

@@ -5,14 +5,14 @@
     {
       "project_number": 590,
       "project_name": "fix_task_number_parsing_display",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "wezterm-notifications",
       "description": "Fix task number parsing in wezterm-task-number.sh to support multi-task syntax (/research 7, 22-24), additional commands (/spawn N, /task --recover N, /task --expand N), and prevent stale task numbers. Ensure tab always shows {N} {root} format with #{task} when applicable.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-21T22:00:00Z",
-      "last_updated": "2026-05-22T01:49:20Z",
+      "last_updated": "2026-05-22T01:53:34Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -24,6 +24,11 @@
           "path": "specs/590_fix_task_number_parsing_display/plans/01_task-number-parsing.md",
           "type": "plan",
           "summary": "2-phase implementation plan for 3-tier task number parsing with multi-task spec support"
+        },
+        {
+          "path": "specs/590_fix_task_number_parsing_display/summaries/01_task-number-parsing-summary.md",
+          "type": "summary",
+          "summary": "Implemented 3-tier task number parsing: SET/CLEAR/PRESERVE for 10 command patterns, multi-task syntax, 4 hook copies, 2 doc files"
         }
       ],
       "session_id": "sess_1779414546_28ce65",
@@ -52,6 +57,18 @@
             "task-spec",
             "compact"
           ]
+        },
+        {
+          "content": "WezTerm task number hook 3-tier logic: SHOULD_SET/SHOULD_CLEAR boolean flags with implicit PRESERVE. Multi-task spec: capture broadly, strip from first --, trim trailing, remove spaces for compact display.",
+          "category": "PATTERN",
+          "confidence": 0.8,
+          "suggested_keywords": [
+            "wezterm",
+            "hook",
+            "regex",
+            "task-number",
+            "multi-task"
+          ]
         }
       ],
       "plan_metadata": {
@@ -75,7 +92,8 @@
             "integrated_date": "2026-05-22"
           }
         ]
-      }
+      },
+      "completion_summary": "Implemented 3-tier task number parsing in wezterm-task-number.sh: SET for 10 command patterns including multi-task syntax (/spawn, /task --recover/expand/abandon/review, /errors --fix), CLEAR for other slash commands, PRESERVE for free-text follow-ups. Updated all 4 hook copies (md5sum identical) and 2 documentation files."
     },
     {
       "project_number": 589,

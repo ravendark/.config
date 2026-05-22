@@ -6,38 +6,39 @@ next_project_number: 591
 
 ## Task Order
 
-*Updated 2026-05-21. Generated from state.json dependency graph.*
+*Updated 2026-05-22. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,588,590 | -- | -- |
+| 1 | 78,87,500,501,588 | -- | wezterm-notifications |
 | 2 | 589 | 588 | wezterm-notifications |
 
 **Grouped by Topic** (indented = must complete first):
 
-### wezterm-notifications
+### Wezterm Notifications
 
-588 [PLANNED] — refactor_notification_signal_stop_hook
-  589 [NOT STARTED] — wezterm_artifact_colors_preflight (depends: 588)
-590 [IMPLEMENTING] — fix_task_number_parsing_display
+588 [PLANNED] — Refactor TTS and wezterm notification dispatch to dual-dispatch a
+589 [NOT STARTED] — Expand wezterm tab color palette with per-artifact-type colors (r
+  └─ 588 [PLANNED] — Refactor TTS and wezterm notification dispatch to dual-dispatch a (see above)
 
 ### Uncategorized
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-500 [RESEARCHED] — add_context_fork_to_core_skills
-501 [PLANNED] — optimize_team_mode_fork_cache_sharing
+500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
+501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
 
 ## Tasks
 
 ### 590. Fix task number parsing and tab display consistency
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [590_fix_task_number_parsing_display/reports/01_task-number-parsing.md]
 - **Plan**: [590_fix_task_number_parsing_display/plans/01_task-number-parsing.md]
+- **Summary**: [590_fix_task_number_parsing_display/summaries/01_task-number-parsing-summary.md]
 
 **Description**: Fix task number parsing in wezterm-task-number.sh to support multi-task syntax (/research 7, 22-24), additional commands (/spawn N, /task --recover N, /task --expand N), and prevent stale task numbers. Ensure tab always shows {N} {root} format with #{task} when applicable.
 
