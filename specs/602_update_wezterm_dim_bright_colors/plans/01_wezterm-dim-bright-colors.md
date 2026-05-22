@@ -97,13 +97,13 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Fix TTS Announcement Prefix [NOT STARTED]
+### Phase 2: Fix TTS Announcement Prefix [COMPLETED]
 
 **Goal**: Change TTS prefix from capitalized "Tab" to lowercase "tab" so announcements read "tab 4 researched" instead of "Tab 4 researched".
 
 **Tasks**:
-- [ ] Edit `.claude/hooks/tts-notify.sh` line 51: change `local tab_prefix="Tab"` to `local tab_prefix="tab"`
-- [ ] Edit `.claude/hooks/tts-notify.sh` line 68: change `tab_prefix="Tab $tab_num"` to `tab_prefix="tab $tab_num"`
+- [x] **Task 2.1**: Edit `.claude/hooks/tts-notify.sh` line 51: change `local tab_prefix="Tab"` to `local tab_prefix="tab"` *(completed)*
+- [x] **Task 2.2**: Edit `.claude/hooks/tts-notify.sh` line 68: change `tab_prefix="Tab $tab_num"` to `tab_prefix="tab $tab_num"` *(completed)*
 
 **Timing**: 5 minutes
 

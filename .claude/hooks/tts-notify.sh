@@ -48,7 +48,7 @@ exit_success() {
 
 # Helper: get WezTerm tab prefix ("Tab N" or fallback "Tab")
 get_tab_prefix() {
-    local tab_prefix="Tab"
+    local tab_prefix="tab"
     if [[ -n "${WEZTERM_PANE:-}" ]] && command -v wezterm &>/dev/null; then
         local all_panes current_tab_id unique_tab_ids tab_index position tab_num
         all_panes=$(wezterm cli list --format=json 2>/dev/null)
@@ -65,7 +65,7 @@ get_tab_prefix() {
                 ((tab_index++))
             done <<< "$unique_tab_ids"
             tab_num=$((position + 1))
-            tab_prefix="Tab $tab_num"
+            tab_prefix="tab $tab_num"
         fi
     fi
     echo "$tab_prefix"
