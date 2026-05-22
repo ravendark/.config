@@ -290,6 +290,13 @@ Always show task summary and require explicit confirmation before creating tasks
 
 **Mandatory**: User MUST explicitly select "Yes, create tasks" before any tasks are created.
 
+**Foreground Requirement**: Confirmation MUST execute in the foreground skill layer (not inside a delegated background agent). `AskUserQuestion` called from background agents (spawned via Task tool) does not reliably surface to users. Skills that delegate to agents for task creation must complete all confirmation steps before spawning the agent. The correct pattern:
+1. Skill performs item discovery, proposal, and confirmation via `AskUserQuestion` (foreground)
+2. On user confirmation, skill passes `mode=confirmed` + `confirmed_tasks=[...]` to the agent
+3. Agent creates tasks without any interactive prompts
+
+Reference implementation: `skill-meta` Stage 2.5 (Pre-Confirmation) + `meta-builder-agent` Stage 3D (Confirmed Task Creation).
+
 ### 8. State Updates (Required)
 
 Update state.json and TODO.md atomically with correct dependency information.

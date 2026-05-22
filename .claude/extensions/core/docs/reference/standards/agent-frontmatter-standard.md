@@ -69,9 +69,10 @@ Users can override the model at invocation time using model flags (`--haiku`, `-
 - Planning and architecture agents (planner-agent, meta-builder-agent, reviser-agent)
 - Formal reasoning agents (lean, formal, logic, math, physics)
 - Legal analysis agents (complex document reasoning)
+- **Orchestrator commands** (`/research`, `/plan`, `/implement`): these commands run long multi-task sessions that accumulate context from many sequential sub-agent summaries. They must use `model: opus` to receive the 1M context auto-upgrade (via `ANTHROPIC_DEFAULT_OPUS_MODEL` env var). Using `model: sonnet` drops them to 200K and causes context-limit failures on multi-task workflows.
 
 **Use `model: sonnet` for**:
-- General research and implementation agents
+- General research and implementation agents (they have their own fresh context per invocation)
 - Code review and spawn agents
 - Domain-specific research and implementation (neovim, nix, epi, presentation, etc.)
 
@@ -104,12 +105,12 @@ If multiple flags of the same dimension are provided, the last one wins. These f
 
 **Examples**:
 ```
-/research 42 --opus        # Force Opus (overrides default Sonnet for research agent)
-/research 42 --sonnet      # Use Sonnet (same as default for research agent)
+/research 42 --opus        # Force Opus (same as default for research/plan/implement commands)
+/research 42 --sonnet      # Use Sonnet on research sub-agent (overrides default Sonnet for general-research-agent)
 /research 42 --haiku       # Use Haiku for speed
-/implement 42 --hard       # Deep reasoning with default model (Sonnet for general-implementation)
+/implement 42 --hard       # Deep reasoning with default model (Opus for orchestrator command)
 /implement 42 --fast       # Light reasoning with default model
-/plan 42 --fast --sonnet   # Light reasoning with Sonnet (overrides default Opus for planner)
+/plan 42 --fast --sonnet   # Light reasoning with Sonnet (overrides Opus command, uses Sonnet for planner sub-agent)
 ```
 
 ### Examples
