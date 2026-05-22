@@ -11,7 +11,7 @@ next_project_number: 605
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,593,598,601,603,604 | -- | meta-system, wezterm-notifications, workflow-refactor |
+| 1 | 78,87,593,598,601,603 | -- | meta-system, wezterm-notifications, workflow-refactor |
 | 2 | 594,597,602 | 593,598,601 | wezterm-notifications, workflow-refactor |
 | 3 | 595,596 | 593,594,598 | workflow-refactor |
 | 4 | 599 | 594,595,596,597,598 | workflow-refactor |
@@ -22,7 +22,6 @@ next_project_number: 605
 ### Meta System
 
 603 [NOT STARTED] — Fix /meta so user confirmation happens in the foreground BEFORE s
-604 [IMPLEMENTING] — Add generate-task-order.sh --update-todo call to all task-creatin
 
 ### Wezterm Notifications
 
@@ -34,18 +33,18 @@ next_project_number: 605
 
 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i
 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill-
-  └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
+  └─ 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util
-  └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
+  └─ 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
   └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
-  └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
+  └─ 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
   └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the 
-  └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
+  └─ 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
   └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util (see above)
@@ -64,12 +63,13 @@ next_project_number: 605
 
 ### 604. Add Task Order regeneration to task-creating commands
 - **Effort**: 1 hour
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
 - **Research**: [604_add_task_order_regen_to_creators/reports/01_task-order-regen.md]
 - **Plan**: [604_add_task_order_regen_to_creators/plans/01_task-order-regen.md]
+- **Summary**: [604_add_task_order_regen_to_creators/summaries/01_task-order-regen-summary.md]
 
 **Description**: Add generate-task-order.sh --update-todo call to all task-creating commands that currently skip Task Order regeneration. Gaps: (1) meta-builder-agent.md - after batch task creation. (2) skill-spawn/SKILL.md - after task creation. (3) skill-fix-it/SKILL.md - after task creation. (4) errors.md - after task creation. Also update state-management.md Non-Regeneration Events section to reflect new policy: regen on ALL task creation events.
 

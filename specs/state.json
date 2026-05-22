@@ -1076,14 +1076,14 @@
     {
       "project_number": 604,
       "project_name": "add_task_order_regen_to_creators",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "meta-system",
       "description": "Add generate-task-order.sh --update-todo call to all task-creating commands that currently skip Task Order regeneration. Gaps: (1) meta-builder-agent.md - after batch task creation. (2) skill-spawn/SKILL.md - after task creation. (3) skill-fix-it/SKILL.md - after task creation. (4) errors.md - after task creation. Also update state-management.md Non-Regeneration Events section to reflect new policy: regen on ALL task creation events, not just /task create mode. The generate-task-order.sh script already handles terminal status transitions via update-task-status.sh Mode B, and first-status-transition fallback via Mode A. This task closes the creation gap so new tasks appear in Task Order immediately.",
       "effort": "1 hour",
       "dependencies": [],
       "created": "2026-05-22T19:00:00Z",
-      "last_updated": "2026-05-22T18:29:36Z",
+      "last_updated": "2026-05-22T18:33:08Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -1095,6 +1095,11 @@
           "path": "specs/604_add_task_order_regen_to_creators/plans/01_task-order-regen.md",
           "type": "plan",
           "summary": "2-phase plan: add regen calls to 4 gap files, update state-management.md policy"
+        },
+        {
+          "path": "specs/604_add_task_order_regen_to_creators/summaries/01_task-order-regen-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: regen calls added to 4 gap files, policy updated"
         }
       ],
       "session_id": "sess_1779514000_604impl",
@@ -1119,7 +1124,8 @@
             "integrated_date": "2026-05-22"
           }
         ]
-      }
+      },
+      "completion_summary": "Added generate-task-order.sh --update-todo calls to 4 task-creating commands (meta-builder-agent, skill-spawn, skill-fix-it, errors) and updated state-management.md regeneration policy to reflect that task creation now triggers Task Order regeneration."
     }
   ],
   "completed_projects": [],
