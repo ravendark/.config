@@ -94,10 +94,26 @@ mv vosk-model-small-en-us-0.15 vosk-model-small-en-us
 
 TTS fires in two categories:
 
-1. **Lifecycle transitions**: After a task status transition (researched, planned, completed), a skill's postflight Stage 8a calls `lifecycle-notify.sh`, which speaks "Tab N STATUS" (e.g., "Tab 3 researched").
-2. **Interactive prompts**: `permission_prompt` and `elicitation_dialog` Notification hook events trigger `tts-notify.sh` with no args, which speaks "Tab N" to alert the user that input is needed.
+1. **Lifecycle transitions**: After a task status transition, `update-task-status.sh` postflight
+   calls `tts-notify.sh --lifecycle STATUS`, which speaks "Tab N STATUS" (e.g., "Tab 3 researched").
+   This is the only source of lifecycle TTS.
 
-The Stop hook no longer triggers TTS. This eliminates the "Tab N" announcement on every Claude turn.
+2. **Interactive prompts**: `permission_prompt` and `elicitation_dialog` Notification hook events
+   trigger `tts-notify.sh` with no args, which speaks "Tab N" to alert the user that input is needed.
+
+The Stop hook does NOT trigger TTS. This eliminates random "Tab N" announcements during
+`--team` mode and mid-workflow orchestrator pauses.
+
+### Lifecycle Vocabulary
+
+TTS uses only lifecycle state names (no artifact-type vocabulary):
+- `researching` — "Tab N researching"
+- `researched` — "Tab N researched"
+- `planning` — "Tab N planning"
+- `planned` — "Tab N planned"
+- `implementing` — "Tab N implementing"
+- `completed` — "Tab N completed"
+- `blocked` — "Tab N blocked"
 
 ### Hook Configuration
 
@@ -121,7 +137,15 @@ The hooks are configured in `.claude/settings.json`:
 }
 ```
 
-Lifecycle TTS is fired by skills via `lifecycle-notify.sh` (see Stage 8a pattern below).
+Lifecycle TTS is fired directly by `update-task-status.sh` postflight:
+
+```bash
+# In PHASE 5 of update-task-status.sh (postflight only)
+tts_script="$SCRIPT_DIR/../hooks/tts-notify.sh"
+if [[ -x "$tts_script" ]] || [[ -f "$tts_script" ]]; then
+    bash "$tts_script" --lifecycle "$STATE_STATUS" &
+fi
+```
 
 ### Environment Variables
 
@@ -144,46 +168,11 @@ export PIPER_MODEL=~/.local/share/piper/en_GB-alba-medium.onnx
 
 | Event | Trigger | Message |
 |-------|---------|---------|
-| Lifecycle (skill postflight) | Task status transition completes | "Tab N researched/planned/completed" |
+| Lifecycle (update-task-status.sh postflight) | Task status transition completes | "Tab N researched/planned/completed" |
 | permission_prompt | Claude needs tool permission | "Tab N" |
 | elicitation_dialog | Claude asks a clarifying question | "Tab N" |
 
-### Lifecycle TTS Architecture
-
-Skill postflight stages call `lifecycle-notify.sh` after artifact linking (Stage 8a):
-
-```
-Skill Postflight (Stage 8: Link Artifacts)
-    |
-    v
-Stage 8a: Lifecycle TTS Notification
-    |
-    +-- bash .claude/scripts/lifecycle-notify.sh "$STATE_STATUS" &
-            |
-            +-- tts-notify.sh --lifecycle "$STATUS"   (speaks "Tab N STATUS")
-            |
-            +-- wezterm-notify.sh "$STATUS"            (colors tab for lifecycle state)
-```
-
-#### The lifecycle-notify.sh Wrapper
-
-Located at `.claude/scripts/lifecycle-notify.sh`, this script wraps both TTS and WezTerm calls:
-
-```bash
-# Usage: bash lifecycle-notify.sh STATUS
-# STATUS: researched | planned | completed | partial | blocked
-```
-
-Skills invoke it in Stage 8a:
-
-```bash
-lifecycle_script=".claude/scripts/lifecycle-notify.sh"
-if [ -f "$lifecycle_script" ]; then
-    bash "$lifecycle_script" "$STATE_STATUS" &
-fi
-```
-
-#### The --lifecycle Flag in tts-notify.sh
+### The --lifecycle Flag in tts-notify.sh
 
 When called with `--lifecycle STATUS`:
 - Speaks "Tab N STATUS" (e.g., "Tab 3 researched")
@@ -197,8 +186,7 @@ When called with no args (Notification hook):
 ### Troubleshooting
 
 **No lifecycle TTS fires**:
-- Check that the skill's Stage 8a runs: grep "lifecycle-notify" in skill SKILL.md files
-- Verify `lifecycle-notify.sh` is executable: `ls -la .claude/scripts/lifecycle-notify.sh`
+- Verify `update-task-status.sh` PHASE 5 is active (check it has lifecycle notification block)
 - Check log: `cat specs/tmp/claude-tts-notify.log`
 
 **No sound plays**:
@@ -353,7 +341,7 @@ This format is optimal for speech recognition and keeps file sizes small.
 | File | Purpose |
 |------|---------|
 | `.claude/hooks/tts-notify.sh` | Claude Code TTS hook (lifecycle + interactive) |
-| `.claude/scripts/lifecycle-notify.sh` | Lifecycle TTS + WezTerm wrapper (called by skills) |
+| `.claude/hooks/wezterm-notify.sh` | WezTerm tab color notification hook |
 | `~/.config/nvim/lua/neotex/plugins/tools/stt/init.lua` | Neovim STT plugin |
 | `~/.config/nvim/lua/neotex/plugins/tools/stt-plugin.lua` | Lazy.nvim plugin spec |
 | `~/.config/nvim/lua/neotex/plugins/editor/which-key.lua` | Keybinding configuration |
@@ -375,9 +363,8 @@ Total disk usage: ~95 MB for both features.
 ### Remove TTS Notifications
 
 1. Edit `.claude/settings.json`, remove TTS hook entries from Notification hook
-2. Delete `.claude/hooks/tts-notify.sh` and `.claude/scripts/lifecycle-notify.sh`
-3. Remove Stage 8a blocks from skill SKILL.md files
-4. Optionally delete `~/.local/share/piper/` to remove voice models
+2. Delete `.claude/hooks/tts-notify.sh`
+3. Optionally delete `~/.local/share/piper/` to remove voice models
 
 ### Remove STT Plugin
 
@@ -394,4 +381,5 @@ Total disk usage: ~95 MB for both features.
 - [Vosk](https://alphacephei.com/vosk/) - Offline speech recognition
 - [Claude Code Hooks](https://code.claude.com/docs/en/hooks) - Hook documentation
 - [WezTerm CLI](https://wezterm.org/cli/cli/activate-tab.html) - Tab management
+- [WezTerm Integration Guide](../hooks/wezterm-integration.md) - Tab coloring and user variables
 - [Neovim Integration Guide](neovim-integration.md) - SessionStart hooks and sidebar readiness
