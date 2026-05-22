@@ -729,7 +729,7 @@
         {
           "path": "specs/592_design_unified_workflow_architecture/plans/02_architecture-design.md",
           "type": "plan",
-          "summary": "4-phase plan: architecture spec document, downstream task description updates, design guidance reports for 593-599, validation"
+          "summary": "Revised: Phase 1 outputs to .claude/docs/architecture/ as permanent docs (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md)"
         }
       ],
       "session_id": "sess_1779469155_fb1bff",

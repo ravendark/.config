@@ -2,7 +2,7 @@
 
 - **Task**: 592 - Design unified workflow architecture
 - **Status**: [PLANNED]
-- **Effort**: 3 hours
+- **Effort**: 3.5 hours
 - **Dependencies**: 591 (satisfied)
 - **Research Inputs**: specs/592_design_unified_workflow_architecture/reports/01_seed-research.md, specs/592_design_unified_workflow_architecture/reports/02_architecture-design.md
 - **Artifacts**: plans/02_architecture-design.md (this file)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-This task produces three deliverables that collectively transform the research findings from tasks 591 and 592 into actionable implementation guidance for the downstream task suite (593-599). The primary deliverable is a formal architecture specification document covering all 7 components (shared command infrastructure, shared skill base, /orchestrate state machine, dispatch_agent() abstraction, handoff protocol, extension lifecycle hooks, nested loop resolution). The secondary deliverables update downstream task descriptions to reference specific architecture components and create per-task design guidance reports with concrete specifications (function signatures, schemas, state machine definitions).
+This task produces deliverables that collectively transform the research findings from tasks 591 and 592 into actionable implementation guidance for the downstream task suite (593-599). The primary deliverables are permanent architecture specification documents written to `.claude/docs/architecture/`, covering all 7 components of the unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate state machine, dispatch_agent() abstraction, handoff protocol, extension lifecycle hooks, nested loop resolution). These documents become permanent system documentation that downstream tasks reference as their authoritative blueprint. Secondary deliverables update downstream task descriptions and create per-task design guidance reports in specs/ with concrete specifications (function signatures, schemas, state machine definitions).
 
 ### Research Integration
 
@@ -20,7 +20,7 @@ The research report (02_architecture-design.md) provides the complete architectu
 
 ### Prior Plan Reference
 
-No prior plan.
+Revision of the original plan that placed the architecture spec in `specs/592_.../design/`. This revision relocates all primary architecture documents to `.claude/docs/architecture/` so they become permanent system documentation, complementing the existing `system-overview.md` (which describes the current architecture) with target architecture documents for the refactored system.
 
 ### Roadmap Alignment
 
@@ -33,7 +33,8 @@ No literature source referenced.
 ## Goals & Non-Goals
 
 **Goals**:
-- Create a formal architecture specification document that downstream tasks 593-599 reference as their authoritative blueprint
+- Create permanent architecture specification documents in `.claude/docs/architecture/` that downstream tasks 593-599 reference as their authoritative blueprint
+- Produce complementary documentation: `system-overview.md` describes the current architecture; the new documents describe the target architecture for the refactored system
 - Update state.json and TODO.md descriptions for tasks 593-599 to reference specific architecture components and be more actionable
 - Write design guidance reports (03_design-guidance.md) in each downstream task's reports/ directory with concrete specs: function signatures, JSON schemas, state machine definitions, file locations
 - Establish the dependency graph and implementation ordering across the task suite
@@ -44,15 +45,18 @@ No literature source referenced.
 - Creating new shell scripts or code artifacts
 - Changing the extension manifest.json schema (task 599 scope)
 - Detailed context budget calculations (task 598 scope)
+- Modifying or replacing the existing `system-overview.md` (it documents current state; the new specs document target state)
 
 ## Risks & Mitigations
 
 | Risk | Impact | Likelihood | Mitigation |
 |------|--------|------------|------------|
+| Architecture docs in .claude/docs/architecture/ become stale after implementation diverges from spec | M | M | Include a "Status" header in each doc noting it is a target architecture spec; downstream tasks update the doc when implementation deviates |
 | Architecture spec is too abstract for implementers to follow | H | M | Include concrete function signatures, JSON schemas, and file paths in every component section |
 | Design guidance reports duplicate information already in the architecture spec | M | M | Guidance reports extract only task-specific sections and add implementation-order details not in the spec |
-| Downstream task descriptions become stale if architecture evolves | M | L | Task descriptions reference the architecture spec document as the authoritative source; individual details are secondary |
+| Downstream task descriptions become stale if architecture evolves | M | L | Task descriptions reference the architecture spec documents as the authoritative source; individual details are secondary |
 | state.json update introduces sync issues with TODO.md | M | L | Use the two-phase update pattern: state.json first, TODO.md second, verify both |
+| New docs conflict with existing system-overview.md or extension-system.md | M | L | New docs explicitly complement existing ones: system-overview.md = current state, architecture-spec.md = target state; cross-reference both |
 
 ## Implementation Phases
 
@@ -65,60 +69,84 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Write architecture design specification [NOT STARTED]
+### Phase 1: Write architecture specification documents [NOT STARTED]
 
-**Goal**: Create the authoritative architecture specification document that all downstream tasks reference. This is the primary deliverable of task 592.
+**Goal**: Create the authoritative architecture specification documents in `.claude/docs/architecture/` as permanent system documentation. These become the target architecture blueprint that all downstream tasks reference. The existing `system-overview.md` in `.claude/docs/architecture/` describes the current architecture; these new documents describe the refactored target state.
 
 **Tasks**:
-- [ ] Create directory `specs/592_design_unified_workflow_architecture/design/`
-- [ ] Write `architecture-spec.md` with 7 component sections, each containing:
-  - Component purpose and scope
-  - File locations (new files to create, existing files to modify)
-  - Interface specification (function signatures, JSON schemas, CLI arguments)
-  - Interaction with other components (cross-references)
-  - Implementation ordering constraints
-- [ ] Component 1 (Shared Command Infrastructure): Specify `parse-command-args.sh`, `command-gate-in.sh`, `command-gate-out.sh` with exact function signatures and exported variables from the research report
-- [ ] Component 2 (Shared Skill Base): Specify `skill-base.sh` function inventory (11 functions), hook points, target skill sizes from the research
-- [ ] Component 3 (/orchestrate State Machine): Specify the state table, transition diagram, MAX_CYCLES=5, loop guard schema, blocker escalation flow
-- [ ] Component 4 (dispatch_agent()): Specify the `dispatch-agent.sh` function with the semantic `is_blocker_escalation` flag, future-proofing section
-- [ ] Component 5 (Handoff Protocol): Specify `.orchestrator-handoff.json` schema (400-token budget), writing/reading contracts, relationship to continuation handoffs
-- [ ] Component 6 (Extension Lifecycle Hooks): Specify manifest.json `hooks` schema additions, hook execution contract (positional args, exit codes, permissions)
-- [ ] Component 7 (Nested Loop Resolution): Specify the exclusive loop model, `orchestrator_mode` flag propagation through continuation chains
-- [ ] Include the dependency graph (Appendix C from research) and file location summary (Appendix D from research)
-- [ ] Include the context budget architecture overview (four-tier model) as a cross-cutting concern
+- [ ] **Task 1.1**: Verify `.claude/docs/architecture/` directory exists (it does -- contains `system-overview.md` and `extension-system.md`)
+- [ ] **Task 1.2**: Write `.claude/docs/architecture/architecture-spec.md` -- the primary specification covering all 7 components:
+  - Document header with purpose statement: "Target architecture for the unified workflow refactor (tasks 593-599). Complements system-overview.md which describes the current architecture."
+  - Component 1 (Shared Command Infrastructure): `parse-command-args.sh`, `command-gate-in.sh`, `command-gate-out.sh` with exact function signatures and exported variables
+  - Component 2 (Shared Skill Base): `skill-base.sh` function inventory (11 functions), hook points, target skill sizes
+  - Component 3 (/orchestrate State Machine): State table, transition summary, MAX_CYCLES=5, loop guard schema, blocker escalation flow (references orchestrate-state-machine.md for full detail)
+  - Component 4 (dispatch_agent()): `dispatch-agent.sh` function with `is_blocker_escalation` flag, future-proofing (references dispatch-agent-spec.md for full detail)
+  - Component 5 (Handoff Protocol): `.orchestrator-handoff.json` schema overview, writing/reading contracts (references handoff-schema.md for full detail)
+  - Component 6 (Extension Lifecycle Hooks): manifest.json `hooks` schema additions, hook execution contract
+  - Component 7 (Nested Loop Resolution): Exclusive loop model, `orchestrator_mode` flag propagation
+  - Cross-cutting concern: Context budget architecture overview (four-tier model)
+  - Appendix: Dependency graph (from research Appendix C) and file location summary (from research Appendix D)
+- [ ] **Task 1.3**: Write `.claude/docs/architecture/orchestrate-state-machine.md` -- detailed /orchestrate state machine specification:
+  - Complete state table with all states and transitions
+  - State transition diagram (ASCII art)
+  - MAX_CYCLES enforcement and loop guard file schema
+  - Blocker escalation 5-step sequence (detect, research fork, read handoff, revise, re-implement)
+  - Context flatness guarantee (400-token handoff budget)
+  - Examples of normal flow, partial recovery flow, and blocker escalation flow
+- [ ] **Task 1.4**: Write `.claude/docs/architecture/dispatch-agent-spec.md` -- dispatch_agent() function specification:
+  - Full function signature with all parameters
+  - Fork-vs-subagent decision logic (semantic `is_blocker_escalation` flag)
+  - Why TTL heuristics were rejected in favor of semantic signaling
+  - Future-proofing section for named fork API
+  - Integration with skill-orchestrate
+- [ ] **Task 1.5**: Write `.claude/docs/architecture/handoff-schema.md` -- structured handoff object schema:
+  - Complete JSON schema for `.orchestrator-handoff.json` with all fields
+  - Token budget constraints (400-token max)
+  - Writing contract: when skills write the handoff (orchestrator_mode detection)
+  - Reading contract: how the orchestrator consumes handoffs
+  - Relationship to continuation handoffs (`handoffs/phase-N-handoff.md`)
+  - Example handoff objects for: successful research, successful implementation, partial with continuation, blocked with escalation
+- [ ] **Task 1.6**: Cross-reference the new documents with each other and with the existing `system-overview.md` and `extension-system.md`
+- [ ] **Task 1.7**: Add a note to the top of existing `.claude/docs/architecture/system-overview.md` referencing the new target architecture documents (a single "See Also" line, not a content modification)
 
-**Timing**: 1 hour
+**Timing**: 1.25 hours
 
 **Depends on**: none
 
 **Files to modify**:
-- `specs/592_design_unified_workflow_architecture/design/architecture-spec.md` - NEW: primary architecture specification
+- `.claude/docs/architecture/architecture-spec.md` - NEW: primary architecture specification (target state)
+- `.claude/docs/architecture/orchestrate-state-machine.md` - NEW: /orchestrate state machine detail
+- `.claude/docs/architecture/dispatch-agent-spec.md` - NEW: dispatch_agent() function spec
+- `.claude/docs/architecture/handoff-schema.md` - NEW: orchestrator handoff JSON schema
+- `.claude/docs/architecture/system-overview.md` - MODIFY: add "See Also" cross-reference line
 
 **Verification**:
-- Document contains all 7 component sections
-- Each component has: purpose, file locations, interface spec, cross-references
+- `architecture-spec.md` contains all 7 component sections with: purpose, file locations, interface spec, cross-references
+- `orchestrate-state-machine.md` contains complete state table and transition diagram
+- `dispatch-agent-spec.md` contains full function signature and decision logic
+- `handoff-schema.md` contains valid JSON schema with all fields from research
+- Each document cross-references the others and the existing system-overview.md
 - Function signatures match research report findings
-- JSON schemas are valid and include all fields from research
-- Dependency graph matches research Appendix C
+- Dependency graph in architecture-spec.md matches research Appendix C
 
 ---
 
 ### Phase 2: Update downstream task descriptions [NOT STARTED]
 
-**Goal**: Make tasks 593-599 descriptions more specific and actionable by referencing concrete architecture components from the specification document.
+**Goal**: Make tasks 593-599 descriptions more specific and actionable by referencing concrete architecture components from the specification documents in `.claude/docs/architecture/`.
 
 **Tasks**:
-- [ ] Read current state.json descriptions for tasks 593-599
-- [ ] For task 593: Update description to reference specific shared scripts by name (`parse-command-args.sh`, `command-gate-in.sh`, `command-gate-out.sh`) and their exact exported variables
-- [ ] For task 594: Update description to reference `skill-base.sh` function inventory, hook point locations, and the dependency on task 598 context budgets
-- [ ] For task 595: Update description to reference target command sizes (~150-200 lines), the routing-only controller pattern, and what commands retain vs. delegate
-- [ ] For task 596: Update description to reference the state machine design, `dispatch-agent.sh`, `.orchestrator-handoff.json` schema, and the `orchestrator_mode` flag
-- [ ] For task 597: Update description to reference shared utilities applicable to /task, /revise, /todo, /review
-- [ ] For task 598: Update description to reference the four-tier context loading model and budget caps per agent type
-- [ ] For task 599: Update description to reference the `hooks` manifest.json schema, extension skill thinning pattern, and documentation update targets
-- [ ] Write all 7 updated descriptions to state.json using jq
-- [ ] Update corresponding TODO.md entries to match state.json descriptions
-- [ ] Verify state.json and TODO.md are synchronized
+- [ ] **Task 2.1**: Read current state.json descriptions for tasks 593-599
+- [ ] **Task 2.2**: For task 593: Update description to reference specific shared scripts by name (`parse-command-args.sh`, `command-gate-in.sh`, `command-gate-out.sh`) and their exact exported variables. Reference `.claude/docs/architecture/architecture-spec.md` Component 1.
+- [ ] **Task 2.3**: For task 594: Update description to reference `skill-base.sh` function inventory, hook point locations, and the dependency on task 598 context budgets. Reference `.claude/docs/architecture/architecture-spec.md` Component 2.
+- [ ] **Task 2.4**: For task 595: Update description to reference target command sizes (~150-200 lines), the routing-only controller pattern, and what commands retain vs. delegate. Reference `.claude/docs/architecture/architecture-spec.md` Components 1-2.
+- [ ] **Task 2.5**: For task 596: Update description to reference the state machine design, `dispatch-agent.sh`, `.orchestrator-handoff.json` schema, and the `orchestrator_mode` flag. Reference `.claude/docs/architecture/orchestrate-state-machine.md`, `dispatch-agent-spec.md`, and `handoff-schema.md`.
+- [ ] **Task 2.6**: For task 597: Update description to reference shared utilities applicable to /task, /revise, /todo, /review. Reference `.claude/docs/architecture/architecture-spec.md` Components 1-2.
+- [ ] **Task 2.7**: For task 598: Update description to reference the four-tier context loading model and budget caps per agent type. Reference `.claude/docs/architecture/architecture-spec.md` cross-cutting context section.
+- [ ] **Task 2.8**: For task 599: Update description to reference the `hooks` manifest.json schema, extension skill thinning pattern, and documentation update targets. Reference `.claude/docs/architecture/architecture-spec.md` Component 6.
+- [ ] **Task 2.9**: Write all 7 updated descriptions to state.json using jq
+- [ ] **Task 2.10**: Update corresponding TODO.md entries to match state.json descriptions
+- [ ] **Task 2.11**: Verify state.json and TODO.md are synchronized
 
 **Timing**: 45 minutes
 
@@ -129,7 +157,7 @@ Phases within the same wave can execute in parallel.
 - `specs/TODO.md` - Update corresponding task entries
 
 **Verification**:
-- Each task description references the architecture spec document path
+- Each task description references the appropriate `.claude/docs/architecture/` document(s)
 - Each description mentions specific components, file names, or schemas relevant to that task
 - state.json and TODO.md descriptions are synchronized
 - No task's dependencies changed (only descriptions updated)
@@ -138,47 +166,54 @@ Phases within the same wave can execute in parallel.
 
 ### Phase 3: Create design guidance reports for downstream tasks [NOT STARTED]
 
-**Goal**: Write `03_design-guidance.md` reports in each downstream task's reports/ directory containing task-specific concrete specifications extracted from the architecture design.
+**Goal**: Write `03_design-guidance.md` reports in each downstream task's reports/ directory containing task-specific concrete specifications extracted from the architecture design. These guidance reports reference the permanent docs in `.claude/docs/architecture/` as their authoritative source.
 
 **Tasks**:
-- [ ] Task 593 report: Write `specs/593_extract_shared_workflow_utilities/reports/03_design-guidance.md` containing:
+- [ ] **Task 3.1**: Task 593 report: Write `specs/593_extract_shared_workflow_utilities/reports/03_design-guidance.md` containing:
   - Full `parse-command-args.sh` specification (signature, algorithm, exported vars)
   - Full `command-gate-in.sh` specification (signature, key behaviors, exported vars)
   - Full `command-gate-out.sh` specification (signature, reading contract)
   - Command refactoring target: what stays in each command file (~150-200 lines), what moves out
   - Baseline measurement methodology notes
-- [ ] Task 594 report: Write `specs/594_refactor_workflow_skills_shared_base/reports/03_design-guidance.md` containing:
+  - Reference: `.claude/docs/architecture/architecture-spec.md` Component 1
+- [ ] **Task 3.2**: Task 594 report: Write `specs/594_refactor_workflow_skills_shared_base/reports/03_design-guidance.md` containing:
   - Complete `skill-base.sh` function inventory (11 functions with signatures)
   - Hook point locations in the lifecycle (Stage 2, 4, 6a, 7)
   - Target skill sizes table (researcher 150L, planner 130L, implementer 200L)
   - What remains skill-specific (context collection, delegation context, agent invocation)
-- [ ] Task 595 report: Write `specs/595_refactor_research_plan_implement_commands/reports/03_design-guidance.md` containing:
+  - Reference: `.claude/docs/architecture/architecture-spec.md` Component 2
+- [ ] **Task 3.3**: Task 595 report: Write `specs/595_refactor_research_plan_implement_commands/reports/03_design-guidance.md` containing:
   - Per-command breakdown: what each command retains after extraction
   - Routing-only controller pattern specification
   - Extension routing table integration requirements
   - Context tier constraints (commands must NOT load Tier 3 context)
-- [ ] Task 596 report: Write `specs/596_create_orchestrate_command_skill_agent/reports/03_design-guidance.md` containing:
+  - Reference: `.claude/docs/architecture/architecture-spec.md` Components 1-2
+- [ ] **Task 3.4**: Task 596 report: Write `specs/596_create_orchestrate_command_skill_agent/reports/03_design-guidance.md` containing:
   - Complete state machine state table with transitions
   - `dispatch-agent.sh` full function specification
   - `.orchestrator-handoff.json` schema with all fields
   - Loop guard file schema
   - Blocker escalation flow (the 5-step sequence)
   - `orchestrator_mode` flag propagation pattern
-- [ ] Task 597 report: Write `specs/597_refactor_task_revise_todo_review/reports/03_design-guidance.md` containing:
+  - References: `.claude/docs/architecture/orchestrate-state-machine.md`, `dispatch-agent-spec.md`, `handoff-schema.md`
+- [ ] **Task 3.5**: Task 597 report: Write `specs/597_refactor_task_revise_todo_review/reports/03_design-guidance.md` containing:
   - Applicable shared utilities from task 593 (gate-in/gate-out patterns)
   - /todo decomposition targets (orphan detection, roadmap sync, vault, metrics)
   - Memory harvest automation specification
   - /review decomposition targets (issue grouping, roadmap integration, tier selection)
-- [ ] Task 598 report: Write `specs/598_progressive_disclosure_context_system/reports/03_design-guidance.md` containing:
+  - Reference: `.claude/docs/architecture/architecture-spec.md` Components 1-2
+- [ ] **Task 3.6**: Task 598 report: Write `specs/598_progressive_disclosure_context_system/reports/03_design-guidance.md` containing:
   - Four-tier loading model specification (tier definitions, budget per tier)
   - Budget caps per agent type (sonnet 8K, opus 15K, haiku 2K)
   - Context index.json audit criteria
   - Tier classification rules for the 97 existing entries
-- [ ] Task 599 report: Write `specs/599_update_claudemd_extension_documentation/reports/03_design-guidance.md` containing:
+  - Reference: `.claude/docs/architecture/architecture-spec.md` cross-cutting context section
+- [ ] **Task 3.7**: Task 599 report: Write `specs/599_update_claudemd_extension_documentation/reports/03_design-guidance.md` containing:
   - manifest.json `hooks` schema definition
   - Extension skill thinning pattern (target 30-50 lines)
   - CLAUDE.md sections requiring update (/orchestrate, routing table, shared utilities)
   - Documentation files requiring update (creating-commands.md, creating-skills.md, creating-agents.md)
+  - Reference: `.claude/docs/architecture/architecture-spec.md` Component 6
 
 **Timing**: 1 hour
 
@@ -196,6 +231,7 @@ Phases within the same wave can execute in parallel.
 **Verification**:
 - Each report is 80-150 lines of actionable design guidance
 - Each report contains concrete specifications (not general summaries)
+- Each report references the appropriate `.claude/docs/architecture/` document(s)
 - Task 593 report includes function signatures matching the architecture spec
 - Task 596 report includes the complete state machine and handoff schema
 - No report duplicates content already in the task's 01_seed-research.md
@@ -207,13 +243,18 @@ Phases within the same wave can execute in parallel.
 **Goal**: Verify all deliverables exist, are consistent, and commit the work.
 
 **Tasks**:
-- [ ] Verify architecture spec file exists and contains all 7 component sections
-- [ ] Verify all 7 design guidance reports exist in their respective task directories
-- [ ] Verify state.json descriptions for tasks 593-599 were updated
-- [ ] Verify TODO.md entries match state.json for tasks 593-599
-- [ ] Verify no state.json fields other than `description` were modified (dependencies, status, etc. unchanged)
-- [ ] Run a cross-reference check: architecture spec references match guidance report content
-- [ ] Git commit all changes
+- [ ] **Task 4.1**: Verify all 4 architecture docs exist in `.claude/docs/architecture/`:
+  - `architecture-spec.md`
+  - `orchestrate-state-machine.md`
+  - `dispatch-agent-spec.md`
+  - `handoff-schema.md`
+- [ ] **Task 4.2**: Verify `system-overview.md` has the "See Also" cross-reference
+- [ ] **Task 4.3**: Verify all 7 design guidance reports exist in their respective task directories
+- [ ] **Task 4.4**: Verify state.json descriptions for tasks 593-599 were updated
+- [ ] **Task 4.5**: Verify TODO.md entries match state.json for tasks 593-599
+- [ ] **Task 4.6**: Verify no state.json fields other than `description` were modified (dependencies, status, etc. unchanged)
+- [ ] **Task 4.7**: Run a cross-reference check: architecture spec references match guidance report content; all docs cross-reference each other consistently
+- [ ] **Task 4.8**: Git commit all changes
 
 **Timing**: 15 minutes
 
@@ -223,24 +264,33 @@ Phases within the same wave can execute in parallel.
 - No new files; validation only plus git commit
 
 **Verification**:
-- `ls specs/592_design_unified_workflow_architecture/design/architecture-spec.md` succeeds
+- `ls .claude/docs/architecture/architecture-spec.md .claude/docs/architecture/orchestrate-state-machine.md .claude/docs/architecture/dispatch-agent-spec.md .claude/docs/architecture/handoff-schema.md` succeeds
 - `ls specs/59{3,4,5,6,7,8,9}_*/reports/03_design-guidance.md` returns 7 files
 - `jq '.active_projects[] | select(.project_number >= 593 and .project_number <= 599) | .description' specs/state.json` shows updated descriptions
 - Git commit succeeds with all deliverables included
 
 ## Testing & Validation
 
-- [ ] Architecture spec contains all 7 component sections with interface specifications
+- [ ] Architecture spec (`architecture-spec.md`) contains all 7 component sections with interface specifications
 - [ ] Each component section has: purpose, file locations, function signatures or JSON schemas, cross-references
+- [ ] Three supplementary docs exist and contain detailed specifications for their respective domains
+- [ ] All architecture docs cross-reference each other and the existing `system-overview.md`
 - [ ] All 7 design guidance reports exist (one per downstream task)
 - [ ] Each guidance report is 80-150 lines with concrete, actionable specifications
+- [ ] Each guidance report references the appropriate `.claude/docs/architecture/` document(s) as its authoritative source
 - [ ] state.json and TODO.md are synchronized for tasks 593-599
 - [ ] No downstream task dependencies or statuses were changed
 - [ ] Architecture spec dependency graph matches research report Appendix C
 
 ## Artifacts & Outputs
 
-- `specs/592_design_unified_workflow_architecture/design/architecture-spec.md` - Primary architecture specification
+**Permanent architecture documentation** (in `.claude/docs/architecture/`):
+- `.claude/docs/architecture/architecture-spec.md` - Primary 7-component architecture specification (target state)
+- `.claude/docs/architecture/orchestrate-state-machine.md` - /orchestrate state machine detail
+- `.claude/docs/architecture/dispatch-agent-spec.md` - dispatch_agent() function specification
+- `.claude/docs/architecture/handoff-schema.md` - Orchestrator handoff JSON schema and contracts
+
+**Task-specific artifacts** (in `specs/`):
 - `specs/592_design_unified_workflow_architecture/plans/02_architecture-design.md` - This plan
 - `specs/593_extract_shared_workflow_utilities/reports/03_design-guidance.md` - Design guidance for task 593
 - `specs/594_refactor_workflow_skills_shared_base/reports/03_design-guidance.md` - Design guidance for task 594
@@ -252,8 +302,8 @@ Phases within the same wave can execute in parallel.
 
 ## Rollback/Contingency
 
-This task produces only documentation artifacts (architecture spec, design guidance reports) and task description updates. Rollback is straightforward:
-- Architecture spec: delete `specs/592_design_unified_workflow_architecture/design/` directory
+This task produces only documentation artifacts and task description updates. Rollback is straightforward:
+- Architecture docs: delete the 4 new files from `.claude/docs/architecture/` and revert the `system-overview.md` See Also line
 - Design guidance reports: delete `03_design-guidance.md` from each downstream task's reports/ directory
 - Task descriptions: revert state.json and TODO.md via git checkout
 - No code changes, no configuration changes, no system behavior changes
