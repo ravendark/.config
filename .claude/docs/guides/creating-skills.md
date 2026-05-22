@@ -75,6 +75,149 @@ Skills are located in `.claude/skills/skill-{name}/SKILL.md`:
 
 ---
 
+## Using skill-base.sh in Extension Skills
+
+Extension skills (in `.claude/extensions/*/skills/`) should be **thin wrappers** under ~110 lines. They delegate lifecycle management to `skill-base.sh` and focus on:
+1. Domain-specific context description
+2. Correct agent name routing
+3. Domain-specific delegation context fields
+
+### What skill-base.sh Provides
+
+`skill-base.sh` at `.claude/scripts/skill-base.sh` exports shared lifecycle functions:
+
+| Function | Stage | Purpose |
+|----------|-------|---------|
+| `skill_validate_input()` | 1 | Validate task number, export TASK_TYPE, TASK_DIR |
+| `skill_preflight_update()` | 2 | Update status to "in_progress" + run `preflight` hook |
+| `skill_create_postflight_marker()` | 3 | Write `.postflight-pending` marker file |
+| `skill_context_injection()` | 4 | Run `context_injection` extension hook |
+| `skill_read_artifact_number()` | 3a | Read/compute artifact sequence number |
+| `skill_read_metadata()` | 6 | Read `.return-meta.json` from agent |
+| `skill_validate_artifact()` | 6a | Validate artifact format + run `verification` hook |
+| `skill_postflight_update()` | 7 | Update status to completed + run `postflight` hook |
+| `skill_increment_artifact_number()` | 7a | Increment artifact counter in state.json |
+| `skill_propagate_memory_candidates()` | 7b | Propagate memory candidates to state.json |
+| `skill_link_artifacts()` | 8 | Link artifact in state.json and TODO.md |
+| `skill_cleanup()` | 9/10 | Remove marker files |
+
+### Before (Fat Extension Skill - 412 lines)
+
+```markdown
+---
+name: skill-nix-implementation
+...
+---
+
+### Stage 1: Input Validation
+
+Validate required inputs:
+- task_number - Must be provided and exist in state.json
+
+bash
+task_data=$(jq -r --argjson num "$task_number" ...)
+if [ -z "$task_data" ]; then
+  return error "Task $task_number not found"
+fi
+...
+
+### Stage 2: Preflight Status Update
+
+Update task status to "implementing" BEFORE invoking subagent.
+
+bash
+jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" ...
+   specs/state.json > specs/tmp/state.json && mv ...
+
+### Stage 3: Create Postflight Marker
+... (40+ lines) ...
+
+### Stage 5: Postflight Status Update
+... (50+ lines) ...
+```
+
+### After (Thin Extension Skill - ~104 lines)
+
+```markdown
+---
+name: skill-nix-implementation
+description: Implement Nix configuration changes from plans. Invoke for nix implementation tasks.
+allowed-tools: Agent, Bash, Edit, Read, Write
+---
+
+# Nix Implementation Skill
+
+Thin wrapper that delegates Nix configuration implementation to `nix-implementation-agent` subagent.
+
+## Trigger Conditions
+
+This skill activates when task type is "nix".
+
+## Execution Flow
+
+### Stage 1: Input Validation
+Validate task_number exists, task_type is "nix", and an implementation plan is present.
+
+### Stage 2: Preflight Status Update
+Update status to "implementing" BEFORE invoking subagent.
+
+### Stage 3: Prepare Delegation Context
+
+Domain-specific context for the nix-implementation-agent:
+- Nix style guide from context/
+- MCP-NixOS for package/option validation (when available)
+- Verification: nix flake check, nixos-rebuild build
+
+{delegation context JSON example}
+
+### Stage 4: Invoke Subagent
+Use Agent tool with subagent_type: "nix-implementation-agent".
+
+### Stage 4b: Self-Execution Fallback
+If no Agent tool, write .return-meta.json before postflight.
+
+## Postflight (ALWAYS EXECUTE)
+
+### Stage 5: Parse Subagent Return
+Read specs/{N}_{SLUG}/.return-meta.json.
+
+### Stage 6: Update Task Status (Postflight)
+Update state.json and TODO.md based on result.
+
+### Stage 7: Link Artifacts
+field_name=**Summary**, next_field=**Description**.
+
+### Stage 8: Git Commit
+
+### Stage 9: Return Brief Summary
+
+## MUST NOT (Postflight Boundary)
+...
+
+## Return Format
+Brief text summary (NOT JSON).
+```
+
+### Key Differences
+
+| Aspect | Fat Skill | Thin Skill |
+|--------|-----------|------------|
+| Lines | 254-412 | 83-104 |
+| Lifecycle code | Inlined (jq, bash) | Described (prose) |
+| Domain context | Mixed with lifecycle | Isolated in Stage 3 |
+| Maintenance | Update each skill | Update skill-base.sh once |
+
+Extension skills describe WHAT to do in prose. The actual execution (jq calls, status updates, file I/O) is handled by skill-base.sh functions which the skills delegate to. This makes skills readable and maintainable without sacrificing correctness.
+
+### Reference Examples
+
+Look at these working thin skills for reference:
+- `.claude/extensions/python/skills/skill-python-research/SKILL.md` (62 lines)
+- `.claude/extensions/nix/skills/skill-nix-research/SKILL.md` (83 lines)
+- `.claude/extensions/nvim/skills/skill-neovim-research/SKILL.md` (83 lines)
+
+---
+
 ## Skill Template
 
 ### Frontmatter

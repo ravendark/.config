@@ -170,16 +170,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Update Core Documentation [NOT STARTED]
+### Phase 4: Update Core Documentation [COMPLETED]
 
 **Goal**: Update system-overview.md to reflect the completed refactored architecture, and update creating-extensions.md and creating-skills.md guides with hooks documentation.
 
 **Tasks**:
-- [ ] Rewrite `system-overview.md`: remove "target architecture" banner and "See Also" reference; update to describe the completed architecture with skill-base.sh, command-gate-in/out.sh, command-route-skill.sh, dispatch-agent.sh, /orchestrate command, CLAUDE.md as computed artifact, and extension lifecycle hooks
-- [ ] Update `creating-extensions.md`: add "Lifecycle Hooks" section documenting the top-level `hooks` object schema, hook execution contract (5 positional args, exit codes), example hook scripts, and the distinction between `hooks` (lifecycle) and `provides.hooks` (file-copy)
-- [ ] Update `creating-skills.md`: add "Using skill-base.sh in Extension Skills" section showing how extension skills should source skill-base.sh and call its functions, with before/after examples showing the thinning pattern
-- [ ] Update `system-overview.md` "Last Verified" date to current date
-- [ ] Verify all documentation cross-references are correct (architecture-spec.md Component 6, skill-base.sh function names)
+- [x] Rewrite `system-overview.md`: remove "target architecture" banner and "See Also" reference; update to describe the completed architecture with skill-base.sh, command-gate-in/out.sh, command-route-skill.sh, dispatch-agent.sh, /orchestrate command, CLAUDE.md as computed artifact, and extension lifecycle hooks *(completed)*
+- [x] Update `creating-extensions.md`: add "Lifecycle Hooks" section documenting the top-level `hooks` object schema, hook execution contract (5 positional args, exit codes), example hook scripts, and the distinction between `hooks` (lifecycle) and `provides.hooks` (file-copy) *(completed)*
+- [x] Update `creating-skills.md`: add "Using skill-base.sh in Extension Skills" section showing how extension skills should source skill-base.sh and call its functions, with before/after examples showing the thinning pattern *(completed)*
+- [x] Update `system-overview.md` "Last Verified" date to current date *(completed: 2026-05-22)*
+- [x] Verify all documentation cross-references are correct (architecture-spec.md Component 6, skill-base.sh function names) *(completed)*
 
 **Timing**: 1.5 hours
 
