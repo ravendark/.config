@@ -1,6 +1,6 @@
 ---
 description: Archive completed and abandoned tasks
-allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), Bash(mv:*), Bash(mkdir:*), Bash(ls:*), Bash(find:*), Bash(jq:*), TaskCreate, TaskUpdate, AskUserQuestion
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash(git:*), Bash(bash:*), Bash(mv:*), Bash(mkdir:*), Bash(ls:*), Bash(find:*), Bash(jq:*), Bash(python3:*), Bash(wc:*), Bash(grep:*), Bash(date:*), TaskCreate, TaskUpdate, AskUserQuestion
 argument-hint: [--dry-run]
 model: opus
 ---
@@ -31,96 +31,46 @@ Read specs/TODO.md and cross-reference:
 - Entries marked [COMPLETED]
 - Entries marked [ABANDONED]
 
-### 2.5. Detect Orphaned Directories
+### 2.5. Detect Orphaned and Misplaced Directories
 
-Scan for project directories not tracked in any state file.
+Run the orphan detection utility script and parse its output.
 
 **CRITICAL**: This step MUST be executed to identify orphaned directories.
 
 ```bash
-# Get orphaned directories in specs/ (not tracked anywhere)
+# Run orphan detection
+orphan_output=$(bash .claude/scripts/orphan-detection.sh \
+  "specs" \
+  "specs/state.json" \
+  "specs/archive/state.json" 2>/dev/null)
+
+# Parse output sections using delimiter lines
 orphaned_in_specs=()
-for dir in specs/[0-9]*_*/; do
-  [ -d "$dir" ] || continue
-  project_num=$(basename "$dir" | cut -d_ -f1)
-
-  # Check if in state.json active_projects
-  in_active=$(jq -r --arg n "$project_num" \
-    '.active_projects[] | select(.project_number == ($n | tonumber)) | .project_number' \
-    specs/state.json 2>/dev/null)
-
-  # Check if in archive/state.json completed_projects
-  in_archive=$(jq -r --arg n "$project_num" \
-    '.completed_projects[] | select(.project_number == ($n | tonumber)) | .project_number' \
-    specs/archive/state.json 2>/dev/null)
-
-  # If not in either, it's an orphan
-  if [ -z "$in_active" ] && [ -z "$in_archive" ]; then
-    orphaned_in_specs+=("$dir")
-  fi
-done
-
-# Get orphaned directories in specs/archive/ (not tracked in archive/state.json)
 orphaned_in_archive=()
-for dir in specs/archive/[0-9]*_*/; do
-  [ -d "$dir" ] || continue
-  project_num=$(basename "$dir" | cut -d_ -f1)
-
-  # Check if in archive/state.json completed_projects
-  in_archive=$(jq -r --arg n "$project_num" \
-    '.completed_projects[] | select(.project_number == ($n | tonumber)) | .project_number' \
-    specs/archive/state.json 2>/dev/null)
-
-  # If not tracked, it's an orphan
-  if [ -z "$in_archive" ]; then
-    orphaned_in_archive+=("$dir")
-  fi
-done
-
-# Combined list for archival operations
-orphaned_dirs=("${orphaned_in_specs[@]}" "${orphaned_in_archive[@]}")
-```
-
-Collect orphaned directories in two categories:
-- `orphaned_in_specs[]` - Directories in specs/ not tracked anywhere (will be moved to archive/)
-- `orphaned_in_archive[]` - Directories in archive/ not tracked in archive/state.json (already in archive/, need state entries)
-
-Store counts and lists for later use.
-
-### 2.6. Detect Misplaced Directories
-
-Scan for project directories in specs/ that ARE tracked in archive/state.json (meaning they should be in archive/ but aren't).
-
-**CRITICAL**: This is distinct from orphans - misplaced directories have correct state entries but are in the wrong location.
-
-```bash
-# Get misplaced directories (in specs/ but tracked in archive/state.json)
 misplaced_in_specs=()
-for dir in specs/[0-9]*_*/; do
-  [ -d "$dir" ] || continue
-  project_num=$(basename "$dir" | cut -d_ -f1)
 
-  # Skip if already identified as orphan (not tracked anywhere)
-  in_active=$(jq -r --arg n "$project_num" \
-    '.active_projects[] | select(.project_number == ($n | tonumber)) | .project_number' \
-    specs/state.json 2>/dev/null)
+current_section=""
+while IFS= read -r line; do
+  case "$line" in
+    ---orphaned_in_specs---) current_section="specs" ;;
+    ---orphaned_in_archive---) current_section="archive" ;;
+    ---misplaced_in_specs---) current_section="misplaced" ;;
+    "")  ;;
+    *)
+      case "$current_section" in
+        specs)    [ -n "$line" ] && orphaned_in_specs+=("$line") ;;
+        archive)  [ -n "$line" ] && orphaned_in_archive+=("$line") ;;
+        misplaced)[ -n "$line" ] && misplaced_in_specs+=("$line") ;;
+      esac
+      ;;
+  esac
+done <<< "$orphan_output"
 
-  # Check if tracked in archive/state.json (should be in archive/)
-  in_archive=$(jq -r --arg n "$project_num" \
-    '.completed_projects[] | select(.project_number == ($n | tonumber)) | .project_number' \
-    specs/archive/state.json 2>/dev/null)
-
-  # If in archive state but not in active state, it's misplaced
-  if [ -z "$in_active" ] && [ -n "$in_archive" ]; then
-    misplaced_in_specs+=("$dir")
-  fi
-done
+# Combined list for output reporting
+orphaned_dirs=("${orphaned_in_specs[@]+"${orphaned_in_specs[@]}"}" "${orphaned_in_archive[@]+"${orphaned_in_archive[@]}"}") 
 ```
 
-Collect misplaced directories:
-- `misplaced_in_specs[]` - Directories in specs/ that are tracked in archive/state.json (need physical move only, no state update)
-
-Store count for later reporting.
+Store counts and lists for later use in Steps 4.5, 4.6, and 5E/5F.
 
 ### 3. Prepare Archive List
 
@@ -131,132 +81,52 @@ For each archivable task, collect:
 - completion/abandonment date
 - artifact paths
 
+Build `archivable_tasks` as a JSON array from state.json. Write to temp file for utility script consumption:
+
+```bash
+mkdir -p specs/tmp
+
+# Extract archivable tasks (completed or abandoned)
+jq '[.active_projects[] | select(.status == "completed" or .status == "abandoned")]' \
+  specs/state.json > specs/tmp/todo_archivable_$$.json
+```
+
 ### 3.5. Scan Roadmap for Task References (Structured Matching)
 
-**Ensure specs/ROADMAP.md exists** before scanning. If the file does not exist, create it with the default template:
-```markdown
-# Project Roadmap
+Run the roadmap-sync.sh scan phase to find ROADMAP.md items matching archivable tasks.
 
-## Phase 1: Current Priorities (High Priority)
+**IMPORTANT**: Meta tasks (task_type: "meta") are automatically excluded inside the script.
 
-- [ ] (No items yet -- add roadmap items here)
-
-## Success Metrics
-
-- (Define success metrics here)
-```
-
-Use structured extraction from completion_summary fields, falling back to exact `(Task {N})` matching.
-
-**IMPORTANT**: Meta tasks (task_type: "meta") are excluded from ROADMAP.md matching since they modify system infrastructure rather than project deliverables.
-
-**Step 3.5.1: Separate meta and non-meta tasks**:
 ```bash
-# Separate archivable tasks by task_type
-meta_tasks=()
-non_meta_tasks=()
+# Run roadmap scan -- outputs JSON matches array to stdout, counts to stderr
+roadmap_matches_json=$(bash .claude/scripts/roadmap-sync.sh scan \
+  "specs/tmp/todo_archivable_$$.json" \
+  "specs/ROADMAP.md" 2>/tmp/todo_roadmap_counts_$$.txt)
 
-for task in "${archivable_tasks[@]}"; do
-  task_type=$(echo "$task" | jq -r '.task_type // "general"')
-  if [ "$task_type" = "meta" ]; then
-    meta_tasks+=("$task")
-  else
-    non_meta_tasks+=("$task")
-  fi
-done
-```
+# Save matches to file for apply phase
+echo "$roadmap_matches_json" > specs/tmp/todo_roadmap_matches_$$.json
 
-**Step 3.5.2: Extract non-meta completed tasks with summaries**:
-```bash
-# Only process non-meta tasks for ROADMAP.md matching
-# Use file-based jq filter to avoid Issue #1132 with != operator
-cat > specs/tmp/todo_nonmeta_$$.jq << 'EOF'
-.active_projects[] |
-select(.status == "completed") |
-select(.task_type != "meta") |
-select(.completion_summary != null) |
-{
-  number: .project_number,
-  name: .project_name,
-  summary: .completion_summary,
-  roadmap_items: (.roadmap_items // [])
-}
-EOF
-completed_with_summaries=$(jq -rf specs/tmp/todo_nonmeta_$$.jq specs/state.json)
-rm -f specs/tmp/todo_nonmeta_$$.jq
-```
-
-**Step 3.5.3: Match non-meta tasks against ROADMAP.md**:
-```bash
-# Initialize roadmap tracking
-roadmap_matches=()
+# Parse counts from stderr output
 roadmap_completed_count=0
 roadmap_abandoned_count=0
+if [ -f /tmp/todo_roadmap_counts_$$.txt ]; then
+  while IFS= read -r count_line; do
+    case "$count_line" in
+      roadmap_completed_count=*) roadmap_completed_count="${count_line#*=}" ;;
+      roadmap_abandoned_count=*) roadmap_abandoned_count="${count_line#*=}" ;;
+    esac
+  done < /tmp/todo_roadmap_counts_$$.txt
+  rm -f /tmp/todo_roadmap_counts_$$.txt
+fi
 
-# Only iterate non-meta tasks for roadmap matching
-for task in "${non_meta_tasks[@]}"; do
-  project_num=$(echo "$task" | jq -r '.project_number')
-  status=$(echo "$task" | jq -r '.status')
-  completion_summary=$(echo "$task" | jq -r '.completion_summary // empty')
-  explicit_items=$(echo "$task" | jq -r '.roadmap_items[]?' 2>/dev/null)
-
-  # Priority 1: Explicit roadmap_items (highest confidence)
-  if [ -n "$explicit_items" ]; then
-    while IFS= read -r item_text; do
-      [ -z "$item_text" ] && continue
-      # Escape special regex characters for grep
-      escaped_item=$(printf '%s\n' "$item_text" | sed 's/[[\.*^$()+?{|]/\\&/g')
-      line_info=$(grep -n "^\s*- \[ \].*${escaped_item}" specs/ROADMAP.md 2>/dev/null | head -1 || true)
-      if [ -n "$line_info" ]; then
-        line_num=$(echo "$line_info" | cut -d: -f1)
-        roadmap_matches+=("${project_num}:${status}:explicit:${line_num}:${item_text}")
-        if [ "$status" = "completed" ]; then
-          ((roadmap_completed_count++))
-        fi
-      fi
-    done <<< "$explicit_items"
-    continue  # Skip other matching methods if explicit items found
-  fi
-
-  # Priority 2: Exact (Task N) reference matching
-  matches=$(grep -n "(Task ${project_num})" specs/ROADMAP.md 2>/dev/null || true)
-  if [ -n "$matches" ]; then
-    while IFS= read -r match_line; do
-      line_num=$(echo "$match_line" | cut -d: -f1)
-      item_text=$(echo "$match_line" | cut -d: -f2-)
-      roadmap_matches+=("${project_num}:${status}:exact:${line_num}:${item_text}")
-      if [ "$status" = "completed" ]; then
-        ((roadmap_completed_count++))
-      elif [ "$status" = "abandoned" ]; then
-        ((roadmap_abandoned_count++))
-      fi
-    done <<< "$matches"
-    continue
-  fi
-
-  # Priority 3: Summary-based search (for tasks with completion_summary but no explicit items)
-  # Only search unchecked items for key phrases from completion_summary
-  if [ -n "$completion_summary" ] && [ "$status" = "completed" ]; then
-    # Extract distinctive phrases (first 3 words of summary, excluding common words)
-    # This is semantic matching, not keyword heuristic - uses actual completion context
-    # Implementation note: Summary-based matching is optional enhancement
-    # The explicit roadmap_items field is the primary mechanism
-    :
-  fi
-done
+roadmap_total_matches=$(echo "$roadmap_matches_json" | jq 'length' 2>/dev/null || echo "0")
 ```
 
 Track:
-- `meta_tasks[]` - Array of meta tasks (excluded from ROADMAP.md matching)
-- `non_meta_tasks[]` - Array of non-meta tasks (matched against ROADMAP.md)
-- `roadmap_matches[]` - Array of task:status:match_type:line_num:item_text tuples
+- `roadmap_matches_json` - JSON array of match objects (project_num, status, match_type, line_num, item_text)
 - `roadmap_completed_count` - Count of completed task matches
 - `roadmap_abandoned_count` - Count of abandoned task matches
-
-**Match Types**:
-- `explicit` - Matched via `roadmap_items` field (highest confidence)
-- `exact` - Matched via `(Task {N})` reference in ROADMAP.md
-- `summary` - Matched via completion_summary content search (optional, future enhancement)
+- `roadmap_total_matches` - Total number of matches found
 
 ### 4. Dry Run Output (if --dry-run)
 
@@ -301,8 +171,6 @@ Task #{N3} ({project_name}) [abandoned]:
 
 Total roadmap items to update: {N}
 - Completed: {N}
-  - Explicit matches: {N}
-  - Exact matches: {N}
 - Abandoned: {N}
 
 Total tasks: {N}
@@ -314,7 +182,10 @@ Run without --dry-run to archive.
 
 If no roadmap matches were found (from Step 3.5), omit the "Roadmap updates" section.
 
-Exit here if dry run.
+Exit here if dry run. Clean up temp files before exiting:
+```bash
+rm -f "specs/tmp/todo_archivable_$$.json" "specs/tmp/todo_roadmap_matches_$$.json"
+```
 
 ### 4.5. Handle Orphaned Directories (if any found)
 
@@ -353,7 +224,7 @@ If no orphaned directories were found, skip this step and proceed.
 
 ### 4.6. Handle Misplaced Directories (if any found)
 
-If misplaced directories were detected in Step 2.6:
+If misplaced directories were detected in Step 2.5:
 
 **Use AskUserQuestion**:
 ```json
@@ -374,75 +245,34 @@ If no misplaced directories were found, skip this step and proceed.
 
 ### 5. Archive Tasks
 
-**A. Update archive/state.json**
+For each archivable task in the archivable_tasks list:
 
-Ensure archive directory exists:
+**Step 5.0: Harvest memory candidates** (before archiving each task):
+
 ```bash
-mkdir -p specs/archive/
+for task in "${archivable_tasks[@]}"; do
+  task_number=$(echo "$task" | jq -r '.project_number')
+  project_name=$(echo "$task" | jq -r '.project_name')
+
+  # Harvest memory candidates before archiving
+  harvested=$(bash .claude/scripts/memory-harvest.sh "$task_number" 2>/dev/null || echo "0")
+  total_harvested=$(( total_harvested + harvested ))
+  if [ "$harvested" -gt 0 ]; then
+    echo "Harvested $harvested memories from task $task_number"
+  fi
+
+  # Archive the task (Steps A-D)
+  if $dry_run; then
+    bash .claude/scripts/archive-task.sh "$task_number" "$project_name" --dry-run
+  else
+    bash .claude/scripts/archive-task.sh "$task_number" "$project_name"
+  fi
+done
 ```
 
-Read or create specs/archive/state.json:
-```json
-{
-  "archived_projects": [],
-  "completed_projects": []
-}
-```
-
-Move each task from state.json `active_projects` to archive/state.json `completed_projects` (for completed tasks) or `archived_projects` (for abandoned tasks).
-
-**B. Update state.json**
-
-Remove archived tasks from active_projects array using `del()` pattern (avoids Issue #1132 with `!=` operator):
-```bash
-# Use del() instead of map(select(.status != "completed" and .status != "abandoned"))
-# This pattern is Issue #1132-safe
-jq 'del(.active_projects[] | select(.status == "completed" or .status == "abandoned"))' \
-  specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
-```
-
-**C. Update TODO.md**
-
-Remove archived task entries from main sections.
-
-**D. Move Project Directories to Archive**
-
-**CRITICAL**: This step MUST be executed - do not skip it.
-
-For each archived task (completed or abandoned):
-```bash
-# Variables from task data
-project_number={N}
-project_name={SLUG}
-
-# Compute padded number for consistent directory naming
-padded_num=$(printf "%03d" "$project_number")
-
-# Check padded directory first, then fall back to unpadded for legacy
-if [ -d "specs/${padded_num}_${project_name}" ]; then
-  src="specs/${padded_num}_${project_name}"
-elif [ -d "specs/${project_number}_${project_name}" ]; then
-  src="specs/${project_number}_${project_name}"
-else
-  src=""
-fi
-
-# Always archive to padded directory
-dst="specs/archive/${padded_num}_${project_name}"
-
-if [ -n "$src" ] && [ -d "$src" ]; then
-  mv "$src" "$dst"
-  echo "Moved: $(basename "$src") -> archive/${padded_num}_${project_name}/"
-  # Track this move for output reporting
-else
-  echo "Note: No directory for task ${project_number} (skipped)"
-  # Track this skip for output reporting
-fi
-```
-
-Track:
-- directories_moved: list of successfully moved directories
-- directories_skipped: list of tasks without directories
+Initialize `total_harvested=0` before the loop. This replaces the inline Steps A-D (update
+archive/state.json, update state.json, update TODO.md, move directory) -- all handled by
+`archive-task.sh`.
 
 **E. Track Orphaned Directories (if approved in Step 4.5)**
 
@@ -450,7 +280,7 @@ If user selected "Track all orphans" (track_orphans = true):
 
 **Step E.1: Move orphaned directories from specs/ to archive/**
 ```bash
-for orphan_dir in "${orphaned_in_specs[@]}"; do
+for orphan_dir in "${orphaned_in_specs[@]+"${orphaned_in_specs[@]}"}"; do
   dir_name=$(basename "$orphan_dir")
   mv "$orphan_dir" "specs/archive/${dir_name}"
   echo "Moved orphan: ${dir_name} -> archive/"
@@ -459,7 +289,7 @@ done
 
 **Step E.2: Add state entries for ALL orphans (both moved and existing in archive/)**
 ```bash
-for orphan_dir in "${orphaned_dirs[@]}"; do
+for orphan_dir in "${orphaned_dirs[@]+"${orphaned_dirs[@]}"}"; do
   dir_name=$(basename "$orphan_dir")
   project_num=$(echo "$dir_name" | cut -d_ -f1)
   project_name=$(echo "$dir_name" | cut -d_ -f2-)
@@ -501,13 +331,11 @@ Track orphan operations for output reporting:
 If user selected "Move all" (move_misplaced = true):
 
 ```bash
-# Move misplaced directories from specs/ to archive/
 misplaced_moved=0
-for dir in "${misplaced_in_specs[@]}"; do
+for dir in "${misplaced_in_specs[@]+"${misplaced_in_specs[@]}"}"; do
   dir_name=$(basename "$dir")
   dst="specs/archive/${dir_name}"
 
-  # Check if destination already exists
   if [ -d "$dst" ]; then
     echo "Warning: ${dir_name} already exists in archive/, skipping"
     continue
@@ -515,11 +343,9 @@ for dir in "${misplaced_in_specs[@]}"; do
 
   mv "$dir" "$dst"
   echo "Moved misplaced: ${dir_name} -> archive/"
-  ((misplaced_moved++))
+  misplaced_moved=$(( misplaced_moved + 1 ))
 done
 ```
-
-**Note**: Unlike orphans, misplaced directories do NOT need state entries added - they are already correctly tracked in archive/state.json. Only the physical move is needed.
 
 Track misplaced operations for output reporting:
 - misplaced_moved: count of directories moved from specs/ to archive/
@@ -528,78 +354,20 @@ Track misplaced operations for output reporting:
 
 **Context**: Load @.claude/context/patterns/roadmap-update.md for matching strategy.
 
-For each archived task with roadmap matches (from Step 3.5):
+Apply roadmap annotations using the roadmap-sync.sh apply phase:
 
-**1. Read current ROADMAP.md content**
-
-**2. Parse match tuple** (from Step 3.5):
 ```bash
-# roadmap_matches[] entries are: project_num:status:match_type:line_num:item_text
-# Parse components
-project_num=$(echo "$match" | cut -d: -f1)
-status=$(echo "$match" | cut -d: -f2)
-match_type=$(echo "$match" | cut -d: -f3)  # explicit, exact, or summary
-line_num=$(echo "$match" | cut -d: -f4)
-item_text=$(echo "$match" | cut -d: -f5-)
-```
-
-**3. For each match, determine if already annotated**:
-```bash
-# Skip if already has completion or abandonment annotation
-if echo "$line_content" | grep -qE '\*(Completed:|\*(Abandoned:|\*(Task [0-9]+ abandoned:'; then
-  echo "Skipped: Line $line_num already annotated"
-  ((roadmap_skipped++))
-  continue
+if [ "$roadmap_total_matches" -gt 0 ]; then
+  bash .claude/scripts/roadmap-sync.sh apply \
+    "specs/tmp/todo_roadmap_matches_$$.json" \
+    "specs/ROADMAP.md"
 fi
+
+# Clean up temp files
+rm -f "specs/tmp/todo_archivable_$$.json" "specs/tmp/todo_roadmap_matches_$$.json"
 ```
 
-**4. Apply appropriate annotation based on match type**:
-
-For completed tasks with **explicit** match (via roadmap_items):
-```
-Edit old_string: "- [ ] {item_text}"
-     new_string: "- [x] {item_text} *(Completed: Task {N}, {DATE})*"
-```
-
-For completed tasks with **exact** match (via Task N reference):
-```
-Edit old_string: "- [ ] {item_text} (Task {N})"
-     new_string: "- [x] {item_text} (Task {N}) *(Completed: Task {N}, {DATE})*"
-```
-
-For abandoned tasks (checkbox stays unchecked):
-```
-Edit old_string: "- [ ] {item_text} (Task {N})"
-     new_string: "- [ ] {item_text} (Task {N}) *(Task {N} abandoned: {short_reason})*"
-```
-
-**5. Track changes**:
-```json
-{
-  "roadmap_updates": {
-    "completed_annotated": 2,
-    "abandoned_annotated": 1,
-    "skipped_already_annotated": 1,
-    "by_match_type": {
-      "explicit": 1,
-      "exact": 1,
-      "summary": 0
-    }
-  }
-}
-```
-
-Track roadmap operations for output reporting:
-- roadmap_completed_annotated: count of completed task items marked
-- roadmap_abandoned_annotated: count of abandoned task items annotated
-- roadmap_skipped: count of items skipped (already annotated)
-- roadmap_by_match_type: breakdown by match type (explicit/exact/summary)
-
-**Safety Rules** (from roadmap-update.md):
-- Skip items already containing `*(Completed:` or `*(Task` annotations
-- Preserve existing formatting and indentation
-- One edit per item (no batch edits to same line)
-- Never remove existing content
+The apply phase outputs annotation summary counts directly to stdout.
 
 ### 5.6. Sync Repository Metrics
 
@@ -689,11 +457,11 @@ fi
 
 **Purpose**: Keep Task Order wave+tree format current with archived tasks removed and statuses updated.
 
-**Non-fatal**: If the script fails for any reason (missing, error, bad state), log the warning and continue with remaining steps. Task Order regeneration failure does not block archival.
+**Non-fatal**: If the script fails for any reason, log the warning and continue.
 
 ### 5.7. Vault Operation (when next_project_number > 1000)
 
-When `next_project_number` exceeds 1000, initiate vault archival operation to reset task numbering.
+When `next_project_number` exceeds 1000, run the vault operation utility:
 
 **Step 5.8.1: Detect vault threshold**:
 ```bash
@@ -703,23 +471,7 @@ if [ "$next_num" -gt 1000 ]; then
 fi
 ```
 
-**Step 5.8.2: Identify tasks to renumber**:
-```bash
-# Find active tasks with project_number > 1000
-tasks_to_renumber=$(jq -r '
-  .active_projects[] |
-  select(.project_number > 1000) |
-  {
-    old_number: .project_number,
-    new_number: (.project_number - 1000),
-    project_name: .project_name
-  }
-' specs/state.json)
-
-renumber_count=$(echo "$tasks_to_renumber" | jq -s 'length')
-```
-
-**Step 5.8.3: User confirmation**:
+**Step 5.8.3: User confirmation** (if vault_needed):
 
 Use AskUserQuestion with vault operation details:
 ```json
@@ -734,97 +486,16 @@ Use AskUserQuestion with vault operation details:
 }
 ```
 
+If user selects "proceed", run the vault operation:
+```bash
+bash .claude/scripts/vault-operation.sh "specs/state.json" --confirmed
+```
+
 If user selects "skip", proceed to Step 6 (Git Commit).
-
-**Step 5.8.4: Create vault directory**:
-```bash
-vault_count=$(jq -r '.vault_count // 0' specs/state.json)
-new_vault_num=$((vault_count + 1))
-vault_dir_name=$(printf "%02d-vault" "$new_vault_num")
-vault_path="specs/vault/${vault_dir_name}"
-
-mkdir -p "$vault_path"
-mv "specs/archive" "${vault_path}/archive"
-mv "${vault_path}/archive/state.json" "${vault_path}/state.json"
-```
-
-**Step 5.8.5: Create vault meta.json**:
-```bash
-current_timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-archived_count=$(jq -r '.completed_projects | length' "${vault_path}/state.json" 2>/dev/null || echo "0")
-
-jq -n \
-  --arg vault_num "$new_vault_num" \
-  --arg created_at "$current_timestamp" \
-  --argjson archived_count "$archived_count" \
-  --argjson final_task_num "$next_num" \
-  '{
-    vault_number: ($vault_num | tonumber),
-    created_at: $created_at,
-    archived_count: $archived_count,
-    final_task_number: $final_task_num
-  }' > "${vault_path}/meta.json"
-```
-
-**Step 5.8.6: Reinitialize archive**:
-```bash
-mkdir -p "specs/archive"
-jq -n '{ "completed_projects": [] }' > "specs/archive/state.json"
-```
-
-**Step 5.8.7: Renumber tasks > 1000**:
-
-For each task with project_number > 1000:
-1. Update state.json project_number (subtract 1000)
-2. Update artifact paths (4-digit dir -> 3-digit dir)
-3. Update dependencies arrays
-4. Rename task directories
-5. Update TODO.md entries
-
-**Step 5.8.8: Reset state**:
-```bash
-# Calculate new next_project_number
-max_active=$(jq -r '[.active_projects[].project_number] | max // 0' specs/state.json)
-new_next_num=$((max_active + 1))
-
-# Update state.json
-jq --argjson new_next "$new_next_num" \
-   --argjson vault_num "$new_vault_num" \
-   --arg vault_path "$vault_path/" \
-   --arg created "$current_timestamp" \
-   '.next_project_number = $new_next |
-    .vault_count = (.vault_count // 0) + 1 |
-    .vault_history = (.vault_history // []) + [{
-      vault_number: $vault_num,
-      vault_dir: $vault_path,
-      created_at: $created
-    }]' specs/state.json > specs/state.json.tmp
-mv specs/state.json.tmp specs/state.json
-```
-
-**Step 5.8.8a: Re-run Task Order Regeneration after Renumbering**:
-
-After renumbering tasks and resetting state, the Task Order must be regenerated again because task numbers have changed:
-
-```bash
-# Regenerate Task Order with updated task numbers (non-fatal)
-if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-    || { echo "Warning: Post-vault Task Order regeneration failed (non-fatal)" >&2; }
-fi
-```
-
-**Step 5.8.9: Add transition comment to TODO.md**:
-```bash
-current_date=$(date +"%Y-%m-%d")
-comment="<!-- Vault transition: ${current_date} - Archived to ${vault_path}/ -->"
-# Insert after frontmatter
-```
 
 Track vault operations for output:
 - `vault_created`: true/false
-- `vault_path`: path to new vault
-- `tasks_renumbered`: count of tasks renumbered
+- `tasks_renumbered`: count of tasks renumbered (from vault-operation.sh output)
 - `new_next_project_number`: reset value
 
 ### 6. Git Commit
@@ -834,7 +505,7 @@ git add specs/
 git commit -m "todo: archive {N} completed tasks"
 ```
 
-Include roadmap, orphan, misplaced, and Task Order counts in message as applicable:
+Include roadmap, orphan, misplaced, harvest, and Task Order counts in message as applicable:
 ```bash
 # If roadmap items updated, orphans tracked, and misplaced moved:
 git commit -m "todo: archive {N} tasks, update {R} roadmap items, track {M} orphans, move {P} misplaced"
@@ -857,7 +528,7 @@ git commit -m "todo: archive {N} tasks and move {P} misplaced directories"
 
 Where `{R}` = roadmap_completed_annotated + roadmap_abandoned_annotated (total roadmap items updated).
 
-**Note**: When Task Order regeneration ran (Step 5.8), append `, regenerate task order` to the commit message (e.g., `todo: archive {N} tasks, update {R} roadmap items, regenerate task order`).
+**Note**: When Task Order regeneration ran (Step 5.8), append `, regenerate task order` to the commit message.
 
 ### 7. Output
 
@@ -868,6 +539,7 @@ Archived {N} tasks
 
 Tasks: {C} completed, {A} abandoned
 Directories: {D} moved
+Memories: {H} harvested
 
 {If orphans or misplaced processed:}
 Cleanup: {O} orphans tracked, {P} misplaced moved
@@ -891,6 +563,7 @@ Next Steps:
 |---------|-----------|
 | Tasks | Always (with counts) |
 | Directories | directories_moved > 0 |
+| Memories | total_harvested > 0 |
 | Cleanup | orphans_tracked > 0 OR misplaced_moved > 0 |
 | Roadmap | roadmap items updated |
 
@@ -903,144 +576,55 @@ If no roadmap items were updated (no matches found in Step 3.5):
 - Artifacts (plans, reports, summaries) are preserved in archive/{NNN}_{SLUG}/
 - Tasks can be recovered with `/task --recover N`
 - Archive is append-only (for audit trail)
-- Run periodically to keep TODO.md and specs/ manageable
 
-### Orphan Tracking
+### Memory Harvest
+- Memory candidates with confidence >= 0.7 are harvested before each task is archived
+- Idempotent: duplicate candidates are skipped via memory-index.json deduplication
+- See `.claude/scripts/memory-harvest.sh` for implementation details
 
-**Orphan Categories**:
-1. **Orphaned in specs/** - Directories in `specs/` not tracked in any state file
-   - Action: Move to archive/ AND add entry to archive/state.json
-2. **Orphaned in archive/** - Directories in `specs/archive/` not tracked in archive/state.json
-   - Action: Add entry to archive/state.json (no move needed)
+### Utility Scripts
 
-**orphan_archived Status**:
-- Orphaned directories receive status `"orphan_archived"` in archive/state.json
-- The `source` field is set to `"orphan_recovery"` to distinguish from normal archival
-- The `detected_artifacts` field lists any existing subdirectories (reports/, plans/, summaries/)
+| Script | Purpose | Called in Step |
+|--------|---------|----------------|
+| `orphan-detection.sh` | Detect orphaned/misplaced directories | 2.5 |
+| `memory-harvest.sh` | Harvest memory candidates from tasks | 5.0 |
+| `archive-task.sh` | Archive single task (state + directory) | 5.0 (loop) |
+| `roadmap-sync.sh scan` | Scan ROADMAP.md for task matches | 3.5 |
+| `roadmap-sync.sh apply` | Apply completion annotations | 5.5 |
+| `vault-operation.sh` | Vault archival when task numbers > 1000 | 5.7 |
 
-**Recovery**:
-- Orphaned directories with state entries can be inspected in archive/
-- Manual recovery is possible by moving directories and updating state files
-- Use `/task --recover N` only for tracked tasks (not orphans)
+All scripts are in `.claude/scripts/`.
 
-### Misplaced Directories
+### Directory Categories
 
-**Definition**: Directories in `specs/` that ARE tracked in `archive/state.json`.
-
-This indicates the directory was archived in state but never physically moved.
-
-**Directory Categories Summary**:
-
-| Category | Location | Tracked in state.json? | Tracked in archive/state.json? | Action |
-|----------|----------|------------------------|--------------------------------|--------|
+| Category | Location | In state.json? | In archive/state.json? | Action |
+|----------|----------|----------------|------------------------|--------|
 | Active | specs/ | Yes | No | Normal (no action) |
 | Orphaned in specs/ | specs/ | No | No | Move + add state entry |
 | Orphaned in archive/ | archive/ | No | No | Add state entry only |
 | Misplaced | specs/ | No | Yes | Move only (state correct) |
 | Archived | archive/ | No | Yes | Normal (no action) |
 
-**Misplaced Directories**:
-- Already have correct state entries in archive/state.json
-- Only need to be physically moved to specs/archive/
-- No state updates required
+### Roadmap Annotation Formats
 
-**Causes of Misplaced Directories**:
-- Directory move failed silently during previous archival
-- Manual state edits without corresponding directory moves
-- System interrupted during archival process
-- /todo command Step 5D not executing consistently
-
-**Recovery**:
-- Use `/task --recover N` to recover misplaced directories (they have valid state entries)
-- After moving, the directory will be in the correct location matching its state
-
-### Roadmap Updates
-
-**Matching Strategy** (Structured Synchronization):
-
-Roadmap matching uses structured data from completed tasks, not keyword heuristics:
-
-1. **Explicit roadmap_items** (Priority 1, highest confidence):
-   - Tasks can include a `roadmap_items` array in state.json
-   - Contains exact item text to match against ROADMAP.md
-   - Example: `"roadmap_items": ["Improve /todo command roadmap updates"]`
-
-2. **Exact (Task N) references** (Priority 2):
-   - Searches ROADMAP.md for `(Task {N})` patterns
-   - Works with existing roadmap items that reference task numbers
-
-3. **Summary-based search** (Future enhancement):
-   - Uses `completion_summary` field to find semantically related items
-   - Not currently implemented (placeholder for future)
-
-**Producer/Consumer Workflow**:
-- `/implement` is the **producer**: populates `completion_summary` and optional `roadmap_items`
-- `/todo` is the **consumer**: extracts these fields via jq and matches against ROADMAP.md
-
-**Annotation Formats**:
-
-Completed tasks with explicit match:
+Completed tasks (explicit match):
 ```markdown
 - [x] {item text} *(Completed: Task {N}, {DATE})*
 ```
 
-Completed tasks with exact (Task N) match:
+Completed tasks (exact Task N reference):
 ```markdown
 - [x] {item text} (Task {N}) *(Completed: Task {N}, {DATE})*
 ```
 
-Abandoned tasks (checkbox stays unchecked):
+Abandoned tasks:
 ```markdown
 - [ ] {item text} (Task {N}) *(Task {N} abandoned: {short_reason})*
 ```
 
-**Safety Rules**:
-- Skip items already annotated (contain `*(Completed:` or `*(Task` patterns)
-- Preserve existing formatting and indentation
-- One edit per item
-- Never remove existing content
-
-**Date Format**: ISO date (YYYY-MM-DD) from task completion/abandonment timestamp
-
-**Abandoned Reason**: Truncated to first 50 characters of `abandoned_reason` field from state.json
-
-**Well-Formed Completion Summaries**:
-
-Good examples:
-- "Implemented structured synchronization between task completion data and roadmap updates. Added completion_summary field to task schema."
-- "Fixed modal logic proof for reflexive frames. Added missing transitivity lemma and updated test cases."
-- "Created LaTeX documentation for Logos layer architecture with diagrams and examples."
-
-The summary should:
-- Be 1-3 sentences describing what was accomplished
-- Focus on outcomes, not process
-- Be specific enough to enable roadmap matching
+**Safety**: Skip items already containing `*(Completed:` or `*(Task` annotations.
 
 ### jq Pattern Safety (Issue #1132)
 
-**Problem**: Claude Code Issue #1132 causes jq commands with `!=` operators to fail with `INVALID_CHARACTER` or syntax errors when Claude generates them inline.
-
-**Solution**: This command uses safe jq patterns throughout:
-
-1. **File-based filters** for `!=` operators:
-   ```bash
-   # Instead of: jq 'select(.task_type != "meta")' file
-   cat > specs/tmp/filter_$$.jq << 'EOF'
-   select(.task_type != "meta")
-   EOF
-   jq -f specs/tmp/filter_$$.jq file && rm -f specs/tmp/filter_$$.jq
-   ```
-
-2. **`has()` for null checks**:
-   ```bash
-   # Instead of: jq 'select(.field != null)'
-   jq 'select(has("field"))'
-   ```
-
-3. **`del()` for exclusion filters**:
-   ```bash
-   # Instead of: jq '.array |= map(select(.status != "completed"))'
-   jq 'del(.array[] | select(.status == "completed"))'
-   ```
-
-**Reference**: See `.claude/context/patterns/jq-escaping-workarounds.md` for comprehensive patterns.
+Use `del()` for exclusion and `select(.type == "X" | not)` instead of `select(.type != "X")`.
+See `.claude/context/patterns/jq-escaping-workarounds.md` for comprehensive patterns.

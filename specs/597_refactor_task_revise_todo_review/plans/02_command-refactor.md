@@ -146,28 +146,25 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Refactor /todo to use utility scripts and integrate memory harvest [NOT STARTED]
+### Phase 3: Refactor /todo to use utility scripts and integrate memory harvest [COMPLETED]
 
 **Goal**: Rewire /todo to call the extracted utility scripts and the new memory-harvest.sh, reducing its line count from 1046L to ~450L.
 
 **Tasks**:
-- [ ] Create `.claude/scripts/roadmap-sync.sh` (~210L)
+- [x] Create `.claude/scripts/roadmap-sync.sh` (~210L) *(completed: 331L with scan+apply phases)*
   - Extract Steps 3.5 + 5.5 combined (lines 124-260 and 523-596 of todo.md)
   - Input: archivable tasks JSON array, ROADMAP.md path
   - Operations: scan for roadmap matches, apply annotations, track changes
   - Combine scan and application since they share roadmap_matches state
-- [ ] Replace Steps 2.5-2.6 in todo.md with `source .claude/scripts/orphan-detection.sh` call
-- [ ] Replace Step 3.5 roadmap scan with `source .claude/scripts/roadmap-sync.sh` scan call
-- [ ] Add memory-harvest.sh integration to archival loop (before archive step for each task):
-  ```bash
-  bash .claude/scripts/memory-harvest.sh "$task_number"
-  ```
-- [ ] Replace Steps 5A-5D inline archival with `bash .claude/scripts/archive-task.sh` calls
-- [ ] Replace Step 5.5 roadmap application with roadmap-sync.sh apply call
-- [ ] Replace Step 5.7 vault operation with `bash .claude/scripts/vault-operation.sh` call
-- [ ] Add harvest count to /todo output section
-- [ ] Verify all references to extracted inline code are removed
-- [ ] Verify roadmap_matches array is properly passed between scan and application phases
+- [x] Replace Steps 2.5-2.6 in todo.md with `source .claude/scripts/orphan-detection.sh` call *(completed)*
+- [x] Replace Step 3.5 roadmap scan with `source .claude/scripts/roadmap-sync.sh` scan call *(completed)*
+- [x] Add memory-harvest.sh integration to archival loop (before archive step for each task) *(completed)*
+- [x] Replace Steps 5A-5D inline archival with `bash .claude/scripts/archive-task.sh` calls *(completed)*
+- [x] Replace Step 5.5 roadmap application with roadmap-sync.sh apply call *(completed)*
+- [x] Replace Step 5.7 vault operation with `bash .claude/scripts/vault-operation.sh` call *(completed)*
+- [x] Add harvest count to /todo output section *(completed: Memories: {H} harvested in output)*
+- [x] Verify all references to extracted inline code are removed *(completed)*
+- [x] Verify roadmap_matches array is properly passed between scan and application phases *(completed: via temp JSON file)*
 
 **Timing**: 2 hours
 
@@ -251,7 +248,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 6: Create /review utility scripts [NOT STARTED]
+### Phase 6: Create /review utility scripts [IN PROGRESS]
 
 **Goal**: Extract three reusable components from /review's monolithic structure.
 
