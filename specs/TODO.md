@@ -21,7 +21,7 @@ next_project_number: 605
 
 ### Meta System
 
-603 [RESEARCHING] — Fix /meta so user confirmation happens in the foreground BEFORE s
+603 [RESEARCHED] — Fix /meta so user confirmation happens in the foreground BEFORE s
 
 ### Wezterm Notifications
 
@@ -99,10 +99,11 @@ next_project_number: 605
 
 ### 603. Fix /meta pre-confirmation: move interactive flow before agent spawn
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
+- **Research**: [603_fix_meta_pre_confirmation_pattern/reports/01_meta-pre-confirmation.md]
 
 **Description**: Fix /meta so user confirmation happens in the foreground BEFORE spawning meta-builder-agent. Root cause: AskUserQuestion from background Agent tool calls does not reliably surface to the user. Changes: (1) meta.md: document that prompt mode MUST run AskUserQuestion before Agent delegation. (2) skill-meta SKILL.md: add pre-confirmation stage between context preparation and agent spawn -- skill proposes tasks, user selects/revises via AskUserQuestion, then passes confirmed list. (3) meta-builder-agent.md: add confirmed mode that accepts pre-validated task list and creates without re-asking; keep interactive mode for no-args /meta where agent runs foreground. (4) Update multi-task-creation-standard.md to note that confirmation must happen in foreground.
 
