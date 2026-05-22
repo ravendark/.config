@@ -4,7 +4,7 @@ File format conversion, manipulation, and in-place editing for documents, spread
 
 ## Overview
 
-This extension provides five commands for file manipulation tasks:
+This extension provides six commands for file manipulation tasks:
 
 | Command | Purpose | Typical Inputs |
 |---------|---------|----------------|
@@ -12,6 +12,7 @@ This extension provides five commands for file manipulation tasks:
 | `/table` | Convert spreadsheets to LaTeX or Typst table source | `.xlsx`, `.csv` |
 | `/scrape` | Extract PDF annotations (highlights, comments) to Markdown/JSON | annotated `.pdf` |
 | `/edit` | In-place Office document editing with tracked changes | `.docx` (SuperDoc MCP) |
+| `/sheet` | Create, edit, or analyze XLSX spreadsheets | `.xlsx`, `.xlsm` |
 
 ## Installation
 
@@ -102,6 +103,21 @@ In-place editing of Office documents with tracked-changes support.
 
 **Agent**: `docx-edit-agent` (uses `superdoc` MCP)
 
+### /sheet
+
+Create, edit, or analyze XLSX spreadsheets.
+
+**Syntax**:
+```bash
+/sheet budget.xlsx "Create a monthly budget tracker with categories for rent, utilities, food, and transportation"
+/sheet data.xlsx "Add a new column for Q4 with SUM formulas at the bottom"
+/sheet report.xlsx "Summarize the data and identify trends" --analyze
+/sheet --create inventory.xlsx "Create an inventory tracking sheet with columns for item, quantity, unit price, and total cost"
+/sheet --edit budget.xlsx "Change the Marketing row values for March and April"
+```
+
+**Agent**: `sheet-agent` (uses `openpyxl` MCP for `.xlsx`/`.xlsm` operations)
+
 ## Architecture
 
 ```
@@ -115,7 +131,8 @@ filetypes/
 │   ├── convert.md             # /convert command (general + slide formats)
 │   ├── table.md               # /table command
 │   ├── scrape.md              # /scrape command
-│   └── edit.md                # /edit command
+│   ├── edit.md                # /edit command
+│   └── sheet.md               # /sheet command
 │
 ├── skills/                    # Skill wrappers
 │   ├── skill-filetypes/       # Router skill (dispatches to document-agent)

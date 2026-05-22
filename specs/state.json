@@ -143,12 +143,12 @@
           }
         ]
       },
-      "completion_summary": "Refactored research.md (393→191L), plan.md (420→202L), and implement.md (525→207L) to use shared command-route-skill.sh for extension routing, removing ~740 lines of redundant inline logic. Added skill_write_orchestrator_handoff() to skill-base.sh and integrated orchestrator_mode detection into all three core skills (researcher, planner, implementer), with max_continuations=0 protection in skill-implementer for orchestrator dispatch."
+      "completion_summary": "Refactored research.md (393\u2192191L), plan.md (420\u2192202L), and implement.md (525\u2192207L) to use shared command-route-skill.sh for extension routing, removing ~740 lines of redundant inline logic. Added skill_write_orchestrator_handoff() to skill-base.sh and integrated orchestrator_mode detection into all three core skills (researcher, planner, implementer), with max_continuations=0 protection in skill-implementer for orchestrator dispatch."
     },
     {
       "project_number": 596,
       "project_name": "create_orchestrate_command_skill_agent",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Create the /orchestrate command, skill-orchestrate, and dispatch-agent.sh. File layout: .claude/commands/orchestrate.md (entry point ~50L), .claude/skills/skill-orchestrate/SKILL.md (state machine ~200L), .claude/scripts/dispatch-agent.sh (dispatch function). State machine: not_started->research->plan->implement->completed; partial+handoff->re-dispatch-implement; partial+blockers->blocker-escalation; MAX_CYCLES=5 with loop guard file (specs/{NNN}_{SLUG}/.orchestrator-loop-guard). dispatch_agent() signature: dispatch_agent agent_type prompt context_json is_blocker_escalation; is_blocker_escalation=true uses fork (no subagent_type, cache-warm ~90% savings); false uses named subagent. .orchestrator-handoff.json schema: phase, status, summary (<=100 tokens), artifacts, blockers, next_action_hint, files_modified, decisions_made, dead_ends, continuation_context; total <=400 tokens. Nested loop resolution: orchestrator_mode=true in delegation context disables skill-implementer inner continuation loop (max_continuations=0); orchestrator handles continuation externally. References: .claude/docs/architecture/orchestrate-state-machine.md, .claude/docs/architecture/dispatch-agent-spec.md, .claude/docs/architecture/handoff-schema.md.",
@@ -159,7 +159,7 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T19:53:11Z",
+      "last_updated": "2026-05-22T19:54:04Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -173,7 +173,7 @@
           "summary": "5-phase plan to create /orchestrate command, skill-orchestrate state machine, and dispatch-agent.sh script with blocker escalation and nested loop resolution."
         }
       ],
-      "session_id": "sess_1748000000_596plan"
+      "session_id": "sess_1748000000_596impl"
     },
     {
       "project_number": 597,
@@ -181,7 +181,7 @@
       "status": "not_started",
       "task_type": "meta",
       "topic": "workflow-refactor",
-      "description": "Refactor /task, /revise, /todo, /review for consistency with the new architecture from task 593. /task (710L): Use shared gate-in/gate-out scripts from task 593 for state operations; reduce redundancy across 5 modes. /revise (161L): Integrate with orchestrator handoff protocol (write .orchestrator-handoff.json when orchestrator_mode=true in delegation context). /todo (1047L): Decompose into utility modules: orphan detection, roadmap sync, vault operation, metrics. Critical: add memory harvest automation — harvest memory_candidates from tasks being archived (571 archived tasks have candidates but vault has only 3 memories). /review (1040L): Decompose into reusable components: issue grouping algorithm (180L), roadmap integration (120L), 3-tier selection flow. References: .claude/docs/architecture/architecture-spec.md Components 1-2 for gate-in/gate-out patterns.",
+      "description": "Refactor /task, /revise, /todo, /review for consistency with the new architecture from task 593. /task (710L): Use shared gate-in/gate-out scripts from task 593 for state operations; reduce redundancy across 5 modes. /revise (161L): Integrate with orchestrator handoff protocol (write .orchestrator-handoff.json when orchestrator_mode=true in delegation context). /todo (1047L): Decompose into utility modules: orphan detection, roadmap sync, vault operation, metrics. Critical: add memory harvest automation \u2014 harvest memory_candidates from tasks being archived (571 archived tasks have candidates but vault has only 3 memories). /review (1040L): Decompose into reusable components: issue grouping algorithm (180L), roadmap integration (120L), 3-tier selection flow. References: .claude/docs/architecture/architecture-spec.md Components 1-2 for gate-in/gate-out patterns.",
       "effort": "2-3 hours",
       "dependencies": [
         593
@@ -251,7 +251,7 @@
       "status": "not_started",
       "task_type": "meta",
       "topic": "workflow-refactor",
-      "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md — update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md — update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ — update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ — update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ — update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
+      "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md \u2014 update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md \u2014 update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ \u2014 update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ \u2014 update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ \u2014 update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
       "effort": "2-3 hours",
       "dependencies": [
         599
@@ -317,19 +317,24 @@
     {
       "project_number": 606,
       "project_name": "fix_extension_doclint_failures",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Fix 2 extension doc-lint failures: core README missing /project-overview command, filetypes README missing /sheet command. Run check-extension-docs.sh to verify.",
       "effort": "30 minutes",
       "created": "2026-05-22T18:40:00Z",
-      "last_updated": "2026-05-22T19:53:04Z",
+      "last_updated": "2026-05-22T20:00:00Z",
       "next_artifact_number": 1,
       "artifacts": [
         {
           "path": "specs/606_fix_extension_doclint_failures/plans/01_fix-doclint-failures.md",
           "type": "plan",
           "summary": "3-phase plan to fix 2 doc-lint failures"
+        },
+        {
+          "path": "specs/606_fix_extension_doclint_failures/summaries/01_fix-doclint-failures-summary.md",
+          "type": "summary",
+          "summary": "Fixed 2 doc-lint failures: added /project-overview to core README and /sheet to filetypes README; check-extension-docs.sh now passes all 16 extensions"
         }
       ],
       "session_id": "sess_1779479566_932bd1",
@@ -349,7 +354,8 @@
           ]
         ],
         "reports_integrated": []
-      }
+      },
+      "completion_summary": "Added /project-overview command documentation to the core extension README (updating command count from 14 to 15) and added /sheet command documentation to the filetypes extension README (updating from five to six commands). All 16 extensions now pass check-extension-docs.sh with zero failures."
     }
   ],
   "completed_projects": [],

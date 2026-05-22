@@ -6,7 +6,7 @@ Foundational system payload providing the base agent infrastructure for Claude C
 
 | Category | Count | Description |
 |----------|-------|-------------|
-| Commands | 14 | Full task lifecycle from creation through archival |
+| Commands | 15 | Full task lifecycle from creation through archival |
 | Agents | 8 | Research, implementation, planning, review, meta, revision, spawn |
 | Skills | 16 | Orchestration, team mode, utilities, and domain routing |
 | Rules | 6 | Auto-applied rules for state, git, artifacts, workflows, errors |
@@ -22,7 +22,7 @@ Core is not a domain extension and is never loaded via the extension picker. It 
 
 ## Commands
 
-All 14 commands use checkpoint-based execution: GATE IN (preflight) -> DELEGATE (skill/agent) -> GATE OUT (postflight) -> COMMIT.
+All 15 commands use checkpoint-based execution: GATE IN (preflight) -> DELEGATE (skill/agent) -> GATE OUT (postflight) -> COMMIT.
 
 | Command | Usage | Description |
 |---------|-------|-------------|
@@ -39,6 +39,7 @@ All 14 commands use checkpoint-based execution: GATE IN (preflight) -> DELEGATE 
 | `/refresh` | `/refresh` | Clean orphaned processes and old files |
 | `/spawn` | `/spawn N` | Spawn new tasks to unblock a blocked task |
 | `/merge` | `/merge` | Create pull/merge request for current branch |
+| `/project-overview` | `/project-overview` | Interactive repo scan and project-overview.md generation |
 | `/tag` | `/tag` | Create semantic version tag (user-only) |
 
 Multi-task syntax: `/research`, `/plan`, and `/implement` accept comma-separated and range task numbers (e.g., `/research 7, 22-24`). Flags like `--team`, `--force`, `--fast`, `--hard` modify behavior.
@@ -76,11 +77,11 @@ core/
 │   ├── spawn-agent.md
 │   └── README.md
 │
-├── commands/                  # 14 slash command definitions
+├── commands/                  # 15 slash command definitions
 │   ├── task.md, research.md, plan.md, implement.md
 │   ├── todo.md, meta.md, review.md, revise.md
 │   ├── errors.md, fix-it.md, refresh.md
-│   ├── spawn.md, merge.md, tag.md
+│   ├── spawn.md, merge.md, project-overview.md, tag.md
 │   └── (each defines preflight, delegation, postflight)
 │
 ├── skills/                    # 16 skill wrappers

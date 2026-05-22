@@ -59,15 +59,15 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add /project-overview to Core README [NOT STARTED]
+### Phase 1: Add /project-overview to Core README [COMPLETED]
 
 **Goal**: Document the `/project-overview` command in the core extension README so the doc-lint check passes for core.
 
 **Tasks**:
-- [ ] Read `.claude/extensions/core/commands/project-overview.md` for command details
-- [ ] Add `/project-overview` row to the Commands table in `.claude/extensions/core/README.md` (line ~42, after the `/merge` row)
-- [ ] Use format: `| /project-overview | /project-overview | Interactive repo scan and project-overview.md generation |`
-- [ ] Verify the command count in the Overview table is updated (14 -> 15 commands)
+- [x] Read `.claude/extensions/core/commands/project-overview.md` for command details *(completed)*
+- [x] Add `/project-overview` row to the Commands table in `.claude/extensions/core/README.md` (line ~42, after the `/merge` row) *(completed)*
+- [x] Use format: `| /project-overview | /project-overview | Interactive repo scan and project-overview.md generation |` *(completed)*
+- [x] Verify the command count in the Overview table is updated (14 -> 15 commands) *(completed)*
 
 **Timing**: 10 minutes
 
@@ -82,16 +82,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add /sheet to Filetypes README [NOT STARTED]
+### Phase 2: Add /sheet to Filetypes README [COMPLETED]
 
 **Goal**: Document the `/sheet` command in the filetypes extension README so the doc-lint check passes for filetypes.
 
 **Tasks**:
-- [ ] Read `.claude/extensions/filetypes/commands/sheet.md` for command details
-- [ ] Add `/sheet` row to the Commands overview table in `.claude/extensions/filetypes/README.md` (after the `/edit` row, line ~14)
-- [ ] Add a `### /sheet` section under the Commands section (after the `/edit` subsection, around line ~103) with syntax examples and agent info
-- [ ] Update the Overview paragraph "five commands" to "six commands" and the command count
-- [ ] Update the Architecture tree to include `sheet.md` in the commands directory listing
+- [x] Read `.claude/extensions/filetypes/commands/sheet.md` for command details *(completed)*
+- [x] Add `/sheet` row to the Commands overview table in `.claude/extensions/filetypes/README.md` (after the `/edit` row, line ~14) *(completed)*
+- [x] Add a `### /sheet` section under the Commands section (after the `/edit` subsection, around line ~103) with syntax examples and agent info *(completed)*
+- [x] Update the Overview paragraph "five commands" to "six commands" and the command count *(completed)*
+- [x] Update the Architecture tree to include `sheet.md` in the commands directory listing *(completed)*
 
 **Timing**: 15 minutes
 
@@ -106,16 +106,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Verify All Doc-Lint Checks Pass [NOT STARTED]
+### Phase 3: Verify All Doc-Lint Checks Pass [COMPLETED]
 
 **Goal**: Run `check-extension-docs.sh` and confirm zero failures for all extensions.
 
 **Tasks**:
-- [ ] Run `bash .claude/scripts/check-extension-docs.sh`
-- [ ] Verify core extension status is PASS
-- [ ] Verify filetypes extension status is PASS
-- [ ] Verify total issue count is 0
-- [ ] If any failures remain, iterate on the specific README until the check passes
+- [x] Run `bash .claude/scripts/check-extension-docs.sh` *(completed)*
+- [x] Verify core extension status is PASS *(completed)*
+- [x] Verify filetypes extension status is PASS *(completed)*
+- [x] Verify total issue count is 0 *(completed)*
+- [x] If any failures remain, iterate on the specific README until the check passes *(completed: no failures)*
 
 **Timing**: 5 minutes
 

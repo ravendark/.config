@@ -24,10 +24,10 @@ next_project_number: 607
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
-  └─ 596 [PLANNED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
+  └─ 596 [IMPLEMENTING] — Create the /orchestrate command, skill-orchestrate, and dispatch-
     └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
-606 [IMPLEMENTING] — Fix 2 extension doc-lint failures: core README missing /project-o
+606 [COMPLETED] — Fix 2 extension doc-lint failures: core README missing /project-o
 
 ### Uncategorized
 
@@ -38,10 +38,11 @@ next_project_number: 607
 
 ### 606. Fix extension doc-lint failures (core, filetypes)
 - **Effort**: 30 minutes
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Plan**: [606_fix_extension_doclint_failures/plans/01_fix-doclint-failures.md]
+- **Summary**: [606_fix_extension_doclint_failures/summaries/01_fix-doclint-failures-summary.md]
 
 **Description**: Fix 2 extension doc-lint failures: core README missing /project-overview command, filetypes README missing /sheet command. Run check-extension-docs.sh to verify.
 
@@ -109,7 +110,7 @@ next_project_number: 607
 
 ### 596. Create /orchestrate command, skill, and orchestrator agent
 - **Effort**: 3-4 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 594, 598
