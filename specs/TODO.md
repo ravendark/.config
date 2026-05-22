@@ -11,29 +11,48 @@ next_project_number: 604
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,593,598,601 | -- | uncategorized,wezterm-notifications,workflow-refactor |
-| 2 | 594,597,602 | 593,598,601 | wezterm-notifications,workflow-refactor |
+| 1 | 78,87,593,598,601,603 | -- | wezterm-notifications, workflow-refactor, meta-system |
+| 2 | 594,597,602 | 593,598,601 | wezterm-notifications, workflow-refactor |
 | 3 | 595,596 | 593,594,598 | workflow-refactor |
 | 4 | 599 | 594,595,596,597,598 | workflow-refactor |
 | 5 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = must complete first):
 
-### workflow-refactor
+### Wezterm Notifications
 
-593 [NOT STARTED] — extract_shared_workflow_utilities
-  594 [NOT STARTED] — refactor_workflow_skills_shared_base
-    595 [NOT STARTED] — refactor_research_plan_implement_commands
-      599 [NOT STARTED] — update_claudemd_extension_documentation
-        600 [NOT STARTED] — revise_docs_architecture_post_refactor
-    596 [NOT STARTED] — create_orchestrate_command_skill_agent
-  597 [NOT STARTED] — refactor_task_revise_todo_review
-598 [NOT STARTED] — progressive_disclosure_context_system
+601 [NOT STARTED] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
+602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
+  └─ 601 [NOT STARTED] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
 
-### wezterm-notifications
+### Workflow Refactor
 
-601 [NOT STARTED] — simplify_notification_pipeline_merge_vocabulary
-  602 [NOT STARTED] — update_wezterm_dim_bright_colors
+593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i
+594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill-
+  └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
+  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
+595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util
+  └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
+  └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
+596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
+  └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
+  └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
+597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the 
+  └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
+599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
+  └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util (see above)
+  └─ 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch- (see above)
+  └─ 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the  (see above)
+  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
+600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
+  └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
+
+### Meta System
+
+603 [NOT STARTED] — Fix /meta so user confirmation happens in the foreground BEFORE s
 
 ### Uncategorized
 
@@ -160,7 +179,7 @@ next_project_number: 604
 
 ### 593. Extract shared workflow utilities module
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 592

@@ -298,7 +298,9 @@ cc_union() {
   local rx ry
   rx=$(cc_find "$1")
   ry=$(cc_find "$2")
-  [[ "$rx" != "$ry" ]] && cc_parent["$rx"]="$ry"
+  if [[ "$rx" != "$ry" ]]; then
+    cc_parent["$rx"]="$ry"
+  fi
 }
 
 compute_connected_components() {
