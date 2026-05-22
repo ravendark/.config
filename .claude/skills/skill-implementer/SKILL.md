@@ -70,6 +70,12 @@ fi
 
 ### Stage 4: Prepare Delegation Context
 
+Extract orchestrator_mode early (controls continuation loop behavior):
+
+```bash
+orchestrator_mode=$(echo "$delegation_context" | jq -r '.orchestrator_mode // "false"' 2>/dev/null || echo "false")
+```
+
 Find the latest plan file to pass to the implementation agent:
 
 ```bash
@@ -93,6 +99,7 @@ Prepare delegation context for the subagent:
   "artifact_number": "{ARTIFACT_PADDED}",
   "effort_flag": "{effort_flag or null}",
   "model_flag": "{model_flag or null}",
+  "orchestrator_mode": false,
   "plan_path": "{plan_path}",
   "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json"
 }
@@ -134,13 +141,19 @@ Initialize continuation tracking before entering the postflight loop:
 
 ```bash
 continuation_count=0
-max_continuations=3
+# When orchestrator_mode=true, disable inner continuation loop (orchestrator drives continuation)
+if [ "$orchestrator_mode" = "true" ]; then
+  max_continuations=0
+else
+  max_continuations=3
+fi
 task_dir="specs/${PADDED_NUM}_${PROJECT_NAME}"
 cat > "${task_dir}/.continuation-loop-guard" << EOF
 {
   "session_id": "${session_id}",
   "continuation_count": 0,
-  "max_continuations": 3,
+  "max_continuations": ${max_continuations},
+  "orchestrator_mode": "${orchestrator_mode}",
   "created": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF
@@ -219,6 +232,10 @@ skill_propagate_memory_candidates "$task_number" "$MEMORY_CANDIDATES"
 if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
   remove_from_recommended_order "$task_number" || echo "Note: Failed to update Recommended Order"
 fi
+
+# Step 6: Write orchestrator handoff (only if orchestrator_mode=true)
+skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \
+  "implement" "$SUBAGENT_STATUS" "$ARTIFACT_SUMMARY" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "none"
 ```
 
 **Break loop** — proceed to Stage 8.
@@ -261,6 +278,16 @@ if [ -n "$handoff_path" ] && [ -f "$handoff_path" ] && [ "$continuation_count" -
 else
   [ -z "$handoff_path" ] && echo "Partial return with no handoff_path. User must re-run /implement."
   [ "$continuation_count" -ge "$max_continuations" ] && echo "Max continuations ($max_continuations) reached. Returning partial."
+
+  # Write orchestrator handoff for partial status (with continuation_context if handoff_path exists)
+  if [ -n "$handoff_path" ] && [ -f "$handoff_path" ]; then
+    export ORCHESTRATOR_HANDOFF_CONTINUATION_JSON=$(printf '{"handoff_path":"%s","phases_completed":%s,"phases_total":%s,"orchestrator_mode":true}' \
+      "$handoff_path" "$phases_completed" "$phases_total")
+  fi
+  skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \
+    "implement" "partial" "$ARTIFACT_SUMMARY" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "implement"
+  unset ORCHESTRATOR_HANDOFF_CONTINUATION_JSON
+
   break
 fi
 ```

@@ -238,33 +238,33 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 6: Add orchestrator_mode to skills and validate [NOT STARTED]
+### Phase 6: Add orchestrator_mode to skills and validate [COMPLETED]
 
 **Goal**: Add orchestrator_mode detection and handoff writing to all three core skills, add continuation loop disable to skill-implementer, and run end-to-end validation including extension compatibility.
 
 **Tasks**:
-- [ ] In `skill-researcher/SKILL.md`:
+- [x] In `skill-researcher/SKILL.md`: *(completed)*
   - Add orchestrator_mode extraction from delegation context (1 line, early in execution)
   - Add `skill_write_orchestrator_handoff` call in postflight (after Stage 7 status update, ~3 lines)
-- [ ] In `skill-planner/SKILL.md`:
+- [x] In `skill-planner/SKILL.md`: *(completed)*
   - Add orchestrator_mode extraction (1 line)
   - Add `skill_write_orchestrator_handoff` call in postflight (~3 lines)
-- [ ] In `skill-implementer/SKILL.md`:
+- [x] In `skill-implementer/SKILL.md`: *(completed)*
   - Add orchestrator_mode extraction (1 line)
   - Add `max_continuations=0` when `orchestrator_mode=true` in Stage 5c continuation loop init (~4 lines)
   - Add `skill_write_orchestrator_handoff` call in postflight (~3 lines)
-- [ ] Verify line count changes: researcher ~231->240, planner ~203->212, implementer ~336->355
-- [ ] **Extension compatibility validation**:
+- [x] Verify line count changes: researcher 231->242, planner 203->215, implementer 336->363 *(completed)*
+- [x] **Extension compatibility validation**: *(completed)*
   - Verify nvim extension manifest routing keys unchanged: `neovim` routes to correct skills
   - Verify nix extension manifest routing keys unchanged: `nix` routes to correct skills
   - Verify `command-route-skill.sh` correctly resolves both extension types
-- [ ] **Functional verification** (spot checks):
-  - Verify `wc -l` on all three command files within target ranges
-  - Verify no Tier 3 content in commands (grep for state machine logic, format specs, domain patterns)
+- [x] **Functional verification** (spot checks): *(completed)*
+  - Verify `wc -l` on all three command files within target ranges (191, 202, 207)
+  - Verify no Tier 3 content in commands (grep returns 0 matches)
   - Verify `command-gate-out.sh` is called in all three commands
   - Verify `command-gate-in.sh` is sourced in all three commands
   - Verify `parse-command-args.sh` is sourced in all three commands
-- [ ] **orchestrator_mode verification**:
+- [x] **orchestrator_mode verification**: *(completed)*
   - Confirm `skill_write_orchestrator_handoff` function exists in skill-base.sh
   - Confirm all three skills reference orchestrator_mode in their postflight
   - Confirm skill-implementer checks orchestrator_mode for continuation loop

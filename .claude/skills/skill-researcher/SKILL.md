@@ -109,6 +109,12 @@ fi
 
 ### Stage 4: Prepare Delegation Context
 
+Extract orchestrator_mode early (before delegation context JSON):
+
+```bash
+orchestrator_mode=$(echo "$delegation_context" | jq -r '.orchestrator_mode // "false"' 2>/dev/null || echo "false")
+```
+
 ```json
 {
   "session_id": "sess_{timestamp}_{random}",
@@ -125,6 +131,7 @@ fi
   "focus_prompt": "{optional focus}",
   "effort_flag": "{effort_flag or null}",
   "model_flag": "{model_flag or null}",
+  "orchestrator_mode": false,
   "roadmap_path": "specs/ROADMAP.md",
   "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json",
   "prior_implementation_context": "{prior_implementation_context or empty string}"
@@ -183,6 +190,10 @@ skill_postflight_update "$task_number" "research" "$session_id" "$SUBAGENT_STATU
 if [ "$SUBAGENT_STATUS" = "researched" ]; then
   skill_increment_artifact_number "$task_number"
 fi
+
+# Step 3: Write orchestrator handoff (only if orchestrator_mode=true)
+skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \
+  "research" "$SUBAGENT_STATUS" "$ARTIFACT_SUMMARY" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "plan"
 ```
 
 ### Stage 7a: Propagate Memory Candidates

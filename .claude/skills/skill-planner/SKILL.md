@@ -68,6 +68,12 @@ fi
 
 ### Stage 4: Prepare Delegation Context
 
+Extract orchestrator_mode early:
+
+```bash
+orchestrator_mode=$(echo "$delegation_context" | jq -r '.orchestrator_mode // "false"' 2>/dev/null || echo "false")
+```
+
 **Prior plan discovery**: Find the latest existing plan file (if any) to pass as reference context.
 
 ```bash
@@ -92,6 +98,7 @@ Prepare delegation context for the subagent:
   "artifact_number": "{ARTIFACT_PADDED}",
   "effort_flag": "{effort_flag or null}",
   "model_flag": "{model_flag or null}",
+  "orchestrator_mode": false,
   "roadmap_flag": "{roadmap_flag or false}",
   "research_path": "{path to research report if exists}",
   "prior_plan_path": "{prior_plan_path or empty}",
@@ -145,7 +152,12 @@ skill_validate_artifact "$SUBAGENT_STATUS" "$ARTIFACT_PATH" "plan"
 ### Stage 7: Update Task Status (Postflight)
 
 ```bash
+# Step 1: Update status
 skill_postflight_update "$task_number" "plan" "$session_id" "$SUBAGENT_STATUS"
+
+# Step 2: Write orchestrator handoff (only if orchestrator_mode=true)
+skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \
+  "plan" "$SUBAGENT_STATUS" "$ARTIFACT_SUMMARY" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "implement"
 ```
 
 **On partial/failed**: `skill_postflight_update` skips non-success statuses — status remains "planning" for resume.
