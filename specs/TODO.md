@@ -11,17 +11,15 @@ next_project_number: 608
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,598,607 | -- | workflow-refactor |
-| 2 | 599 | 598 | workflow-refactor |
-| 3 | 600 | 599 | workflow-refactor |
+| 1 | 78,87,599,607 | -- | workflow-refactor |
+| 2 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Workflow Refactor
 
-598 [IMPLEMENTING] — Update the context system for progressive disclosure and agent co
-  └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
-    └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
+599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
+  └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
 607 [PLANNED] — improve_research_agents_multi_angle_team_strategy
 
 ### Uncategorized
@@ -91,7 +89,7 @@ next_project_number: 608
 
 ### 598. Update context system for progressive disclosure and agent context budgets
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 592
@@ -99,6 +97,7 @@ next_project_number: 608
   - [598_progressive_disclosure_context_system/reports/01_seed-research.md]
   - [598_progressive_disclosure_context_system/reports/02_context-audit.md]
 - **Plan**: [598_progressive_disclosure_context_system/plans/02_context-system.md]
+- **Summary**: [598_progressive_disclosure_context_system/summaries/02_context-system-summary.md]
 
 **Description**: Update the context system for progressive disclosure and agent context budget caps. Four-tier loading model: Tier 1 (always, ~500L: anti-stop-patterns, return-metadata, checkpoint-execution), Tier 2 (command-specific, ~500L: routing tables, arg docs, anti-bypass), Tier 3 (agent-specific, ~3-5K lines: workflow patterns, domain context), Tier 4 (on-demand, unbounded: guides, templates, examples). Budget caps: sonnet workers <=8K tokens, opus planners <=15K tokens, haiku utilities <=2K tokens. Audit 97 context index entries for tier classification; prune dead entries. Commands MUST NOT load Tier 3 context (routing only). Move embedded agent context from commands to Tier 3 agent context files. This task is ELEVATED in dependency chain: context budget design must precede task 594 (skill base). Reference: .claude/docs/architecture/architecture-spec.md cross-cutting context section.
 
