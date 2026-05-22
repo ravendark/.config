@@ -1,0 +1,449 @@
+---
+name: skill-orchestrate
+description: Autonomous state machine that drives a task through its full lifecycle (research -> plan -> implement -> complete) without user confirmation between phases. Invoke for /orchestrate command.
+allowed-tools: Agent, Bash, Read, Edit
+---
+
+# Orchestrate Skill
+
+Fire-and-forget autonomous loop implementing the 10-state task lifecycle state machine.
+Drives research, planning, implementation, and blocker escalation without user interaction.
+
+## Context References
+
+Architecture documentation (load as needed):
+- `.claude/docs/architecture/orchestrate-state-machine.md` - Complete state table and transition diagram
+- `.claude/docs/architecture/handoff-schema.md` - Orchestrator handoff JSON schema
+- `.claude/docs/architecture/dispatch-agent-spec.md` - Fork vs. named subagent dispatch spec
+
+Infrastructure (source as needed):
+- `.claude/scripts/skill-base.sh` - Shared skill lifecycle functions
+- `.claude/scripts/dispatch-agent.sh` - Fork vs. named subagent dispatch functions
+
+---
+
+## Execution Flow
+
+### Stage 1: Input Validation
+
+```bash
+source .claude/scripts/skill-base.sh
+task_number=$(echo "$delegation_context" | jq -r '.task_context.task_number')
+session_id=$(echo "$delegation_context" | jq -r '.session_id')
+
+# Read task state without blocking on terminal states (orchestrate handles them gracefully)
+PADDED_NUM=$(printf "%03d" "$task_number")
+TASK_DATA=$(jq -r --argjson num "$task_number" \
+  '.active_projects[] | select(.project_number == $num)' \
+  specs/state.json)
+if [ -z "$TASK_DATA" ]; then
+  echo "ERROR: Task $task_number not found in state.json" >&2
+  exit 1
+fi
+PROJECT_NAME=$(echo "$TASK_DATA" | jq -r '.project_name')
+TASK_TYPE=$(echo "$TASK_DATA" | jq -r '.task_type // "general"')
+DESCRIPTION=$(echo "$TASK_DATA" | jq -r '.description // ""')
+TASK_DIR="specs/${PADDED_NUM}_${PROJECT_NAME}"
+```
+
+### Stage 2: Preflight — Loop Guard
+
+Create or read the loop guard file. This tracks cycle count across conversational turns.
+
+```bash
+MAX_CYCLES=5
+loop_guard_file="${TASK_DIR}/.orchestrator-loop-guard"
+handoff_file="${TASK_DIR}/.orchestrator-handoff.json"
+
+mkdir -p "$TASK_DIR"
+
+if [ -f "$loop_guard_file" ] && jq empty "$loop_guard_file" 2>/dev/null; then
+  # Resume: read existing guard
+  cycle_count=$(jq -r '.cycle_count // 0' "$loop_guard_file")
+  echo "[orchestrate] Resuming — cycle $cycle_count of $MAX_CYCLES"
+else
+  # Fresh start: create guard
+  cycle_count=0
+  jq -n \
+    --arg session_id "$session_id" \
+    --argjson max_cycles "$MAX_CYCLES" \
+    --arg started "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+    '{
+      "session_id": $session_id,
+      "cycle_count": 0,
+      "max_cycles": $max_cycles,
+      "current_state": "reading",
+      "started": $started,
+      "last_updated": $started
+    }' > "$loop_guard_file"
+  echo "[orchestrate] Starting fresh — MAX_CYCLES=$MAX_CYCLES"
+fi
+
+# Blocker escalation counter (reset each /orchestrate invocation)
+blocker_escalation_count=0
+MAX_BLOCKER_ESCALATIONS=2
+```
+
+### Stage 3: State Machine Loop
+
+The loop runs until a terminal condition is reached or MAX_CYCLES is hit.
+
+```
+while [ "$cycle_count" -lt "$MAX_CYCLES" ]; do
+```
+
+At the top of each iteration:
+
+**3a. Read current task status**
+
+```bash
+current_status=$(jq -r --argjson num "$task_number" \
+  '.active_projects[] | select(.project_number == $num) | .status' \
+  specs/state.json)
+echo "[orchestrate] Cycle $((cycle_count + 1))/$MAX_CYCLES — status: $current_status"
+```
+
+**3b. Update loop guard with current state**
+
+```bash
+jq --arg state "$current_status" \
+   --arg updated "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --argjson count "$cycle_count" \
+  '.current_state = $state | .last_updated = $updated | .cycle_count = $count' \
+  "$loop_guard_file" > "${loop_guard_file}.tmp" && mv "${loop_guard_file}.tmp" "$loop_guard_file"
+```
+
+**3c. Dispatch by state** (see State Handlers in Stage 4)
+
+---
+
+### Stage 4: State Handlers
+
+#### State: `not_started` or `not started`
+
+Dispatch research via named subagent.
+
+```
+dispatch_instructions = dispatch_agent "general-research-agent" \
+  "Research task $task_number: $DESCRIPTION" \
+  '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": false}' \
+  "false"
+```
+
+Invoke the Agent tool per dispatch_instructions (subagent_type: general-research-agent).
+
+After Agent tool returns: read handoff (Stage 5). Increment cycle_count.
+
+#### State: `researching`
+
+In-flight state (another session is actively researching). Exit with warning.
+
+```
+echo "[orchestrate] WARNING: Task $task_number is currently being researched in another session."
+echo "Wait for the research to complete, then run /orchestrate $task_number again."
+EXIT (partial)
+```
+
+#### State: `researched`
+
+Dispatch planning via named subagent.
+
+```
+research_artifacts=$(jq -c '[.active_projects[] | select(.project_number == N) | .artifacts // [] | .[] | select(.type == "report")] | .[0].path // ""' specs/state.json)
+
+dispatch_instructions = dispatch_agent "planner-agent" \
+  "Create implementation plan for task $task_number" \
+  '{"task_number": N, "task_type": "T", "session_id": "S", "research_artifacts": [...], "orchestrator_mode": false}' \
+  "false"
+```
+
+Invoke the Agent tool per dispatch_instructions (subagent_type: planner-agent).
+
+After Agent tool returns: read handoff. Increment cycle_count.
+
+#### State: `planning`
+
+In-flight state. Exit with warning (same pattern as `researching`).
+
+#### State: `planned` or `implementing`
+
+Dispatch implement via named subagent with `orchestrator_mode: true`.
+
+```bash
+plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+```
+
+```
+dispatch_instructions = dispatch_agent "general-implementation-agent" \
+  "Implement task $task_number following the plan" \
+  '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": true,
+    "plan_path": "$plan_path"}' \
+  "false"
+```
+
+Invoke the Agent tool per dispatch_instructions (subagent_type: general-implementation-agent).
+
+After Agent tool returns: read handoff. Increment cycle_count.
+
+#### State: `partial`
+
+Read `.orchestrator-handoff.json` to determine sub-state:
+
+```bash
+handoff=$(cat "$handoff_file" 2>/dev/null || echo '{}')
+blockers=$(echo "$handoff" | jq -c '.blockers // []')
+continuation=$(echo "$handoff" | jq -c '.continuation_context // null')
+blocker_count=$(echo "$blockers" | jq 'length')
+```
+
+**Sub-state: continuation available** (continuation != null AND has handoff_path):
+
+Dispatch implement with continuation context.
+
+```
+dispatch_instructions = dispatch_agent "general-implementation-agent" \
+  "Resume implementation for task $task_number from continuation handoff" \
+  '{"task_number": N, ..., "orchestrator_mode": true,
+    "plan_path": "$plan_path",
+    "continuation_context": {continuation_context_object}}' \
+  "false"
+```
+
+**Sub-state: blockers present** (blocker_count > 0):
+
+Invoke blocker escalation (Stage 6). Increment cycle_count after escalation.
+
+**Sub-state: no handoff, no blockers** (cycle limit or stuck):
+
+```
+echo "[orchestrate] Task $task_number in partial state with no continuation and no blockers."
+echo "Cycle $cycle_count/$MAX_CYCLES consumed. Run /orchestrate $task_number to retry or /implement $task_number for manual resume."
+EXIT (partial, cycle_count)
+```
+
+#### State: `blocked`
+
+Read blockers from state.json (not handoff — task was blocked outside orchestrator context):
+
+```bash
+blocker_desc=$(jq -r --argjson num "$task_number" \
+  '.active_projects[] | select(.project_number == $num) | .blockers // "Unspecified blocker"' \
+  specs/state.json)
+```
+
+Invoke blocker escalation (Stage 6) with blocker_desc.
+
+#### State: `completed`
+
+```
+echo "[orchestrate] Task $task_number completed successfully."
+# Clean up loop guard
+rm -f "$loop_guard_file"
+EXIT (success)
+```
+
+#### States: `abandoned`, `expanded`
+
+```
+echo "[orchestrate] Task $task_number is in terminal state [$current_status]. No action taken."
+EXIT (no-op)
+```
+
+#### Unknown state
+
+```
+echo "[orchestrate] WARNING: Unrecognized state '$current_status' for task $task_number."
+EXIT (partial)
+```
+
+---
+
+### Stage 5: Handoff Reading (after each dispatch)
+
+After every Agent tool invocation, read the orchestrator handoff to learn the outcome.
+Never read the full research report, plan, or implementation summary — only the handoff.
+
+```bash
+if [ ! -f "$handoff_file" ]; then
+  echo "[orchestrate] ERROR: Skill did not write orchestrator handoff."
+  echo "This may mean orchestrator_mode was not propagated correctly."
+  # Increment cycle and continue — state.json may still have been updated
+else
+  handoff=$(cat "$handoff_file")
+  dispatch_status=$(echo "$handoff" | jq -r '.status')
+  dispatch_summary=$(echo "$handoff" | jq -r '.summary // ""')
+  blockers=$(echo "$handoff" | jq -c '.blockers // []')
+  continuation=$(echo "$handoff" | jq -c '.continuation_context // null')
+  next_hint=$(echo "$handoff" | jq -r '.next_action_hint // "none"')
+  echo "[orchestrate] Dispatch result: $dispatch_status — $dispatch_summary"
+fi
+
+# Increment cycle_count
+cycle_count=$((cycle_count + 1))
+```
+
+---
+
+### Stage 6: Blocker Escalation (5-Step Sequence)
+
+Called when: `partial` state with non-empty blockers, or `blocked` state.
+Capped at MAX_BLOCKER_ESCALATIONS=2 per /orchestrate invocation.
+
+```bash
+blocker_escalation() {
+  local blocker_desc="$1"
+  local task_number="$2"
+  local session_id="$3"
+
+  if [ "$blocker_escalation_count" -ge "$MAX_BLOCKER_ESCALATIONS" ]; then
+    echo "[orchestrate] ERROR: Blocker escalation cap ($MAX_BLOCKER_ESCALATIONS) reached."
+    echo "Manual intervention required. Blocker: $blocker_desc"
+    echo "Suggested actions:"
+    echo "  1. Run /research $task_number to research the blocker manually"
+    echo "  2. Run /revise $task_number to update the plan"
+    echo "  3. Run /implement $task_number to re-attempt implementation"
+    return 1
+  fi
+
+  blocker_escalation_count=$((blocker_escalation_count + 1))
+  echo "[orchestrate] Blocker escalation attempt $blocker_escalation_count/$MAX_BLOCKER_ESCALATIONS"
+  echo "  Blocker: $blocker_desc"
+
+  # Step 1: DETECT (already done by caller; blocker_desc passed in)
+
+  # Step 2: RESEARCH FORK (cache-warm, is_blocker_escalation=true)
+  source .claude/scripts/dispatch-agent.sh
+  blocker_research_prompt="Research this specific blocker for task $task_number: $blocker_desc. Find the root cause and a concrete solution path."
+  fork_context=$(jq -n \
+    --argjson num "$task_number" \
+    --arg session_id "$session_id" \
+    --arg blocker "$blocker_desc" \
+    '{"task_number": $num, "session_id": $session_id, "blocker": $blocker, "orchestrator_mode": false}')
+  dispatch_agent "" "$blocker_research_prompt" "$fork_context" "true"
+  # SKILL.md reads this output and invokes the Agent tool as a fork (omitting subagent_type)
+  # After Agent tool returns: read handoff for research findings
+
+  # Step 3: READ FINDINGS (from handoff)
+  findings_summary=$(jq -r '.summary // "No findings"' "$handoff_file" 2>/dev/null)
+  findings_artifact=$(jq -r '.artifacts[0].path // ""' "$handoff_file" 2>/dev/null)
+  echo "[orchestrate] Research findings: $findings_summary"
+
+  # Step 4: REVISE PLAN (named reviser-agent)
+  plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+  revise_context=$(jq -n \
+    --argjson num "$task_number" \
+    --arg session_id "$session_id" \
+    --arg findings "$findings_summary" \
+    --arg plan_path "${plan_path:-}" \
+    '{"task_number": $num, "session_id": $session_id,
+      "research_findings": $findings,
+      "plan_path": $plan_path,
+      "orchestrator_mode": false}')
+  dispatch_agent "reviser-agent" \
+    "Revise the implementation plan for task $task_number to address this blocker: $blocker_desc. Research findings: $findings_summary" \
+    "$revise_context" "false"
+  # SKILL.md invokes the Agent tool (subagent_type: reviser-agent)
+  # After Agent tool returns: read handoff to confirm revision
+
+  # Step 5: RE-DISPATCH IMPLEMENT (orchestrator_mode=true)
+  revised_plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+  implement_context=$(jq -n \
+    --argjson num "$task_number" \
+    --arg session_id "$session_id" \
+    --arg plan_path "${revised_plan_path:-}" \
+    '{"task_number": $num, "session_id": $session_id,
+      "orchestrator_mode": true,
+      "plan_path": $plan_path}')
+  dispatch_agent "general-implementation-agent" \
+    "Implement task $task_number following the revised plan" \
+    "$implement_context" "false"
+  # SKILL.md invokes the Agent tool (subagent_type: general-implementation-agent)
+  # After Agent tool returns: read handoff
+
+  return 0
+}
+```
+
+---
+
+### Stage 7: Loop Guard Update (end of each cycle)
+
+After each cycle (whether dispatch succeeded or failed):
+
+```bash
+jq --arg state "$current_status" \
+   --arg updated "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --argjson count "$cycle_count" \
+  '.current_state = $state | .last_updated = $updated | .cycle_count = $count' \
+  "$loop_guard_file" > "${loop_guard_file}.tmp" && mv "${loop_guard_file}.tmp" "$loop_guard_file"
+```
+
+If MAX_CYCLES reached (cycle_count >= MAX_CYCLES):
+
+```
+echo "[orchestrate] MAX_CYCLES ($MAX_CYCLES) reached for task $task_number."
+echo "Current state: $current_status. Run /orchestrate $task_number to continue."
+EXIT (partial)
+```
+
+---
+
+### Stage 8: Postflight
+
+On clean exit (task completed or terminal state):
+
+```bash
+# Remove loop guard on success
+rm -f "$loop_guard_file"
+echo "[orchestrate] Task $task_number: orchestration complete."
+echo "Final status: $current_status | Cycles used: $cycle_count/$MAX_CYCLES"
+```
+
+On partial exit (MAX_CYCLES, in-flight warning, escalation cap):
+
+```bash
+# Preserve loop guard for next /orchestrate invocation
+echo "[orchestrate] Task $task_number: orchestration paused."
+echo "Status: $current_status | Cycles: $cycle_count/$MAX_CYCLES | Run /orchestrate $task_number to continue."
+```
+
+Write metadata file:
+
+```bash
+mkdir -p "${TASK_DIR}/summaries"
+jq -n \
+  --arg status "implemented" \
+  --argjson cycles "$cycle_count" \
+  --arg final_state "$current_status" \
+  '{
+    "status": $status,
+    "metadata": {
+      "cycles_used": $cycles,
+      "final_state": $final_state
+    }
+  }' > "${TASK_DIR}/.return-meta.json"
+```
+
+---
+
+## MUST NOT (Context Flatness Constraint)
+
+This skill MUST NOT:
+
+1. **Read research reports** (`reports/*.md`) during the state machine loop
+2. **Read plan files** (`plans/*.md`) during the state machine loop
+3. **Read implementation summaries** (`summaries/*.md`) during the state machine loop
+4. **Read continuation handoff files** (`handoffs/*.md`) — pass the path, not the content
+
+The ONLY file read after each dispatch is `.orchestrator-handoff.json` (≤400 tokens).
+This ensures context grows by only ~450 tokens per cycle regardless of artifact complexity.
+
+## Skill-to-Agent Mapping
+
+| Operation | Agent Type | Mode |
+|-----------|-----------|------|
+| Research dispatch | `general-research-agent` | Named subagent |
+| Plan dispatch | `planner-agent` | Named subagent |
+| Implement dispatch | `general-implementation-agent` | Named subagent, orchestrator_mode=true |
+| Blocker research | (no type — fork inherits parent) | Fork (cache-warm) |
+| Plan revision | `reviser-agent` | Named subagent |

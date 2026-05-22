@@ -85,7 +85,7 @@ core/
 │   └── (each defines preflight, delegation, postflight)
 │
 ├── skills/                    # 16 skill wrappers
-│   ├── skill-orchestrator/    # Command routing
+│   ├── skill-orchestrate/     # Autonomous lifecycle state machine (/orchestrate command)
 │   ├── skill-researcher/      # General research
 │   ├── skill-planner/         # Plan creation
 │   ├── skill-implementer/     # General implementation

@@ -125,7 +125,7 @@ Not all skills need inline status updates. Skills that match these patterns are 
 |---------|-------------|----------------|
 | **Utility** | Provides utility function, no task state management | skill-git-workflow |
 | **Task Creation** | Creates new tasks, does not transition existing tasks | skill-meta |
-| **Routing** | Routes only, delegates state management to invoked skill | skill-orchestrator |
+| **Autonomous Loop** | Runs multi-phase lifecycle autonomously, delegates to workflow skills | skill-orchestrate |
 | **Terminal State** | Operates only on completed/abandoned tasks | (archive operations) |
 | **Non-Task** | Operates on different data like errors or reviews | (error/review skills) |
 | **Mechanism** | IS the status update mechanism itself | skill-status-sync |
@@ -144,7 +144,7 @@ These skills manage task lifecycle transitions:
 These skills are intentionally excluded:
 - skill-status-sync: IS the mechanism, used for standalone operations
 - skill-git-workflow: Creates commits, no task state
-- skill-orchestrator: Routes to workflow skills which handle state
+- skill-orchestrate: Runs autonomous lifecycle loop (dispatches to workflow skills which handle state)
 - skill-meta: Creates tasks via interview, no transitions
 
 ## Parallel Invocation

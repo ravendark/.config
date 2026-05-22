@@ -72,6 +72,11 @@ fi
 
 Extract orchestrator_mode early (controls continuation loop behavior):
 
+> **Cross-reference**: `orchestrator_mode=true` is set ONLY by `/orchestrate` command via
+> `skill-orchestrate`. When true, the inner continuation loop is disabled (Stage 5c sets
+> max_continuations=0) so the orchestrator state machine drives continuation.
+> See: `.claude/skills/skill-orchestrate/SKILL.md` and `.claude/docs/architecture/orchestrate-state-machine.md`
+
 ```bash
 orchestrator_mode=$(echo "$delegation_context" | jq -r '.orchestrator_mode // "false"' 2>/dev/null || echo "false")
 ```

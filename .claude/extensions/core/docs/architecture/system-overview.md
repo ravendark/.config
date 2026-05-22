@@ -110,7 +110,7 @@ Skills are thin wrappers that validate inputs and delegate to agents. They:
 | skill-implementer | general-implementation-agent | General file implementation |
 | skill-meta | meta-builder-agent | System building and task creation |
 | skill-status-sync | (direct execution) | Atomic status updates |
-| skill-orchestrator | (direct execution) | Route commands to appropriate workflows |
+| skill-orchestrate | (direct execution) | Autonomous lifecycle state machine (/orchestrate command) |
 | skill-git-workflow | (direct execution) | Create scoped git commits |
 | skill-spawn | spawn-agent | Analyze blockers and spawn new tasks |
 

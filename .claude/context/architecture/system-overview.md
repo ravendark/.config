@@ -223,7 +223,7 @@ allowed-tools: Bash, Edit, Read
 
 ### Pattern C: Orchestrator/Routing Skills
 
-**Used by**: skill-orchestrator (1 skill)
+**Used by**: skill-orchestrate (1 skill)
 
 **Characteristics**:
 - Frontmatter: `allowed-tools: Read, Glob, Grep, Agent`
@@ -404,10 +404,11 @@ Complete mapping of all commands to their skill and agent paths:
 | `/implement` | Task-type-based | Extension or skill-implementer | Extension or general-implementation-agent | A |
 | `/revise` | Single | skill-planner (new version) | planner-agent | A |
 | `/meta` | Single | skill-meta | meta-builder-agent | A |
-| `/review` | Direct | skill-orchestrator | (inline execution) | C |
-| `/errors` | Direct | skill-orchestrator | (inline execution) | C |
-| `/todo` | Direct | skill-orchestrator | (inline execution) | C |
-| `/task` | Direct | skill-orchestrator | (inline execution) | C |
+| `/review` | Direct | (direct execution) | (inline execution) | B |
+| `/errors` | Direct | (direct execution) | (inline execution) | B |
+| `/todo` | Direct | skill-todo | (no agent) | B |
+| `/task` | Direct | skill-meta | meta-builder-agent | A |
+| `/orchestrate` | Autonomous | skill-orchestrate | (dispatches multiple) | C |
 | `/refresh` | Direct | skill-refresh | (no agent) | B |
 
 **Note**: Additional commands (/convert) available via extensions in `.claude/extensions/`.

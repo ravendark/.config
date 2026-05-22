@@ -31,7 +31,7 @@ These skills execute directly without agent delegation:
 | skill-status-sync | Atomic status updates to state.json/TODO.md |
 | skill-refresh | Process and file cleanup |
 | skill-todo | Archive completed tasks, sync metrics |
-| skill-orchestrator | Route commands to appropriate workflows based on task type and status |
+| skill-orchestrate | Autonomous lifecycle state machine — drives research/plan/implement loop (/orchestrate command) |
 | skill-git-workflow | Create scoped git commits for task operations |
 | skill-fix-it | Scan codebase for tagged comments and create structured tasks |
 

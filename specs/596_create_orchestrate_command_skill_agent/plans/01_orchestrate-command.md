@@ -103,7 +103,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Create skill-orchestrate/SKILL.md [IN PROGRESS]
+### Phase 2: Create skill-orchestrate/SKILL.md [COMPLETED]
 
 **Goal**: Create the state machine skill that drives the autonomous orchestration loop, implementing the 10-state table from the architecture spec with blocker escalation and continuation handling.
 
@@ -157,7 +157,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Create orchestrate.md Command Entry Point [NOT STARTED]
+### Phase 3: Create orchestrate.md Command Entry Point [COMPLETED]
 
 **Goal**: Create the command entry point that follows the standard GATE IN -> DELEGATE -> GATE OUT -> COMMIT lifecycle, adapted for orchestration (permissive gate-in, no plan required).
 
@@ -192,7 +192,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Replace Vestigial skill-orchestrator [NOT STARTED]
+### Phase 4: Replace Vestigial skill-orchestrator [COMPLETED]
 
 **Goal**: Retire the vestigial routing-only `skill-orchestrator` (128 lines) and ensure all references point to the new `skill-orchestrate`. The routing function it performed is already handled by `command-route-skill.sh`.
 
@@ -223,7 +223,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Integration Testing and Verification [NOT STARTED]
+### Phase 5: Integration Testing and Verification [COMPLETED]
 
 **Goal**: Verify the complete implementation works end-to-end by checking file existence, syntax validity, cross-references, and structural correctness.
 

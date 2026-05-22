@@ -108,6 +108,7 @@ All commands use checkpoint-based execution: GATE IN (preflight) -> DELEGATE (sk
 | `/fix-it` | `/fix-it [PATH...]` | Scan for FIX:/NOTE:/TODO:/QUESTION: tags |
 | `/refresh` | `/refresh [--dry-run] [--force]` | Clean orphaned processes and old files |
 | `/tag` | `/tag [--patch|--minor|--major]` | Create semantic version tag (user-only) |
+| `/orchestrate` | `/orchestrate N` | Drive task autonomously through full lifecycle (no confirmation gates) |
 | `/spawn` | `/spawn N [blocker description]` | Spawn new tasks to unblock a blocked task |
 | `/merge` | `/merge` | Create pull/merge request for current branch |
 
@@ -189,7 +190,7 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 | skill-team-implement | (team orchestration) | sonnet | Multi-agent parallel implementation (--team flag) |
 | skill-reviser | reviser-agent | opus | Plan revision and description update |
 | skill-spawn | spawn-agent | sonnet | Analyze blockers and spawn new tasks |
-| skill-orchestrator | (direct execution) | - | Route commands to appropriate workflows |
+| skill-orchestrate | (direct execution) | opus | Autonomous lifecycle state machine (/orchestrate command) |
 | skill-git-workflow | (direct execution) | - | Create scoped git commits for task operations |
 | skill-fix-it | (direct execution) | - | Scan for FIX:/TODO:/NOTE: tags and create tasks |
 | skill-project-overview | (direct execution) | - | Interactive repo scan and project-overview.md task creation |
