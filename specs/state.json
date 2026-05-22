@@ -169,7 +169,7 @@
       "status": "not_started",
       "task_type": "meta",
       "topic": "workflow-refactor",
-      "description": "Refactor /task, /revise, /todo, /review for consistency with the new architecture from task 593. /task (710L): Use shared gate-in/gate-out scripts from task 593 for state operations; reduce redundancy across 5 modes. /revise (161L): Integrate with orchestrator handoff protocol (write .orchestrator-handoff.json when orchestrator_mode=true in delegation context). /todo (1047L): Decompose into utility modules: orphan detection, roadmap sync, vault operation, metrics. Critical: add memory harvest automation — harvest memory_candidates from tasks being archived (571 archived tasks have candidates but vault has only 3 memories). /review (1040L): Decompose into reusable components: issue grouping algorithm (180L), roadmap integration (120L), 3-tier selection flow. References: .claude/docs/architecture/architecture-spec.md Components 1-2 for gate-in/gate-out patterns.",
+      "description": "Refactor /task, /revise, /todo, /review for consistency with the new architecture from task 593. /task (710L): Use shared gate-in/gate-out scripts from task 593 for state operations; reduce redundancy across 5 modes. /revise (161L): Integrate with orchestrator handoff protocol (write .orchestrator-handoff.json when orchestrator_mode=true in delegation context). /todo (1047L): Decompose into utility modules: orphan detection, roadmap sync, vault operation, metrics. Critical: add memory harvest automation \u2014 harvest memory_candidates from tasks being archived (571 archived tasks have candidates but vault has only 3 memories). /review (1040L): Decompose into reusable components: issue grouping algorithm (180L), roadmap integration (120L), 3-tier selection flow. References: .claude/docs/architecture/architecture-spec.md Components 1-2 for gate-in/gate-out patterns.",
       "effort": "2-3 hours",
       "dependencies": [
         593
@@ -239,7 +239,7 @@
       "status": "not_started",
       "task_type": "meta",
       "topic": "workflow-refactor",
-      "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md — update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md — update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ — update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ — update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ — update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
+      "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md \u2014 update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md \u2014 update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ \u2014 update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ \u2014 update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ \u2014 update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
       "effort": "2-3 hours",
       "dependencies": [
         599
@@ -252,7 +252,7 @@
     {
       "project_number": 602,
       "project_name": "update_wezterm_dim_bright_colors",
-      "status": "researching",
+      "status": "researched",
       "task_type": "nix",
       "topic": "wezterm-notifications",
       "description": "Update wezterm.lua color palette for dim/bright workflow stage semantics. Research=green, plan=blue, implement=gold. DIM shade for in-progress states (researching/planning/implementing), BRIGHT/BOLD for finished states (researched/planned/completed). Fix update-status handler to only clear needs_input on tab switch, preserving lifecycle states until next command. TTS announcement format: tab-number workflow-type (e.g. tab 4 researched). WezTerm config at ~/.dotfiles/config/wezterm.lua (nix-managed, rebuild via home-manager).",
@@ -261,9 +261,11 @@
         601
       ],
       "created": "2026-05-22T18:00:00Z",
-      "last_updated": "2026-05-22T19:23:19Z",
+      "last_updated": "2026-05-22T19:25:59Z",
       "next_artifact_number": 1,
-      "artifacts": [],
+      "artifacts": [
+        "specs/602_update_wezterm_dim_bright_colors/reports/01_wezterm-dim-bright-colors.md"
+      ],
       "session_id": "sess_1779477786_67a32b"
     }
   ],

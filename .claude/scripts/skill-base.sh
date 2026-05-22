@@ -24,6 +24,11 @@ SKILL_CONTEXT_BUDGET="${SKILL_CONTEXT_BUDGET:-8000}"
 # EXTENSION HOOKS: Not implemented in this version (deferred to task 599).
 # Future: EXTENSION_PREFLIGHT_HOOK, EXTENSION_CONTEXT_HOOK, EXTENSION_POSTFLIGHT_HOOK
 
+# ORCHESTRATOR MODE: Support for skill-orchestrate dispatch (task 596).
+# When orchestrator_mode=true in delegation context, skills call skill_write_orchestrator_handoff()
+# in their postflight to produce .orchestrator-handoff.json for the state machine loop.
+# See: .claude/docs/architecture/handoff-schema.md
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 1: Validate input task number
 # Usage: skill_validate_input "$task_number"
@@ -271,4 +276,88 @@ skill_cleanup() {
   rm -f "${task_dir}/.postflight-pending" \
         "${task_dir}/.postflight-loop-guard" \
         "${task_dir}/.return-meta.json" 2>/dev/null || true
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Orchestrator Mode: Write .orchestrator-handoff.json for skill-orchestrate
+# Usage: skill_write_orchestrator_handoff "$orchestrator_mode" "$padded_num" "$project_name" \
+#          "$phase" "$status" "$summary" "$artifact_path" "$artifact_type" "$next_hint"
+#
+# Parameters:
+#   $1 = orchestrator_mode : "true" | "false" — write only if "true"
+#   $2 = padded_num        : zero-padded task number (e.g., "595")
+#   $3 = project_name      : task slug (e.g., "my_task_name")
+#   $4 = phase             : "research" | "plan" | "implement"
+#   $5 = status            : "researched" | "planned" | "implemented" | "partial" | "failed" | "blocked"
+#   $6 = summary           : 2-4 sentence summary (~100 token budget; truncated if needed)
+#   $7 = artifact_path     : path to primary artifact (may be empty string)
+#   $8 = artifact_type     : "report" | "plan" | "summary" (may be empty string)
+#   $9 = next_hint         : "plan" | "implement" | "revise" | "none"
+#
+# Optional (set before calling): ORCHESTRATOR_HANDOFF_CONTINUATION_JSON (JSON object or "null")
+#   Example: export ORCHESTRATOR_HANDOFF_CONTINUATION_JSON='{"handoff_path":"...","phases_completed":2,"phases_total":4}'
+#
+# Schema reference: .claude/docs/architecture/handoff-schema.md
+# Token budget: full object must be ≤400 tokens; summary is truncated at ~100 tokens.
+skill_write_orchestrator_handoff() {
+  local orchestrator_mode="$1"
+  local padded_num="$2"
+  local project_name="$3"
+  local phase="$4"
+  local status="$5"
+  local summary="$6"
+  local artifact_path="$7"
+  local artifact_type="$8"
+  local next_hint="${9:-none}"
+
+  # Guard: only write when orchestrator_mode is explicitly "true"
+  if [ "$orchestrator_mode" != "true" ]; then
+    return 0
+  fi
+
+  local handoff_path="specs/${padded_num}_${project_name}/.orchestrator-handoff.json"
+
+  # Truncate summary at ~100 tokens (~400 chars) to respect token budget
+  local truncated_summary
+  if [ "${#summary}" -gt 400 ]; then
+    truncated_summary="${summary:0:397}..."
+  else
+    truncated_summary="$summary"
+  fi
+
+  # Build artifacts array (empty if no artifact_path)
+  local artifacts_json
+  if [ -n "$artifact_path" ] && [ -n "$artifact_type" ]; then
+    artifacts_json=$(printf '[{"type":"%s","path":"%s"}]' "$artifact_type" "$artifact_path")
+  else
+    artifacts_json='[]'
+  fi
+
+  # Continuation context (set externally if partial with handoff)
+  local continuation_json="${ORCHESTRATOR_HANDOFF_CONTINUATION_JSON:-null}"
+
+  # Write handoff JSON
+  jq -n \
+    --arg schema "orchestrator-handoff-v1" \
+    --arg phase "$phase" \
+    --arg status "$status" \
+    --arg summary "$truncated_summary" \
+    --argjson artifacts "$artifacts_json" \
+    --arg next_hint "$next_hint" \
+    --argjson continuation "$continuation_json" \
+    '{
+      "$schema": $schema,
+      "phase": $phase,
+      "status": $status,
+      "summary": $summary,
+      "artifacts": $artifacts,
+      "blockers": [],
+      "next_action_hint": $next_hint,
+      "files_modified": [],
+      "decisions_made": [],
+      "dead_ends": [],
+      "continuation_context": $continuation
+    }' > "$handoff_path" && \
+    echo "[skill-base] Orchestrator handoff written: $handoff_path" || \
+    echo "[skill-base] WARNING: Failed to write orchestrator handoff to $handoff_path" >&2
 }
