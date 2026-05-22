@@ -1,7 +1,7 @@
 # Implementation Plan: Task #600
 
 - **Task**: 600 - revise_docs_architecture_post_refactor
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 4 hours
 - **Dependencies**: Tasks 592-599 (all completed)
 - **Research Inputs**: reports/01_team-research.md
@@ -75,7 +75,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Update Agent-Facing System Overview and Index Files [NOT STARTED]
+### Phase 1: Update Agent-Facing System Overview and Index Files [COMPLETED]
 
 **Goal**: Update the highest-impact stale file (context/architecture/system-overview.md) and fix discoverability gaps in the two docs index files (docs-README.md and docs/README.md).
 
