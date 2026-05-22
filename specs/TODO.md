@@ -19,7 +19,7 @@ next_project_number: 607
 
 ### Workflow Refactor
 
-597 [PLANNED] — Refactor /task, /revise, /todo, /review for consistency with the 
+597 [IMPLEMENTING] — Refactor /task, /revise, /todo, /review for consistency with the 
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
@@ -94,7 +94,7 @@ next_project_number: 607
 
 ### 597. Refactor /task, /revise, /todo, /review commands for consistency
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593
