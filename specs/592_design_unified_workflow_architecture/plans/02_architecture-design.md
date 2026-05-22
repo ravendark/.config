@@ -131,22 +131,22 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update downstream task descriptions [NOT STARTED]
+### Phase 2: Update downstream task descriptions [COMPLETED]
 
 **Goal**: Make tasks 593-599 descriptions more specific and actionable by referencing concrete architecture components from the specification documents in `.claude/docs/architecture/`.
 
 **Tasks**:
-- [ ] **Task 2.1**: Read current state.json descriptions for tasks 593-599
-- [ ] **Task 2.2**: For task 593: Update description to reference specific shared scripts by name (`parse-command-args.sh`, `command-gate-in.sh`, `command-gate-out.sh`) and their exact exported variables. Reference `.claude/docs/architecture/architecture-spec.md` Component 1.
-- [ ] **Task 2.3**: For task 594: Update description to reference `skill-base.sh` function inventory, hook point locations, and the dependency on task 598 context budgets. Reference `.claude/docs/architecture/architecture-spec.md` Component 2.
-- [ ] **Task 2.4**: For task 595: Update description to reference target command sizes (~150-200 lines), the routing-only controller pattern, and what commands retain vs. delegate. Reference `.claude/docs/architecture/architecture-spec.md` Components 1-2.
-- [ ] **Task 2.5**: For task 596: Update description to reference the state machine design, `dispatch-agent.sh`, `.orchestrator-handoff.json` schema, and the `orchestrator_mode` flag. Reference `.claude/docs/architecture/orchestrate-state-machine.md`, `dispatch-agent-spec.md`, and `handoff-schema.md`.
-- [ ] **Task 2.6**: For task 597: Update description to reference shared utilities applicable to /task, /revise, /todo, /review. Reference `.claude/docs/architecture/architecture-spec.md` Components 1-2.
-- [ ] **Task 2.7**: For task 598: Update description to reference the four-tier context loading model and budget caps per agent type. Reference `.claude/docs/architecture/architecture-spec.md` cross-cutting context section.
-- [ ] **Task 2.8**: For task 599: Update description to reference the `hooks` manifest.json schema, extension skill thinning pattern, and documentation update targets. Reference `.claude/docs/architecture/architecture-spec.md` Component 6.
-- [ ] **Task 2.9**: Write all 7 updated descriptions to state.json using jq
-- [ ] **Task 2.10**: Update corresponding TODO.md entries to match state.json descriptions
-- [ ] **Task 2.11**: Verify state.json and TODO.md are synchronized
+- [x] **Task 2.1**: Read current state.json descriptions for tasks 593-599 *(completed)*
+- [x] **Task 2.2**: For task 593: Update description to reference specific shared scripts by name (`parse-command-args.sh`, `command-gate-in.sh`, `command-gate-out.sh`) and their exact exported variables. Reference `.claude/docs/architecture/architecture-spec.md` Component 1. *(completed)*
+- [x] **Task 2.3**: For task 594: Update description to reference `skill-base.sh` function inventory, hook point locations, and the dependency on task 598 context budgets. Reference `.claude/docs/architecture/architecture-spec.md` Component 2. *(completed)*
+- [x] **Task 2.4**: For task 595: Update description to reference target command sizes (~150-200 lines), the routing-only controller pattern, and what commands retain vs. delegate. Reference `.claude/docs/architecture/architecture-spec.md` Components 1-2. *(completed)*
+- [x] **Task 2.5**: For task 596: Update description to reference the state machine design, `dispatch-agent.sh`, `.orchestrator-handoff.json` schema, and the `orchestrator_mode` flag. Reference `.claude/docs/architecture/orchestrate-state-machine.md`, `dispatch-agent-spec.md`, and `handoff-schema.md`. *(completed)*
+- [x] **Task 2.6**: For task 597: Update description to reference shared utilities applicable to /task, /revise, /todo, /review. Reference `.claude/docs/architecture/architecture-spec.md` Components 1-2. *(completed)*
+- [x] **Task 2.7**: For task 598: Update description to reference the four-tier context loading model and budget caps per agent type. Reference `.claude/docs/architecture/architecture-spec.md` cross-cutting context section. *(completed)*
+- [x] **Task 2.8**: For task 599: Update description to reference the `hooks` manifest.json schema, extension skill thinning pattern, and documentation update targets. Reference `.claude/docs/architecture/architecture-spec.md` Component 6. *(completed)*
+- [x] **Task 2.9**: Write all 7 updated descriptions to state.json using jq *(completed: used Python for safe JSON manipulation)*
+- [x] **Task 2.10**: Update corresponding TODO.md entries to match state.json descriptions *(completed)*
+- [x] **Task 2.11**: Verify state.json and TODO.md are synchronized *(completed)*
 
 **Timing**: 45 minutes
 
