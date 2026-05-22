@@ -164,31 +164,31 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Create design guidance reports for downstream tasks [NOT STARTED]
+### Phase 3: Create design guidance reports for downstream tasks [COMPLETED]
 
 **Goal**: Write `03_design-guidance.md` reports in each downstream task's reports/ directory containing task-specific concrete specifications extracted from the architecture design. These guidance reports reference the permanent docs in `.claude/docs/architecture/` as their authoritative source.
 
 **Tasks**:
-- [ ] **Task 3.1**: Task 593 report: Write `specs/593_extract_shared_workflow_utilities/reports/03_design-guidance.md` containing:
+- [x] **Task 3.1**: Task 593 report: Write `specs/593_extract_shared_workflow_utilities/reports/03_design-guidance.md` containing: *(completed)*
   - Full `parse-command-args.sh` specification (signature, algorithm, exported vars)
   - Full `command-gate-in.sh` specification (signature, key behaviors, exported vars)
   - Full `command-gate-out.sh` specification (signature, reading contract)
   - Command refactoring target: what stays in each command file (~150-200 lines), what moves out
   - Baseline measurement methodology notes
   - Reference: `.claude/docs/architecture/architecture-spec.md` Component 1
-- [ ] **Task 3.2**: Task 594 report: Write `specs/594_refactor_workflow_skills_shared_base/reports/03_design-guidance.md` containing:
+- [x] **Task 3.2**: Task 594 report: Write `specs/594_refactor_workflow_skills_shared_base/reports/03_design-guidance.md` containing: *(completed)*
   - Complete `skill-base.sh` function inventory (11 functions with signatures)
   - Hook point locations in the lifecycle (Stage 2, 4, 6a, 7)
   - Target skill sizes table (researcher 150L, planner 130L, implementer 200L)
   - What remains skill-specific (context collection, delegation context, agent invocation)
   - Reference: `.claude/docs/architecture/architecture-spec.md` Component 2
-- [ ] **Task 3.3**: Task 595 report: Write `specs/595_refactor_research_plan_implement_commands/reports/03_design-guidance.md` containing:
+- [x] **Task 3.3**: Task 595 report: Write `specs/595_refactor_research_plan_implement_commands/reports/03_design-guidance.md` containing: *(completed)*
   - Per-command breakdown: what each command retains after extraction
   - Routing-only controller pattern specification
   - Extension routing table integration requirements
   - Context tier constraints (commands must NOT load Tier 3 context)
   - Reference: `.claude/docs/architecture/architecture-spec.md` Components 1-2
-- [ ] **Task 3.4**: Task 596 report: Write `specs/596_create_orchestrate_command_skill_agent/reports/03_design-guidance.md` containing:
+- [x] **Task 3.4**: Task 596 report: Write `specs/596_create_orchestrate_command_skill_agent/reports/03_design-guidance.md` containing: *(completed)*
   - Complete state machine state table with transitions
   - `dispatch-agent.sh` full function specification
   - `.orchestrator-handoff.json` schema with all fields
@@ -196,19 +196,19 @@ Phases within the same wave can execute in parallel.
   - Blocker escalation flow (the 5-step sequence)
   - `orchestrator_mode` flag propagation pattern
   - References: `.claude/docs/architecture/orchestrate-state-machine.md`, `dispatch-agent-spec.md`, `handoff-schema.md`
-- [ ] **Task 3.5**: Task 597 report: Write `specs/597_refactor_task_revise_todo_review/reports/03_design-guidance.md` containing:
+- [x] **Task 3.5**: Task 597 report: Write `specs/597_refactor_task_revise_todo_review/reports/03_design-guidance.md` containing: *(completed)*
   - Applicable shared utilities from task 593 (gate-in/gate-out patterns)
   - /todo decomposition targets (orphan detection, roadmap sync, vault, metrics)
   - Memory harvest automation specification
   - /review decomposition targets (issue grouping, roadmap integration, tier selection)
   - Reference: `.claude/docs/architecture/architecture-spec.md` Components 1-2
-- [ ] **Task 3.6**: Task 598 report: Write `specs/598_progressive_disclosure_context_system/reports/03_design-guidance.md` containing:
+- [x] **Task 3.6**: Task 598 report: Write `specs/598_progressive_disclosure_context_system/reports/03_design-guidance.md` containing: *(completed)*
   - Four-tier loading model specification (tier definitions, budget per tier)
   - Budget caps per agent type (sonnet 8K, opus 15K, haiku 2K)
   - Context index.json audit criteria
   - Tier classification rules for the 97 existing entries
   - Reference: `.claude/docs/architecture/architecture-spec.md` cross-cutting context section
-- [ ] **Task 3.7**: Task 599 report: Write `specs/599_update_claudemd_extension_documentation/reports/03_design-guidance.md` containing:
+- [x] **Task 3.7**: Task 599 report: Write `specs/599_update_claudemd_extension_documentation/reports/03_design-guidance.md` containing: *(completed)*
   - manifest.json `hooks` schema definition
   - Extension skill thinning pattern (target 30-50 lines)
   - CLAUDE.md sections requiring update (/orchestrate, routing table, shared utilities)
