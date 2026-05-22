@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 600,
+  "next_project_number": 601,
   "active_projects": [
     {
       "project_number": 590,
@@ -922,6 +922,22 @@
           "created": "2026-05-22"
         }
       ]
+    },
+    {
+      "project_number": 600,
+      "project_name": "revise_docs_architecture_post_refactor",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "workflow-refactor",
+      "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md — update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md — update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ — update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ — update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ — update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
+      "effort": "2-3 hours",
+      "dependencies": [
+        599
+      ],
+      "created": "2026-05-22T15:00:00Z",
+      "last_updated": "2026-05-22T15:00:00Z",
+      "next_artifact_number": 1,
+      "artifacts": []
     }
   ],
   "completed_projects": [],

@@ -1,5 +1,5 @@
 ---
-next_project_number: 600
+next_project_number: 601
 ---
 
 # TODO
@@ -17,6 +17,7 @@ next_project_number: 600
 | 4 | 594,597 | 593,598 | workflow-refactor |
 | 5 | 595,596 | 593,594,598 | workflow-refactor |
 | 6 | 599 | 594,595,596,597,598 | workflow-refactor |
+| 7 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = must complete first):
 
@@ -31,6 +32,7 @@ next_project_number: 600
         595 [NOT STARTED] — refactor_research_plan_implement_commands
         596 [NOT STARTED] — create_orchestrate_command_skill_agent
           599 [NOT STARTED] — update_claudemd_extension_documentation
+            600 [NOT STARTED] — revise_docs_architecture_post_refactor
 
 ### Uncategorized
 
@@ -38,6 +40,17 @@ next_project_number: 600
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 
 ## Tasks
+
+### 600. Revise .claude/docs/ architecture and guides post-refactor
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+- **Dependencies**: 599
+
+**Description**: After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) system-overview.md — update to describe new unified workflow architecture. (2) docs/README.md — update index to reference new architecture documents. (3) Guides — update creating-commands.md, creating-skills.md, creating-agents.md. (4) Reference docs — update agent-frontmatter-standard.md, multi-task-creation-standard.md. (5) Templates — update to use shared base patterns. (6) Deprecate docs that describe pre-refactor architecture exclusively.
+
+---
 
 ### 599. Update CLAUDE.md, extension integration, and documentation
 - **Effort**: 1-2 hours
