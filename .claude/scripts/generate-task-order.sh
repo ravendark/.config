@@ -190,8 +190,9 @@ build_successors_map() {
       done
     fi
   done
-  # Trim leading spaces from all entries
+  # Trim leading spaces from all entries (use :- to handle tasks with no successors)
   for tn in "${all_task_nums[@]}"; do
+    task_successors["$tn"]="${task_successors[$tn]:-}"
     task_successors["$tn"]="${task_successors[$tn]# }"
   done
 }
@@ -353,7 +354,7 @@ declare _current_section_topic=""      # current topic being rendered
 
 # generate_grouped_section: renders topic sections with fenced code blocks
 generate_grouped_section() {
-  echo "**Grouped by Topic** (indented = must complete first):"
+  echo "**Grouped by Topic** (indented = depends on parent):"
   echo ""
 
   # Build ordered list of topics to render
@@ -402,7 +403,15 @@ generate_grouped_section() {
     _topic_section_visited=()
     _current_section_topic="$topic"
 
-    # Print all tasks in this topic that haven't been visited yet
+    # Print root tasks first (tasks with no active deps = wave-1 unblocked tasks)
+    # Then fall through to any remaining unvisited tasks (cross-topic deps may create orphans)
+    for tn in "${topic_tasks[@]}"; do
+      local tn_deps="${task_deps[$tn]:-}"
+      if [[ -z "$tn_deps" && -z "${_topic_section_visited[$tn]+x}" ]]; then
+        _print_topic_node "$tn" 0
+      fi
+    done
+    # Print any remaining unvisited topic tasks that weren't reachable from roots
     for tn in "${topic_tasks[@]}"; do
       if [[ -z "${_topic_section_visited[$tn]+x}" ]]; then
         _print_topic_node "$tn" 0
@@ -426,6 +435,14 @@ generate_grouped_section() {
     echo ""
     _current_section_topic=""
     _topic_section_visited=()
+    # Print uncategorized roots first (no active deps)
+    for tn in "${uncategorized_tasks[@]}"; do
+      local tn_deps="${task_deps[$tn]:-}"
+      if [[ -z "$tn_deps" && -z "${_globally_visited[$tn]+x}" ]]; then
+        _print_topic_node "$tn" 0
+      fi
+    done
+    # Then any remaining unvisited uncategorized tasks
     for tn in "${uncategorized_tasks[@]}"; do
       if [[ -z "${_globally_visited[$tn]+x}" ]]; then
         _print_topic_node "$tn" 0
@@ -661,7 +678,7 @@ generate_dependency_tree() {
   local sorted_roots
   sorted_roots=$(printf '%s\n' "${roots[@]}" | sort -n)
 
-  echo "**Dependency Tree** (indented = must complete first):"
+  echo "**Dependency Tree** (indented = depends on parent):"
   echo ""
 
   # Print tree for each root

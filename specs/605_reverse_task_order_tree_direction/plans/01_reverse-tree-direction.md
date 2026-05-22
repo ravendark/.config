@@ -59,18 +59,18 @@ No ROADMAP.md items are directly advanced by this task. This is an internal agen
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Script Changes [IN PROGRESS]
+### Phase 1: Script Changes [COMPLETED]
 
 **Goal**: Modify `generate-task-order.sh` to build a successors map, change DFS iteration to use successors, and update label strings.
 
 **Tasks**:
-- [ ] Add `declare -A task_successors` global declaration near existing `declare -A task_deps` (around line 118)
-- [ ] Create `build_successors_map()` function that iterates `task_deps` entries and inverts the relationship: for each task's deps, add the task as a successor of each dep. Trim leading spaces from values.
-- [ ] Call `build_successors_map` after `build_graph` in the main section (after line ~780 where `build_graph` is called)
-- [ ] In `_print_topic_node()` (lines 456-467): change `local deps="${task_deps[$task_num]:-}"` to `local deps="${task_successors[$task_num]:-}"`
-- [ ] In `print_tree_node()` (lines 613-626): change `local deps="${task_deps[$task_num]:-}"` to `local deps="${task_successors[$task_num]:-}"`
-- [ ] In `generate_grouped_section()` (line 336): change label from `"indented = must complete first"` to `"indented = depends on parent"`
-- [ ] In `generate_dependency_tree()` (line 644): change label from `"indented = must complete first"` to `"indented = depends on parent"`
+- [x] Add `declare -A task_successors` global declaration near existing `declare -A task_deps` (around line 118) *(completed)*
+- [x] Create `build_successors_map()` function that iterates `task_deps` entries and inverts the relationship: for each task's deps, add the task as a successor of each dep. Trim leading spaces from values. *(completed)*
+- [x] Call `build_successors_map` after `build_graph` in the main section (after line ~780 where `build_graph` is called) *(completed)*
+- [x] In `_print_topic_node()` (lines 456-467): change `local deps="${task_deps[$task_num]:-}"` to `local deps="${task_successors[$task_num]:-}"` *(completed)*
+- [x] In `print_tree_node()` (lines 613-626): change `local deps="${task_deps[$task_num]:-}"` to `local deps="${task_successors[$task_num]:-}"` *(completed)*
+- [x] In `generate_grouped_section()` (line 336): change label from `"indented = must complete first"` to `"indented = depends on parent"` *(deviation: altered — also updated root selection to start only from tasks with no active deps, so wave-1 tasks are properly selected as DFS entry points)*
+- [x] In `generate_dependency_tree()` (line 644): change label from `"indented = must complete first"` to `"indented = depends on parent"` *(completed)*
 
 **Timing**: 45 minutes
 

@@ -2,18 +2,26 @@
   "phase": 1,
   "phase_name": "Script Changes",
   "started_at": "2026-05-22T00:00:00Z",
-  "last_updated": "2026-05-22T00:00:00Z",
+  "last_updated": "2026-05-22T00:10:00Z",
   "objectives": [
-    {"id": 1, "description": "Add declare -A task_successors global near existing declare -A task_deps", "status": "not_started"},
-    {"id": 2, "description": "Create build_successors_map() function that inverts task_deps", "status": "not_started"},
-    {"id": 3, "description": "Call build_successors_map after build_graph in main section", "status": "not_started"},
-    {"id": 4, "description": "In _print_topic_node(): change task_deps to task_successors", "status": "not_started"},
-    {"id": 5, "description": "In print_tree_node(): change task_deps to task_successors", "status": "not_started"},
-    {"id": 6, "description": "In generate_grouped_section(): change label to 'indented = depends on parent'", "status": "not_started"},
-    {"id": 7, "description": "In generate_dependency_tree(): change label to 'indented = depends on parent'", "status": "not_started"}
+    {"id": 1, "description": "Add declare -A task_successors global near existing declare -A task_deps", "status": "done"},
+    {"id": 2, "description": "Create build_successors_map() function that inverts task_deps", "status": "done"},
+    {"id": 3, "description": "Call build_successors_map after build_graph in main section", "status": "done"},
+    {"id": 4, "description": "In _print_topic_node(): change task_deps to task_successors", "status": "done"},
+    {"id": 5, "description": "In print_tree_node(): change task_deps to task_successors", "status": "done"},
+    {"id": 6, "description": "In generate_grouped_section(): change label to 'indented = depends on parent'", "status": "done", "note": "Also changed root selection to only start from wave-1 (no-dep) tasks"},
+    {"id": 7, "description": "In generate_dependency_tree(): change label to 'indented = depends on parent'", "status": "done"}
   ],
-  "current_objective": 1,
+  "current_objective": 7,
   "approaches_tried": [],
   "handoff_count": 0,
-  "deviations": []
+  "deviations": [
+    {
+      "task_id": "1.6",
+      "description": "In generate_grouped_section(): change label only",
+      "type": "altered",
+      "reason": "Root selection logic in topic section also needed to change (start only from wave-1 tasks) to match the new successors direction, otherwise higher-numbered wave-1 tasks would be missed as roots",
+      "annotation": "*(deviation: altered — also updated root selection to start only from tasks with no active deps)*"
+    }
+  ]
 }
