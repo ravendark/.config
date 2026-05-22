@@ -222,7 +222,7 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 | `--team` | skill-team-plan | 2-3 | Parallel plan generation with trade-offs |
 | `--team` | skill-team-implement | 2-4 | Parallel phase execution with debugger |
 
-**Note**: Team mode uses ~5x tokens compared to single-agent. Default team_size=2 minimizes cost.
+**Note**: Team mode uses ~5x tokens compared to single-agent. Default team_size=3 (Primary + Alternatives + Critic). Use `--fast` for 2 or `--hard` for 4.
 
 ## Rules References
 

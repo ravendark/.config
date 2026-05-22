@@ -192,3 +192,14 @@ Team mode uses approximately 5x tokens compared to single-agent:
 5. **Targeted commits** - Use git staging scope to avoid race conditions
 6. **Domain context injection** - Always inject domain context when task_type has an extension
 7. **Critic in Wave 2** - The Critic always reads Wave 1 findings before critiquing
+
+## Future Work (Tier 3)
+
+The following improvements were identified during task 607 research but deferred due to higher implementation risk or need for measurement data:
+
+- **Domain-specialized teammate roles**: Extension manifests define specialized roles (e.g., lean-tactic-hunter, lean-library-scout) instead of generic Primary/Alternatives
+- **Team profiles**: Named configurations in `.claude/context/team-profiles/` (default.json, exploit.json, explore.json, lean-proof.json) auto-selected by task type
+- **Auto-routing to team research**: When repeated blockers are detected on the same task, auto-escalate from single-agent to team research with cost controls and circuit breakers
+- **Structured decision matrices**: Replace prose synthesis with quantified comparison matrices (approaches as rows, evaluation criteria as columns, with scores and evidence)
+- **Measurement infrastructure**: A/B comparison between single-agent and team research quality to validate that more agents produce better results
+- **Cross-command propagation**: Extend exploit/explore framework to team-plan and team-implement

@@ -11,16 +11,15 @@ next_project_number: 608
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,599,607 | -- | workflow-refactor |
+| 1 | 78,87,599 | -- | workflow-refactor |
 | 2 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Workflow Refactor
 
-599 [RESEARCHED] — Update CLAUDE.md, extension manifest schema, and documentation fo
+599 [PLANNING] — Update CLAUDE.md, extension manifest schema, and documentation fo
   └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
-607 [IMPLEMENTING] — improve_research_agents_multi_angle_team_strategy
 
 ### Uncategorized
 
@@ -31,11 +30,12 @@ next_project_number: 608
 
 ### 607. Improve research agents with multi-angle team research strategy
 - **Effort**: 4-8 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Research**: [607_improve_research_agents_multi_angle_team_strategy/reports/01_team-research.md]
 - **Plan**: [607_improve_research_agents_multi_angle_team_strategy/plans/01_improve-team-research.md]
+- **Summary**: [607_improve_research_agents_multi_angle_team_strategy/summaries/01_implementation-summary.md]
 
 **Description**: Improve formal/lean/math/logic research agents with multi-angle team research strategy. Add a multi-angle analysis mode to research agents that launches parallel agents each assigned a distinct angle (e.g., backward from problem sites, infrastructure inventory with gap analysis, literature/documentation review, decomposition into small verifiable units). Improvements: (1) Add multi-angle analysis mode to domain research agents, (2) Always verify proposed solutions compile/work before reporting, (3) Add guidance for when to recommend team research after repeated blockers, (4) Add prototype-first research pattern, (5) Update research agents to auto-route to multi-angle team research when multiple handoffs indicate the same blocker. Adapted from ProofChecker task 156.
 
@@ -77,7 +77,7 @@ next_project_number: 608
 
 ### 599. Update CLAUDE.md, extension integration, and documentation
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 594, 595, 596, 597, 598

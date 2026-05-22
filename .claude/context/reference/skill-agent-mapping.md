@@ -55,7 +55,7 @@ When `--team` flag is passed to commands, routing overrides to team skills which
 
 **Graceful Degradation**: If team mode unavailable, falls back to single-agent mode.
 
-**Cost Note**: Team mode uses ~5x tokens compared to single-agent. Default team_size=2 minimizes cost.
+**Cost Note**: Team mode uses ~5x tokens compared to single-agent. Default team_size=3 (Primary + Alternatives + Critic). Use `--fast` for 2 or `--hard` for 4.
 
 ## Task-Type-Based Routing
 

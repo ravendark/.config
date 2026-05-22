@@ -5,11 +5,11 @@
     {
       "project_number": 607,
       "project_name": "improve_research_agents_multi_angle_team_strategy",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "created": "2026-05-22T20:32:14Z",
-      "last_updated": "2026-05-22T21:13:05Z",
+      "last_updated": "2026-05-22T21:23:41Z",
       "session_id": "sess_1748000000_607abc",
       "next_artifact_number": 2,
       "artifacts": [
@@ -22,6 +22,11 @@
           "path": "specs/607_improve_research_agents_multi_angle_team_strategy/plans/01_improve-team-research.md",
           "type": "plan",
           "summary": "6-phase plan: dynamic sizing, Wave 2 critic, domain injection, exploit/explore modes"
+        },
+        {
+          "path": "specs/607_improve_research_agents_multi_angle_team_strategy/summaries/01_implementation-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: 6 phases across 4 waves"
         }
       ],
       "plan_metadata": {
@@ -53,7 +58,8 @@
             "integrated_date": "2026-05-22"
           }
         ]
-      }
+      },
+      "completion_summary": "Improved team research with dynamic sizing, Wave 2 Critic, domain context injection, exploit/explore modes, prototype-first pattern, and lean tactic discovery"
     },
     {
       "project_number": 87,
@@ -370,7 +376,7 @@
     {
       "project_number": 599,
       "project_name": "update_claudemd_extension_documentation",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Update CLAUDE.md, extension manifest schema, and documentation for the refactored system. Extension lifecycle hooks: add hooks schema to manifest.json for all extensions: hooks.preflight, hooks.context_injection, hooks.postflight, hooks.verification. Each hook receives: =task_number, =task_type, =task_dir, =session_id, =operation. Hook invocation points in skill-base.sh: Stage 2 (preflight), Stage 4 (context_injection), Stage 6a (verification), Stage 7 (postflight). Thin extension skills to 30-50 lines (vs. 400-600 today): Stage 4 context injection + Stage 5 subagent invocation. Update .claude/docs/ guides: creating-commands.md, creating-skills.md, creating-agents.md. Regenerate CLAUDE.md to add /orchestrate command, routing table updates, shared utilities inventory. Update system-overview.md to reflect completed refactored architecture. Reference: .claude/docs/architecture/architecture-spec.md Component 6.",
@@ -383,7 +389,7 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T21:18:48Z",
+      "last_updated": "2026-05-22T21:20:27Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -397,7 +403,7 @@
           "summary": "Research on CLAUDE.md programmatic generation from loaded extensions, extension loader system, manifest schema, and gap analysis against refactor tasks"
         }
       ],
-      "session_id": "sess_1779484316_2bc768"
+      "session_id": "sess_1779484810_a3c359"
     },
     {
       "project_number": 600,
