@@ -13,8 +13,14 @@
       "dependencies": [],
       "created": "2026-05-22T20:00:00Z",
       "last_updated": "2026-05-22T19:06:05Z",
-      "next_artifact_number": 1,
-      "artifacts": [],
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md",
+          "type": "research",
+          "summary": "Analyzed generate-task-order.sh and task-order-format.md: 8 findings covering successors map construction, tree traversal reversal, root selection, label/format changes, update-task-status.sh compatibility, and concrete output mock"
+        }
+      ],
       "session_id": "sess_1779476484_b8369b",
       "research_artifact": "specs/605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md"
     },
