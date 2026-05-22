@@ -199,18 +199,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Update Core Merge-Source and Verify End-to-End [NOT STARTED]
+### Phase 5: Update Core Merge-Source and Verify End-to-End [COMPLETED]
 
 **Goal**: Update the core CLAUDE.md merge-source with any final content reflecting hooks, then verify end-to-end that the system is consistent: manifests valid, hooks callable, skills functional, documentation accurate.
 
 **Tasks**:
-- [ ] Review `extensions/core/merge-sources/claudemd.md` and add a brief note about extension lifecycle hooks in the Extension Context section (one line referencing hooks in manifest.json)
-- [ ] Run `jq empty` validation on all 16 extension manifests
-- [ ] Verify skill-base.sh parses without bash syntax errors: `bash -n .claude/scripts/skill-base.sh`
-- [ ] Verify hook scripts are executable: check nix and nvim hook scripts
-- [ ] Run `.claude/scripts/check-extension-docs.sh` to validate extension documentation consistency
-- [ ] Verify the updated system-overview.md date and content are consistent with architecture-spec.md
-- [ ] Confirm no regressions: grep for the removed placeholder comment to ensure it is gone
+- [x] Review `extensions/core/merge-sources/claudemd.md` and add a brief note about extension lifecycle hooks in the Extension Context section (one line referencing hooks in manifest.json) *(completed)*
+- [x] Run `jq empty` validation on all 16 extension manifests *(completed: all PASS)*
+- [x] Verify skill-base.sh parses without bash syntax errors: `bash -n .claude/scripts/skill-base.sh` *(completed: OK)*
+- [x] Verify hook scripts are executable: check nix and nvim hook scripts *(completed: all -rwxr-xr-x)*
+- [x] Run `.claude/scripts/check-extension-docs.sh` to validate extension documentation consistency *(completed: all PASS; pre-existing README age warnings are non-blocking)*
+- [x] Verify the updated system-overview.md date and content are consistent with architecture-spec.md *(completed: Last Verified 2026-05-22)*
+- [x] Confirm no regressions: grep for the removed placeholder comment to ensure it is gone *(completed: NOT FOUND)*
 
 **Timing**: 0.5 hours
 
