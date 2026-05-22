@@ -1140,7 +1140,45 @@
             "state-json"
           ]
         }
-      ]
+      ],
+      "plan_metadata": {
+        "phases": 6,
+        "total_effort_hours": 6,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1,
+            2
+          ],
+          [
+            3,
+            4,
+            5
+          ],
+          [
+            6
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_seed-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-22"
+          },
+          {
+            "path": "reports/02_command-refactor-research.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-22"
+          },
+          {
+            "path": "reports/03_design-guidance.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-22"
+          }
+        ]
+      }
     },
     {
       "project_number": 596,
