@@ -356,16 +356,31 @@ fi
 update_plan_file
 
 # ============================================================
-# PHASE 5: WezTerm tab coloring (postflight only)
-# Update tab color to reflect lifecycle state transition.
-# TTS is now fired by skill postflight Stage 8a via lifecycle-notify.sh.
+# PHASE 5: Dual-dispatch lifecycle notifications (postflight only)
+# Fires TTS and WezTerm tab coloring IMMEDIATELY from postflight so that
+# notifications work even in never-stopping workflows (/loop, chained cmds).
+# Also writes a signal file that the Stop hook (claude-stop-notify.sh) uses
+# as a suppress flag to avoid duplicate dispatch.
+#
+# Ordering: write signal file FIRST, then fire TTS+wezterm.
+# This ensures the suppress flag exists before Stop hook can check it.
+# See: task 588 (refactor_notification_signal_stop_hook)
 # ============================================================
 if [[ "$operation" == "postflight" && "$DRY_RUN" != "true" ]]; then
-  # Update WezTerm tab color to reflect lifecycle state in background
-  # This sets CLAUDE_STATUS user variable to the lifecycle state value
+  # Write signal file FIRST so Stop hook suppress flag is set before notifications fire
+  mkdir -p "$SCRIPT_DIR/../tmp"
+  echo "$STATE_STATUS" > "$SCRIPT_DIR/../tmp/lifecycle-signal"
+
+  # Fire WezTerm tab color immediately (sets CLAUDE_STATUS to lifecycle state)
   wezterm_script="$SCRIPT_DIR/../hooks/wezterm-notify.sh"
   if [[ -x "$wezterm_script" ]] || [[ -f "$wezterm_script" ]]; then
     bash "$wezterm_script" "$STATE_STATUS" &
+  fi
+
+  # Fire TTS announcement immediately (speaks "Tab N STATUS")
+  tts_script="$SCRIPT_DIR/../hooks/tts-notify.sh"
+  if [[ -x "$tts_script" ]] || [[ -f "$tts_script" ]]; then
+    bash "$tts_script" --lifecycle "$STATE_STATUS" &
   fi
 fi
 

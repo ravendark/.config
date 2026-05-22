@@ -99,7 +99,7 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/wezterm-notify.sh 2>/dev/null || echo '{}'"
+            "command": "bash .claude/hooks/claude-stop-notify.sh 2>/dev/null || echo '{}'"
           },
           {
             "type": "command",

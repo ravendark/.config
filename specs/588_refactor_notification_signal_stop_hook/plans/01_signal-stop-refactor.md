@@ -1,7 +1,7 @@
 # Implementation Plan: Task #588
 
 - **Task**: 588 - refactor_notification_signal_stop_hook
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 4.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/588_refactor_notification_signal_stop_hook/reports/01_signal-stop-refactor.md
@@ -75,7 +75,7 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Create claude-stop-notify.sh and modify update-task-status.sh [NOT STARTED]
+### Phase 1: Create claude-stop-notify.sh and modify update-task-status.sh [COMPLETED]
 
 **Goal**: Establish the dual-dispatch mechanism: postflight fires TTS+wezterm immediately AND writes a signal file; the Stop hook checks the signal file to suppress duplicate dispatch.
 
