@@ -1,7 +1,7 @@
 # Implementation Plan: Task #591
 
 - **Task**: 591 - Research Claude Code 2026 orchestration best practices
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/591_research_claude_code_orchestration_practices/reports/01_team-research.md
@@ -72,23 +72,23 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Revise task descriptions and dependencies [NOT STARTED]
+### Phase 1: Revise task descriptions and dependencies [COMPLETED]
 
 **Goal**: Update state.json and TODO.md with revised descriptions, dependencies, and ordering for tasks 592-599 that incorporate research findings and user direction.
 
 **Tasks**:
-- [ ] Read current state.json to capture baseline for all 8 tasks
-- [ ] Revise task 592 description: add fork decision matrix, dispatch_agent() abstraction, handoff protocol spec, nested loop resolution as explicit design deliverables
-- [ ] Revise task 593 description: add unified postflight-workflow.sh, shared GATE IN/OUT templates, baseline token measurement methodology as deliverables
-- [ ] Revise task 594 description: add dependency on 598 (progressive disclosure informs shared base); note extension lifecycle hooks as design goal; reference task 500's research findings on fork incompatibility with named routing
-- [ ] Revise task 595 description: add dependency on 598; remove "add progressive disclosure" (now handled by 598); focus on command refactoring using shared utilities
-- [ ] Revise task 596 description: update to fire-and-forget autonomous loop (not confirmation gates); add dependency on 598; add blocker escalation as core capability; reference nested loop resolution pattern; note subsumption of task 501
-- [ ] Revise task 597 description: keep dependency on 593 only; add memory harvest automation to /todo decomposition scope
-- [ ] Revise task 598 description: change dependencies from [595, 596] to [592]; this is now Layer 4, informing what the shared base needs
-- [ ] Revise task 599 description: update dependencies to [594, 595, 596, 597, 598] to reflect new ordering
-- [ ] Update all 8 entries in state.json with revised descriptions and dependencies
-- [ ] Update all 8 entries in TODO.md to match state.json
-- [ ] Regenerate Task Order section using generate-task-order.sh --update-todo
+- [x] Read current state.json to capture baseline for all 8 tasks *(completed)*
+- [x] Revise task 592 description: add fork decision matrix, dispatch_agent() abstraction, handoff protocol spec, nested loop resolution as explicit design deliverables *(completed)*
+- [x] Revise task 593 description: add unified postflight-workflow.sh, shared GATE IN/OUT templates, baseline token measurement methodology as deliverables *(completed)*
+- [x] Revise task 594 description: add dependency on 598 (progressive disclosure informs shared base); note extension lifecycle hooks as design goal; reference task 500's research findings on fork incompatibility with named routing *(completed)*
+- [x] Revise task 595 description: add dependency on 598; remove "add progressive disclosure" (now handled by 598); focus on command refactoring using shared utilities *(completed)*
+- [x] Revise task 596 description: update to fire-and-forget autonomous loop (not confirmation gates); add dependency on 598; add blocker escalation as core capability; reference nested loop resolution pattern; note subsumption of task 501 *(completed)*
+- [x] Revise task 597 description: keep dependency on 593 only; add memory harvest automation to /todo decomposition scope *(completed)*
+- [x] Revise task 598 description: change dependencies from [595, 596] to [592]; this is now Layer 4, informing what the shared base needs *(completed)*
+- [x] Revise task 599 description: update dependencies to [594, 595, 596, 597, 598] to reflect new ordering *(completed)*
+- [x] Update all 8 entries in state.json with revised descriptions and dependencies *(completed)*
+- [x] Update all 8 entries in TODO.md to match state.json *(completed)*
+- [x] Regenerate Task Order section using generate-task-order.sh --update-todo *(deviation: altered — manually updated Task Order due to script bug: cc_union exits 1 under set -e when nodes are same component)*
 
 **Timing**: 45 minutes
 

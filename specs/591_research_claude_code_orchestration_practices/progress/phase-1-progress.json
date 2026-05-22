@@ -1,0 +1,39 @@
+{
+  "phase": 1,
+  "phase_name": "Revise task descriptions and dependencies",
+  "started_at": "2026-05-22T00:00:00Z",
+  "last_updated": "2026-05-22T01:00:00Z",
+  "objectives": [
+    {"id": 1, "description": "Read current state.json to capture baseline for all 8 tasks", "status": "done"},
+    {"id": 2, "description": "Revise task 592 description: add fork decision matrix, dispatch_agent() abstraction, handoff protocol spec, nested loop resolution", "status": "done"},
+    {"id": 3, "description": "Revise task 593 description: add unified postflight-workflow.sh, shared GATE templates, baseline token measurement", "status": "done"},
+    {"id": 4, "description": "Revise task 594 description: add dependency on 598; note extension lifecycle hooks; reference task 500 findings", "status": "done"},
+    {"id": 5, "description": "Revise task 595 description: add dependency on 598; focus on command refactoring using context budget constraints", "status": "done"},
+    {"id": 6, "description": "Revise task 596 description: update to fire-and-forget autonomous loop with --auto flag; add dependency on 598; add blocker escalation; nested loop resolution", "status": "done"},
+    {"id": 7, "description": "Revise task 597 description: keep dependency on 593 only; add memory harvest automation to /todo scope", "status": "done"},
+    {"id": 8, "description": "Revise task 598 description: change dependencies from [595, 596] to [592]", "status": "done"},
+    {"id": 9, "description": "Revise task 599 description: update dependencies to [594, 595, 596, 597, 598]", "status": "done"},
+    {"id": 10, "description": "Update all 8 entries in state.json with revised descriptions and dependencies", "status": "done"},
+    {"id": 11, "description": "Update all 8 entries in TODO.md to match state.json", "status": "done"},
+    {"id": 12, "description": "Regenerate Task Order section using generate-task-order.sh --update-todo", "status": "done", "note": "Script has bug with set -e and [[ ]] short-circuit; manually updated Task Order section with correct wave structure"}
+  ],
+  "current_objective": 12,
+  "approaches_tried": [
+    {
+      "objective_id": 12,
+      "approach": "bash .claude/scripts/generate-task-order.sh --update-todo",
+      "result": "failed",
+      "reason": "Script exits with code 1 due to cc_union [[ != ]] short-circuit with set -euo pipefail; manually updated Task Order section instead"
+    }
+  ],
+  "handoff_count": 0,
+  "deviations": [
+    {
+      "task_id": "1.12",
+      "description": "Regenerate Task Order section using generate-task-order.sh --update-todo",
+      "type": "altered",
+      "reason": "generate-task-order.sh has a bug where cc_union returns exit code 1 when two nodes are in the same component (because [[ rx != ry ]] short-circuits with exit 1), causing failure under set -e. Manually updated Task Order section with correct wave structure computed using Kahn's algorithm in Python.",
+      "annotation": "*(deviation: altered — manually updated Task Order due to script bug)*"
+    }
+  ]
+}
