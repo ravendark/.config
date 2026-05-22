@@ -22,7 +22,7 @@ next_project_number: 608
 597 [IMPLEMENTING] — Refactor /task, /revise, /todo, /review for consistency with the 
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
-598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
+598 [RESEARCHING] — Update the context system for progressive disclosure and agent co
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
 607 [NOT STARTED] — improve_research_agents_multi_angle_team_strategy
 
@@ -91,7 +91,7 @@ next_project_number: 608
 
 ### 598. Update context system for progressive disclosure and agent context budgets
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 592
