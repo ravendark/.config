@@ -376,7 +376,7 @@
     {
       "project_number": 599,
       "project_name": "update_claudemd_extension_documentation",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Update CLAUDE.md, extension manifest schema, and documentation for the refactored system. Extension lifecycle hooks: add hooks schema to manifest.json for all extensions: hooks.preflight, hooks.context_injection, hooks.postflight, hooks.verification. Each hook receives: =task_number, =task_type, =task_dir, =session_id, =operation. Hook invocation points in skill-base.sh: Stage 2 (preflight), Stage 4 (context_injection), Stage 6a (verification), Stage 7 (postflight). Thin extension skills to 30-50 lines (vs. 400-600 today): Stage 4 context injection + Stage 5 subagent invocation. Update .claude/docs/ guides: creating-commands.md, creating-skills.md, creating-agents.md. Regenerate CLAUDE.md to add /orchestrate command, routing table updates, shared utilities inventory. Update system-overview.md to reflect completed refactored architecture. Reference: .claude/docs/architecture/architecture-spec.md Component 6.",
@@ -389,7 +389,7 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T21:25:22Z",
+      "last_updated": "2026-05-22T21:38:14Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -406,9 +406,15 @@
           "path": "specs/599_update_claudemd_extension_documentation/plans/02_claudemd-extension-docs.md",
           "type": "plan",
           "summary": "5-phase implementation plan: hook machinery in skill-base.sh, manifest schema updates for 16 extensions, nvim/nix skill thinning, documentation refresh, and end-to-end verification"
+        },
+        {
+          "path": "specs/599_update_claudemd_extension_documentation/summaries/02_claudemd-extension-docs-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 599: extension lifecycle hooks, manifest schema, skill thinning, and documentation updates"
         }
       ],
-      "session_id": "sess_1779484810_a3c359"
+      "session_id": "sess_1779485157_8fa1c9",
+      "completion_summary": "Completed extension lifecycle hooks implementation in skill-base.sh, manifest schema updates for all 16 extensions, nvim/nix skill thinning from 254-412L to 83-104L, and documentation refresh for the unified workflow refactor"
     },
     {
       "project_number": 600,
