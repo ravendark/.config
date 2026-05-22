@@ -106,28 +106,28 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Create /todo utility scripts (archive-task.sh, orphan-detection.sh, vault-operation.sh) [NOT STARTED]
+### Phase 2: Create /todo utility scripts (archive-task.sh, orphan-detection.sh, vault-operation.sh) [COMPLETED]
 
 **Goal**: Extract three self-contained utility modules from /todo to reduce its monolithic structure. These three are independent of the roadmap-sync module which has more complex shared state.
 
 **Tasks**:
-- [ ] Create `.claude/scripts/orphan-detection.sh` (~100L)
+- [x] Create `.claude/scripts/orphan-detection.sh` (~100L) *(completed)*
   - Extract Steps 2.5-2.6 (lines 27-123 of todo.md)
   - Input: specs/ directory path, state.json path, archive/state.json path
   - Output: Print orphaned_in_specs, orphaned_in_archive, and misplaced_in_specs as newline-separated lists to stdout
   - Separate the three categories with delimiter lines for parsing
-- [ ] Create `.claude/scripts/archive-task.sh` (~80L)
+- [x] Create `.claude/scripts/archive-task.sh` (~80L) *(completed)*
   - Extract core archival logic from Steps 5A-5D (lines 379-441 of todo.md)
   - Input: task_number, project_name, dry_run flag
   - Operations: move task from active_projects to archive completed_projects, move directory to archive/
   - Handle both padded and unpadded directory formats
   - Return 0 on success, 1 on failure
-- [ ] Create `.claude/scripts/vault-operation.sh` (~135L)
+- [x] Create `.claude/scripts/vault-operation.sh` (~135L) *(completed)*
   - Extract Step 5.7 (lines 693-828 of todo.md)
   - Input: state.json path, confirmation flag (skip user prompt when pre-confirmed)
   - Operations: create vault directory, move archive, renumber tasks, reset state
   - Include post-renumber Task Order regeneration call
-- [ ] Make all scripts executable
+- [x] Make all scripts executable *(completed)*
 
 **Timing**: 2 hours
 
