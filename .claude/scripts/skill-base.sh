@@ -21,8 +21,83 @@
 #   Override before sourcing: SKILL_CONTEXT_BUDGET=15000 source skill-base.sh
 SKILL_CONTEXT_BUDGET="${SKILL_CONTEXT_BUDGET:-8000}"
 
-# EXTENSION HOOKS: Not implemented in this version (deferred to task 599).
-# Future: EXTENSION_PREFLIGHT_HOOK, EXTENSION_CONTEXT_HOOK, EXTENSION_POSTFLIGHT_HOOK
+# ─────────────────────────────────────────────────────────────────────────────
+# EXTENSION HOOKS: Lifecycle hook invocation for loaded extensions.
+#
+# Extensions may declare hook scripts in manifest.json under a top-level
+# "hooks" object (distinct from "provides.hooks" which are file-copy targets):
+#
+#   "hooks": {
+#     "preflight": "scripts/my-preflight.sh",
+#     "context_injection": "scripts/my-context.sh",
+#     "verification": "scripts/my-verify.sh",
+#     "postflight": "scripts/my-postflight.sh"
+#   }
+#
+# Hook scripts are called with 5 positional args:
+#   $1 = task_number   $2 = task_type   $3 = task_dir   $4 = session_id   $5 = operation
+#
+# Missing hook keys or absent extensions.json are silently skipped.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# skill_get_extension_dir: Map task_type to extension directory via extensions.json
+# Usage: skill_get_extension_dir "$task_type"
+# Outputs: absolute path to extension directory, or empty string if not found
+skill_get_extension_dir() {
+  local task_type="$1"
+  local extensions_json=".claude/extensions.json"
+  if [ ! -f "$extensions_json" ]; then
+    return 0
+  fi
+  # Find extension with matching task_type
+  local ext_name
+  ext_name=$(jq -r --arg tt "$task_type" \
+    '.loaded_extensions // [] | .[] | select(.task_type == $tt) | .name' \
+    "$extensions_json" 2>/dev/null | head -1)
+  if [ -z "$ext_name" ] || [ "$ext_name" = "null" ]; then
+    return 0
+  fi
+  echo ".claude/extensions/${ext_name}"
+}
+
+# skill_run_extension_hook: Execute a lifecycle hook for the current task_type
+# Usage: skill_run_extension_hook "$hook_name" "$task_number" "$task_type" "$task_dir" "$session_id" "$operation"
+# hook_name: preflight | context_injection | verification | postflight
+# Silently skips if: extensions.json missing, extension not loaded, hook not declared, script not found
+skill_run_extension_hook() {
+  local hook_name="$1"
+  local task_number="$2"
+  local task_type="$3"
+  local task_dir="$4"
+  local session_id="$5"
+  local operation="$6"
+
+  local ext_dir
+  ext_dir=$(skill_get_extension_dir "$task_type")
+  if [ -z "$ext_dir" ]; then
+    return 0
+  fi
+
+  local manifest="${ext_dir}/manifest.json"
+  if [ ! -f "$manifest" ]; then
+    return 0
+  fi
+
+  local hook_script
+  hook_script=$(jq -r --arg h "$hook_name" '.hooks[$h] // empty' "$manifest" 2>/dev/null)
+  if [ -z "$hook_script" ]; then
+    return 0
+  fi
+
+  local hook_path="${ext_dir}/${hook_script}"
+  if [ ! -x "$hook_path" ]; then
+    return 0
+  fi
+
+  echo "[skill-base] Running extension hook: ${hook_name} (${hook_path})"
+  "$hook_path" "$task_number" "$task_type" "$task_dir" "$session_id" "$operation" || \
+    echo "[skill-base] WARNING: Extension hook '${hook_name}' exited non-zero (non-blocking)"
+}
 
 # ORCHESTRATOR MODE: Support for skill-orchestrate dispatch (task 596).
 # When orchestrator_mode=true in delegation context, skills call skill_write_orchestrator_handoff()
@@ -61,11 +136,14 @@ skill_validate_input() {
 # Stage 2: Update status to in-progress variant
 # Usage: skill_preflight_update "$task_number" "$operation" "$session_id"
 # operation: "research" | "plan" | "implement" | "revise"
+# Calls extension hook: hooks.preflight (after status update)
 skill_preflight_update() {
   local task_number="$1"
   local operation="$2"
   local session_id="$3"
   bash .claude/scripts/update-task-status.sh preflight "$task_number" "$operation" "$session_id"
+  # Extension hook: preflight (runs after status update)
+  skill_run_extension_hook "preflight" "$task_number" "${TASK_TYPE:-}" "${TASK_DIR:-}" "$session_id" "$operation"
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -89,6 +167,19 @@ skill_create_postflight_marker() {
   "stop_hook_active": false
 }
 EOF
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Stage 4: Extension context injection (hook invocation only)
+# Usage: skill_context_injection "$task_number" "$session_id" "$operation"
+# Calls extension hook: hooks.context_injection
+# This function provides a call site for extensions to inject domain-specific
+# context before agent delegation. The hook receives task metadata via positional args.
+skill_context_injection() {
+  local task_number="$1"
+  local session_id="$2"
+  local operation="${3:-research}"
+  skill_run_extension_hook "context_injection" "$task_number" "${TASK_TYPE:-}" "${TASK_DIR:-}" "$session_id" "$operation"
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -153,18 +244,26 @@ skill_read_metadata() {
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 6a: Validate artifact exists and meets format requirements (non-blocking)
-# Usage: skill_validate_artifact "$status" "$artifact_path" "$artifact_kind"
+# Usage: skill_validate_artifact "$status" "$artifact_path" "$artifact_kind" ["$task_number" "$session_id" "$operation"]
 # artifact_kind: "report" | "plan" | "summary"
 # Validation only runs when status matches a success state
+# Calls extension hook: hooks.verification (after artifact validation)
 skill_validate_artifact() {
   local status="$1"
   local artifact_path="$2"
   local artifact_kind="$3"
+  local task_number="${4:-}"
+  local session_id="${5:-}"
+  local operation="${6:-}"
   if [ "$status" != "failed" ] && [ -n "$artifact_path" ] && [ -f "$artifact_path" ]; then
     echo "Validating ${artifact_kind} artifact..."
     if ! bash .claude/scripts/validate-artifact.sh "$artifact_path" "$artifact_kind" --fix 2>/dev/null; then
       echo "WARNING: ${artifact_kind} artifact has format issues (non-blocking). Review output above."
     fi
+  fi
+  # Extension hook: verification (runs after artifact validation, non-blocking)
+  if [ -n "$task_number" ]; then
+    skill_run_extension_hook "verification" "$task_number" "${TASK_TYPE:-}" "${TASK_DIR:-}" "$session_id" "$operation"
   fi
 }
 
@@ -172,6 +271,7 @@ skill_validate_artifact() {
 # Stage 7: Update status to completed variant
 # Usage: skill_postflight_update "$task_number" "$operation" "$session_id" "$status"
 # Only updates state when status is a success value (researched/planned/implemented)
+# Calls extension hook: hooks.postflight (after status update, non-blocking)
 skill_postflight_update() {
   local task_number="$1"
   local operation="$2"
@@ -185,6 +285,8 @@ skill_postflight_update() {
       echo "[skill-base] Non-success status '${status}' — postflight status update skipped"
       ;;
   esac
+  # Extension hook: postflight (runs after status update, non-blocking)
+  skill_run_extension_hook "postflight" "$task_number" "${TASK_TYPE:-}" "${TASK_DIR:-}" "$session_id" "$operation"
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

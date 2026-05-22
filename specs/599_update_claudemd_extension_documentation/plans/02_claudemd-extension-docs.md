@@ -1,7 +1,7 @@
 # Implementation Plan: Task #599
 
 - **Task**: 599 - update_claudemd_extension_documentation
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 6 hours
 - **Dependencies**: Tasks 593-598 (all completed)
 - **Research Inputs**: specs/599_update_claudemd_extension_documentation/reports/02_claudemd-generation-research.md
@@ -79,20 +79,20 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Implement Hook Machinery in skill-base.sh [NOT STARTED]
+### Phase 1: Implement Hook Machinery in skill-base.sh [COMPLETED]
 
 **Goal**: Add the `skill_run_extension_hook()` helper function and integrate hook call sites into existing skill-base.sh lifecycle functions.
 
 **Tasks**:
-- [ ] Add `skill_run_extension_hook()` function to skill-base.sh that: reads extensions.json to find loaded extension matching task_type, reads that extension's manifest.json for `hooks.$hook_name`, constructs the full path to the hook script, and executes it with the 5 positional args (task_number, task_type, task_dir, session_id, operation)
-- [ ] Add `skill_get_extension_dir()` helper that maps task_type to loaded extension directory via extensions.json state
-- [ ] Insert hook call in `skill_preflight_update()` (Stage 2): call `hooks.preflight` after status update
-- [ ] Insert hook call after a new `skill_context_injection()` function (Stage 4): call `hooks.context_injection` -- this is a new function that does not exist yet
-- [ ] Insert hook call in `skill_validate_artifact()` (Stage 6a): call `hooks.verification` after artifact validation
-- [ ] Insert hook call in `skill_postflight_update()` (Stage 7): call `hooks.postflight` after status update
-- [ ] Handle missing hooks gracefully (empty object or missing field = skip silently)
-- [ ] Handle missing extensions.json gracefully (no loaded extensions = skip all hooks)
-- [ ] Remove the placeholder comment at lines 24-25 and replace with hook documentation header
+- [x] Add `skill_run_extension_hook()` function to skill-base.sh that: reads extensions.json to find loaded extension matching task_type, reads that extension's manifest.json for `hooks.$hook_name`, constructs the full path to the hook script, and executes it with the 5 positional args (task_number, task_type, task_dir, session_id, operation) *(completed)*
+- [x] Add `skill_get_extension_dir()` helper that maps task_type to loaded extension directory via extensions.json state *(completed)*
+- [x] Insert hook call in `skill_preflight_update()` (Stage 2): call `hooks.preflight` after status update *(completed)*
+- [x] Insert hook call after a new `skill_context_injection()` function (Stage 4): call `hooks.context_injection` -- this is a new function that does not exist yet *(completed)*
+- [x] Insert hook call in `skill_validate_artifact()` (Stage 6a): call `hooks.verification` after artifact validation *(completed)*
+- [x] Insert hook call in `skill_postflight_update()` (Stage 7): call `hooks.postflight` after status update *(completed)*
+- [x] Handle missing hooks gracefully (empty object or missing field = skip silently) *(completed)*
+- [x] Handle missing extensions.json gracefully (no loaded extensions = skip all hooks) *(completed)*
+- [x] Remove the placeholder comment at lines 24-25 and replace with hook documentation header *(completed)*
 
 **Timing**: 1.5 hours
 
