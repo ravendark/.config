@@ -1,0 +1,21 @@
+{
+  "phase": 3,
+  "phase_name": "OpenCode parity and extension copies",
+  "started_at": "2026-05-21T00:30:00Z",
+  "last_updated": "2026-05-21T00:45:00Z",
+  "objectives": [
+    {"id": 1, "description": "Update .opencode/hooks/wezterm-notify.sh to accept optional STATUS parameter", "status": "done"},
+    {"id": 2, "description": "Create .opencode/hooks/claude-stop-notify.sh as OpenCode variant", "status": "done"},
+    {"id": 3, "description": "Make .opencode/hooks/claude-stop-notify.sh executable", "status": "done"},
+    {"id": 4, "description": "Update .opencode/settings.json Stop hook to use claude-stop-notify.sh", "status": "done"},
+    {"id": 5, "description": "Create .claude/extensions/core/hooks/claude-stop-notify.sh as copy", "status": "done"},
+    {"id": 6, "description": "Update .claude/extensions/core/root-files/settings.json Stop hook", "status": "done"},
+    {"id": 7, "description": "Create .opencode/extensions/core/hooks/claude-stop-notify.sh as copy", "status": "done"},
+    {"id": 8, "description": "Update .opencode/extensions/core/hooks/wezterm-notify.sh to match updated primary", "status": "done"},
+    {"id": 9, "description": "Update .claude/extensions/core/hooks/wezterm-notify.sh to accept STATUS parameter", "status": "done"}
+  ],
+  "current_objective": 9,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

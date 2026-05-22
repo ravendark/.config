@@ -123,7 +123,7 @@
           },
           {
             "type": "command",
-            "command": "bash .opencode/hooks/wezterm-notify.sh 2>/dev/null || echo '{}'",
+            "command": "bash .opencode/hooks/claude-stop-notify.sh 2>/dev/null || echo '{}'",
             "timeout": 5000
           },
           {
