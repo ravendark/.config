@@ -8,21 +8,50 @@ Team orchestration uses a wave-based model where agents work in parallel within 
 
 ## Wave Execution Model
 
+Team research uses a two-wave model: Wave 1 for parallel research, Wave 2 for informed critique.
+
 ```
-Wave 1:
-+----------------+  +----------------+  +----------------+  +----------------+
-| Teammate A     |  | Teammate B     |  | Teammate C     |  | Teammate D     |
-| Primary Angle  |  | Alternatives   |  | Critic         |  | Horizons       |
-+-------+--------+  +-------+--------+  +-------+--------+  +-------+--------+
-        |                   |                   |                   |
-        +-------------------+-------------------+-------------------+
+Wave 1 (parallel research):
++----------------+  +----------------+  +----------------+
+| Teammate A     |  | Teammate B     |  | Teammate D     |
+| Primary Angle  |  | Alternatives   |  | Horizons       |
++-------+--------+  +-------+--------+  +-------+--------+
+        |                   |                   |
+        +-------------------+-------------------+
+                           |
+                    (findings collected)
+                           |
+Wave 2 (informed critique):
+                    +----------------+
+                    | Teammate C     |
+                    | Critic         |
+                    | (reads A,B,D)  |
+                    +-------+--------+
                            |
                     +------+------+
                     |   Lead      |
                     | Synthesis   |
                     +------+------+
-                           |
-              (Optional Wave 2 if gaps exist)
+```
+
+**Dynamic team sizing** controls which teammates are spawned in Wave 1:
+- `team_size == 2`: Wave 1 = A only; Wave 2 = Critic
+- `team_size == 3`: Wave 1 = A + B; Wave 2 = Critic (default)
+- `team_size == 4`: Wave 1 = A + B + D; Wave 2 = Critic
+
+The Critic always runs in Wave 2 with access to Wave 1 findings. This enables targeted, informed critique rather than generic skepticism.
+
+## Domain Context Injection
+
+When a task's `task_type` matches a loaded extension, the lead queries `.claude/context/index.json` for domain-specific context paths and injects them into all teammate prompts as a "Domain Context" section. This ensures team research teammates have the same domain knowledge as single-agent research agents (which use domain-specific agent definitions).
+
+```bash
+# Query index.json for domain context matching the task type
+domain_agent_paths=$(jq -r --arg tt "$task_type" '
+  .entries[] | select(
+    any(.load_when.languages[]?; . == $tt) or
+    any(.load_when.task_types[]?; . == $tt)
+  ) | .path' .claude/context/index.json)
 ```
 
 ## Coordination Responsibilities
@@ -139,8 +168,10 @@ Team mode uses approximately 5x tokens compared to single-agent:
 
 ## Best Practices
 
-1. **Minimize team size** - Default to 2 teammates, increase only when needed
+1. **Default to 3 teammates** - Primary + Alternatives + Critic; use `--fast` for 2 or `--hard` for 4
 2. **Clear role separation** - Avoid overlap between teammate responsibilities
 3. **Run-scoped outputs** - Use unique paths to avoid conflicts
 4. **Graceful degradation** - Always have single-agent fallback
 5. **Targeted commits** - Use git staging scope to avoid race conditions
+6. **Domain context injection** - Always inject domain context when task_type has an extension
+7. **Critic in Wave 2** - The Critic always reads Wave 1 findings before critiquing

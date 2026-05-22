@@ -1,7 +1,7 @@
 # Implementation Plan: Improve Research Agents with Multi-Angle Team Research Strategy
 
 - **Task**: 607 - Improve research agents with multi-angle team research strategy
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 6 hours
 - **Dependencies**: None
 - **Research Inputs**: reports/01_team-research.md (team research, 4 teammates)
@@ -78,7 +78,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Fix Structural Bugs in SKILL.md [NOT STARTED]
+### Phase 1: Fix Structural Bugs in SKILL.md [COMPLETED]
 
 **Goal**: Fix `team_size` dead code and implement dynamic sizing via effort flags.
 
@@ -105,7 +105,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add --exploit and --explore Flags to Parser [NOT STARTED]
+### Phase 2: Add --exploit and --explore Flags to Parser [COMPLETED]
 
 **Goal**: Add new flag parsing for `--exploit` and `--explore` mode hints.
 
@@ -131,7 +131,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Wave 2 Critic and Domain Context Injection [NOT STARTED]
+### Phase 3: Wave 2 Critic and Domain Context Injection [COMPLETED]
 
 **Goal**: Move Critic to Wave 2 (after reading other findings) and inject domain-specific agent context into teammate prompts.
 

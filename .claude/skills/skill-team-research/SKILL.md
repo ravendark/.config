@@ -38,7 +38,7 @@ This skill activates when:
 |-----------|------|----------|-------------|
 | `task_number` | integer | Yes | Task to research |
 | `focus_prompt` | string | No | Optional focus for research |
-| `team_size` | integer | No | Number of teammates (2-4, default 2) |
+| `team_size` | integer | No | Number of teammates (2-4, default 3). Derived from effort flags when not explicitly set: `--fast` = 2, default = 3, `--hard` = 4. Explicit `--team-size N` overrides effort-derived value. |
 | `session_id` | string | Yes | Session ID for tracking |
 | `model_flag` | string | No | Model override (haiku, sonnet, opus). If set, use instead of default |
 | `effort_flag` | string | No | Effort level (fast, hard). Passed as prompt context |
@@ -51,7 +51,7 @@ This skill activates when:
 
 Validate required inputs:
 - `task_number` - Must exist in state.json
-- `team_size` - Clamp to range [2, 4], default 2
+- `team_size` - Derived from effort flags, overridable via `--team-size N`, clamped to [2, 4]
 
 ```bash
 # Lookup task
@@ -69,8 +69,24 @@ status=$(echo "$task_data" | jq -r '.status')
 project_name=$(echo "$task_data" | jq -r '.project_name')
 description=$(echo "$task_data" | jq -r '.description // ""')
 
-# Team research always uses 4 teammates (Primary, Alternatives, Critic, Horizons)
-team_size=4
+# Dynamic team sizing based on effort flags
+# Default: 3 (Primary + Alternatives + Critic); --fast: 2; --hard: 4
+if [ "$effort_flag" = "fast" ]; then
+  team_size=2
+elif [ "$effort_flag" = "hard" ]; then
+  team_size=4
+else
+  team_size=3
+fi
+
+# Explicit --team-size N override takes precedence over effort-derived value
+if [ -n "$user_team_size" ] && [ "$user_team_size" -gt 0 ] 2>/dev/null; then
+  team_size="$user_team_size"
+fi
+
+# Clamp to valid range [2, 4]
+[ "$team_size" -lt 2 ] && team_size=2
+[ "$team_size" -gt 4 ] && team_size=4
 ```
 
 ---
@@ -159,9 +175,9 @@ run_padded=$(printf "%02d" "$artifact_number")
 
 ---
 
-### Stage 5b: Task Type Routing Decision
+### Stage 5b: Task Type Routing and Domain Context Injection
 
-Determine task-type-specific configuration for teammate prompts:
+Determine task-type-specific configuration and inject domain context into teammate prompts:
 
 ```bash
 # Route by task type
@@ -183,13 +199,37 @@ teammate_model="${model_flag:-sonnet}"
 
 # Prepare model preference line for prompts (secondary guidance)
 model_preference_line="Model preference: Use Claude ${teammate_model^} 4.6 for this analysis."
+
+# Domain context injection: when task_type matches a loaded extension,
+# query index.json for domain agent context paths and available MCP tools.
+# This ensures team research teammates get the same domain knowledge as
+# single-agent research (which uses the domain-specific research agent).
+domain_context_section=""
+domain_agent_paths=$(jq -r --arg tt "$task_type" '
+  .entries[] | select(
+    any(.load_when.languages[]?; . == $tt) or
+    any(.load_when.task_types[]?; . == $tt)
+  ) | .path' .claude/context/index.json 2>/dev/null)
+
+if [ -n "$domain_agent_paths" ]; then
+  domain_context_section="## Domain Context
+
+The following domain-specific context files are relevant to this task type (${task_type}).
+Read them for domain-specific patterns, tools, and standards:
+
+$(echo "$domain_agent_paths" | while read -r p; do echo "- @.claude/context/$p"; done)
+
+Use domain-specific tools and search strategies described in these files."
+fi
 ```
 
 ---
 
-### Stage 5: Spawn Research Wave
+### Stage 5: Spawn Wave 1 Research Teammates
 
-Create teammate prompts and spawn wave. Pass `artifact_number` and `teammate_letter` to each teammate.
+Create teammate prompts and spawn Wave 1 (non-Critic teammates). The Critic spawns in Wave 2 after reading Wave 1 findings. Pass `artifact_number` and `teammate_letter` to each teammate.
+
+Each teammate prompt should include `{domain_context_section}` (from Stage 5b) when non-empty.
 
 **Delegation context for teammates**:
 ```json
@@ -224,7 +264,7 @@ Format: Markdown with clear sections for:
 - Confidence Level (high/medium/low)
 ```
 
-**Teammate B - Alternative Approaches**:
+**Teammate B - Alternative Approaches** (spawn when `team_size >= 2`, i.e., always):
 ```
 Research task {task_number}: {description}
 
@@ -243,32 +283,13 @@ specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-b-findings.md
 Format: Same as Teammate A
 ```
 
-**Teammate C - Critic (always present)**:
-```
-Research task {task_number}: {description}
+**Teammate C - Critic (Wave 2 -- spawned AFTER Wave 1 completes)**:
 
-{model_preference_line}
+The Critic is NOT spawned in Wave 1. Instead, after all Wave 1 teammates complete (Stage 6a), the Critic is spawned with access to their findings. This allows the Critic to provide informed, targeted critique rather than generic skepticism.
 
-Artifact number: {run_padded}
-Teammate letter: c
+See **Stage 6a** below for the Critic spawn logic and prompt.
 
-You are the Critic. Your job is to identify gaps, shortcomings, and blind spots in the research.
-Focus on:
-- What assumptions haven't been validated?
-- What could the other researchers be missing or getting wrong?
-- Are there known limitations in the proposed approaches?
-- Is the task scope complete, or are there important aspects being overlooked?
-- What questions should be asked but aren't being asked?
-
-Do NOT duplicate risk analysis (implementation risks). Focus on research quality and completeness.
-
-Output your findings to:
-specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-c-findings.md
-
-Format: Same as Teammate A
-```
-
-**Teammate D - Horizons (always present)**:
+**Teammate D - Horizons** (spawn when `team_size >= 4`):
 ```
 Research task {task_number}: {description}
 
@@ -301,6 +322,16 @@ Format: Same as Teammate A
 
 **Spawn teammates using Agent tool**.
 
+**Wave 1 conditional spawning based on `team_size`** (Critic excluded -- see Stage 6a):
+- **Teammate A** (Primary): Always spawned in Wave 1
+- **Teammate B** (Alternatives): Spawned in Wave 1 when team_size >= 3
+- **Teammate D** (Horizons): Spawned in Wave 1 when team_size >= 4
+
+Wave 1 composition:
+- `team_size == 2`: Spawn A only (Critic joins in Wave 2)
+- `team_size == 3`: Spawn A + B (Critic joins in Wave 2)
+- `team_size == 4`: Spawn A + B + D (Critic joins in Wave 2)
+
 **IMPORTANT**: Pass the `model` parameter to enforce model selection:
 - Use `model: "${teammate_model}"` (from Stage 5b: model_flag if provided, otherwise "sonnet" as default)
 
@@ -310,14 +341,14 @@ The `model_preference_line` in prompts serves as secondary guidance only. The `m
 
 ---
 
-### Stage 6: Wait for Wave Completion
+### Stage 6: Wait for Wave 1 Completion
 
-Wait for all teammates to complete or timeout:
+Wait for Wave 1 teammates (A, and optionally B, D) to complete or timeout:
 
 ```
 Timeout: 30 minutes for Wave 1
 
-While not all complete and not timed out:
+While not all Wave 1 teammates complete and not timed out:
   - Check teammate completion status
   - Collect completed results
   - Wait 30 seconds between checks
@@ -329,15 +360,92 @@ On timeout:
 
 ---
 
-### Stage 7: Collect Teammate Results
+### Stage 6a: Spawn Wave 2 Critic
 
-Read each teammate's output file using run-scoped paths:
+After Wave 1 completes, collect the output file paths from completed Wave 1 teammates and spawn the Critic with access to their findings.
+
+```bash
+# Collect Wave 1 output paths
+padded_num=$(printf "%03d" "$task_number")
+wave1_findings=""
+
+for teammate in a b d; do
+  file="specs/${padded_num}_${project_name}/reports/${run_padded}_teammate-${teammate}-findings.md"
+  if [ -f "$file" ]; then
+    wave1_findings="${wave1_findings}
+- ${file}"
+  fi
+done
+```
+
+**Teammate C - Critic (Wave 2)**:
+```
+Research task {task_number}: {description}
+
+{model_preference_line}
+
+{domain_context_section}
+
+Artifact number: {run_padded}
+Teammate letter: c
+
+You are the Critic. You run in Wave 2 -- the other teammates have already completed their research.
+
+## Wave 1 Teammate Findings
+
+Read the following teammate findings before critiquing:
+{wave1_findings}
+
+Read each file above, then provide your critique.
+
+## Your Focus
+
+Based on your reading of the teammate findings, identify:
+- What assumptions haven't been validated by the teammates?
+- Where do the teammates disagree, and who has stronger evidence?
+- Are there known limitations in the proposed approaches that teammates missed?
+- Is the task scope complete, or are there important aspects being overlooked?
+- What questions should be asked but aren't being asked?
+- Which teammate's findings are strongest/weakest, and why?
+
+Do NOT duplicate risk analysis (implementation risks). Focus on research quality and completeness.
+
+Output your findings to:
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-c-findings.md
+
+Format: Markdown with clear sections for:
+- Key Findings
+- Recommended Approach
+- Evidence/Examples
+- Confidence Level (high/medium/low)
+```
+
+**Spawn Critic using Agent tool** with `model: "${teammate_model}"`.
+
+Wait for Critic to complete (timeout: 15 minutes for Wave 2).
+
+On timeout: Continue with Wave 1 results only; note missing Critic in synthesis.
+
+---
+
+### Stage 7: Collect All Teammate Results
+
+After both Wave 1 and Wave 2 (Critic) complete, read each teammate's output file using run-scoped paths:
 
 ```bash
 teammate_results=[]
 padded_num=$(printf "%03d" "$task_number")
 
-for teammate in a b c d; do
+# Build teammate list based on team_size
+teammates=("a" "c")  # A (Primary) and C (Critic) always present
+if [ "$team_size" -ge 3 ]; then
+  teammates=("a" "b" "c")  # Add B (Alternatives)
+fi
+if [ "$team_size" -ge 4 ]; then
+  teammates=("a" "b" "c" "d")  # Add D (Horizons)
+fi
+
+for teammate in "${teammates[@]}"; do
   # Use run-scoped path
   file="specs/${padded_num}_${project_name}/reports/${run_padded}_teammate-${teammate}-findings.md"
   if [ -f "$file" ]; then
@@ -359,7 +467,7 @@ Lead synthesizes all teammate results:
 2. **Detect conflicts** between findings
 3. **Resolve conflicts** with evidence-based judgment
 4. **Identify gaps** in coverage
-5. **Decide on Wave 2** if significant gaps exist (not implemented in v1)
+5. **Incorporate Wave 2 Critic findings** as targeted critique of other teammates' work
 
 **Conflict Resolution**:
 - Compare findings across teammates
@@ -482,7 +590,7 @@ Write team execution metadata:
   ],
   "team_execution": {
     "enabled": true,
-    "wave_count": 1,
+    "wave_count": 2,
     "teammates_spawned": {team_size},
     "teammates_completed": {completed_count},
     "teammates_failed": {failed_count},
