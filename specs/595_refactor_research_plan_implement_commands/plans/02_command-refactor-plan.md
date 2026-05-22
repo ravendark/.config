@@ -1,7 +1,7 @@
 # Implementation Plan: Task #595
 
 - **Task**: 595 - Refactor /research, /plan, /implement commands
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 6 hours
 - **Dependencies**: Task 593 (completed), Task 594 (completed)
 - **Research Inputs**: reports/01_seed-research.md, reports/02_command-refactor-research.md, reports/03_design-guidance.md
@@ -76,7 +76,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Create command-route-skill.sh [NOT STARTED]
+### Phase 1: Create command-route-skill.sh [IN PROGRESS]
 
 **Goal**: Extract the identical 36-line extension routing loop (present in all three commands) into a reusable script that resolves task_type to skill_name via extension manifest lookup.
 

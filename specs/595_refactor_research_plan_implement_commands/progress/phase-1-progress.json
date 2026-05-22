@@ -1,0 +1,16 @@
+{
+  "phase": 1,
+  "phase_name": "Create command-route-skill.sh",
+  "started_at": "2026-05-22T00:01:00Z",
+  "last_updated": "2026-05-22T00:01:00Z",
+  "objectives": [
+    {"id": 1, "description": "Create .claude/scripts/command-route-skill.sh (~50 lines)", "status": "not_started"},
+    {"id": 2, "description": "Verify edge cases: no extensions, missing manifests, empty routing", "status": "not_started"},
+    {"id": 3, "description": "Test with TASK_TYPE=neovim (should resolve skill-neovim-research)", "status": "not_started"},
+    {"id": 4, "description": "Test with TASK_TYPE=nix (should resolve skill-nix-research)", "status": "not_started"},
+    {"id": 5, "description": "Test with TASK_TYPE=general (should fall back to default)", "status": "not_started"}
+  ],
+  "current_objective": 1,
+  "approaches_tried": [],
+  "handoff_count": 0
+}
