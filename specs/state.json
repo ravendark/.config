@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 603,
+  "next_project_number": 604,
   "active_projects": [
     {
       "project_number": 590,
@@ -1014,6 +1014,20 @@
       ],
       "created": "2026-05-22T18:00:00Z",
       "last_updated": "2026-05-22T18:00:00Z",
+      "next_artifact_number": 1,
+      "artifacts": []
+    },
+    {
+      "project_number": 603,
+      "project_name": "fix_meta_pre_confirmation_pattern",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "meta-system",
+      "description": "Fix /meta so user confirmation happens in the foreground BEFORE spawning meta-builder-agent. Root cause: AskUserQuestion from background Agent tool calls does not reliably surface to the user. Changes: (1) meta.md: document that prompt mode MUST run AskUserQuestion before Agent delegation. (2) skill-meta SKILL.md: add pre-confirmation stage between context preparation and agent spawn -- skill proposes tasks, user selects/revises via AskUserQuestion, then passes confirmed list. (3) meta-builder-agent.md: add confirmed mode that accepts pre-validated task list and creates without re-asking; keep interactive mode for no-args /meta where agent runs foreground. (4) Update multi-task-creation-standard.md to note that confirmation must happen in foreground.",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-22T18:30:00Z",
+      "last_updated": "2026-05-22T18:30:00Z",
       "next_artifact_number": 1,
       "artifacts": []
     }

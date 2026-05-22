@@ -1,5 +1,5 @@
 ---
-next_project_number: 603
+next_project_number: 604
 ---
 
 # TODO
@@ -11,28 +11,29 @@ next_project_number: 603
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,591 | -- | --,workflow-refactor |
-| 2 | 592 | 591 | workflow-refactor |
-| 3 | 593,598 | 592 | workflow-refactor |
-| 4 | 594,597 | 593,598 | workflow-refactor |
-| 5 | 595,596 | 593,594,598 | workflow-refactor |
-| 6 | 599 | 594,595,596,597,598 | workflow-refactor |
-| 7 | 600 | 599 | workflow-refactor |
+| 1 | 78,87,593,598,601 | -- | uncategorized,wezterm-notifications,workflow-refactor |
+| 2 | 594,597,602 | 593,598,601 | wezterm-notifications,workflow-refactor |
+| 3 | 595,596 | 593,594,598 | workflow-refactor |
+| 4 | 599 | 594,595,596,597,598 | workflow-refactor |
+| 5 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = must complete first):
 
 ### workflow-refactor
 
-591 [IMPLEMENTING] — research_claude_code_orchestration_practices
-  592 [IMPLEMENTING] — design_unified_workflow_architecture
-    593 [NOT STARTED] — extract_shared_workflow_utilities
-    598 [NOT STARTED] — progressive_disclosure_context_system
-      594 [NOT STARTED] — refactor_workflow_skills_shared_base
-      597 [NOT STARTED] — refactor_task_revise_todo_review
-        595 [NOT STARTED] — refactor_research_plan_implement_commands
-        596 [NOT STARTED] — create_orchestrate_command_skill_agent
-          599 [NOT STARTED] — update_claudemd_extension_documentation
-            600 [NOT STARTED] — revise_docs_architecture_post_refactor
+593 [NOT STARTED] — extract_shared_workflow_utilities
+  594 [NOT STARTED] — refactor_workflow_skills_shared_base
+    595 [NOT STARTED] — refactor_research_plan_implement_commands
+      599 [NOT STARTED] — update_claudemd_extension_documentation
+        600 [NOT STARTED] — revise_docs_architecture_post_refactor
+    596 [NOT STARTED] — create_orchestrate_command_skill_agent
+  597 [NOT STARTED] — refactor_task_revise_todo_review
+598 [NOT STARTED] — progressive_disclosure_context_system
+
+### wezterm-notifications
+
+601 [NOT STARTED] — simplify_notification_pipeline_merge_vocabulary
+  602 [NOT STARTED] — update_wezterm_dim_bright_colors
 
 ### Uncategorized
 
@@ -60,6 +61,17 @@ next_project_number: 603
 - **Dependencies**: Task #601
 
 **Description**: Update wezterm.lua color palette for dim/bright workflow stage semantics. Research=green, plan=blue, implement=gold. DIM shade for in-progress states (researching/planning/implementing), BRIGHT/BOLD for finished states (researched/planned/completed). Fix update-status handler to only clear needs_input on tab switch, preserving lifecycle states until next command. TTS announcement format: tab-number workflow-type (e.g. tab 4 researched). WezTerm config at ~/.dotfiles/config/wezterm.lua (nix-managed, rebuild via home-manager).
+
+---
+
+### 603. Fix /meta pre-confirmation: move interactive flow before agent spawn
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: meta-system
+- **Dependencies**: None
+
+**Description**: Fix /meta so user confirmation happens in the foreground BEFORE spawning meta-builder-agent. Root cause: AskUserQuestion from background Agent tool calls does not reliably surface to the user. Changes: (1) meta.md: document that prompt mode MUST run AskUserQuestion before Agent delegation. (2) skill-meta SKILL.md: add pre-confirmation stage between context preparation and agent spawn -- skill proposes tasks, user selects/revises via AskUserQuestion, then passes confirmed list. (3) meta-builder-agent.md: add confirmed mode that accepts pre-validated task list and creates without re-asking; keep interactive mode for no-args /meta where agent runs foreground. (4) Update multi-task-creation-standard.md to note that confirmation must happen in foreground.
 
 ---
 
