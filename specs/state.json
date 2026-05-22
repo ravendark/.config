@@ -811,7 +811,7 @@
     {
       "project_number": 593,
       "project_name": "extract_shared_workflow_utilities",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Extract shared workflow utilities into 4 reusable shell scripts in .claude/scripts/: (1) parse-command-args.sh — parses task numbers + flags (TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT), eliminating ~165 lines of identical copy-paste across /research, /plan, /implement. (2) command-gate-in.sh — CHECKPOINT 1: generates SESSION_ID, looks up task in state.json, guards against terminal statuses, exports TASK_TYPE, TASK_STATUS, PROJECT_NAME, PADDED_NUM. (3) command-gate-out.sh — CHECKPOINT 2: reads .return-meta.json, applies defensive status correction. (4) postflight-workflow.sh — shared postflight eliminating ~130 lines of near-identical logic. Commands source these scripts; each command shrinks to ~150-200 lines (vs. ~500 today). Include baseline token measurement methodology to validate savings. Reference: .claude/docs/architecture/architecture-spec.md Component 1.",
@@ -820,13 +820,18 @@
         592
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T17:41:46Z",
-      "next_artifact_number": 2,
+      "last_updated": "2026-05-22T17:52:40Z",
+      "next_artifact_number": 3,
       "artifacts": [
         {
           "type": "research",
           "path": "593_extract_shared_workflow_utilities/reports/01_seed-research.md",
           "created": "2026-05-22"
+        },
+        {
+          "path": "specs/593_extract_shared_workflow_utilities/reports/02_team-research.md",
+          "type": "research",
+          "summary": "Team research with 4 teammates: confirms 4-script extraction, resolves source-semantics concern, sets ~250-280 line target"
         }
       ],
       "session_id": "sess_1779471688_f47481"
