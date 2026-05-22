@@ -229,16 +229,18 @@ with open('specs/state.json', 'w') as f:
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 8: Link artifacts to state.json and TODO.md
-# Usage: skill_link_artifacts "$task_number" "$artifact_path" "$artifact_type" "$artifact_summary" "$link_before_label"
+# Usage: skill_link_artifacts "$task_number" "$artifact_path" "$artifact_type" "$artifact_summary" "$field_name" "$next_field"
 # artifact_type: "research" | "plan" | "summary"
-# link_before_label: '**Plan**' | '**Description**' | '**Summary**'
+# field_name:   '**Research**' | '**Plan**' | '**Summary**'
+# next_field:   '**Plan**' (research) | '**Description**' (plan/summary)
 # Uses two-step jq pattern to avoid Issue #1132 (!=  escaping bug)
 skill_link_artifacts() {
   local task_number="$1"
   local artifact_path="$2"
   local artifact_type="$3"
   local artifact_summary="$4"
-  local link_before_label="$5"
+  local field_name="${5:-'**Summary**'}"
+  local next_field="${6:-'**Description**'}"
   if [ -n "$artifact_path" ]; then
     # Step 1: Remove existing artifacts of same type (use "| not" pattern — Issue #1132 safe)
     jq --arg atype "$artifact_type" \
@@ -252,7 +254,7 @@ skill_link_artifacts() {
       '(.active_projects[] | select(.project_number == '"$task_number"')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
     # Link in TODO.md
-    bash .claude/scripts/link-artifact-todo.sh "$task_number" "$link_before_label" '**Description**' "$artifact_path" 2>/dev/null || \
+    bash .claude/scripts/link-artifact-todo.sh "$task_number" "$field_name" "$next_field" "$artifact_path" 2>/dev/null || \
       echo "WARNING: link-artifact-todo.sh exited non-zero (non-blocking)"
   fi
 }

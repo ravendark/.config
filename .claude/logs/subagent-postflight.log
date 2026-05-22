@@ -23739,3 +23739,7 @@
 [2026-05-22T11:57:37-07:00] Task directory: specs/594_refactor_workflow_skills_shared_base
 [2026-05-22T11:57:37-07:00] Loop guard initialized to 1
 [2026-05-22T11:57:37-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-22T12:00:56-07:00] Postflight marker found at: specs/594_refactor_workflow_skills_shared_base/.postflight-pending
+[2026-05-22T12:00:56-07:00] Task directory: specs/594_refactor_workflow_skills_shared_base
+[2026-05-22T12:00:56-07:00] Loop guard incremented to 2
+[2026-05-22T12:00:56-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit

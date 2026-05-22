@@ -11,7 +11,7 @@ next_project_number: 605
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,597,598,601 | -- | wezterm-notifications, workflow-refactor |
+| 1 | 78,87,597,598,601,605 | -- | meta-system, wezterm-notifications, workflow-refactor |
 | 2 | 594,602 | 598,601 | wezterm-notifications, workflow-refactor |
 | 3 | 595,596 | 594,598 | workflow-refactor |
 | 4 | 599 | 594,595,596,597,598 | workflow-refactor |
@@ -19,25 +19,29 @@ next_project_number: 605
 
 **Grouped by Topic** (indented = must complete first):
 
+### Meta System
+
+605 [RESEARCHING] — Reverse the Task Order dependency tree so prerequisite tasks (tho
+
 ### Wezterm Notifications
 
-601 [RESEARCHED] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
+601 [PLANNING] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
 602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
-  └─ 601 [RESEARCHING] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
+  └─ 601 [PLANNING] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
 
 ### Workflow Refactor
 
 594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill-
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util
-  └─ 594 [PLANNING] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
-  └─ 594 [PLANNING] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the 
 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
-  └─ 594 [PLANNING] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util (see above)
   └─ 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch- (see above)
   └─ 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the  (see above)
@@ -51,6 +55,17 @@ next_project_number: 605
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 
 ## Tasks
+
+### 605. Reverse Task Order tree to show dependents below prerequisites
+- **Effort**: 1 hour
+- **Status**: [RESEARCHING]
+- **Task Type**: meta
+- **Topic**: meta-system
+- **Dependencies**: None
+
+**Description**: Reverse the Task Order dependency tree so prerequisite tasks (those depended upon) are roots and dependent tasks are indented children. Currently tasks show their prerequisites indented below; the desired display shows dependents indented below prerequisites, so users work on unindented tasks first and their children get promoted on completion. Changes: (1) generate-task-order.sh — build successors map, change `_print_topic_node` and `print_tree_node` to iterate successors instead of deps, roots become tasks with no active deps (wave 1). (2) task-order-format.md — update semantics from "indented = must complete first" to "indented = depends on parent above", update examples. (3) Extension core copy of task-order-format.md — keep in sync.
+
+---
 
 ### 604. Add Task Order regeneration to task-creating commands
 - **Effort**: 1 hour
@@ -68,7 +83,7 @@ next_project_number: 605
 
 ### 601. Simplify notification pipeline and merge status vocabulary
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Topic**: wezterm-notifications
 - **Dependencies**: None

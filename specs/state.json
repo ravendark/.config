@@ -1,7 +1,22 @@
 {
   "version": "1.0.0",
-  "next_project_number": 605,
+  "next_project_number": 606,
   "active_projects": [
+    {
+      "project_number": 605,
+      "project_name": "reverse_task_order_tree_direction",
+      "status": "researching",
+      "task_type": "meta",
+      "topic": "meta-system",
+      "description": "Reverse the Task Order dependency tree so prerequisite tasks (those depended upon) are roots and dependent tasks are indented children. Currently tasks show their prerequisites indented below; the desired display shows dependents indented below prerequisites, so users work on unindented tasks first and their children get promoted on completion.",
+      "effort": "1 hour",
+      "dependencies": [],
+      "created": "2026-05-22T20:00:00Z",
+      "last_updated": "2026-05-22T19:01:39Z",
+      "next_artifact_number": 1,
+      "artifacts": [],
+      "session_id": "sess_1779476484_b8369b"
+    },
     {
       "project_number": 590,
       "project_name": "fix_task_number_parsing_display",
@@ -1126,14 +1141,14 @@
     {
       "project_number": 601,
       "project_name": "simplify_notification_pipeline_merge_vocabulary",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "topic": "wezterm-notifications",
       "description": "Simplify the WezTerm tab coloring and TTS notification pipeline. Merge to single lifecycle vocabulary (researching/researched/planning/planned/implementing/completed/needs_input), eliminating the artifact-type vocabulary (report/plan/summary/error). Move TTS to fire AFTER artifact linking from skill postflight instead of update-task-status.sh. Eliminate signal file mechanism entirely. Simplify Stop hook to only set needs_input for wezterm (no TTS from Stop). Consolidate TTY discovery boilerplate into shared function. Update all hook copies (4 locations), extension copies, .opencode copies, and wezterm-integration.md.",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-22T18:00:00Z",
-      "last_updated": "2026-05-22T18:54:13Z",
+      "last_updated": "2026-05-22T18:59:00Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -1147,7 +1162,7 @@
           "summary": "Team research with 4 teammates"
         }
       ],
-      "session_id": "sess_1779475366_c7478a"
+      "session_id": "sess_1779476322_85cdea"
     },
     {
       "project_number": 602,
