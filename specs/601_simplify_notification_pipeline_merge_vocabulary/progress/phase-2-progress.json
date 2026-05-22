@@ -1,0 +1,24 @@
+{
+  "phase": 2,
+  "phase_name": "Merge to Lifecycle Vocabulary and Fix Colors",
+  "started_at": "2026-05-22T00:06:00Z",
+  "last_updated": "2026-05-22T00:10:00Z",
+  "objectives": [
+    {"id": 1, "description": "Simplify PHASE 5 of update-task-status.sh to use lifecycle vocabulary (already done in phase 1)", "status": "done"},
+    {"id": 2, "description": "Update wezterm.lua status_colors table - remove artifact-type entries, fix dim-to-bold transitions", "status": "done"},
+    {"id": 3, "description": "Update wezterm-notify.sh header comments to remove artifact-type references", "status": "done"},
+    {"id": 4, "description": "Update tts-notify.sh header comments to reflect update-task-status.sh caller", "status": "done"}
+  ],
+  "current_objective": 4,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": [
+    {
+      "task_id": "2.1",
+      "description": "Simplify PHASE 5 of update-task-status.sh to use lifecycle vocabulary",
+      "type": "altered",
+      "reason": "This was already completed in Phase 1 as part of removing the signal file mechanism. The wezterm dispatch was updated to use $STATE_STATUS directly.",
+      "annotation": "*(deviation: altered — completed in Phase 1 as part of signal file removal)*"
+    }
+  ]
+}

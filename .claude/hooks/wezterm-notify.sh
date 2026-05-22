@@ -15,13 +15,17 @@
 #   WEZTERM_NOTIFY_ENABLED - Set to "0" to disable (default: 1)
 #
 # The CLAUDE_STATUS variable is read by wezterm.lua format-tab-title handler
-# to show colored background on inactive tabs based on lifecycle state:
-#   needs_input -> gray (default Stop behavior)
-#   researched  -> dark green
-#   planned     -> dark blue
-#   completed   -> bright green
-#   blocked     -> dark red
-#   unknown     -> default styling (safe degradation)
+# to show colored background on inactive tabs based on lifecycle state.
+# Only lifecycle states are used (no artifact-type vocabulary):
+#   needs_input  -> gray (Stop hook default)
+#   researching  -> dim green (in progress)
+#   researched   -> bright green (done)
+#   planning     -> dim blue (in progress)
+#   planned      -> bright blue (done)
+#   implementing -> dim gold (in progress)
+#   completed    -> bright gold (done)
+#   blocked      -> red
+#   unknown      -> default styling (safe degradation)
 #
 # Note: Claude Code hooks run with redirected stdio (stdout is a socket),
 # so we must write the escape sequence directly to the pane's TTY.
