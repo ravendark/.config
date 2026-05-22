@@ -117,22 +117,22 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update meta-builder-agent.md [NOT STARTED]
+### Phase 2: Update meta-builder-agent.md [COMPLETED]
 
 **Goal**: Add `mode=confirmed` execution path that accepts a pre-validated task list and creates tasks without any AskUserQuestion calls
 
 **Tasks**:
-- [ ] Add `confirmed` to the valid modes list in Stage 1 (Parse Delegation Context) -- update from `interactive|prompt|analyze` to `interactive|prompt|analyze|confirmed`
-- [ ] Add a new **Stage 3D: Confirmed Task Creation** section after Stage 3C with these steps:
+- [x] Add `confirmed` to the valid modes list in Stage 1 (Parse Delegation Context) -- update from `interactive|prompt|analyze` to `interactive|prompt|analyze|confirmed` *(completed)*
+- [x] Add a new **Stage 3D: Confirmed Task Creation** section after Stage 3C with these steps: *(completed)*
   - Extract `confirmed_tasks` array from delegation context
   - Validate each task has required fields (title, description, task_type, effort)
   - Skip all AskUserQuestion calls (user already confirmed in skill layer)
   - Execute Stage 6 (CreateTasks) logic directly for each confirmed task
   - Execute Stage 7 (DeliverSummary) to produce output
-- [ ] Add routing entry in Stage 3 header: `confirmed` -> Stage 3D: Confirmed Task Creation
-- [ ] Add a `confirmed` mode return format example in Stage 5 (Return Structured JSON) showing `mode: "confirmed"` in metadata
-- [ ] Update the Mode-Context Matrix table to add a `confirmed` column (same as `prompt` column but with no on-demand loading needed since tasks are pre-validated)
-- [ ] Add a note in Stage 3B (Prompt Analysis) that this path is now only used when skill-meta cannot handle pre-confirmation (fallback/legacy)
+- [x] Add routing entry in Stage 3 header: `confirmed` -> Stage 3D: Confirmed Task Creation *(completed)*
+- [x] Add a `confirmed` mode return format example in Stage 5 (Return Structured JSON) showing `mode: "confirmed"` in metadata *(completed)*
+- [x] Update the Mode-Context Matrix table to add a `confirmed` column (same as `prompt` column but with no on-demand loading needed since tasks are pre-validated) *(completed)*
+- [x] Add a note in Stage 3B (Prompt Analysis) that this path is now only used when skill-meta cannot handle pre-confirmation (fallback/legacy) *(completed)*
 
 **Timing**: 0.5 hours
 
