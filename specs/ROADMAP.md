@@ -13,7 +13,7 @@
 
 - [ ] **Extension slim standard enforcement**: Write a lint script that validates extensions against `docs/reference/standards/extension-slim-standard.md` (manifest required fields, size limits, directory conventions)
 - [ ] **Agent frontmatter validation**: Add a check that every file in `.claude/agents/` and `.claude/extensions/*/agents/` uses the minimal frontmatter standard (`name`, `description`, optional `model`) with no obsolete fields
-- [ ] **Subagent-return reference cleanup**: Sweep remaining `subagent-return-format.md` references in `.claude/context/` (orchestration, processes, formats, schemas) and repoint to `subagent-return.md`. Task 396 fixed the user-facing templates and docs; the deeper context files still carry the old name.
+- [x] **Subagent-return reference cleanup**: Sweep remaining `subagent-return-format.md` references in `.claude/context/` (orchestration, processes, formats, schemas) and repoint to `subagent-return.md`. Task 396 fixed the user-facing templates and docs; the deeper context files still carry the old name. *(Completed: verified 2026-05-22, 0 stale references remain)*
 
 ## Phase 2: Medium-Term Improvements
 

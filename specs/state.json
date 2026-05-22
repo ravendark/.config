@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 606,
+  "next_project_number": 607,
   "active_projects": [
     {
       "project_number": 87,
@@ -148,7 +148,7 @@
     {
       "project_number": 596,
       "project_name": "create_orchestrate_command_skill_agent",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Create the /orchestrate command, skill-orchestrate, and dispatch-agent.sh. File layout: .claude/commands/orchestrate.md (entry point ~50L), .claude/skills/skill-orchestrate/SKILL.md (state machine ~200L), .claude/scripts/dispatch-agent.sh (dispatch function). State machine: not_started->research->plan->implement->completed; partial+handoff->re-dispatch-implement; partial+blockers->blocker-escalation; MAX_CYCLES=5 with loop guard file (specs/{NNN}_{SLUG}/.orchestrator-loop-guard). dispatch_agent() signature: dispatch_agent agent_type prompt context_json is_blocker_escalation; is_blocker_escalation=true uses fork (no subagent_type, cache-warm ~90% savings); false uses named subagent. .orchestrator-handoff.json schema: phase, status, summary (<=100 tokens), artifacts, blockers, next_action_hint, files_modified, decisions_made, dead_ends, continuation_context; total <=400 tokens. Nested loop resolution: orchestrator_mode=true in delegation context disables skill-implementer inner continuation loop (max_continuations=0); orchestrator handles continuation externally. References: .claude/docs/architecture/orchestrate-state-machine.md, .claude/docs/architecture/dispatch-agent-spec.md, .claude/docs/architecture/handoff-schema.md.",
@@ -159,7 +159,7 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T19:46:12Z",
+      "last_updated": "2026-05-22T19:47:16Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -168,7 +168,7 @@
           "created": "2026-05-22"
         }
       ],
-      "session_id": "sess_1748000000_596res"
+      "session_id": "sess_1748000000_596plan"
     },
     {
       "project_number": 597,
@@ -308,6 +308,19 @@
         ]
       },
       "completion_summary": "Updated WezTerm color palette with distinct dim/bright hues per workflow family, fixed the update-status handler to preserve lifecycle states on tab switch, and fixed TTS to use lowercase 'tab' prefix. All changes verified with bash syntax check, Home Manager rebuild, and wezterm cli list."
+    },
+    {
+      "project_number": 606,
+      "project_name": "fix_extension_doclint_failures",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "workflow-refactor",
+      "description": "Fix 2 extension doc-lint failures: core README missing /project-overview command, filetypes README missing /sheet command. Run check-extension-docs.sh to verify.",
+      "effort": "30 minutes",
+      "created": "2026-05-22T18:40:00Z",
+      "last_updated": "2026-05-22T18:40:00Z",
+      "next_artifact_number": 1,
+      "artifacts": []
     }
   ],
   "completed_projects": [],

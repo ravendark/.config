@@ -1,5 +1,5 @@
 ---
-next_project_number: 605
+next_project_number: 607
 ---
 
 # TODO
@@ -11,7 +11,7 @@ next_project_number: 605
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,597,598 | -- | workflow-refactor |
+| 1 | 78,87,597,598,606 | -- | workflow-refactor |
 | 2 | 596 | 598 | workflow-refactor |
 | 3 | 599 | 596,597,598 | workflow-refactor |
 | 4 | 600 | 599 | workflow-refactor |
@@ -24,9 +24,10 @@ next_project_number: 605
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
-  └─ 596 [RESEARCHED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
+  └─ 596 [PLANNING] — Create the /orchestrate command, skill-orchestrate, and dispatch-
     └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
+606 [NOT STARTED] — Fix 2 extension doc-lint failures: core README missing /project-o
 
 ### Uncategorized
 
@@ -34,6 +35,16 @@ next_project_number: 605
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 
 ## Tasks
+
+### 606. Fix extension doc-lint failures (core, filetypes)
+- **Effort**: 30 minutes
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: workflow-refactor
+
+**Description**: Fix 2 extension doc-lint failures: core README missing /project-overview command, filetypes README missing /sheet command. Run check-extension-docs.sh to verify.
+
+---
 
 ### 602. Update wezterm.lua dim/bright color palette and fix tab-switch clearing
 - **Effort**: 1-2 hours
@@ -97,7 +108,7 @@ next_project_number: 605
 
 ### 596. Create /orchestrate command, skill, and orchestrator agent
 - **Effort**: 3-4 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 594, 598
