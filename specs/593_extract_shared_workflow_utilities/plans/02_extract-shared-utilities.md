@@ -107,23 +107,23 @@ Phases are fully sequential. Each phase builds on the previous one's scripts/mig
 
 ---
 
-### Phase 2: Gate Scripts (gate-in and gate-out) [NOT STARTED]
+### Phase 2: Gate Scripts (gate-in and gate-out) [COMPLETED]
 
 **Goal**: Create `command-gate-in.sh` (session generation, task lookup, terminal guard) and `command-gate-out.sh` (defensive status correction).
 
 **Tasks**:
-- [ ] Create `.claude/scripts/command-gate-in.sh` with `gate_in()` function per design-guidance.md
-- [ ] Implement SESSION_ID generation: `sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' \n')`
-- [ ] Implement task lookup via jq on state.json, exporting TASK_TYPE, TASK_STATUS, PROJECT_NAME, DESCRIPTION, PADDED_NUM
-- [ ] Implement terminal status guard (completed, abandoned, expanded -> exit 1)
-- [ ] Add documentation header explaining source convention
-- [ ] Create `.claude/scripts/command-gate-out.sh` with `gate_out()` function
-- [ ] Implement defensive status correction using `select(.status == "X" | not)` jq pattern (not `!=`)
-- [ ] Include non-blocking artifact validation via `validate-artifact.sh --fix`
-- [ ] Keep gate-out scope narrow: only the shared defensive correction pattern (~25 lines). Do NOT include implement-specific completion_summary or plan-specific plan file verification
-- [ ] Make both scripts executable
-- [ ] Test gate-in with valid task, terminal-status task, and non-existent task
-- [ ] Test gate-out with stale status scenario
+- [x] Create `.claude/scripts/command-gate-in.sh` with `gate_in()` function per design-guidance.md *(completed)*
+- [x] Implement SESSION_ID generation: `sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' \n')` *(completed)*
+- [x] Implement task lookup via jq on state.json, exporting TASK_TYPE, TASK_STATUS, PROJECT_NAME, DESCRIPTION, PADDED_NUM *(completed)*
+- [x] Implement terminal status guard (completed, abandoned, expanded -> exit 1) *(completed)*
+- [x] Add documentation header explaining source convention *(completed)*
+- [x] Create `.claude/scripts/command-gate-out.sh` with `gate_out()` function *(completed)*
+- [x] Implement defensive status correction using `select(.status == "X" | not)` jq pattern (not `!=`) *(completed)*
+- [x] Include non-blocking artifact validation via `validate-artifact.sh --fix` *(completed)*
+- [x] Keep gate-out scope narrow: only the shared defensive correction pattern (~25 lines). Do NOT include implement-specific completion_summary or plan-specific plan file verification *(completed)*
+- [x] Make both scripts executable *(completed)*
+- [x] Test gate-in with valid task, terminal-status task, and non-existent task *(completed: all 3 scenarios pass)*
+- [x] Test gate-out with stale status scenario *(completed: dry run with mock .return-meta.json and syntax check passed)*
 
 **Timing**: 1.5 hours
 

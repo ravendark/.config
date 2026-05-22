@@ -1,7 +1,7 @@
 # Implementation Plan: Task #604
 
 - **Task**: 604 - add_task_order_regen_to_creators
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1 hour
 - **Dependencies**: None
 - **Research Inputs**: specs/604_add_task_order_regen_to_creators/reports/01_task-order-regen.md

@@ -22,7 +22,7 @@ next_project_number: 605
 ### Meta System
 
 603 [NOT STARTED] — Fix /meta so user confirmation happens in the foreground BEFORE s
-604 [PLANNED] — Add generate-task-order.sh --update-todo call to all task-creatin
+604 [IMPLEMENTING] — Add generate-task-order.sh --update-todo call to all task-creatin
 
 ### Wezterm Notifications
 
@@ -64,7 +64,7 @@ next_project_number: 605
 
 ### 604. Add Task Order regeneration to task-creating commands
 - **Effort**: 1 hour
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
