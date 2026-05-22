@@ -76,22 +76,22 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Create command-route-skill.sh [IN PROGRESS]
+### Phase 1: Create command-route-skill.sh [COMPLETED]
 
 **Goal**: Extract the identical 36-line extension routing loop (present in all three commands) into a reusable script that resolves task_type to skill_name via extension manifest lookup.
 
 **Tasks**:
-- [ ] Create `.claude/scripts/command-route-skill.sh` (~50 lines)
+- [x] Create `.claude/scripts/command-route-skill.sh` (~50 lines) *(completed)*
   - Accept parameters: `$1=operation` (research/plan/implement), `$2=TASK_TYPE`, `$3=default_skill`
   - Export: `SKILL_NAME` (the resolved skill name)
   - Implement the manifest search loop: iterate `.claude/extensions/*/manifest.json`, query `routing.$operation[$task_type]`
   - Handle compound keys (e.g., `founder:deck`): try exact key first, then base type (before `:`)
   - Fall back to `$default_skill` if no extension routing found
   - Use `source` semantics (exports variable) with appropriate header comments
-- [ ] Verify script handles edge cases: no extensions loaded, missing manifest files, empty routing section
-- [ ] Test with `TASK_TYPE=neovim` (should resolve `skill-neovim-research` for operation=research)
-- [ ] Test with `TASK_TYPE=nix` (should resolve `skill-nix-research` for operation=research)
-- [ ] Test with `TASK_TYPE=general` (should fall back to default)
+- [x] Verify script handles edge cases: no extensions loaded, missing manifest files, empty routing section *(completed)*
+- [x] Test with `TASK_TYPE=neovim` (should resolve `skill-neovim-research` for operation=research) *(completed)*
+- [x] Test with `TASK_TYPE=nix` (should resolve `skill-nix-research` for operation=research) *(completed)*
+- [x] Test with `TASK_TYPE=general` (should fall back to default) *(completed)*
 
 **Timing**: 0.75 hours
 
