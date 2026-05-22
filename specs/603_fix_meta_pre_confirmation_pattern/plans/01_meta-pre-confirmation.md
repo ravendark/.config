@@ -149,16 +149,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update Documentation [NOT STARTED]
+### Phase 3: Update Documentation [COMPLETED]
 
 **Goal**: Update meta.md command documentation and multi-task-creation-standard.md to reflect the foreground confirmation pattern
 
 **Tasks**:
-- [ ] In `meta.md`, update the Prompt Mode section (lines 82-91) to document that confirmation happens in the foreground skill layer before agent spawn:
+- [x] In `meta.md`, update the Prompt Mode section (lines 82-91) to document that confirmation happens in the foreground skill layer before agent spawn: *(completed)*
   - Add note: "For prompt mode, skill-meta performs task proposal and user confirmation BEFORE spawning meta-builder-agent. The agent receives a pre-confirmed task list and creates tasks without re-prompting."
   - Update step 4 ("Confirm with user") to note this runs in the foreground skill
-- [ ] In `meta.md`, add a note in the Interactive Mode section (lines 69-79) that interactive mode currently runs all AskUserQuestion calls in the background agent and may not surface prompts reliably; recommend using prompt mode for reliable confirmation
-- [ ] In `multi-task-creation-standard.md`, add a "Foreground Requirement" note after the "Mandatory" line in Section 7 (User Confirmation, around line 291):
+- [x] In `meta.md`, add a note in the Interactive Mode section (lines 69-79) that interactive mode currently runs all AskUserQuestion calls in the background agent and may not surface prompts reliably; recommend using prompt mode for reliable confirmation *(completed)*
+- [x] In `multi-task-creation-standard.md`, add a "Foreground Requirement" note after the "Mandatory" line in Section 7 (User Confirmation, around line 291): *(completed)*
   - "**Foreground Requirement**: Confirmation MUST execute in the foreground skill layer (not inside a delegated background agent). AskUserQuestion called from background agents (spawned via Task tool) does not reliably surface to users. Skills that delegate to agents for task creation must complete all confirmation steps before spawning the agent."
 
 **Timing**: 0.25 hours
