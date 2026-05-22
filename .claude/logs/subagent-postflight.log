@@ -23914,3 +23914,8 @@
 [2026-05-22T12:27:01-07:00] Task directory: specs/602_update_wezterm_dim_bright_colors
 [2026-05-22T12:27:01-07:00] Loop guard triggered: 3 >= 3
 [2026-05-22T12:27:01-07:00] Loop guard prevented continuation
+[2026-05-22T12:27:21-07:00] No postflight marker, allowing stop
+[2026-05-22T12:27:26-07:00] No postflight marker, allowing stop
+[2026-05-22T12:27:58-07:00] No postflight marker, allowing stop
+[2026-05-22T12:28:29-07:00] No postflight marker, allowing stop
+[2026-05-22T12:29:00-07:00] No postflight marker, allowing stop

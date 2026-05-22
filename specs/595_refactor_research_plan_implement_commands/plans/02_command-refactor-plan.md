@@ -172,21 +172,21 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Refactor plan.md [NOT STARTED]
+### Phase 4: Refactor plan.md [COMPLETED]
 
 **Goal**: Reduce `plan.md` from 420 lines to ~178 lines using the same extraction pattern as research.md.
 
 **Tasks**:
-- [ ] Replace STAGE 2 extension routing loop (~36 lines) with `source command-route-skill.sh "plan" "$TASK_TYPE" "skill-planner"`
-- [ ] Remove inline GATE OUT defensive checks (Verify state.json Status, Verify TODO.md Status, ~38 lines)
-- [ ] Keep plan-specific GATE OUT check: Verify Plan File Status (plan.md-specific, ~18 lines) — this stays because `command-gate-out.sh` does not verify plan file internal status
-- [ ] Add brief comment after GATE OUT script call for removed checks
-- [ ] Condense MULTI-TASK DISPATCH section to concise form while preserving validation and Skill loop
-- [ ] Simplify Stage 0: remove verbose comments, keep clamp and `--roadmap` flag extraction
-- [ ] Add `orchestrator_mode` to delegation context JSON
-- [ ] Verify `--roadmap` flag handling preserved (plan-specific)
-- [ ] Verify `prior_plan_path` discovery logic preserved (plan-specific)
-- [ ] Verify final line count within 150-200 range
+- [x] Replace STAGE 2 extension routing loop (~36 lines) with `source command-route-skill.sh "plan" "$TASK_TYPE" "skill-planner"` *(completed)*
+- [x] Remove inline GATE OUT defensive checks (Verify state.json Status, Verify TODO.md Status, ~38 lines) *(completed)*
+- [x] Keep plan-specific GATE OUT check: Verify Plan File Status (plan.md-specific, ~18 lines) — this stays because `command-gate-out.sh` does not verify plan file internal status *(completed)*
+- [x] Add brief comment after GATE OUT script call for removed checks *(completed)*
+- [x] Condense MULTI-TASK DISPATCH section to concise form while preserving validation and Skill loop *(completed)*
+- [x] Simplify Stage 0: remove verbose comments, keep clamp and `--roadmap` flag extraction *(completed)*
+- [x] Add `orchestrator_mode` to delegation context JSON *(completed)*
+- [x] Verify `--roadmap` flag handling preserved (plan-specific) *(completed)*
+- [x] Verify `prior_plan_path` discovery logic preserved (plan-specific) *(completed)*
+- [x] Verify final line count within 150-200 range *(completed: 202 lines)*
 
 **Timing**: 1.0 hours
 
