@@ -1,7 +1,16 @@
 {
   "version": "1.0.0",
-  "next_project_number": 607,
+  "next_project_number": 608,
   "active_projects": [
+    {
+      "project_number": 607,
+      "project_name": "improve_research_agents_multi_angle_team_strategy",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "workflow-refactor",
+      "created": "2026-05-22T20:32:14Z",
+      "last_updated": "2026-05-22T20:32:14Z"
+    },
     {
       "project_number": 87,
       "project_name": "investigate_wezterm_terminal_directory_change",
