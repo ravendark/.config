@@ -18,9 +18,9 @@ next_project_number: 591
 
 ### wezterm-notifications
 
-588 [RESEARCHED] — refactor_notification_signal_stop_hook
+588 [PLANNED] — refactor_notification_signal_stop_hook
   589 [NOT STARTED] — wezterm_artifact_colors_preflight (depends: 588)
-590 [RESEARCHED] — fix_task_number_parsing_display
+590 [PLANNED] — fix_task_number_parsing_display
 
 ### Uncategorized
 
@@ -33,10 +33,11 @@ next_project_number: 591
 
 ### 590. Fix task number parsing and tab display consistency
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [590_fix_task_number_parsing_display/reports/01_task-number-parsing.md]
+- **Plan**: [590_fix_task_number_parsing_display/plans/01_task-number-parsing.md]
 
 **Description**: Fix task number parsing in wezterm-task-number.sh to support multi-task syntax (/research 7, 22-24), additional commands (/spawn N, /task --recover N, /task --expand N), and prevent stale task numbers. Ensure tab always shows {N} {root} format with #{task} when applicable.
 
@@ -54,10 +55,11 @@ next_project_number: 591
 
 ### 588. Refactor notification dispatch to signal-file Stop hook pattern
 - **Effort**: 3-4 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [588_refactor_notification_signal_stop_hook/reports/01_signal-stop-refactor.md]
+- **Plan**: [588_refactor_notification_signal_stop_hook/plans/01_signal-stop-refactor.md]
 
 **Description**: Refactor TTS and wezterm notification dispatch from agent-dependent Stage 8a calls to a reliable signal-file + Stop hook pattern. Core problem: TTS depends on agents executing lifecycle-notify.sh in Stage 8a (frequently skipped), and the Stop hook's wezterm-notify.sh overwrites lifecycle colors with needs_input. Fix: update-task-status.sh postflight writes lifecycle signal file (.claude/tmp/lifecycle-signal with status + artifact type), new unified Stop hook script reads signal and dispatches both TTS and wezterm color atomically. Remove lifecycle-notify.sh from skill Stage 8a, remove duplicate wezterm-notify.sh call from update-task-status.sh Phase 5. All 4 copies of tts-notify.sh must be updated.
 
