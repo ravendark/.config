@@ -138,23 +138,23 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Refactor research.md [NOT STARTED]
+### Phase 3: Refactor research.md [COMPLETED]
 
 **Goal**: Reduce `research.md` from 393 lines to ~178 lines by replacing the inline extension routing loop with a call to `command-route-skill.sh`, removing redundant GATE OUT inline checks, and condensing verbose sections.
 
 **Tasks**:
-- [ ] Replace STAGE 2 extension routing loop (lines ~238-266 in current file, ~36 lines) with:
+- [x] Replace STAGE 2 extension routing loop (lines ~238-266 in current file, ~36 lines) with: *(completed)*
   ```
   source .claude/scripts/command-route-skill.sh "research" "$TASK_TYPE" "skill-researcher"
   skill_name="$SKILL_NAME"
   ```
-- [ ] Remove inline GATE OUT defensive checks (lines ~319-350, ~38 lines) — the `Verify state.json Status` and `Verify TODO.md Status` sections after `bash command-gate-out.sh`
-- [ ] Add brief comment after GATE OUT script call: "Defensive correction (state.json + TODO.md) handled by command-gate-out.sh above."
-- [ ] Condense MULTI-TASK DISPATCH section: reduce verbose bash code blocks to concise pseudocode while preserving all validation logic, result handling, and the core parallel Skill invocation loop
-- [ ] Simplify Stage 0 parse block: remove verbose comment blocks, keep essential clamp and dispatch decision
-- [ ] Remove the extension-based routing table documentation that duplicates what `command-route-skill.sh` handles (keep only the team mode routing logic and default skill documentation)
-- [ ] Add `orchestrator_mode` to delegation context JSON passed to skill invocations (default false, passed through from any future `/orchestrate` caller)
-- [ ] Verify final line count is within 150-200 range
+- [x] Remove inline GATE OUT defensive checks (lines ~319-350, ~38 lines) — the `Verify state.json Status` and `Verify TODO.md Status` sections after `bash command-gate-out.sh` *(completed)*
+- [x] Add brief comment after GATE OUT script call: "Defensive correction (state.json + TODO.md) handled by command-gate-out.sh above." *(completed)*
+- [x] Condense MULTI-TASK DISPATCH section: reduce verbose bash code blocks to concise pseudocode while preserving all validation logic, result handling, and the core parallel Skill invocation loop *(completed)*
+- [x] Simplify Stage 0 parse block: remove verbose comment blocks, keep essential clamp and dispatch decision *(completed)*
+- [x] Remove the extension-based routing table documentation that duplicates what `command-route-skill.sh` handles (keep only the team mode routing logic and default skill documentation) *(completed)*
+- [x] Add `orchestrator_mode` to delegation context JSON passed to skill invocations (default false, passed through from any future `/orchestrate` caller) *(completed)*
+- [x] Verify final line count is within 150-200 range *(completed: 191 lines)*
 
 **Timing**: 1.25 hours
 
