@@ -1080,7 +1080,7 @@
     {
       "project_number": 595,
       "project_name": "refactor_research_plan_implement_commands",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Refactor /research, /plan, /implement commands to use shared utilities from task 593 and refactored skills from task 594. Target: each command reduced to ~150-200 lines covering only routing-only controller logic (argument docs, mode-specific behavior, extension routing table). Commands MUST NOT load Tier 3 context (agent-level context stays with agents, per four-tier model). Current commands embed agent-level context inline (full state machine logic, format specifications); these must move to Tier 3 agent context files. Add orchestrator_mode=true support: skills write .orchestrator-handoff.json when orchestrator_mode is detected in delegation context. Verify extension compatibility (nvim, nix) at each step. Reference: .claude/docs/architecture/architecture-spec.md Components 1-2.",
@@ -1091,7 +1091,7 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T19:15:37Z",
+      "last_updated": "2026-05-22T19:16:51Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -1100,7 +1100,7 @@
           "summary": "Analysis of command refactoring: multi-task dispatch extraction, extension routing consolidation, redundant GATE OUT removal, orchestrator_mode design, and size reduction estimates"
         }
       ],
-      "session_id": "sess_1779476934_b67d23",
+      "session_id": "sess_1779477397_8cdea7",
       "memory_candidates": [
         {
           "content": "Command files cannot delegate Skill tool invocations to bash scripts. The parallel Skill calls in multi-task dispatch must remain as markdown prose in command files. Only pre-dispatch validation and post-dispatch output formatting can be extracted to scripts. This constrains how much multi-task dispatch can be reduced.",
@@ -1244,14 +1244,14 @@
     {
       "project_number": 601,
       "project_name": "simplify_notification_pipeline_merge_vocabulary",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "wezterm-notifications",
       "description": "Simplify the WezTerm tab coloring and TTS notification pipeline. Merge to single lifecycle vocabulary (researching/researched/planning/planned/implementing/completed/needs_input), eliminating the artifact-type vocabulary (report/plan/summary/error). Move TTS to fire AFTER artifact linking from skill postflight instead of update-task-status.sh. Eliminate signal file mechanism entirely. Simplify Stop hook to only set needs_input for wezterm (no TTS from Stop). Consolidate TTY discovery boilerplate into shared function. Update all hook copies (4 locations), extension copies, .opencode copies, and wezterm-integration.md.",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-22T18:00:00Z",
-      "last_updated": "2026-05-22T19:10:10Z",
+      "last_updated": "2026-05-22T19:20:14Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -1268,6 +1268,11 @@
           "path": "specs/601_simplify_notification_pipeline_merge_vocabulary/plans/02_notification-pipeline.md",
           "type": "plan",
           "summary": "4-phase plan: workflow-active marker, vocabulary merge, TTY utils, propagation"
+        },
+        {
+          "path": "specs/601_simplify_notification_pipeline_merge_vocabulary/summaries/02_notification-pipeline-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for notification pipeline simplification"
         }
       ],
       "session_id": "sess_1779476992_c28ae5",
@@ -1298,7 +1303,8 @@
             "integrated_date": "2026-05-22"
           }
         ]
-      }
+      },
+      "completion_summary": "Simplified the WezTerm tab coloring and TTS notification pipeline: replaced signal file with workflow-active marker, merged to lifecycle-only vocabulary, extracted shared TTY discovery into wezterm-utils.sh, deleted dead code (wezterm-clear-status.sh, lifecycle-notify.sh), updated wezterm.lua with dim-to-bold same-hue color transitions, and propagated all changes to 4 hook copy locations with updated documentation."
     },
     {
       "project_number": 602,
