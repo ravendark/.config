@@ -1,7 +1,7 @@
 # Implementation Plan: Task #594
 
 - **Task**: 594 - Refactor workflow skills to shared base library
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 5 hours
 - **Dependencies**: Task 593 (completed), Task 598 (design constraint only -- not blocking)
 - **Research Inputs**: reports/01_seed-research.md, reports/02_refactor-shared-base.md, reports/03_design-guidance.md
