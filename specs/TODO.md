@@ -18,7 +18,7 @@ next_project_number: 608
 
 ### Workflow Refactor
 
-599 [PLANNING] — Update CLAUDE.md, extension manifest schema, and documentation fo
+599 [PLANNED] — Update CLAUDE.md, extension manifest schema, and documentation fo
   └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
 
 ### Uncategorized
@@ -77,13 +77,14 @@ next_project_number: 608
 
 ### 599. Update CLAUDE.md, extension integration, and documentation
 - **Effort**: 1-2 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 594, 595, 596, 597, 598
 - **Research**:
   - [599_update_claudemd_extension_documentation/reports/01_seed-research.md]
   - [599_update_claudemd_extension_documentation/reports/02_claudemd-generation-research.md]
+- **Plan**: [599_update_claudemd_extension_documentation/plans/02_claudemd-extension-docs.md]
 
 **Description**: Update CLAUDE.md, extension manifest schema, and documentation for the refactored system. Extension lifecycle hooks: add hooks schema to manifest.json for all extensions: hooks.preflight, hooks.context_injection, hooks.postflight, hooks.verification. Each hook receives: $1=task_number, $2=task_type, $3=task_dir, $4=session_id, $5=operation. Hook invocation points in skill-base.sh: Stage 2 (preflight), Stage 4 (context_injection), Stage 6a (verification), Stage 7 (postflight). Thin extension skills to 30-50 lines (vs. 400-600 today): Stage 4 context injection + Stage 5 subagent invocation. Update .claude/docs/ guides: creating-commands.md, creating-skills.md, creating-agents.md. Regenerate CLAUDE.md to add /orchestrate command, routing table updates, shared utilities inventory. Update system-overview.md to reflect completed refactored architecture. Reference: .claude/docs/architecture/architecture-spec.md Component 6.
 
