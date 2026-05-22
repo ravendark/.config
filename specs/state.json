@@ -148,7 +148,7 @@
     {
       "project_number": 596,
       "project_name": "create_orchestrate_command_skill_agent",
-      "status": "planning",
+      "status": "planned",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Create the /orchestrate command, skill-orchestrate, and dispatch-agent.sh. File layout: .claude/commands/orchestrate.md (entry point ~50L), .claude/skills/skill-orchestrate/SKILL.md (state machine ~200L), .claude/scripts/dispatch-agent.sh (dispatch function). State machine: not_started->research->plan->implement->completed; partial+handoff->re-dispatch-implement; partial+blockers->blocker-escalation; MAX_CYCLES=5 with loop guard file (specs/{NNN}_{SLUG}/.orchestrator-loop-guard). dispatch_agent() signature: dispatch_agent agent_type prompt context_json is_blocker_escalation; is_blocker_escalation=true uses fork (no subagent_type, cache-warm ~90% savings); false uses named subagent. .orchestrator-handoff.json schema: phase, status, summary (<=100 tokens), artifacts, blockers, next_action_hint, files_modified, decisions_made, dead_ends, continuation_context; total <=400 tokens. Nested loop resolution: orchestrator_mode=true in delegation context disables skill-implementer inner continuation loop (max_continuations=0); orchestrator handles continuation externally. References: .claude/docs/architecture/orchestrate-state-machine.md, .claude/docs/architecture/dispatch-agent-spec.md, .claude/docs/architecture/handoff-schema.md.",
@@ -159,13 +159,18 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T19:47:16Z",
+      "last_updated": "2026-05-22T19:53:11Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
           "type": "research",
           "path": "596_create_orchestrate_command_skill_agent/reports/01_seed-research.md",
           "created": "2026-05-22"
+        },
+        {
+          "path": "specs/596_create_orchestrate_command_skill_agent/plans/01_orchestrate-command.md",
+          "type": "plan",
+          "summary": "5-phase plan to create /orchestrate command, skill-orchestrate state machine, and dispatch-agent.sh script with blocker escalation and nested loop resolution."
         }
       ],
       "session_id": "sess_1748000000_596plan"
@@ -312,13 +317,13 @@
     {
       "project_number": 606,
       "project_name": "fix_extension_doclint_failures",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Fix 2 extension doc-lint failures: core README missing /project-overview command, filetypes README missing /sheet command. Run check-extension-docs.sh to verify.",
       "effort": "30 minutes",
       "created": "2026-05-22T18:40:00Z",
-      "last_updated": "2026-05-22T19:52:20Z",
+      "last_updated": "2026-05-22T19:53:04Z",
       "next_artifact_number": 1,
       "artifacts": [
         {
@@ -327,7 +332,7 @@
           "summary": "3-phase plan to fix 2 doc-lint failures"
         }
       ],
-      "session_id": "sess_1779479366_e56e28",
+      "session_id": "sess_1779479566_932bd1",
       "plan_metadata": {
         "phases": 3,
         "total_effort_hours": 0.5,

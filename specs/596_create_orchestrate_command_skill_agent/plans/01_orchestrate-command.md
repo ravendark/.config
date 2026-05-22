@@ -1,7 +1,7 @@
 # Implementation Plan: Task #596
 
 - **Task**: 596 - Create /orchestrate command, skill-orchestrate, and dispatch-agent.sh
-- **Status**: [NOT STARTED]
+- **Status**: [PLANNED]
 - **Effort**: 5 hours
 - **Dependencies**: Tasks 593 (shared utilities), 594 (skill base), 595 (orchestrator_mode plumbing)
 - **Research Inputs**: specs/596_create_orchestrate_command_skill_agent/reports/01_seed-research.md, specs/596_create_orchestrate_command_skill_agent/reports/02_auto-flag-analysis.md, specs/596_create_orchestrate_command_skill_agent/reports/03_design-guidance.md

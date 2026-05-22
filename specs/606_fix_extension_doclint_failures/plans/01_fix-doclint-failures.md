@@ -1,7 +1,7 @@
 # Implementation Plan: Fix Extension Doc-Lint Failures
 
 - **Task**: 606 - fix_extension_doclint_failures
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 0.5 hours
 - **Dependencies**: None
 - **Research Inputs**: None
