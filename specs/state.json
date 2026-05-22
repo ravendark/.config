@@ -5,14 +5,14 @@
     {
       "project_number": 590,
       "project_name": "fix_task_number_parsing_display",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "wezterm-notifications",
       "description": "Fix task number parsing in wezterm-task-number.sh to support multi-task syntax (/research 7, 22-24), additional commands (/spawn N, /task --recover N, /task --expand N), and prevent stale task numbers. Ensure tab always shows {N} {root} format with #{task} when applicable.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-21T22:00:00Z",
-      "last_updated": "2026-05-22T00:38:55Z",
+      "last_updated": "2026-05-22T01:49:20Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -26,7 +26,7 @@
           "summary": "2-phase implementation plan for 3-tier task number parsing with multi-task spec support"
         }
       ],
-      "session_id": "sess_1779410041_152285",
+      "session_id": "sess_1779414546_28ce65",
       "memory_candidates": [
         {
           "content": "WezTerm task number hook uses 3-tier UserPromptSubmit logic: (1) Workflow command with task number -> SET TASK_NUMBER to compact spec; (2) Any slash command without task number -> CLEAR TASK_NUMBER; (3) Free text / follow-up answer -> PRESERVE (no change). The preserve tier prevents stale-on-follow-up where answering an agent question during a workflow would clear the task number display.",
@@ -99,7 +99,7 @@
       "status": "planned",
       "task_type": "meta",
       "topic": "wezterm-notifications",
-      "description": "Refactor TTS and wezterm notification dispatch from agent-dependent Stage 8a calls to a reliable signal-file + Stop hook pattern. Core problem: TTS depends on agents executing lifecycle-notify.sh in Stage 8a (frequently skipped), and the Stop hook's wezterm-notify.sh overwrites lifecycle colors with needs_input. Fix: update-task-status.sh postflight writes lifecycle signal file (.claude/tmp/lifecycle-signal with status + artifact type), new unified Stop hook script reads signal and dispatches both TTS and wezterm color atomically. Remove lifecycle-notify.sh from skill Stage 8a, remove duplicate wezterm-notify.sh call from update-task-status.sh Phase 5. All 4 copies of tts-notify.sh must be updated.",
+      "description": "Refactor TTS and wezterm notification dispatch to dual-dispatch architecture: postflight fires TTS+color immediately (compatible with never-stopping workflows), signal file serves as suppress flag so Stop hook doesn't duplicate. Remove Stage 8a from skills, stub lifecycle-notify.sh. Sync to OpenCode tree.",
       "effort": "3-4 hours",
       "dependencies": [],
       "created": "2026-05-21T22:00:00Z",
@@ -114,7 +114,7 @@
         {
           "path": "specs/588_refactor_notification_signal_stop_hook/plans/01_signal-stop-refactor.md",
           "type": "plan",
-          "summary": "4-phase implementation plan for signal-file + Stop hook notification refactor across Claude Code and OpenCode trees"
+          "summary": "Revised plan v2: dual-dispatch architecture (postflight immediate + Stop hook suppress-flag) compatible with never-stopping workflows"
         }
       ],
       "session_id": "sess_1779410041_152285",
@@ -173,10 +173,10 @@
       ],
       "plan_metadata": {
         "phases": 4,
-        "total_effort_hours": 4,
+        "total_effort_hours": 4.5,
         "complexity": "medium",
         "research_integrated": true,
-        "plan_version": 1,
+        "plan_version": 2,
         "dependency_waves": [
           [
             1
@@ -192,8 +192,8 @@
         "reports_integrated": [
           {
             "path": "reports/01_signal-stop-refactor.md",
-            "integrated_in_plan_version": 1,
-            "integrated_date": "2026-05-22"
+            "integrated_in_plan_version": 2,
+            "integrated_date": "2026-05-21"
           }
         ]
       }

@@ -20,7 +20,7 @@ next_project_number: 591
 
 588 [PLANNED] — refactor_notification_signal_stop_hook
   589 [NOT STARTED] — wezterm_artifact_colors_preflight (depends: 588)
-590 [PLANNED] — fix_task_number_parsing_display
+590 [IMPLEMENTING] — fix_task_number_parsing_display
 
 ### Uncategorized
 
@@ -33,7 +33,7 @@ next_project_number: 591
 
 ### 590. Fix task number parsing and tab display consistency
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [590_fix_task_number_parsing_display/reports/01_task-number-parsing.md]

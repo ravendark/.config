@@ -2,7 +2,7 @@
 
 - **Task**: 588 - refactor_notification_signal_stop_hook
 - **Status**: [PLANNED]
-- **Effort**: 4 hours
+- **Effort**: 4.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/588_refactor_notification_signal_stop_hook/reports/01_signal-stop-refactor.md
 - **Artifacts**: plans/01_signal-stop-refactor.md (this file)
@@ -12,7 +12,7 @@
 
 ## Overview
 
-The notification system has three interlocking bugs: TTS from skill Stage 8a is unreliable because agents skip it, the Stop hook always overwrites lifecycle tab color with `needs_input`, and `update-task-status.sh` Phase 5 duplicates the wezterm call already made by `lifecycle-notify.sh`. This plan replaces the current multi-point dispatch with a signal-file + Stop hook pattern: `update-task-status.sh` writes a `.claude/tmp/lifecycle-signal` file as its last postflight action, and a new `claude-stop-notify.sh` Stop hook script atomically consumes that signal to dispatch both TTS and wezterm color in one reliable location. Stage 8a is removed from all four skill files, and the pattern is mirrored in the OpenCode tree.
+Refactor TTS and wezterm notification dispatch to a dual-dispatch architecture compatible with never-stopping workflows (e.g., /loop, chained commands, long autonomous runs). The core insight: notifications must fire from two independent places. First, `update-task-status.sh` postflight fires TTS and wezterm color IMMEDIATELY when an artifact is created -- this works whether or not Claude ever stops. Second, a new `claude-stop-notify.sh` Stop hook fires only when Claude actually stops, but checks for a signal file to avoid duplicating notifications already fired by postflight. Stage 8a is removed from all skill files since postflight now handles lifecycle notifications reliably. The signal file at `.claude/tmp/lifecycle-signal` serves as a suppress flag: its presence tells the Stop hook "postflight already announced this, skip lifecycle dispatch." The pattern is mirrored in the OpenCode tree.
 
 ### Research Integration
 
@@ -25,7 +25,7 @@ Key findings integrated from `reports/01_signal-stop-refactor.md`:
 
 ### Prior Plan Reference
 
-No prior plan.
+Plan v1 (same path) used a single-dispatch architecture where the Stop hook was the sole notification point. That approach fails in never-stopping workflows because the Stop hook does not fire between commands. Plan v2 switches to dual-dispatch: postflight fires immediately, signal file suppresses Stop hook duplication.
 
 ### Roadmap Alignment
 
@@ -38,9 +38,11 @@ No literature source referenced.
 ## Goals & Non-Goals
 
 **Goals**:
-- Centralize all TTS and wezterm color dispatch into the Stop hook so both always fire reliably
+- Fire TTS and wezterm color IMMEDIATELY from postflight (compatible with never-stopping workflows)
+- Use signal file as a suppress flag so the Stop hook does not duplicate postflight notifications
+- Fire TTS and wezterm color from the Stop hook when no postflight ran (interactive/non-lifecycle stops)
 - Remove agent-dependent Stage 8a blocks from four skill files
-- Preserve correct lifecycle tab coloring (researched/planned/completed) across agent turns
+- Preserve correct lifecycle tab coloring (researched/planned/completed) across all workflow modes
 - Support atomic signal consumption to prevent double-fire and race conditions
 - Mirror all changes in the OpenCode tree for parity
 
@@ -54,12 +56,13 @@ No literature source referenced.
 
 | Risk | Impact | Likelihood | Mitigation |
 |------|--------|------------|------------|
-| Stop hook fires before signal file is written (timing gap) | H | M | Write signal as the LAST action in update-task-status.sh Phase 5, after all state updates |
+| Stop hook fires before signal file is written (timing gap) | H | L | Signal file is written BEFORE TTS/wezterm calls in postflight, ensuring it exists by the time Stop hook checks |
 | `.claude/tmp/` directory does not exist | M | H | Both write and read scripts use `mkdir -p .claude/tmp` before file operations |
 | Subagent Stop events consume the lifecycle signal | H | H | Check stdin JSON for `agent_id` field; suppress lifecycle dispatch for subagents |
-| Signal file accumulates if Stop hook crashes | L | L | File is consumed atomically; stale files are overwritten by next task status update |
+| Signal file accumulates if Stop hook never fires (never-stopping mode) | L | M | File is overwritten by next postflight run; stale signals are harmless since postflight already announced |
 | Extension copies drift from primary hooks | M | M | Create extension copies in same phase as primary; document sync requirement |
 | OpenCode wezterm-notify.sh lacks STATUS parameter | M | M | Update OpenCode copy to accept optional status parameter (Phase 3) |
+| Double TTS in rapid postflight-then-stop sequence | M | L | Signal file suppress pattern ensures Stop hook skips TTS when postflight already fired |
 
 ## Implementation Phases
 
@@ -74,16 +77,16 @@ Phases within the same wave can execute in parallel.
 
 ### Phase 1: Create claude-stop-notify.sh and modify update-task-status.sh [NOT STARTED]
 
-**Goal**: Establish the core signal-file mechanism: writing the signal in postflight and consuming it in the Stop hook.
+**Goal**: Establish the dual-dispatch mechanism: postflight fires TTS+wezterm immediately AND writes a signal file; the Stop hook checks the signal file to suppress duplicate dispatch.
 
 **Tasks**:
 - [ ] Create `.claude/tmp/` directory guard pattern (both scripts use `mkdir -p`)
-- [ ] Modify `.claude/scripts/update-task-status.sh` Phase 5: remove the `wezterm-notify.sh "$STATE_STATUS"` call (lines 363-370) and replace with signal file write (`echo "$STATE_STATUS" > ".claude/tmp/lifecycle-signal"`) as the LAST action in the postflight block
+- [ ] Modify `.claude/scripts/update-task-status.sh` Phase 5: KEEP the existing `wezterm-notify.sh "$STATE_STATUS"` call (fires immediately from postflight) and ADD a `tts-notify.sh --lifecycle "$STATE_STATUS"` call (fires TTS immediately from postflight). Then ADD signal file write (`mkdir -p ".claude/tmp" && echo "$STATE_STATUS" > ".claude/tmp/lifecycle-signal"`) BEFORE the TTS/wezterm calls, so the suppress flag exists before Stop hook can fire
 - [ ] Create `.claude/hooks/claude-stop-notify.sh` with:
   - Subagent detection (read stdin JSON, check `agent_id` field, exit early for subagents)
-  - Atomic signal consume via `mv .claude/tmp/lifecycle-signal .claude/tmp/lifecycle-signal.consumed`
-  - On signal present: read status, delete consumed file, call `wezterm-notify.sh "$STATUS"` and `tts-notify.sh --lifecycle "$STATUS"`
-  - On no signal: call `wezterm-notify.sh` (needs_input default) and `tts-notify.sh` (interactive "Tab N")
+  - Signal file check via atomic `mv .claude/tmp/lifecycle-signal .claude/tmp/lifecycle-signal.consumed`
+  - On signal present (suppress path): read status from consumed file, delete consumed file, exit silently (postflight already fired TTS+wezterm)
+  - On no signal (dispatch path): call `wezterm-notify.sh` (needs_input default) and `tts-notify.sh` (interactive "Tab N")
   - Same error handling patterns as existing hook scripts (set -uo pipefail, exit_success helper)
 - [ ] Make `claude-stop-notify.sh` executable (`chmod +x`)
 - [ ] Update `.claude/settings.json` Stop hook: replace `bash .claude/hooks/wezterm-notify.sh 2>/dev/null || echo '{}'` with `bash .claude/hooks/claude-stop-notify.sh 2>/dev/null || echo '{}'`
@@ -93,21 +96,22 @@ Phases within the same wave can execute in parallel.
 **Depends on**: none
 
 **Files to modify**:
-- `.claude/scripts/update-task-status.sh` - Replace Phase 5 wezterm call with signal file write
-- `.claude/hooks/claude-stop-notify.sh` - NEW: unified Stop hook dispatcher
+- `.claude/scripts/update-task-status.sh` - Add TTS call and signal file write to Phase 5 (keep existing wezterm call)
+- `.claude/hooks/claude-stop-notify.sh` - NEW: unified Stop hook with suppress-flag logic
 - `.claude/settings.json` - Replace wezterm-notify.sh with claude-stop-notify.sh in Stop hook
 
 **Verification**:
 - `claude-stop-notify.sh` exists and is executable
-- `update-task-status.sh` no longer calls `wezterm-notify.sh` directly in Phase 5
+- `update-task-status.sh` Phase 5 calls BOTH `wezterm-notify.sh "$STATE_STATUS"` AND `tts-notify.sh --lifecycle "$STATE_STATUS"` directly
+- `update-task-status.sh` Phase 5 writes `.claude/tmp/lifecycle-signal` with status value
 - `settings.json` Stop hook references `claude-stop-notify.sh` instead of `wezterm-notify.sh`
-- Manual test: run `bash .claude/scripts/update-task-status.sh` in postflight mode and confirm `.claude/tmp/lifecycle-signal` is created with correct status value
+- Manual test: run `bash .claude/scripts/update-task-status.sh` in postflight mode and confirm `.claude/tmp/lifecycle-signal` is created with correct status value AND TTS/wezterm are called directly
 
 ---
 
 ### Phase 2: Remove Stage 8a from skills and stub lifecycle-notify.sh [NOT STARTED]
 
-**Goal**: Remove all agent-side notification dispatch (Stage 8a blocks) and convert lifecycle-notify.sh to a backward-compatible no-op stub.
+**Goal**: Remove all agent-side notification dispatch (Stage 8a blocks) and convert lifecycle-notify.sh to a backward-compatible no-op stub. Postflight now handles lifecycle notifications directly, so Stage 8a is redundant.
 
 **Tasks**:
 - [ ] Remove Stage 8a block from `.claude/skills/skill-researcher/SKILL.md` (lines ~474-488): remove heading, code fence, commentary, and trailing `---` divider
@@ -141,7 +145,7 @@ Phases within the same wave can execute in parallel.
 
 **Tasks**:
 - [ ] Update `.opencode/hooks/wezterm-notify.sh` to accept an optional STATUS parameter (default `needs_input`), matching `.claude/hooks/wezterm-notify.sh` behavior: parse `$1` as status, use it for base64 encoding instead of hardcoded `needs_input`
-- [ ] Create `.opencode/hooks/claude-stop-notify.sh` as OpenCode variant of the unified Stop hook (adapted paths: `.opencode/tmp/` signal file, `.opencode/hooks/` script references)
+- [ ] Create `.opencode/hooks/claude-stop-notify.sh` as OpenCode variant of the unified Stop hook (adapted paths: `.opencode/tmp/` signal file, `.opencode/hooks/` script references, suppress-flag logic matching Phase 1)
 - [ ] Make `.opencode/hooks/claude-stop-notify.sh` executable
 - [ ] Update `.opencode/settings.json` Stop hook: replace `bash .opencode/hooks/wezterm-notify.sh` with `bash .opencode/hooks/claude-stop-notify.sh`
 - [ ] Create `.claude/extensions/core/hooks/claude-stop-notify.sh` as copy of `.claude/hooks/claude-stop-notify.sh`
@@ -155,7 +159,7 @@ Phases within the same wave can execute in parallel.
 
 **Files to modify**:
 - `.opencode/hooks/wezterm-notify.sh` - Add optional STATUS parameter
-- `.opencode/hooks/claude-stop-notify.sh` - NEW: OpenCode unified Stop hook
+- `.opencode/hooks/claude-stop-notify.sh` - NEW: OpenCode unified Stop hook with suppress-flag
 - `.opencode/settings.json` - Replace wezterm-notify.sh in Stop hook
 - `.claude/extensions/core/hooks/claude-stop-notify.sh` - NEW: extension copy
 - `.claude/extensions/core/root-files/settings.json` - Update Stop hook reference
@@ -172,17 +176,18 @@ Phases within the same wave can execute in parallel.
 
 ### Phase 4: Integration testing and documentation [NOT STARTED]
 
-**Goal**: Verify the complete signal-file pipeline end-to-end and clean up any loose ends.
+**Goal**: Verify the complete dual-dispatch pipeline end-to-end across all workflow modes and clean up loose ends.
 
 **Tasks**:
-- [ ] End-to-end test: simulate a postflight cycle by calling `update-task-status.sh` with a test task in postflight mode, confirm signal file is created, then run `claude-stop-notify.sh` and confirm signal is consumed and scripts are called with correct arguments
-- [ ] Verify subagent suppression: pipe JSON with `agent_id` field to `claude-stop-notify.sh` stdin and confirm it exits without consuming signal
-- [ ] Verify no-signal path: run `claude-stop-notify.sh` without a signal file and confirm it dispatches `needs_input` default behavior
+- [ ] End-to-end test (artifact-then-stop): simulate a postflight cycle by calling `update-task-status.sh` with a test task in postflight mode, confirm TTS+wezterm fire immediately AND signal file is created. Then run `claude-stop-notify.sh` and confirm it consumes signal silently (no duplicate TTS/wezterm)
+- [ ] End-to-end test (artifact-never-stops): simulate postflight, confirm TTS+wezterm fire immediately. Do NOT run Stop hook. Confirm signal file persists harmlessly and would be overwritten by next postflight
+- [ ] Verify no-signal path: run `claude-stop-notify.sh` without a signal file and confirm it dispatches `needs_input` default behavior (wezterm gray + TTS "Tab N")
+- [ ] Verify subagent suppression: pipe JSON with `agent_id` field to `claude-stop-notify.sh` stdin and confirm it exits without consuming signal or firing TTS
 - [ ] Verify backward compatibility: confirm `lifecycle-notify.sh` stub exits 0 silently
 - [ ] Check for any remaining references to the old wezterm-notify.sh Stop hook pattern in documentation or scripts that need updating
 - [ ] Ensure `.claude/tmp/` and `.opencode/tmp/` are in `.gitignore` (signal files should not be committed)
 
-**Timing**: 30 minutes
+**Timing**: 1 hour
 
 **Depends on**: 2, 3
 
@@ -190,19 +195,21 @@ Phases within the same wave can execute in parallel.
 - `.gitignore` - Add `.claude/tmp/` and `.opencode/tmp/` if not already present
 
 **Verification**:
-- Complete postflight-to-stop-hook cycle produces correct TTS and wezterm color for each lifecycle status (researched, planned, completed)
+- Artifact-then-stop scenario: postflight fires TTS+wezterm, Stop hook consumes signal silently (no duplicate)
+- Artifact-never-stops scenario: postflight fires TTS+wezterm, signal file persists harmlessly
+- No-signal scenario: Stop hook fires `needs_input` + "Tab N"
 - Subagent stops do not trigger lifecycle announcements
-- No signal file means `needs_input` default behavior
 - `git status` shows no untracked files in `.claude/tmp/` or `.opencode/tmp/`
 
 ---
 
 ## Testing & Validation
 
+- [ ] Postflight immediate dispatch: `update-task-status.sh` postflight calls BOTH `wezterm-notify.sh "$STATUS"` and `tts-notify.sh --lifecycle "$STATUS"` directly (verified by tracing script execution)
 - [ ] Signal file write: `update-task-status.sh` postflight creates `.claude/tmp/lifecycle-signal` with correct status value
-- [ ] Signal file consume: `claude-stop-notify.sh` reads and atomically deletes the signal file via `mv` rename pattern
-- [ ] Correct dispatch: TTS speaks "Tab N {status}" and wezterm tab color matches lifecycle state
-- [ ] No-signal path: Stop hook without signal file defaults to `needs_input` + "Tab N"
+- [ ] Stop hook suppress path: `claude-stop-notify.sh` detects signal file, consumes it, and exits silently (no TTS, no wezterm call)
+- [ ] Stop hook dispatch path: `claude-stop-notify.sh` with no signal file defaults to `needs_input` wezterm + "Tab N" TTS
+- [ ] Never-stopping compatibility: postflight fires TTS+wezterm even if Stop hook never runs
 - [ ] Subagent suppression: `claude-stop-notify.sh` exits early when stdin contains `agent_id`
 - [ ] Backward compatibility: `lifecycle-notify.sh` exits 0 without side effects
 - [ ] No Stage 8a: `grep -r "Stage 8a" .claude/skills/` returns empty
@@ -212,7 +219,7 @@ Phases within the same wave can execute in parallel.
 ## Artifacts & Outputs
 
 - `specs/588_refactor_notification_signal_stop_hook/plans/01_signal-stop-refactor.md` (this plan)
-- `.claude/hooks/claude-stop-notify.sh` (new unified Stop hook)
+- `.claude/hooks/claude-stop-notify.sh` (new unified Stop hook with suppress-flag logic)
 - `.opencode/hooks/claude-stop-notify.sh` (new OpenCode variant)
 - `.claude/extensions/core/hooks/claude-stop-notify.sh` (extension copy)
 - `.opencode/extensions/core/hooks/claude-stop-notify.sh` (extension copy)
@@ -220,9 +227,9 @@ Phases within the same wave can execute in parallel.
 
 ## Rollback/Contingency
 
-If the signal-file pattern causes unexpected issues:
+If the dual-dispatch pattern causes unexpected issues:
 1. Restore `wezterm-notify.sh` in all four `settings.json` Stop hook entries
-2. Restore Phase 5 wezterm call in `update-task-status.sh` (revert to direct `wezterm-notify.sh "$STATE_STATUS"` call)
+2. Remove the TTS call and signal file write from `update-task-status.sh` Phase 5 (revert to original wezterm-only call)
 3. Restore Stage 8a blocks in the four skill files (available from git history)
 4. Restore `lifecycle-notify.sh` from git history
 5. Delete `claude-stop-notify.sh` from all locations
