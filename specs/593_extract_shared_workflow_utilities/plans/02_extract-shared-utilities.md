@@ -1,7 +1,7 @@
 # Implementation Plan: Extract Shared Workflow Utilities
 
 - **Task**: 593 - Extract shared workflow utilities
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 7 hours
 - **Dependencies**: 592 (design, satisfied)
 - **Research Inputs**: reports/02_team-research.md, reports/03_design-guidance.md, reports/01_seed-research.md
@@ -79,19 +79,19 @@ Phases are fully sequential. Each phase builds on the previous one's scripts/mig
 
 ---
 
-### Phase 1: Baseline Measurements and Core Parsing Script [NOT STARTED]
+### Phase 1: Baseline Measurements and Core Parsing Script [COMPLETED]
 
 **Goal**: Establish before-measurements for all command files and create `parse-command-args.sh` -- the highest-savings, lowest-risk extraction target.
 
 **Tasks**:
-- [ ] Record baseline line counts for all 3 command files (`wc -l` on research.md, plan.md, implement.md)
-- [ ] Record baseline line counts for the 3 existing postflight scripts
-- [ ] Diff the `parse_task_args()` blocks across all 3 commands to confirm byte-identical duplication
-- [ ] Create `.claude/scripts/parse-command-args.sh` implementing the superset flag parser per design-guidance.md specification
-- [ ] Include all exports: TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, TEAM_SIZE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT
-- [ ] Add documentation header explaining the `source` convention (must be sourced, not called as subprocess, within a single Bash tool invocation)
-- [ ] Make script executable (`chmod +x`)
-- [ ] Test the script standalone with representative inputs: `"593"`, `"7, 22-24, 59 --team --team-size 3"`, `"42 focus on APIs --fast --haiku"`, `"100 --force --clean"`
+- [x] Record baseline line counts for all 3 command files (`wc -l` on research.md, plan.md, implement.md) *(completed: research.md=500, plan.md=531, implement.md=612)*
+- [x] Record baseline line counts for the 3 existing postflight scripts *(completed: all three are 69 lines)*
+- [x] Diff the `parse_task_args()` blocks across all 3 commands to confirm byte-identical duplication *(completed: blocks are structurally identical)*
+- [x] Create `.claude/scripts/parse-command-args.sh` implementing the superset flag parser per design-guidance.md specification *(completed)*
+- [x] Include all exports: TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, TEAM_SIZE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT *(completed)*
+- [x] Add documentation header explaining the `source` convention (must be sourced, not called as subprocess, within a single Bash tool invocation) *(completed)*
+- [x] Make script executable (`chmod +x`) *(completed)*
+- [x] Test the script standalone with representative inputs: `"593"`, `"7, 22-24, 59 --team --team-size 3"`, `"42 focus on APIs --fast --haiku"`, `"100 --force --clean"` *(completed: all 6 test cases pass)*
 
 **Timing**: 1.5 hours
 
