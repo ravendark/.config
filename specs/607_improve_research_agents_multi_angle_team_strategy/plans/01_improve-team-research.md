@@ -162,7 +162,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Exploit/Explore Mode Integration in SKILL.md [NOT STARTED]
+### Phase 4: Exploit/Explore Mode Integration in SKILL.md [COMPLETED]
 
 **Goal**: Wire the parsed `--exploit`/`--explore` flags into teammate prompt generation to shape role assignment.
 
@@ -190,7 +190,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Agent Prompt Enhancements (Prototype-First and Tactic Discovery) [NOT STARTED]
+### Phase 5: Agent Prompt Enhancements (Prototype-First and Tactic Discovery) [COMPLETED]
 
 **Goal**: Add prototype-first research guidance to general-research-agent and tactic discovery survey protocol to lean-research-agent.
 

@@ -45,6 +45,16 @@ Use this decision tree to select the right search approach:
 3. Web search (external best practices)
 4. Web fetch (specific documentation pages)
 
+## Prototype-First Research Pattern
+
+When evaluating implementation approaches, favor validation over speculation:
+
+1. **Describe a minimal prototype** for each candidate approach -- the smallest change that would confirm or deny feasibility
+2. **Estimate prototype effort** in minutes, not hours. If a prototype takes more than 30 minutes, it belongs in planning, not research
+3. **Verify when feasible** -- if a tool can test an approach (e.g., `lean_multi_attempt` for tactics, a quick script for API behavior), run it and report results
+4. **Report with pass/fail status** -- each prototype attempt should note: what was tried, what happened, and whether it validates the approach
+5. **Recommend which prototype to try first** -- rank by effort-to-information ratio (cheapest validation first)
+
 ## Execution Flow
 
 ### Stage 0: Initialize Early Metadata

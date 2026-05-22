@@ -96,6 +96,23 @@ Each teammate is responsible for:
    - Include confidence level
    - Note any blockers or issues
 
+## Exploit/Explore Modes
+
+Team research supports optional mode hints via `--exploit` and `--explore` flags that shape teammate prompt generation:
+
+| Mode | Flag | Teammate A | Teammate B | Teammate D |
+|------|------|------------|------------|------------|
+| **Default** | (none) | Implementation approaches | Alternative patterns | Strategic alignment |
+| **Exploit** | `--exploit` | Deep-dive into best approach | Stress-test and validate | Feasibility assessment |
+| **Explore** | `--explore` | Breadth-first survey | Unconventional alternatives | Unexplored approaches |
+
+**When to use each mode**:
+- **Exploit**: When a promising approach is identified and needs thorough investigation. "Focus many agents on different parts of a single idea."
+- **Explore**: When current approaches are blocked or insufficient. "Search for new ideas."
+- **Default/mixed**: When the situation is unclear. The focus prompt provides additional direction.
+
+Modes are optional hints -- when neither flag is set, the default balanced behavior applies. The focus prompt provides further direction within any mode.
+
 ## Dependency Analysis
 
 ### Explicit Dependencies

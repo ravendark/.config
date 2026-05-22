@@ -256,10 +256,16 @@ Research task {task_number}: {description}
 
 {model_preference_line}
 
+{domain_context_section}
+
 Artifact number: {run_padded}
 Teammate letter: a
 
-Focus on implementation approaches and patterns.
+{mode-specific instructions for Teammate A:
+  - default: "Focus on implementation approaches and patterns."
+  - exploit: "Deep-dive into the most promising approach. Decompose it into sub-problems and analyze each thoroughly. Validate assumptions with concrete evidence."
+  - explore: "Breadth-first survey of all possible approaches. Cast a wide net for solutions. Prioritize diversity of ideas over depth."}
+
 Challenge assumptions and provide specific examples.
 Consider {focus_prompt} if provided.
 
@@ -273,18 +279,23 @@ Format: Markdown with clear sections for:
 - Confidence Level (high/medium/low)
 ```
 
-**Teammate B - Alternative Approaches** (spawn when `team_size >= 2`, i.e., always):
+**Teammate B - Alternative Approaches** (spawn when `team_size >= 3`):
 ```
 Research task {task_number}: {description}
 
 {model_preference_line}
 
+{domain_context_section}
+
 Artifact number: {run_padded}
 Teammate letter: b
 
-Focus on alternative patterns and prior art.
-Look for existing solutions we could adapt.
-Do NOT duplicate Teammate A's focus on primary approaches.
+{mode-specific instructions for Teammate B:
+  - default: "Focus on alternative patterns and prior art. Look for existing solutions we could adapt."
+  - exploit: "Validate and stress-test the primary approach. Find edge cases, failure modes, and limitations. Try to break it."
+  - explore: "Investigate unconventional or creative alternatives. Look for solutions from adjacent domains that could be adapted."}
+
+Do NOT duplicate Teammate A's focus.
 
 Output your findings to:
 specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-b-findings.md
@@ -304,10 +315,17 @@ Research task {task_number}: {description}
 
 {model_preference_line}
 
+{domain_context_section}
+
 Artifact number: {run_padded}
 Teammate letter: d
 
-You are the Horizons researcher. Your job is to think about long-term alignment and strategic direction.
+You are the Horizons researcher.
+
+{mode-specific instructions for Teammate D:
+  - default: "Think about long-term alignment and strategic direction."
+  - exploit: "Assess implementation feasibility of the primary approach. What infrastructure exists? What's missing? What would make this approach succeed or fail at scale?"
+  - explore: "Identify approaches we haven't considered. Look at how other ecosystems and communities solve similar problems. Think unconventionally."}
 
 Read the project roadmap at {roadmap_path} (from delegation context) if it exists.
 If the roadmap file does not exist, contribute general strategic thinking about project direction.
@@ -495,7 +513,7 @@ Write synthesized report:
 
 **Task**: {title}
 **Date**: {ISO_DATE}
-**Mode**: Team Research ({team_size} teammates)
+**Mode**: Team Research ({team_size} teammates, {research_mode} mode)
 
 ## Summary
 

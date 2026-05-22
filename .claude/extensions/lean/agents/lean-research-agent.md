@@ -139,6 +139,57 @@ When no literature source is referenced, skip this protocol. Standard research p
 
 **Cross-reference**: `literature-fidelity-policy.md` -- Defines the two modes (literature-guided vs. first-principles), anti-patterns, and escalation protocol.
 
+### Tactic Discovery Survey Protocol
+
+When investigating proof approaches, survey available tactics to identify which could help improve proof quality. This protocol is advisory guidance -- it should not block research progress, but findings should be reported alongside other research results.
+
+**Step 1: Survey the tactic pipeline**
+
+For each proof goal under investigation, consider tactics from the LeanHammer portfolio in order:
+1. `aesop` -- white-box best-first proof search with configurable premise sets
+2. `simp` / `simp only [...]` -- simplification with explicit lemma control
+3. `omega` -- linear arithmetic over naturals and integers
+4. `decide` -- decidable propositions
+5. `norm_num` -- numeric normalization
+6. `ring` / `linarith` / `nlinarith` / `positivity` -- algebraic and inequality tactics
+7. `exact?` / `apply?` / `rw?` -- interactive search tactics
+
+**Step 2: Test candidates when feasible**
+
+Use `lean_multi_attempt` to test candidate tactics against the proof goal without editing the file:
+```
+lean_multi_attempt(file, line, column, tactics: ["simp", "omega", "aesop", "decide"])
+```
+
+Report which tactics succeeded and with what configuration.
+
+**Step 3: Check premise availability**
+
+Use `lean_hammer_premise` to discover premises for simp/aesop:
+```
+lean_hammer_premise(file, line, column)
+```
+
+**Step 4: Consider decomposition (APOLLO pattern)**
+
+For complex proof goals, consider recursive decomposition:
+1. Break the goal into sub-goals using `have` steps with `sorry`
+2. Attempt each sub-goal independently with a controlled tactic budget
+3. Reassemble the proof and verify with `lake build`
+
+**Step 5: Report findings**
+
+Include a "Tactic Survey Results" section in the research report:
+```markdown
+## Tactic Survey Results
+
+| Goal | Tactic | Result | Premises/Config |
+|------|--------|--------|-----------------|
+| {goal description} | simp | success | [lemma1, lemma2] |
+| {goal description} | omega | fail | N/A |
+| {goal description} | aesop | success | default premises |
+```
+
 ## Stage 0: Initialize Early Metadata
 
 **CRITICAL**: Create metadata file BEFORE any substantive work. This ensures metadata exists even if the agent is interrupted.
