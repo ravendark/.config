@@ -12,10 +12,9 @@ next_project_number: 605
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
 | 1 | 78,87,597,598,601,605 | -- | meta-system, wezterm-notifications, workflow-refactor |
-| 2 | 594,602 | 598,601 | wezterm-notifications, workflow-refactor |
-| 3 | 595,596 | 594,598 | workflow-refactor |
-| 4 | 599 | 594,595,596,597,598 | workflow-refactor |
-| 5 | 600 | 599 | workflow-refactor |
+| 2 | 595,596,602 | 598,601 | wezterm-notifications, workflow-refactor |
+| 3 | 599 | 595,596,597,598 | workflow-refactor |
+| 4 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = must complete first):
 
@@ -27,21 +26,16 @@ next_project_number: 605
 
 601 [PLANNED] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
 602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
-  └─ 601 [PLANNING] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
+  └─ 601 [PLANNED] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
 
 ### Workflow Refactor
 
-594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill-
-  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util
-  └─ 594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill- (see above)
-  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
+  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
-  └─ 594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the 
 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
-  └─ 594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util (see above)
   └─ 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch- (see above)
   └─ 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the  (see above)
@@ -193,7 +187,7 @@ next_project_number: 605
 
 ### 594. Refactor workflow skills to shared base pattern
 - **Effort**: 2-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 598
@@ -201,6 +195,7 @@ next_project_number: 605
   - [594_refactor_workflow_skills_shared_base/reports/01_seed-research.md]
   - [594_refactor_workflow_skills_shared_base/reports/02_refactor-shared-base.md]
 - **Plan**: [594_refactor_workflow_skills_shared_base/plans/02_refactor-shared-base.md]
+- **Summary**: [594_refactor_workflow_skills_shared_base/summaries/02_refactor-shared-base-summary.md]
 
 **Description**: Refactor core workflow skills to use a shared base library skill-base.sh in .claude/scripts/. The library provides 11 functions: skill_validate_input, skill_preflight_update, skill_create_postflight_marker, skill_read_artifact_number, skill_read_metadata, skill_validate_artifact, skill_postflight_update, skill_increment_artifact_number, skill_propagate_memory_candidates, skill_link_artifacts, skill_cleanup. Hook points for skill-specific logic at: Stage 4 variants (context collection, unique per skill), delegation context construction (unique fields), Stage 5 agent invocation (unique subagent_type). Target sizes: skill-researcher 558L -> 150L, skill-planner ~450L -> 130L, skill-implementer ~600L -> 200L. Depends on task 598 context budget constraints (commands must not load Tier 3 context; sonnet workers <=8K tokens, opus planners <=15K tokens). Do NOT add extension hooks in this task (save for task 599). Reference: .claude/docs/architecture/architecture-spec.md Component 2.
 
