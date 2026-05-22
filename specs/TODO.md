@@ -23,7 +23,7 @@ next_project_number: 600
 
 ### workflow-refactor
 
-591 [RESEARCHED] — research_claude_code_orchestration_practices
+591 [PLANNED] — research_claude_code_orchestration_practices
   592 [NOT STARTED] — design_unified_workflow_architecture
     593 [NOT STARTED] — extract_shared_workflow_utilities
       594 [NOT STARTED] — refactor_workflow_skills_shared_base
@@ -132,11 +132,12 @@ next_project_number: 600
 
 ### 591. Research Claude Code 2026 orchestration best practices
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: None
 - **Research**: [591_research_claude_code_orchestration_practices/reports/01_team-research.md]
+- **Plan**: [591_research_claude_code_orchestration_practices/plans/01_orchestration-research.md]
 
 **Description**: Research Claude Code 2026 best practices for forking vs. subagent invocation, progressive disclosure, token-efficient context loading, and agent orchestration patterns. Audit current system (~18K lines across commands/skills/agents) for token waste, duplication hotspots, and missed opportunities. Deliverable: comprehensive report covering (1) fork cache sharing strategies, (2) progressive disclosure patterns, (3) handoff artifact design, (4) orchestration state machines, (5) specific recommendations for the 9-task refactor. Related: tasks 500, 501 partially address fork optimization and will be subsumed.
 
