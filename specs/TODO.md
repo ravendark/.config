@@ -47,6 +47,7 @@ next_project_number: 605
 - **Task Type**: nix
 - **Topic**: wezterm-notifications
 - **Dependencies**: Task #601
+- **Plan**: [602_update_wezterm_dim_bright_colors/plans/01_wezterm-dim-bright-colors.md]
 
 **Description**: Update wezterm.lua color palette for dim/bright workflow stage semantics. Research=green, plan=blue, implement=gold. DIM shade for in-progress states (researching/planning/implementing), BRIGHT/BOLD for finished states (researched/planned/completed). Fix update-status handler to only clear needs_input on tab switch, preserving lifecycle states until next command. TTS announcement format: tab-number workflow-type (e.g. tab 4 researched). WezTerm config at ~/.dotfiles/config/wezterm.lua (nix-managed, rebuild via home-manager).
 

@@ -264,9 +264,37 @@
       "last_updated": "2026-05-22T19:35:05Z",
       "next_artifact_number": 1,
       "artifacts": [
-        "specs/602_update_wezterm_dim_bright_colors/reports/01_wezterm-dim-bright-colors.md"
+        "specs/602_update_wezterm_dim_bright_colors/reports/01_wezterm-dim-bright-colors.md",
+        {
+          "path": "specs/602_update_wezterm_dim_bright_colors/plans/01_wezterm-dim-bright-colors.md",
+          "type": "plan",
+          "summary": "3-phase plan: update color palette and fix update-status handler, fix TTS lowercase prefix, verify and rebuild Home Manager"
+        }
       ],
-      "session_id": "sess_1779478303_0f74ee"
+      "session_id": "sess_1779478303_0f74ee",
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 0.75,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2,
+            3
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_wezterm-dim-bright-colors.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-22"
+          }
+        ]
+      }
     }
   ],
   "completed_projects": [],
