@@ -216,20 +216,20 @@ Phases are fully sequential. Each phase builds on the previous one's scripts/mig
 
 ---
 
-### Phase 5: Validation and Documentation [NOT STARTED]
+### Phase 5: Validation and Documentation [COMPLETED]
 
 **Goal**: Verify all measurements, run end-to-end functional tests, and document the extraction for downstream tasks (594, 595).
 
 **Tasks**:
-- [ ] Record post-extraction line counts for all 3 command files and compare to baseline
-- [ ] Calculate actual line reduction percentage per command
-- [ ] Verify each new script exists, is executable, and has documentation headers
-- [ ] Verify old postflight wrappers still work by checking they call postflight-workflow.sh
-- [ ] Run a functional test: execute `source .claude/scripts/parse-command-args.sh "593 --team --fast"` and verify exports
-- [ ] Run a functional test: execute `source .claude/scripts/command-gate-in.sh "593" "research"` against current state.json
-- [ ] Verify no dead code was introduced (no orphaned functions in command files)
-- [ ] Add a brief comment at the top of each new script noting which tasks depend on it (task 594 depends on postflight-workflow.sh; task 595 depends on further command slimming)
-- [ ] Verify that command files reference scripts using the correct relative path convention (`.claude/scripts/` prefix)
+- [x] Record post-extraction line counts for all 3 command files and compare to baseline *(completed: research 500->393, plan 531->420, implement 612->525)*
+- [x] Calculate actual line reduction percentage per command *(completed: research 21%, plan 20%, implement 14%)*
+- [x] Verify each new script exists, is executable, and has documentation headers *(completed: all 4 scripts verified)*
+- [x] Verify old postflight wrappers still work by checking they call postflight-workflow.sh *(completed: all 3 wrappers confirmed)*
+- [x] Run a functional test: execute `source .claude/scripts/parse-command-args.sh "593 --team --fast"` and verify exports *(completed: all exports correct)*
+- [x] Run a functional test: execute `source .claude/scripts/command-gate-in.sh "593" "research"` against current state.json *(completed: SESSION_ID, TASK_TYPE, PROJECT_NAME, PADDED_NUM all verified)*
+- [x] Verify no dead code was introduced (no orphaned functions in command files) *(completed: no orphaned functions found)*
+- [x] Add a brief comment at the top of each new script noting which tasks depend on it (task 594 depends on postflight-workflow.sh; task 595 depends on further command slimming) *(completed: all 4 scripts have downstream dependency comments)*
+- [x] Verify that command files reference scripts using the correct relative path convention (`.claude/scripts/` prefix) *(completed: all references use .claude/scripts/ prefix)*
 
 **Timing**: 1 hour
 
