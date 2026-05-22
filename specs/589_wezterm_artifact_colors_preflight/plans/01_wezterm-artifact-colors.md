@@ -93,15 +93,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Artifact type dispatch in update-task-status.sh [NOT STARTED]
+### Phase 2: Artifact type dispatch in update-task-status.sh [COMPLETED]
 
 **Goal**: Modify the postflight notification path in `update-task-status.sh` so that wezterm receives the artifact type string (`report`, `plan`, `summary`) instead of the lifecycle status string (`researched`, `planned`, `completed`).
 
 **Tasks**:
-- [ ] In Phase 5 (postflight notification block, around lines 369-385), add a case mapping `target_status` to artifact type: `research` -> `report`, `plan` -> `plan`, `implement` -> `summary`
-- [ ] Change the `wezterm-notify.sh` call to pass artifact type instead of `$STATE_STATUS` for the wezterm color dispatch
-- [ ] Keep signal file write unchanged (`echo "$STATE_STATUS"` stays as-is for TTS and suppress logic)
-- [ ] Keep TTS call unchanged (`--lifecycle "$STATE_STATUS"` stays as-is)
+- [x] In Phase 5 (postflight notification block, around lines 369-385), add a case mapping `target_status` to artifact type: `research` -> `report`, `plan` -> `plan`, `implement` -> `summary` *(completed)*
+- [x] Change the `wezterm-notify.sh` call to pass artifact type instead of `$STATE_STATUS` for the wezterm color dispatch *(completed)*
+- [x] Keep signal file write unchanged (`echo "$STATE_STATUS"` stays as-is for TTS and suppress logic) *(completed)*
+- [x] Keep TTS call unchanged (`--lifecycle "$STATE_STATUS"` stays as-is) *(completed)*
 
 **Timing**: 0.25 hours
 

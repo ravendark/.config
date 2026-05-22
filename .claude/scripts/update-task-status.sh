@@ -371,10 +371,19 @@ if [[ "$operation" == "postflight" && "$DRY_RUN" != "true" ]]; then
   mkdir -p "$SCRIPT_DIR/../tmp"
   echo "$STATE_STATUS" > "$SCRIPT_DIR/../tmp/lifecycle-signal"
 
-  # Fire WezTerm tab color immediately (sets CLAUDE_STATUS to lifecycle state)
+  # Fire WezTerm tab color immediately (sets CLAUDE_STATUS to artifact type)
+  # Map lifecycle target_status to artifact type for distinct tab coloring:
+  #   research -> report (green), plan -> plan (blue), implement -> summary (gold)
+  # Falls back to lifecycle STATE_STATUS for non-artifact statuses (blocked, needs_input, etc.)
   wezterm_script="$SCRIPT_DIR/../hooks/wezterm-notify.sh"
   if [[ -x "$wezterm_script" ]] || [[ -f "$wezterm_script" ]]; then
-    bash "$wezterm_script" "$STATE_STATUS" &
+    case "$target_status" in
+      research)  WEZTERM_STATUS="report" ;;
+      plan)      WEZTERM_STATUS="plan" ;;
+      implement) WEZTERM_STATUS="summary" ;;
+      *)         WEZTERM_STATUS="$STATE_STATUS" ;;
+    esac
+    bash "$wezterm_script" "$WEZTERM_STATUS" &
   fi
 
   # Fire TTS announcement immediately (speaks "Tab N STATUS")
