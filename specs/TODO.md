@@ -1,5 +1,5 @@
 ---
-next_project_number: 588
+next_project_number: 591
 ---
 
 # TODO
@@ -11,18 +11,57 @@ next_project_number: 588
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501 | -- | -- |
+| 1 | 78,87,500,501,588,590 | -- | -- |
+| 2 | 589 | 588 | wezterm-notifications |
 
 **Grouped by Topic** (indented = must complete first):
+
+### wezterm-notifications
+
+588 [RESEARCHED] — refactor_notification_signal_stop_hook
+  589 [NOT STARTED] — wezterm_artifact_colors_preflight (depends: 588)
+590 [RESEARCHED] — fix_task_number_parsing_display
 
 ### Uncategorized
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
-501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
+500 [RESEARCHED] — add_context_fork_to_core_skills
+501 [PLANNED] — optimize_team_mode_fork_cache_sharing
 
 ## Tasks
+
+### 590. Fix task number parsing and tab display consistency
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Research**: [590_fix_task_number_parsing_display/reports/01_task-number-parsing.md]
+
+**Description**: Fix task number parsing in wezterm-task-number.sh to support multi-task syntax (/research 7, 22-24), additional commands (/spawn N, /task --recover N, /task --expand N), and prevent stale task numbers. Ensure tab always shows {N} {root} format with #{task} when applicable.
+
+---
+
+### 589. Expand wezterm tab colors and add preflight coloring
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 588
+
+**Description**: Expand wezterm tab color palette with per-artifact-type colors (report=green, plan=blue, summary=gold, error=red, needs_input=gray). Add preflight tab coloring via UserPromptSubmit hook to show in-progress states (researching, planning, implementing). Include artifact type in signal file so wezterm can distinguish. Update wezterm.lua (nix-managed at ~/.dotfiles/config/wezterm.lua).
+
+---
+
+### 588. Refactor notification dispatch to signal-file Stop hook pattern
+- **Effort**: 3-4 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Research**: [588_refactor_notification_signal_stop_hook/reports/01_signal-stop-refactor.md]
+
+**Description**: Refactor TTS and wezterm notification dispatch from agent-dependent Stage 8a calls to a reliable signal-file + Stop hook pattern. Core problem: TTS depends on agents executing lifecycle-notify.sh in Stage 8a (frequently skipped), and the Stop hook's wezterm-notify.sh overwrites lifecycle colors with needs_input. Fix: update-task-status.sh postflight writes lifecycle signal file (.claude/tmp/lifecycle-signal with status + artifact type), new unified Stop hook script reads signal and dispatches both TTS and wezterm color atomically. Remove lifecycle-notify.sh from skill Stage 8a, remove duplicate wezterm-notify.sh call from update-task-status.sh Phase 5. All 4 copies of tts-notify.sh must be updated.
+
+---
 
 ### 587. Fix Neovim rendering corruption after system sleep in WezTerm
 - **Effort**: 4-6 hours

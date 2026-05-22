@@ -1,7 +1,132 @@
 {
   "version": "1.0.0",
-  "next_project_number": 588,
+  "next_project_number": 591,
   "active_projects": [
+    {
+      "project_number": 590,
+      "project_name": "fix_task_number_parsing_display",
+      "status": "researched",
+      "task_type": "meta",
+      "topic": "wezterm-notifications",
+      "description": "Fix task number parsing in wezterm-task-number.sh to support multi-task syntax (/research 7, 22-24), additional commands (/spawn N, /task --recover N, /task --expand N), and prevent stale task numbers. Ensure tab always shows {N} {root} format with #{task} when applicable.",
+      "effort": "1-2 hours",
+      "dependencies": [],
+      "created": "2026-05-21T22:00:00Z",
+      "last_updated": "2026-05-22T00:24:08Z",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/590_fix_task_number_parsing_display/reports/01_task-number-parsing.md",
+          "type": "research",
+          "summary": "Complete command inventory (6 missing patterns), 3-tier parsing logic (SET/CLEAR/PRESERVE), multi-task compact display strategy, 4 hook copies + 2 doc files to update"
+        }
+      ],
+      "session_id": "sess_1779408915_c1bc71",
+      "memory_candidates": [
+        {
+          "content": "WezTerm task number hook uses 3-tier UserPromptSubmit logic: (1) Workflow command with task number -> SET TASK_NUMBER to compact spec; (2) Any slash command without task number -> CLEAR TASK_NUMBER; (3) Free text / follow-up answer -> PRESERVE (no change). The preserve tier prevents stale-on-follow-up where answering an agent question during a workflow would clear the task number display.",
+          "category": "PATTERN",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "wezterm",
+            "task-number",
+            "hook",
+            "UserPromptSubmit",
+            "3-tier"
+          ]
+        },
+        {
+          "content": "Multi-task syntax in wezterm-task-number.sh: capture the full task spec with [0-9][0-9, -]* then post-process: strip from first -- (removes flags like --team), trim trailing spaces/commas. Display as compact spec with spaces removed (e.g. 7, 22-24, 59 -> 7,22-24,59).",
+          "category": "TECHNIQUE",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "wezterm",
+            "multi-task",
+            "regex",
+            "bash",
+            "task-spec",
+            "compact"
+          ]
+        }
+      ]
+    },
+    {
+      "project_number": 589,
+      "project_name": "wezterm_artifact_colors_preflight",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "wezterm-notifications",
+      "description": "Expand wezterm tab color palette with per-artifact-type colors (report=green, plan=blue, summary=gold, error=red, needs_input=gray). Add preflight tab coloring via UserPromptSubmit hook to show in-progress states (researching, planning, implementing). Include artifact type in signal file so wezterm can distinguish. Update wezterm.lua (nix-managed at ~/.dotfiles/config/wezterm.lua).",
+      "effort": "2-3 hours",
+      "dependencies": [
+        588
+      ],
+      "created": "2026-05-21T22:00:00Z",
+      "last_updated": "2026-05-21T22:00:00Z",
+      "next_artifact_number": 1,
+      "artifacts": []
+    },
+    {
+      "project_number": 588,
+      "project_name": "refactor_notification_signal_stop_hook",
+      "status": "researched",
+      "task_type": "meta",
+      "topic": "wezterm-notifications",
+      "description": "Refactor TTS and wezterm notification dispatch from agent-dependent Stage 8a calls to a reliable signal-file + Stop hook pattern. Core problem: TTS depends on agents executing lifecycle-notify.sh in Stage 8a (frequently skipped), and the Stop hook's wezterm-notify.sh overwrites lifecycle colors with needs_input. Fix: update-task-status.sh postflight writes lifecycle signal file (.claude/tmp/lifecycle-signal with status + artifact type), new unified Stop hook script reads signal and dispatches both TTS and wezterm color atomically. Remove lifecycle-notify.sh from skill Stage 8a, remove duplicate wezterm-notify.sh call from update-task-status.sh Phase 5. All 4 copies of tts-notify.sh must be updated.",
+      "effort": "3-4 hours",
+      "dependencies": [],
+      "created": "2026-05-21T22:00:00Z",
+      "last_updated": "2026-05-22T00:24:08Z",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/588_refactor_notification_signal_stop_hook/reports/01_signal-stop-refactor.md",
+          "type": "research",
+          "summary": "Full audit of notification system: 3 interlocked bugs identified, signal-file + Stop hook architecture designed, 14 files inventoried, race-safe atomic consume pattern, subagent suppression via agent_id check, OpenCode divergence documented"
+        }
+      ],
+      "session_id": "sess_1779408915_c1bc71",
+      "memory_candidates": [
+        {
+          "content": "Signal-file + Stop hook pattern for Claude Code lifecycle notifications: update-task-status.sh writes a status value to .claude/tmp/lifecycle-signal as its last postflight action. A unified claude-stop-notify.sh in the Stop hook reads and atomically consumes the file (using mv rename for race-safe single-consumer semantics). If signal present: announces lifecycle status via wezterm-notify.sh + tts-notify.sh --lifecycle. If not: falls back to needs_input + bare Tab N TTS. This replaces the unreliable Stage 8a markdown-instruction pattern where agents would call lifecycle-notify.sh.",
+          "category": "PATTERN",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "signal-file",
+            "stop-hook",
+            "lifecycle",
+            "TTS",
+            "wezterm",
+            "notification",
+            "atomic-consume"
+          ]
+        },
+        {
+          "content": "Subagent Stop hook suppression: The Claude Code Stop hook fires for BOTH main agent and subagent turns. To suppress TTS/color updates in subagent contexts, read stdin JSON and check for agent_id field (only present in subagent Stop contexts).",
+          "category": "TECHNIQUE",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "subagent",
+            "stop-hook",
+            "agent_id",
+            "suppress"
+          ]
+        },
+        {
+          "content": "OpenCode wezterm-notify.sh divergence: The .opencode/ copies of wezterm-notify.sh hardcode needs_input instead of accepting a STATUS parameter like the .claude/ version does. Similarly, opencode tts-notify.sh lacks --lifecycle mode. Any lifecycle notification feature must update both trees in parallel.",
+          "category": "INSIGHT",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "wezterm-notify",
+            "tts-notify",
+            "divergence",
+            "lifecycle",
+            "sync"
+          ]
+        }
+      ]
+    },
     {
       "project_number": 587,
       "project_name": "fix_neovim_rendering_after_sleep_wezterm",
@@ -388,6 +513,7 @@
     "status": "healthy"
   },
   "active_topics": [
-    "neovim-plugins"
+    "neovim-plugins",
+    "wezterm-notifications"
   ]
 }
