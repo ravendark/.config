@@ -118,16 +118,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Verification and Home Manager Rebuild [NOT STARTED]
+### Phase 3: Verification and Home Manager Rebuild [COMPLETED]
 
 **Goal**: Verify all changes are correct and rebuild Home Manager to sync the Nix store.
 
 **Tasks**:
-- [ ] Run `bash -n /home/benjamin/.config/nvim/.claude/hooks/tts-notify.sh` to verify shell syntax
-- [ ] Visually confirm `status_colors` table has all 8 entries with correct values
-- [ ] Visually confirm `update-status` handler only clears `needs_input`
-- [ ] Run `home-manager switch --flake ~/.dotfiles` to rebuild and sync Nix store
-- [ ] Verify WezTerm reloads config without errors (check `wezterm cli list` works)
+- [x] **Task 3.1**: Run `bash -n /home/benjamin/.config/nvim/.claude/hooks/tts-notify.sh` to verify shell syntax *(completed)*
+- [x] **Task 3.2**: Visually confirm `status_colors` table has all 8 entries with correct values *(completed)*
+- [x] **Task 3.3**: Visually confirm `update-status` handler only clears `needs_input` *(completed)*
+- [x] **Task 3.4**: Run `home-manager switch --flake ~/.dotfiles` to rebuild and sync Nix store *(completed)*
+- [x] **Task 3.5**: Verify WezTerm reloads config without errors (check `wezterm cli list` works) *(completed)*
 
 **Timing**: 10 minutes
 
@@ -143,12 +143,12 @@ Phases within the same wave can execute in parallel.
 
 ## Testing & Validation
 
-- [ ] All `status_colors` entries match the recommended values from the research report
-- [ ] The `update-status` handler conditional checks for `"needs_input"` specifically, not any non-empty status
-- [ ] TTS `tab_prefix` uses lowercase "tab" on both line 51 and line 68
-- [ ] `bash -n` passes on `tts-notify.sh`
-- [ ] `home-manager switch --flake ~/.dotfiles` completes without errors
-- [ ] WezTerm reloads without Lua parse errors
+- [x] All `status_colors` entries match the recommended values from the research report *(completed)*
+- [x] The `update-status` handler conditional checks for `"needs_input"` specifically, not any non-empty status *(completed)*
+- [x] TTS `tab_prefix` uses lowercase "tab" on both line 51 and line 68 *(completed)*
+- [x] `bash -n` passes on `tts-notify.sh` *(completed)*
+- [x] `home-manager switch --flake ~/.dotfiles` completes without errors *(completed)*
+- [x] WezTerm reloads without Lua parse errors *(completed: wezterm cli list confirmed responsive)*
 
 ## Artifacts & Outputs
 
