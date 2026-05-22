@@ -114,14 +114,14 @@
     {
       "project_number": 588,
       "project_name": "refactor_notification_signal_stop_hook",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "topic": "wezterm-notifications",
       "description": "Refactor TTS and wezterm notification dispatch to dual-dispatch architecture: postflight fires TTS+color immediately (compatible with never-stopping workflows), signal file serves as suppress flag so Stop hook doesn't duplicate. Remove Stage 8a from skills, stub lifecycle-notify.sh. Sync to OpenCode tree.",
       "effort": "3-4 hours",
       "dependencies": [],
       "created": "2026-05-21T22:00:00Z",
-      "last_updated": "2026-05-22T00:38:55Z",
+      "last_updated": "2026-05-22T03:32:01Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -133,9 +133,14 @@
           "path": "specs/588_refactor_notification_signal_stop_hook/plans/01_signal-stop-refactor.md",
           "type": "plan",
           "summary": "Revised plan v2: dual-dispatch architecture (postflight immediate + Stop hook suppress-flag) compatible with never-stopping workflows"
+        },
+        {
+          "path": "specs/588_refactor_notification_signal_stop_hook/summaries/01_signal-stop-refactor-summary.md",
+          "type": "summary",
+          "summary": "Dual-dispatch notification refactor: postflight immediate + Stop hook suppress-flag, 4 phases complete"
         }
       ],
-      "session_id": "sess_1779410041_152285",
+      "session_id": "sess_1779420198_11a0ad",
       "memory_candidates": [
         {
           "content": "Signal-file + Stop hook pattern for Claude Code lifecycle notifications: update-task-status.sh writes a status value to .claude/tmp/lifecycle-signal as its last postflight action. A unified claude-stop-notify.sh in the Stop hook reads and atomically consumes the file (using mv rename for race-safe single-consumer semantics). If signal present: announces lifecycle status via wezterm-notify.sh + tts-notify.sh --lifecycle. If not: falls back to needs_input + bare Tab N TTS. This replaces the unreliable Stage 8a markdown-instruction pattern where agents would call lifecycle-notify.sh.",
@@ -187,6 +192,19 @@
             "postflight",
             "lifecycle"
           ]
+        },
+        {
+          "content": "Dual-dispatch notification architecture: fire TTS and WezTerm from BOTH postflight immediately AND Stop hook conditionally. Signal file as suppress flag prevents duplication. Compatible with never-stopping workflows.",
+          "category": "TECHNIQUE",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "dual-dispatch",
+            "lifecycle-notification",
+            "postflight",
+            "wezterm",
+            "tts",
+            "never-stopping"
+          ]
         }
       ],
       "plan_metadata": {
@@ -214,7 +232,8 @@
             "integrated_date": "2026-05-21"
           }
         ]
-      }
+      },
+      "completion_summary": "Implemented dual-dispatch notification architecture: postflight fires TTS+wezterm immediately (never-stopping compatible) writing a signal file first; claude-stop-notify.sh Stop hook consumes signal atomically to suppress duplicate dispatch. Created claude-stop-notify.sh for both .claude/ and .opencode/ trees plus extension copies, removed Stage 8a from 4 skills, stubbed lifecycle-notify.sh, updated wezterm-notify.sh extension copies to accept STATUS parameter, and added .claude/tmp/ and .opencode/tmp/ to .gitignore."
     },
     {
       "project_number": 587,

@@ -11,16 +11,13 @@ next_project_number: 591
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,588 | -- | wezterm-notifications |
-| 2 | 589 | 588 | wezterm-notifications |
+| 1 | 78,87,500,501,589 | -- | wezterm-notifications |
 
 **Grouped by Topic** (indented = must complete first):
 
 ### Wezterm Notifications
 
-588 [PLANNED] — Refactor TTS and wezterm notification dispatch to dual-dispatch a
 589 [NOT STARTED] — Expand wezterm tab color palette with per-artifact-type colors (r
-  └─ 588 [PLANNED] — Refactor TTS and wezterm notification dispatch to dual-dispatch a (see above)
 
 ### Uncategorized
 
@@ -56,11 +53,12 @@ next_project_number: 591
 
 ### 588. Refactor notification dispatch to signal-file Stop hook pattern
 - **Effort**: 3-4 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [588_refactor_notification_signal_stop_hook/reports/01_signal-stop-refactor.md]
 - **Plan**: [588_refactor_notification_signal_stop_hook/plans/01_signal-stop-refactor.md]
+- **Summary**: [588_refactor_notification_signal_stop_hook/summaries/01_signal-stop-refactor-summary.md]
 
 **Description**: Refactor TTS and wezterm notification dispatch from agent-dependent Stage 8a calls to a reliable signal-file + Stop hook pattern. Core problem: TTS depends on agents executing lifecycle-notify.sh in Stage 8a (frequently skipped), and the Stop hook's wezterm-notify.sh overwrites lifecycle colors with needs_input. Fix: update-task-status.sh postflight writes lifecycle signal file (.claude/tmp/lifecycle-signal with status + artifact type), new unified Stop hook script reads signal and dispatches both TTS and wezterm color atomically. Remove lifecycle-notify.sh from skill Stage 8a, remove duplicate wezterm-notify.sh call from update-task-status.sh Phase 5. All 4 copies of tts-notify.sh must be updated.
 
