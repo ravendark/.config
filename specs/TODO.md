@@ -41,6 +41,28 @@ next_project_number: 601
 
 ## Tasks
 
+### 601. Simplify notification pipeline and merge status vocabulary
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: wezterm-notifications
+- **Dependencies**: None
+
+**Description**: Simplify the WezTerm tab coloring and TTS notification pipeline. Merge to single lifecycle vocabulary (researching/researched/planning/planned/implementing/completed/needs_input), eliminating the artifact-type vocabulary (report/plan/summary/error). Move TTS to fire AFTER artifact linking from skill postflight instead of update-task-status.sh. Eliminate signal file mechanism entirely. Simplify Stop hook to only set needs_input for wezterm (no TTS from Stop). Consolidate TTY discovery boilerplate into shared function. Update all hook copies (4 locations), extension copies, .opencode copies, and wezterm-integration.md.
+
+---
+
+### 602. Update wezterm.lua dim/bright color palette and fix tab-switch clearing
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: nix
+- **Topic**: wezterm-notifications
+- **Dependencies**: Task #601
+
+**Description**: Update wezterm.lua color palette for dim/bright workflow stage semantics. Research=green, plan=blue, implement=gold. DIM shade for in-progress states (researching/planning/implementing), BRIGHT/BOLD for finished states (researched/planned/completed). Fix update-status handler to only clear needs_input on tab switch, preserving lifecycle states until next command. TTS announcement format: tab-number workflow-type (e.g. tab 4 researched). WezTerm config at ~/.dotfiles/config/wezterm.lua (nix-managed, rebuild via home-manager).
+
+---
+
 ### 600. Revise .claude/docs/ architecture and guides post-refactor
 - **Effort**: 2-3 hours
 - **Status**: [NOT STARTED]
