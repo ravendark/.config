@@ -27,7 +27,7 @@ next_project_number: 605
 
 ### Workflow Refactor
 
-594 [PLANNED] — Refactor core workflow skills to use a shared base library skill-
+594 [IMPLEMENTING] — Refactor core workflow skills to use a shared base library skill-
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util
   └─ 594 [PLANNING] — Refactor core workflow skills to use a shared base library skill- (see above)
@@ -176,7 +176,7 @@ next_project_number: 605
 
 ### 594. Refactor workflow skills to shared base pattern
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 598
