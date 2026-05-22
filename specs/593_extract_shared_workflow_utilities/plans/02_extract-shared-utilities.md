@@ -175,32 +175,29 @@ Phases are fully sequential. Each phase builds on the previous one's scripts/mig
 
 ---
 
-### Phase 4: Command File Migration [NOT STARTED]
+### Phase 4: Command File Migration [COMPLETED]
 
 **Goal**: Migrate all 3 command files to use the shared scripts, eliminating duplicated logic. Follow incremental order: research.md first (simplest, 500L), plan.md second (531L), implement.md last (612L, most complex).
 
 **Tasks**:
-- [ ] **Migrate research.md**:
+- [x] **Migrate research.md**: *(completed: 500->393 lines, -107 lines)*
   - Replace inline `parse_task_args()` and `parse_ranges()` with reference to `source .claude/scripts/parse-command-args.sh "$ARGUMENTS"`
   - Replace inline GATE IN (session ID, task lookup, terminal guard) with reference to `source .claude/scripts/command-gate-in.sh "$task_number" "research"`
   - Replace inline STAGE 1.5 flag parsing with note that flags are already parsed by parse-command-args.sh
   - Add team-size post-clamp: `[ "$TEAM_SIZE" -gt 4 ] && TEAM_SIZE=4` (research max is 4)
   - Replace inline GATE OUT defensive correction with reference to `bash .claude/scripts/command-gate-out.sh "$task_number" "research" "$SESSION_ID"`
   - Keep inline: multi-task dispatch block, extension routing table, skill invocation, git commit, error handling, anti-bypass constraint
-  - Verify line count reduction
-- [ ] **Migrate plan.md**:
+- [x] **Migrate plan.md**: *(completed: 531->420 lines, -111 lines)*
   - Same parse/gate-in/gate-out replacement pattern as research.md
   - Add team-size post-clamp: `[ "$TEAM_SIZE" -gt 3 ] && TEAM_SIZE=3` (plan max is 3)
   - Keep `--roadmap` flag handling inline (plan-specific)
   - Keep inline: multi-task dispatch, skill routing, plan-specific GATE OUT steps (plan file verification), prior plan discovery
-  - Verify line count reduction
-- [ ] **Migrate implement.md**:
+- [x] **Migrate implement.md**: *(completed: 612->525 lines, -87 lines)*
   - Same parse/gate-in/gate-out replacement pattern
   - Add team-size post-clamp: `[ "$TEAM_SIZE" -gt 4 ] && TEAM_SIZE=4`
   - Keep `--force` flag handling inline (implement-specific gate-in override)
-  - Keep inline: multi-task dispatch, continuation loop, implement-specific GATE OUT (completion_summary, TODO summary line), `--force` status override
-  - Verify line count reduction
-- [ ] Verify all 3 command files retain their YAML frontmatter, anti-bypass constraints, and error handling sections unchanged
+  - Keep inline: multi-task dispatch, implement-specific GATE OUT (completion_summary, TODO summary line), `--force` status override
+- [x] Verify all 3 command files retain their YAML frontmatter, anti-bypass constraints, and error handling sections unchanged *(completed: all verified)*
 
 **Timing**: 2 hours
 

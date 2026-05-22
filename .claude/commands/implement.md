@@ -52,57 +52,33 @@ When `--team` is specified, implementation is delegated to `skill-team-implement
 
 Parse raw arguments to extract task numbers and remaining arguments (flags, focus prompts).
 
-**Algorithm** (inline `parse_task_args()`):
-
 ```bash
-parse_task_args() {
-  local input="$1"
-  local task_spec=""
-  local remaining=""
-
-  # Match leading task specification: digits, commas, hyphens, spaces
-  # Stop at first alphabetic char or -- flag
-  if [[ "$input" =~ ^([0-9][0-9,\ \-]*)(\ +.*)?$ ]]; then
-    task_spec="${BASH_REMATCH[1]}"
-    remaining="${BASH_REMATCH[2]}"
-  else
-    echo "[FAIL] No task number found in arguments"
-    return 1
-  fi
-
-  # Trim trailing whitespace/commas from task_spec
-  task_spec=$(echo "$task_spec" | sed 's/[, ]*$//')
-
-  # Parse through existing parse_ranges()
-  task_numbers=($(parse_ranges "$task_spec"))
-
-  # Trim leading whitespace from remaining
-  remaining=$(echo "$remaining" | sed 's/^[[:space:]]*//')
-
-  echo "TASK_NUMBERS=${task_numbers[*]}"
-  echo "REMAINING_ARGS=$remaining"
-}
+source .claude/scripts/parse-command-args.sh "$ARGUMENTS"
+# Exports: TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, TEAM_SIZE, EFFORT_FLAG, MODEL_FLAG,
+#          CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT
+# Note: per-command team-size max clamp for implement (max 4):
+[ "$TEAM_SIZE" -gt 4 ] && TEAM_SIZE=4
 ```
 
 **Examples**:
 
-| Input | task_numbers | remaining_args | Mode |
+| Input | TASK_NUMBERS | REMAINING_ARGS | Mode |
 |-------|-------------|----------------|------|
-| `7` | `[7]` | `` | single |
-| `7, 22-24, 59` | `[7, 22, 23, 24, 59]` | `` | multi |
-| `7 --force` | `[7]` | `--force` | single |
-| `7, 22-24 --team` | `[7, 22, 23, 24]` | `--team` | multi |
-| `10-12, 15 --force` | `[10, 11, 12, 15]` | `--force` | multi |
+| `7` | `7` | `` | single |
+| `7, 22-24, 59` | `7 22 23 24 59` | `` | multi |
+| `7 --force` | `7` | `--force` | single |
+| `7, 22-24 --team` | `7 22 23 24` | `--team` | multi |
+| `10-12, 15 --force` | `10 11 12 15` | `--force` | multi |
 
 **Dispatch Decision**:
 
 ```
-if len(task_numbers) == 1:
+if len(TASK_NUMBERS) == 1:
     # SINGLE-TASK MODE
-    task_number = task_numbers[0]
+    task_number = TASK_NUMBERS[0]
     # Fall through to CHECKPOINT 1: GATE IN below (existing flow, unchanged)
 
-elif len(task_numbers) > 1:
+elif len(TASK_NUMBERS) > 1:
     # MULTI-TASK MODE
     # Continue to MULTI-TASK DISPATCH below
 ```
@@ -113,7 +89,7 @@ elif len(task_numbers) > 1:
 
 ### MULTI-TASK DISPATCH
 
-When `parse_task_args()` produces more than one task number, enter multi-task mode. This section replaces the single-task checkpoints for the batch operation.
+When `parse-command-args.sh` produces more than one task number in TASK_NUMBERS, enter multi-task mode. This section replaces the single-task checkpoints for the batch operation.
 
 #### Step 1: Batch Validation
 
@@ -138,7 +114,7 @@ for task_num in "${task_numbers[@]}"; do
   # Block terminal statuses only; --force overrides completed
   case "$status" in
     completed)
-      if [ "$force_mode" = "true" ]; then
+      if [ "$FORCE_FLAG" = "true" ]; then
         : # Allow with --force
       else
         skipped_tasks+=("$task_num: already completed (use --force)")
@@ -185,9 +161,9 @@ For each validated task, invoke the appropriate implementation skill using paral
 
 **Note**: Batch dispatch is handled directly by this command's orchestrator loop via parallel Skill tool calls, not by a separate batch skill.
 
-**--force flag**: When `--force` is present in `remaining_args`, it is passed to each invoked skill, which passes it through to its agent to bypass status validation in single-task GATE IN.
+**--force flag**: When `FORCE_FLAG == "true"`, it is passed to each invoked skill, which passes it through to its agent to bypass status validation in single-task GATE IN.
 
-**--team flag**: When `--team` is present in `remaining_args`, each task routes to `skill-team-implement` (multiple agents per task). Total agents = `N_tasks * team_size`. Cost warning applies.
+**--team flag**: When `TEAM_MODE == "true"`, each task routes to `skill-team-implement` (multiple agents per task). Total agents = `N_tasks * TEAM_SIZE`. Cost warning applies.
 
 #### Step 4: Batch Git Commit
 
@@ -264,116 +240,59 @@ Skipped: {count}
 
 ### CHECKPOINT 1: GATE IN
 
-**Display header**:
+```bash
+source .claude/scripts/command-gate-in.sh "$task_number" "implement"
+# Exports: SESSION_ID, TASK_TYPE, TASK_STATUS, PROJECT_NAME, DESCRIPTION, PADDED_NUM
+# Displays: [IMPLEMENT] Task {N}: {project_name}
+# Aborts if task not found or in terminal status (unless --force)
 ```
-[Implementing] Task {N}: {project_name}
+
+**--force override** (implement-specific): If `FORCE_FLAG == "true"` and gate-in rejects due to terminal status, override the rejection:
+```bash
+# If TASK_STATUS is "completed" and FORCE_FLAG is "true", proceed anyway
+# (gate-in aborts on completed; --force caller must handle this override inline)
 ```
 
-1. **Generate Session ID**
-   ```
-   session_id = sess_{timestamp}_{random}
-   ```
+**Load Implementation Plan** (implement-specific):
+Find latest: `specs/${PADDED_NUM}_${PROJECT_NAME}/plans/*.md` (sorted by version)
 
-2. **Lookup Task**
-   ```bash
-   task_data=$(jq -r --arg num "$task_number" \
-     '.active_projects[] | select(.project_number == ($num | tonumber))' \
-     specs/state.json)
-   ```
+If no plan: ABORT "No implementation plan found. Run /plan {N} first."
 
-3. **Validate**
-   - Task exists (ABORT if not)
-   - Status is not terminal: block completed (unless --force), abandoned, expanded
-   - If terminal (and not --force): ABORT with recommendation
+**Detect Resume Point** (implement-specific):
+Scan plan for phase status markers:
+- [NOT STARTED] → Start here
+- [IN PROGRESS] → Resume here
+- [COMPLETED] → Skip
+- [PARTIAL] → Resume here
 
-4. **Load Implementation Plan**
-   Find latest: `specs/{NNN}_{SLUG}/plans/*.md` (sorted by version)
-
-   If no plan: ABORT "No implementation plan found. Run /plan {N} first."
-
-5. **Detect Resume Point**
-   Scan plan for phase status markers:
-   - [NOT STARTED] → Start here
-   - [IN PROGRESS] → Resume here
-   - [COMPLETED] → Skip
-   - [PARTIAL] → Resume here
-
-   If all [COMPLETED]: Task already done
+If all [COMPLETED]: Task already done
 
 **ABORT** if any validation fails.
 
-**On GATE IN success**: Task validated. **IMMEDIATELY CONTINUE** to STAGE 1.5 below.
-
-### STAGE 1.5: PARSE FLAGS
-
-**Parse arguments to determine team mode and other flags.**
-
-1. **Extract Team Options**
-   Check args for team flags:
-   - `--team` -> `team_mode = true`
-   - `--team-size N` -> `team_size = N` (clamp 2-4)
-
-   If no team flag found: `team_mode = false`, `team_size = 2`
-
-2. **Extract Other Flags**
-   - `--force` -> `force_mode = true`
-
-3. **Extract Effort Flags**
-   Check remaining args for effort flags:
-   - `--fast` -> `effort_flag = "fast"` (low-effort mode: lighter reasoning)
-   - `--hard` -> `effort_flag = "hard"` (high-effort mode: deeper reasoning)
-
-   If multiple are provided, last one wins.
-   If none: `effort_flag = null` (normal effort)
-
-4. **Extract Model Flags**
-   Check remaining args for model flags:
-   - `--haiku` -> `model_flag = "haiku"` (use Haiku model)
-   - `--sonnet` -> `model_flag = "sonnet"` (use Sonnet model)
-   - `--opus` -> `model_flag = "opus"` (use Opus model)
-
-   If multiple are provided, last one wins.
-   If none: `model_flag = null` (use agent's frontmatter default: opus for planner/meta-builder/reviser; sonnet for general-purpose agents)
-
-5. **Validate Team Size**
-   ```bash
-   # Clamp team_size to valid range
-   team_size=${team_size:-2}
-   [ "$team_size" -lt 2 ] && team_size=2
-   [ "$team_size" -gt 4 ] && team_size=4
-   ```
-
-6. **Extract Clean Flag**
-   Check remaining args for memory retrieval suppression:
-   - `--clean` -> `clean_flag = true` (skip automatic memory retrieval)
-
-   If not present: `clean_flag = false`
-
-**On STAGE 1.5 success**: Flags parsed. **IMMEDIATELY CONTINUE** to STAGE 2 below.
+**On GATE IN success**: Task validated. **IMMEDIATELY CONTINUE** to STAGE 2 below.
 
 ### STAGE 2: DELEGATE
 
-**EXECUTE NOW**: After STAGE 1.5 completes, immediately invoke the Skill tool.
+**EXECUTE NOW**: After CHECKPOINT 1 completes, immediately invoke the Skill tool.
 
 **Team Mode Routing** (when `--team` flag present):
 
-If `team_mode == true`:
+If `TEAM_MODE == "true"`:
 - Route to `skill-team-implement`
-- Pass `team_size` parameter
+- Pass `TEAM_SIZE` parameter
 
 **Extension Routing** (when `--team` flag NOT present):
 
 Check extension manifests for task-type-specific implement routing:
 
 ```bash
-# Get task_type (may be simple "founder" or compound "founder:deck")
-task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
+# TASK_TYPE is exported by command-gate-in.sh
 
 # Check extension routing for implement (skill_name starts empty)
 skill_name=""
 for manifest in .claude/extensions/*/manifest.json; do
   if [ -f "$manifest" ]; then
-    ext_skill=$(jq -r --arg tt "$task_type" \
+    ext_skill=$(jq -r --arg tt "$TASK_TYPE" \
       '.routing.implement[$tt] // empty' "$manifest")
     if [ -n "$ext_skill" ]; then
       skill_name="$ext_skill"
@@ -383,8 +302,8 @@ for manifest in .claude/extensions/*/manifest.json; do
 done
 
 # Fallback: if compound key (contains ":"), try base task_type
-if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
-  base_type=$(echo "$task_type" | cut -d: -f1)
+if [ -z "$skill_name" ] && echo "$TASK_TYPE" | grep -q ":"; then
+  base_type=$(echo "$TASK_TYPE" | cut -d: -f1)
   for manifest in .claude/extensions/*/manifest.json; do
     if [ -f "$manifest" ]; then
       ext_skill=$(jq -r --arg tt "$base_type" \
@@ -415,7 +334,7 @@ skill_name=${skill_name:-"skill-implementer"}
 
 **Skill Selection Logic**:
 ```
-if team_mode:
+if TEAM_MODE == "true":
   skill_name = "skill-team-implement"
 else:
   skill_name = {extension routing lookup} OR "skill-implementer"
@@ -425,30 +344,31 @@ else:
 ```
 # For team mode:
 skill: "skill-team-implement"
-args: "task_number={N} plan_path={path to implementation plan} resume_phase={phase number} team_size={team_size} session_id={session_id} effort_flag={effort_flag} model_flag={model_flag} clean_flag={clean_flag}"
+args: "task_number={N} plan_path={path to implementation plan} resume_phase={phase number} team_size={TEAM_SIZE} session_id={SESSION_ID} effort_flag={EFFORT_FLAG} model_flag={MODEL_FLAG} clean_flag={CLEAN_FLAG}"
 
 # For extension-routed skill (e.g., skill-founder-implement):
 skill: "{skill_name from extension routing}"
-args: "task_number={N} plan_path={path to implementation plan} resume_phase={phase number} session_id={session_id} effort_flag={effort_flag} model_flag={model_flag} clean_flag={clean_flag}"
+args: "task_number={N} plan_path={path to implementation plan} resume_phase={phase number} session_id={SESSION_ID} effort_flag={EFFORT_FLAG} model_flag={MODEL_FLAG} clean_flag={CLEAN_FLAG}"
 
 # For default single-agent mode:
 skill: "skill-implementer"
-args: "task_number={N} plan_path={path to implementation plan} resume_phase={phase number} session_id={session_id} effort_flag={effort_flag} model_flag={model_flag} clean_flag={clean_flag}"
+args: "task_number={N} plan_path={path to implementation plan} resume_phase={phase number} session_id={SESSION_ID} effort_flag={EFFORT_FLAG} model_flag={MODEL_FLAG} clean_flag={CLEAN_FLAG}"
 ```
 
-If `model_flag` is set, pass the `model` parameter to override the agent's default model:
-- `model_flag="haiku"` -> pass `model: haiku`
-- `model_flag="sonnet"` -> pass `model: sonnet`
-- `model_flag="opus"` -> pass `model: opus`
-- `model_flag=null` -> omit `model` parameter (use agent's frontmatter default: opus for planner/meta-builder/reviser; sonnet for general-purpose agents)
-
-If `effort_flag` is set, pass it as prompt context to the skill/agent for reasoning depth guidance.
+If `MODEL_FLAG` is set, pass the `model` parameter to override the agent's default model.
+If `EFFORT_FLAG` is set, pass it as prompt context to the skill/agent for reasoning depth guidance.
 
 The skill will spawn the appropriate agent(s) which execute plan phases (in parallel for team mode), update phase markers, create commits per phase, and return a structured result.
 
 **On DELEGATE success**: Implementation complete. **IMMEDIATELY CONTINUE** to CHECKPOINT 2 below.
 
 ### CHECKPOINT 2: GATE OUT
+
+```bash
+bash .claude/scripts/command-gate-out.sh "$task_number" "implement" "$SESSION_ID"
+# Reads .return-meta.json; applies defensive status correction if needed
+# Runs validate-artifact.sh --fix (non-blocking)
+```
 
 1. **Validate Return**
    Required fields: status, summary, artifacts, metadata (phases_completed, phases_total)
@@ -465,7 +385,7 @@ The skill will spawn the appropriate agent(s) which execute plan phases (in para
    **If result.status == "partial":**
    Confirm status is still "implementing", resume point noted.
 
-4. **Populate Completion Summary (if implemented)**
+4. **Populate Completion Summary (if implemented)** (implement-specific)
 
    **Only when result.status == "implemented":**
 
@@ -488,25 +408,19 @@ The skill will spawn the appropriate agent(s) which execute plan phases (in para
    **Skip if result.status == "partial":**
    Partial implementations do not get completion summaries.
 
-5. **Verify Plan File Status Updated (Defensive)**
+5. **Verify Plan File Status Updated (Defensive)** (implement-specific)
 
    **Only when result.status == "implemented":**
 
    Check that the plan file status marker was updated to `[COMPLETED]`. If not, apply defensive correction.
 
    ```bash
-   # Find latest plan file
-   padded_num=$(printf "%03d" "$task_number")
-   project_name=$(jq -r --argjson num "$task_number" \
-     '.active_projects[] | select(.project_number == $num) | .project_name' \
-     specs/state.json)
-   plan_file=$(ls -1 "specs/${padded_num}_${project_name}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+   plan_file=$(ls -1 "specs/${PADDED_NUM}_${PROJECT_NAME}/plans/"*.md 2>/dev/null | sort -V | tail -1)
 
    if [ -n "$plan_file" ] && [ -f "$plan_file" ]; then
-       # Check if plan file has [COMPLETED] status
        if ! grep -qE '^\*\*Status\*\*: \[COMPLETED\]|^\- \*\*Status\*\*: \[COMPLETED\]' "$plan_file"; then
            echo "WARNING: Plan file status not updated to [COMPLETED]. Applying defensive correction."
-           .claude/scripts/update-plan-status.sh "$task_number" "$project_name" "COMPLETED"
+           .claude/scripts/update-plan-status.sh "$task_number" "$PROJECT_NAME" "COMPLETED"
        fi
    fi
    ```
@@ -521,7 +435,6 @@ The skill will spawn the appropriate agent(s) which execute plan phases (in para
    Check that the task entry in TODO.md shows `[COMPLETED]`. If it still shows `[IMPLEMENTING]`, apply correction:
 
    ```bash
-   # Check if TODO.md task entry still shows [IMPLEMENTING]
    if grep -q "- \*\*Status\*\*: \[IMPLEMENTING\]" <(grep -A 5 "^### ${task_number}\." specs/TODO.md); then
        echo "WARNING: TODO.md status not updated to [COMPLETED]. Applying defensive correction."
    fi
@@ -547,7 +460,7 @@ git add -A
 git commit -m "$(cat <<'EOF'
 task {N}: complete implementation
 
-Session: {session_id}
+Session: {SESSION_ID}
 
 EOF
 )"
@@ -559,7 +472,7 @@ git add -A
 git commit -m "$(cat <<'EOF'
 task {N}: partial implementation (phases 1-{M} of {total})
 
-Session: {session_id}
+Session: {SESSION_ID}
 
 EOF
 )"

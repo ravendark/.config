@@ -53,64 +53,31 @@ When `--team` is specified, planning is delegated to `skill-team-plan` which spa
 **Parse task arguments to separate task numbers from remaining args.**
 
 ```bash
-parse_task_args() {
-  local input="$1"
-  local task_spec=""
-  local remaining=""
-
-  # Match leading task specification: digits, commas, hyphens, spaces
-  # Stop at first alphabetic char or -- flag
-  if [[ "$input" =~ ^([0-9][0-9,\ \-]*)(\ +.*)?$ ]]; then
-    task_spec="${BASH_REMATCH[1]}"
-    remaining="${BASH_REMATCH[2]}"
-  else
-    echo "[FAIL] No task number found in arguments"
-    return 1
-  fi
-
-  # Trim trailing whitespace/commas from task_spec
-  task_spec=$(echo "$task_spec" | sed 's/[, ]*$//')
-
-  # Parse through existing parse_ranges()
-  task_numbers=($(parse_ranges "$task_spec"))
-
-  # Trim leading whitespace from remaining
-  remaining=$(echo "$remaining" | sed 's/^[[:space:]]*//')
-
-  echo "TASK_NUMBERS=${task_numbers[*]}"
-  echo "REMAINING_ARGS=$remaining"
-}
+source .claude/scripts/parse-command-args.sh "$ARGUMENTS"
+# Exports: TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, TEAM_SIZE, EFFORT_FLAG, MODEL_FLAG,
+#          CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT
+# Note: per-command team-size max clamp for plan (max 3):
+[ "$TEAM_SIZE" -gt 3 ] && TEAM_SIZE=3
+# Note: --roadmap flag is plan-specific; check REMAINING_ARGS for it:
+[[ "$REMAINING_ARGS" =~ --roadmap ]] && roadmap_flag="true" || roadmap_flag="false"
 ```
-
-**Examples**:
-
-| Input | task_numbers | remaining_args | Mode |
-|-------|-------------|----------------|------|
-| `7` | `[7]` | `` | single |
-| `7, 22-24, 59` | `[7, 22, 23, 24, 59]` | `` | multi |
-| `7 --team` | `[7]` | `--team` | single |
-| `7, 22-24 --team` | `[7, 22, 23, 24]` | `--team` | multi |
-| `42 --team --team-size 3` | `[42]` | `--team --team-size 3` | single |
 
 **Dispatch decision**:
 
 ```
-task_numbers = parse_task_args($ARGUMENTS)
-
-if len(task_numbers) == 1:
+if len(TASK_NUMBERS) == 1:
     # SINGLE-TASK MODE
-    task_number = task_numbers[0]
+    task_number = TASK_NUMBERS[0]
     # Fall through to CHECKPOINT 1: GATE IN below
-    # Existing single-task flow proceeds unchanged
 
-elif len(task_numbers) > 1:
+elif len(TASK_NUMBERS) > 1:
     # MULTI-TASK MODE
     # Continue to MULTI-TASK DISPATCH below
 ```
 
 ### MULTI-TASK DISPATCH
 
-When `parse_task_args()` produces more than one task number, execute the batch flow below instead of the single-task checkpoints.
+When `parse-command-args.sh` produces more than one task number in TASK_NUMBERS, execute the batch flow below instead of the single-task checkpoints.
 
 #### Step 1: Batch Validation
 
@@ -231,118 +198,51 @@ Skipped: {count}
 
 ---
 
-**The sections below handle SINGLE-TASK mode only (when `parse_task_args()` produces exactly one task number).**
+**The sections below handle SINGLE-TASK mode only (when `parse-command-args.sh` produces exactly one task number).**
 
 ### CHECKPOINT 1: GATE IN
 
-**Display header**:
+```bash
+source .claude/scripts/command-gate-in.sh "$task_number" "plan"
+# Exports: SESSION_ID, TASK_TYPE, TASK_STATUS, PROJECT_NAME, DESCRIPTION, PADDED_NUM
+# Displays: [PLAN] Task {N}: {project_name}
+# Aborts if task not found or in terminal status
 ```
-[Planning] Task {N}: {project_name}
-```
 
-1. **Generate Session ID**
-   ```
-   session_id = sess_{timestamp}_{random}
-   ```
-
-2. **Lookup Task**
-   ```bash
-   task_data=$(jq -r --arg num "$task_number" \
-     '.active_projects[] | select(.project_number == ($num | tonumber))' \
-     specs/state.json)
-   ```
-
-3. **Validate**
-   - Task exists (ABORT if not)
-   - If completed, abandoned, or expanded: ABORT "Task is in terminal state"
-   - All other states: proceed
-
-4. **Load Context**
-   - Task description from state.json
-   - Research reports from `specs/{NNN}_{SLUG}/reports/` (if any)
-   - Discover prior plan (if any):
-     ```bash
-     padded_num=$(printf "%03d" "$task_number")
-     prior_plan_path=$(ls -1 "specs/${padded_num}_${project_name}/plans/"*.md 2>/dev/null | sort -V | tail -1)
-     ```
+**Load Context** (plan-specific):
+- Task description from DESCRIPTION (exported by gate-in)
+- Research reports from `specs/${PADDED_NUM}_${PROJECT_NAME}/reports/` (if any)
+- Discover prior plan (if any):
+  ```bash
+  prior_plan_path=$(ls -1 "specs/${PADDED_NUM}_${PROJECT_NAME}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+  ```
 
 **ABORT** if any validation fails.
 
-**On GATE IN success**: Task validated. **IMMEDIATELY CONTINUE** to STAGE 1.5 below.
-
-### STAGE 1.5: PARSE FLAGS
-
-**Parse arguments to determine team mode, effort level, and model override.**
-
-1. **Extract Team Options**
-   Check args for team flags:
-   - `--team` -> `team_mode = true`
-   - `--team-size N` -> `team_size = N` (clamp 2-3)
-
-   If no team flag found: `team_mode = false`, `team_size = 2`
-
-2. **Validate Team Size**
-   ```bash
-   # Clamp team_size to valid range (2-3 for planning)
-   team_size=${team_size:-2}
-   [ "$team_size" -lt 2 ] && team_size=2
-   [ "$team_size" -gt 3 ] && team_size=3
-   ```
-
-3. **Extract Effort Flags**
-   Check remaining args for effort flags:
-   - `--fast` -> `effort_flag = "fast"` (low-effort mode: lighter reasoning)
-   - `--hard` -> `effort_flag = "hard"` (high-effort mode: deeper reasoning)
-
-   If multiple are provided, last one wins.
-   If none: `effort_flag = null` (normal effort)
-
-4. **Extract Model Flags**
-   Check remaining args for model flags:
-   - `--haiku` -> `model_flag = "haiku"` (use Haiku model)
-   - `--sonnet` -> `model_flag = "sonnet"` (use Sonnet model)
-   - `--opus` -> `model_flag = "opus"` (use Opus model)
-
-   If multiple are provided, last one wins.
-   If none: `model_flag = null` (use agent's frontmatter default: opus for planner/meta-builder/reviser; sonnet for general-purpose agents)
-
-5. **Extract Clean Flag**
-   Check remaining args for memory retrieval suppression:
-   - `--clean` -> `clean_flag = true` (skip automatic memory retrieval)
-
-   If not present: `clean_flag = false`
-
-6. **Extract Roadmap Flag**
-   Check remaining args for roadmap phase injection:
-   - `--roadmap` -> `roadmap_flag = true` (add ROADMAP.md review/update phases to plan)
-
-   If not present: `roadmap_flag = false`
-
-**On STAGE 1.5 success**: Flags parsed. **IMMEDIATELY CONTINUE** to STAGE 2 below.
+**On GATE IN success**: Task validated. **IMMEDIATELY CONTINUE** to STAGE 2 below.
 
 ### STAGE 2: DELEGATE
 
-**EXECUTE NOW**: After STAGE 1.5 completes, immediately invoke the Skill tool.
+**EXECUTE NOW**: After CHECKPOINT 1 completes, immediately invoke the Skill tool.
 
 **Team Mode Routing** (when `--team` flag present):
 
-If `team_mode == true`:
+If `TEAM_MODE == "true"`:
 - Route to `skill-team-plan`
-- Pass `team_size` parameter
+- Pass `TEAM_SIZE` parameter
 
 **Extension Routing** (when `--team` flag NOT present):
 
 Check extension manifests for task-type-specific plan routing:
 
 ```bash
-# Get task_type (may be simple "founder" or compound "founder:deck")
-task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
+# TASK_TYPE is exported by command-gate-in.sh
 
 # Check extension routing for plan (skill_name starts empty)
 skill_name=""
 for manifest in .claude/extensions/*/manifest.json; do
   if [ -f "$manifest" ]; then
-    ext_skill=$(jq -r --arg tt "$task_type" \
+    ext_skill=$(jq -r --arg tt "$TASK_TYPE" \
       '.routing.plan[$tt] // empty' "$manifest")
     if [ -n "$ext_skill" ]; then
       skill_name="$ext_skill"
@@ -352,8 +252,8 @@ for manifest in .claude/extensions/*/manifest.json; do
 done
 
 # Fallback: if compound key (contains ":"), try base task_type
-if [ -z "$skill_name" ] && echo "$task_type" | grep -q ":"; then
-  base_type=$(echo "$task_type" | cut -d: -f1)
+if [ -z "$skill_name" ] && echo "$TASK_TYPE" | grep -q ":"; then
+  base_type=$(echo "$TASK_TYPE" | cut -d: -f1)
   for manifest in .claude/extensions/*/manifest.json; do
     if [ -f "$manifest" ]; then
       ext_skill=$(jq -r --arg tt "$base_type" \
@@ -381,7 +281,7 @@ skill_name=${skill_name:-"skill-planner"}
 
 **Skill Selection Logic**:
 ```
-if team_mode:
+if TEAM_MODE == "true":
   skill_name = "skill-team-plan"
 else:
   skill_name = {extension routing lookup} OR "skill-planner"
@@ -391,24 +291,24 @@ else:
 ```
 # For team mode:
 skill: "skill-team-plan"
-args: "task_number={N} research_path={path to research report if exists} prior_plan_path={path to prior plan if exists} team_size={team_size} session_id={session_id} effort_flag={effort_flag} model_flag={model_flag} clean_flag={clean_flag} roadmap_flag={roadmap_flag}"
+args: "task_number={N} research_path={path to research report if exists} prior_plan_path={path to prior plan if exists} team_size={TEAM_SIZE} session_id={SESSION_ID} effort_flag={EFFORT_FLAG} model_flag={MODEL_FLAG} clean_flag={CLEAN_FLAG} roadmap_flag={roadmap_flag}"
 
 # For extension-routed skill (e.g., skill-founder-plan):
 skill: "{skill_name from extension routing}"
-args: "task_number={N} research_path={path to research report if exists} prior_plan_path={path to prior plan if exists} session_id={session_id} effort_flag={effort_flag} model_flag={model_flag} clean_flag={clean_flag} roadmap_flag={roadmap_flag}"
+args: "task_number={N} research_path={path to research report if exists} prior_plan_path={path to prior plan if exists} session_id={SESSION_ID} effort_flag={EFFORT_FLAG} model_flag={MODEL_FLAG} clean_flag={CLEAN_FLAG} roadmap_flag={roadmap_flag}"
 
 # For default single-agent mode:
 skill: "skill-planner"
-args: "task_number={N} research_path={path to research report if exists} prior_plan_path={path to prior plan if exists} session_id={session_id} effort_flag={effort_flag} model_flag={model_flag} clean_flag={clean_flag} roadmap_flag={roadmap_flag}"
+args: "task_number={N} research_path={path to research report if exists} prior_plan_path={path to prior plan if exists} session_id={SESSION_ID} effort_flag={EFFORT_FLAG} model_flag={MODEL_FLAG} clean_flag={CLEAN_FLAG} roadmap_flag={roadmap_flag}"
 ```
 
-If `model_flag` is set, pass the `model` parameter to override the agent's default model:
-- `model_flag="haiku"` -> pass `model: haiku`
-- `model_flag="sonnet"` -> pass `model: sonnet`
-- `model_flag="opus"` -> pass `model: opus`
-- `model_flag=null` -> omit `model` parameter (use agent's frontmatter default: opus for planner/meta-builder/reviser; sonnet for general-purpose agents)
+If `MODEL_FLAG` is set, pass the `model` parameter to override the agent's default model:
+- `MODEL_FLAG="haiku"` -> pass `model: haiku`
+- `MODEL_FLAG="sonnet"` -> pass `model: sonnet`
+- `MODEL_FLAG="opus"` -> pass `model: opus`
+- `MODEL_FLAG=""` -> omit `model` parameter (use agent's frontmatter default: opus for planner/meta-builder/reviser; sonnet for general-purpose agents)
 
-If `effort_flag` is set, pass it as prompt context to the skill/agent for reasoning depth guidance.
+If `EFFORT_FLAG` is set, pass it as prompt context to the skill/agent for reasoning depth guidance.
 
 The skill spawns agent(s) which analyze task requirements and research findings, decompose into logical phases, identify risks and mitigations, and create a plan in `specs/{NNN}_{SLUG}/plans/`.
 
@@ -416,42 +316,36 @@ The skill spawns agent(s) which analyze task requirements and research findings,
 
 ### CHECKPOINT 2: GATE OUT
 
-1. **Validate Return**
-   Required fields: status, summary, artifacts, metadata (phase_count, estimated_hours)
+```bash
+bash .claude/scripts/command-gate-out.sh "$task_number" "plan" "$SESSION_ID"
+# Reads .return-meta.json; applies defensive status correction if needed
+# Runs validate-artifact.sh --fix (non-blocking)
+```
 
-2. **Verify Artifacts**
-   Check plan file exists on disk
-
-3. **Verify Status Updated**
-   The skill handles status updates internally (preflight and postflight).
-   Confirm status is now "planned" in state.json.
-
-4. **Verify state.json Status (Defensive)**
+1. **Verify state.json Status (Defensive)**
 
    **Only when skill reports success:**
 
    Check that state.json shows status "planned" for this task. If not, apply defensive correction:
 
    ```bash
-   # Check if state.json status is "planned"
    current_status=$(jq -r --argjson num "$task_number" \
      '.active_projects[] | select(.project_number == $num) | .status' \
      specs/state.json)
 
-   if [ "$current_status" = "planned" | not ]; then
+   if [ "$current_status" != "planned" ]; then
        echo "WARNING: state.json status is '$current_status', expected 'planned'. Applying defensive correction."
-       bash .claude/scripts/update-task-status.sh postflight "$task_number" plan "$session_id"
+       bash .claude/scripts/update-task-status.sh postflight "$task_number" plan "$SESSION_ID"
    fi
    ```
 
-5. **Verify TODO.md Status (Defensive)**
+2. **Verify TODO.md Status (Defensive)**
 
    **Only when skill reports success:**
 
    Check that the task entry in TODO.md shows `[PLANNED]`. If it still shows `[PLANNING]`, apply correction:
 
    ```bash
-   # Check if TODO.md task entry still shows [PLANNING]
    if grep -q "- \*\*Status\*\*: \[PLANNING\]" <(grep -A 5 "^### ${task_number}\." specs/TODO.md); then
        echo "WARNING: TODO.md status not updated to [PLANNED]. Applying defensive correction."
    fi
@@ -461,7 +355,7 @@ The skill spawns agent(s) which analyze task requirements and research findings,
    - Task entry: `- **Status**: [PLANNING]` -> `- **Status**: [PLANNED]`
    - Task Order: `**{N}** [PLANNING]` -> `**{N}** [PLANNED]`
 
-6. **Verify Plan File Status (Defensive)**
+3. **Verify Plan File Status (Defensive)**
 
    **Only when skill reports success:**
 
@@ -469,14 +363,9 @@ The skill spawns agent(s) which analyze task requirements and research findings,
 
    ```bash
    # Find latest plan file
-   padded_num=$(printf "%03d" "$task_number")
-   project_name=$(jq -r --argjson num "$task_number" \
-     '.active_projects[] | select(.project_number == $num) | .project_name' \
-     specs/state.json)
-   plan_file=$(ls -1 "specs/${padded_num}_${project_name}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+   plan_file=$(ls -1 "specs/${PADDED_NUM}_${PROJECT_NAME}/plans/"*.md 2>/dev/null | sort -V | tail -1)
 
    if [ -n "$plan_file" ] && [ -f "$plan_file" ]; then
-       # Check if plan file has a valid status (NOT STARTED or IMPLEMENTING)
        if grep -qE '^\*\*Status\*\*: \[PLANNING\]|^\- \*\*Status\*\*: \[PLANNING\]' "$plan_file"; then
            echo "WARNING: Plan file status still shows [PLANNING]. Expected [NOT STARTED] for newly created plan."
        fi
@@ -494,7 +383,7 @@ git add -A
 git commit -m "$(cat <<'EOF'
 task {N}: create implementation plan
 
-Session: {session_id}
+Session: {SESSION_ID}
 
 EOF
 )"

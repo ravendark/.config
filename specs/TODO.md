@@ -21,7 +21,7 @@ next_project_number: 605
 
 ### Meta System
 
-603 [NOT STARTED] — Fix /meta so user confirmation happens in the foreground BEFORE s
+603 [RESEARCHING] — Fix /meta so user confirmation happens in the foreground BEFORE s
 
 ### Wezterm Notifications
 
@@ -99,7 +99,7 @@ next_project_number: 605
 
 ### 603. Fix /meta pre-confirmation: move interactive flow before agent spawn
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None

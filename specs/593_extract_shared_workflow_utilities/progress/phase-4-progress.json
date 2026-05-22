@@ -1,0 +1,24 @@
+{
+  "phase": 4,
+  "phase_name": "Command File Migration",
+  "started_at": "2026-05-22T00:31:00Z",
+  "last_updated": "2026-05-22T00:45:00Z",
+  "objectives": [
+    {"id": 1, "description": "Migrate research.md: replace inline parse/gate logic with script references", "status": "done", "note": "500->393 lines (-107 lines, 21% reduction)"},
+    {"id": 2, "description": "Migrate plan.md: replace inline parse/gate logic with script references", "status": "done", "note": "531->420 lines (-111 lines, 21% reduction)"},
+    {"id": 3, "description": "Migrate implement.md: replace inline parse/gate logic with script references", "status": "done", "note": "612->525 lines (-87 lines, 14% reduction)"},
+    {"id": 4, "description": "Verify all 3 command files retain YAML frontmatter, anti-bypass constraints, and error handling", "status": "done", "note": "All sections verified intact; script source calls confirmed present"}
+  ],
+  "current_objective": 4,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": [
+    {
+      "task_id": "4.1-4.3",
+      "description": "Line count reduction target was 250-280 per command; actual is 393/420/525",
+      "type": "altered",
+      "reason": "Multi-task dispatch blocks (~115 lines) cannot be extracted in task 593 (reserved for task 595). Plan acknowledges 250-280 target is only achievable after task 595.",
+      "annotation": "*(deviation: altered — actual reduction is 107-111 lines per command, not the 250-280 target; multi-task dispatch extraction deferred to task 595 per plan non-goals)*"
+    }
+  ]
+}
