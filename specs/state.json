@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 604,
+  "next_project_number": 605,
   "active_projects": [
     {
       "project_number": 590,
@@ -811,7 +811,7 @@
     {
       "project_number": 593,
       "project_name": "extract_shared_workflow_utilities",
-      "status": "not_started",
+      "status": "researching",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Extract shared workflow utilities into 4 reusable shell scripts in .claude/scripts/: (1) parse-command-args.sh — parses task numbers + flags (TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT), eliminating ~165 lines of identical copy-paste across /research, /plan, /implement. (2) command-gate-in.sh — CHECKPOINT 1: generates SESSION_ID, looks up task in state.json, guards against terminal statuses, exports TASK_TYPE, TASK_STATUS, PROJECT_NAME, PADDED_NUM. (3) command-gate-out.sh — CHECKPOINT 2: reads .return-meta.json, applies defensive status correction. (4) postflight-workflow.sh — shared postflight eliminating ~130 lines of near-identical logic. Commands source these scripts; each command shrinks to ~150-200 lines (vs. ~500 today). Include baseline token measurement methodology to validate savings. Reference: .claude/docs/architecture/architecture-spec.md Component 1.",
@@ -820,7 +820,7 @@
         592
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T12:00:00Z",
+      "last_updated": "2026-05-22T17:41:46Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -828,7 +828,8 @@
           "path": "593_extract_shared_workflow_utilities/reports/01_seed-research.md",
           "created": "2026-05-22"
         }
-      ]
+      ],
+      "session_id": "sess_1779471688_f47481"
     },
     {
       "project_number": 594,
@@ -1030,6 +1031,20 @@
       "last_updated": "2026-05-22T18:30:00Z",
       "next_artifact_number": 1,
       "artifacts": []
+    },
+    {
+      "project_number": 604,
+      "project_name": "add_task_order_regen_to_creators",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "meta-system",
+      "description": "Add generate-task-order.sh --update-todo call to all task-creating commands that currently skip Task Order regeneration. Gaps: (1) meta-builder-agent.md - after batch task creation. (2) skill-spawn/SKILL.md - after task creation. (3) skill-fix-it/SKILL.md - after task creation. (4) errors.md - after task creation. Also update state-management.md Non-Regeneration Events section to reflect new policy: regen on ALL task creation events, not just /task create mode. The generate-task-order.sh script already handles terminal status transitions via update-task-status.sh Mode B, and first-status-transition fallback via Mode A. This task closes the creation gap so new tasks appear in Task Order immediately.",
+      "effort": "1 hour",
+      "dependencies": [],
+      "created": "2026-05-22T19:00:00Z",
+      "last_updated": "2026-05-22T19:00:00Z",
+      "next_artifact_number": 1,
+      "artifacts": []
     }
   ],
   "completed_projects": [],
@@ -1049,6 +1064,7 @@
     "status": "healthy"
   },
   "active_topics": [
+    "meta-system",
     "neovim-plugins",
     "wezterm-notifications",
     "workflow-refactor"

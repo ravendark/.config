@@ -1,5 +1,5 @@
 ---
-next_project_number: 604
+next_project_number: 605
 ---
 
 # TODO
@@ -11,13 +11,18 @@ next_project_number: 604
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,593,598,601,603 | -- | wezterm-notifications, workflow-refactor, meta-system |
+| 1 | 78,87,593,598,601,603,604 | -- | meta-system, wezterm-notifications, workflow-refactor |
 | 2 | 594,597,602 | 593,598,601 | wezterm-notifications, workflow-refactor |
 | 3 | 595,596 | 593,594,598 | workflow-refactor |
 | 4 | 599 | 594,595,596,597,598 | workflow-refactor |
 | 5 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = must complete first):
+
+### Meta System
+
+603 [NOT STARTED] — Fix /meta so user confirmation happens in the foreground BEFORE s
+604 [NOT STARTED] — Add generate-task-order.sh --update-todo call to all task-creatin
 
 ### Wezterm Notifications
 
@@ -50,16 +55,23 @@ next_project_number: 604
 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
 
-### Meta System
-
-603 [NOT STARTED] — Fix /meta so user confirmation happens in the foreground BEFORE s
-
 ### Uncategorized
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 
 ## Tasks
+
+### 604. Add Task Order regeneration to task-creating commands
+- **Effort**: 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: meta-system
+- **Dependencies**: None
+
+**Description**: Add generate-task-order.sh --update-todo call to all task-creating commands that currently skip Task Order regeneration. Gaps: (1) meta-builder-agent.md - after batch task creation. (2) skill-spawn/SKILL.md - after task creation. (3) skill-fix-it/SKILL.md - after task creation. (4) errors.md - after task creation. Also update state-management.md Non-Regeneration Events section to reflect new policy: regen on ALL task creation events.
+
+---
 
 ### 601. Simplify notification pipeline and merge status vocabulary
 - **Effort**: 2-3 hours
