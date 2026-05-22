@@ -117,18 +117,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Create wezterm-preflight-status.sh and update settings.json [NOT STARTED]
+### Phase 3: Create wezterm-preflight-status.sh and update settings.json [COMPLETED]
 
 **Goal**: Create the preflight status hook that sets in-progress CLAUDE_STATUS on lifecycle command submission, and wire it into all settings.json files to replace `wezterm-clear-status.sh`.
 
 **Tasks**:
-- [ ] Create `.claude/hooks/wezterm-preflight-status.sh` with 3-tier logic: (1) set `researching`/`planning`/`implementing` for lifecycle commands, (2) clear CLAUDE_STATUS for other slash commands, (3) no-op for free text
-- [ ] Reuse the same command-parsing regex patterns from `wezterm-task-number.sh` (Tier 1a pattern for research/plan/implement)
-- [ ] Include TTY discovery logic matching existing hooks (WezTerm pane detection, `wezterm cli list` for TTY)
-- [ ] Make the script executable (`chmod +x`)
-- [ ] Update `.claude/settings.json` UserPromptSubmit: replace `wezterm-clear-status.sh` with `wezterm-preflight-status.sh`
-- [ ] Update `.claude/extensions/core/root-files/settings.json` UserPromptSubmit: same replacement
-- [ ] Update `.opencode/settings.json` UserPromptSubmit: replace `wezterm-clear-status.sh` with `wezterm-preflight-status.sh` (using `.opencode/hooks/` path)
+- [x] Create `.claude/hooks/wezterm-preflight-status.sh` with 3-tier logic: (1) set `researching`/`planning`/`implementing` for lifecycle commands, (2) clear CLAUDE_STATUS for other slash commands, (3) no-op for free text *(completed)*
+- [x] Reuse the same command-parsing regex patterns from `wezterm-task-number.sh` (Tier 1a pattern for research/plan/implement) *(completed)*
+- [x] Include TTY discovery logic matching existing hooks (WezTerm pane detection, `wezterm cli list` for TTY) *(completed)*
+- [x] Make the script executable (`chmod +x`) *(completed)*
+- [x] Update `.claude/settings.json` UserPromptSubmit: replace `wezterm-clear-status.sh` with `wezterm-preflight-status.sh` *(completed)*
+- [x] Update `.claude/extensions/core/root-files/settings.json` UserPromptSubmit: same replacement *(completed)*
+- [x] Update `.opencode/settings.json` UserPromptSubmit: replace `wezterm-clear-status.sh` with `wezterm-preflight-status.sh` (using `.opencode/hooks/` path) *(completed)*
 
 **Timing**: 1.5 hours
 

@@ -102,7 +102,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .opencode/hooks/wezterm-clear-status.sh 2>/dev/null || echo '{}'",
+            "command": "bash .opencode/hooks/wezterm-preflight-status.sh 2>/dev/null || echo '{}'",
             "timeout": 5000
           },
           {
