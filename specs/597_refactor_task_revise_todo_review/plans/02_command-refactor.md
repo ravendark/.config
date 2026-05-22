@@ -187,21 +187,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Refactor /revise with gate-in/gate-out and orchestrator handoff [NOT STARTED]
+### Phase 4: Refactor /revise with gate-in/gate-out and orchestrator handoff [COMPLETED]
 
 **Goal**: Integrate /revise with shared command infrastructure and add orchestrator handoff support for /orchestrate integration.
 
 **Tasks**:
-- [ ] Add `--orchestrator` flag parsing to ARGUMENTS handling
-- [ ] Replace CHECKPOINT 1 (GATE IN, lines 22-51) inline jq with `source .claude/scripts/command-gate-in.sh "$task_number" "revise"`
-  - This replaces inline session ID generation and task lookup (~15L reduction)
-- [ ] Replace CHECKPOINT 3 (GATE OUT, lines 80-116) inline defensive correction with `bash .claude/scripts/command-gate-out.sh "$task_number" "plan" "$SESSION_ID"`
-  - This replaces inline status verification (~20L reduction)
-- [ ] Add orchestrator handoff after delegation:
-  - Source `skill-base.sh` for `skill_write_orchestrator_handoff()` function
-  - After DELEGATE success, if `--orchestrator` flag set, call `skill_write_orchestrator_handoff` with phase="revise", status="planned", next_hint="implement"
-- [ ] Preserve plan existence check routing (plan revision vs description update paths)
-- [ ] Update "Artifact Numbering Note" to reference shared infrastructure
+- [x] Add `--orchestrator` flag parsing to ARGUMENTS handling *(completed)*
+- [x] Replace CHECKPOINT 1 (GATE IN, lines 22-51) inline jq with `source .claude/scripts/command-gate-in.sh "$task_number" "revise"` *(completed: replaced inline session ID generation and task lookup, ~15L reduction)*
+- [x] Replace CHECKPOINT 3 (GATE OUT, lines 80-116) inline defensive correction with `bash .claude/scripts/command-gate-out.sh "$task_number" "plan" "$SESSION_ID"` *(completed: replaced inline status verification, ~20L reduction)*
+- [x] Add orchestrator handoff after delegation *(completed: sources skill-base.sh and calls skill_write_orchestrator_handoff with phase="revise", status="planned", next_hint="implement" when --orchestrator flag set)*
+- [x] Preserve plan existence check routing (plan revision vs description update paths) *(completed)*
+- [x] Update "Artifact Numbering Note" to reference shared infrastructure *(completed)*
 
 **Timing**: 1 hour
 
