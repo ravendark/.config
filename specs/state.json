@@ -709,7 +709,7 @@
     {
       "project_number": 592,
       "project_name": "design_unified_workflow_architecture",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Design the unified workflow architecture based on research findings from task 591. Covers: (1) shared command infrastructure to eliminate ~900 lines of duplicated arg parsing, flag handling, extension routing, and GATE IN/OUT across /research, /plan, /implement. (2) Shared skill base pattern to deduplicate ~80% identical preflight/postflight across workflow skills. (3) /orchestrate state machine design: task state detection -> action selection -> agent dispatch -> handoff consumption -> loop. (4) Fork vs. subagent decision tree (fork decision matrix) for each workflow stage: forks for same-turn re-dispatch (blocker escalation, team mode), fresh subagents for sequential phases. (5) dispatch_agent() abstraction: single function encapsulating fork-vs-named-subagent decision, future-proofing against Anthropic 'named fork' API when it arrives. (6) Handoff protocol specification: structured handoff objects (200-400 tokens) replacing raw artifact injection (2000-5000 tokens). (7) Extension integration points for the new architecture, including lifecycle hook interface. (8) Nested loop resolution: orchestrator outer loop and implementer inner continuation loop must be exclusive alternatives, not nested layers.",
@@ -718,7 +718,7 @@
         591
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T17:15:41Z",
+      "last_updated": "2026-05-22T17:36:40Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -730,6 +730,11 @@
           "path": "specs/592_design_unified_workflow_architecture/plans/02_architecture-design.md",
           "type": "plan",
           "summary": "Revised: Phase 1 outputs to .claude/docs/architecture/ as permanent docs (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md)"
+        },
+        {
+          "path": "specs/592_design_unified_workflow_architecture/summaries/02_architecture-design-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary covering 4 phases: architecture docs, state updates, guidance reports, validation"
         }
       ],
       "session_id": "sess_1779470118_802c39",
@@ -758,7 +763,50 @@
             "integrated_date": "2026-05-22"
           }
         ]
-      }
+      },
+      "completion_summary": "Created 4 permanent architecture specification documents in .claude/docs/architecture/ covering all 7 components of the unified workflow refactor. Updated task descriptions for tasks 593-599 in state.json and TODO.md with specific script names, function signatures, and schema references. Created 7 task-specific design guidance reports with concrete function signatures, JSON schemas, and implementation order guidance.",
+      "memory_candidates": [
+        {
+          "content": "When updating multiple task descriptions in state.json and TODO.md simultaneously, use Python for safe JSON manipulation rather than jq to avoid Claude Code Issue #1132 jq escaping bugs. Verify MATCH between state.json and TODO.md descriptions after update.",
+          "category": "TECHNIQUE",
+          "source_artifact": "specs/592_design_unified_workflow_architecture/summaries/02_architecture-design-summary.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "state.json",
+            "TODO.md",
+            "jq",
+            "python",
+            "bulk-update",
+            "sync"
+          ]
+        },
+        {
+          "content": "Architecture specification documents for the unified workflow refactor (tasks 593-599) live in .claude/docs/architecture/: architecture-spec.md (7 components), orchestrate-state-machine.md (state machine), dispatch-agent-spec.md (fork function), handoff-schema.md (JSON schema). These are permanent target architecture docs; system-overview.md describes the current architecture.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/592_design_unified_workflow_architecture/summaries/02_architecture-design-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "architecture",
+            "unified-workflow",
+            "target-architecture",
+            "orchestrate",
+            "dispatch-agent",
+            "handoff"
+          ]
+        },
+        {
+          "content": "Design guidance reports for implementation tasks can exceed their planned line count when including concrete function signatures and code examples. A planned 80-150L report may reach 200-325L with proper bash function signatures, JSON schemas, and algorithm pseudocode. This is a better outcome for implementers even if it deviates from the estimate.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/592_design_unified_workflow_architecture/summaries/02_architecture-design-summary.md",
+          "confidence": 0.75,
+          "suggested_keywords": [
+            "design-guidance",
+            "report-length",
+            "function-signatures",
+            "concrete-specifications"
+          ]
+        }
+      ]
     },
     {
       "project_number": 593,
@@ -766,7 +814,7 @@
       "status": "not_started",
       "task_type": "meta",
       "topic": "workflow-refactor",
-      "description": "Extract shared workflow utilities into 4 reusable shell scripts in .claude/scripts/: (1) parse-command-args.sh \u2014 parses task numbers + flags (TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT), eliminating ~165 lines of identical copy-paste across /research, /plan, /implement. (2) command-gate-in.sh \u2014 CHECKPOINT 1: generates SESSION_ID, looks up task in state.json, guards against terminal statuses, exports TASK_TYPE, TASK_STATUS, PROJECT_NAME, PADDED_NUM. (3) command-gate-out.sh \u2014 CHECKPOINT 2: reads .return-meta.json, applies defensive status correction. (4) postflight-workflow.sh \u2014 shared postflight eliminating ~130 lines of near-identical logic. Commands source these scripts; each command shrinks to ~150-200 lines (vs. ~500 today). Include baseline token measurement methodology to validate savings. Reference: .claude/docs/architecture/architecture-spec.md Component 1.",
+      "description": "Extract shared workflow utilities into 4 reusable shell scripts in .claude/scripts/: (1) parse-command-args.sh — parses task numbers + flags (TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT), eliminating ~165 lines of identical copy-paste across /research, /plan, /implement. (2) command-gate-in.sh — CHECKPOINT 1: generates SESSION_ID, looks up task in state.json, guards against terminal statuses, exports TASK_TYPE, TASK_STATUS, PROJECT_NAME, PADDED_NUM. (3) command-gate-out.sh — CHECKPOINT 2: reads .return-meta.json, applies defensive status correction. (4) postflight-workflow.sh — shared postflight eliminating ~130 lines of near-identical logic. Commands source these scripts; each command shrinks to ~150-200 lines (vs. ~500 today). Include baseline token measurement methodology to validate savings. Reference: .claude/docs/architecture/architecture-spec.md Component 1.",
       "effort": "2-3 hours",
       "dependencies": [
         592
@@ -859,7 +907,7 @@
       "status": "not_started",
       "task_type": "meta",
       "topic": "workflow-refactor",
-      "description": "Refactor /task, /revise, /todo, /review for consistency with the new architecture from task 593. /task (710L): Use shared gate-in/gate-out scripts from task 593 for state operations; reduce redundancy across 5 modes. /revise (161L): Integrate with orchestrator handoff protocol (write .orchestrator-handoff.json when orchestrator_mode=true in delegation context). /todo (1047L): Decompose into utility modules: orphan detection, roadmap sync, vault operation, metrics. Critical: add memory harvest automation \u2014 harvest memory_candidates from tasks being archived (571 archived tasks have candidates but vault has only 3 memories). /review (1040L): Decompose into reusable components: issue grouping algorithm (180L), roadmap integration (120L), 3-tier selection flow. References: .claude/docs/architecture/architecture-spec.md Components 1-2 for gate-in/gate-out patterns.",
+      "description": "Refactor /task, /revise, /todo, /review for consistency with the new architecture from task 593. /task (710L): Use shared gate-in/gate-out scripts from task 593 for state operations; reduce redundancy across 5 modes. /revise (161L): Integrate with orchestrator handoff protocol (write .orchestrator-handoff.json when orchestrator_mode=true in delegation context). /todo (1047L): Decompose into utility modules: orphan detection, roadmap sync, vault operation, metrics. Critical: add memory harvest automation — harvest memory_candidates from tasks being archived (571 archived tasks have candidates but vault has only 3 memories). /review (1040L): Decompose into reusable components: issue grouping algorithm (180L), roadmap integration (120L), 3-tier selection flow. References: .claude/docs/architecture/architecture-spec.md Components 1-2 for gate-in/gate-out patterns.",
       "effort": "2-3 hours",
       "dependencies": [
         593
@@ -929,7 +977,7 @@
       "status": "not_started",
       "task_type": "meta",
       "topic": "workflow-refactor",
-      "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md \u2014 update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md \u2014 update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ \u2014 update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ \u2014 update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ \u2014 update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
+      "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md — update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md — update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ — update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ — update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ — update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
       "effort": "2-3 hours",
       "dependencies": [
         599
@@ -961,7 +1009,9 @@
       "topic": "wezterm-notifications",
       "description": "Update wezterm.lua color palette for dim/bright workflow stage semantics. Research=green, plan=blue, implement=gold. DIM shade for in-progress states (researching/planning/implementing), BRIGHT/BOLD for finished states (researched/planned/completed). Fix update-status handler to only clear needs_input on tab switch, preserving lifecycle states until next command. TTS announcement format: tab-number workflow-type (e.g. tab 4 researched). WezTerm config at ~/.dotfiles/config/wezterm.lua (nix-managed, rebuild via home-manager).",
       "effort": "1-2 hours",
-      "dependencies": [601],
+      "dependencies": [
+        601
+      ],
       "created": "2026-05-22T18:00:00Z",
       "last_updated": "2026-05-22T18:00:00Z",
       "next_artifact_number": 1,

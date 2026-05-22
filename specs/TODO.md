@@ -160,7 +160,7 @@ next_project_number: 603
 
 ### 592. Design unified workflow architecture
 - **Effort**: 3-4 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 591
@@ -168,6 +168,7 @@ next_project_number: 603
   - [592_design_unified_workflow_architecture/reports/01_seed-research.md]
   - [592_design_unified_workflow_architecture/reports/02_architecture-design.md]
 - **Plan**: [592_design_unified_workflow_architecture/plans/02_architecture-design.md]
+- **Summary**: [592_design_unified_workflow_architecture/summaries/02_architecture-design-summary.md]
 
 **Description**: Design the unified workflow architecture based on research findings from task 591. Covers: (1) shared command infrastructure to eliminate ~900 lines of duplicated arg parsing, flag handling, extension routing, and GATE IN/OUT across /research, /plan, /implement. (2) Shared skill base pattern to deduplicate ~80% identical preflight/postflight across workflow skills. (3) /orchestrate state machine design: task state detection -> action selection -> agent dispatch -> handoff consumption -> loop. (4) Fork vs. subagent decision tree (fork decision matrix) for each workflow stage: forks for same-turn re-dispatch (blocker escalation, team mode), fresh subagents for sequential phases. (5) dispatch_agent() abstraction: single function encapsulating fork-vs-named-subagent decision, future-proofing against Anthropic 'named fork' API when it arrives. (6) Handoff protocol specification: structured handoff objects (200-400 tokens) replacing raw artifact injection (2000-5000 tokens). (7) Extension integration points for the new architecture, including lifecycle hook interface. (8) Nested loop resolution: orchestrator outer loop and implementer inner continuation loop must be exclusive alternatives, not nested layers.
 
