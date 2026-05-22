@@ -1126,16 +1126,22 @@
     {
       "project_number": 601,
       "project_name": "simplify_notification_pipeline_merge_vocabulary",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "topic": "wezterm-notifications",
       "description": "Simplify the WezTerm tab coloring and TTS notification pipeline. Merge to single lifecycle vocabulary (researching/researched/planning/planned/implementing/completed/needs_input), eliminating the artifact-type vocabulary (report/plan/summary/error). Move TTS to fire AFTER artifact linking from skill postflight instead of update-task-status.sh. Eliminate signal file mechanism entirely. Simplify Stop hook to only set needs_input for wezterm (no TTS from Stop). Consolidate TTY discovery boilerplate into shared function. Update all hook copies (4 locations), extension copies, .opencode copies, and wezterm-integration.md.",
       "effort": "2-3 hours",
       "dependencies": [],
       "created": "2026-05-22T18:00:00Z",
-      "last_updated": "2026-05-22T18:43:26Z",
-      "next_artifact_number": 1,
-      "artifacts": [],
+      "last_updated": "2026-05-22T18:54:13Z",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/601_simplify_notification_pipeline_merge_vocabulary/reports/01_team-research.md",
+          "type": "research",
+          "summary": "Team research with 4 teammates"
+        }
+      ],
       "session_id": "sess_1779475366_c7478a"
     },
     {

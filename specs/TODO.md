@@ -21,7 +21,7 @@ next_project_number: 605
 
 ### Wezterm Notifications
 
-601 [RESEARCHING] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
+601 [RESEARCHED] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
 602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
   └─ 601 [RESEARCHING] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
 
@@ -68,10 +68,11 @@ next_project_number: 605
 
 ### 601. Simplify notification pipeline and merge status vocabulary
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Topic**: wezterm-notifications
 - **Dependencies**: None
+- **Research**: [601_simplify_notification_pipeline_merge_vocabulary/reports/01_team-research.md]
 
 **Description**: Simplify the WezTerm tab coloring and TTS notification pipeline. Merge to single lifecycle vocabulary (researching/researched/planning/planned/implementing/completed/needs_input), eliminating the artifact-type vocabulary (report/plan/summary/error). Move TTS to fire AFTER artifact linking from skill postflight instead of update-task-status.sh. Eliminate signal file mechanism entirely. Simplify Stop hook to only set needs_input for wezterm (no TTS from Stop). Consolidate TTY discovery boilerplate into shared function. Update all hook copies (4 locations), extension copies, .opencode copies, and wezterm-integration.md.
 
