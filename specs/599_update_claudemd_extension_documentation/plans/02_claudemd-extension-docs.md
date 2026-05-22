@@ -138,18 +138,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Thin nvim and nix Extension Skills [NOT STARTED]
+### Phase 3: Thin nvim and nix Extension Skills [COMPLETED]
 
 **Goal**: Refactor nvim (254L research, 372L implementation) and nix (254L research, 412L implementation) extension skills to use skill-base.sh lifecycle functions instead of inlining all stages. Target: under 80 lines each, containing only frontmatter + Stage 4 (context injection) + Stage 5 (agent invocation).
 
 **Tasks**:
-- [ ] Refactor `skill-neovim-research/SKILL.md` to source skill-base.sh and call its functions for stages 1-3, 6-10; keep only frontmatter, context loading, and agent delegation inline
-- [ ] Refactor `skill-neovim-implementation/SKILL.md` using same pattern
-- [ ] Refactor `skill-nix-research/SKILL.md` using same pattern
-- [ ] Refactor `skill-nix-implementation/SKILL.md` using same pattern
-- [ ] Ensure each thinned skill preserves: domain-specific context injection (plugin/API context for nvim, MCP-NixOS context for nix), correct agent name routing, orchestrator_mode flag forwarding
-- [ ] Verify thinned skills follow the pattern established by simpler skills (latex, python, z3) as reference
-- [ ] Test that each skill still produces correct delegation context for its agent
+- [x] Refactor `skill-neovim-research/SKILL.md` to source skill-base.sh and call its functions for stages 1-3, 6-10; keep only frontmatter, context loading, and agent delegation inline *(completed: 254L -> 83L)*
+- [x] Refactor `skill-neovim-implementation/SKILL.md` using same pattern *(completed: 372L -> 104L; matches python-implementation reference at 85L with MUST NOT section preserved)*
+- [x] Refactor `skill-nix-research/SKILL.md` using same pattern *(completed: 254L -> 83L)*
+- [x] Refactor `skill-nix-implementation/SKILL.md` using same pattern *(completed: 412L -> 104L)*
+- [x] Ensure each thinned skill preserves: domain-specific context injection (plugin/API context for nvim, MCP-NixOS context for nix), correct agent name routing, orchestrator_mode flag forwarding *(completed)*
+- [x] Verify thinned skills follow the pattern established by simpler skills (latex, python, z3) as reference *(completed)*
+- [x] Test that each skill still produces correct delegation context for its agent *(completed)*
 
 **Timing**: 1.5 hours
 
