@@ -204,22 +204,22 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Refactor implement.md [NOT STARTED]
+### Phase 5: Refactor implement.md [COMPLETED]
 
 **Goal**: Reduce `implement.md` from 525 lines to ~202 lines. This is the most complex command due to `--force` override, resume detection, partial/complete variants, and implement-specific GATE OUT steps.
 
 **Tasks**:
-- [ ] Replace STAGE 2 extension routing loop (~36 lines) with `source command-route-skill.sh "implement" "$TASK_TYPE" "skill-implementer"`
-- [ ] Remove inline GATE OUT steps 1-3 (general defensive checks, ~35 lines) — already handled by `command-gate-out.sh`
-- [ ] Keep inline GATE OUT steps 4-7 (implement-specific): completion_summary population, plan file status verification, TODO.md status verification for completed tasks, post-delegation takeover detection note
-- [ ] Add brief comment for removed checks pointing to `command-gate-out.sh`
-- [ ] Condense MULTI-TASK DISPATCH section: preserve `--force` handling within batch validation, keep Skill invocation loop
-- [ ] Simplify Stage 0: remove the 5-row input/output examples table (move to docs if needed), keep essential clamp
-- [ ] Preserve `--force` override logic in CHECKPOINT 1 (implement-specific)
-- [ ] Preserve resume point detection logic (implement-specific)
-- [ ] Preserve partial/complete COMMIT variants in CHECKPOINT 3
-- [ ] Add `orchestrator_mode` to delegation context JSON
-- [ ] Verify final line count within 150-210 range (allow slight overshoot for implement complexity)
+- [x] Replace STAGE 2 extension routing loop (~36 lines) with `source command-route-skill.sh "implement" "$TASK_TYPE" "skill-implementer"` *(completed)*
+- [x] Remove inline GATE OUT steps 1-3 (general defensive checks, ~35 lines) — already handled by `command-gate-out.sh` *(completed)*
+- [x] Keep inline GATE OUT steps 4-7 (implement-specific): completion_summary population, plan file status verification, TODO.md status verification for completed tasks, post-delegation takeover detection note *(completed)*
+- [x] Add brief comment for removed checks pointing to `command-gate-out.sh` *(completed)*
+- [x] Condense MULTI-TASK DISPATCH section: preserve `--force` handling within batch validation, keep Skill invocation loop *(completed)*
+- [x] Simplify Stage 0: remove the 5-row input/output examples table (move to docs if needed), keep essential clamp *(completed)*
+- [x] Preserve `--force` override logic in CHECKPOINT 1 (implement-specific) *(completed)*
+- [x] Preserve resume point detection logic (implement-specific) *(completed)*
+- [x] Preserve partial/complete COMMIT variants in CHECKPOINT 3 *(completed)*
+- [x] Add `orchestrator_mode` to delegation context JSON *(completed)*
+- [x] Verify final line count within 150-210 range (allow slight overshoot for implement complexity) *(completed: 207 lines)*
 
 **Timing**: 1.25 hours
 
