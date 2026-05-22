@@ -818,8 +818,6 @@ return {
 
     wk.add({
       { "<leader>y", group = "yank", icon = "󰆏", mode = { "n", "v" } },
-      { "<leader>yc", function() require("neotex.yank").clear_history() end, desc = "clear history", icon = "󰃢" },
-      { "<leader>yh", function() require("neotex.yank").telescope_history() end, desc = "yank history", icon = "󰞋", mode = { "n", "v" } },
     })
   end,
 }

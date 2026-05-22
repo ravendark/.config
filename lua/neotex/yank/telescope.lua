@@ -36,14 +36,14 @@ function M.open(ring)
   end
 
   pickers.new({}, {
-    prompt_title = "Yank History",
+    prompt_title = "Yank History (C-k: clear)",
     finder = finders.new_table({
       results = entries,
       entry_maker = make_entry,
     }),
     sorter = conf.generic_sorter({}),
     previewer = previewer,
-    attach_mappings = function(prompt_bufnr, _)
+    attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(function()
         actions.close(prompt_bufnr)
         local selection = action_state.get_selected_entry()
@@ -54,6 +54,11 @@ function M.open(ring)
           vim.fn.setreg('"', selection.value.regcontents, selection.value.regtype)
           vim.cmd("normal! p")
         end)
+      end)
+      map("i", "<C-k>", function()
+        actions.close(prompt_bufnr)
+        ring.clear()
+        vim.notify("[yank] History cleared", vim.log.levels.INFO)
       end)
       return true
     end,
