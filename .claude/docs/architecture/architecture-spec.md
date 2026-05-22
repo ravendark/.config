@@ -1,7 +1,7 @@
 # Unified Workflow Architecture Specification
 
-**Status**: Target architecture for the unified workflow refactor (tasks 593-599).
-Complements `system-overview.md` which describes the current architecture.
+**Status**: Current architecture — designed by Task 592, implemented by Tasks 593-599.
+Complements `system-overview.md` which provides a higher-level overview.
 
 **Last Updated**: 2026-05-22
 **Designed by**: Task 592 (design_unified_workflow_architecture)
@@ -18,7 +18,7 @@ The unified workflow refactor addresses seven cross-cutting concerns identified 
 research and designed in task 592. Each concern is implemented by a dedicated task (593-599) following
 an intentional dependency ordering that minimizes rework.
 
-**Current system pain points**:
+**Pre-refactor pain points** (resolved by tasks 593-599):
 - ~525 lines of duplicated arg parsing and gate logic across 3 commands
 - ~210 lines of duplicated lifecycle stages across 3 core skills
 - No autonomous orchestration loop (manual `/research` → `/plan` → `/implement` sequence)
@@ -26,9 +26,9 @@ an intentional dependency ordering that minimizes rework.
 - Extensions copy full skill lifecycle instead of hooking into it
 - Nested continuation loops create inconsistent orchestrator state views
 
-**Refactored system**:
-- Commands become ~150-200 line routing-only controllers
-- Skills become ~130-200 line unique-logic wrappers
+**Current system** (post-refactor):
+- Commands are ~150-200 line routing-only controllers
+- Skills are ~130-200 line unique-logic wrappers
 - `/orchestrate` provides fire-and-forget autonomous lifecycle management
 - `dispatch_agent()` centralizes fork-vs-subagent logic
 - Extension hooks replace full lifecycle copying
@@ -577,7 +577,7 @@ Files to be created across Tasks 593-599:
 | CHECKPOINT 2 (GATE OUT) defensive checks | ~25 | ~75 lines |
 | CHECKPOINT 3 COMMIT | ~15 | ~45 lines |
 
-**Total command duplication: ~525 lines** (each command ~500 lines; target ~150 lines each).
+**Total command duplication: ~525 lines** (each command ~500 lines; now ~150-200 lines each).
 
 **Skill-level duplication** (near-identical across skill-researcher, skill-planner, skill-implementer):
 
@@ -595,4 +595,4 @@ Files to be created across Tasks 593-599:
 | Stage 9: Cleanup | ~10 |
 | Stage 10: Return brief summary | ~15 |
 
-**Total skill duplication: ~210 lines** (each skill ~500-560 lines; target ~130-200 lines each).
+**Total skill duplication: ~210 lines** (each skill ~500-560 lines; now ~130-200 lines each).

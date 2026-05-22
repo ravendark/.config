@@ -1,6 +1,6 @@
 # dispatch_agent() Function Specification
 
-**Status**: Target architecture — designed by Task 592, implemented by Task 596.
+**Status**: Current architecture — designed by Task 592, implemented by Task 596.
 
 **File location**: `.claude/scripts/dispatch-agent.sh`
 **Sourced by**: `.claude/skills/skill-orchestrate/SKILL.md`

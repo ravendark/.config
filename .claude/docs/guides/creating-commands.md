@@ -74,54 +74,67 @@ See `.claude/docs/reference/standards/agent-frontmatter-standard.md` for the ful
 
 ### Step 4: Implement the Four Checkpoint Stages
 
-#### GATE IN (Preflight)
+Commands use shared infrastructure scripts in `.claude/scripts/` for checkpoint execution. These scripts handle session generation, task validation, status updates, and artifact verification — commands should not reimplement this logic inline.
 
-```markdown
-## GATE IN
+#### STAGE 0: PARSE TASK NUMBERS
 
-1. Parse $ARGUMENTS to extract task_number(s) and flags
-2. Validate task exists in state.json and TODO.md
-3. Check status allows this operation
-4. Generate session_id: `sess_{timestamp}_{random}`
-5. Invoke skill-status-sync to move status to in-progress variant
+```bash
+source .claude/scripts/parse-command-args.sh "$ARGUMENTS"
+# Exports: TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, TEAM_SIZE,
+#          EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT
 ```
 
-#### DELEGATE
+`parse-command-args.sh` extracts task numbers (single, comma-separated, or ranges), flags (`--team`, `--fast`, `--hard`, `--clean`, `--force`), model selectors (`--haiku`, `--sonnet`, `--opus`), and remaining text as `FOCUS_PROMPT`.
 
-```markdown
-## DELEGATE
+#### CHECKPOINT 1: GATE IN (Preflight)
 
-Invoke the appropriate skill via the Skill tool:
-
-Skill: skill-<name>
-Arguments: {
-  "task_number": <N>,
-  "session_id": "<session_id>",
-  "task_context": { ... }
-}
+```bash
+source .claude/scripts/command-gate-in.sh "$task_number" "<operation>"
+# Exports: SESSION_ID, TASK_TYPE, TASK_STATUS, PROJECT_NAME, DESCRIPTION, PADDED_NUM
+# Displays: [OPERATION] Task {N}: {project_name}
+# Aborts if task not found or in terminal status
 ```
 
-The skill invokes the agent via the Agent tool and receives a return-metadata file path.
+`command-gate-in.sh` generates the session ID, validates the task exists, checks status allows the operation, and updates status to the in-progress variant. Commands should not generate session IDs or validate tasks manually.
 
-#### GATE OUT (Postflight)
+#### STAGE 2: DELEGATE
 
-```markdown
-## GATE OUT
-
-1. Read return-metadata file from `specs/{NNN}_{SLUG}/.return-meta.json`
-2. Validate artifacts exist on disk
-3. Invoke skill-status-sync to move status to completed variant
+```bash
+source .claude/scripts/command-route-skill.sh "<operation>" "$TASK_TYPE" "skill-<default>"
+skill_name="$SKILL_NAME"
 ```
 
-#### COMMIT
+`command-route-skill.sh` resolves the task type to the appropriate skill name using extension manifests and fallback defaults. Then invoke the skill:
 
-```markdown
-## COMMIT
-
-Invoke skill-git-workflow to create the commit:
-  - Message: `task {N}: {action}`
-  - Body: `Session: {session_id}`
 ```
+Skill: "{skill_name}"
+Args: "task_number={N} session_id={SESSION_ID} ..."
+```
+
+#### CHECKPOINT 2: GATE OUT (Postflight)
+
+```bash
+bash .claude/scripts/command-gate-out.sh "$task_number" "<operation>" "$SESSION_ID"
+# Reads .return-meta.json; applies defensive status correction if needed
+# Runs validate-artifact.sh --fix (non-blocking)
+```
+
+`command-gate-out.sh` reads the return metadata file, validates artifacts exist, and applies defensive status corrections to both state.json and TODO.md if needed.
+
+#### CHECKPOINT 3: COMMIT
+
+```bash
+git add -A
+git commit -m "$(cat <<'EOF'
+task {N}: {action}
+
+Session: {SESSION_ID}
+
+EOF
+)"
+```
+
+Commit failure is non-blocking (log and continue).
 
 ### Step 5: Document Artifacts
 

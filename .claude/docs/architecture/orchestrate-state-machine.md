@@ -1,6 +1,6 @@
 # /orchestrate State Machine Specification
 
-**Status**: Target architecture — designed by Task 592, implemented by Task 596.
+**Status**: Current architecture — designed by Task 592, implemented by Task 596.
 
 **See Also**: `architecture-spec.md` (Component 3), `dispatch-agent-spec.md`, `handoff-schema.md`
 

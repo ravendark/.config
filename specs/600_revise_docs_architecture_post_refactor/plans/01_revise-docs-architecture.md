@@ -108,7 +108,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update Command and Skill Guides [NOT STARTED]
+### Phase 2: Update Command and Skill Guides [COMPLETED]
 
 **Goal**: Replace pre-refactor manual gate patterns in command creation docs and add missing commands to user guide.
 
@@ -141,7 +141,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Cosmetic Fixes, Status Framing, and Example Assessment [NOT STARTED]
+### Phase 3: Cosmetic Fixes, Status Framing, and Example Assessment [COMPLETED]
 
 **Goal**: Fix stale "Target architecture" framing in 4 docs, update templates/README.md, and assess docs/examples/ files for stale patterns.
 
