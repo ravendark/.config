@@ -109,7 +109,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Remove Stage 8a from skills and stub lifecycle-notify.sh [NOT STARTED]
+### Phase 2: Remove Stage 8a from skills and stub lifecycle-notify.sh [COMPLETED]
 
 **Goal**: Remove all agent-side notification dispatch (Stage 8a blocks) and convert lifecycle-notify.sh to a backward-compatible no-op stub. Postflight now handles lifecycle notifications directly, so Stage 8a is redundant.
 

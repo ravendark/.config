@@ -1,31 +1,15 @@
 #!/bin/bash
-# lifecycle-notify.sh - Fire TTS and WezTerm notifications after lifecycle status transitions
-# Called by skill postflight stages after artifact linking.
+# lifecycle-notify.sh - DEPRECATED: notifications now handled by dual-dispatch architecture
 #
-# Usage: bash lifecycle-notify.sh STATUS
-# STATUS: researched | planned | completed | partial | blocked
+# This stub is kept for backward compatibility. It is a no-op.
+# Old skill files that call this script (via Stage 8a) will silently succeed.
 #
-# Non-blocking: runs tts-notify.sh and wezterm-notify.sh in background.
-# Gracefully no-ops if either script is unavailable.
-
-STATUS="${1:-}"
-if [[ -z "$STATUS" ]]; then
-    exit 0
-fi
-
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-HOOKS_DIR="$SCRIPT_DIR/../hooks"
-
-# TTS announcement (non-blocking)
-tts_script="$HOOKS_DIR/tts-notify.sh"
-if [[ -f "$tts_script" ]]; then
-    bash "$tts_script" --lifecycle "$STATUS" &
-fi
-
-# WezTerm tab coloring (non-blocking)
-wezterm_script="$HOOKS_DIR/wezterm-notify.sh"
-if [[ -f "$wezterm_script" ]]; then
-    bash "$wezterm_script" "$STATUS" &
-fi
+# Architecture change (task 588 - refactor_notification_signal_stop_hook):
+#   - update-task-status.sh postflight now fires TTS+wezterm IMMEDIATELY
+#   - claude-stop-notify.sh Stop hook uses signal file to suppress duplicate dispatch
+#   - Stage 8a blocks removed from skill files (skill-researcher, skill-planner,
+#     skill-implementer, skill-reviser)
+#
+# See: .claude/hooks/claude-stop-notify.sh and .claude/scripts/update-task-status.sh
 
 exit 0
