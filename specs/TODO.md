@@ -22,7 +22,7 @@ next_project_number: 605
 ### Meta System
 
 603 [NOT STARTED] — Fix /meta so user confirmation happens in the foreground BEFORE s
-604 [NOT STARTED] — Add generate-task-order.sh --update-todo call to all task-creatin
+604 [RESEARCHING] — Add generate-task-order.sh --update-todo call to all task-creatin
 
 ### Wezterm Notifications
 
@@ -32,7 +32,7 @@ next_project_number: 605
 
 ### Workflow Refactor
 
-593 [RESEARCHED] — Extract shared workflow utilities into 4 reusable shell scripts i
+593 [PLANNED] — Extract shared workflow utilities into 4 reusable shell scripts i
 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill-
   └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
@@ -64,7 +64,7 @@ next_project_number: 605
 
 ### 604. Add Task Order regeneration to task-creating commands
 - **Effort**: 1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHING]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
@@ -191,13 +191,14 @@ next_project_number: 605
 
 ### 593. Extract shared workflow utilities module
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 592
 - **Research**:
   - [593_extract_shared_workflow_utilities/reports/01_seed-research.md]
   - [593_extract_shared_workflow_utilities/reports/02_team-research.md]
+- **Plan**: [593_extract_shared_workflow_utilities/plans/02_extract-shared-utilities.md]
 
 **Description**: Extract shared workflow utilities into 4 reusable shell scripts in .claude/scripts/: (1) parse-command-args.sh — parses task numbers + flags (TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT), eliminating ~165 lines of identical copy-paste across /research, /plan, /implement. (2) command-gate-in.sh — CHECKPOINT 1: generates SESSION_ID, looks up task in state.json, guards against terminal statuses, exports TASK_TYPE, TASK_STATUS, PROJECT_NAME, PADDED_NUM. (3) command-gate-out.sh — CHECKPOINT 2: reads .return-meta.json, applies defensive status correction. (4) postflight-workflow.sh — shared postflight eliminating ~130 lines of near-identical logic. Commands source these scripts; each command shrinks to ~150-200 lines (vs. ~500 today). Include baseline token measurement methodology to validate savings. Reference: .claude/docs/architecture/architecture-spec.md Component 1.
 
