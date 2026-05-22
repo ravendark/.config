@@ -81,6 +81,9 @@ if [[ "$SHOULD_SET" -eq 1 ]]; then
 elif [[ "$SHOULD_CLEAR" -eq 1 ]]; then
     # Clear CLAUDE_STATUS on non-lifecycle slash commands
     printf '\033]1337;SetUserVar=CLAUDE_STATUS=\007' > "$PANE_TTY"
+    # Clear workflow-active marker (handles ESC-cancel and non-lifecycle command cleanup)
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    rm -f "$SCRIPT_DIR/../tmp/workflow-active" 2>/dev/null || true
 fi
 # Tier 3: no-op (CLAUDE_STATUS preserved from previous state)
 

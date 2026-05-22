@@ -73,7 +73,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Workflow-Active Marker and Stop Hook Fix [IN PROGRESS]
+### Phase 1: Workflow-Active Marker and Stop Hook Fix [COMPLETED]
 
 **Goal**: Eliminate the signal file mechanism and replace it with a workflow-active marker file that suppresses the Stop hook during active workflows.
 
