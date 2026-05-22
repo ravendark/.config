@@ -231,6 +231,10 @@ When $ARGUMENTS contains a description (no flags).
 
 Parse task ranges after --recover (e.g., "343-345", "337, 343"):
 
+<!-- NOTE: command-gate-in.sh does NOT apply here. gate-in reads active_projects only;
+     recover mode looks up tasks from specs/archive/state.json (completed_projects).
+     The inline archive lookup below is intentional. -->
+
 1. For each task number in range:
    **Lookup task in archive via jq**:
    ```bash
@@ -282,21 +286,16 @@ Parse task ranges after --recover (e.g., "343-345", "337, 343"):
 
 Parse task number and optional prompt:
 
-1. **Lookup task via jq**:
+1. **Lookup task via gate-in**:
    ```bash
-   task_data=$(jq -r --arg num "$task_number" \
-     '.active_projects[] | select(.project_number == ($num | tonumber))' \
-     specs/state.json)
-
-   if [ -z "$task_data" ]; then
-     echo "Error: Task $task_number not found"
-     exit 1
-   fi
-
-   description=$(echo "$task_data" | jq -r '.description // ""')
+   # Note: command-gate-in.sh reads active_projects only (not archive).
+   # This is correct for expand mode which operates on active tasks.
+   source .claude/scripts/command-gate-in.sh "$task_number" "expand"
+   # Exports: SESSION_ID, TASK_TYPE, TASK_STATUS, PROJECT_NAME, DESCRIPTION, PADDED_NUM
+   # gate_in exits with error if task not found or in terminal status
    ```
 
-2. Analyze description for natural breakpoints
+2. Analyze description for natural breakpoints (use DESCRIPTION exported by gate-in)
 
 2.5. **Read parent topic** for inheritance:
    ```bash
@@ -649,16 +648,22 @@ This mode implements the multi-task creation pattern. See `.claude/docs/referenc
 Parse task ranges:
 
 1. For each task:
-   **Lookup and validate task via jq**:
+   **Lookup and validate task via gate-in**:
    ```bash
-   task_data=$(jq -r --arg num "$task_number" \
-     '.active_projects[] | select(.project_number == ($num | tonumber))' \
-     specs/state.json)
+   # Note: command-gate-in.sh reads active_projects only (not archive).
+   # This is correct for abandon mode which operates on active tasks.
+   # gate_in also guards against abandoning already-terminal tasks.
+   source .claude/scripts/command-gate-in.sh "$task_number" "abandon"
+   # Exports: SESSION_ID, TASK_TYPE, TASK_STATUS, PROJECT_NAME, DESCRIPTION, PADDED_NUM
+   # gate_in exits with error if task not found or already in terminal status
+   slug="$PROJECT_NAME"
+   ```
 
-   if [ -z "$task_data" ]; then
-     echo "Error: Task $task_number not found in active projects"
-     exit 1
-   fi
+   **Read full task JSON for archive operation** (gate-in validated existence; read blob for jq insert):
+   ```bash
+   task_data=$(jq -c --argjson num "$task_number" \
+     '.active_projects[] | select(.project_number == $num)' \
+     specs/state.json)
    ```
 
    **Move to archive via jq** (two-step to avoid jq escaping bug - see `jq-escaping-workarounds.md`):
@@ -680,8 +685,7 @@ Parse task ranges:
 
    **Move task directory to archive** (handle both legacy unpadded and new padded formats):
    ```bash
-   slug=$(echo "$task_data" | jq -r '.project_name')
-   PADDED_NUM=$(printf "%03d" "$task_number")
+   # slug and PADDED_NUM are already exported by gate-in above
    # Check padded format first (new), then unpadded (legacy)
    if [ -d "specs/${PADDED_NUM}_${slug}" ]; then
      mv "specs/${PADDED_NUM}_${slug}" "specs/archive/${PADDED_NUM}_${slug}"

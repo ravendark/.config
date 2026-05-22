@@ -215,24 +215,24 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Refactor /task with gate-in for applicable modes [NOT STARTED]
+### Phase 5: Refactor /task with gate-in for applicable modes [COMPLETED]
 
 **Goal**: Apply command-gate-in.sh to /task modes that perform task-number-based operations, eliminating repeated inline jq patterns.
 
 **Tasks**:
-- [ ] Add `source .claude/scripts/command-gate-in.sh` to Expand mode (--expand N, mode 3)
+- [x] Add `source .claude/scripts/command-gate-in.sh` to Expand mode (--expand N, mode 3) *(completed)*
   - Replace inline task lookup jq block with gate_in call
   - Use exported TASK_DATA, PROJECT_NAME, PADDED_NUM
-- [ ] Add `source .claude/scripts/command-gate-in.sh` to Abandon mode (--abandon N, mode 5)
+- [x] Add `source .claude/scripts/command-gate-in.sh` to Abandon mode (--abandon N, mode 5) *(completed: gate-in for validation; task_data re-read post-gate for archive jq insert)*
   - Replace inline task lookup jq block with gate_in call
   - Note: abandon moves to archive, so some post-gate-in logic is unique
-- [ ] Evaluate Recover mode (--recover N, mode 2) gate-in applicability
+- [x] Evaluate Recover mode (--recover N, mode 2) gate-in applicability *(deviation: skipped — gate-in reads active_projects only; recover looks up from archive/state.json. Documented with NOTE comment in command file.)*
   - Recover reads from archive/state.json, not active_projects
   - gate-in reads active_projects only -- so Recover mode must keep inline lookup
   - Document this decision in the command file
-- [ ] Replace inline session ID generation in modes 2, 3, 5 with SESSION_ID from gate-in (where applicable)
-- [ ] Preserve all mode-specific logic (create mode, sync mode, review mode) unchanged
-- [ ] Verify the duplicated 4-line task lookup pattern is eliminated from modes 3 and 5
+- [x] Replace inline session ID generation in modes 2, 3, 5 with SESSION_ID from gate-in (where applicable) *(completed: SESSION_ID exported by gate-in in modes 3 and 5; mode 2 keeps inline as gate-in not used)*
+- [x] Preserve all mode-specific logic (create mode, sync mode, review mode) unchanged *(completed)*
+- [x] Verify the duplicated 4-line task lookup pattern is eliminated from modes 3 and 5 *(completed)*
 
 **Timing**: 1 hour
 
