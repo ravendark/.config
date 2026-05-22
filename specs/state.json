@@ -312,15 +312,39 @@
     {
       "project_number": 606,
       "project_name": "fix_extension_doclint_failures",
-      "status": "not_started",
+      "status": "planned",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Fix 2 extension doc-lint failures: core README missing /project-overview command, filetypes README missing /sheet command. Run check-extension-docs.sh to verify.",
       "effort": "30 minutes",
       "created": "2026-05-22T18:40:00Z",
-      "last_updated": "2026-05-22T18:40:00Z",
+      "last_updated": "2026-05-22T19:52:20Z",
       "next_artifact_number": 1,
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/606_fix_extension_doclint_failures/plans/01_fix-doclint-failures.md",
+          "type": "plan",
+          "summary": "3-phase plan to fix 2 doc-lint failures"
+        }
+      ],
+      "session_id": "sess_1779479366_e56e28",
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 0.5,
+        "complexity": "simple",
+        "research_integrated": false,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1,
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "reports_integrated": []
+      }
     }
   ],
   "completed_projects": [],
