@@ -11,16 +11,12 @@ next_project_number: 605
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,597,598,602 | -- | wezterm-notifications, workflow-refactor |
+| 1 | 78,87,597,598 | -- | workflow-refactor |
 | 2 | 596 | 598 | workflow-refactor |
 | 3 | 599 | 596,597,598 | workflow-refactor |
 | 4 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = depends on parent):
-
-### Wezterm Notifications
-
-602 [PLANNED] — Update wezterm.lua color palette for dim/bright workflow stage se
 
 ### Workflow Refactor
 
@@ -41,11 +37,12 @@ next_project_number: 605
 
 ### 602. Update wezterm.lua dim/bright color palette and fix tab-switch clearing
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: nix
 - **Topic**: wezterm-notifications
 - **Dependencies**: Task #601
 - **Plan**: [602_update_wezterm_dim_bright_colors/plans/01_wezterm-dim-bright-colors.md]
+- **Summary**: [602_update_wezterm_dim_bright_colors/summaries/01_wezterm-dim-bright-colors-summary.md]
 
 **Description**: Update wezterm.lua color palette for dim/bright workflow stage semantics. Research=green, plan=blue, implement=gold. DIM shade for in-progress states (researching/planning/implementing), BRIGHT/BOLD for finished states (researched/planned/completed). Fix update-status handler to only clear needs_input on tab switch, preserving lifecycle states until next command. TTS announcement format: tab-number workflow-type (e.g. tab 4 researched). WezTerm config at ~/.dotfiles/config/wezterm.lua (nix-managed, rebuild via home-manager).
 

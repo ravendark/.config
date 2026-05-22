@@ -23945,3 +23945,20 @@
 [2026-05-22T12:34:52-07:00] No postflight marker, allowing stop
 [2026-05-22T12:34:57-07:00] No postflight marker, allowing stop
 [2026-05-22T12:35:20-07:00] No postflight marker, allowing stop
+[2026-05-22T12:37:46-07:00] Postflight marker found at: specs/602_update_wezterm_dim_bright_colors/.postflight-pending
+[2026-05-22T12:37:46-07:00] Task directory: specs/602_update_wezterm_dim_bright_colors
+[2026-05-22T12:37:46-07:00] Loop guard initialized to 1
+[2026-05-22T12:37:46-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-22T12:39:17-07:00] Postflight marker found at: specs/602_update_wezterm_dim_bright_colors/.postflight-pending
+[2026-05-22T12:39:17-07:00] Task directory: specs/602_update_wezterm_dim_bright_colors
+[2026-05-22T12:39:17-07:00] Loop guard incremented to 2
+[2026-05-22T12:39:17-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-22T12:39:28-07:00] Postflight marker found at: specs/602_update_wezterm_dim_bright_colors/.postflight-pending
+[2026-05-22T12:39:28-07:00] Task directory: specs/602_update_wezterm_dim_bright_colors
+[2026-05-22T12:39:28-07:00] Loop guard incremented to 3
+[2026-05-22T12:39:28-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-22T12:39:37-07:00] Postflight marker found at: specs/602_update_wezterm_dim_bright_colors/.postflight-pending
+[2026-05-22T12:39:37-07:00] Task directory: specs/602_update_wezterm_dim_bright_colors
+[2026-05-22T12:39:37-07:00] Loop guard triggered: 3 >= 3
+[2026-05-22T12:39:37-07:00] Loop guard prevented continuation
+[2026-05-22T12:40:02-07:00] No postflight marker, allowing stop

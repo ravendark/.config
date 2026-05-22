@@ -258,7 +258,7 @@
     {
       "project_number": 602,
       "project_name": "update_wezterm_dim_bright_colors",
-      "status": "planned",
+      "status": "completed",
       "task_type": "nix",
       "topic": "wezterm-notifications",
       "description": "Update wezterm.lua color palette for dim/bright workflow stage semantics. Research=green, plan=blue, implement=gold. DIM shade for in-progress states (researching/planning/implementing), BRIGHT/BOLD for finished states (researched/planned/completed). Fix update-status handler to only clear needs_input on tab switch, preserving lifecycle states until next command. TTS announcement format: tab-number workflow-type (e.g. tab 4 researched). WezTerm config at ~/.dotfiles/config/wezterm.lua (nix-managed, rebuild via home-manager).",
@@ -267,7 +267,7 @@
         601
       ],
       "created": "2026-05-22T18:00:00Z",
-      "last_updated": "2026-05-22T19:35:05Z",
+      "last_updated": "2026-05-22T19:40:15Z",
       "next_artifact_number": 1,
       "artifacts": [
         "specs/602_update_wezterm_dim_bright_colors/reports/01_wezterm-dim-bright-colors.md",
@@ -275,9 +275,14 @@
           "path": "specs/602_update_wezterm_dim_bright_colors/plans/01_wezterm-dim-bright-colors.md",
           "type": "plan",
           "summary": "3-phase plan: update color palette and fix update-status handler, fix TTS lowercase prefix, verify and rebuild Home Manager"
+        },
+        {
+          "path": "specs/602_update_wezterm_dim_bright_colors/summaries/01_wezterm-dim-bright-colors-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary with verification results for all 3 phases"
         }
       ],
-      "session_id": "sess_1779478303_0f74ee",
+      "session_id": "sess_1779478563_57cdc7",
       "plan_metadata": {
         "phases": 3,
         "total_effort_hours": 0.75,
@@ -300,7 +305,8 @@
             "integrated_date": "2026-05-22"
           }
         ]
-      }
+      },
+      "completion_summary": "Updated WezTerm color palette with distinct dim/bright hues per workflow family, fixed the update-status handler to preserve lifecycle states on tab switch, and fixed TTS to use lowercase 'tab' prefix. All changes verified with bash syntax check, Home Manager rebuild, and wezterm cli list."
     }
   ],
   "completed_projects": [],
