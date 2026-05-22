@@ -5,13 +5,16 @@
 #
 # Integration:
 #   Notification hook (permission_prompt, elicitation_dialog): called with no args
-#   Lifecycle transitions: called by lifecycle-notify.sh with --lifecycle STATUS
+#   Lifecycle transitions: called by update-task-status.sh postflight with --lifecycle STATUS
 #
 # Requirements: piper-tts, aplay or paplay (alsa-utils), wezterm
 #
 # Supported Modes:
 #   Interactive (no args) - speaks "Tab N" for permission_prompt/elicitation_dialog
 #   Lifecycle (--lifecycle STATUS) - speaks "Tab N STATUS" (e.g., "Tab 3 researched")
+#
+# Lifecycle status vocabulary (no artifact-type vocabulary):
+#   researching, researched, planning, planned, implementing, completed, blocked
 #
 # Configuration:
 #   PIPER_MODEL - Path to piper voice model (default: ~/.local/share/piper/en_US-lessac-medium.onnx)

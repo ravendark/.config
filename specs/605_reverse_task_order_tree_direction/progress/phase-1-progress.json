@@ -1,0 +1,19 @@
+{
+  "phase": 1,
+  "phase_name": "Script Changes",
+  "started_at": "2026-05-22T00:00:00Z",
+  "last_updated": "2026-05-22T00:00:00Z",
+  "objectives": [
+    {"id": 1, "description": "Add declare -A task_successors global near existing declare -A task_deps", "status": "not_started"},
+    {"id": 2, "description": "Create build_successors_map() function that inverts task_deps", "status": "not_started"},
+    {"id": 3, "description": "Call build_successors_map after build_graph in main section", "status": "not_started"},
+    {"id": 4, "description": "In _print_topic_node(): change task_deps to task_successors", "status": "not_started"},
+    {"id": 5, "description": "In print_tree_node(): change task_deps to task_successors", "status": "not_started"},
+    {"id": 6, "description": "In generate_grouped_section(): change label to 'indented = depends on parent'", "status": "not_started"},
+    {"id": 7, "description": "In generate_dependency_tree(): change label to 'indented = depends on parent'", "status": "not_started"}
+  ],
+  "current_objective": 1,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

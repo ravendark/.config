@@ -1,0 +1,21 @@
+{
+  "phase": 4,
+  "phase_name": "Propagate to All Copy Locations and Update Documentation",
+  "started_at": "2026-05-22T00:19:00Z",
+  "last_updated": "2026-05-22T00:19:00Z",
+  "objectives": [
+    {"id": 1, "description": "Copy updated hooks to .claude/extensions/core/hooks/", "status": "not_started"},
+    {"id": 2, "description": "Copy updated hooks to .opencode/hooks/", "status": "not_started"},
+    {"id": 3, "description": "Copy updated hooks to .opencode/extensions/core/hooks/", "status": "not_started"},
+    {"id": 4, "description": "Verify no PHASE 5 notification changes needed in extension/opencode copies of update-task-status.sh", "status": "not_started"},
+    {"id": 5, "description": "Add workflow-active preflight write to extension/opencode copies of update-task-status.sh", "status": "not_started"},
+    {"id": 6, "description": "Update documentation: wezterm-integration.md", "status": "not_started"},
+    {"id": 7, "description": "Update documentation: tts-stt-integration.md", "status": "not_started"},
+    {"id": 8, "description": "Copy updated documentation to extension copies", "status": "not_started"},
+    {"id": 9, "description": "Verify all 4 hook locations are synchronized", "status": "not_started"}
+  ],
+  "current_objective": 1,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

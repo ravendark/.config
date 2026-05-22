@@ -20,7 +20,7 @@ next_project_number: 605
 
 ### Meta System
 
-605 [PLANNED] — Reverse the Task Order dependency tree so prerequisite tasks (tho
+605 [IMPLEMENTING] — Reverse the Task Order dependency tree so prerequisite tasks (tho
 
 ### Wezterm Notifications
 
@@ -30,7 +30,7 @@ next_project_number: 605
 
 ### Workflow Refactor
 
-595 [RESEARCHING] — Refactor /research, /plan, /implement commands to use shared util
+595 [RESEARCHED] — Refactor /research, /plan, /implement commands to use shared util
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
@@ -52,7 +52,7 @@ next_project_number: 605
 
 ### 605. Reverse Task Order tree to show dependents below prerequisites
 - **Effort**: 1 hour
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
@@ -176,11 +176,13 @@ next_project_number: 605
 
 ### 595. Refactor /research, /plan, /implement commands to use shared infrastructure
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 594, 598
-- **Research**: [595_refactor_research_plan_implement_commands/reports/01_seed-research.md]
+- **Research**:
+  - [595_refactor_research_plan_implement_commands/reports/01_seed-research.md]
+  - [595_refactor_research_plan_implement_commands/reports/02_command-refactor-research.md]
 
 **Description**: Refactor /research, /plan, /implement commands to use shared utilities from task 593 and refactored skills from task 594. Target: each command reduced to ~150-200 lines covering only routing-only controller logic (argument docs, mode-specific behavior, extension routing table). Commands MUST NOT load Tier 3 context (agent-level context stays with agents, per four-tier model). Current commands embed agent-level context inline (full state machine logic, format specifications); these must move to Tier 3 agent context files. Add orchestrator_mode=true support: skills write .orchestrator-handoff.json when orchestrator_mode is detected in delegation context. Verify extension compatibility (nvim, nix) at each step. Reference: .claude/docs/architecture/architecture-spec.md Components 1-2.
 

@@ -15,18 +15,28 @@
 #   WEZTERM_NOTIFY_ENABLED - Set to "0" to disable (default: 1)
 #
 # The CLAUDE_STATUS variable is read by wezterm.lua format-tab-title handler
-# to show colored background on inactive tabs based on lifecycle state:
-#   needs_input -> gray (default Stop behavior)
-#   researched  -> dark green
-#   planned     -> dark blue
-#   completed   -> bright green
-#   blocked     -> dark red
-#   unknown     -> default styling (safe degradation)
+# to show colored background on inactive tabs based on lifecycle state.
+# Only lifecycle states are used (no artifact-type vocabulary):
+#   needs_input  -> gray (Stop hook default)
+#   researching  -> dim green (in progress)
+#   researched   -> bright green (done)
+#   planning     -> dim blue (in progress)
+#   planned      -> bright blue (done)
+#   implementing -> dim gold (in progress)
+#   completed    -> bright gold (done)
+#   blocked      -> red
+#   unknown      -> default styling (safe degradation)
 #
 # Note: Claude Code hooks run with redirected stdio (stdout is a socket),
 # so we must write the escape sequence directly to the pane's TTY.
 
 set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Load shared WezTerm utilities (TTY discovery and OSC writes)
+# shellcheck source=wezterm-utils.sh
+source "$SCRIPT_DIR/wezterm-utils.sh"
 
 # Configuration with defaults
 WEZTERM_NOTIFY_ENABLED="${WEZTERM_NOTIFY_ENABLED:-1}"
@@ -52,24 +62,10 @@ if [[ -z "${WEZTERM_PANE:-}" ]]; then
     exit_success
 fi
 
-# Get the TTY for the current pane from WezTerm CLI
-# Claude Code hooks have redirected stdio, so we cannot use /dev/tty
-PANE_TTY=$(wezterm cli list --format=json 2>/dev/null | \
-    jq -r ".[] | select(.pane_id == $WEZTERM_PANE) | .tty_name" 2>/dev/null || echo "")
+# Get the TTY for the current pane (via shared utility)
+PANE_TTY=$(get_pane_tty) || exit_success
 
-# Check if we found a writable TTY
-if [[ -z "$PANE_TTY" ]] || [[ ! -w "$PANE_TTY" ]]; then
-    exit_success
-fi
-
-# Set CLAUDE_STATUS user variable via OSC 1337
-# Format: OSC 1337 ; SetUserVar=name=base64_value ST
-# base64 encode the status value
-STATUS_VALUE=$(echo -n "$STATUS" | base64 | tr -d '\n')
-
-# Write OSC 1337 escape sequence to the pane's TTY (not stdout)
-# \033] = OSC
-# \007 = ST (string terminator)
-printf '\033]1337;SetUserVar=CLAUDE_STATUS=%s\007' "$STATUS_VALUE" > "$PANE_TTY"
+# Set CLAUDE_STATUS user variable via OSC 1337 (via shared utility)
+set_user_var "CLAUDE_STATUS" "$STATUS" "$PANE_TTY"
 
 exit_success

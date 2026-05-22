@@ -5,14 +5,14 @@
     {
       "project_number": 605,
       "project_name": "reverse_task_order_tree_direction",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "meta-system",
       "description": "Reverse the Task Order dependency tree so prerequisite tasks (those depended upon) are roots and dependent tasks are indented children. Currently tasks show their prerequisites indented below; the desired display shows dependents indented below prerequisites, so users work on unindented tasks first and their children get promoted on completion.",
       "effort": "1 hour",
       "dependencies": [],
       "created": "2026-05-22T20:00:00Z",
-      "last_updated": "2026-05-22T19:12:03Z",
+      "last_updated": "2026-05-22T19:13:33Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -26,7 +26,7 @@
           "summary": "3-phase plan: script changes (successors map, DFS reversal, labels), documentation updates, verification"
         }
       ],
-      "session_id": "sess_1779476945_1278cd",
+      "session_id": "sess_1779477188_48371a",
       "research_artifact": "specs/605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md",
       "plan_metadata": {
         "phases": 3,
@@ -1080,7 +1080,7 @@
     {
       "project_number": 595,
       "project_name": "refactor_research_plan_implement_commands",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Refactor /research, /plan, /implement commands to use shared utilities from task 593 and refactored skills from task 594. Target: each command reduced to ~150-200 lines covering only routing-only controller logic (argument docs, mode-specific behavior, extension routing table). Commands MUST NOT load Tier 3 context (agent-level context stays with agents, per four-tier model). Current commands embed agent-level context inline (full state machine logic, format specifications); these must move to Tier 3 agent context files. Add orchestrator_mode=true support: skills write .orchestrator-handoff.json when orchestrator_mode is detected in delegation context. Verify extension compatibility (nvim, nix) at each step. Reference: .claude/docs/architecture/architecture-spec.md Components 1-2.",
@@ -1091,16 +1091,45 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T19:09:12Z",
-      "next_artifact_number": 2,
+      "last_updated": "2026-05-22T19:15:37Z",
+      "next_artifact_number": 3,
       "artifacts": [
         {
+          "path": "specs/595_refactor_research_plan_implement_commands/reports/02_command-refactor-research.md",
           "type": "research",
-          "path": "595_refactor_research_plan_implement_commands/reports/01_seed-research.md",
-          "created": "2026-05-22"
+          "summary": "Analysis of command refactoring: multi-task dispatch extraction, extension routing consolidation, redundant GATE OUT removal, orchestrator_mode design, and size reduction estimates"
         }
       ],
-      "session_id": "sess_1779476934_b67d23"
+      "session_id": "sess_1779476934_b67d23",
+      "memory_candidates": [
+        {
+          "content": "Command files cannot delegate Skill tool invocations to bash scripts. The parallel Skill calls in multi-task dispatch must remain as markdown prose in command files. Only pre-dispatch validation and post-dispatch output formatting can be extracted to scripts. This constrains how much multi-task dispatch can be reduced.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/595_refactor_research_plan_implement_commands/reports/02_command-refactor-research.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "command",
+            "skill-tool",
+            "bash-script",
+            "dispatch",
+            "multi-task",
+            "constraint"
+          ]
+        },
+        {
+          "content": "The inline GATE OUT defensive check blocks in research.md and plan.md (~38 lines each) are redundant with command-gate-out.sh, which already performs state.json and TODO.md defensive correction. These inline blocks should be removed to reduce command file size without losing functionality.",
+          "category": "PATTERN",
+          "source_artifact": "specs/595_refactor_research_plan_implement_commands/reports/02_command-refactor-research.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "gate-out",
+            "defensive-check",
+            "redundant",
+            "command-file",
+            "state-json"
+          ]
+        }
+      ]
     },
     {
       "project_number": 596,

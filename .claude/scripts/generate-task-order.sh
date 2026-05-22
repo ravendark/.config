@@ -629,16 +629,16 @@ print_tree_node() {
   echo "${prefix}${task_num} [${status_display}] — ${desc}"
   visited_in_tree["$task_num"]=1
 
-  # Print this task's active dependencies (indented below)
-  local deps="${task_deps[$task_num]:-}"
+  # Print this task's active successors (tasks that depend on this task, indented below)
+  local deps="${task_successors[$task_num]:-}"
   if [[ -n "$deps" ]]; then
-    # Sort deps numerically for consistent output
+    # Sort successors numerically for consistent output
     local sorted_deps
     sorted_deps=$(echo "$deps" | tr ' ' '\n' | sort -n | tr '\n' ' ')
     read -ra dep_array <<< "$sorted_deps"
     for dep in "${dep_array[@]}"; do
       [[ -z "$dep" ]] && continue
-      # Only print if dep is in our active set
+      # Only print if successor is in our active set
       if [[ -n "${task_status[$dep]+x}" ]]; then
         print_tree_node "$dep" $((depth + 1))
       fi

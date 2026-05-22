@@ -1,7 +1,7 @@
 # Implementation Plan: Reverse Task Order Tree Direction
 
 - **Task**: 605 - Reverse Task Order tree to show dependents below prerequisites
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md
@@ -59,7 +59,7 @@ No ROADMAP.md items are directly advanced by this task. This is an internal agen
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Script Changes [NOT STARTED]
+### Phase 1: Script Changes [IN PROGRESS]
 
 **Goal**: Modify `generate-task-order.sh` to build a successors map, change DFS iteration to use successors, and update label strings.
 
