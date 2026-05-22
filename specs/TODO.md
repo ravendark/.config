@@ -22,7 +22,7 @@ next_project_number: 605
 ### Meta System
 
 603 [NOT STARTED] — Fix /meta so user confirmation happens in the foreground BEFORE s
-604 [RESEARCHED] — Add generate-task-order.sh --update-todo call to all task-creatin
+604 [PLANNED] — Add generate-task-order.sh --update-todo call to all task-creatin
 
 ### Wezterm Notifications
 
@@ -32,7 +32,7 @@ next_project_number: 605
 
 ### Workflow Refactor
 
-593 [PLANNED] — Extract shared workflow utilities into 4 reusable shell scripts i
+593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i
 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill-
   └─ 593 [RESEARCHING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
@@ -64,11 +64,12 @@ next_project_number: 605
 
 ### 604. Add Task Order regeneration to task-creating commands
 - **Effort**: 1 hour
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
 - **Research**: [604_add_task_order_regen_to_creators/reports/01_task-order-regen.md]
+- **Plan**: [604_add_task_order_regen_to_creators/plans/01_task-order-regen.md]
 
 **Description**: Add generate-task-order.sh --update-todo call to all task-creating commands that currently skip Task Order regeneration. Gaps: (1) meta-builder-agent.md - after batch task creation. (2) skill-spawn/SKILL.md - after task creation. (3) skill-fix-it/SKILL.md - after task creation. (4) errors.md - after task creation. Also update state-management.md Non-Regeneration Events section to reflect new policy: regen on ALL task creation events.
 
@@ -192,7 +193,7 @@ next_project_number: 605
 
 ### 593. Extract shared workflow utilities module
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 592

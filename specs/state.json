@@ -811,7 +811,7 @@
     {
       "project_number": 593,
       "project_name": "extract_shared_workflow_utilities",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Extract shared workflow utilities into 4 reusable shell scripts in .claude/scripts/: (1) parse-command-args.sh — parses task numbers + flags (TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT), eliminating ~165 lines of identical copy-paste across /research, /plan, /implement. (2) command-gate-in.sh — CHECKPOINT 1: generates SESSION_ID, looks up task in state.json, guards against terminal statuses, exports TASK_TYPE, TASK_STATUS, PROJECT_NAME, PADDED_NUM. (3) command-gate-out.sh — CHECKPOINT 2: reads .return-meta.json, applies defensive status correction. (4) postflight-workflow.sh — shared postflight eliminating ~130 lines of near-identical logic. Commands source these scripts; each command shrinks to ~150-200 lines (vs. ~500 today). Include baseline token measurement methodology to validate savings. Reference: .claude/docs/architecture/architecture-spec.md Component 1.",
@@ -820,7 +820,7 @@
         592
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T18:22:00Z",
+      "last_updated": "2026-05-22T18:24:52Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -839,7 +839,7 @@
           "summary": "5-phase plan: baseline + 4 scripts + command migration + validation (7h)"
         }
       ],
-      "session_id": "sess_1779473858_71411f",
+      "session_id": "sess_1779474280_4aca24",
       "plan_metadata": {
         "phases": 5,
         "total_effort_hours": 7,
@@ -1076,23 +1076,50 @@
     {
       "project_number": 604,
       "project_name": "add_task_order_regen_to_creators",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "topic": "meta-system",
       "description": "Add generate-task-order.sh --update-todo call to all task-creating commands that currently skip Task Order regeneration. Gaps: (1) meta-builder-agent.md - after batch task creation. (2) skill-spawn/SKILL.md - after task creation. (3) skill-fix-it/SKILL.md - after task creation. (4) errors.md - after task creation. Also update state-management.md Non-Regeneration Events section to reflect new policy: regen on ALL task creation events, not just /task create mode. The generate-task-order.sh script already handles terminal status transitions via update-task-status.sh Mode B, and first-status-transition fallback via Mode A. This task closes the creation gap so new tasks appear in Task Order immediately.",
       "effort": "1 hour",
       "dependencies": [],
       "created": "2026-05-22T19:00:00Z",
-      "last_updated": "2026-05-22T18:22:32Z",
+      "last_updated": "2026-05-22T18:27:12Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
           "path": "specs/604_add_task_order_regen_to_creators/reports/01_task-order-regen.md",
           "type": "research",
           "summary": "Full research: 4 gap files (meta-builder-agent, skill-spawn, skill-fix-it, errors), exact insertion points, state-management.md policy update"
+        },
+        {
+          "path": "specs/604_add_task_order_regen_to_creators/plans/01_task-order-regen.md",
+          "type": "plan",
+          "summary": "2-phase plan: add regen calls to 4 gap files, update state-management.md policy"
         }
       ],
-      "session_id": "sess_1779510000_604res"
+      "session_id": "sess_1779512000_604plan",
+      "plan_metadata": {
+        "phases": 2,
+        "total_effort_hours": 1,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_task-order-regen.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-22"
+          }
+        ]
+      }
     }
   ],
   "completed_projects": [],
