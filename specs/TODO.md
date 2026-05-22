@@ -11,7 +11,7 @@ next_project_number: 605
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,597,598,601,603 | -- | meta-system, wezterm-notifications, workflow-refactor |
+| 1 | 78,87,597,598,601 | -- | wezterm-notifications, workflow-refactor |
 | 2 | 594,602 | 598,601 | wezterm-notifications, workflow-refactor |
 | 3 | 595,596 | 594,598 | workflow-refactor |
 | 4 | 599 | 594,595,596,597,598 | workflow-refactor |
@@ -19,29 +19,25 @@ next_project_number: 605
 
 **Grouped by Topic** (indented = must complete first):
 
-### Meta System
-
-603 [IMPLEMENTING] — Fix /meta so user confirmation happens in the foreground BEFORE s
-
 ### Wezterm Notifications
 
 601 [RESEARCHING] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
 602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
-  └─ 601 [NOT STARTED] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
+  └─ 601 [RESEARCHING] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
 
 ### Workflow Refactor
 
-594 [RESEARCHED] — Refactor core workflow skills to use a shared base library skill-
+594 [PLANNING] — Refactor core workflow skills to use a shared base library skill-
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util
-  └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 594 [PLANNING] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
-  └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 594 [PLANNING] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the 
 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
-  └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
+  └─ 594 [PLANNING] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util (see above)
   └─ 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch- (see above)
   └─ 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the  (see above)
@@ -94,12 +90,13 @@ next_project_number: 605
 
 ### 603. Fix /meta pre-confirmation: move interactive flow before agent spawn
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
 - **Research**: [603_fix_meta_pre_confirmation_pattern/reports/01_meta-pre-confirmation.md]
 - **Plan**: [603_fix_meta_pre_confirmation_pattern/plans/01_meta-pre-confirmation.md]
+- **Summary**: [603_fix_meta_pre_confirmation_pattern/summaries/01_meta-pre-confirmation-summary.md]
 
 **Description**: Fix /meta so user confirmation happens in the foreground BEFORE spawning meta-builder-agent. Root cause: AskUserQuestion from background Agent tool calls does not reliably surface to the user. Changes: (1) meta.md: document that prompt mode MUST run AskUserQuestion before Agent delegation. (2) skill-meta SKILL.md: add pre-confirmation stage between context preparation and agent spawn -- skill proposes tasks, user selects/revises via AskUserQuestion, then passes confirmed list. (3) meta-builder-agent.md: add confirmed mode that accepts pre-validated task list and creates without re-asking; keep interactive mode for no-args /meta where agent runs foreground. (4) Update multi-task-creation-standard.md to note that confirmation must happen in foreground.
 
@@ -178,7 +175,7 @@ next_project_number: 605
 
 ### 594. Refactor workflow skills to shared base pattern
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 598
