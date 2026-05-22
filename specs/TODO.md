@@ -11,10 +11,9 @@ next_project_number: 607
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,597,598,606 | -- | workflow-refactor |
-| 2 | 596 | 598 | workflow-refactor |
-| 3 | 599 | 596,597,598 | workflow-refactor |
-| 4 | 600 | 599 | workflow-refactor |
+| 1 | 78,87,597,598 | -- | workflow-refactor |
+| 2 | 599 | 597,598 | workflow-refactor |
+| 3 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -24,10 +23,7 @@ next_project_number: 607
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
-  └─ 596 [IMPLEMENTING] — Create the /orchestrate command, skill-orchestrate, and dispatch-
-    └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
-606 [COMPLETED] — Fix 2 extension doc-lint failures: core README missing /project-o
 
 ### Uncategorized
 
@@ -110,7 +106,7 @@ next_project_number: 607
 
 ### 596. Create /orchestrate command, skill, and orchestrator agent
 - **Effort**: 3-4 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 594, 598
@@ -118,6 +114,7 @@ next_project_number: 607
   - [596_create_orchestrate_command_skill_agent/reports/01_seed-research.md]
   - [596_create_orchestrate_command_skill_agent/reports/02_auto-flag-analysis.md]
 - **Plan**: [596_create_orchestrate_command_skill_agent/plans/01_orchestrate-command.md]
+- **Summary**: [596_create_orchestrate_command_skill_agent/summaries/01_orchestrate-command-summary.md]
 
 **Description**: Create the /orchestrate command, skill-orchestrate, and dispatch-agent.sh. File layout: .claude/commands/orchestrate.md (entry point ~50L), .claude/skills/skill-orchestrate/SKILL.md (state machine ~200L), .claude/scripts/dispatch-agent.sh (dispatch function). State machine: not_started->research->plan->implement->completed; partial+handoff->re-dispatch-implement; partial+blockers->blocker-escalation; MAX_CYCLES=5 with loop guard file (specs/{NNN}_{SLUG}/.orchestrator-loop-guard). dispatch_agent() signature: dispatch_agent agent_type prompt context_json is_blocker_escalation; is_blocker_escalation=true uses fork (no subagent_type, cache-warm ~90% savings); false uses named subagent. .orchestrator-handoff.json schema: phase, status, summary (<=100 tokens), artifacts, blockers, next_action_hint, files_modified, decisions_made, dead_ends, continuation_context; total <=400 tokens. Nested loop resolution: orchestrator_mode=true in delegation context disables skill-implementer inner continuation loop (max_continuations=0); orchestrator handles continuation externally. References: .claude/docs/architecture/orchestrate-state-machine.md, .claude/docs/architecture/dispatch-agent-spec.md, .claude/docs/architecture/handoff-schema.md.
 
