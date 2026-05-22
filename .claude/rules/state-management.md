@@ -86,6 +86,7 @@ Events that trigger Task Order regeneration:
 | Post-vault renumbering | `/todo` | `generate-task-order.sh --update-todo` (Step 5.8.8a) |
 | Codebase review | `/review` | `generate-task-order.sh --update-todo` (Section 6.5) |
 | Terminal status transition | Automated | `generate-task-order.sh --update-todo` (optional, via hooks) |
+| Task creation | `/task`, `/meta`, `/spawn`, `/fix-it`, `/errors` | `generate-task-order.sh --update-todo` (after all task entries created) |
 
 All regeneration calls use the `--update-todo` flag, which writes the wave+tree format to the Task Order section in `specs/TODO.md`.
 
@@ -102,7 +103,6 @@ Use `generate-task-order.sh` for all cases where the task set changes (archival,
 
 These events do NOT trigger Task Order regeneration:
 
-- Task creation (before the task enters a terminal or near-terminal state)
 - Status transitions to `researching`, `researched`, `planning`, `planned`, `implementing`, `partial`, `blocked`
 - Roadmap annotation updates
 - Git commits and state.json writes not involving task number changes

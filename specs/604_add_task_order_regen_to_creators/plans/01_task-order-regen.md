@@ -100,7 +100,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update state-management.md policy [NOT STARTED]
+### Phase 2: Update state-management.md policy [COMPLETED]
 
 **Goal**: Update `state-management.md` to reflect the new policy that task creation triggers Task Order regeneration.
 
