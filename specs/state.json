@@ -811,7 +811,7 @@
     {
       "project_number": 593,
       "project_name": "extract_shared_workflow_utilities",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Extract shared workflow utilities into 4 reusable shell scripts in .claude/scripts/: (1) parse-command-args.sh — parses task numbers + flags (TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT), eliminating ~165 lines of identical copy-paste across /research, /plan, /implement. (2) command-gate-in.sh — CHECKPOINT 1: generates SESSION_ID, looks up task in state.json, guards against terminal statuses, exports TASK_TYPE, TASK_STATUS, PROJECT_NAME, PADDED_NUM. (3) command-gate-out.sh — CHECKPOINT 2: reads .return-meta.json, applies defensive status correction. (4) postflight-workflow.sh — shared postflight eliminating ~130 lines of near-identical logic. Commands source these scripts; each command shrinks to ~150-200 lines (vs. ~500 today). Include baseline token measurement methodology to validate savings. Reference: .claude/docs/architecture/architecture-spec.md Component 1.",
@@ -820,7 +820,7 @@
         592
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T18:24:52Z",
+      "last_updated": "2026-05-22T18:42:25Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -837,6 +837,11 @@
           "path": "specs/593_extract_shared_workflow_utilities/plans/02_extract-shared-utilities.md",
           "type": "plan",
           "summary": "5-phase plan: baseline + 4 scripts + command migration + validation (7h)"
+        },
+        {
+          "path": "specs/593_extract_shared_workflow_utilities/summaries/02_extract-shared-utilities-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 593"
         }
       ],
       "session_id": "sess_1779474280_4aca24",
@@ -870,7 +875,49 @@
             "integrated_date": "2026-05-22"
           }
         ]
-      }
+      },
+      "completion_summary": "Created 4 shared shell scripts in .claude/scripts/ (parse-command-args.sh, command-gate-in.sh, command-gate-out.sh, postflight-workflow.sh) and migrated all 3 command files to source/call them, eliminating ~305 lines of duplicated logic. Converted 3 postflight scripts from 69-line implementations to 12-line thin wrappers.",
+      "memory_candidates": [
+        {
+          "content": "When shell scripts need to export variables into a calling shell, they must be sourced (not called as a subprocess). Claude Code command scripts sourcing shared library scripts (like parse-command-args.sh, command-gate-in.sh) must use source script.sh args within a single Bash tool invocation. Scripts that only produce side effects (gate-out, postflight) can use subprocess calls.",
+          "category": "PATTERN",
+          "source_artifact": "specs/593_extract_shared_workflow_utilities/summaries/02_extract-shared-utilities-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "shell",
+            "source",
+            "subprocess",
+            "export",
+            "variables",
+            "script"
+          ]
+        },
+        {
+          "content": "When extracting shared logic from command markdown files, multi-task dispatch blocks (~115 lines) are not extractable in the same pass as GATE IN/GATE OUT/parse sections — they have per-command differences. Extract them in a separate dedicated task.",
+          "category": "INSIGHT",
+          "source_artifact": "specs/593_extract_shared_workflow_utilities/summaries/02_extract-shared-utilities-summary.md",
+          "confidence": 0.8,
+          "suggested_keywords": [
+            "extraction",
+            "refactoring",
+            "command-files",
+            "multi-task",
+            "dispatch"
+          ]
+        },
+        {
+          "content": "The bash BASH_REMATCH approach using regex reliably extracts the leading task number spec from argument strings. The grep -oE alternative is too greedy and captures -- from flags.",
+          "category": "TECHNIQUE",
+          "source_artifact": "specs/593_extract_shared_workflow_utilities/summaries/02_extract-shared-utilities-summary.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "bash",
+            "regex",
+            "BASH_REMATCH",
+            "argument-parsing"
+          ]
+        }
+      ]
     },
     {
       "project_number": 594,
@@ -1062,14 +1109,14 @@
     {
       "project_number": 603,
       "project_name": "fix_meta_pre_confirmation_pattern",
-      "status": "researched",
+      "status": "planning",
       "task_type": "meta",
       "topic": "meta-system",
       "description": "Fix /meta so user confirmation happens in the foreground BEFORE spawning meta-builder-agent. Root cause: AskUserQuestion from background Agent tool calls does not reliably surface to the user. Changes: (1) meta.md: document that prompt mode MUST run AskUserQuestion before Agent delegation. (2) skill-meta SKILL.md: add pre-confirmation stage between context preparation and agent spawn -- skill proposes tasks, user selects/revises via AskUserQuestion, then passes confirmed list. (3) meta-builder-agent.md: add confirmed mode that accepts pre-validated task list and creates without re-asking; keep interactive mode for no-args /meta where agent runs foreground. (4) Update multi-task-creation-standard.md to note that confirmation must happen in foreground.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-22T18:30:00Z",
-      "last_updated": "2026-05-22T18:40:11Z",
+      "last_updated": "2026-05-22T18:42:43Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -1078,7 +1125,7 @@
           "summary": "Full analysis: root cause (background AskUserQuestion invisible), 3-part fix (skill pre-confirmation, agent confirmed mode, standard update)"
         }
       ],
-      "session_id": "sess_1779516000_603res",
+      "session_id": "sess_1779518000_603plan",
       "memory_candidates": [
         {
           "content": "AskUserQuestion called from background agents (spawned via Claude Code Task tool) does not reliably surface to the foreground user conversation. The prompt appears in the background agent's thread which the user cannot see. The established fix is to call AskUserQuestion in the skill layer (foreground) before spawning any subagent. Reference implementations: skill-fix-it, skill-learn. This is a platform limitation, not a configuration issue.",

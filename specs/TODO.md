@@ -11,9 +11,9 @@ next_project_number: 605
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,593,598,601,603 | -- | meta-system, wezterm-notifications, workflow-refactor |
-| 2 | 594,597,602 | 593,598,601 | wezterm-notifications, workflow-refactor |
-| 3 | 595,596 | 593,594,598 | workflow-refactor |
+| 1 | 78,87,597,598,601,603 | -- | meta-system, wezterm-notifications, workflow-refactor |
+| 2 | 594,602 | 598,601 | wezterm-notifications, workflow-refactor |
+| 3 | 595,596 | 594,598 | workflow-refactor |
 | 4 | 599 | 594,595,596,597,598 | workflow-refactor |
 | 5 | 600 | 599 | workflow-refactor |
 
@@ -21,7 +21,7 @@ next_project_number: 605
 
 ### Meta System
 
-603 [RESEARCHED] — Fix /meta so user confirmation happens in the foreground BEFORE s
+603 [PLANNING] — Fix /meta so user confirmation happens in the foreground BEFORE s
 
 ### Wezterm Notifications
 
@@ -31,20 +31,15 @@ next_project_number: 605
 
 ### Workflow Refactor
 
-593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i
 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill-
-  └─ 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util
-  └─ 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
   └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
-  └─ 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
   └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the 
-  └─ 593 [IMPLEMENTING] — Extract shared workflow utilities into 4 reusable shell scripts i (see above)
 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
   └─ 594 [NOT STARTED] — Refactor core workflow skills to use a shared base library skill- (see above)
   └─ 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util (see above)
@@ -99,7 +94,7 @@ next_project_number: 605
 
 ### 603. Fix /meta pre-confirmation: move interactive flow before agent spawn
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
@@ -194,7 +189,7 @@ next_project_number: 605
 
 ### 593. Extract shared workflow utilities module
 - **Effort**: 2-3 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 592
@@ -202,6 +197,7 @@ next_project_number: 605
   - [593_extract_shared_workflow_utilities/reports/01_seed-research.md]
   - [593_extract_shared_workflow_utilities/reports/02_team-research.md]
 - **Plan**: [593_extract_shared_workflow_utilities/plans/02_extract-shared-utilities.md]
+- **Summary**: [593_extract_shared_workflow_utilities/summaries/02_extract-shared-utilities-summary.md]
 
 **Description**: Extract shared workflow utilities into 4 reusable shell scripts in .claude/scripts/: (1) parse-command-args.sh — parses task numbers + flags (TASK_NUMBERS, REMAINING_ARGS, TEAM_MODE, EFFORT_FLAG, MODEL_FLAG, CLEAN_FLAG, FORCE_FLAG, FOCUS_PROMPT), eliminating ~165 lines of identical copy-paste across /research, /plan, /implement. (2) command-gate-in.sh — CHECKPOINT 1: generates SESSION_ID, looks up task in state.json, guards against terminal statuses, exports TASK_TYPE, TASK_STATUS, PROJECT_NAME, PADDED_NUM. (3) command-gate-out.sh — CHECKPOINT 2: reads .return-meta.json, applies defensive status correction. (4) postflight-workflow.sh — shared postflight eliminating ~130 lines of near-identical logic. Commands source these scripts; each command shrinks to ~150-200 lines (vs. ~500 today). Include baseline token measurement methodology to validate savings. Reference: .claude/docs/architecture/architecture-spec.md Component 1.
 
