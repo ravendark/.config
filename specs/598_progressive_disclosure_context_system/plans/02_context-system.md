@@ -1,7 +1,7 @@
 # Implementation Plan: Task #598
 
 - **Task**: 598 - progressive_disclosure_context_system
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 6 hours
 - **Dependencies**: Task 597 (command refactoring, in progress)
 - **Research Inputs**: specs/598_progressive_disclosure_context_system/reports/02_context-audit.md
@@ -78,7 +78,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Add tier and token_cost_estimate to all 139 entries [NOT STARTED]
+### Phase 1: Add tier and token_cost_estimate to all 139 entries [COMPLETED]
 
 **Goal**: Establish the tier classification metadata on every entry in `index.json` without changing any `load_when` behavior. This is a non-breaking, additive-only change.
 
@@ -110,7 +110,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Remove command-loading from Tier 3 entries (eliminate double-loading) [NOT STARTED]
+### Phase 2: Remove command-loading from Tier 3 entries (eliminate double-loading) [COMPLETED]
 
 **Goal**: Remove the `commands` array entries from files classified as Tier 3 (agent-only). This eliminates the double-loading pattern where 40 entries are loaded for both commands and agents.
 
@@ -137,7 +137,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Bring meta-builder-agent within budget [NOT STARTED]
+### Phase 3: Bring meta-builder-agent within budget [COMPLETED]
 
 **Goal**: Reduce meta-builder-agent's context load from ~116K tokens to a target of 15K-20K tokens by reclassifying most of its 42 entries from Tier 3 to Tier 4 (on-demand).
 
@@ -167,7 +167,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Bring sonnet workers within budget [NOT STARTED]
+### Phase 4: Bring sonnet workers within budget [COMPLETED]
 
 **Goal**: Reduce context load for the 6 over-budget sonnet worker agents to at most 8K tokens each by reclassifying entries from Tier 3 to Tier 4.
 
@@ -202,7 +202,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Create budget validation script and final verification [NOT STARTED]
+### Phase 5: Create budget validation script and final verification [IN PROGRESS]
 
 **Goal**: Create a reusable script that validates agent context budgets against caps, run it to confirm all agents are compliant, and perform final integrity checks on the refactored index.
 

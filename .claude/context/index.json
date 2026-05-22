@@ -7,9 +7,7 @@
         "agents": [
           "meta-builder-agent"
         ],
-        "commands": [
-          "/meta"
-        ],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -24,15 +22,15 @@
         "architecture"
       ],
       "subdomain": "architecture",
-      "summary": "Component creation checklist for agent system"
+      "summary": "Component creation checklist for agent system",
+      "tier": 3,
+      "token_cost_estimate": 2904
     },
     {
       "path": "architecture/context-layers.md",
       "line_count": 54,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": [
           "meta"
@@ -48,18 +46,16 @@
         "architecture"
       ],
       "subdomain": "architecture",
-      "summary": "Context layer architecture overview"
+      "summary": "Context layer architecture overview",
+      "tier": 4,
+      "token_cost_estimate": 432
     },
     {
       "path": "architecture/generation-guidelines.md",
       "line_count": 454,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
-        "commands": [
-          "/meta"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -74,19 +70,17 @@
         "components"
       ],
       "subdomain": "architecture",
-      "summary": "Guidelines for generating agent system components"
+      "summary": "Guidelines for generating agent system components",
+      "tier": 4,
+      "token_cost_estimate": 3632
     },
     {
       "path": "architecture/system-overview.md",
       "line_count": 492,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "system-design"
@@ -98,7 +92,9 @@
         "overview"
       ],
       "subdomain": "architecture",
-      "summary": "High-level agent system architecture overview"
+      "summary": "High-level agent system architecture overview",
+      "tier": 4,
+      "token_cost_estimate": 3936
     },
     {
       "path": "checkpoints/checkpoint-commit.md",
@@ -106,9 +102,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "workflow"
@@ -120,7 +114,9 @@
         "git"
       ],
       "subdomain": "checkpoints",
-      "summary": "Git commit checkpoint pattern for commands"
+      "summary": "Git commit checkpoint pattern for commands",
+      "tier": 4,
+      "token_cost_estimate": 928
     },
     {
       "path": "checkpoints/checkpoint-gate-in.md",
@@ -128,9 +124,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "workflow"
@@ -142,7 +136,9 @@
         "gate-in"
       ],
       "subdomain": "checkpoints",
-      "summary": "Preflight gate-in checkpoint pattern"
+      "summary": "Preflight gate-in checkpoint pattern",
+      "tier": 4,
+      "token_cost_estimate": 672
     },
     {
       "path": "checkpoints/checkpoint-gate-out.md",
@@ -150,9 +146,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "workflow"
@@ -164,7 +158,9 @@
         "gate-out"
       ],
       "subdomain": "checkpoints",
-      "summary": "Postflight gate-out checkpoint pattern"
+      "summary": "Postflight gate-out checkpoint pattern",
+      "tier": 4,
+      "token_cost_estimate": 808
     },
     {
       "path": "checkpoints/README.md",
@@ -173,7 +169,7 @@
         "agents": [],
         "task_types": [],
         "commands": [],
-        "always": true
+        "always": false
       },
       "topics": [
         "documentation"
@@ -184,21 +180,19 @@
         "readme"
       ],
       "subdomain": "checkpoints",
-      "summary": "Checkpoint system documentation index"
+      "summary": "Checkpoint system documentation index",
+      "tier": 4,
+      "token_cost_estimate": 800
     },
     {
       "path": "formats/command-output.md",
       "line_count": 467,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "standards"
@@ -210,21 +204,19 @@
         "command"
       ],
       "subdomain": "formats",
-      "summary": "Standard output formats for commands"
+      "summary": "Standard output formats for commands",
+      "tier": 4,
+      "token_cost_estimate": 3736
     },
     {
       "path": "formats/command-structure.md",
       "line_count": 965,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "standards"
@@ -236,21 +228,19 @@
         "structure"
       ],
       "subdomain": "formats",
-      "summary": "Slash command file structure and organization"
+      "summary": "Slash command file structure and organization",
+      "tier": 4,
+      "token_cost_estimate": 7720
     },
     {
       "path": "formats/frontmatter.md",
       "line_count": 705,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "standards"
@@ -262,7 +252,9 @@
         "yaml"
       ],
       "subdomain": "formats",
-      "summary": "YAML frontmatter specification for agents and skills"
+      "summary": "YAML frontmatter specification for agents and skills",
+      "tier": 4,
+      "token_cost_estimate": 5640
     },
     {
       "path": "formats/handoff-artifact.md",
@@ -270,9 +262,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -284,7 +274,9 @@
         "artifact"
       ],
       "subdomain": "formats",
-      "summary": "Handoff artifact format between agents"
+      "summary": "Handoff artifact format between agents",
+      "tier": 4,
+      "token_cost_estimate": 1504
     },
     {
       "path": "formats/plan-format.md",
@@ -293,9 +285,7 @@
         "agents": [
           "planner-agent"
         ],
-        "commands": [
-          "/plan"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -308,7 +298,9 @@
         "implementation"
       ],
       "subdomain": "formats",
-      "summary": "Implementation plan file format specification"
+      "summary": "Implementation plan file format specification",
+      "tier": 3,
+      "token_cost_estimate": 1088
     },
     {
       "path": "formats/progress-file.md",
@@ -317,9 +309,7 @@
         "agents": [
           "general-implementation-agent"
         ],
-        "commands": [
-          "/implement"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -332,7 +322,9 @@
         "tracking"
       ],
       "subdomain": "formats",
-      "summary": "Progress tracking file format"
+      "summary": "Progress tracking file format",
+      "tier": 3,
+      "token_cost_estimate": 2000
     },
     {
       "path": "formats/report-format.md",
@@ -341,9 +333,7 @@
         "agents": [
           "general-research-agent"
         ],
-        "commands": [
-          "/research"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -356,7 +346,9 @@
         "research"
       ],
       "subdomain": "formats",
-      "summary": "Research report file format specification"
+      "summary": "Research report file format specification",
+      "tier": 3,
+      "token_cost_estimate": 1048
     },
     {
       "path": "formats/return-metadata-file.md",
@@ -380,7 +372,9 @@
         "return"
       ],
       "subdomain": "formats",
-      "summary": "Metadata file schema for subagent returns"
+      "summary": "Metadata file schema for subagent returns",
+      "tier": 3,
+      "token_cost_estimate": 4016
     },
     {
       "path": "formats/roadmap-format.md",
@@ -403,17 +397,15 @@
         "roadmap"
       ],
       "subdomain": "formats",
-      "summary": "ROADMAP.md file format specification"
+      "summary": "ROADMAP.md file format specification",
+      "tier": 2,
+      "token_cost_estimate": 520
     },
     {
       "path": "formats/subagent-return.md",
       "line_count": 323,
       "load_when": {
-        "agents": [
-          "general-research-agent",
-          "planner-agent",
-          "general-implementation-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": []
       },
@@ -427,18 +419,16 @@
         "return"
       ],
       "subdomain": "formats",
-      "summary": "Return format for subagent delegations"
+      "summary": "Return format for subagent delegations",
+      "tier": 4,
+      "token_cost_estimate": 2584
     },
     {
       "path": "formats/summary-format.md",
       "line_count": 59,
       "load_when": {
-        "agents": [
-          "general-implementation-agent"
-        ],
-        "commands": [
-          "/implement"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -451,20 +441,18 @@
         "implementation"
       ],
       "subdomain": "formats",
-      "summary": "Implementation summary file format"
+      "summary": "Implementation summary file format",
+      "tier": 4,
+      "token_cost_estimate": 472
     },
     {
       "path": "formats/task-order-format.md",
       "line_count": 296,
       "load_when": {
         "agents": [
-          "meta-builder-agent",
           "spawn-agent"
         ],
-        "commands": [
-          "/meta",
-          "/spawn"
-        ],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -480,7 +468,9 @@
         "dependency"
       ],
       "subdomain": "formats",
-      "summary": "Task ordering and dependency format"
+      "summary": "Task ordering and dependency format",
+      "tier": 3,
+      "token_cost_estimate": 2368
     },
     {
       "path": "formats/team-metadata-extension.md",
@@ -488,9 +478,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -502,7 +490,9 @@
         "metadata"
       ],
       "subdomain": "formats",
-      "summary": "Metadata extensions for team mode"
+      "summary": "Metadata extensions for team mode",
+      "tier": 4,
+      "token_cost_estimate": 888
     },
     {
       "path": "guides/extension-development.md",
@@ -511,9 +501,7 @@
         "agents": [
           "meta-builder-agent"
         ],
-        "commands": [
-          "/meta"
-        ],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -528,15 +516,15 @@
         "development"
       ],
       "subdomain": "guides",
-      "summary": "Guide for creating new extensions"
+      "summary": "Guide for creating new extensions",
+      "tier": 3,
+      "token_cost_estimate": 1528
     },
     {
       "path": "guides/loader-reference.md",
       "line_count": 150,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": [
           "meta"
@@ -556,18 +544,16 @@
         "functions"
       ],
       "subdomain": "guides",
-      "summary": "Loader function reference: all 12 public loader.lua functions with signatures, copy semantics, and source file descriptions"
+      "summary": "Loader function reference: all 12 public loader.lua functions with signatures, copy semantics, and source file descriptions",
+      "tier": 4,
+      "token_cost_estimate": 1200
     },
     {
       "path": "meta/context-revision-guide.md",
       "line_count": 243,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
-        "commands": [
-          "/meta"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -582,18 +568,16 @@
         "revision"
       ],
       "subdomain": "meta",
-      "summary": "Guide for revising context documentation"
+      "summary": "Guide for revising context documentation",
+      "tier": 4,
+      "token_cost_estimate": 1944
     },
     {
       "path": "meta/domain-patterns.md",
       "line_count": 143,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
-        "commands": [
-          "/meta"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -608,7 +592,9 @@
         "patterns"
       ],
       "subdomain": "meta",
-      "summary": "Domain-specific patterns for extensions"
+      "summary": "Domain-specific patterns for extensions",
+      "tier": 4,
+      "token_cost_estimate": 1144
     },
     {
       "path": "meta/meta-guide.md",
@@ -617,9 +603,7 @@
         "agents": [
           "meta-builder-agent"
         ],
-        "commands": [
-          "/meta"
-        ],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -633,19 +617,17 @@
         "guide"
       ],
       "subdomain": "meta",
-      "summary": "Comprehensive guide for meta tasks"
+      "summary": "Comprehensive guide for meta tasks",
+      "tier": 3,
+      "token_cost_estimate": 3696
     },
     {
       "path": "orchestration/architecture.md",
       "line_count": 757,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "system-design"
@@ -656,19 +638,17 @@
         "architecture"
       ],
       "subdomain": "orchestration",
-      "summary": "Orchestration system architecture"
+      "summary": "Orchestration system architecture",
+      "tier": 4,
+      "token_cost_estimate": 6056
     },
     {
       "path": "orchestration/delegation.md",
       "line_count": 859,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -679,15 +659,15 @@
         "delegation"
       ],
       "subdomain": "orchestration",
-      "summary": "Agent delegation patterns and protocols"
+      "summary": "Agent delegation patterns and protocols",
+      "tier": 4,
+      "token_cost_estimate": 6872
     },
     {
       "path": "orchestration/orchestration-core.md",
       "line_count": 248,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": [
           "meta"
@@ -702,19 +682,17 @@
         "core"
       ],
       "subdomain": "orchestration",
-      "summary": "Core orchestration concepts and patterns"
+      "summary": "Core orchestration concepts and patterns",
+      "tier": 4,
+      "token_cost_estimate": 1984
     },
     {
       "path": "orchestration/orchestration-reference.md",
       "line_count": 309,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -725,15 +703,15 @@
         "reference"
       ],
       "subdomain": "orchestration",
-      "summary": "Quick reference for orchestration patterns"
+      "summary": "Quick reference for orchestration patterns",
+      "tier": 4,
+      "token_cost_estimate": 2472
     },
     {
       "path": "orchestration/orchestration-validation.md",
       "line_count": 233,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": [
           "meta"
@@ -748,19 +726,17 @@
         "validation"
       ],
       "subdomain": "orchestration",
-      "summary": "Validation rules for orchestration"
+      "summary": "Validation rules for orchestration",
+      "tier": 4,
+      "token_cost_estimate": 1864
     },
     {
       "path": "orchestration/orchestrator.md",
       "line_count": 876,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -771,15 +747,15 @@
         "orchestrator"
       ],
       "subdomain": "orchestration",
-      "summary": "Orchestrator agent pattern definition"
+      "summary": "Orchestrator agent pattern definition",
+      "tier": 4,
+      "token_cost_estimate": 7008
     },
     {
       "path": "orchestration/postflight-pattern.md",
       "line_count": 336,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": [
           "meta"
@@ -794,15 +770,15 @@
         "postflight"
       ],
       "subdomain": "orchestration",
-      "summary": "Postflight execution pattern for commands"
+      "summary": "Postflight execution pattern for commands",
+      "tier": 4,
+      "token_cost_estimate": 2688
     },
     {
       "path": "orchestration/preflight-pattern.md",
       "line_count": 217,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": [
           "meta"
@@ -817,7 +793,9 @@
         "preflight"
       ],
       "subdomain": "orchestration",
-      "summary": "Preflight execution pattern for commands"
+      "summary": "Preflight execution pattern for commands",
+      "tier": 4,
+      "token_cost_estimate": 1736
     },
     {
       "path": "orchestration/sessions.md",
@@ -825,9 +803,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -838,7 +814,9 @@
         "sessions"
       ],
       "subdomain": "orchestration",
-      "summary": "Session management for task execution"
+      "summary": "Session management for task execution",
+      "tier": 4,
+      "token_cost_estimate": 1328
     },
     {
       "path": "orchestration/state-management.md",
@@ -862,7 +840,9 @@
         "state"
       ],
       "subdomain": "orchestration",
-      "summary": "State management patterns and protocols"
+      "summary": "State management patterns and protocols",
+      "tier": 2,
+      "token_cost_estimate": 2696
     },
     {
       "path": "orchestration/subagent-validation.md",
@@ -870,9 +850,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "quality"
@@ -884,19 +862,17 @@
         "validation"
       ],
       "subdomain": "orchestration",
-      "summary": "Validation rules for subagent returns"
+      "summary": "Validation rules for subagent returns",
+      "tier": 4,
+      "token_cost_estimate": 2504
     },
     {
       "path": "orchestration/validation.md",
       "line_count": 699,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "quality"
@@ -907,19 +883,18 @@
         "validation"
       ],
       "subdomain": "orchestration",
-      "summary": "General validation patterns for orchestration"
+      "summary": "General validation patterns for orchestration",
+      "tier": 4,
+      "token_cost_estimate": 5592
     },
     {
       "path": "patterns/anti-stop-patterns.md",
       "line_count": 174,
       "load_when": {
-        "agents": [
-          "general-research-agent",
-          "planner-agent",
-          "general-implementation-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": []
+        "task_types": [],
+        "always": true
       },
       "topics": [
         "workflow"
@@ -930,7 +905,9 @@
         "anti-stop"
       ],
       "subdomain": "patterns",
-      "summary": "Patterns to avoid premature task stopping"
+      "summary": "Patterns to avoid premature task stopping",
+      "tier": 1,
+      "token_cost_estimate": 1392
     },
     {
       "path": "patterns/artifact-linking-todo.md",
@@ -956,7 +933,9 @@
         "todo"
       ],
       "subdomain": "patterns",
-      "summary": "Artifact linking patterns for TODO.md entries"
+      "summary": "Artifact linking patterns for TODO.md entries",
+      "tier": 2,
+      "token_cost_estimate": 912
     },
     {
       "path": "patterns/checkpoint-execution.md",
@@ -965,9 +944,7 @@
         "agents": [
           "general-implementation-agent"
         ],
-        "commands": [
-          "/implement"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -980,7 +957,9 @@
         "execution"
       ],
       "subdomain": "patterns",
-      "summary": "Checkpoint-based execution pattern"
+      "summary": "Checkpoint-based execution pattern",
+      "tier": 3,
+      "token_cost_estimate": 2032
     },
     {
       "path": "patterns/context-discovery.md",
@@ -989,7 +968,7 @@
         "agents": [],
         "task_types": [],
         "commands": [],
-        "always": true
+        "always": false
       },
       "topics": [
         "context-loading"
@@ -1001,16 +980,16 @@
         "discovery"
       ],
       "subdomain": "patterns",
-      "summary": "Context discovery query patterns"
+      "summary": "Context discovery query patterns",
+      "tier": 4,
+      "token_cost_estimate": 1672
     },
     {
       "path": "patterns/early-metadata-pattern.md",
       "line_count": 260,
       "load_when": {
         "agents": [
-          "general-research-agent",
-          "planner-agent",
-          "general-implementation-agent"
+          "planner-agent"
         ],
         "commands": [],
         "task_types": []
@@ -1025,7 +1004,9 @@
         "early"
       ],
       "subdomain": "patterns",
-      "summary": "Early metadata creation for interruption recovery"
+      "summary": "Early metadata creation for interruption recovery",
+      "tier": 3,
+      "token_cost_estimate": 2080
     },
     {
       "path": "patterns/file-metadata-exchange.md",
@@ -1033,9 +1014,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -1047,18 +1026,16 @@
         "exchange"
       ],
       "subdomain": "patterns",
-      "summary": "File-based metadata exchange between agents"
+      "summary": "File-based metadata exchange between agents",
+      "tier": 4,
+      "token_cost_estimate": 2408
     },
     {
       "path": "patterns/inline-status-update.md",
       "line_count": 278,
       "load_when": {
-        "agents": [
-          "general-implementation-agent"
-        ],
-        "commands": [
-          "/implement"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -1071,7 +1048,9 @@
         "inline"
       ],
       "subdomain": "patterns",
-      "summary": "Inline status update pattern for plans"
+      "summary": "Inline status update pattern for plans",
+      "tier": 4,
+      "token_cost_estimate": 2224
     },
     {
       "path": "patterns/jq-escaping-workarounds.md",
@@ -1080,7 +1059,7 @@
         "agents": [],
         "task_types": [],
         "commands": [],
-        "always": true
+        "always": false
       },
       "topics": [
         "troubleshooting"
@@ -1092,7 +1071,9 @@
         "escaping"
       ],
       "subdomain": "patterns",
-      "summary": "Workarounds for jq escaping issues"
+      "summary": "Workarounds for jq escaping issues",
+      "tier": 4,
+      "token_cost_estimate": 2096
     },
     {
       "path": "patterns/mcp-tool-recovery.md",
@@ -1100,9 +1081,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "recovery"
@@ -1114,16 +1093,16 @@
         "recovery"
       ],
       "subdomain": "patterns",
-      "summary": "Recovery patterns for MCP tool failures"
+      "summary": "Recovery patterns for MCP tool failures",
+      "tier": 4,
+      "token_cost_estimate": 2032
     },
     {
       "path": "patterns/metadata-file-return.md",
       "line_count": 147,
       "load_when": {
         "agents": [
-          "general-research-agent",
-          "planner-agent",
-          "general-implementation-agent"
+          "planner-agent"
         ],
         "commands": [],
         "task_types": []
@@ -1138,7 +1117,9 @@
         "return"
       ],
       "subdomain": "patterns",
-      "summary": "Metadata file return pattern for subagents"
+      "summary": "Metadata file return pattern for subagents",
+      "tier": 3,
+      "token_cost_estimate": 1176
     },
     {
       "path": "patterns/multi-task-operations.md",
@@ -1165,7 +1146,9 @@
         "operations"
       ],
       "subdomain": "patterns",
-      "summary": "Multi-task command syntax and parallel processing patterns"
+      "summary": "Multi-task command syntax and parallel processing patterns",
+      "tier": 2,
+      "token_cost_estimate": 4176
     },
     {
       "path": "patterns/postflight-control.md",
@@ -1173,9 +1156,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "workflow"
@@ -1187,7 +1168,9 @@
         "control"
       ],
       "subdomain": "patterns",
-      "summary": "Postflight control flow patterns"
+      "summary": "Postflight control flow patterns",
+      "tier": 4,
+      "token_cost_estimate": 2120
     },
     {
       "path": "patterns/roadmap-update.md",
@@ -1209,15 +1192,15 @@
         "update"
       ],
       "subdomain": "patterns",
-      "summary": "Roadmap update pattern for task completion"
+      "summary": "Roadmap update pattern for task completion",
+      "tier": 2,
+      "token_cost_estimate": 800
     },
     {
       "path": "patterns/skill-lifecycle.md",
       "line_count": 165,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": [
           "meta"
@@ -1233,7 +1216,9 @@
         "lifecycle"
       ],
       "subdomain": "patterns",
-      "summary": "Skill lifecycle management pattern"
+      "summary": "Skill lifecycle management pattern",
+      "tier": 4,
+      "token_cost_estimate": 1320
     },
     {
       "path": "patterns/team-orchestration.md",
@@ -1241,9 +1226,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -1255,18 +1238,16 @@
         "orchestration"
       ],
       "subdomain": "patterns",
-      "summary": "Team mode orchestration patterns"
+      "summary": "Team mode orchestration patterns",
+      "tier": 4,
+      "token_cost_estimate": 1168
     },
     {
       "path": "patterns/thin-wrapper-skill.md",
       "line_count": 184,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
-        "commands": [
-          "/meta"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -1281,7 +1262,9 @@
         "wrapper"
       ],
       "subdomain": "patterns",
-      "summary": "Thin wrapper skill pattern for delegation"
+      "summary": "Thin wrapper skill pattern for delegation",
+      "tier": 4,
+      "token_cost_estimate": 1472
     },
     {
       "path": "patterns/fork-patterns.md",
@@ -1289,14 +1272,9 @@
       "load_when": {
         "agents": [
           "meta-builder-agent",
-          "planner-agent",
-          "general-implementation-agent"
+          "planner-agent"
         ],
-        "commands": [
-          "/meta",
-          "/plan",
-          "/implement"
-        ],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -1315,15 +1293,15 @@
         "prompt"
       ],
       "subdomain": "patterns",
-      "summary": "Fork patterns reference: context: fork vs FORK_SUBAGENT, delegation decision matrix, cache sharing"
+      "summary": "Fork patterns reference: context: fork vs FORK_SUBAGENT, delegation decision matrix, cache sharing",
+      "tier": 3,
+      "token_cost_estimate": 960
     },
     {
       "path": "processes/implementation-workflow.md",
       "line_count": 576,
       "load_when": {
-        "agents": [
-          "general-implementation-agent"
-        ],
+        "agents": [],
         "commands": [
           "/implement"
         ],
@@ -1339,15 +1317,15 @@
         "workflow"
       ],
       "subdomain": "processes",
-      "summary": "Implementation phase workflow details"
+      "summary": "Implementation phase workflow details",
+      "tier": 4,
+      "token_cost_estimate": 4608
     },
     {
       "path": "processes/planning-workflow.md",
       "line_count": 540,
       "load_when": {
-        "agents": [
-          "planner-agent"
-        ],
+        "agents": [],
         "commands": [
           "/plan"
         ],
@@ -1363,15 +1341,15 @@
         "workflow"
       ],
       "subdomain": "processes",
-      "summary": "Planning phase workflow details"
+      "summary": "Planning phase workflow details",
+      "tier": 4,
+      "token_cost_estimate": 4320
     },
     {
       "path": "processes/research-workflow.md",
       "line_count": 628,
       "load_when": {
-        "agents": [
-          "general-research-agent"
-        ],
+        "agents": [],
         "commands": [
           "/research"
         ],
@@ -1387,7 +1365,9 @@
         "workflow"
       ],
       "subdomain": "processes",
-      "summary": "Research phase workflow details"
+      "summary": "Research phase workflow details",
+      "tier": 4,
+      "token_cost_estimate": 5024
     },
     {
       "path": "README.md",
@@ -1396,7 +1376,7 @@
         "agents": [],
         "task_types": [],
         "commands": [],
-        "always": true
+        "always": false
       },
       "topics": [
         "documentation"
@@ -1408,7 +1388,9 @@
         "documentation"
       ],
       "subdomain": "root",
-      "summary": "Context directory documentation index"
+      "summary": "Context directory documentation index",
+      "tier": 4,
+      "token_cost_estimate": 1616
     },
     {
       "path": "reference/artifact-templates.md",
@@ -1429,7 +1411,9 @@
         "error-report"
       ],
       "subdomain": "reference",
-      "summary": "Error report template (other artifact types use format files directly)"
+      "summary": "Error report template (other artifact types use format files directly)",
+      "tier": 4,
+      "token_cost_estimate": 400
     },
     {
       "path": "reference/README.md",
@@ -1438,7 +1422,7 @@
         "agents": [],
         "task_types": [],
         "commands": [],
-        "always": true
+        "always": false
       },
       "topics": [
         "documentation"
@@ -1450,7 +1434,9 @@
         "index"
       ],
       "subdomain": "reference",
-      "summary": "Reference documentation index"
+      "summary": "Reference documentation index",
+      "tier": 4,
+      "token_cost_estimate": 232
     },
     {
       "path": "reference/skill-agent-mapping.md",
@@ -1475,7 +1461,9 @@
         "mapping"
       ],
       "subdomain": "reference",
-      "summary": "Mapping of skills to agents"
+      "summary": "Mapping of skills to agents",
+      "tier": 3,
+      "token_cost_estimate": 1248
     },
     {
       "path": "reference/state-management-schema.md",
@@ -1500,7 +1488,9 @@
         "schema"
       ],
       "subdomain": "reference",
-      "summary": "Schema for state.json and TODO.md"
+      "summary": "Schema for state.json and TODO.md",
+      "tier": 2,
+      "token_cost_estimate": 2816
     },
     {
       "path": "reference/team-wave-helpers.md",
@@ -1508,9 +1498,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -1523,7 +1511,9 @@
         "helpers"
       ],
       "subdomain": "reference",
-      "summary": "Helper patterns for team wave-based parallel execution"
+      "summary": "Helper patterns for team wave-based parallel execution",
+      "tier": 4,
+      "token_cost_estimate": 3200
     },
     {
       "path": "reference/workflow-diagrams.md",
@@ -1531,9 +1521,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "documentation"
@@ -1545,7 +1533,9 @@
         "diagrams"
       ],
       "subdomain": "reference",
-      "summary": "Visual workflow diagrams"
+      "summary": "Visual workflow diagrams",
+      "tier": 4,
+      "token_cost_estimate": 1576
     },
     {
       "path": "repo/project-overview.md",
@@ -1566,7 +1556,9 @@
         "overview"
       ],
       "subdomain": "repo",
-      "summary": "Project-specific repository overview"
+      "summary": "Project-specific repository overview",
+      "tier": 1,
+      "token_cost_estimate": 1152
     },
     {
       "path": "repo/self-healing-implementation-details.md",
@@ -1591,15 +1583,15 @@
         "implementation"
       ],
       "subdomain": "repo",
-      "summary": "Self-healing system implementation details"
+      "summary": "Self-healing system implementation details",
+      "tier": 2,
+      "token_cost_estimate": 4792
     },
     {
       "path": "repo/update-project.md",
       "line_count": 142,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
         "task_types": [
           "meta"
@@ -1615,7 +1607,9 @@
         "project"
       ],
       "subdomain": "repo",
-      "summary": "Guide for updating project overview"
+      "summary": "Guide for updating project overview",
+      "tier": 4,
+      "token_cost_estimate": 1136
     },
     {
       "path": "routing.md",
@@ -1623,9 +1617,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -1636,18 +1628,16 @@
         "reference"
       ],
       "subdomain": "root",
-      "summary": "Quick routing reference"
+      "summary": "Quick routing reference",
+      "tier": 4,
+      "token_cost_estimate": 344
     },
     {
       "path": "schemas/frontmatter-schema.json",
       "line_count": 190,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
-        "commands": [
-          "/meta"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -1663,18 +1653,16 @@
         "json-schema"
       ],
       "subdomain": "schemas",
-      "summary": "JSON schema for agent and skill YAML frontmatter validation"
+      "summary": "JSON schema for agent and skill YAML frontmatter validation",
+      "tier": 4,
+      "token_cost_estimate": 1520
     },
     {
       "path": "schemas/subagent-frontmatter.yaml",
       "line_count": 198,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
-        "commands": [
-          "/meta"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -1690,7 +1678,9 @@
         "yaml"
       ],
       "subdomain": "schemas",
-      "summary": "YAML schema for subagent frontmatter fields"
+      "summary": "YAML schema for subagent frontmatter fields",
+      "tier": 4,
+      "token_cost_estimate": 1584
     },
     {
       "path": "standards/analysis-framework.md",
@@ -1699,9 +1689,7 @@
         "agents": [
           "code-reviewer-agent"
         ],
-        "commands": [
-          "/review"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -1714,7 +1702,9 @@
         "framework"
       ],
       "subdomain": "standards",
-      "summary": "Framework for code analysis tasks"
+      "summary": "Framework for code analysis tasks",
+      "tier": 3,
+      "token_cost_estimate": 1216
     },
     {
       "path": "standards/ci-workflow.md",
@@ -1722,9 +1712,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "devops"
@@ -1736,7 +1724,9 @@
         "workflow"
       ],
       "subdomain": "standards",
-      "summary": "CI/CD workflow standards"
+      "summary": "CI/CD workflow standards",
+      "tier": 4,
+      "token_cost_estimate": 1152
     },
     {
       "path": "standards/code-patterns.md",
@@ -1745,9 +1735,7 @@
         "agents": [
           "code-reviewer-agent"
         ],
-        "commands": [
-          "/review"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -1760,7 +1748,9 @@
         "patterns"
       ],
       "subdomain": "standards",
-      "summary": "Code pattern standards for reviews"
+      "summary": "Code pattern standards for reviews",
+      "tier": 3,
+      "token_cost_estimate": 3016
     },
     {
       "path": "standards/documentation-standards.md",
@@ -1786,7 +1776,9 @@
         "readme"
       ],
       "subdomain": "standards",
-      "summary": "Documentation standards: formatting, naming, README requirements, prohibited content"
+      "summary": "Documentation standards: formatting, naming, README requirements, prohibited content",
+      "tier": 3,
+      "token_cost_estimate": 2400
     },
     {
       "path": "standards/error-handling.md",
@@ -1810,7 +1802,9 @@
         "handling"
       ],
       "subdomain": "standards",
-      "summary": "Error handling standards and patterns"
+      "summary": "Error handling standards and patterns",
+      "tier": 2,
+      "token_cost_estimate": 8448
     },
     {
       "path": "standards/git-integration.md",
@@ -1818,9 +1812,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "devops"
@@ -1832,7 +1824,9 @@
         "integration"
       ],
       "subdomain": "standards",
-      "summary": "Git integration standards"
+      "summary": "Git integration standards",
+      "tier": 4,
+      "token_cost_estimate": 1696
     },
     {
       "path": "standards/git-safety.md",
@@ -1840,9 +1834,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "devops"
@@ -1854,7 +1846,9 @@
         "safety"
       ],
       "subdomain": "standards",
-      "summary": "Git safety guidelines and patterns"
+      "summary": "Git safety guidelines and patterns",
+      "tier": 4,
+      "token_cost_estimate": 4568
     },
     {
       "path": "standards/interactive-selection.md",
@@ -1863,11 +1857,7 @@
         "agents": [
           "meta-builder-agent"
         ],
-        "commands": [
-          "/meta",
-          "/fix-it",
-          "/review"
-        ],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -1882,7 +1872,9 @@
         "selection"
       ],
       "subdomain": "standards",
-      "summary": "Interactive selection UI patterns"
+      "summary": "Interactive selection UI patterns",
+      "tier": 3,
+      "token_cost_estimate": 2176
     },
     {
       "path": "standards/postflight-tool-restrictions.md",
@@ -1890,9 +1882,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "workflow"
@@ -1904,21 +1894,18 @@
         "tools"
       ],
       "subdomain": "standards",
-      "summary": "Tool restrictions in postflight phase"
+      "summary": "Tool restrictions in postflight phase",
+      "tier": 4,
+      "token_cost_estimate": 1616
     },
     {
       "path": "standards/status-markers.md",
       "line_count": 373,
       "load_when": {
         "agents": [
-          "planner-agent",
-          "general-implementation-agent"
+          "planner-agent"
         ],
-        "commands": [
-          "/task",
-          "/plan",
-          "/implement"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -1931,7 +1918,9 @@
         "markers"
       ],
       "subdomain": "standards",
-      "summary": "Task status marker conventions"
+      "summary": "Task status marker conventions",
+      "tier": 3,
+      "token_cost_estimate": 2984
     },
     {
       "path": "standards/task-management.md",
@@ -1956,18 +1945,16 @@
         "management"
       ],
       "subdomain": "standards",
-      "summary": "Task management standards"
+      "summary": "Task management standards",
+      "tier": 2,
+      "token_cost_estimate": 3000
     },
     {
       "path": "standards/testing.md",
       "line_count": 127,
       "load_when": {
-        "agents": [
-          "general-implementation-agent"
-        ],
-        "commands": [
-          "/implement"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -1979,21 +1966,19 @@
         "testing"
       ],
       "subdomain": "standards",
-      "summary": "Testing standards for implementations"
+      "summary": "Testing standards for implementations",
+      "tier": 4,
+      "token_cost_estimate": 1016
     },
     {
       "path": "standards/xml-structure.md",
       "line_count": 709,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "standards"
@@ -2005,21 +1990,19 @@
         "structure"
       ],
       "subdomain": "standards",
-      "summary": "XML structure standards for prompts"
+      "summary": "XML structure standards for prompts",
+      "tier": 4,
+      "token_cost_estimate": 5672
     },
     {
       "path": "templates/agent-template.md",
       "line_count": 334,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "system-design"
@@ -2030,21 +2013,19 @@
         "agent"
       ],
       "subdomain": "templates",
-      "summary": "Template for creating new agents"
+      "summary": "Template for creating new agents",
+      "tier": 4,
+      "token_cost_estimate": 2672
     },
     {
       "path": "templates/command-template.md",
       "line_count": 135,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "system-design"
@@ -2055,19 +2036,17 @@
         "command"
       ],
       "subdomain": "templates",
-      "summary": "Template for creating new commands"
+      "summary": "Template for creating new commands",
+      "tier": 4,
+      "token_cost_estimate": 1080
     },
     {
       "path": "templates/delegation-context.md",
       "line_count": 82,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "orchestration"
@@ -2079,21 +2058,19 @@
         "context"
       ],
       "subdomain": "templates",
-      "summary": "Template for delegation context objects"
+      "summary": "Template for delegation context objects",
+      "tier": 4,
+      "token_cost_estimate": 656
     },
     {
       "path": "templates/orchestrator-template.md",
       "line_count": 273,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "system-design"
@@ -2104,21 +2081,19 @@
         "orchestrator"
       ],
       "subdomain": "templates",
-      "summary": "Template for creating orchestrators"
+      "summary": "Template for creating orchestrators",
+      "tier": 4,
+      "token_cost_estimate": 2184
     },
     {
       "path": "templates/state-template.json",
       "line_count": 69,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/task"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "state"
@@ -2130,21 +2105,19 @@
         "json"
       ],
       "subdomain": "templates",
-      "summary": "Template for state.json initialization"
+      "summary": "Template for state.json initialization",
+      "tier": 4,
+      "token_cost_estimate": 552
     },
     {
       "path": "templates/subagent-template.md",
       "line_count": 223,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "system-design"
@@ -2155,21 +2128,19 @@
         "subagent"
       ],
       "subdomain": "templates",
-      "summary": "Template for creating subagents"
+      "summary": "Template for creating subagents",
+      "tier": 4,
+      "token_cost_estimate": 1784
     },
     {
       "path": "templates/thin-wrapper-skill.md",
       "line_count": 273,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [
           "/meta"
         ],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "system-design"
@@ -2181,7 +2152,9 @@
         "wrapper"
       ],
       "subdomain": "templates",
-      "summary": "Template for thin wrapper skills"
+      "summary": "Template for thin wrapper skills",
+      "tier": 4,
+      "token_cost_estimate": 2184
     },
     {
       "path": "troubleshooting/workflow-interruptions.md",
@@ -2206,7 +2179,9 @@
         "interruptions"
       ],
       "subdomain": "troubleshooting",
-      "summary": "Troubleshooting workflow interruptions"
+      "summary": "Troubleshooting workflow interruptions",
+      "tier": 2,
+      "token_cost_estimate": 2696
     },
     {
       "path": "validation.md",
@@ -2214,9 +2189,7 @@
       "load_when": {
         "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "quality"
@@ -2227,19 +2200,17 @@
         "reference"
       ],
       "subdomain": "root",
-      "summary": "Validation quick reference"
+      "summary": "Validation quick reference",
+      "tier": 4,
+      "token_cost_estimate": 368
     },
     {
       "path": "workflows/command-lifecycle.md",
       "line_count": 452,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "workflow"
@@ -2251,19 +2222,17 @@
         "lifecycle"
       ],
       "subdomain": "workflows",
-      "summary": "Complete command lifecycle documentation"
+      "summary": "Complete command lifecycle documentation",
+      "tier": 4,
+      "token_cost_estimate": 3616
     },
     {
       "path": "workflows/preflight-postflight.md",
       "line_count": 589,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
+        "agents": [],
         "commands": [],
-        "task_types": [
-          "meta"
-        ]
+        "task_types": []
       },
       "topics": [
         "workflow"
@@ -2275,7 +2244,9 @@
         "postflight"
       ],
       "subdomain": "workflows",
-      "summary": "Preflight and postflight workflow details"
+      "summary": "Preflight and postflight workflow details",
+      "tier": 4,
+      "token_cost_estimate": 4712
     },
     {
       "path": "workflows/review-process.md",
@@ -2284,9 +2255,7 @@
         "agents": [
           "code-reviewer-agent"
         ],
-        "commands": [
-          "/review"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -2299,7 +2268,9 @@
         "process"
       ],
       "subdomain": "workflows",
-      "summary": "Code review workflow process"
+      "summary": "Code review workflow process",
+      "tier": 3,
+      "token_cost_estimate": 1312
     },
     {
       "path": "workflows/status-transitions.md",
@@ -2323,7 +2294,9 @@
         "transitions"
       ],
       "subdomain": "workflows",
-      "summary": "Valid task status transitions"
+      "summary": "Valid task status transitions",
+      "tier": 2,
+      "token_cost_estimate": 688
     },
     {
       "path": "workflows/task-breakdown.md",
@@ -2333,10 +2306,7 @@
           "planner-agent",
           "spawn-agent"
         ],
-        "commands": [
-          "/plan",
-          "/spawn"
-        ],
+        "commands": [],
         "task_types": []
       },
       "topics": [
@@ -2349,18 +2319,16 @@
         "breakdown"
       ],
       "subdomain": "workflows",
-      "summary": "Task breakdown and decomposition workflow"
+      "summary": "Task breakdown and decomposition workflow",
+      "tier": 3,
+      "token_cost_estimate": 2160
     },
     {
       "path": "index.schema.json",
       "line_count": 127,
       "load_when": {
-        "agents": [
-          "meta-builder-agent"
-        ],
-        "commands": [
-          "/meta"
-        ],
+        "agents": [],
+        "commands": [],
         "task_types": [
           "meta"
         ]
@@ -2376,7 +2344,9 @@
         "json-schema"
       ],
       "subdomain": "schemas",
-      "summary": "JSON Schema for context index.json validation"
+      "summary": "JSON Schema for context index.json validation",
+      "tier": 4,
+      "token_cost_estimate": 1016
     },
     {
       "path": "project/memory/learn-usage.md",
@@ -2402,7 +2372,9 @@
         "content-mapping"
       ],
       "subdomain": "memory",
-      "summary": "Usage guide for /learn command and memory management"
+      "summary": "Usage guide for /learn command and memory management",
+      "tier": 3,
+      "token_cost_estimate": 1200
     },
     {
       "path": "project/memory/memory-setup.md",
@@ -2428,7 +2400,9 @@
         "configuration"
       ],
       "subdomain": "memory",
-      "summary": "MCP server setup for Obsidian memory vault"
+      "summary": "MCP server setup for Obsidian memory vault",
+      "tier": 3,
+      "token_cost_estimate": 960
     },
     {
       "path": "project/memory/memory-troubleshooting.md",
@@ -2451,16 +2425,15 @@
         "mcp"
       ],
       "subdomain": "memory",
-      "summary": "Troubleshooting guide for memory system issues"
+      "summary": "Troubleshooting guide for memory system issues",
+      "tier": 3,
+      "token_cost_estimate": 2000
     },
     {
       "path": "project/memory/domain/memory-reference.md",
       "line_count": 57,
       "load_when": {
-        "commands": [
-          "/learn",
-          "/distill"
-        ],
+        "commands": [],
         "skills": [
           "skill-memory"
         ],
@@ -2483,7 +2456,9 @@
         "distill"
       ],
       "subdomain": "memory",
-      "summary": "Memory vault reference: MCP integration, vault structure, classification, scoring engine, maintenance operations"
+      "summary": "Memory vault reference: MCP integration, vault structure, classification, scoring engine, maintenance operations",
+      "tier": 3,
+      "token_cost_estimate": 456
     },
     {
       "path": "project/memory/knowledge-capture-usage.md",
@@ -2510,21 +2485,19 @@
         "harvest"
       ],
       "subdomain": "memory",
-      "summary": "Example workflows for knowledge capture system"
+      "summary": "Example workflows for knowledge capture system",
+      "tier": 3,
+      "token_cost_estimate": 1440
     },
     {
       "path": "project/memory/distill-usage.md",
       "line_count": 180,
       "load_when": {
-        "commands": [
-          "/distill"
-        ],
+        "commands": [],
         "skills": [
           "skill-memory"
         ],
-        "agents": [
-          "general-research-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "memory",
@@ -2543,7 +2516,9 @@
         "health"
       ],
       "subdomain": "memory",
-      "summary": "Usage guide for /distill command: sub-mode workflows, scoring formula, maintenance cadence"
+      "summary": "Usage guide for /distill command: sub-mode workflows, scoring formula, maintenance cadence",
+      "tier": 3,
+      "token_cost_estimate": 1440
     },
     {
       "path": "project/nix/README.md",
@@ -2560,7 +2535,9 @@
       "description": "Nix context overview with directory structure and loading strategy",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "Nix context overview with directory structure and loading strategy"
+      "summary": "Nix context overview with directory structure and loading strategy",
+      "tier": 3,
+      "token_cost_estimate": 800
     },
     {
       "path": "project/nix/domain/nix-language.md",
@@ -2577,7 +2554,9 @@
       "description": "Nix expression language syntax and builtins reference",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "Nix expression language syntax and builtins reference"
+      "summary": "Nix expression language syntax and builtins reference",
+      "tier": 3,
+      "token_cost_estimate": 1200
     },
     {
       "path": "project/nix/domain/flakes.md",
@@ -2594,7 +2573,9 @@
       "description": "Nix flake structure, inputs, outputs, and lockfile management",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "Nix flake structure, inputs, outputs, and lockfile management"
+      "summary": "Nix flake structure, inputs, outputs, and lockfile management",
+      "tier": 3,
+      "token_cost_estimate": 1440
     },
     {
       "path": "project/nix/domain/nixos-modules.md",
@@ -2611,7 +2592,9 @@
       "description": "NixOS module system with options, config, and imports",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "NixOS module system with options, config, and imports"
+      "summary": "NixOS module system with options, config, and imports",
+      "tier": 3,
+      "token_cost_estimate": 1360
     },
     {
       "path": "project/nix/domain/home-manager.md",
@@ -2628,7 +2611,9 @@
       "description": "Home Manager user-level configuration and module patterns",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "Home Manager user-level configuration and module patterns"
+      "summary": "Home Manager user-level configuration and module patterns",
+      "tier": 3,
+      "token_cost_estimate": 1280
     },
     {
       "path": "project/nix/patterns/module-patterns.md",
@@ -2645,16 +2630,15 @@
       "description": "NixOS and Home Manager module definition patterns",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "NixOS and Home Manager module definition patterns"
+      "summary": "NixOS and Home Manager module definition patterns",
+      "tier": 3,
+      "token_cost_estimate": 1120
     },
     {
       "path": "project/nix/patterns/overlay-patterns.md",
       "line_count": 130,
       "load_when": {
-        "agents": [
-          "nix-research-agent",
-          "nix-implementation-agent"
-        ],
+        "agents": [],
         "languages": [
           "nix"
         ]
@@ -2662,16 +2646,15 @@
       "description": "Nixpkgs overlay patterns for package customization",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "Nixpkgs overlay patterns for package customization"
+      "summary": "Nixpkgs overlay patterns for package customization",
+      "tier": 4,
+      "token_cost_estimate": 1040
     },
     {
       "path": "project/nix/patterns/derivation-patterns.md",
       "line_count": 160,
       "load_when": {
-        "agents": [
-          "nix-research-agent",
-          "nix-implementation-agent"
-        ],
+        "agents": [],
         "languages": [
           "nix"
         ]
@@ -2679,16 +2662,15 @@
       "description": "Nix derivation and package building patterns",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "Nix derivation and package building patterns"
+      "summary": "Nix derivation and package building patterns",
+      "tier": 4,
+      "token_cost_estimate": 1280
     },
     {
       "path": "project/nix/standards/nix-style-guide.md",
       "line_count": 150,
       "load_when": {
-        "agents": [
-          "nix-research-agent",
-          "nix-implementation-agent"
-        ],
+        "agents": [],
         "languages": [
           "nix"
         ]
@@ -2696,16 +2678,15 @@
       "description": "Nix code formatting and naming conventions",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "Nix code formatting and naming conventions"
+      "summary": "Nix code formatting and naming conventions",
+      "tier": 4,
+      "token_cost_estimate": 1200
     },
     {
       "path": "project/nix/tools/nixos-rebuild-guide.md",
       "line_count": 120,
       "load_when": {
-        "agents": [
-          "nix-research-agent",
-          "nix-implementation-agent"
-        ],
+        "agents": [],
         "languages": [
           "nix"
         ]
@@ -2713,16 +2694,15 @@
       "description": "NixOS system rebuild commands and workflows",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "NixOS system rebuild commands and workflows"
+      "summary": "NixOS system rebuild commands and workflows",
+      "tier": 4,
+      "token_cost_estimate": 960
     },
     {
       "path": "project/nix/tools/home-manager-guide.md",
       "line_count": 130,
       "load_when": {
-        "agents": [
-          "nix-research-agent",
-          "nix-implementation-agent"
-        ],
+        "agents": [],
         "languages": [
           "nix"
         ]
@@ -2730,7 +2710,9 @@
       "description": "Home Manager CLI commands and configuration workflows",
       "domain": "project",
       "subdomain": "nix",
-      "summary": "Home Manager CLI commands and configuration workflows"
+      "summary": "Home Manager CLI commands and configuration workflows",
+      "tier": 4,
+      "token_cost_estimate": 1040
     },
     {
       "path": "project/neovim/README.md",
@@ -2756,7 +2738,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Neovim configuration domain overview"
+      "summary": "Neovim configuration domain overview",
+      "tier": 3,
+      "token_cost_estimate": 640
     },
     {
       "path": "project/neovim/domain/lua-patterns.md",
@@ -2782,7 +2766,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Common Lua patterns and idioms for Neovim"
+      "summary": "Common Lua patterns and idioms for Neovim",
+      "tier": 3,
+      "token_cost_estimate": 960
     },
     {
       "path": "project/neovim/domain/neovim-api.md",
@@ -2808,7 +2794,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Neovim API reference and usage patterns"
+      "summary": "Neovim API reference and usage patterns",
+      "tier": 3,
+      "token_cost_estimate": 1600
     },
     {
       "path": "project/neovim/domain/plugin-ecosystem.md",
@@ -2833,7 +2821,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Neovim plugin ecosystem overview"
+      "summary": "Neovim plugin ecosystem overview",
+      "tier": 3,
+      "token_cost_estimate": 1200
     },
     {
       "path": "project/neovim/domain/lsp-overview.md",
@@ -2859,7 +2849,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "LSP configuration and integration in Neovim"
+      "summary": "LSP configuration and integration in Neovim",
+      "tier": 3,
+      "token_cost_estimate": 1440
     },
     {
       "path": "project/neovim/patterns/autocommand-patterns.md",
@@ -2884,7 +2876,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Autocommand patterns and best practices"
+      "summary": "Autocommand patterns and best practices",
+      "tier": 3,
+      "token_cost_estimate": 800
     },
     {
       "path": "project/neovim/patterns/ftplugin-patterns.md",
@@ -2893,9 +2887,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "ftplugin",
@@ -2909,7 +2901,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Filetype plugin patterns and organization"
+      "summary": "Filetype plugin patterns and organization",
+      "tier": 4,
+      "token_cost_estimate": 720
     },
     {
       "path": "project/neovim/patterns/keymap-patterns.md",
@@ -2934,7 +2928,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Keymap definition patterns and organization"
+      "summary": "Keymap definition patterns and organization",
+      "tier": 3,
+      "token_cost_estimate": 960
     },
     {
       "path": "project/neovim/patterns/plugin-spec.md",
@@ -2959,7 +2955,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "lazy.nvim plugin specification patterns"
+      "summary": "lazy.nvim plugin specification patterns",
+      "tier": 3,
+      "token_cost_estimate": 1200
     },
     {
       "path": "project/neovim/standards/lua-style-guide.md",
@@ -2968,9 +2966,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "style",
@@ -2984,7 +2980,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Lua coding style guide for Neovim"
+      "summary": "Lua coding style guide for Neovim",
+      "tier": 4,
+      "token_cost_estimate": 800
     },
     {
       "path": "project/neovim/standards/testing-patterns.md",
@@ -2993,9 +2991,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "testing",
@@ -3009,7 +3005,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Testing patterns for Neovim configuration"
+      "summary": "Testing patterns for Neovim configuration",
+      "tier": 4,
+      "token_cost_estimate": 640
     },
     {
       "path": "project/neovim/templates/ftplugin-template.md",
@@ -3018,9 +3016,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "template",
@@ -3034,7 +3030,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Template for creating new ftplugin files"
+      "summary": "Template for creating new ftplugin files",
+      "tier": 4,
+      "token_cost_estimate": 480
     },
     {
       "path": "project/neovim/templates/plugin-template.md",
@@ -3043,9 +3041,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "template",
@@ -3059,7 +3055,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Template for creating new plugin specs"
+      "summary": "Template for creating new plugin specs",
+      "tier": 4,
+      "token_cost_estimate": 560
     },
     {
       "path": "project/neovim/tools/lazy-nvim-guide.md",
@@ -3068,10 +3066,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "lazy-nvim",
@@ -3085,7 +3080,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Guide to lazy.nvim plugin manager"
+      "summary": "Guide to lazy.nvim plugin manager",
+      "tier": 4,
+      "token_cost_estimate": 1600
     },
     {
       "path": "project/neovim/tools/telescope-guide.md",
@@ -3094,10 +3091,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "telescope",
@@ -3111,7 +3105,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Guide to telescope.nvim fuzzy finder"
+      "summary": "Guide to telescope.nvim fuzzy finder",
+      "tier": 4,
+      "token_cost_estimate": 1200
     },
     {
       "path": "project/neovim/tools/treesitter-guide.md",
@@ -3120,10 +3116,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "treesitter",
@@ -3137,7 +3130,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Guide to nvim-treesitter integration"
+      "summary": "Guide to nvim-treesitter integration",
+      "tier": 4,
+      "token_cost_estimate": 1440
     },
     {
       "path": "project/neovim/standards/box-drawing-guide.md",
@@ -3146,10 +3141,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "box-drawing",
@@ -3164,7 +3156,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Unicode box-drawing character reference for UI elements"
+      "summary": "Unicode box-drawing character reference for UI elements",
+      "tier": 4,
+      "token_cost_estimate": 640
     },
     {
       "path": "project/neovim/standards/documentation-policy.md",
@@ -3173,10 +3167,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "documentation",
@@ -3191,7 +3182,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "README requirements, structure template, and style guidelines"
+      "summary": "README requirements, structure template, and style guidelines",
+      "tier": 4,
+      "token_cost_estimate": 800
     },
     {
       "path": "project/neovim/standards/emoji-policy.md",
@@ -3200,10 +3193,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "emoji",
@@ -3218,7 +3208,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Character encoding guidelines and approved emoji alternatives"
+      "summary": "Character encoding guidelines and approved emoji alternatives",
+      "tier": 4,
+      "token_cost_estimate": 480
     },
     {
       "path": "project/neovim/standards/lua-assertion-patterns.md",
@@ -3227,9 +3219,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "testing",
@@ -3244,7 +3234,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Correct string:match() assertion usage for Lua tests"
+      "summary": "Correct string:match() assertion usage for Lua tests",
+      "tier": 4,
+      "token_cost_estimate": 640
     },
     {
       "path": "project/neovim/hooks/wezterm-integration.md",
@@ -3253,10 +3245,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "wezterm",
@@ -3271,7 +3260,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "WezTerm terminal integration for Neovim workflow"
+      "summary": "WezTerm terminal integration for Neovim workflow",
+      "tier": 4,
+      "token_cost_estimate": 800
     },
     {
       "path": "project/neovim/guides/neovim-integration.md",
@@ -3280,10 +3271,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "neovim",
@@ -3303,7 +3291,9 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "Hook-based readiness signaling, TTS notifications, and STT voice input for Neovim"
+      "summary": "Hook-based readiness signaling, TTS notifications, and STT voice input for Neovim",
+      "tier": 4,
+      "token_cost_estimate": 2688
     },
     {
       "path": "project/neovim/guides/tts-stt-integration.md",
@@ -3312,10 +3302,7 @@
         "languages": [
           "neovim"
         ],
-        "agents": [
-          "neovim-research-agent",
-          "neovim-implementation-agent"
-        ]
+        "agents": []
       },
       "topics": [
         "tts",
@@ -3334,7 +3321,80 @@
       ],
       "domain": "project",
       "subdomain": "neovim",
-      "summary": "TTS/STT setup, configuration, and troubleshooting for Claude Code and Neovim"
+      "summary": "TTS/STT setup, configuration, and troubleshooting for Claude Code and Neovim",
+      "tier": 4,
+      "token_cost_estimate": 2936
+    },
+    {
+      "path": "patterns/context-exhaustion-detection.md",
+      "line_count": 225,
+      "load_when": {
+        "agents": [],
+        "commands": [],
+        "task_types": []
+      },
+      "topics": [
+        "context-loading",
+        "recovery"
+      ],
+      "domain": "core",
+      "keywords": [
+        "context",
+        "exhaustion",
+        "detection",
+        "handoff"
+      ],
+      "subdomain": "patterns",
+      "summary": "Context pressure monitoring and handoff triggers",
+      "tier": 4,
+      "token_cost_estimate": 1800
+    },
+    {
+      "path": "patterns/subagent-continuation-loop.md",
+      "line_count": 209,
+      "load_when": {
+        "agents": [],
+        "commands": [],
+        "task_types": []
+      },
+      "topics": [
+        "orchestration",
+        "recovery"
+      ],
+      "domain": "core",
+      "keywords": [
+        "subagent",
+        "continuation",
+        "loop",
+        "handoff"
+      ],
+      "subdomain": "patterns",
+      "summary": "Multi-subagent continuation for long tasks",
+      "tier": 4,
+      "token_cost_estimate": 1672
+    },
+    {
+      "path": "project/memory/README.md",
+      "line_count": 14,
+      "load_when": {
+        "commands": [],
+        "skills": [],
+        "agents": []
+      },
+      "topics": [
+        "memory",
+        "documentation"
+      ],
+      "domain": "project",
+      "keywords": [
+        "memory",
+        "readme",
+        "index"
+      ],
+      "subdomain": "memory",
+      "summary": "Memory documentation stub index",
+      "tier": 4,
+      "token_cost_estimate": 112
     }
   ]
 }

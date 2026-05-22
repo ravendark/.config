@@ -22,7 +22,7 @@ next_project_number: 608
 598 [IMPLEMENTING] — Update the context system for progressive disclosure and agent co
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
-607 [RESEARCHED] — improve_research_agents_multi_angle_team_strategy
+607 [PLANNING] — improve_research_agents_multi_angle_team_strategy
 
 ### Uncategorized
 
@@ -33,7 +33,7 @@ next_project_number: 608
 
 ### 607. Improve research agents with multi-angle team research strategy
 - **Effort**: 4-8 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Research**: [607_improve_research_agents_multi_angle_team_strategy/reports/01_team-research.md]
