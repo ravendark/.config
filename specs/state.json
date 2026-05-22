@@ -45,7 +45,7 @@
     {
       "project_number": 595,
       "project_name": "refactor_research_plan_implement_commands",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Refactor /research, /plan, /implement commands to use shared utilities from task 593 and refactored skills from task 594. Target: each command reduced to ~150-200 lines covering only routing-only controller logic (argument docs, mode-specific behavior, extension routing table). Commands MUST NOT load Tier 3 context (agent-level context stays with agents, per four-tier model). Current commands embed agent-level context inline (full state machine logic, format specifications); these must move to Tier 3 agent context files. Add orchestrator_mode=true support: skills write .orchestrator-handoff.json when orchestrator_mode is detected in delegation context. Verify extension compatibility (nvim, nix) at each step. Reference: .claude/docs/architecture/architecture-spec.md Components 1-2.",
@@ -56,7 +56,7 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T19:22:34Z",
+      "last_updated": "2026-05-22T19:35:42Z",
       "next_artifact_number": 3,
       "artifacts": [
         {
@@ -68,6 +68,11 @@
           "path": "specs/595_refactor_research_plan_implement_commands/plans/02_command-refactor-plan.md",
           "type": "plan",
           "summary": "6-phase plan to refactor /research, /plan, /implement commands to ~175-200 lines each, extract extension routing to shared script, add orchestrator_mode support to skill-base.sh and core skills"
+        },
+        {
+          "path": "specs/595_refactor_research_plan_implement_commands/summaries/02_command-refactor-summary.md",
+          "type": "summary",
+          "summary": "Refactored 3 commands from 1338L to 600L total, created command-route-skill.sh, added orchestrator_mode support"
         }
       ],
       "session_id": "sess_1779477738_52266e",
@@ -137,7 +142,8 @@
             "integrated_date": "2026-05-22"
           }
         ]
-      }
+      },
+      "completion_summary": "Refactored research.md (393→191L), plan.md (420→202L), and implement.md (525→207L) to use shared command-route-skill.sh for extension routing, removing ~740 lines of redundant inline logic. Added skill_write_orchestrator_handoff() to skill-base.sh and integrated orchestrator_mode detection into all three core skills (researcher, planner, implementer), with max_continuations=0 protection in skill-implementer for orchestrator dispatch."
     },
     {
       "project_number": 596,

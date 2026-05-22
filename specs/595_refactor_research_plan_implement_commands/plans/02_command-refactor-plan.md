@@ -1,7 +1,7 @@
 # Implementation Plan: Task #595
 
 - **Task**: 595 - Refactor /research, /plan, /implement commands
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 6 hours
 - **Dependencies**: Task 593 (completed), Task 594 (completed)
 - **Research Inputs**: reports/01_seed-research.md, reports/02_command-refactor-research.md, reports/03_design-guidance.md
