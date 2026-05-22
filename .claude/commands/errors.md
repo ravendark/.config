@@ -128,6 +128,17 @@ For significant error patterns, create tasks:
 
 Note task numbers in report.
 
+### 4a. Update Task Order Section (Non-Blocking)
+
+After all fix tasks have been created, regenerate the Task Order section in TODO.md:
+
+```bash
+if [ -f ".claude/scripts/generate-task-order.sh" ]; then
+  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
+    2>/dev/null || echo "Note: Failed to regenerate Task Order (non-fatal)" >&2
+fi
+```
+
 ### 5. Output
 
 ```

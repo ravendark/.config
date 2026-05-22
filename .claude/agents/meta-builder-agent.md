@@ -1358,6 +1358,15 @@ Return ONLY valid JSON matching this schema:
    - Add to active_projects array
    - Increment next_project_number
 
+4a. **Update Task Order section** (non-blocking):
+   Run the following to regenerate the Task Order in TODO.md after all tasks have been written:
+   ```bash
+   if [ -f ".claude/scripts/generate-task-order.sh" ]; then
+     bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
+       2>/dev/null || echo "Note: Failed to regenerate Task Order (non-fatal)" >&2
+   fi
+   ```
+
 5. **Git Commit**:
 ```bash
 git add specs/

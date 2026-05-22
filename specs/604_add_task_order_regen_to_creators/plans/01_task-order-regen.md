@@ -60,7 +60,7 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add regen calls to 4 gap files [NOT STARTED]
+### Phase 1: Add regen calls to 4 gap files [COMPLETED]
 
 **Goal**: Insert `generate-task-order.sh --update-todo` call at the correct point in each of the four task-creating files, using the non-blocking reference pattern.
 

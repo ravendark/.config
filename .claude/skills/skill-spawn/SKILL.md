@@ -422,6 +422,19 @@ Use Edit tool to update the parent task entry.
 
 ---
 
+### Stage 14a: Update Task Order Section (Non-Blocking)
+
+After all new tasks have been written to state.json and TODO.md, regenerate the Task Order section:
+
+```bash
+if [ -f ".claude/scripts/generate-task-order.sh" ]; then
+  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
+    2>/dev/null || echo "Note: Failed to regenerate Task Order (non-fatal)" >&2
+fi
+```
+
+---
+
 ### Stage 15: Git Commit
 
 Commit all changes with session ID:
