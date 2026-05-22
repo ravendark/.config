@@ -113,16 +113,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Verification [NOT STARTED]
+### Phase 3: Verification [COMPLETED]
 
 **Goal**: Run the script against the live task graph and confirm output matches expected mock from research.
 
 **Tasks**:
-- [ ] Run `bash .claude/scripts/generate-task-order.sh --update-todo` against current `specs/state.json`
-- [ ] Verify the Task Order section in `specs/TODO.md` shows wave-1 tasks as roots
-- [ ] Compare output against the mock in the research report (Section 7): confirm 601 is root with 602 indented, 598 is root with 594 indented, etc.
-- [ ] Verify `(see above)` annotations appear correctly for diamond-dep tasks (e.g., task 599 under both 595 and 596)
-- [ ] Run `grep -r "must complete first" .claude/` to confirm no old labels remain
+- [x] Run `bash .claude/scripts/generate-task-order.sh --update-todo` against current `specs/state.json` *(completed)*
+- [x] Verify the Task Order section in `specs/TODO.md` shows wave-1 tasks as roots *(completed)*
+- [x] Compare output against the mock in the research report (Section 7): confirm 601 is root with 602 indented, 598 is root with 594 indented, etc. *(completed: 594 completed so absent; 598 shows 595/596/599 as children correctly)*
+- [x] Verify `(see above)` annotations appear correctly for diamond-dep tasks (e.g., task 599 under both 595 and 596) *(completed: 599 shows (see above) under 595, 596, and 598)*
+- [x] Run `grep -r "must complete first" .claude/` to confirm no old labels remain *(completed: only matches in spawn-agent.md prose, not task order labels)*
 
 **Timing**: 15 minutes
 

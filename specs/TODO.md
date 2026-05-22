@@ -16,7 +16,7 @@ next_project_number: 605
 | 3 | 599 | 595,596,597,598 | workflow-refactor |
 | 4 | 600 | 599 | workflow-refactor |
 
-**Grouped by Topic** (indented = must complete first):
+**Grouped by Topic** (indented = depends on parent):
 
 ### Meta System
 
@@ -25,22 +25,18 @@ next_project_number: 605
 ### Wezterm Notifications
 
 601 [IMPLEMENTING] — Simplify the WezTerm tab coloring and TTS notification pipeline. 
-602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
-  └─ 601 [PLANNED] — Simplify the WezTerm tab coloring and TTS notification pipeline.  (see above)
+  └─ 602 [NOT STARTED] — Update wezterm.lua color palette for dim/bright workflow stage se
 
 ### Workflow Refactor
 
-595 [RESEARCHED] — Refactor /research, /plan, /implement commands to use shared util
-  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
-596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
-  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the 
-599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
-  └─ 595 [NOT STARTED] — Refactor /research, /plan, /implement commands to use shared util (see above)
-  └─ 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch- (see above)
-  └─ 597 [NOT STARTED] — Refactor /task, /revise, /todo, /review for consistency with the  (see above)
-  └─ 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co (see above)
-600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
+  └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
+    └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
+598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
+  └─ 595 [PLANNING] — Refactor /research, /plan, /implement commands to use shared util
+    └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
+  └─ 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
+    └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
 
 ### Uncategorized
@@ -176,7 +172,7 @@ next_project_number: 605
 
 ### 595. Refactor /research, /plan, /implement commands to use shared infrastructure
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNING]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 594, 598
