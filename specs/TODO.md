@@ -22,7 +22,7 @@ next_project_number: 608
 597 [IMPLEMENTING] — Refactor /task, /revise, /todo, /review for consistency with the 
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
-598 [RESEARCHING] — Update the context system for progressive disclosure and agent co
+598 [RESEARCHED] — Update the context system for progressive disclosure and agent co
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
 607 [NOT STARTED] — improve_research_agents_multi_angle_team_strategy
 
@@ -91,11 +91,13 @@ next_project_number: 608
 
 ### 598. Update context system for progressive disclosure and agent context budgets
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 592
-- **Research**: [598_progressive_disclosure_context_system/reports/01_seed-research.md]
+- **Research**:
+  - [598_progressive_disclosure_context_system/reports/01_seed-research.md]
+  - [598_progressive_disclosure_context_system/reports/02_context-audit.md]
 
 **Description**: Update the context system for progressive disclosure and agent context budget caps. Four-tier loading model: Tier 1 (always, ~500L: anti-stop-patterns, return-metadata, checkpoint-execution), Tier 2 (command-specific, ~500L: routing tables, arg docs, anti-bypass), Tier 3 (agent-specific, ~3-5K lines: workflow patterns, domain context), Tier 4 (on-demand, unbounded: guides, templates, examples). Budget caps: sonnet workers <=8K tokens, opus planners <=15K tokens, haiku utilities <=2K tokens. Audit 97 context index entries for tier classification; prune dead entries. Commands MUST NOT load Tier 3 context (routing only). Move embedded agent context from commands to Tier 3 agent context files. This task is ELEVATED in dependency chain: context budget design must precede task 594 (skill base). Reference: .claude/docs/architecture/architecture-spec.md cross-cutting context section.
 

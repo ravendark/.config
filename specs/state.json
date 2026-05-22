@@ -221,7 +221,7 @@
     {
       "project_number": 598,
       "project_name": "progressive_disclosure_context_system",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Update the context system for progressive disclosure and agent context budget caps. Four-tier loading model: Tier 1 (always, ~500L: anti-stop-patterns, return-metadata, checkpoint-execution), Tier 2 (command-specific, ~500L: routing tables, arg docs, anti-bypass), Tier 3 (agent-specific, ~3-5K lines: workflow patterns, domain context), Tier 4 (on-demand, unbounded: guides, templates, examples). Budget caps: sonnet workers <=8K tokens, opus planners <=15K tokens, haiku utilities <=2K tokens. Audit 97 context index entries for tier classification; prune dead entries. Commands MUST NOT load Tier 3 context (routing only). Move embedded agent context from commands to Tier 3 agent context files. This task is ELEVATED in dependency chain: context budget design must precede task 594 (skill base). Reference: .claude/docs/architecture/architecture-spec.md cross-cutting context section.",
@@ -230,16 +230,42 @@
         592
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T20:33:33Z",
-      "next_artifact_number": 2,
+      "last_updated": "2026-05-22T20:43:00Z",
+      "next_artifact_number": 3,
       "artifacts": [
         {
+          "path": "specs/598_progressive_disclosure_context_system/reports/02_context-audit.md",
           "type": "research",
-          "path": "598_progressive_disclosure_context_system/reports/01_seed-research.md",
-          "created": "2026-05-22"
+          "summary": "Full audit of 139 context index entries: tier classification, token budget analysis, dead entry detection, agent budget reduction paths"
         }
       ],
-      "session_id": "sess_1779481994_e7bc28"
+      "session_id": "sess_1779481994_e7bc28",
+      "memory_candidates": [
+        {
+          "content": "The context index (index.json) grew from the 97 entries mentioned in early task descriptions to 139 entries by May 2026. All agent token budgets exceed the proposed caps: sonnet workers range from 19K-27K tokens (cap: 8K), meta-builder-agent is 116K tokens (cap: 15K). The revised Tier 1 set should contain only repo/project-overview.md (144L) + patterns/anti-stop-patterns.md (174L) = 318 lines.",
+          "category": "INSIGHT",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "context-index",
+            "tier-classification",
+            "token-budget",
+            "agent-budget",
+            "progressive-disclosure"
+          ]
+        },
+        {
+          "content": "Double-loading pattern identified: 40 context entries are registered for BOTH agents AND commands in load_when. Under the four-tier model, these should be agent-only (Tier 3). The command-level loading is redundant since agents are always invoked alongside commands.",
+          "category": "PATTERN",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "double-loading",
+            "context-loading",
+            "command-agent-overlap",
+            "tier-3",
+            "load_when"
+          ]
+        }
+      ]
     },
     {
       "project_number": 599,
