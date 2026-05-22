@@ -87,17 +87,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Documentation Updates [NOT STARTED]
+### Phase 2: Documentation Updates [COMPLETED]
 
 **Goal**: Update `task-order-format.md` to reflect the new tree direction semantics.
 
 **Tasks**:
-- [ ] Update grouped section header label in format doc (line 158): `"indented = must complete first"` to `"indented = depends on parent"`
-- [ ] Update Topic Section Structure examples (lines 163-202): show root tasks as wave-1 (no deps), successors indented below
-- [ ] Update Tree Entry semantics (lines 186-202): change description to "root entries = tasks with no active deps; children = tasks that depend on parent"
-- [ ] Update Complete Example (lines 247-272): rewrite to show new direction with wave-1 roots
-- [ ] Update Parsing Patterns Summary (lines 282-293): update grouped section header regex
-- [ ] Sync extension core copy: replace `.claude/extensions/core/context/formats/task-order-format.md` content with updated primary copy
+- [x] Update grouped section header label in format doc (line 158): `"indented = must complete first"` to `"indented = depends on parent"` *(completed)*
+- [x] Update Topic Section Structure examples (lines 163-202): show root tasks as wave-1 (no deps), successors indented below *(completed)*
+- [x] Update Tree Entry semantics (lines 186-202): change description to "root entries = tasks with no active deps; children = tasks that depend on parent" *(completed)*
+- [x] Update Complete Example (lines 247-272): rewrite to show new direction with wave-1 roots *(completed)*
+- [x] Update Parsing Patterns Summary (lines 282-293): update grouped section header regex *(completed)*
+- [x] Sync extension core copy: replace `.claude/extensions/core/context/formats/task-order-format.md` content with updated primary copy *(completed)*
 
 **Timing**: 30 minutes
 
