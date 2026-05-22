@@ -45,30 +45,3 @@ next_project_number: 608
 
 **Description**: Fix Gmail SMTP authentication failure when sending emails via Himalaya (<leader>me). Error: "Authentication failed: Code: 535, Enhanced code: 5.7.8, Message: Username and Password not accepted". The error occurs with TLS connection attempts and persists through multiple retry attempts. Identify and fix the root cause of the SMTP credential configuration.
 
-## Recommended Order
-
-| Priority | Task | Status | Next Action |
-|----------|------|--------|-------------|
-| 1 | 87 | [RESEARCHED] | /plan 87 |
-| 2 | 78 | [PLANNED] | /implement 78 |
-
----
-
-## Recently Completed
-
-| Task | Name | Completed |
-|------|------|-----------|
-| 607 | Improve research agents multi-angle team strategy | 2026-05-22 |
-| 606 | Fix extension doc-lint failures | 2026-05-22 |
-| 602 | Update wezterm dim/bright colors | 2026-05-22 |
-| 600 | Revise docs architecture post-refactor | 2026-05-22 |
-| 599 | Update CLAUDE.md extension documentation | 2026-05-22 |
-| 598 | Progressive disclosure context system | 2026-05-22 |
-| 597 | Refactor task/revise/todo/review commands | 2026-05-22 |
-| 596 | Create /orchestrate command and skill | 2026-05-22 |
-| 595 | Refactor research/plan/implement commands | 2026-05-22 |
-| 605 | Reverse Task Order tree direction | 2026-05-22 |
-| 604 | Add Task Order regeneration to task-creating commands | 2026-05-22 |
-| 603 | Fix /meta pre-confirmation pattern | 2026-05-22 |
-| 601 | Simplify notification pipeline and merge vocabulary | 2026-05-22 |
-

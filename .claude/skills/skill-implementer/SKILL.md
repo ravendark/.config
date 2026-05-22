@@ -233,12 +233,7 @@ fi
 # Step 4: Propagate memory candidates
 skill_propagate_memory_candidates "$task_number" "$MEMORY_CANDIDATES"
 
-# Step 5: Remove from Recommended Order section (non-blocking)
-if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
-  remove_from_recommended_order "$task_number" || echo "Note: Failed to update Recommended Order"
-fi
-
-# Step 6: Write orchestrator handoff (only if orchestrator_mode=true)
+# Step 5: Write orchestrator handoff (only if orchestrator_mode=true)
 skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \
   "implement" "$SUBAGENT_STATUS" "$ARTIFACT_SUMMARY" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "none"
 ```

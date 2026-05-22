@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "generated_at": "2026-05-15",
-  "entry_count": 6,
-  "total_tokens": 728,
+  "entry_count": 9,
+  "total_tokens": 965,
   "entries": [
     {
       "id": "MEM-plan-delegation-required",
@@ -124,6 +124,69 @@
         "state-json"
       ],
       "token_count": 92,
+      "created": "2026-05-22",
+      "modified": "2026-05-22",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-insight-index-json-tier",
+      "path": ".memory/10-Memories/MEM-insight-index-json-tier.md",
+      "title": "When classifying context index entries as Tier 4 (on-demand), also clear their a",
+      "summary": "When classifying context index entries as Tier 4 (on-demand), also clear their a",
+      "topic": "task-index",
+      "category": "INSIGHT",
+      "keywords": [
+        "index.json",
+        "tier",
+        "load_when",
+        "agents",
+        "context-budget",
+        "enforcement"
+      ],
+      "token_count": 90,
+      "created": "2026-05-22",
+      "modified": "2026-05-22",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-technique-validate-context-budgets-budget",
+      "path": ".memory/10-Memories/MEM-technique-validate-context-budgets-budget.md",
+      "title": "validate-context-budgets.sh provides automated enforcement of per-agent token bu",
+      "summary": "validate-context-budgets.sh provides automated enforcement of per-agent token bu",
+      "topic": "task-validate",
+      "category": "TECHNIQUE",
+      "keywords": [
+        "validate-context-budgets",
+        "budget",
+        "token",
+        "enforcement",
+        "script",
+        "index.json"
+      ],
+      "token_count": 71,
+      "created": "2026-05-22",
+      "modified": "2026-05-22",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-insight-general-implementation-agent-budget",
+      "path": ".memory/10-Memories/MEM-insight-general-implementation-agent-budget.md",
+      "title": "The minimum irreducible context for general-implementation-agent is 8,048 tokens",
+      "summary": "The minimum irreducible context for general-implementation-agent is 8,048 tokens",
+      "topic": "task-general",
+      "category": "INSIGHT",
+      "keywords": [
+        "general-implementation-agent",
+        "budget",
+        "minimum",
+        "return-metadata",
+        "checkpoint",
+        "progress-file"
+      ],
+      "token_count": 76,
       "created": "2026-05-22",
       "modified": "2026-05-22",
       "last_retrieved": null,

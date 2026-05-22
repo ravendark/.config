@@ -174,14 +174,6 @@ When $ARGUMENTS contains a description (no flags).
 
    **CRITICAL**: Both state.json AND TODO.md frontmatter MUST have matching next_project_number values.
 
-   **Part C - Update Recommended Order section** (non-blocking):
-   ```bash
-   # Update Recommended Order section (non-blocking)
-   if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
-       add_to_recommended_order "$next_num" || echo "Note: Failed to update Recommended Order"
-   fi
-   ```
-
 8. **Git commit**:
    ```
    git add specs/

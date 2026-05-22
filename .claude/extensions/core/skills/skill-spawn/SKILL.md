@@ -344,14 +344,6 @@ Insert new task entries after the Tasks header, in topological order:
 
 Use Edit tool to insert each task entry at the top of the Tasks section (after `## Tasks` header).
 
-**Refresh Recommended Order section** (non-blocking):
-```bash
-# Refresh Recommended Order section to include spawned tasks (non-blocking)
-if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
-    refresh_recommended_order || echo "Note: Failed to refresh Recommended Order"
-fi
-```
-
 ---
 
 ### Stage 13: Update Parent Task Dependencies

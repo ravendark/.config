@@ -285,7 +285,6 @@
         ".claude/scripts/setup-lean-mcp.sh",
         ".claude/scripts/uninstall-extension.sh",
         ".claude/scripts/update-plan-status.sh",
-        ".claude/scripts/update-recommended-order.sh",
         ".claude/scripts/update-task-status.sh",
         ".claude/scripts/validate-artifact.sh",
         ".claude/scripts/validate-context-index.sh",

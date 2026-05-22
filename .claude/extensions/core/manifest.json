@@ -89,7 +89,6 @@
       "setup-lean-mcp.sh",
       "uninstall-extension.sh",
       "update-plan-status.sh",
-      "update-recommended-order.sh",
       "update-task-status.sh",
       "validate-artifact.sh",
       "validate-context-index.sh",

@@ -415,13 +415,6 @@ fi
 
 **Note**: Uses `// []` fallback and `+` append so research candidates (from skill-researcher) and implementation candidates coexist on the same task entry.
 
-**Step 5**: Remove from Recommended Order section (non-blocking, not covered by centralized script):
-```bash
-if source "$PROJECT_ROOT/.claude/scripts/update-recommended-order.sh" 2>/dev/null; then
-    remove_from_recommended_order "$task_number" || echo "Note: Failed to update Recommended Order"
-fi
-```
-
 **Break loop** — proceed to Stage 8 (Link Artifacts).
 
 ---
