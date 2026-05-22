@@ -23747,3 +23747,19 @@
 [2026-05-22T12:02:48-07:00] Task directory: specs/605_reverse_task_order_tree_direction
 [2026-05-22T12:02:48-07:00] Loop guard initialized to 1
 [2026-05-22T12:02:48-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-22T12:03:06-07:00] Postflight marker found at: specs/605_reverse_task_order_tree_direction/.postflight-pending
+[2026-05-22T12:03:06-07:00] Task directory: specs/605_reverse_task_order_tree_direction
+[2026-05-22T12:03:06-07:00] Loop guard incremented to 2
+[2026-05-22T12:03:06-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-22T12:03:23-07:00] Postflight marker found at: specs/605_reverse_task_order_tree_direction/.postflight-pending
+[2026-05-22T12:03:23-07:00] Task directory: specs/605_reverse_task_order_tree_direction
+[2026-05-22T12:03:23-07:00] Loop guard incremented to 3
+[2026-05-22T12:03:23-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-22T12:03:29-07:00] Postflight marker found at: specs/605_reverse_task_order_tree_direction/.postflight-pending
+[2026-05-22T12:03:29-07:00] Task directory: specs/605_reverse_task_order_tree_direction
+[2026-05-22T12:03:29-07:00] Loop guard triggered: 3 >= 3
+[2026-05-22T12:03:29-07:00] Loop guard prevented continuation
+[2026-05-22T12:04:00-07:00] Postflight marker found at: specs/594_refactor_workflow_skills_shared_base/.postflight-pending
+[2026-05-22T12:04:00-07:00] Task directory: specs/594_refactor_workflow_skills_shared_base
+[2026-05-22T12:04:00-07:00] Loop guard incremented to 3
+[2026-05-22T12:04:00-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
