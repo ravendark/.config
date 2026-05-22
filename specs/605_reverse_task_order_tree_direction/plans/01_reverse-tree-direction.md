@@ -1,7 +1,7 @@
 # Implementation Plan: Reverse Task Order Tree Direction
 
 - **Task**: 605 - Reverse Task Order tree to show dependents below prerequisites
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md

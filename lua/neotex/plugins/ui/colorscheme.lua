@@ -21,6 +21,8 @@ return {
         htmlCommentPart = { fg = "#928374", italic = true },
         markdownHtmlComment = { fg = "#928374", italic = true },
         RenderMarkdownHtmlComment = { fg = "#928374", italic = true },
+        ["@markup.strikethrough"] = { strikethrough = false },
+        ["@markup.strikethrough.markdown_inline"] = { strikethrough = false },
       }
     })
     vim.cmd("colorscheme gruvbox")

@@ -11,16 +11,12 @@ next_project_number: 605
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,597,598,602,605 | -- | meta-system, wezterm-notifications, workflow-refactor |
+| 1 | 78,87,597,598,602 | -- | wezterm-notifications, workflow-refactor |
 | 2 | 595,596 | 598 | workflow-refactor |
 | 3 | 599 | 595,596,597,598 | workflow-refactor |
 | 4 | 600 | 599 | workflow-refactor |
 
 **Grouped by Topic** (indented = depends on parent):
-
-### Meta System
-
-605 [IMPLEMENTING] — Reverse the Task Order dependency tree so prerequisite tasks (tho
 
 ### Wezterm Notifications
 
@@ -32,7 +28,7 @@ next_project_number: 605
   └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo
     └─ 600 [NOT STARTED] — After tasks 592-599 complete, revise .claude/docs/ to reflect the
 598 [NOT STARTED] — Update the context system for progressive disclosure and agent co
-  └─ 595 [PLANNING] — Refactor /research, /plan, /implement commands to use shared util
+  └─ 595 [PLANNED] — Refactor /research, /plan, /implement commands to use shared util
     └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
   └─ 596 [NOT STARTED] — Create the /orchestrate command, skill-orchestrate, and dispatch-
     └─ 599 [NOT STARTED] — Update CLAUDE.md, extension manifest schema, and documentation fo (see above)
@@ -47,12 +43,13 @@ next_project_number: 605
 
 ### 605. Reverse Task Order tree to show dependents below prerequisites
 - **Effort**: 1 hour
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None
 - **Research**: [605_reverse_task_order_tree_direction/reports/01_reverse-tree-direction.md]
 - **Plan**: [605_reverse_task_order_tree_direction/plans/01_reverse-tree-direction.md]
+- **Summary**: [605_reverse_task_order_tree_direction/summaries/01_reverse-tree-direction-summary.md]
 
 **Description**: Reverse the Task Order dependency tree so prerequisite tasks (those depended upon) are roots and dependent tasks are indented children. Currently tasks show their prerequisites indented below; the desired display shows dependents indented below prerequisites, so users work on unindented tasks first and their children get promoted on completion. Changes: (1) generate-task-order.sh — build successors map, change `_print_topic_node` and `print_tree_node` to iterate successors instead of deps, roots become tasks with no active deps (wave 1). (2) task-order-format.md — update semantics from "indented = must complete first" to "indented = depends on parent above", update examples. (3) Extension core copy of task-order-format.md — keep in sync.
 
@@ -172,13 +169,14 @@ next_project_number: 605
 
 ### 595. Refactor /research, /plan, /implement commands to use shared infrastructure
 - **Effort**: 2-3 hours
-- **Status**: [PLANNING]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: workflow-refactor
 - **Dependencies**: 593, 594, 598
 - **Research**:
   - [595_refactor_research_plan_implement_commands/reports/01_seed-research.md]
   - [595_refactor_research_plan_implement_commands/reports/02_command-refactor-research.md]
+- **Plan**: [595_refactor_research_plan_implement_commands/plans/02_command-refactor-plan.md]
 
 **Description**: Refactor /research, /plan, /implement commands to use shared utilities from task 593 and refactored skills from task 594. Target: each command reduced to ~150-200 lines covering only routing-only controller logic (argument docs, mode-specific behavior, extension routing table). Commands MUST NOT load Tier 3 context (agent-level context stays with agents, per four-tier model). Current commands embed agent-level context inline (full state machine logic, format specifications); these must move to Tier 3 agent context files. Add orchestrator_mode=true support: skills write .orchestrator-handoff.json when orchestrator_mode is detected in delegation context. Verify extension compatibility (nvim, nix) at each step. Reference: .claude/docs/architecture/architecture-spec.md Components 1-2.
 
