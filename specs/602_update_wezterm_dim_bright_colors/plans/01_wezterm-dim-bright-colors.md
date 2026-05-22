@@ -1,7 +1,7 @@
 # Implementation Plan: Update WezTerm Dim/Bright Colors
 
 - **Task**: 602 - update_wezterm_dim_bright_colors
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 0.75 hours
 - **Dependencies**: None
 - **Research Inputs**: reports/01_wezterm-dim-bright-colors.md
@@ -66,12 +66,12 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Update Color Palette and Fix update-status Handler [NOT STARTED]
+### Phase 1: Update Color Palette and Fix update-status Handler [COMPLETED]
 
 **Goal**: Replace `status_colors` table with improved dim/bright values and fix the `update-status` handler to only clear `needs_input` on tab switch.
 
 **Tasks**:
-- [ ] Edit `~/.dotfiles/config/wezterm.lua` lines 322-331: replace all 8 `status_colors` entries with the recommended values from the research report
+- [x] **Task 1.1**: Edit `~/.dotfiles/config/wezterm.lua` lines 322-331: replace all 8 `status_colors` entries with the recommended values from the research report *(completed)*
   - `needs_input`: bg=#3a3a3a, fg=#d0d0d0 (unchanged gray)
   - `researching`: bg=#1e2e1e, fg=#5a7a5a (dim green)
   - `researched`: bg=#1a4a1a, fg=#a0d080 (bright green)
@@ -80,8 +80,8 @@ Phases within the same wave can execute in parallel.
   - `implementing`: bg=#2e2a18, fg=#8a7a40 (dim gold)
   - `completed`: bg=#4a3e18, fg=#e5c060 (bright gold)
   - `blocked`: bg=#5a2a2a, fg=#d0d0d0 (unchanged red)
-- [ ] Edit `~/.dotfiles/config/wezterm.lua` lines 413-419: change the `update-status` handler conditional from `if user_vars.CLAUDE_STATUS and user_vars.CLAUDE_STATUS ~= ""` to `if user_vars.CLAUDE_STATUS == "needs_input"` so only `needs_input` is cleared on tab switch
-- [ ] Update the comment at line 417 to reflect the new behavior: clearing only `needs_input`, not all lifecycle states
+- [x] **Task 1.2**: Edit `~/.dotfiles/config/wezterm.lua` lines 413-419: change the `update-status` handler conditional from `if user_vars.CLAUDE_STATUS and user_vars.CLAUDE_STATUS ~= ""` to `if user_vars.CLAUDE_STATUS == "needs_input"` so only `needs_input` is cleared on tab switch *(completed)*
+- [x] **Task 1.3**: Update the comment at line 417 to reflect the new behavior: clearing only `needs_input`, not all lifecycle states *(completed)*
 
 **Timing**: 20 minutes
 
