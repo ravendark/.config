@@ -62,5 +62,9 @@
         "mcp-nixos"
       ]
     }
+  },
+  "hooks": {
+    "preflight": "scripts/nix-preflight.sh",
+    "context_injection": "scripts/nix-context.sh"
   }
 }

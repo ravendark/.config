@@ -108,17 +108,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add Hooks Schema to All Extension Manifests [NOT STARTED]
+### Phase 2: Add Hooks Schema to All Extension Manifests [COMPLETED]
 
 **Goal**: Add the top-level `hooks` object to all 16 extension manifests. Most get an empty `hooks: {}` object. Nix and nvim get populated entries with example hook scripts.
 
 **Tasks**:
-- [ ] Add `"hooks": {}` top-level field to all 16 extension manifests (core, epidemiology, filetypes, formal, founder, latex, lean, memory, nix, nvim, present, python, slidev, typst, web, z3)
-- [ ] For nvim extension: create `extensions/nvim/scripts/nvim-context.sh` hook script that outputs nvim-specific context (plugin list, lazy.nvim status) for context_injection
-- [ ] For nix extension: create `extensions/nix/scripts/nix-preflight.sh` hook script that validates flake.nix exists and `nix` is available; create `extensions/nix/scripts/nix-context.sh` for context_injection
-- [ ] Populate nvim manifest `hooks` with: `"context_injection": "scripts/nvim-context.sh"`
-- [ ] Populate nix manifest `hooks` with: `"preflight": "scripts/nix-preflight.sh"`, `"context_injection": "scripts/nix-context.sh"`
-- [ ] Verify no naming conflict between top-level `hooks` and `provides.hooks` in any manifest
+- [x] Add `"hooks": {}` top-level field to all 16 extension manifests (core, epidemiology, filetypes, formal, founder, latex, lean, memory, nix, nvim, present, python, slidev, typst, web, z3) *(completed)*
+- [x] For nvim extension: create `extensions/nvim/scripts/nvim-context.sh` hook script that outputs nvim-specific context (plugin list, lazy.nvim status) for context_injection *(completed)*
+- [x] For nix extension: create `extensions/nix/scripts/nix-preflight.sh` hook script that validates flake.nix exists and `nix` is available; create `extensions/nix/scripts/nix-context.sh` for context_injection *(completed)*
+- [x] Populate nvim manifest `hooks` with: `"context_injection": "scripts/nvim-context.sh"` *(completed)*
+- [x] Populate nix manifest `hooks` with: `"preflight": "scripts/nix-preflight.sh"`, `"context_injection": "scripts/nix-context.sh"` *(completed)*
+- [x] Verify no naming conflict between top-level `hooks` and `provides.hooks` in any manifest *(completed)*
 
 **Timing**: 1 hour
 

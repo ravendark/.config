@@ -51,5 +51,8 @@
       "target": "opencode.json"
     }
   },
-  "mcp_servers": {}
+  "mcp_servers": {},
+  "hooks": {
+    "context_injection": "scripts/nvim-context.sh"
+  }
 }

@@ -156,5 +156,6 @@
       "settings.local.json",
       ".gitignore"
     ]
-  }
+  },
+  "hooks": {}
 }

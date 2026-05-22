@@ -74,5 +74,6 @@
         "lean-lsp-mcp@latest"
       ]
     }
-  }
+  },
+  "hooks": {}
 }

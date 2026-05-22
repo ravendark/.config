@@ -59,5 +59,6 @@
       "source": "opencode-agents.json",
       "target": "opencode.json"
     }
-  }
+  },
+  "hooks": {}
 }
