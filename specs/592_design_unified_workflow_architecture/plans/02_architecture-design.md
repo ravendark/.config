@@ -1,7 +1,7 @@
 # Implementation Plan: Task #592
 
 - **Task**: 592 - Design unified workflow architecture
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3.5 hours
 - **Dependencies**: 591 (satisfied)
 - **Research Inputs**: specs/592_design_unified_workflow_architecture/reports/01_seed-research.md, specs/592_design_unified_workflow_architecture/reports/02_architecture-design.md
@@ -69,13 +69,13 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Write architecture specification documents [NOT STARTED]
+### Phase 1: Write architecture specification documents [COMPLETED]
 
 **Goal**: Create the authoritative architecture specification documents in `.claude/docs/architecture/` as permanent system documentation. These become the target architecture blueprint that all downstream tasks reference. The existing `system-overview.md` in `.claude/docs/architecture/` describes the current architecture; these new documents describe the refactored target state.
 
 **Tasks**:
-- [ ] **Task 1.1**: Verify `.claude/docs/architecture/` directory exists (it does -- contains `system-overview.md` and `extension-system.md`)
-- [ ] **Task 1.2**: Write `.claude/docs/architecture/architecture-spec.md` -- the primary specification covering all 7 components:
+- [x] **Task 1.1**: Verify `.claude/docs/architecture/` directory exists (it does -- contains `system-overview.md` and `extension-system.md`) *(completed)*
+- [x] **Task 1.2**: Write `.claude/docs/architecture/architecture-spec.md` -- the primary specification covering all 7 components: *(completed)*
   - Document header with purpose statement: "Target architecture for the unified workflow refactor (tasks 593-599). Complements system-overview.md which describes the current architecture."
   - Component 1 (Shared Command Infrastructure): `parse-command-args.sh`, `command-gate-in.sh`, `command-gate-out.sh` with exact function signatures and exported variables
   - Component 2 (Shared Skill Base): `skill-base.sh` function inventory (11 functions), hook points, target skill sizes
@@ -86,28 +86,28 @@ Phases within the same wave can execute in parallel.
   - Component 7 (Nested Loop Resolution): Exclusive loop model, `orchestrator_mode` flag propagation
   - Cross-cutting concern: Context budget architecture overview (four-tier model)
   - Appendix: Dependency graph (from research Appendix C) and file location summary (from research Appendix D)
-- [ ] **Task 1.3**: Write `.claude/docs/architecture/orchestrate-state-machine.md` -- detailed /orchestrate state machine specification:
+- [x] **Task 1.3**: Write `.claude/docs/architecture/orchestrate-state-machine.md` -- detailed /orchestrate state machine specification: *(completed)*
   - Complete state table with all states and transitions
   - State transition diagram (ASCII art)
   - MAX_CYCLES enforcement and loop guard file schema
   - Blocker escalation 5-step sequence (detect, research fork, read handoff, revise, re-implement)
   - Context flatness guarantee (400-token handoff budget)
   - Examples of normal flow, partial recovery flow, and blocker escalation flow
-- [ ] **Task 1.4**: Write `.claude/docs/architecture/dispatch-agent-spec.md` -- dispatch_agent() function specification:
+- [x] **Task 1.4**: Write `.claude/docs/architecture/dispatch-agent-spec.md` -- dispatch_agent() function specification: *(completed)*
   - Full function signature with all parameters
   - Fork-vs-subagent decision logic (semantic `is_blocker_escalation` flag)
   - Why TTL heuristics were rejected in favor of semantic signaling
   - Future-proofing section for named fork API
   - Integration with skill-orchestrate
-- [ ] **Task 1.5**: Write `.claude/docs/architecture/handoff-schema.md` -- structured handoff object schema:
+- [x] **Task 1.5**: Write `.claude/docs/architecture/handoff-schema.md` -- structured handoff object schema: *(completed)*
   - Complete JSON schema for `.orchestrator-handoff.json` with all fields
   - Token budget constraints (400-token max)
   - Writing contract: when skills write the handoff (orchestrator_mode detection)
   - Reading contract: how the orchestrator consumes handoffs
   - Relationship to continuation handoffs (`handoffs/phase-N-handoff.md`)
   - Example handoff objects for: successful research, successful implementation, partial with continuation, blocked with escalation
-- [ ] **Task 1.6**: Cross-reference the new documents with each other and with the existing `system-overview.md` and `extension-system.md`
-- [ ] **Task 1.7**: Add a note to the top of existing `.claude/docs/architecture/system-overview.md` referencing the new target architecture documents (a single "See Also" line, not a content modification)
+- [x] **Task 1.6**: Cross-reference the new documents with each other and with the existing `system-overview.md` and `extension-system.md` *(completed)*
+- [x] **Task 1.7**: Add a note to the top of existing `.claude/docs/architecture/system-overview.md` referencing the new target architecture documents (a single "See Also" line, not a content modification) *(completed)*
 
 **Timing**: 1.25 hours
 

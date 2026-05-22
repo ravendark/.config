@@ -2,6 +2,10 @@
 
 **Last Verified**: 2026-01-19
 
+> **See Also (Target Architecture)**: The unified workflow refactor (tasks 593-599) targets a new
+> architecture documented in `architecture-spec.md`, `orchestrate-state-machine.md`,
+> `dispatch-agent-spec.md`, and `handoff-schema.md`. This document describes the **current** system.
+
 This document provides a high-level overview of the agent system architecture for users and developers.
 
 ---
