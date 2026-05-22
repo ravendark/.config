@@ -221,6 +221,15 @@ $(echo "$domain_agent_paths" | while read -r p; do echo "- @.claude/context/$p";
 
 Use domain-specific tools and search strategies described in these files."
 fi
+
+# Exploit/Explore mode detection
+# These flags shape teammate prompt generation (see Stage 5 teammate prompts)
+research_mode="default"
+if [ "$EXPLOIT_FLAG" = "true" ]; then
+  research_mode="exploit"
+elif [ "$EXPLORE_FLAG" = "true" ]; then
+  research_mode="explore"
+fi
 ```
 
 ---

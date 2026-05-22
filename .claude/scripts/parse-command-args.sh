@@ -17,6 +17,8 @@
 #   MODEL_FLAG     — "haiku", "sonnet", "opus", or ""
 #   CLEAN_FLAG     — "true" or "false"
 #   FORCE_FLAG     — "true" or "false"
+#   EXPLOIT_FLAG   — "true" or "false" (--exploit mode hint for team research)
+#   EXPLORE_FLAG   — "true" or "false" (--explore mode hint for team research)
 #   FOCUS_PROMPT   — remaining text after all recognized flags stripped
 #
 # Downstream dependencies:
@@ -67,6 +69,8 @@ parse_command_args() {
   MODEL_FLAG=""
   CLEAN_FLAG="false"
   FORCE_FLAG="false"
+  EXPLOIT_FLAG="false"
+  EXPLORE_FLAG="false"
 
   if [[ "$remaining" =~ --team ]]; then
     TEAM_MODE="true"
@@ -97,6 +101,12 @@ parse_command_args() {
   if [[ "$remaining" =~ --force ]]; then
     FORCE_FLAG="true"
   fi
+  if [[ "$remaining" =~ --exploit ]]; then
+    EXPLOIT_FLAG="true"
+  fi
+  if [[ "$remaining" =~ --explore ]]; then
+    EXPLORE_FLAG="true"
+  fi
 
   # Step 5: Strip all recognized flags to produce FOCUS_PROMPT
   FOCUS_PROMPT=$(echo "$remaining" \
@@ -109,6 +119,8 @@ parse_command_args() {
     | sed 's/--opus//g' \
     | sed 's/--clean//g' \
     | sed 's/--force//g' \
+    | sed 's/--exploit//g' \
+    | sed 's/--explore//g' \
     | xargs)
 
   # Step 6: Validate — at least one task number is required
@@ -117,7 +129,7 @@ parse_command_args() {
     return 1
   fi
 
-  export TASK_NUMBERS REMAINING_ARGS TEAM_MODE TEAM_SIZE EFFORT_FLAG MODEL_FLAG CLEAN_FLAG FORCE_FLAG FOCUS_PROMPT
+  export TASK_NUMBERS REMAINING_ARGS TEAM_MODE TEAM_SIZE EFFORT_FLAG MODEL_FLAG CLEAN_FLAG FORCE_FLAG EXPLOIT_FLAG EXPLORE_FLAG FOCUS_PROMPT
 }
 
 parse_command_args "$1"
