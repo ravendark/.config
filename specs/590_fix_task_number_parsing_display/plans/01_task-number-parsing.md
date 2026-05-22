@@ -1,7 +1,7 @@
 # Implementation Plan: Task #590
 
 - **Task**: 590 - fix_task_number_parsing_display
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/590_fix_task_number_parsing_display/reports/01_task-number-parsing.md
@@ -69,25 +69,25 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Implement 3-Tier Logic in Hook Scripts [NOT STARTED]
+### Phase 1: Implement 3-Tier Logic in Hook Scripts [COMPLETED]
 
 **Goal**: Replace the current 2-tier (set/clear) regex with 3-tier (SET/CLEAR/PRESERVE) logic in all 4 copies of `wezterm-task-number.sh`.
 
 **Tasks**:
-- [ ] Replace the current regex block (lines 34-38) in `.claude/hooks/wezterm-task-number.sh` with the 3-tier pattern:
+- [x] Replace the current regex block (lines 34-38) in `.claude/hooks/wezterm-task-number.sh` with the 3-tier pattern: *(completed)*
   - Tier 1a: `research|plan|implement|revise|spawn` + task spec (capture multi-task syntax)
   - Tier 1b: `/task --recover/expand/abandon/review` + task spec
   - Tier 1c: `/errors --fix N`
   - Tier 2: Any other slash command (`^[[:space:]]*/[a-zA-Z]`) clears task number
   - Tier 3: Free text / follow-up preserves task number (implicit else)
-- [ ] Add post-processing for Tier 1a/1b: strip from first `--` (flags), trim trailing spaces/commas, compact by removing internal spaces
-- [ ] Replace the if/else block (lines 50-62) with 3-way conditional: set on `SHOULD_SET`, clear on `SHOULD_CLEAR`, no-op otherwise
-- [ ] Update the header comment (lines 8-9) to describe the expanded command support and 3-tier logic
-- [ ] Copy the updated script identically to the 3 mirror locations:
+- [x] Add post-processing for Tier 1a/1b: strip from first `--` (flags), trim trailing spaces/commas, compact by removing internal spaces *(completed)*
+- [x] Replace the if/else block (lines 50-62) with 3-way conditional: set on `SHOULD_SET`, clear on `SHOULD_CLEAR`, no-op otherwise *(completed)*
+- [x] Update the header comment (lines 8-9) to describe the expanded command support and 3-tier logic *(completed)*
+- [x] Copy the updated script identically to the 3 mirror locations: *(completed)*
   - `.claude/extensions/core/hooks/wezterm-task-number.sh`
   - `.opencode/hooks/wezterm-task-number.sh`
   - `.opencode/extensions/core/hooks/wezterm-task-number.sh`
-- [ ] Verify all 4 files are byte-identical using `diff` or `md5sum`
+- [x] Verify all 4 files are byte-identical using `diff` or `md5sum` *(completed: md5sum confirmed identical)*
 
 **Timing**: 1 hour
 
