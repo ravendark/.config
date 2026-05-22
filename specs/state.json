@@ -419,7 +419,7 @@
     {
       "project_number": 600,
       "project_name": "revise_docs_architecture_post_refactor",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "After tasks 592-599 complete, revise .claude/docs/ to reflect the refactored agent system. Primary targets: (1) .claude/docs/architecture/system-overview.md — update to describe the new unified workflow architecture (shared command infrastructure, shared skill base, /orchestrate, dispatch_agent(), handoff protocol, extension lifecycle hooks). (2) .claude/docs/README.md — update the docs index to reference new architecture documents created by task 592 (architecture-spec.md, orchestrate-state-machine.md, dispatch-agent-spec.md, handoff-schema.md). (3) .claude/docs/guides/ — update creating-commands.md, creating-skills.md, creating-agents.md to reflect shared infrastructure patterns. (4) .claude/docs/reference/ — update any reference docs affected by the refactoring (agent-frontmatter-standard.md, multi-task-creation-standard.md). (5) .claude/docs/templates/ — update templates to use shared base patterns. (6) Remove or mark as deprecated any docs that describe the pre-refactor architecture exclusively.",
@@ -428,7 +428,7 @@
         599
       ],
       "created": "2026-05-22T15:00:00Z",
-      "last_updated": "2026-05-22T21:55:58Z",
+      "last_updated": "2026-05-22T22:13:38Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -440,9 +440,15 @@
           "path": "specs/600_revise_docs_architecture_post_refactor/plans/01_revise-docs-architecture.md",
           "type": "plan",
           "summary": "4-phase plan covering context/system-overview revision, guide updates, cosmetic fixes, and extension sync"
+        },
+        {
+          "path": "specs/600_revise_docs_architecture_post_refactor/summaries/01_implementation-summary.md",
+          "type": "summary",
+          "summary": "Team implementation with 3 max concurrent teammates across 3 waves"
         }
       ],
-      "session_id": "sess_1779486634_e120da"
+      "session_id": "sess_1779487091_a66e41",
+      "completion_summary": "Revised 30+ docs files across .claude/docs/, context/architecture/, and extensions/core/docs/ to reflect the post-refactor architecture (shared gate scripts, skill-base.sh, /orchestrate, dispatch-agent, lifecycle hooks). Major rewrite of agent-facing system-overview.md. All docs/ synced to extensions/core/docs/."
     },
     {
       "project_number": 602,
