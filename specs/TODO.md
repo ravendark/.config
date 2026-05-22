@@ -17,7 +17,7 @@ next_project_number: 591
 
 ### Wezterm Notifications
 
-589 [NOT STARTED] — Expand wezterm tab color palette with per-artifact-type colors (r
+589 [RESEARCHED] — Expand wezterm tab color palette with per-artifact-type colors (r
 
 ### Uncategorized
 
@@ -43,9 +43,10 @@ next_project_number: 591
 
 ### 589. Expand wezterm tab colors and add preflight coloring
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: 588
+- Research: [589_wezterm_artifact_colors_preflight/reports/01_wezterm-artifact-colors.md]
 
 **Description**: Expand wezterm tab color palette with per-artifact-type colors (report=green, plan=blue, summary=gold, error=red, needs_input=gray). Add preflight tab coloring via UserPromptSubmit hook to show in-progress states (researching, planning, implementing). Include artifact type in signal file so wezterm can distinguish. Update wezterm.lua (nix-managed at ~/.dotfiles/config/wezterm.lua).
 
