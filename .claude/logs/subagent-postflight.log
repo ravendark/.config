@@ -23784,3 +23784,6 @@
 [2026-05-22T12:05:46-07:00] Loop guard triggered: 3 >= 3
 [2026-05-22T12:05:46-07:00] Loop guard prevented continuation
 [2026-05-22T12:05:58-07:00] No postflight marker, allowing stop
+[2026-05-22T12:06:19-07:00] No postflight marker, allowing stop
+[2026-05-22T12:06:23-07:00] No postflight marker, allowing stop
+[2026-05-22T12:06:31-07:00] No postflight marker, allowing stop
