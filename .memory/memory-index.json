@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "generated_at": "2026-05-15",
-  "entry_count": 4,
-  "total_tokens": 536,
+  "entry_count": 6,
+  "total_tokens": 728,
   "entries": [
     {
       "id": "MEM-plan-delegation-required",
@@ -87,6 +87,47 @@
       "modified": "2026-05-15",
       "last_retrieved": "2026-05-21",
       "retrieval_count": 2
+    },
+    {
+      "id": "MEM-insight-command-skill-tool",
+      "path": ".memory/10-Memories/MEM-insight-command-skill-tool.md",
+      "title": "Command files cannot delegate Skill tool invocations to bash scripts",
+      "summary": "Command files cannot delegate Skill tool invocations to bash scripts",
+      "topic": "task-command",
+      "category": "INSIGHT",
+      "keywords": [
+        "command",
+        "skill-tool",
+        "bash-script",
+        "dispatch",
+        "multi-task",
+        "constraint"
+      ],
+      "token_count": 100,
+      "created": "2026-05-22",
+      "modified": "2026-05-22",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-pattern-gate-out-defensive-check",
+      "path": ".memory/10-Memories/MEM-pattern-gate-out-defensive-check.md",
+      "title": "The inline GATE OUT defensive check blocks in research.md and plan.md (~38 lines",
+      "summary": "The inline GATE OUT defensive check blocks in research.md and plan.md (~38 lines",
+      "topic": "task-gate",
+      "category": "PATTERN",
+      "keywords": [
+        "gate-out",
+        "defensive-check",
+        "redundant",
+        "command-file",
+        "state-json"
+      ],
+      "token_count": 92,
+      "created": "2026-05-22",
+      "modified": "2026-05-22",
+      "last_retrieved": null,
+      "retrieval_count": 0
     }
   ]
 }

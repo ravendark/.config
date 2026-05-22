@@ -1,7 +1,7 @@
 # Implementation Plan: Task #597
 
 - **Task**: 597 - Refactor /task, /revise, /todo, /review for consistency with new architecture
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 10 hours
 - **Dependencies**: Task 593 (shared utilities -- complete), Task 596 (orchestrator -- complete)
 - **Research Inputs**: specs/597_refactor_task_revise_todo_review/reports/01_seed-research.md, specs/597_refactor_task_revise_todo_review/reports/02_command-refactor-analysis.md, specs/597_refactor_task_revise_todo_review/reports/03_design-guidance.md
@@ -73,22 +73,23 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Create memory-harvest.sh [NOT STARTED]
+### Phase 1: Create memory-harvest.sh [COMPLETED]
 
 **Goal**: Build the highest-priority deliverable -- a standalone script that harvests memory_candidates from state.json task entries and writes them to the memory vault.
 
 **Tasks**:
-- [ ] Create `.claude/scripts/memory-harvest.sh` (~100L)
-- [ ] Implement `harvest_memories()` function accepting task_number as argument
-- [ ] Read `memory_candidates` array from state.json for the given task number
-- [ ] Filter candidates with `confidence >= 0.7`
-- [ ] For each qualifying candidate:
+- [x] Create `.claude/scripts/memory-harvest.sh` (~100L) *(completed)*
+- [x] Implement `harvest_memories()` function accepting task_number as argument *(completed: implemented as main script body with per-candidate loop)*
+- [x] Read `memory_candidates` array from state.json for the given task number *(completed)*
+- [x] Filter candidates with `confidence >= 0.7` *(completed)*
+- [x] For each qualifying candidate:
   - Generate memory ID from category and keywords: `MEM-{category}-{first-keyword}-{second-keyword}`
   - Write memory file to `.memory/10-Memories/MEM-{id}.md` using existing memory file format
   - Check for duplicates via `memory-index.json` before writing (skip if ID already exists)
-- [ ] Update `.memory/memory-index.json` with new entries (append to entries array, update entry_count and total_tokens)
-- [ ] Output harvest count (stdout) for caller integration
-- [ ] Make script executable (`chmod +x`)
+  *(completed)*
+- [x] Update `.memory/memory-index.json` with new entries (append to entries array, update entry_count and total_tokens) *(completed)*
+- [x] Output harvest count (stdout) for caller integration *(completed)*
+- [x] Make script executable (`chmod +x`) *(completed)*
 
 **Timing**: 1.5 hours
 
