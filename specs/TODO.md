@@ -11,7 +11,7 @@ next_project_number: 600
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,500,501,591 | -- | --,workflow-refactor |
+| 1 | 78,87,591 | -- | --,workflow-refactor |
 | 2 | 592 | 591 | workflow-refactor |
 | 3 | 593,598 | 592 | workflow-refactor |
 | 4 | 594,597 | 593,598 | workflow-refactor |
@@ -36,8 +36,6 @@ next_project_number: 600
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-500 [RESEARCHED] — Investigate and implement context: fork + agent: frontmatter for 
-501 [PLANNED] — Optimize team-mode skills (team-research, team-plan, team-impleme
 
 ## Tasks
 
@@ -239,7 +237,7 @@ next_project_number: 600
 
 ### 500. Add context: fork frontmatter to core delegating skills
 - **Effort**: 1-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [ABANDONED]
 - **Task Type**: meta
 - **Dependencies**: Task #499
 - **Research**:
@@ -256,7 +254,7 @@ next_project_number: 600
 
 ### 501. Optimize team-mode skills for FORK_SUBAGENT parallel cache sharing
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [ABANDONED]
 - **Task Type**: meta
 - **Dependencies**: Task #499
 - **Research**: [501_optimize_team_mode_fork_cache_sharing/reports/01_team-mode-fork-cache.md]

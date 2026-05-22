@@ -470,7 +470,7 @@
     {
       "project_number": 500,
       "project_name": "add_context_fork_to_core_skills",
-      "status": "researched",
+      "status": "abandoned",
       "task_type": "meta",
       "description": "Investigate and implement context: fork + agent: frontmatter for core delegating skills to enable CLAUDE_CODE_FORK_SUBAGENT=1 cache sharing, following corrected understanding of fork mechanics from official Claude Code docs",
       "effort": "1-3 hours",
@@ -564,12 +564,13 @@
             "integrated_date": "2026-04-28"
           }
         ]
-      }
+      },
+      "completion_summary": "Subsumed by task 594 (refactor workflow skills). Fork research findings integrated into task 591 team research and task 594 seed report. Key finding: fork cache sharing is fundamentally incompatible with named agent routing -- use forks only for same-turn re-dispatch."
     },
     {
       "project_number": 501,
       "project_name": "optimize_team_mode_fork_cache_sharing",
-      "status": "planned",
+      "status": "abandoned",
       "task_type": "meta",
       "description": "Optimize team-mode skills (team-research, team-plan, team-implement) to maximize FORK_SUBAGENT parallel cache sharing benefits for teammates 2-N",
       "effort": "1-3 hours",
@@ -644,7 +645,8 @@
             "integrated_date": "2026-04-28"
           }
         ]
-      }
+      },
+      "completion_summary": "Subsumed by task 596 (create /orchestrate). Team-mode fork optimization findings integrated into task 591 team research and task 596 seed report."
     },
     {
       "project_number": 591,
@@ -668,6 +670,11 @@
           "path": "specs/591_research_claude_code_orchestration_practices/plans/01_orchestration-research.md",
           "type": "plan",
           "summary": "4-phase plan to revise downstream task suite (592-599) descriptions and dependencies, create seed research reports, and abandon subsumed tasks 500/501"
+        },
+        {
+          "type": "summary",
+          "path": "591_research_claude_code_orchestration_practices/summaries/01_orchestration-research-summary.md",
+          "created": "2026-05-22"
         }
       ],
       "session_id": "sess_1779466925_ba46de",

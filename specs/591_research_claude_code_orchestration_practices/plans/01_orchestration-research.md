@@ -149,16 +149,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Resolve tasks 500 and 501 [NOT STARTED]
+### Phase 3: Resolve tasks 500 and 501 [COMPLETED]
 
 **Goal**: Abandon tasks 500 and 501 with notes pointing to their successor tasks (594 and 596 respectively), preserving their research artifacts for reference.
 
 **Tasks**:
-- [ ] Update task 500 status to "abandoned" in state.json with completion note: "Subsumed by task 594 (refactor workflow skills). Fork research findings integrated into task 591 team research and task 594 seed report. Key finding: fork cache sharing is fundamentally incompatible with named agent routing -- use forks only for same-turn re-dispatch."
-- [ ] Update task 501 status to "abandoned" in state.json with completion note: "Subsumed by task 596 (create /orchestrate). Team-mode fork optimization findings integrated into task 591 team research and task 596 seed report."
-- [ ] Update task 500 status marker in TODO.md to [ABANDONED]
-- [ ] Update task 501 status marker in TODO.md to [ABANDONED]
-- [ ] Remove tasks 500 and 501 from Task Order section (abandoned tasks should not appear)
+- [x] Update task 500 status to "abandoned" in state.json with completion note: "Subsumed by task 594 (refactor workflow skills). Fork research findings integrated into task 591 team research and task 594 seed report. Key finding: fork cache sharing is fundamentally incompatible with named agent routing -- use forks only for same-turn re-dispatch." *(completed)*
+- [x] Update task 501 status to "abandoned" in state.json with completion note: "Subsumed by task 596 (create /orchestrate). Team-mode fork optimization findings integrated into task 591 team research and task 596 seed report." *(completed)*
+- [x] Update task 500 status marker in TODO.md to [ABANDONED] *(completed)*
+- [x] Update task 501 status marker in TODO.md to [ABANDONED] *(completed)*
+- [x] Remove tasks 500 and 501 from Task Order section (abandoned tasks should not appear) *(completed)*
 
 **Timing**: 15 minutes
 
@@ -176,18 +176,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Final validation and commit [NOT STARTED]
+### Phase 4: Final validation and commit [COMPLETED]
 
 **Goal**: Verify consistency across all modified files and commit changes.
 
 **Tasks**:
-- [ ] Verify state.json is valid JSON (parse with jq)
-- [ ] Verify all task dependencies in state.json form a valid DAG (no circular references)
-- [ ] Verify TODO.md entries match state.json for tasks 500, 501, 592-599
-- [ ] Verify all 8 seed reports exist and are non-empty
-- [ ] Verify Task Order section reflects new dependency ordering
-- [ ] Verify the revised dependency wave structure: Wave 1: [591], Wave 2: [592], Wave 3: [593, 598], Wave 4: [594, 597], Wave 5: [595, 596], Wave 6: [599]
-- [ ] Git commit with message "task 591: revise downstream task suite and create seed reports"
+- [x] Verify state.json is valid JSON (parse with jq) *(completed)*
+- [x] Verify all task dependencies in state.json form a valid DAG (no circular references) *(completed)*
+- [x] Verify TODO.md entries match state.json for tasks 500, 501, 592-599 *(completed)*
+- [x] Verify all 8 seed reports exist and are non-empty *(completed)*
+- [x] Verify Task Order section reflects new dependency ordering *(completed)*
+- [x] Verify the revised dependency wave structure: Wave 1: [591], Wave 2: [592], Wave 3: [593, 598], Wave 4: [594, 597], Wave 5: [595, 596], Wave 6: [599] *(completed)*
+- [x] Git commit with message "task 591: revise downstream task suite and create seed reports" *(completed)*
 
 **Timing**: 15 minutes
 
