@@ -21,7 +21,7 @@ next_project_number: 605
 
 ### Meta System
 
-605 [RESEARCHING] — Reverse the Task Order dependency tree so prerequisite tasks (tho
+605 [RESEARCHED] — Reverse the Task Order dependency tree so prerequisite tasks (tho
 
 ### Wezterm Notifications
 
@@ -58,7 +58,7 @@ next_project_number: 605
 
 ### 605. Reverse Task Order tree to show dependents below prerequisites
 - **Effort**: 1 hour
-- **Status**: [RESEARCHING]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Topic**: meta-system
 - **Dependencies**: None

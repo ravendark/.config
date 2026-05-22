@@ -5,14 +5,14 @@
     {
       "project_number": 605,
       "project_name": "reverse_task_order_tree_direction",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "topic": "meta-system",
       "description": "Reverse the Task Order dependency tree so prerequisite tasks (those depended upon) are roots and dependent tasks are indented children. Currently tasks show their prerequisites indented below; the desired display shows dependents indented below prerequisites, so users work on unindented tasks first and their children get promoted on completion.",
       "effort": "1 hour",
       "dependencies": [],
       "created": "2026-05-22T20:00:00Z",
-      "last_updated": "2026-05-22T19:01:39Z",
+      "last_updated": "2026-05-22T19:06:05Z",
       "next_artifact_number": 1,
       "artifacts": [],
       "session_id": "sess_1779476484_b8369b"
