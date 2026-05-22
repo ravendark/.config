@@ -1076,16 +1076,22 @@
     {
       "project_number": 604,
       "project_name": "add_task_order_regen_to_creators",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "topic": "meta-system",
       "description": "Add generate-task-order.sh --update-todo call to all task-creating commands that currently skip Task Order regeneration. Gaps: (1) meta-builder-agent.md - after batch task creation. (2) skill-spawn/SKILL.md - after task creation. (3) skill-fix-it/SKILL.md - after task creation. (4) errors.md - after task creation. Also update state-management.md Non-Regeneration Events section to reflect new policy: regen on ALL task creation events, not just /task create mode. The generate-task-order.sh script already handles terminal status transitions via update-task-status.sh Mode B, and first-status-transition fallback via Mode A. This task closes the creation gap so new tasks appear in Task Order immediately.",
       "effort": "1 hour",
       "dependencies": [],
       "created": "2026-05-22T19:00:00Z",
-      "last_updated": "2026-05-22T18:18:29Z",
-      "next_artifact_number": 1,
-      "artifacts": [],
+      "last_updated": "2026-05-22T18:22:32Z",
+      "next_artifact_number": 2,
+      "artifacts": [
+        {
+          "path": "specs/604_add_task_order_regen_to_creators/reports/01_task-order-regen.md",
+          "type": "research",
+          "summary": "Full research: 4 gap files (meta-builder-agent, skill-spawn, skill-fix-it, errors), exact insertion points, state-management.md policy update"
+        }
+      ],
       "session_id": "sess_1779510000_604res"
     }
   ],
