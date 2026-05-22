@@ -922,7 +922,7 @@
     {
       "project_number": 594,
       "project_name": "refactor_workflow_skills_shared_base",
-      "status": "researching",
+      "status": "researched",
       "task_type": "meta",
       "topic": "workflow-refactor",
       "description": "Refactor core workflow skills to use a shared base library skill-base.sh in .claude/scripts/. The library provides 11 functions: skill_validate_input, skill_preflight_update, skill_create_postflight_marker, skill_read_artifact_number, skill_read_metadata, skill_validate_artifact, skill_postflight_update, skill_increment_artifact_number, skill_propagate_memory_candidates, skill_link_artifacts, skill_cleanup. Hook points for skill-specific logic at: Stage 4 variants (context collection, unique per skill), delegation context construction (unique fields), Stage 5 agent invocation (unique subagent_type). Target sizes: skill-researcher 558L -> 150L, skill-planner ~450L -> 130L, skill-implementer ~600L -> 200L. Depends on task 598 context budget constraints (commands must not load Tier 3 context; sonnet workers <=8K tokens, opus planners <=15K tokens). Do NOT add extension hooks in this task (save for task 599). Reference: .claude/docs/architecture/architecture-spec.md Component 2.",
@@ -932,13 +932,13 @@
         598
       ],
       "created": "2026-05-22T12:00:00Z",
-      "last_updated": "2026-05-22T18:44:20Z",
-      "next_artifact_number": 2,
+      "last_updated": "2026-05-22T18:48:36Z",
+      "next_artifact_number": 3,
       "artifacts": [
         {
+          "path": "specs/594_refactor_workflow_skills_shared_base/reports/02_refactor-shared-base.md",
           "type": "research",
-          "path": "594_refactor_workflow_skills_shared_base/reports/01_seed-research.md",
-          "created": "2026-05-22"
+          "summary": "Function-by-function analysis of 11 skill-base.sh functions, parameter variance table, hook point analysis, size reduction estimates, and dependency analysis showing task 598 is not a hard blocker"
         }
       ],
       "session_id": "sess_1779475444_1aa756"
@@ -1111,14 +1111,14 @@
     {
       "project_number": 603,
       "project_name": "fix_meta_pre_confirmation_pattern",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "meta-system",
       "description": "Fix /meta so user confirmation happens in the foreground BEFORE spawning meta-builder-agent. Root cause: AskUserQuestion from background Agent tool calls does not reliably surface to the user. Changes: (1) meta.md: document that prompt mode MUST run AskUserQuestion before Agent delegation. (2) skill-meta SKILL.md: add pre-confirmation stage between context preparation and agent spawn -- skill proposes tasks, user selects/revises via AskUserQuestion, then passes confirmed list. (3) meta-builder-agent.md: add confirmed mode that accepts pre-validated task list and creates without re-asking; keep interactive mode for no-args /meta where agent runs foreground. (4) Update multi-task-creation-standard.md to note that confirmation must happen in foreground.",
       "effort": "1-2 hours",
       "dependencies": [],
       "created": "2026-05-22T18:30:00Z",
-      "last_updated": "2026-05-22T18:45:51Z",
+      "last_updated": "2026-05-22T18:46:58Z",
       "next_artifact_number": 2,
       "artifacts": [
         {
@@ -1132,7 +1132,7 @@
           "summary": "3-phase plan: skill-meta pre-confirmation, meta-builder confirmed mode, documentation updates"
         }
       ],
-      "session_id": "sess_1779518000_603plan",
+      "session_id": "sess_1779520000_603impl",
       "memory_candidates": [
         {
           "content": "AskUserQuestion called from background agents (spawned via Claude Code Task tool) does not reliably surface to the foreground user conversation. The prompt appears in the background agent's thread which the user cannot see. The established fix is to call AskUserQuestion in the skill layer (foreground) before spawning any subagent. Reference implementations: skill-fix-it, skill-learn. This is a platform limitation, not a configuration issue.",
