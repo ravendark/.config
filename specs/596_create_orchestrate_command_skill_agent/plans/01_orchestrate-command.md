@@ -1,7 +1,7 @@
 # Implementation Plan: Task #596
 
 - **Task**: 596 - Create /orchestrate command, skill-orchestrate, and dispatch-agent.sh
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 5 hours
 - **Dependencies**: Tasks 593 (shared utilities), 594 (skill base), 595 (orchestrator_mode plumbing)
 - **Research Inputs**: specs/596_create_orchestrate_command_skill_agent/reports/01_seed-research.md, specs/596_create_orchestrate_command_skill_agent/reports/02_auto-flag-analysis.md, specs/596_create_orchestrate_command_skill_agent/reports/03_design-guidance.md
@@ -75,7 +75,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Create dispatch-agent.sh [NOT STARTED]
+### Phase 1: Create dispatch-agent.sh [COMPLETED]
 
 **Goal**: Create the `dispatch_agent()` function that encapsulates the fork-vs-named-subagent decision, following the specification in `.claude/docs/architecture/dispatch-agent-spec.md`.
 
@@ -103,7 +103,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Create skill-orchestrate/SKILL.md [NOT STARTED]
+### Phase 2: Create skill-orchestrate/SKILL.md [IN PROGRESS]
 
 **Goal**: Create the state machine skill that drives the autonomous orchestration loop, implementing the 10-state table from the architecture spec with blocker escalation and continuation handling.
 
