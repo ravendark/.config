@@ -1,7 +1,7 @@
 # Implementation Plan: Task #610
 
 - **Task**: 610 - Sweep all remaining skills for context-protective lead pattern
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 5 hours
 - **Dependencies**: 608 (context-protective lead pattern), 609 (skill-team-research reference implementation)
 - **Research Inputs**: specs/610_sweep_skills_context_protection/reports/01_team-research.md

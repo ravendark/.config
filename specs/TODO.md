@@ -11,7 +11,7 @@ next_project_number: 608
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,610 | -- | -- |
+| 1 | 78,87 | -- | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -19,7 +19,6 @@ next_project_number: 608
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-610 [PLANNED] — sweep_skills_context_protection
 
 ## Tasks
 
@@ -53,11 +52,12 @@ next_project_number: 608
 
 ### 610. Apply context-protective pattern to remaining skills
 - **Effort**: TBD
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: 608, 609
 - **Research**: [610_sweep_skills_context_protection/reports/01_team-research.md]
 - **Plan**: [610_sweep_skills_context_protection/plans/01_context-protection-plan.md]
+- **Summary**: [610_sweep_skills_context_protection/summaries/01_context-protection-summary.md]
 
 **Description**: Sweep all remaining skills that accumulate excessive lead context and apply the context-protective lead pattern from task 608, using task 609's refactored skill-team-research as the reference implementation. Priority targets: skill-researcher (242 lines — reads report-format.md, memory, state.json), skill-implementer (363 lines), skill-planner (215 lines), skill-orchestrator (128 lines — reads full state.json and TODO.md), skill-team-plan (598 lines), skill-team-implement (677 lines). For each skill: replace direct file reads with jq extractions, delegate investigation to fork agents, pass format references to subagents instead of reading them into the lead.
 
