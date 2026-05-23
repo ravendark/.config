@@ -193,6 +193,10 @@ Team mode uses approximately 5x tokens compared to single-agent:
 6. **Domain context injection** - Always inject domain context when task_type has an extension
 7. **Critic in Wave 2** - The Critic always reads Wave 1 findings before critiquing
 
+## Context Discipline
+
+For context budget limits and synthesis delegation guidance (forking a dedicated synthesis agent instead of having the lead read all teammate outputs inline), see `patterns/context-protective-lead.md`.
+
 ## Future Work (Tier 3)
 
 The following improvements were identified during task 607 research but deferred due to higher implementation risk or need for measurement data:

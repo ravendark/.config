@@ -245,6 +245,10 @@ After the subagent returns, thin wrapper skills MUST NOT perform implementation 
 
 ---
 
+## Context Discipline
+
+Thin wrapper structure ensures delegation-first control flow. For the complementary *context discipline* pattern -- governing what leads read into their own context window, including synthesis delegation and context budgets -- see `patterns/context-protective-lead.md`.
+
 ## Related Documentation
 
 - @.claude/context/templates/thin-wrapper-skill.md - Full template

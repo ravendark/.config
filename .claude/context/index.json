@@ -1222,7 +1222,7 @@
     },
     {
       "path": "patterns/team-orchestration.md",
-      "line_count": 146,
+      "line_count": 209,
       "load_when": {
         "agents": [],
         "commands": [],
@@ -1244,7 +1244,7 @@
     },
     {
       "path": "patterns/thin-wrapper-skill.md",
-      "line_count": 184,
+      "line_count": 258,
       "load_when": {
         "agents": [],
         "commands": [],
@@ -3348,6 +3348,36 @@
       "summary": "Context pressure monitoring and handoff triggers",
       "tier": 4,
       "token_cost_estimate": 1800
+    },
+    {
+      "path": "patterns/context-protective-lead.md",
+      "line_count": 248,
+      "load_when": {
+        "agents": [],
+        "commands": [
+          "/meta"
+        ],
+        "task_types": [
+          "meta"
+        ]
+      },
+      "topics": [
+        "orchestration",
+        "context-loading"
+      ],
+      "domain": "core",
+      "keywords": [
+        "context",
+        "protective",
+        "lead",
+        "synthesis",
+        "delegation",
+        "budget"
+      ],
+      "subdomain": "patterns",
+      "summary": "How lead/orchestrator agents protect their context window by delegating analysis and reading metadata only",
+      "tier": 3,
+      "token_cost_estimate": 1984
     },
     {
       "path": "patterns/subagent-continuation-loop.md",

@@ -11,9 +11,8 @@ next_project_number: 608
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,608 | -- | -- |
-| 2 | 609 | 608 | -- |
-| 3 | 610 | 608,609 | -- |
+| 1 | 78,87,609 | -- | -- |
+| 2 | 610 | 609 | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -21,20 +20,19 @@ next_project_number: 608
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-608 [PLANNED] — context_protective_lead_pattern
-  └─ 609 [NOT STARTED] — refactor_team_research_context_protection
-    └─ 610 [NOT STARTED] — sweep_skills_context_protection
-  └─ 610 [NOT STARTED] — sweep_skills_context_protection (see above)
+609 [NOT STARTED] — refactor_team_research_context_protection
+  └─ 610 [NOT STARTED] — sweep_skills_context_protection
 
 ## Tasks
 
 ### 608. Define context-protective lead pattern
 - **Effort**: TBD
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [608_context_protective_lead_pattern/reports/01_context-protective-lead.md]
 - **Plan**: [608_context_protective_lead_pattern/plans/01_context-protective-plan.md]
+- **Summary**: [608_context_protective_lead_pattern/summaries/01_context-protective-summary.md]
 
 **Description**: Create a pattern document and standard that establishes how lead/orchestrator agents should protect their context window. Core principles: (1) never Read large files directly — use jq/Bash one-liners to extract specific fields, (2) fork cheap investigation agents when in-depth information is needed, receiving back short reports (<200 words), (3) lead's context budget target: <10k tokens above baseline for routing and delegation work. Document anti-patterns (reading full state.json, loading format specs, eagerly reading context files) and the correct alternatives (jq extraction, scout forks, passing @-references to subagents instead of reading them yourself). This becomes the reference standard for tasks 609 and 610.
 
