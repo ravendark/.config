@@ -74,10 +74,10 @@
     {
       "project_number": 609,
       "project_name": "refactor_team_research_context_protection",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-22T23:00:00Z",
-      "last_updated": "2026-05-23T07:24:37Z",
+      "last_updated": "2026-05-23T07:41:29Z",
       "dependencies": [
         608
       ],
@@ -91,9 +91,14 @@
           "path": "specs/609_refactor_team_research_context_protection/plans/01_context-protection-plan.md",
           "type": "plan",
           "summary": "5-phase plan: synthesis-agent creation, prompt extraction, Stages 7-9 refactor, postflight migration, system registration"
+        },
+        {
+          "path": "specs/609_refactor_team_research_context_protection/summaries/01_context-protection-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: context-protective refactor with synthesis-agent"
         }
       ],
-      "session_id": "sess_1779520794_e2e16a",
+      "session_id": "sess_1779521284_bfa496",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -108,8 +113,23 @@
             "anonymous-fork",
             "lead-agent"
           ]
+        },
+        {
+          "content": "When team skills (skill-team-research, skill-team-plan) need to synthesize outputs from multiple parallel teammates, dispatch a named synthesis-agent rather than having the lead read all files inline. The synthesis-agent runs in a fresh context, reads all teammate finding files as @-references, and returns a compact summary (~200 words) to the lead. This keeps lead context growth at ~900 tokens instead of 7-21k tokens. The synthesis-agent is at .claude/agents/synthesis-agent.md and has allowed-tools: Read, Write only.",
+          "category": "PATTERN",
+          "source_artifact": "specs/609_refactor_team_research_context_protection/summaries/01_context-protection-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "synthesis-agent",
+            "team-research",
+            "context-protection",
+            "lead-pattern",
+            "teammate-synthesis",
+            "skill-team-research"
+          ]
         }
-      ]
+      ],
+      "completion_summary": "Refactored skill-team-research to use named synthesis-agent for context protection. Lead context growth for synthesis drops from 7-21k to ~900 tokens. Created synthesis-agent.md (218 lines), extracted teammate prompts to team-wave-helpers.md, replaced Stages 7-9 with handoff-metadata collection and synthesis-agent dispatch, migrated postflight to skill-base.sh, updated system registration in CLAUDE.md and merge-source."
     },
     {
       "project_number": 610,
