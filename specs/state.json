@@ -134,15 +134,17 @@
     {
       "project_number": 610,
       "project_name": "sweep_skills_context_protection",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "created": "2026-05-22T23:00:00Z",
-      "last_updated": "2026-05-22T23:00:00Z",
+      "last_updated": "2026-05-23T07:58:30Z",
       "dependencies": [
         608,
         609
       ],
-      "artifacts": []
+      "artifacts": [],
+      "session_id": "sess_1779522373_71db02",
+      "next_artifact_number": 2
     }
   ],
   "completed_projects": [],
