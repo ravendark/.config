@@ -20,7 +20,7 @@ next_project_number: 608
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-609 [NOT STARTED] — refactor_team_research_context_protection
+609 [RESEARCHED] — refactor_team_research_context_protection
   └─ 610 [NOT STARTED] — sweep_skills_context_protection
 
 ## Tasks
@@ -40,9 +40,12 @@ next_project_number: 608
 
 ### 609. Refactor skill-team-research for context protection
 - **Effort**: TBD
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: 608
+- **Research**:
+  - [609_refactor_team_research_context_protection/reports/01_context-protection-research.md]
+  - [609_refactor_team_research_context_protection/reports/02_synthesis-architecture-analysis.md]
 
 **Description**: Refactor skill-team-research (currently 751 lines, ~3,900 tokens) as the reference implementation of the context-protective lead pattern from task 608. Replace direct Read operations with jq extractions for state.json lookups. Replace eager context loading (index.json queries, domain context reads, memory retrieval) with fork agents that investigate and return compact summaries. Replace inline teammate output reading with a fork "synthesis agent" that reads all findings and writes the unified report. Target: lead's added context stays under 10k tokens beyond baseline, down from current ~50-60k. The skill file itself should also shrink by moving stage documentation to reference files.
 
