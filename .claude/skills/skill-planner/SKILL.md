@@ -55,15 +55,12 @@ skill_read_artifact_number "$task_number" "$PADDED_NUM" "$PROJECT_NAME" "plans/"
 
 **Note**: Plan does NOT increment `next_artifact_number`. Only research advances the sequence.
 
-### Stage 4a: Memory Retrieval (Auto)
+### Stage 4a: Clean Flag (Pass-Through)
 
-Skip if `clean_flag` is true.
+Extract clean_flag for pass-through to subagent prompt. Do NOT run memory-retrieve.sh here — delegate to subagent.
 
 ```bash
-memory_context=""
-if [ "$clean_flag" != "true" ]; then
-  memory_context=$(bash .claude/scripts/memory-retrieve.sh "$DESCRIPTION" "$TASK_TYPE" "" 2>/dev/null) || memory_context=""
-fi
+clean_flag="${clean_flag:-false}"
 ```
 
 ### Stage 4: Prepare Delegation Context
@@ -103,17 +100,12 @@ Prepare delegation context for the subagent:
   "research_path": "{path to research report if exists}",
   "prior_plan_path": "{prior_plan_path or empty}",
   "roadmap_path": "specs/ROADMAP.md",
+  "clean_flag": "{clean_flag}",
   "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json"
 }
 ```
 
 **Model/Effort Flags**: Pass `model_flag` as `model` parameter on the Agent tool if set. Include `effort_flag` as prompt context for reasoning depth if set.
-
-### Stage 4b: Read and Inject Format Specification
-
-```bash
-format_content=$(cat .claude/context/formats/plan-format.md)
-```
 
 ### Stage 5: Invoke Subagent
 
@@ -121,9 +113,9 @@ format_content=$(cat .claude/context/formats/plan-format.md)
 
 Build the prompt with these blocks in order:
 1. Delegation context JSON
-2. `<artifact-format-specification>` block with `{format_content}` (Plan Format Requirements)
-3. `{memory_context}` block (only if non-empty; already wrapped in `<memory-context>` tags)
-4. Task-specific instructions
+2. Task-specific instructions including:
+   - "Follow the plan format in @.claude/context/formats/plan-format.md"
+   - If `clean_flag` is not "true": "Run `bash .claude/scripts/memory-retrieve.sh '{DESCRIPTION}' '{TASK_TYPE}' ''` to retrieve relevant memories and incorporate them."
 
 **DO NOT** use `Skill(planner-agent)` or `Agent(subagent_type: "Plan")` — `Plan` is a built-in read-only subagent that CANNOT write files.
 
@@ -203,6 +195,19 @@ Plan created for task {N}:
 - **Git commit failure**: Non-blocking (log and continue)
 - **jq parse failure** (Issue #1132): Log to errors.json, retry with two-step pattern (already in skill_link_artifacts)
 - **Subagent timeout**: Return partial; keep status "planning" for resume
+
+---
+
+## MUST NOT (Context Protection)
+
+Before delegating to the subagent, MUST NOT load file content into the lead context for passthrough. Specifically:
+
+1. **MUST NOT `cat` format spec files** -- pass `@.claude/context/formats/plan-format.md` reference to subagent instead
+2. **MUST NOT run `memory-retrieve.sh`** -- instruct subagent to run it in its own context
+
+**Context budget target**: Lead context growth above baseline should stay under ~400 tokens for preflight.
+
+Reference: @.claude/context/patterns/context-protective-lead.md
 
 ---
 

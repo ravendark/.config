@@ -57,15 +57,12 @@ skill_read_artifact_number "$task_number" "$PADDED_NUM" "$PROJECT_NAME" "summari
 
 **Note**: Implement does NOT increment `next_artifact_number`. Only research advances the sequence.
 
-### Stage 4a: Memory Retrieval (Auto)
+### Stage 4a: Clean Flag (Pass-Through)
 
-Skip if `clean_flag` is true.
+Extract clean_flag for pass-through to subagent prompt. Do NOT run memory-retrieve.sh here — delegate to subagent.
 
 ```bash
-memory_context=""
-if [ "$clean_flag" != "true" ]; then
-  memory_context=$(bash .claude/scripts/memory-retrieve.sh "$DESCRIPTION" "$TASK_TYPE" "" 2>/dev/null) || memory_context=""
-fi
+clean_flag="${clean_flag:-false}"
 ```
 
 ### Stage 4: Prepare Delegation Context
@@ -106,6 +103,7 @@ Prepare delegation context for the subagent:
   "model_flag": "{model_flag or null}",
   "orchestrator_mode": false,
   "plan_path": "{plan_path}",
+  "clean_flag": "{clean_flag}",
   "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json"
 }
 ```
@@ -114,21 +112,15 @@ Prepare delegation context for the subagent:
 
 > **CRITICAL: No Source Reading Before Delegation** — Between Stage 4 and Stage 5, this skill MUST NOT read, grep, glob, or analyze source files. All codebase exploration is the sub-agent's responsibility.
 
-### Stage 4b: Read and Inject Format Specification
-
-```bash
-format_content=$(cat .claude/context/formats/summary-format.md)
-```
-
 ### Stage 5: Invoke Subagent
 
 **CRITICAL**: Use the **Agent** tool (`subagent_type: "general-implementation-agent"`).
 
 Build the prompt with these blocks in order:
 1. Delegation context JSON
-2. `<artifact-format-specification>` block with `{format_content}` (Summary Format Requirements)
-3. `{memory_context}` block (only if non-empty; already wrapped in `<memory-context>` tags)
-4. Task-specific instructions
+2. Task-specific instructions including:
+   - "Follow the summary format in @.claude/context/formats/summary-format.md"
+   - If `clean_flag` is not "true": "Run `bash .claude/scripts/memory-retrieve.sh '{DESCRIPTION}' '{TASK_TYPE}' ''` to retrieve relevant memories and incorporate them."
 
 **DO NOT** use `Skill(general-implementation-agent)` — this will FAIL.
 
@@ -346,11 +338,24 @@ Implementation completed for task {N}:
 - **Git commit failure**: Non-blocking (log and continue)
 - **Subagent timeout**: Return partial; keep "implementing" for resume
 
+## MUST NOT (Context Protection)
+
+Before delegating to the subagent, MUST NOT load file content into the lead context for passthrough. Specifically:
+
+1. **MUST NOT `cat` format spec files** -- pass `@.claude/context/formats/summary-format.md` reference to subagent instead
+2. **MUST NOT run `memory-retrieve.sh`** -- instruct subagent to run it in its own context
+
+**Context budget target**: Lead context growth above baseline should stay under ~400 tokens for preflight.
+
+Reference: @.claude/context/patterns/context-protective-lead.md
+
+---
+
 ## Pre-Delegation Boundary
 
 Before spawning the sub-agent, this skill MUST NOT read source files, grep/glob the codebase, use MCP tools, analyze source code, or run build/test commands.
 
-Pre-delegation is LIMITED TO: reading the plan file to find the path, reading state.json/TODO.md for status, preparing delegation context, reading summary format file, spawning the Agent.
+Pre-delegation is LIMITED TO: reading the plan file path, extracting task context via jq, preparing delegation context, spawning the Agent.
 
 ## MUST NOT (Postflight Boundary)
 

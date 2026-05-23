@@ -27,12 +27,21 @@ This skill activates when:
 
 ### 1. Task Lookup
 
-Given a task number, retrieve full context:
-```
-1. Read specs/state.json
-2. Find task by project_number
-3. Extract: task_type, status, project_name, description, priority
-4. Read TODO.md for additional context if needed
+Given a task number, retrieve full context using targeted extraction:
+```bash
+# Extract only the needed task fields (do NOT read the full state.json file)
+task_data=$(jq -r --argjson num "$N" \
+  '.active_projects[] | select(.project_number == $num)' \
+  specs/state.json)
+task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
+status=$(echo "$task_data" | jq -r '.status')
+project_name=$(echo "$task_data" | jq -r '.project_name')
+description=$(echo "$task_data" | jq -r '.description // ""')
+
+# If description is missing from state.json, grep TODO.md for the task section (do NOT read the full file)
+if [ -z "$description" ]; then
+  description=$(grep -A5 "^\- \[" specs/TODO.md | grep -i "${project_name}" | head -1)
+fi
 ```
 
 ### 2. Task-Type-Based Routing
@@ -111,6 +120,19 @@ Prepare context package for delegated skill:
 
 ---
 
+## MUST NOT (Context Protection)
+
+Task lookup MUST use targeted jq extraction, NOT full file reads. Specifically:
+
+1. **MUST NOT read the full specs/state.json** -- use `jq -r --argjson num "$N" '.active_projects[] | select(.project_number == $num)' specs/state.json`
+2. **MUST NOT read the full specs/TODO.md** -- use `grep -A5` for targeted task section lookup only if state.json lacks description
+
+**Context budget target**: Task lookup should add no more than ~200 tokens above baseline.
+
+Reference: @.claude/context/patterns/context-protective-lead.md
+
+---
+
 ## MUST NOT (Postflight Boundary)
 
 After routing to a skill, this skill MUST NOT:
@@ -121,7 +143,7 @@ After routing to a skill, this skill MUST NOT:
 4. **Create artifacts** - Artifact creation is done by routed skills/agents
 
 The orchestrator is a **routing-only** skill. It:
-- Looks up task context
+- Looks up task context via targeted jq extraction
 - Routes to appropriate skill based on task_type
 - Passes through the routed skill's return
 

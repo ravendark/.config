@@ -19,9 +19,8 @@ Reference (do not load eagerly):
 - Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
 - Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
 - Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
-- Path: `.claude/context/formats/plan-format.md` - Plan file format specification
 
-Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
+Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent. The subagent reads @.claude/context/formats/plan-format.md in its own context.
 
 ## Trigger Conditions
 
@@ -177,18 +176,6 @@ fi
 
 ---
 
-### Stage 4b: Read and Inject Format Specification
-
-Read the plan format file and prepare it for injection into the subagent prompt. This ensures the subagent always has the full format specification in its context.
-
-```bash
-format_content=$(cat .claude/context/formats/plan-format.md)
-```
-
-The format content will be included as a delimited section in the Stage 5 prompt.
-
----
-
 ### Stage 5: Prepare Delegation Context and Invoke Subagent
 
 **CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
@@ -223,24 +210,17 @@ Parameters:
   - subagent_type: "reviser-agent"
   - prompt: [Include task_context, delegation_context, existing_plan_path, new_research_paths,
              revision_reason, metadata_file_path,
-             AND the format specification from Stage 4b as shown below]
+             AND the format reference as shown below]
   - description: "Execute plan revision for task {N}"
 ```
 
-**Format Injection**: Include the format specification from Stage 4b in the prompt as a clearly-delimited section:
+**Format Reference**: Include a format reference in the prompt (subagent reads it in its own context):
 
 ```
-<artifact-format-specification>
-## CRITICAL: Plan Format Requirements
-
-You MUST follow this format specification exactly when writing the plan artifact.
-Non-compliance will be caught by postflight validation.
-
-{format_content from Stage 4b}
-</artifact-format-specification>
+Follow the plan format specification in @.claude/context/formats/plan-format.md
 ```
 
-Place this section AFTER the delegation context JSON and BEFORE any other instructions.
+Place this reference AFTER the delegation context JSON and BEFORE any other instructions.
 
 **DO NOT** use `Skill(reviser-agent)` - this will FAIL.
 
@@ -459,6 +439,18 @@ If jq commands fail with INVALID_CHARACTER or syntax error (Issue #1132):
 ### Subagent Timeout
 Return partial status if subagent times out (default 1800s).
 Keep status unchanged for resume.
+
+---
+
+## MUST NOT (Context Protection)
+
+Before delegating to the subagent, MUST NOT load file content into the lead context for passthrough. Specifically:
+
+1. **MUST NOT `cat` format spec files** -- pass `@.claude/context/formats/plan-format.md` reference to subagent instead
+
+**Context budget target**: Lead context growth above baseline should stay under ~400 tokens for preflight.
+
+Reference: @.claude/context/patterns/context-protective-lead.md
 
 ---
 

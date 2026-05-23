@@ -237,6 +237,27 @@ This is the model all lead agents should follow.
 
 ---
 
+## Compliance Status
+
+| Skill | Status | Task | Notes |
+|-------|--------|------|-------|
+| skill-orchestrate | Compliant | -- | Reference implementation |
+| skill-team-research | Compliant | 609 | Synthesis delegation |
+| skill-researcher | Compliant | 610 | Format/memory/roadmap @-refs |
+| skill-planner | Compliant | 610 | Format/memory @-refs |
+| skill-implementer | Compliant | 610 | Format/memory @-refs |
+| skill-reviser | Compliant | 610 | Format @-ref |
+| skill-orchestrator | Compliant | 610 | jq extraction |
+| skill-team-plan | Compliant | 610 | Synthesis delegation |
+| skill-team-implement | Compliant | 610 | Synthesis delegation |
+| skill-neovim-research | Clean | -- | Heredoc only |
+| skill-neovim-implementation | Clean | -- | Heredoc only |
+| skill-nix-research | Clean | -- | Heredoc only |
+| skill-nix-implementation | Clean | -- | Heredoc only |
+| skill-spawn | Clean | -- | Heredoc only |
+
+---
+
 ## Related Patterns
 
 - **Thin Wrapper Skill** (`patterns/thin-wrapper-skill.md`) -- Structural pattern for delegation-first skills. Context-protective lead is the complementary *context discipline* pattern.

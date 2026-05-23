@@ -51,61 +51,28 @@ skill_read_artifact_number "$task_number" "$PADDED_NUM" "$PROJECT_NAME" "reports
 # Exports: ARTIFACT_NUMBER, ARTIFACT_PADDED
 ```
 
-### Stage 4a: Memory Retrieval (Auto)
+### Stage 4a: Clean Flag (Pass-Through)
 
-Skip if `clean_flag` is true.
+Extract clean_flag for pass-through to subagent prompt. Do NOT run memory-retrieve.sh or cat ROADMAP.md here — delegate to subagent.
 
 ```bash
-memory_context=""
-if [ "$clean_flag" != "true" ]; then
-  memory_context=$(bash .claude/scripts/memory-retrieve.sh "$DESCRIPTION" "$TASK_TYPE" "$focus_prompt" 2>/dev/null) || memory_context=""
-fi
+clean_flag="${clean_flag:-false}"
 ```
 
-### Stage 4c: Roadmap Consultation (Auto)
+The subagent handles memory retrieval and roadmap consultation in its own context.
 
-Skip if `clean_flag` is true.
+### Stage 4d: Collect Prior Implementation Context Paths
 
-```bash
-roadmap_context=""
-if [ "$clean_flag" != "true" ] && [ -f "specs/ROADMAP.md" ]; then
-  roadmap_context=$(cat specs/ROADMAP.md)
-fi
-```
-
-**Note**: If ROADMAP.md grows beyond ~100 lines, consider summarizing before injection.
-
-### Stage 4d: Collect Prior Implementation Context
-
-If task status is "implementing" or "partial", collect existing artifacts:
+If task status is "implementing" or "partial", collect artifact paths (not content) to pass as @-references to the subagent:
 
 ```bash
-prior_implementation_context=""
+prior_artifact_dir=""
 if [ "$TASK_STATUS" = "implementing" ] || [ "$TASK_STATUS" = "partial" ]; then
-    task_dir="specs/${PADDED_NUM}_${PROJECT_NAME}"
-    for dir_type in summaries handoffs progress plans; do
-        if [ -d "$task_dir/$dir_type" ]; then
-            case "$dir_type" in
-                summaries|plans) files=$(ls -1 "$task_dir/$dir_type/"*.md 2>/dev/null | sort -V) ;;
-                handoffs)        files=$(ls -1 "$task_dir/$dir_type/"*.md 2>/dev/null | sort -V | tail -3) ;;
-                progress)        files=$(ls -1 "$task_dir/$dir_type/"*.json 2>/dev/null | sort -V | tail -1) ;;
-            esac
-            for f in $files; do
-                label=$(echo "$dir_type" | sed 's/s$//' | sed 's/\b./\u&/')
-                prior_implementation_context+="\n\n## ${label}: $(basename "$f")\n\n$(cat "$f")"
-            done
-        fi
-    done
-    # Truncate if exceeds 500 lines
-    if [ -n "$prior_implementation_context" ]; then
-        line_count=$(echo -e "$prior_implementation_context" | wc -l)
-        if [ "$line_count" -gt 500 ]; then
-            prior_implementation_context=$(echo -e "$prior_implementation_context" | head -n 500)
-            prior_implementation_context+="\n\n[NOTE: Prior implementation context truncated from $line_count lines to 500 lines budget]"
-        fi
-    fi
+    prior_artifact_dir="specs/${PADDED_NUM}_${PROJECT_NAME}"
 fi
 ```
+
+The subagent reads the relevant files using @-references in its own context.
 
 ### Stage 4: Prepare Delegation Context
 
@@ -134,14 +101,9 @@ orchestrator_mode=$(echo "$delegation_context" | jq -r '.orchestrator_mode // "f
   "orchestrator_mode": false,
   "roadmap_path": "specs/ROADMAP.md",
   "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json",
-  "prior_implementation_context": "{prior_implementation_context or empty string}"
+  "prior_artifact_dir": "{prior_artifact_dir or empty string}",
+  "clean_flag": "{clean_flag}"
 }
-```
-
-### Stage 4b: Read and Inject Format Specification
-
-```bash
-format_content=$(cat .claude/context/formats/report-format.md)
 ```
 
 ### Stage 5: Invoke Subagent
@@ -150,11 +112,11 @@ format_content=$(cat .claude/context/formats/report-format.md)
 
 Build the prompt with these blocks in order:
 1. Delegation context JSON
-2. `<artifact-format-specification>` block with `{format_content}` (Report Format Requirements)
-3. `<prior-implementation-context>` block with `{prior_implementation_context}` (only if non-empty)
-4. `{memory_context}` block (only if non-empty; already wrapped in `<memory-context>` tags)
-5. `<roadmap-context>` block with `{roadmap_context}` (only if non-empty)
-6. Task-specific instructions
+2. Task-specific instructions including:
+   - "Follow the report format in @.claude/context/formats/report-format.md"
+   - If `clean_flag` is not "true": "Run `bash .claude/scripts/memory-retrieve.sh '{DESCRIPTION}' '{TASK_TYPE}' '{focus_prompt}'` to retrieve relevant memories and incorporate them."
+   - "If `specs/ROADMAP.md` exists, read @specs/ROADMAP.md for project context."
+   - If `prior_artifact_dir` is non-empty: "If task status is implementing/partial, read recent artifacts from @{prior_artifact_dir}/summaries/, @{prior_artifact_dir}/handoffs/ (last 3), and @{prior_artifact_dir}/progress/ for context."
 
 **DO NOT** use `Skill(general-research-agent)` — this will FAIL.
 
@@ -230,6 +192,21 @@ Research completed for task {N}:
 - **Task not found**: Exit immediately with error
 - **Metadata missing**: Keep status "researching", do not cleanup marker, report error
 - **Subagent timeout**: Return partial; keep status "researching" for resume
+
+---
+
+## MUST NOT (Context Protection)
+
+Before delegating to the subagent, MUST NOT load file content into the lead context for passthrough. Specifically:
+
+1. **MUST NOT `cat` format spec files** -- pass `@.claude/context/formats/report-format.md` reference to subagent instead
+2. **MUST NOT run `memory-retrieve.sh`** -- instruct subagent to run it in its own context
+3. **MUST NOT `cat` ROADMAP.md** -- pass `@specs/ROADMAP.md` reference to subagent instead
+4. **MUST NOT read prior artifact file content** -- pass directory path as @-reference to subagent
+
+**Context budget target**: Lead context growth above baseline should stay under ~500 tokens for preflight.
+
+Reference: @.claude/context/patterns/context-protective-lead.md
 
 ---
 
