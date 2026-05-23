@@ -239,22 +239,22 @@ This is the model all lead agents should follow.
 
 ## Compliance Status
 
-| Skill | Status | Task | Notes |
-|-------|--------|------|-------|
-| skill-orchestrate | Compliant | -- | Reference implementation |
-| skill-team-research | Compliant | 609 | Synthesis delegation |
-| skill-researcher | Compliant | 610 | Format/memory/roadmap @-refs |
-| skill-planner | Compliant | 610 | Format/memory @-refs |
-| skill-implementer | Compliant | 610 | Format/memory @-refs |
-| skill-reviser | Compliant | 610 | Format @-ref |
-| skill-orchestrator | Compliant | 610 | jq extraction |
-| skill-team-plan | Compliant | 610 | Synthesis delegation |
-| skill-team-implement | Compliant | 610 | Synthesis delegation |
-| skill-neovim-research | Clean | -- | Heredoc only |
-| skill-neovim-implementation | Clean | -- | Heredoc only |
-| skill-nix-research | Clean | -- | Heredoc only |
-| skill-nix-implementation | Clean | -- | Heredoc only |
-| skill-spawn | Clean | -- | Heredoc only |
+| Skill | Status | Violations Remaining | Notes |
+|-------|--------|---------------------|-------|
+| skill-orchestrate | Compliant | 0 | Reference implementation |
+| skill-team-research | Compliant | 0 | Refactored in task 609 |
+| skill-researcher | Compliant | 0 | Refactored in task 610 |
+| skill-planner | Compliant | 0 | Refactored in task 610 |
+| skill-implementer | Compliant | 0 | Refactored in task 610 |
+| skill-reviser | Compliant | 0 | Refactored in task 610 |
+| skill-orchestrator | Compliant | 0 | Refactored in task 610 |
+| skill-team-plan | Compliant | 0 | Refactored in task 610 |
+| skill-team-implement | Compliant | 0 | Refactored in task 610 |
+| skill-neovim-research | Compliant | 0 | Verified clean |
+| skill-nix-research | Compliant | 0 | Verified clean |
+| skill-neovim-implementation | Compliant | 0 | Verified clean |
+| skill-nix-implementation | Compliant | 0 | Verified clean |
+| skill-todo | N/A | 0 | Direct execution, no subagent |
 
 ---
 
