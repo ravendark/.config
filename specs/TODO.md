@@ -6,12 +6,14 @@ next_project_number: 608
 
 ## Task Order
 
-*Updated 2026-05-22. Generated from state.json dependency graph.*
+*Updated 2026-05-23. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,608 | -- | -- |
+| 2 | 609 | 608 | -- |
+| 3 | 610 | 608,609 | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -19,8 +21,42 @@ next_project_number: 608
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
+608 [NOT STARTED] — context_protective_lead_pattern
+  └─ 609 [NOT STARTED] — refactor_team_research_context_protection
+    └─ 610 [NOT STARTED] — sweep_skills_context_protection
+  └─ 610 [NOT STARTED] — sweep_skills_context_protection (see above)
 
 ## Tasks
+
+### 608. Define context-protective lead pattern
+- **Effort**: TBD
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Create a pattern document and standard that establishes how lead/orchestrator agents should protect their context window. Core principles: (1) never Read large files directly — use jq/Bash one-liners to extract specific fields, (2) fork cheap investigation agents when in-depth information is needed, receiving back short reports (<200 words), (3) lead's context budget target: <10k tokens above baseline for routing and delegation work. Document anti-patterns (reading full state.json, loading format specs, eagerly reading context files) and the correct alternatives (jq extraction, scout forks, passing @-references to subagents instead of reading them yourself). This becomes the reference standard for tasks 609 and 610.
+
+---
+
+### 609. Refactor skill-team-research for context protection
+- **Effort**: TBD
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 608
+
+**Description**: Refactor skill-team-research (currently 751 lines, ~3,900 tokens) as the reference implementation of the context-protective lead pattern from task 608. Replace direct Read operations with jq extractions for state.json lookups. Replace eager context loading (index.json queries, domain context reads, memory retrieval) with fork agents that investigate and return compact summaries. Replace inline teammate output reading with a fork "synthesis agent" that reads all findings and writes the unified report. Target: lead's added context stays under 10k tokens beyond baseline, down from current ~50-60k. The skill file itself should also shrink by moving stage documentation to reference files.
+
+---
+
+### 610. Apply context-protective pattern to remaining skills
+- **Effort**: TBD
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 608, 609
+
+**Description**: Sweep all remaining skills that accumulate excessive lead context and apply the context-protective lead pattern from task 608, using task 609's refactored skill-team-research as the reference implementation. Priority targets: skill-researcher (242 lines — reads report-format.md, memory, state.json), skill-implementer (363 lines), skill-planner (215 lines), skill-orchestrator (128 lines — reads full state.json and TODO.md), skill-team-plan (598 lines), skill-team-implement (677 lines). For each skill: replace direct file reads with jq extractions, delegate investigation to fork agents, pass format references to subagents instead of reading them into the lead.
+
+---
 
 ### 87. Investigate terminal directory change when opening neovim in wezterm
 - **Effort**: TBD

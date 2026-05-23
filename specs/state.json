@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 608,
+  "next_project_number": 611,
   "active_projects": [
     {
       "project_number": 87,
@@ -41,6 +41,41 @@
       ],
       "session_id": "sess_1771006114_e73864",
       "planned": "2026-02-13T18:10:48Z"
+    },
+    {
+      "project_number": 608,
+      "project_name": "context_protective_lead_pattern",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-22T23:00:00Z",
+      "last_updated": "2026-05-22T23:00:00Z",
+      "dependencies": [],
+      "artifacts": []
+    },
+    {
+      "project_number": 609,
+      "project_name": "refactor_team_research_context_protection",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-22T23:00:00Z",
+      "last_updated": "2026-05-22T23:00:00Z",
+      "dependencies": [
+        608
+      ],
+      "artifacts": []
+    },
+    {
+      "project_number": 610,
+      "project_name": "sweep_skills_context_protection",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-22T23:00:00Z",
+      "last_updated": "2026-05-22T23:00:00Z",
+      "dependencies": [
+        608,
+        609
+      ],
+      "artifacts": []
     }
   ],
   "completed_projects": [],
