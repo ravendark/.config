@@ -74,10 +74,10 @@
     {
       "project_number": 609,
       "project_name": "refactor_team_research_context_protection",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "created": "2026-05-22T23:00:00Z",
-      "last_updated": "2026-05-23T07:18:55Z",
+      "last_updated": "2026-05-23T07:24:37Z",
       "dependencies": [
         608
       ],
@@ -86,9 +86,14 @@
           "path": "specs/609_refactor_team_research_context_protection/reports/02_synthesis-architecture-analysis.md",
           "type": "report",
           "summary": "Synthesis agent architecture analysis: named agent recommended over fork/inline/command options"
+        },
+        {
+          "path": "specs/609_refactor_team_research_context_protection/plans/01_context-protection-plan.md",
+          "type": "plan",
+          "summary": "5-phase plan: synthesis-agent creation, prompt extraction, Stages 7-9 refactor, postflight migration, system registration"
         }
       ],
-      "session_id": "sess_1779520159_408a6a",
+      "session_id": "sess_1779520794_e2e16a",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
