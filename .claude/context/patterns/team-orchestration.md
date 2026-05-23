@@ -193,6 +193,70 @@ Team mode uses approximately 5x tokens compared to single-agent:
 6. **Domain context injection** - Always inject domain context when task_type has an extension
 7. **Critic in Wave 2** - The Critic always reads Wave 1 findings before critiquing
 
+## Synthesis Agent Pattern
+
+After all Wave 1 and Wave 2 teammates complete, the lead dispatches `synthesis-agent` to read
+all teammate finding files in a fresh context and write the unified report. The lead NEVER reads
+teammate finding files directly.
+
+```
+Wave 1 (parallel research):
++------------+  +------------+  +------------+
+| Teammate A |  | Teammate B |  | Teammate D |
++------+-----+  +------+-----+  +------+-----+
+       |                |               |
+       +----------------+---------------+
+                        |
+                (paths collected — no file reading)
+                        |
+Wave 2 (informed critique):
+                 +------------+
+                 | Teammate C |
+                 | (Critic)   |
+                 +------+-----+
+                        |
+                 (path collected)
+                        |
+Synthesis Wave (delegated):
+                 +------------------+
+                 | synthesis-agent  |
+                 | (fresh context)  |
+                 | Reads all files  |
+                 | Writes report    |
+                 +------+-----------+
+                        |
+                 (~200-word summary)
+                        |
+                 +------+------+
+                 |   Lead      |
+                 | (postflight)|
+                 +-------------+
+```
+
+The lead's context growth from synthesis is ~200 tokens (the returned summary), not 7-21k tokens
+from reading all teammate files inline.
+
+**Key principle**: The lead collects file paths (not file content) from completed teammates, then
+delegates all reading and synthesis to `synthesis-agent` via:
+
+```
+Agent(
+  subagent_type: "synthesis-agent",
+  prompt: [dispatch prompt with teammate paths as @-references],
+  model: "${teammate_model}",
+  timeout: 1200
+)
+```
+
+See `.claude/context/reference/team-wave-helpers.md` (Synthesis Agent Dispatch section) for the
+full dispatch prompt template and expected return format.
+
+**Context Protection**: Lead context overhead for the complete synthesis cycle:
+- Teammate path collection: ~400 tokens (file paths only, no content)
+- Synthesis dispatch prompt: ~300 tokens
+- Synthesis agent return summary: ~200 tokens
+- Total synthesis context growth: ~900 tokens (vs. 7-21k with inline synthesis)
+
 ## Context Discipline
 
 For context budget limits and synthesis delegation guidance (forking a dedicated synthesis agent instead of having the lead read all teammate outputs inline), see `patterns/context-protective-lead.md`.

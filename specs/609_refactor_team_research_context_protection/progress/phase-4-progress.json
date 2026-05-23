@@ -1,0 +1,26 @@
+{
+  "phase": 4,
+  "phase_name": "Migrate postflight to skill-base.sh functions",
+  "started_at": "2026-05-23T00:50:00Z",
+  "last_updated": "2026-05-23T00:55:00Z",
+  "objectives": [
+    {"id": 1, "description": "Replace Stage 10 status update with skill_postflight_update", "status": "done", "note": "Done in Phase 3 SKILL.md rewrite"},
+    {"id": 2, "description": "Replace Stage 10 artifact number increment with skill_increment_artifact_number", "status": "done", "note": "Done in Phase 3 SKILL.md rewrite"},
+    {"id": 3, "description": "Replace Stage 10 artifact linking with skill_link_artifacts", "status": "done", "note": "Done in Phase 3 SKILL.md rewrite"},
+    {"id": 4, "description": "Keep Stage 12 git commit inline (no function available, but format standardized)", "status": "done"},
+    {"id": 5, "description": "Replace Stage 13 cleanup with skill_cleanup", "status": "done", "note": "Done in Phase 3 SKILL.md rewrite"},
+    {"id": 6, "description": "Consolidate postflight stages", "status": "done", "note": "Stages 10-13 use skill-base.sh functions; Stage 11 metadata kept for team-specific JSON structure"}
+  ],
+  "current_objective": 6,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": [
+    {
+      "task_id": "4.4",
+      "description": "Keep Stage 12 git commit inline if no function exists",
+      "type": "skipped",
+      "reason": "Stage 12 git commit pattern is already the standard targeted staging pattern — no skill-base.sh wrapper exists for git commit, and the plan acknowledges this",
+      "annotation": "*(deviation: skipped — no git commit function in skill-base.sh; inline pattern is already standard)*"
+    }
+  ]
+}

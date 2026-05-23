@@ -1,0 +1,18 @@
+{
+  "phase": 2,
+  "phase_name": "Extract teammate prompt templates to team-wave-helpers.md",
+  "started_at": "2026-05-23T00:15:00Z",
+  "last_updated": "2026-05-23T00:25:00Z",
+  "objectives": [
+    {"id": 1, "description": "Add Team Research Teammate Prompts section to team-wave-helpers.md", "status": "done"},
+    {"id": 2, "description": "Document Teammate A (Primary Angle) prompt template with placeholders", "status": "done"},
+    {"id": 3, "description": "Document Teammate B (Alternative Approaches) prompt template with placeholders", "status": "done"},
+    {"id": 4, "description": "Document Teammate C (Critic / Wave 2) prompt template with placeholders", "status": "done"},
+    {"id": 5, "description": "Document Teammate D (Horizons) prompt template with placeholders", "status": "done"},
+    {"id": 6, "description": "Add Synthesis Agent Dispatch section with template and expected return format", "status": "done"}
+  ],
+  "current_objective": 6,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

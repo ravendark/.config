@@ -186,6 +186,7 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 | skill-todo | (direct execution) | - | Archive completed tasks with CHANGE_LOG updates |
 | skill-tag | (user-only) | - | Semantic version tagging for deployment |
 | skill-team-research | (team orchestration) | sonnet | Multi-agent parallel research (--team flag) |
+| skill-team-research (internal) | synthesis-agent | sonnet | Multi-output synthesis after teammate completion |
 | skill-team-plan | (team orchestration) | sonnet | Multi-agent parallel planning (--team flag) |
 | skill-team-implement | (team orchestration) | sonnet | Multi-agent parallel implementation (--team flag) |
 | skill-reviser | reviser-agent | opus | Plan revision and description update |
@@ -207,6 +208,7 @@ Standard actions: `create`, `complete research`, `create implementation plan`, `
 | code-reviewer-agent | Code quality assessment and review |
 | reviser-agent | Plan revision with research synthesis |
 | spawn-agent | Blocker analysis and task decomposition |
+| synthesis-agent | Multi-output synthesis for team research and team planning |
 
 **Model Enforcement**: Agents declare preferred models via `model:` frontmatter field using a tiered policy: Opus for deep-reasoning agents (planner, meta-builder, reviser, formal/lean/math/logic) AND for orchestrator commands (`/research`, `/plan`, `/implement`) which accumulate large context across sequential sub-agent calls and require the 1M context auto-upgrade; Sonnet for worker agents (research, implementation, review, spawn, domain tasks) which have their own fresh context per invocation. Two independent flag dimensions override behavior at invocation time: effort flags (`--fast`, `--hard`) control reasoning depth, and model flags (`--haiku`, `--sonnet`, `--opus`) select the model family. These flags work on `/research`, `/plan`, and `/implement`. See `.claude/docs/reference/standards/agent-frontmatter-standard.md` for details.
 

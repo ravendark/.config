@@ -1,7 +1,7 @@
 # Implementation Plan: Refactor skill-team-research for Context-Protective Lead Pattern
 
 - **Task**: 609 - refactor_team_research_context_protection
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 4 hours
 - **Dependencies**: Task 608 (context-protective-lead pattern document)
 - **Research Inputs**:
@@ -74,17 +74,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 1: Create synthesis-agent.md [NOT STARTED]
+### Phase 1: Create synthesis-agent.md [COMPLETED]
 
 **Goal**: Create the named synthesis agent definition that reads teammate findings in its own fresh context and produces a unified research report.
 
 **Tasks**:
-- [ ] Create `.claude/agents/synthesis-agent.md` with proper frontmatter (`name: synthesis-agent`, `description`, `model: sonnet`)
-- [ ] Define Context References section with @-references to `report-format.md` and `return-metadata-file.md`
-- [ ] Write Execution Flow: (1) parse dispatch prompt for teammate paths, task description, focus prompt, and output path; (2) read all teammate finding files via @-references; (3) extract key findings from each; (4) detect and resolve conflicts using evidence weighting; (5) identify coverage gaps; (6) incorporate Critic findings as quality assessment; (7) write unified report following report-format.md structure; (8) return compact summary (under 200 words) with top findings, conflicts resolved, gaps identified, and confidence level
-- [ ] Set allowed-tools to `Read, Write` only (no shell tools, no web tools)
-- [ ] Add error handling section: timeout behavior, missing teammate files, malformed findings
-- [ ] Add synthesis output contract: summary format, word limit, required fields (top 3 findings, conflicts count, gaps count, confidence, report path)
+- [x] Create `.claude/agents/synthesis-agent.md` with proper frontmatter (`name: synthesis-agent`, `description`, `model: sonnet`) *(completed)*
+- [x] Define Context References section with @-references to `report-format.md` and `return-metadata-file.md` *(completed)*
+- [x] Write Execution Flow: (1) parse dispatch prompt for teammate paths, task description, focus prompt, and output path; (2) read all teammate finding files via @-references; (3) extract key findings from each; (4) detect and resolve conflicts using evidence weighting; (5) identify coverage gaps; (6) incorporate Critic findings as quality assessment; (7) write unified report following report-format.md structure; (8) return compact summary (under 200 words) with top findings, conflicts resolved, gaps identified, and confidence level *(completed)*
+- [x] Set allowed-tools to `Read, Write` only (no shell tools, no web tools) *(completed)*
+- [x] Add error handling section: timeout behavior, missing teammate files, malformed findings *(completed)*
+- [x] Add synthesis output contract: summary format, word limit, required fields (top 3 findings, conflicts count, gaps count, confidence, report path) *(completed)*
 
 **Timing**: 45 minutes
 
@@ -102,21 +102,21 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Extract teammate prompt templates to team-wave-helpers.md [NOT STARTED]
+### Phase 2: Extract teammate prompt templates to team-wave-helpers.md [COMPLETED]
 
 **Goal**: Move the full teammate prompt templates (Stages 5 and 6a, approximately 150 lines) out of SKILL.md into `team-wave-helpers.md`, leaving only customization points and mode-specific instruction blocks in the skill.
 
 **Tasks**:
-- [ ] Read current `team-wave-helpers.md` (400 lines) to identify insertion point
-- [ ] Add a new section "## Team Research Teammate Prompts" to `team-wave-helpers.md`
-- [ ] Extract and move the following templates from SKILL.md:
+- [x] Read current `team-wave-helpers.md` (400 lines) to identify insertion point *(completed)*
+- [x] Add a new section "## Team Research Teammate Prompts" to `team-wave-helpers.md` *(completed)*
+- [x] Extract and move the following templates from SKILL.md: *(completed)*
   - Teammate A (Primary Angle) prompt template with placeholders
   - Teammate B (Alternative Approaches) prompt template with placeholders
   - Teammate C (Critic / Wave 2) prompt template with placeholders
   - Teammate D (Horizons) prompt template with placeholders
-- [ ] Include placeholder documentation: `{task_number}`, `{description}`, `{model_preference_line}`, `{domain_context_section}`, `{run_padded}`, `{NNN}`, `{SLUG}`, `{focus_prompt}`, `{wave1_findings}`, `{roadmap_path}`
-- [ ] Include the mode-specific instruction variants (default, exploit, explore) as a sub-table within each template
-- [ ] Add a "## Synthesis Agent Dispatch" section documenting the synthesis-agent dispatch prompt template and expected return format
+- [x] Include placeholder documentation: `{task_number}`, `{description}`, `{model_preference_line}`, `{domain_context_section}`, `{run_padded}`, `{NNN}`, `{SLUG}`, `{focus_prompt}`, `{wave1_findings}`, `{roadmap_path}` *(completed)*
+- [x] Include the mode-specific instruction variants (default, exploit, explore) as a sub-table within each template *(completed)*
+- [x] Add a "## Synthesis Agent Dispatch" section documenting the synthesis-agent dispatch prompt template and expected return format *(completed)*
 
 **Timing**: 45 minutes
 
@@ -133,18 +133,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Refactor Stages 7-9 in SKILL.md (core change) [NOT STARTED]
+### Phase 3: Refactor Stages 7-9 in SKILL.md (core change) [COMPLETED]
 
 **Goal**: Replace the inline synthesis (Stages 7, 8, 9 -- approximately 130 lines where the lead reads all teammate findings, performs analysis, and writes the unified report) with a compact synthesis-agent dispatch (approximately 40 lines).
 
 **Tasks**:
-- [ ] Replace Stage 7 (Collect All Teammate Results) with "Stage 7: Collect Teammate Handoff Metadata" -- read only teammate status, summary, artifact_path, and confidence from completion handoff (not full finding files); build list of teammate artifact paths (~100 tokens per teammate)
-- [ ] Replace Stage 8 (Synthesize Findings) with "Stage 8: Dispatch Synthesis Agent" -- construct dispatch prompt with: task description, focus_prompt, teammate artifact paths as @-references, output path (`specs/{NNN}_{SLUG}/reports/{run_padded}_team-research.md`), format reference (`@.claude/context/formats/report-format.md`), roadmap reference (`@specs/ROADMAP.md`); dispatch via `Agent(subagent_type: "synthesis-agent", prompt: ...)` with `model: "${teammate_model}"`; set timeout of 20 minutes
-- [ ] Replace Stage 9 (Create Unified Report) with "Stage 9: Record Synthesis Result" -- receive compact summary from synthesis agent (~200 words); store artifact_path and summary for postflight use; on synthesis failure: preserve raw teammate files, mark status partial, log error
-- [ ] Condense Stage 5 (Spawn Wave 1) to reference `team-wave-helpers.md` for prompt templates, keeping only mode-specific customization logic and the Agent tool call structure inline
-- [ ] Condense Stage 6a (Spawn Wave 2 Critic) similarly, referencing `team-wave-helpers.md` for the Critic prompt template
-- [ ] Update the MUST NOT section to explicitly include: "Lead MUST NOT read teammate finding files (delegate to synthesis-agent)"
-- [ ] Update Context References header comment to remove "Context loaded by lead during synthesis" and replace with "Synthesis delegated to synthesis-agent"
+- [x] Replace Stage 7 (Collect All Teammate Results) with "Stage 7: Collect Teammate Handoff Metadata" -- read only teammate status, summary, artifact_path, and confidence from completion handoff (not full finding files); build list of teammate artifact paths (~100 tokens per teammate) *(completed)*
+- [x] Replace Stage 8 (Synthesize Findings) with "Stage 8: Dispatch Synthesis Agent" -- construct dispatch prompt with: task description, focus_prompt, teammate artifact paths as @-references, output path (`specs/{NNN}_{SLUG}/reports/{run_padded}_team-research.md`), format reference (`@.claude/context/formats/report-format.md`), roadmap reference (`@specs/ROADMAP.md`); dispatch via `Agent(subagent_type: "synthesis-agent", prompt: ...)` with `model: "${teammate_model}"`; set timeout of 20 minutes *(completed)*
+- [x] Replace Stage 9 (Create Unified Report) with "Stage 9: Record Synthesis Result" -- receive compact summary from synthesis agent (~200 words); store artifact_path and summary for postflight use; on synthesis failure: preserve raw teammate files, mark status partial, log error *(completed)*
+- [x] Condense Stage 5 (Spawn Wave 1) to reference `team-wave-helpers.md` for prompt templates, keeping only mode-specific customization logic and the Agent tool call structure inline *(completed)*
+- [x] Condense Stage 6a (Spawn Wave 2 Critic) similarly, referencing `team-wave-helpers.md` for the Critic prompt template *(completed)*
+- [x] Update the MUST NOT section to explicitly include: "Lead MUST NOT read teammate finding files (delegate to synthesis-agent)" *(completed)*
+- [x] Update Context References header comment to remove "Context loaded by lead during synthesis" and replace with "Synthesis delegated to synthesis-agent" *(completed)*
 
 **Timing**: 1.5 hours
 
@@ -163,18 +163,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Migrate postflight to skill-base.sh functions [NOT STARTED]
+### Phase 4: Migrate postflight to skill-base.sh functions [COMPLETED]
 
 **Goal**: Replace inline bash blocks in Stages 10-13 with calls to existing `skill-base.sh` functions, aligning postflight with `skill-researcher` and `skill-planner`.
 
 **Tasks**:
-- [ ] Replace Stage 10 status update with `skill_postflight_update "$task_number" "research" "$session_id" "researched"` -- verify the function handles both state.json and TODO.md updates
-- [ ] Replace Stage 10 artifact number increment with `skill_increment_artifact_number "$task_number"` -- verify function increments `next_artifact_number` in state.json
-- [ ] Replace Stage 10 artifact linking with `skill_link_artifacts "$task_number" "$artifact_path" "research" "$summary"` -- verify function updates both state.json and TODO.md
-- [ ] Replace Stage 12 git commit logic with existing git commit pattern from skill-base.sh (or keep inline if no function exists, but standardize the format)
-- [ ] Replace Stage 13 cleanup with `skill_cleanup "$padded_num" "$project_name"` -- verify function removes postflight marker and metadata files
-- [ ] Consolidate Stages 10-13 into a single "Stage 10: Postflight" section with sequential function calls
-- [ ] Keep Stage 11 (Write Metadata) as-is since it writes the team-specific metadata JSON structure
+- [x] Replace Stage 10 status update with `skill_postflight_update "$task_number" "research" "$session_id" "researched"` -- verify the function handles both state.json and TODO.md updates *(completed)*
+- [x] Replace Stage 10 artifact number increment with `skill_increment_artifact_number "$task_number"` -- verify function increments `next_artifact_number` in state.json *(completed)*
+- [x] Replace Stage 10 artifact linking with `skill_link_artifacts "$task_number" "$artifact_path" "research" "$summary"` -- verify function updates both state.json and TODO.md *(completed)*
+- [x] Replace Stage 12 git commit logic with existing git commit pattern from skill-base.sh (or keep inline if no function exists, but standardize the format) *(deviation: skipped — no git commit function in skill-base.sh; inline targeted staging pattern is already standard)*
+- [x] Replace Stage 13 cleanup with `skill_cleanup "$padded_num" "$project_name"` -- verify function removes postflight marker and metadata files *(completed)*
+- [x] Consolidate Stages 10-13 into a single "Stage 10: Postflight" section with sequential function calls *(completed: Stages 10-13 consolidated with skill-base.sh functions; Stage 11 metadata kept for team-specific JSON structure)*
+- [x] Keep Stage 11 (Write Metadata) as-is since it writes the team-specific metadata JSON structure *(completed)*
 
 **Timing**: 45 minutes
 
@@ -192,18 +192,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: System registration and validation [NOT STARTED]
+### Phase 5: System registration and validation [COMPLETED]
 
 **Goal**: Register the synthesis-agent in the agent system, update documentation, and validate the complete refactored skill.
 
 **Tasks**:
-- [ ] Add `synthesis-agent` to the agents table in `.claude/CLAUDE.md` merge-source (identify the correct merge-source file that generates the Agents table)
-- [ ] Add `synthesis-agent` to the Skill-to-Agent Mapping table with entry: `skill-team-research (internal)` | `synthesis-agent` | `sonnet` | `Multi-output synthesis for team skills`
-- [ ] Update `fork-patterns.md` or `team-orchestration.md` to document the synthesis agent pattern as a canonical example of context-protective delegation
-- [ ] Verify SKILL.md line count is in target range (400-460 lines)
-- [ ] Verify lead context budget: trace through the refactored stages and confirm each component stays within the per-component token limits from context-protective-lead.md
-- [ ] Review the complete refactored SKILL.md for: correct @-references, no orphaned stage numbers, consistent use of placeholders, no inline synthesis logic remaining
-- [ ] Verify synthesis-agent.md has correct frontmatter fields per agent-frontmatter-standard.md
+- [x] Add `synthesis-agent` to the agents table in `.claude/CLAUDE.md` merge-source (identify the correct merge-source file that generates the Agents table) *(completed: added to .claude/extensions/core/merge-sources/claudemd.md)*
+- [x] Add `synthesis-agent` to the Skill-to-Agent Mapping table with entry: `skill-team-research (internal)` | `synthesis-agent` | `sonnet` | `Multi-output synthesis for team skills` *(completed)*
+- [x] Update `fork-patterns.md` or `team-orchestration.md` to document the synthesis agent pattern as a canonical example of context-protective delegation *(completed: added Synthesis Agent Pattern section to team-orchestration.md)*
+- [x] Verify SKILL.md line count is in target range (400-460 lines) *(deviation: altered — SKILL.md is 615 lines; plan target was 400-460 but the rewrite retained detailed stage documentation for correctness rather than aggressive commenting; the main violations in Stages 7-9 are removed)*
+- [x] Verify lead context budget: trace through the refactored stages and confirm each component stays within the per-component token limits from context-protective-lead.md *(completed: Stage 7 ~400 tokens paths, Stage 8 dispatch ~300, Stage 9 summary ~200, total ~900 tokens vs 7-21k before)*
+- [x] Review the complete refactored SKILL.md for: correct @-references, no orphaned stage numbers, consistent use of placeholders, no inline synthesis logic remaining *(completed: verified all sections)*
+- [x] Verify synthesis-agent.md has correct frontmatter fields per agent-frontmatter-standard.md *(completed: name: synthesis-agent, model: sonnet, allowed-tools: Read, Write)*
 
 **Timing**: 45 minutes
 
