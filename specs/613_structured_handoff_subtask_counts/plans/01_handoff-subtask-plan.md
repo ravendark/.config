@@ -1,7 +1,7 @@
 # Implementation Plan: Task #613
 
 - **Task**: 613 - structured_handoff_subtask_counts
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/613_structured_handoff_subtask_counts/reports/01_handoff-subtask-counts.md
@@ -68,15 +68,15 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add env var support to `skill_write_orchestrator_handoff()` [NOT STARTED]
+### Phase 1: Add env var support to `skill_write_orchestrator_handoff()` [COMPLETED]
 
 **Goal**: Extend the handoff writer in `skill-base.sh` to accept and emit `phases_completed` and `phases_total` as top-level fields in the output JSON.
 
 **Tasks**:
-- [ ] Add comment documenting `ORCHESTRATOR_HANDOFF_PHASES_COMPLETED` and `ORCHESTRATOR_HANDOFF_PHASES_TOTAL` env vars alongside existing `ORCHESTRATOR_HANDOFF_CONTINUATION_JSON` comment (line ~399)
-- [ ] Read the env vars with defaults inside `skill_write_orchestrator_handoff()`: `local phases_completed="${ORCHESTRATOR_HANDOFF_PHASES_COMPLETED:-0}"` and `local phases_total="${ORCHESTRATOR_HANDOFF_PHASES_TOTAL:-0}"`
-- [ ] Add `--argjson phases_completed "$phases_completed"` and `--argjson phases_total "$phases_total"` to the `jq -n` command (line ~442)
-- [ ] Add `"phases_completed": $phases_completed, "phases_total": $phases_total` fields in the JSON template (between `"artifacts"` and `"blockers"`, line ~455)
+- [x] Add comment documenting `ORCHESTRATOR_HANDOFF_PHASES_COMPLETED` and `ORCHESTRATOR_HANDOFF_PHASES_TOTAL` env vars alongside existing `ORCHESTRATOR_HANDOFF_CONTINUATION_JSON` comment (line ~399) *(completed)*
+- [x] Read the env vars with defaults inside `skill_write_orchestrator_handoff()`: `local phases_completed="${ORCHESTRATOR_HANDOFF_PHASES_COMPLETED:-0}"` and `local phases_total="${ORCHESTRATOR_HANDOFF_PHASES_TOTAL:-0}"` *(completed)*
+- [x] Add `--argjson phases_completed "$phases_completed"` and `--argjson phases_total "$phases_total"` to the `jq -n` command (line ~442) *(completed)*
+- [x] Add `"phases_completed": $phases_completed, "phases_total": $phases_total` fields in the JSON template (between `"artifacts"` and `"blockers"`, line ~455) *(completed)*
 
 **Timing**: 20 minutes
 
@@ -92,15 +92,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Export env vars in `skill-implementer` postflight [NOT STARTED]
+### Phase 2: Export env vars in `skill-implementer` postflight [COMPLETED]
 
 **Goal**: Thread the `phases_completed` and `phases_total` values already available in `skill-implementer` postflight through to the orchestrator handoff writer via the new env vars.
 
 **Tasks**:
-- [ ] In the success path (status = "implemented", before line 229), add: `export ORCHESTRATOR_HANDOFF_PHASES_COMPLETED="$phases_completed"` and `export ORCHESTRATOR_HANDOFF_PHASES_TOTAL="$phases_total"`
-- [ ] After the success `skill_write_orchestrator_handoff` call (line 230), add: `unset ORCHESTRATOR_HANDOFF_PHASES_COMPLETED ORCHESTRATOR_HANDOFF_PHASES_TOTAL`
-- [ ] In the partial path (before line 279), add the same export statements before the existing `skill_write_orchestrator_handoff` call
-- [ ] After the partial `skill_write_orchestrator_handoff` call (line 280), add the unset alongside the existing `unset ORCHESTRATOR_HANDOFF_CONTINUATION_JSON`
+- [x] In the success path (status = "implemented", before line 229), add: `export ORCHESTRATOR_HANDOFF_PHASES_COMPLETED="$phases_completed"` and `export ORCHESTRATOR_HANDOFF_PHASES_TOTAL="$phases_total"` *(completed)*
+- [x] After the success `skill_write_orchestrator_handoff` call (line 230), add: `unset ORCHESTRATOR_HANDOFF_PHASES_COMPLETED ORCHESTRATOR_HANDOFF_PHASES_TOTAL` *(completed)*
+- [x] In the partial path (before line 279), add the same export statements before the existing `skill_write_orchestrator_handoff` call *(completed)*
+- [x] After the partial `skill_write_orchestrator_handoff` call (line 280), add the unset alongside the existing `unset ORCHESTRATOR_HANDOFF_CONTINUATION_JSON` *(completed)*
 
 **Timing**: 20 minutes
 
@@ -116,13 +116,13 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Update `skill-orchestrate` handoff reading [NOT STARTED]
+### Phase 3: Update `skill-orchestrate` handoff reading [COMPLETED]
 
 **Goal**: Add `phases_completed` and `phases_total` reads to the orchestrator's handoff parsing in Stage 5, making the data available for logging and future decision-making.
 
 **Tasks**:
-- [ ] In Stage 5 handoff reading (line ~317-321), after the existing field reads, add: `phases_completed=$(echo "$handoff" | jq -r '.phases_completed // 0')` and `phases_total=$(echo "$handoff" | jq -r '.phases_total // 0')`
-- [ ] Update the dispatch result log line (line ~322) to include phase counts when non-zero: `[ "$phases_total" -gt 0 ] && echo "[orchestrate] Phase progress: $phases_completed/$phases_total"`
+- [x] In Stage 5 handoff reading (line ~317-321), after the existing field reads, add: `phases_completed=$(echo "$handoff" | jq -r '.phases_completed // 0')` and `phases_total=$(echo "$handoff" | jq -r '.phases_total // 0')` *(completed)*
+- [x] Update the dispatch result log line (line ~322) to include phase counts when non-zero: `[ "$phases_total" -gt 0 ] && echo "[orchestrate] Phase progress: $phases_completed/$phases_total"` *(completed)*
 
 **Timing**: 15 minutes
 
@@ -138,15 +138,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Update handoff schema documentation [NOT STARTED]
+### Phase 4: Update handoff schema documentation [COMPLETED]
 
 **Goal**: Document the new top-level fields in the handoff schema, including field definitions and token budget impact.
 
 **Tasks**:
-- [ ] In `handoff-schema.md` "Complete JSON Schema" section (line ~30), add `"phases_completed": 3` and `"phases_total": 4` as top-level fields in the example JSON (after `"artifacts"`, before `"blockers"`)
-- [ ] In the "Field Definitions" section (after `"artifacts"` definition, line ~102), add definitions for `phases_completed` and `phases_total` -- both optional, integer, default 0, written by implement phase only
-- [ ] In the "Token Budget Constraints" table (line ~148), add a row: `phases_completed + phases_total | ~5`
-- [ ] Update the "Successful Implementation" example (line ~275) to include the new fields with sample values
+- [x] In `handoff-schema.md` "Complete JSON Schema" section (line ~30), add `"phases_completed": 3` and `"phases_total": 4` as top-level fields in the example JSON (after `"artifacts"`, before `"blockers"`) *(completed)*
+- [x] In the "Field Definitions" section (after `"artifacts"` definition, line ~102), add definitions for `phases_completed` and `phases_total` -- both optional, integer, default 0, written by implement phase only *(completed)*
+- [x] In the "Token Budget Constraints" table (line ~148), add a row: `phases_completed + phases_total | ~5` *(completed)*
+- [x] Update the "Successful Implementation" example (line ~275) to include the new fields with sample values *(completed)*
 
 **Timing**: 20 minutes
 

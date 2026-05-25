@@ -11,15 +11,13 @@ next_project_number: 616
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,613 | -- | orchestrate-progress |
-| 2 | 615 | 613 | orchestrate-progress |
+| 1 | 78,87,615 | -- | orchestrate-progress |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Orchestrate Progress
 
-613 [IMPLEMENTING] — Add structured subtask completion counts to .orchestrator-handoff
-  └─ 615 [NOT STARTED] — Have the orchestrator inspect the plan file between cycles (not j
+615 [NOT STARTED] — Have the orchestrator inspect the plan file between cycles (not j
 
 ### Uncategorized
 
@@ -30,12 +28,13 @@ next_project_number: 616
 
 ### 613. Add structured subtask counts to orchestrator handoff
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Topic**: orchestrate-progress
 - specs/613_structured_handoff_subtask_counts/reports/01_handoff-subtask-counts.md: [Research]
 - specs/613_structured_handoff_subtask_counts/plans/01_handoff-subtask-plan.md: [Plan]
+- specs/613_structured_handoff_subtask_counts/summaries/01_handoff-subtask-summary.md: [Summary]
 
 **Description**: Add structured subtask completion counts to `.orchestrator-handoff.json`. Currently the handoff only contains `summary` and `status` fields. Add `phases_completed`/`phases_total` and per-phase subtask counts (`completed`/`total`) so the orchestrator knows exactly what was accomplished. Files: `general-implementation-agent.md` Stage 7 (`.return-meta.json`), `skill-implementer.md` (handoff reading), `skill-orchestrate SKILL.md` (handoff parsing).
 

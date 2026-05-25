@@ -319,7 +319,10 @@ else
   blockers=$(echo "$handoff" | jq -c '.blockers // []')
   continuation=$(echo "$handoff" | jq -c '.continuation_context // null')
   next_hint=$(echo "$handoff" | jq -r '.next_action_hint // "none"')
+  phases_completed=$(echo "$handoff" | jq -r '.phases_completed // 0')
+  phases_total=$(echo "$handoff" | jq -r '.phases_total // 0')
   echo "[orchestrate] Dispatch result: $dispatch_status — $dispatch_summary"
+  [ "$phases_total" -gt 0 ] && echo "[orchestrate] Phase progress: $phases_completed/$phases_total"
 fi
 
 # Increment cycle_count

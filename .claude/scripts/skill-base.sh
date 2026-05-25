@@ -398,6 +398,10 @@ skill_cleanup() {
 #
 # Optional (set before calling): ORCHESTRATOR_HANDOFF_CONTINUATION_JSON (JSON object or "null")
 #   Example: export ORCHESTRATOR_HANDOFF_CONTINUATION_JSON='{"handoff_path":"...","phases_completed":2,"phases_total":4}'
+# Optional (set before calling): ORCHESTRATOR_HANDOFF_PHASES_COMPLETED (integer, default 0)
+#   Example: export ORCHESTRATOR_HANDOFF_PHASES_COMPLETED=3
+# Optional (set before calling): ORCHESTRATOR_HANDOFF_PHASES_TOTAL (integer, default 0)
+#   Example: export ORCHESTRATOR_HANDOFF_PHASES_TOTAL=4
 #
 # Schema reference: .claude/docs/architecture/handoff-schema.md
 # Token budget: full object must be ≤400 tokens; summary is truncated at ~100 tokens.
@@ -438,6 +442,10 @@ skill_write_orchestrator_handoff() {
   # Continuation context (set externally if partial with handoff)
   local continuation_json="${ORCHESTRATOR_HANDOFF_CONTINUATION_JSON:-null}"
 
+  # Phase counts (set externally by skill-implementer postflight)
+  local phases_completed="${ORCHESTRATOR_HANDOFF_PHASES_COMPLETED:-0}"
+  local phases_total="${ORCHESTRATOR_HANDOFF_PHASES_TOTAL:-0}"
+
   # Write handoff JSON
   jq -n \
     --arg schema "orchestrator-handoff-v1" \
@@ -446,6 +454,8 @@ skill_write_orchestrator_handoff() {
     --arg summary "$truncated_summary" \
     --argjson artifacts "$artifacts_json" \
     --arg next_hint "$next_hint" \
+    --argjson phases_completed "$phases_completed" \
+    --argjson phases_total "$phases_total" \
     --argjson continuation "$continuation_json" \
     '{
       "$schema": $schema,
@@ -453,6 +463,8 @@ skill_write_orchestrator_handoff() {
       "status": $status,
       "summary": $summary,
       "artifacts": $artifacts,
+      "phases_completed": $phases_completed,
+      "phases_total": $phases_total,
       "blockers": [],
       "next_action_hint": $next_hint,
       "files_modified": [],

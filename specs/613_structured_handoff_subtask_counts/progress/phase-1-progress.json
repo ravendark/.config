@@ -1,0 +1,16 @@
+{
+  "phase": 1,
+  "phase_name": "Add env var support to skill_write_orchestrator_handoff()",
+  "started_at": "2026-05-25T00:00:00Z",
+  "last_updated": "2026-05-25T00:10:00Z",
+  "objectives": [
+    {"id": 1, "description": "Add comment documenting ORCHESTRATOR_HANDOFF_PHASES_COMPLETED and ORCHESTRATOR_HANDOFF_PHASES_TOTAL env vars", "status": "done"},
+    {"id": 2, "description": "Read the env vars with defaults inside skill_write_orchestrator_handoff()", "status": "done"},
+    {"id": 3, "description": "Add --argjson phases_completed and --argjson phases_total to the jq -n command", "status": "done"},
+    {"id": 4, "description": "Add phases_completed and phases_total fields in the JSON template", "status": "done"}
+  ],
+  "current_objective": 4,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

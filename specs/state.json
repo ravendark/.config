@@ -210,10 +210,10 @@
     {
       "project_number": 613,
       "project_name": "structured_handoff_subtask_counts",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-25T23:00:00Z",
-      "last_updated": "2026-05-25T22:34:18Z",
+      "last_updated": "2026-05-25T22:43:02Z",
       "dependencies": [],
       "topic": "orchestrate-progress",
       "artifacts": [
@@ -226,10 +226,16 @@
           "path": "specs/613_structured_handoff_subtask_counts/plans/01_handoff-subtask-plan.md",
           "type": "plan",
           "summary": "4-phase plan to add phases_completed/phases_total as top-level fields in orchestrator handoff JSON via env var pattern in skill-base.sh"
+        },
+        {
+          "path": "specs/613_structured_handoff_subtask_counts/summaries/01_handoff-subtask-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: phases_completed/phases_total added to orchestrator handoff via env var pattern"
         }
       ],
       "description": "Add structured subtask completion counts to .orchestrator-handoff.json. Currently the handoff only contains summary and status fields. Add phases_completed/phases_total and per-phase subtask counts (completed/total) so the orchestrator knows exactly what was accomplished. Files: general-implementation-agent.md Stage 7 (.return-meta.json), skill-implementer.md (handoff reading), skill-orchestrate SKILL.md (handoff parsing).",
-      "session_id": "sess_1779748445_d548f4"
+      "session_id": "sess_1779748445_d548f4",
+      "completion_summary": "Added phases_completed and phases_total as top-level fields to .orchestrator-handoff.json for all implementation statuses. The values are threaded from skill-implementer postflight through new ORCHESTRATOR_HANDOFF_PHASES_COMPLETED/TOTAL env vars into skill_write_orchestrator_handoff(), and skill-orchestrate Stage 5 now reads and logs the new fields."
     },
     {
       "project_number": 614,

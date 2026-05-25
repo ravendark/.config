@@ -226,8 +226,11 @@ fi
 skill_propagate_memory_candidates "$task_number" "$MEMORY_CANDIDATES"
 
 # Step 5: Write orchestrator handoff (only if orchestrator_mode=true)
+export ORCHESTRATOR_HANDOFF_PHASES_COMPLETED="$phases_completed"
+export ORCHESTRATOR_HANDOFF_PHASES_TOTAL="$phases_total"
 skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \
   "implement" "$SUBAGENT_STATUS" "$ARTIFACT_SUMMARY" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "none"
+unset ORCHESTRATOR_HANDOFF_PHASES_COMPLETED ORCHESTRATOR_HANDOFF_PHASES_TOTAL
 ```
 
 **Break loop** — proceed to Stage 8.
@@ -276,9 +279,11 @@ else
     export ORCHESTRATOR_HANDOFF_CONTINUATION_JSON=$(printf '{"handoff_path":"%s","phases_completed":%s,"phases_total":%s,"orchestrator_mode":true}' \
       "$handoff_path" "$phases_completed" "$phases_total")
   fi
+  export ORCHESTRATOR_HANDOFF_PHASES_COMPLETED="$phases_completed"
+  export ORCHESTRATOR_HANDOFF_PHASES_TOTAL="$phases_total"
   skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \
     "implement" "partial" "$ARTIFACT_SUMMARY" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "implement"
-  unset ORCHESTRATOR_HANDOFF_CONTINUATION_JSON
+  unset ORCHESTRATOR_HANDOFF_CONTINUATION_JSON ORCHESTRATOR_HANDOFF_PHASES_COMPLETED ORCHESTRATOR_HANDOFF_PHASES_TOTAL
 
   break
 fi
