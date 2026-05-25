@@ -126,6 +126,12 @@ fi
 # Blocker escalation counter (reset each /orchestrate invocation)
 blocker_escalation_count=0
 MAX_BLOCKER_ESCALATIONS=2
+
+# Drift detection constants (reset each /orchestrate invocation)
+drift_inspection_count=0
+MAX_DRIFT_INSPECTIONS=1
+DRIFT_COMPLETION_THRESHOLD=0.70
+DRIFT_REVISION_THRESHOLD=0.30
 ```
 
 ### Stage 3: State Machine Loop
@@ -323,10 +329,95 @@ else
   phases_total=$(echo "$handoff" | jq -r '.phases_total // 0')
   echo "[orchestrate] Dispatch result: $dispatch_status — $dispatch_summary"
   [ "$phases_total" -gt 0 ] && echo "[orchestrate] Phase progress: $phases_completed/$phases_total"
+
+  # Drift detection: arithmetic gate (cheap check before expensive inspection fork)
+  if [ "$phases_total" -gt 0 ] && [ "$dispatch_status" = "partial" ]; then
+    # Use awk for floating-point comparison (bash only does integer math)
+    completion_ratio=$(awk "BEGIN { printf \"%.4f\", $phases_completed / $phases_total }")
+    is_below_threshold=$(awk "BEGIN { print ($completion_ratio < $DRIFT_COMPLETION_THRESHOLD) ? \"yes\" : \"no\" }")
+    if [ "$is_below_threshold" = "yes" ]; then
+      echo "[orchestrate] Low phase completion ($phases_completed/$phases_total). Inspecting plan for drift..."
+      invoke_drift_inspection "$task_number" "$plan_path" "$session_id"
+    fi
+  fi
 fi
 
 # Increment cycle_count
 cycle_count=$((cycle_count + 1))
+```
+
+---
+
+### Stage 5a: Drift Inspection Function
+
+Called from Stage 5 when phase completion is below DRIFT_COMPLETION_THRESHOLD and dispatch_status is "partial".
+Capped at MAX_DRIFT_INSPECTIONS=1 per /orchestrate invocation.
+
+```bash
+invoke_drift_inspection() {
+  local task_number="$1"
+  local plan_path="$2"
+  local session_id="$3"
+
+  if [ "$drift_inspection_count" -ge "$MAX_DRIFT_INSPECTIONS" ]; then
+    echo "[orchestrate] WARNING: Drift inspection cap ($MAX_DRIFT_INSPECTIONS) reached. Skipping inspection."
+    return 0
+  fi
+
+  drift_inspection_count=$((drift_inspection_count + 1))
+  echo "[orchestrate] Drift inspection attempt $drift_inspection_count/$MAX_DRIFT_INSPECTIONS"
+
+  source .claude/scripts/dispatch-agent.sh
+
+  drift_inspect_context=$(jq -n \
+    --argjson num "$task_number" \
+    --arg session_id "$session_id" \
+    --arg plan_path "$plan_path" \
+    '{"task_number": $num, "session_id": $session_id, "plan_path": $plan_path, "orchestrator_mode": false}')
+
+  drift_inspect_prompt="Read the plan file at '$plan_path'. Count: (1) total checklist items matching '- \\[ \\]' or '- \\[x\\]', (2) completed items matching '- \\[x\\]', (3) deviation annotations matching '*(deviation:'. Calculate drift_pct as: deviation_count / max(total_items, 1). Write compact JSON to '${TASK_DIR}/.drift-inspection.json' with fields: drift_pct (float), deviation_count (int), total_items (int), completed_items (int), summary (string, one sentence). Return a brief summary of findings."
+
+  dispatch_agent "" "$drift_inspect_prompt" "$drift_inspect_context" "true"
+  # SKILL.md reads this output and invokes the Agent tool as a fork (omitting subagent_type)
+  # After Agent tool returns: read .drift-inspection.json
+
+  # Read drift inspection result
+  drift_inspection_file="${TASK_DIR}/.drift-inspection.json"
+  if [ -f "$drift_inspection_file" ]; then
+    drift_pct=$(jq -r '.drift_pct // 0' "$drift_inspection_file")
+    drift_summary=$(jq -r '.summary // "No summary"' "$drift_inspection_file")
+    echo "[orchestrate] Drift inspection result: drift_pct=$drift_pct — $drift_summary"
+  else
+    echo "[orchestrate] WARNING: Drift inspection did not write .drift-inspection.json. Defaulting drift_pct=0."
+    drift_pct=0
+    drift_summary="Inspection output missing"
+  fi
+
+  # Conditional reviser-agent invocation when drift exceeds threshold
+  is_above_threshold=$(awk "BEGIN { print ($drift_pct > $DRIFT_REVISION_THRESHOLD) ? \"yes\" : \"no\" }")
+  if [ "$is_above_threshold" = "yes" ]; then
+    echo "[orchestrate] Drift detected ($drift_pct > $DRIFT_REVISION_THRESHOLD). Triggering plan revision..."
+    revised_plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+    revise_context=$(jq -n \
+      --argjson num "$task_number" \
+      --arg session_id "$session_id" \
+      --arg plan_path "${revised_plan_path:-}" \
+      --arg revision_reason "drift" \
+      --arg drift_pct "$drift_pct" \
+      '{"task_number": $num, "session_id": $session_id,
+        "plan_path": $plan_path,
+        "revision_reason": $revision_reason,
+        "drift_pct": $drift_pct,
+        "orchestrator_mode": false}')
+    dispatch_agent "reviser-agent" \
+      "Revise the implementation plan for task $task_number to address plan drift (drift_pct=$drift_pct). Summary: $drift_summary" \
+      "$revise_context" "false"
+    # SKILL.md invokes the Agent tool (subagent_type: reviser-agent)
+    # After Agent tool returns: read handoff to confirm revision
+  else
+    echo "[orchestrate] Drift check passed ($drift_pct <= $DRIFT_REVISION_THRESHOLD). Continuing."
+  fi
+}
 ```
 
 ---
@@ -442,6 +533,8 @@ On clean exit (task completed or terminal state):
 ```bash
 # Remove loop guard on success
 rm -f "$loop_guard_file"
+# Clean up drift inspection artifact if present
+rm -f "${TASK_DIR}/.drift-inspection.json"
 echo "[orchestrate] Task $task_number: orchestration complete."
 echo "Final status: $current_status | Cycles used: $cycle_count/$MAX_CYCLES"
 ```
@@ -493,6 +586,8 @@ This ensures context grows by only ~450 tokens per cycle regardless of artifact 
 | Plan dispatch | `planner-agent` | Named subagent |
 | Implement dispatch | `$IMPLEMENT_AGENT` (resolved by task type) | Named subagent, orchestrator_mode=true |
 | Blocker research | (no type — fork inherits parent) | Fork (cache-warm) |
-| Plan revision | `reviser-agent` | Named subagent |
+| Plan revision (blocker) | `reviser-agent` | Named subagent |
+| Drift inspection | (no type — fork inherits parent) | Fork (cache-warm); reads plan file, writes .drift-inspection.json |
+| Plan revision (drift) | `reviser-agent` | Named subagent; triggered when drift_pct > DRIFT_REVISION_THRESHOLD |
 
 Default agents: `general-research-agent`, `general-implementation-agent`. Extension agents resolved in Stage 1b.

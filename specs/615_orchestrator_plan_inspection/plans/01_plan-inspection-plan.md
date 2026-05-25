@@ -1,7 +1,7 @@
 # Implementation Plan: Orchestrator Plan Drift Inspection
 
 - **Task**: 615 - orchestrator_plan_inspection
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: Task 613 (phases_completed/phases_total in handoff)
 - **Research Inputs**: specs/615_orchestrator_plan_inspection/reports/01_plan-inspection.md
@@ -66,16 +66,16 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add drift detection constants and arithmetic gate [NOT STARTED]
+### Phase 1: Add drift detection constants and arithmetic gate [COMPLETED]
 
 **Goal**: Add the three drift constants to Stage 2 (alongside existing MAX_CYCLES and MAX_BLOCKER_ESCALATIONS) and insert the first-gate arithmetic check in Stage 5 after the phase progress logging.
 
 **Tasks**:
-- [ ] Add `drift_inspection_count=0` and `MAX_DRIFT_INSPECTIONS=1` to Stage 2 (after line 128, alongside `blocker_escalation_count=0`)
-- [ ] Add `DRIFT_COMPLETION_THRESHOLD=0.70` and `DRIFT_REVISION_THRESHOLD=0.30` constants to Stage 2
-- [ ] Insert the arithmetic gate in Stage 5 between the phase progress echo (line 325) and the cycle_count increment (line 329): check `phases_total > 0`, `dispatch_status == "partial"`, and `phases_completed / phases_total < DRIFT_COMPLETION_THRESHOLD`
-- [ ] Add conditional log line: `echo "[orchestrate] Low phase completion ($phases_completed/$phases_total). Inspecting plan for drift..."`
-- [ ] Add placeholder comment `# invoke_drift_inspection (Phase 2)` inside the conditional for the next phase to fill in
+- [x] Add `drift_inspection_count=0` and `MAX_DRIFT_INSPECTIONS=1` to Stage 2 (after line 128, alongside `blocker_escalation_count=0`) *(completed)*
+- [x] Add `DRIFT_COMPLETION_THRESHOLD=0.70` and `DRIFT_REVISION_THRESHOLD=0.30` constants to Stage 2 *(completed)*
+- [x] Insert the arithmetic gate in Stage 5 between the phase progress echo (line 325) and the cycle_count increment (line 329): check `phases_total > 0`, `dispatch_status == "partial"`, and `phases_completed / phases_total < DRIFT_COMPLETION_THRESHOLD` *(completed)*
+- [x] Add conditional log line: `echo "[orchestrate] Low phase completion ($phases_completed/$phases_total). Inspecting plan for drift..."` *(completed)*
+- [x] Add placeholder comment `# invoke_drift_inspection (Phase 2)` inside the conditional for the next phase to fill in *(completed)*
 
 **Timing**: 30 minutes
 
@@ -91,20 +91,20 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add invoke_drift_inspection function [NOT STARTED]
+### Phase 2: Add invoke_drift_inspection function [COMPLETED]
 
 **Goal**: Create the `invoke_drift_inspection` function that forks an inspection agent, reads `.drift-inspection.json`, and returns the drift percentage. This mirrors the `blocker_escalation` function structure.
 
 **Tasks**:
-- [ ] Create `invoke_drift_inspection` function between Stage 5 and Stage 6 (or as a new Stage 5a), using the same structure as `blocker_escalation`
-- [ ] Function signature: `invoke_drift_inspection(task_number, plan_path, session_id)`
-- [ ] Inside the function: check `drift_inspection_count >= MAX_DRIFT_INSPECTIONS` and return early with warning if cap reached
-- [ ] Increment `drift_inspection_count`
-- [ ] Build fork context JSON with `task_number`, `session_id`, `plan_path`, and `orchestrator_mode: false`
-- [ ] Build fork prompt instructing the inspection agent to: read the plan file, count total `- [ ]` and `- [x]` checkboxes, count deviation annotations, calculate `drift_pct`, and write compact JSON to `${TASK_DIR}/.drift-inspection.json`
-- [ ] Dispatch the fork using `dispatch_agent "" "$drift_inspect_prompt" "$drift_context" "true"` (unnamed fork, same pattern as blocker research)
-- [ ] After fork returns: read `.drift-inspection.json` and extract `drift_pct` and `summary`
-- [ ] Replace Phase 1 placeholder with actual `invoke_drift_inspection "$task_number" "$plan_path" "$session_id"` call
+- [x] Create `invoke_drift_inspection` function between Stage 5 and Stage 6 (or as a new Stage 5a), using the same structure as `blocker_escalation` *(completed)*
+- [x] Function signature: `invoke_drift_inspection(task_number, plan_path, session_id)` *(completed)*
+- [x] Inside the function: check `drift_inspection_count >= MAX_DRIFT_INSPECTIONS` and return early with warning if cap reached *(completed)*
+- [x] Increment `drift_inspection_count` *(completed)*
+- [x] Build fork context JSON with `task_number`, `session_id`, `plan_path`, and `orchestrator_mode: false` *(completed)*
+- [x] Build fork prompt instructing the inspection agent to: read the plan file, count total `- [ ]` and `- [x]` checkboxes, count deviation annotations, calculate `drift_pct`, and write compact JSON to `${TASK_DIR}/.drift-inspection.json` *(completed)*
+- [x] Dispatch the fork using `dispatch_agent "" "$drift_inspect_prompt" "$drift_context" "true"` (unnamed fork, same pattern as blocker research) *(completed)*
+- [x] After fork returns: read `.drift-inspection.json` and extract `drift_pct` and `summary` *(completed)*
+- [x] Replace Phase 1 placeholder with actual `invoke_drift_inspection "$task_number" "$plan_path" "$session_id"` call *(completed)*
 
 **Timing**: 45 minutes
 
@@ -120,18 +120,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Add conditional reviser-agent invocation and cleanup [NOT STARTED]
+### Phase 3: Add conditional reviser-agent invocation and cleanup [COMPLETED]
 
 **Goal**: After drift inspection, conditionally invoke reviser-agent when `drift_pct > DRIFT_REVISION_THRESHOLD`. Also add `.drift-inspection.json` cleanup to Stage 8 postflight.
 
 **Tasks**:
-- [ ] Inside `invoke_drift_inspection`, after reading `drift_pct`: add conditional check `drift_pct > DRIFT_REVISION_THRESHOLD`
-- [ ] On threshold exceeded: log `echo "[orchestrate] Drift detected ($drift_pct). Triggering plan revision..."`
-- [ ] Build revise context JSON with `task_number`, `session_id`, `plan_path`, `revision_reason: "drift"`, and `drift_pct`
-- [ ] Dispatch reviser-agent using `dispatch_agent "reviser-agent" "$revise_prompt" "$revise_context" "false"` (same pattern as Stage 6 Step 4)
-- [ ] On threshold not exceeded: log `echo "[orchestrate] Drift check passed ($drift_pct <= $DRIFT_REVISION_THRESHOLD). Continuing."`
-- [ ] Add cleanup of `.drift-inspection.json` in Stage 8 postflight: `rm -f "${TASK_DIR}/.drift-inspection.json"`
-- [ ] Update the Skill-to-Agent Mapping table at the bottom to add a row for "Drift inspection" (fork, cache-warm) and note that "Plan revision" reuses reviser-agent
+- [x] Inside `invoke_drift_inspection`, after reading `drift_pct`: add conditional check `drift_pct > DRIFT_REVISION_THRESHOLD` *(completed)*
+- [x] On threshold exceeded: log `echo "[orchestrate] Drift detected ($drift_pct). Triggering plan revision..."` *(completed)*
+- [x] Build revise context JSON with `task_number`, `session_id`, `plan_path`, `revision_reason: "drift"`, and `drift_pct` *(completed)*
+- [x] Dispatch reviser-agent using `dispatch_agent "reviser-agent" "$revise_prompt" "$revise_context" "false"` (same pattern as Stage 6 Step 4) *(completed)*
+- [x] On threshold not exceeded: log `echo "[orchestrate] Drift check passed ($drift_pct <= $DRIFT_REVISION_THRESHOLD). Continuing."` *(completed)*
+- [x] Add cleanup of `.drift-inspection.json` in Stage 8 postflight: `rm -f "${TASK_DIR}/.drift-inspection.json"` *(completed)*
+- [x] Update the Skill-to-Agent Mapping table at the bottom to add a row for "Drift inspection" (fork, cache-warm) and note that "Plan revision" reuses reviser-agent *(completed)*
 
 **Timing**: 30 minutes
 
@@ -147,13 +147,13 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Sync extension copy [NOT STARTED]
+### Phase 4: Sync extension copy [COMPLETED]
 
 **Goal**: Copy the updated SKILL.md to the extension location to keep the primary and extension copies in sync.
 
 **Tasks**:
-- [ ] Copy `.claude/skills/skill-orchestrate/SKILL.md` to `.claude/extensions/core/skills/skill-orchestrate/SKILL.md`
-- [ ] Verify both files are identical (diff check)
+- [x] Copy `.claude/skills/skill-orchestrate/SKILL.md` to `.claude/extensions/core/skills/skill-orchestrate/SKILL.md` *(completed)*
+- [x] Verify both files are identical (diff check) *(completed: diff returned no differences)*
 
 **Timing**: 5 minutes
 

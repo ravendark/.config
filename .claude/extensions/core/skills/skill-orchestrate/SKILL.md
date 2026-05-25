@@ -30,6 +30,7 @@ Infrastructure (source as needed):
 source .claude/scripts/skill-base.sh
 task_number=$(echo "$delegation_context" | jq -r '.task_context.task_number')
 session_id=$(echo "$delegation_context" | jq -r '.session_id')
+focus_prompt=$(echo "$delegation_context" | jq -r '.focus_prompt // ""')
 
 # Read task state without blocking on terminal states (orchestrate handles them gracefully)
 PADDED_NUM=$(printf "%03d" "$task_number")
@@ -44,6 +45,49 @@ PROJECT_NAME=$(echo "$TASK_DATA" | jq -r '.project_name')
 TASK_TYPE=$(echo "$TASK_DATA" | jq -r '.task_type // "general"')
 DESCRIPTION=$(echo "$TASK_DATA" | jq -r '.description // ""')
 TASK_DIR="specs/${PADDED_NUM}_${PROJECT_NAME}"
+```
+
+### Stage 1b: Resolve Task-Type Routing
+
+Map task_type to the correct research and implementation agents using extension manifests.
+
+```bash
+# Resolve agents by task_type — consult extension manifests for non-core types
+case "$TASK_TYPE" in
+  lean4|lean)
+    RESEARCH_AGENT="lean-research-agent"
+    IMPLEMENT_AGENT="lean-implementation-agent"
+    ;;
+  neovim)
+    RESEARCH_AGENT="neovim-research-agent"
+    IMPLEMENT_AGENT="neovim-implementation-agent"
+    ;;
+  nix)
+    RESEARCH_AGENT="nix-research-agent"
+    IMPLEMENT_AGENT="nix-implementation-agent"
+    ;;
+  *)
+    RESEARCH_AGENT="general-research-agent"
+    IMPLEMENT_AGENT="general-implementation-agent"
+    ;;
+esac
+echo "[orchestrate] Task type: $TASK_TYPE → research=$RESEARCH_AGENT, implement=$IMPLEMENT_AGENT"
+```
+
+**Extension resolution**: If a task_type is not in the case table above, check for an extension manifest:
+```bash
+manifest=".claude/extensions/${TASK_TYPE}/manifest.json"
+if [ -f "$manifest" ]; then
+  ext_research=$(jq -r ".routing.research[\"$TASK_TYPE\"] // empty" "$manifest")
+  ext_implement=$(jq -r ".routing.implement[\"$TASK_TYPE\"] // empty" "$manifest")
+  # Map skill names to agent names (skill-X-Y -> X-Y-agent)
+  if [ -n "$ext_research" ]; then
+    RESEARCH_AGENT=$(echo "$ext_research" | sed 's/^skill-//' | sed 's/$/-agent/')
+  fi
+  if [ -n "$ext_implement" ]; then
+    IMPLEMENT_AGENT=$(echo "$ext_implement" | sed 's/^skill-//' | sed 's/$/-agent/')
+  fi
+fi
 ```
 
 ### Stage 2: Preflight — Loop Guard
@@ -82,6 +126,12 @@ fi
 # Blocker escalation counter (reset each /orchestrate invocation)
 blocker_escalation_count=0
 MAX_BLOCKER_ESCALATIONS=2
+
+# Drift detection constants (reset each /orchestrate invocation)
+drift_inspection_count=0
+MAX_DRIFT_INSPECTIONS=1
+DRIFT_COMPLETION_THRESHOLD=0.70
+DRIFT_REVISION_THRESHOLD=0.30
 ```
 
 ### Stage 3: State Machine Loop
@@ -121,16 +171,16 @@ jq --arg state "$current_status" \
 
 #### State: `not_started` or `not started`
 
-Dispatch research via named subagent.
+Dispatch research via named subagent (resolved by task type in Stage 1b).
 
 ```
-dispatch_instructions = dispatch_agent "general-research-agent" \
-  "Research task $task_number: $DESCRIPTION" \
+dispatch_instructions = dispatch_agent "$RESEARCH_AGENT" \
+  "Research task $task_number: $DESCRIPTION${focus_prompt:+. User focus: $focus_prompt}" \
   '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": false}' \
   "false"
 ```
 
-Invoke the Agent tool per dispatch_instructions (subagent_type: general-research-agent).
+Invoke the Agent tool per dispatch_instructions (subagent_type: $RESEARCH_AGENT).
 
 After Agent tool returns: read handoff (Stage 5). Increment cycle_count.
 
@@ -152,7 +202,7 @@ Dispatch planning via named subagent.
 research_artifacts=$(jq -c '[.active_projects[] | select(.project_number == N) | .artifacts // [] | .[] | select(.type == "report")] | .[0].path // ""' specs/state.json)
 
 dispatch_instructions = dispatch_agent "planner-agent" \
-  "Create implementation plan for task $task_number" \
+  "Create implementation plan for task $task_number${focus_prompt:+. User focus: $focus_prompt}" \
   '{"task_number": N, "task_type": "T", "session_id": "S", "research_artifacts": [...], "orchestrator_mode": false}' \
   "false"
 ```
@@ -167,21 +217,21 @@ In-flight state. Exit with warning (same pattern as `researching`).
 
 #### State: `planned` or `implementing`
 
-Dispatch implement via named subagent with `orchestrator_mode: true`.
+Dispatch implement via named subagent with `orchestrator_mode: true` (resolved by task type in Stage 1b).
 
 ```bash
 plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
 ```
 
 ```
-dispatch_instructions = dispatch_agent "general-implementation-agent" \
-  "Implement task $task_number following the plan" \
+dispatch_instructions = dispatch_agent "$IMPLEMENT_AGENT" \
+  "Implement task $task_number following the plan${focus_prompt:+. User focus: $focus_prompt}" \
   '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": true,
     "plan_path": "$plan_path"}' \
   "false"
 ```
 
-Invoke the Agent tool per dispatch_instructions (subagent_type: general-implementation-agent).
+Invoke the Agent tool per dispatch_instructions (subagent_type: $IMPLEMENT_AGENT).
 
 After Agent tool returns: read handoff. Increment cycle_count.
 
@@ -198,11 +248,11 @@ blocker_count=$(echo "$blockers" | jq 'length')
 
 **Sub-state: continuation available** (continuation != null AND has handoff_path):
 
-Dispatch implement with continuation context.
+Dispatch implement with continuation context (resolved by task type in Stage 1b).
 
 ```
-dispatch_instructions = dispatch_agent "general-implementation-agent" \
-  "Resume implementation for task $task_number from continuation handoff" \
+dispatch_instructions = dispatch_agent "$IMPLEMENT_AGENT" \
+  "Resume implementation for task $task_number from continuation handoff${focus_prompt:+. User focus: $focus_prompt}" \
   '{"task_number": N, ..., "orchestrator_mode": true,
     "plan_path": "$plan_path",
     "continuation_context": {continuation_context_object}}' \
@@ -275,11 +325,99 @@ else
   blockers=$(echo "$handoff" | jq -c '.blockers // []')
   continuation=$(echo "$handoff" | jq -c '.continuation_context // null')
   next_hint=$(echo "$handoff" | jq -r '.next_action_hint // "none"')
+  phases_completed=$(echo "$handoff" | jq -r '.phases_completed // 0')
+  phases_total=$(echo "$handoff" | jq -r '.phases_total // 0')
   echo "[orchestrate] Dispatch result: $dispatch_status — $dispatch_summary"
+  [ "$phases_total" -gt 0 ] && echo "[orchestrate] Phase progress: $phases_completed/$phases_total"
+
+  # Drift detection: arithmetic gate (cheap check before expensive inspection fork)
+  if [ "$phases_total" -gt 0 ] && [ "$dispatch_status" = "partial" ]; then
+    # Use awk for floating-point comparison (bash only does integer math)
+    completion_ratio=$(awk "BEGIN { printf \"%.4f\", $phases_completed / $phases_total }")
+    is_below_threshold=$(awk "BEGIN { print ($completion_ratio < $DRIFT_COMPLETION_THRESHOLD) ? \"yes\" : \"no\" }")
+    if [ "$is_below_threshold" = "yes" ]; then
+      echo "[orchestrate] Low phase completion ($phases_completed/$phases_total). Inspecting plan for drift..."
+      invoke_drift_inspection "$task_number" "$plan_path" "$session_id"
+    fi
+  fi
 fi
 
 # Increment cycle_count
 cycle_count=$((cycle_count + 1))
+```
+
+---
+
+### Stage 5a: Drift Inspection Function
+
+Called from Stage 5 when phase completion is below DRIFT_COMPLETION_THRESHOLD and dispatch_status is "partial".
+Capped at MAX_DRIFT_INSPECTIONS=1 per /orchestrate invocation.
+
+```bash
+invoke_drift_inspection() {
+  local task_number="$1"
+  local plan_path="$2"
+  local session_id="$3"
+
+  if [ "$drift_inspection_count" -ge "$MAX_DRIFT_INSPECTIONS" ]; then
+    echo "[orchestrate] WARNING: Drift inspection cap ($MAX_DRIFT_INSPECTIONS) reached. Skipping inspection."
+    return 0
+  fi
+
+  drift_inspection_count=$((drift_inspection_count + 1))
+  echo "[orchestrate] Drift inspection attempt $drift_inspection_count/$MAX_DRIFT_INSPECTIONS"
+
+  source .claude/scripts/dispatch-agent.sh
+
+  drift_inspect_context=$(jq -n \
+    --argjson num "$task_number" \
+    --arg session_id "$session_id" \
+    --arg plan_path "$plan_path" \
+    '{"task_number": $num, "session_id": $session_id, "plan_path": $plan_path, "orchestrator_mode": false}')
+
+  drift_inspect_prompt="Read the plan file at '$plan_path'. Count: (1) total checklist items matching '- \\[ \\]' or '- \\[x\\]', (2) completed items matching '- \\[x\\]', (3) deviation annotations matching '*(deviation:'. Calculate drift_pct as: deviation_count / max(total_items, 1). Write compact JSON to '${TASK_DIR}/.drift-inspection.json' with fields: drift_pct (float), deviation_count (int), total_items (int), completed_items (int), summary (string, one sentence). Return a brief summary of findings."
+
+  dispatch_agent "" "$drift_inspect_prompt" "$drift_inspect_context" "true"
+  # SKILL.md reads this output and invokes the Agent tool as a fork (omitting subagent_type)
+  # After Agent tool returns: read .drift-inspection.json
+
+  # Read drift inspection result
+  drift_inspection_file="${TASK_DIR}/.drift-inspection.json"
+  if [ -f "$drift_inspection_file" ]; then
+    drift_pct=$(jq -r '.drift_pct // 0' "$drift_inspection_file")
+    drift_summary=$(jq -r '.summary // "No summary"' "$drift_inspection_file")
+    echo "[orchestrate] Drift inspection result: drift_pct=$drift_pct — $drift_summary"
+  else
+    echo "[orchestrate] WARNING: Drift inspection did not write .drift-inspection.json. Defaulting drift_pct=0."
+    drift_pct=0
+    drift_summary="Inspection output missing"
+  fi
+
+  # Conditional reviser-agent invocation when drift exceeds threshold
+  is_above_threshold=$(awk "BEGIN { print ($drift_pct > $DRIFT_REVISION_THRESHOLD) ? \"yes\" : \"no\" }")
+  if [ "$is_above_threshold" = "yes" ]; then
+    echo "[orchestrate] Drift detected ($drift_pct > $DRIFT_REVISION_THRESHOLD). Triggering plan revision..."
+    revised_plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+    revise_context=$(jq -n \
+      --argjson num "$task_number" \
+      --arg session_id "$session_id" \
+      --arg plan_path "${revised_plan_path:-}" \
+      --arg revision_reason "drift" \
+      --arg drift_pct "$drift_pct" \
+      '{"task_number": $num, "session_id": $session_id,
+        "plan_path": $plan_path,
+        "revision_reason": $revision_reason,
+        "drift_pct": $drift_pct,
+        "orchestrator_mode": false}')
+    dispatch_agent "reviser-agent" \
+      "Revise the implementation plan for task $task_number to address plan drift (drift_pct=$drift_pct). Summary: $drift_summary" \
+      "$revise_context" "false"
+    # SKILL.md invokes the Agent tool (subagent_type: reviser-agent)
+    # After Agent tool returns: read handoff to confirm revision
+  else
+    echo "[orchestrate] Drift check passed ($drift_pct <= $DRIFT_REVISION_THRESHOLD). Continuing."
+  fi
+}
 ```
 
 ---
@@ -354,10 +492,10 @@ blocker_escalation() {
     '{"task_number": $num, "session_id": $session_id,
       "orchestrator_mode": true,
       "plan_path": $plan_path}')
-  dispatch_agent "general-implementation-agent" \
-    "Implement task $task_number following the revised plan" \
+  dispatch_agent "$IMPLEMENT_AGENT" \
+    "Implement task $task_number following the revised plan${focus_prompt:+. User focus: $focus_prompt}" \
     "$implement_context" "false"
-  # SKILL.md invokes the Agent tool (subagent_type: general-implementation-agent)
+  # SKILL.md invokes the Agent tool (subagent_type: $IMPLEMENT_AGENT)
   # After Agent tool returns: read handoff
 
   return 0
@@ -395,6 +533,8 @@ On clean exit (task completed or terminal state):
 ```bash
 # Remove loop guard on success
 rm -f "$loop_guard_file"
+# Clean up drift inspection artifact if present
+rm -f "${TASK_DIR}/.drift-inspection.json"
 echo "[orchestrate] Task $task_number: orchestration complete."
 echo "Final status: $current_status | Cycles used: $cycle_count/$MAX_CYCLES"
 ```
@@ -442,8 +582,12 @@ This ensures context grows by only ~450 tokens per cycle regardless of artifact 
 
 | Operation | Agent Type | Mode |
 |-----------|-----------|------|
-| Research dispatch | `general-research-agent` | Named subagent |
+| Research dispatch | `$RESEARCH_AGENT` (resolved by task type) | Named subagent |
 | Plan dispatch | `planner-agent` | Named subagent |
-| Implement dispatch | `general-implementation-agent` | Named subagent, orchestrator_mode=true |
+| Implement dispatch | `$IMPLEMENT_AGENT` (resolved by task type) | Named subagent, orchestrator_mode=true |
 | Blocker research | (no type — fork inherits parent) | Fork (cache-warm) |
-| Plan revision | `reviser-agent` | Named subagent |
+| Plan revision (blocker) | `reviser-agent` | Named subagent |
+| Drift inspection | (no type — fork inherits parent) | Fork (cache-warm); reads plan file, writes .drift-inspection.json |
+| Plan revision (drift) | `reviser-agent` | Named subagent; triggered when drift_pct > DRIFT_REVISION_THRESHOLD |
+
+Default agents: `general-research-agent`, `general-implementation-agent`. Extension agents resolved in Stage 1b.
