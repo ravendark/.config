@@ -106,8 +106,8 @@
       "token_count": 100,
       "created": "2026-05-22",
       "modified": "2026-05-22",
-      "last_retrieved": null,
-      "retrieval_count": 0
+      "last_retrieved": "2026-05-25",
+      "retrieval_count": 2
     },
     {
       "id": "MEM-pattern-gate-out-defensive-check",

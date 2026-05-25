@@ -150,15 +150,26 @@
     {
       "project_number": 611,
       "project_name": "add_prompt_to_orchestrate",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "created": "2026-05-25T00:00:00Z",
-      "last_updated": "2026-05-25T15:50:11Z",
+      "last_updated": "2026-05-25T15:58:15Z",
       "dependencies": [],
-      "artifacts": [],
+      "artifacts": [
+        {
+          "path": "specs/611_add_prompt_to_orchestrate/reports/01_prompt-parameter-research.md",
+          "type": "report",
+          "summary": "Research on orchestrate prompt parameter: current argument parsing, delegation context flow, sub-agent dispatch patterns, and required changes across 4 files"
+        },
+        {
+          "path": "specs/611_add_prompt_to_orchestrate/plans/01_prompt-parameter-plan.md",
+          "type": "plan",
+          "summary": "3-phase implementation plan to add optional prompt parameter to /orchestrate command, threading focus text through delegation context to all sub-agent dispatches"
+        }
+      ],
       "description": "Add optional prompt parameter to /orchestrate command. Current syntax: /orchestrate N. New syntax: /orchestrate N [prompt]. The prompt flows through the delegation chain: command parses args into task_number + prompt, includes prompt in delegation context JSON, skill extracts prompt and propagates to each sub-agent dispatch (research, plan, implement). Files to modify: .claude/commands/orchestrate.md, .claude/extensions/core/commands/orchestrate.md, .claude/skills/skill-orchestrate/SKILL.md, .claude/CLAUDE.md command reference.",
       "next_artifact_number": 1,
-      "session_id": "sess_1779724197_7a4b82"
+      "session_id": "sess_1779724540_b6b91f"
     }
   ],
   "completed_projects": [],

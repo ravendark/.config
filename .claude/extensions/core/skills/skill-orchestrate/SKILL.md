@@ -46,49 +46,6 @@ DESCRIPTION=$(echo "$TASK_DATA" | jq -r '.description // ""')
 TASK_DIR="specs/${PADDED_NUM}_${PROJECT_NAME}"
 ```
 
-### Stage 1b: Resolve Task-Type Routing
-
-Map task_type to the correct research and implementation agents using extension manifests.
-
-```bash
-# Resolve agents by task_type — consult extension manifests for non-core types
-case "$TASK_TYPE" in
-  lean4|lean)
-    RESEARCH_AGENT="lean-research-agent"
-    IMPLEMENT_AGENT="lean-implementation-agent"
-    ;;
-  neovim)
-    RESEARCH_AGENT="neovim-research-agent"
-    IMPLEMENT_AGENT="neovim-implementation-agent"
-    ;;
-  nix)
-    RESEARCH_AGENT="nix-research-agent"
-    IMPLEMENT_AGENT="nix-implementation-agent"
-    ;;
-  *)
-    RESEARCH_AGENT="general-research-agent"
-    IMPLEMENT_AGENT="general-implementation-agent"
-    ;;
-esac
-echo "[orchestrate] Task type: $TASK_TYPE → research=$RESEARCH_AGENT, implement=$IMPLEMENT_AGENT"
-```
-
-**Extension resolution**: If a task_type is not in the case table above, check for an extension manifest:
-```bash
-manifest=".claude/extensions/${TASK_TYPE}/manifest.json"
-if [ -f "$manifest" ]; then
-  ext_research=$(jq -r ".routing.research[\"$TASK_TYPE\"] // empty" "$manifest")
-  ext_implement=$(jq -r ".routing.implement[\"$TASK_TYPE\"] // empty" "$manifest")
-  # Map skill names to agent names (skill-X-Y -> X-Y-agent)
-  if [ -n "$ext_research" ]; then
-    RESEARCH_AGENT=$(echo "$ext_research" | sed 's/^skill-//' | sed 's/$/-agent/')
-  fi
-  if [ -n "$ext_implement" ]; then
-    IMPLEMENT_AGENT=$(echo "$ext_implement" | sed 's/^skill-//' | sed 's/$/-agent/')
-  fi
-fi
-```
-
 ### Stage 2: Preflight — Loop Guard
 
 Create or read the loop guard file. This tracks cycle count across conversational turns.
@@ -164,16 +121,16 @@ jq --arg state "$current_status" \
 
 #### State: `not_started` or `not started`
 
-Dispatch research via named subagent (resolved by task type in Stage 1b).
+Dispatch research via named subagent.
 
 ```
-dispatch_instructions = dispatch_agent "$RESEARCH_AGENT" \
+dispatch_instructions = dispatch_agent "general-research-agent" \
   "Research task $task_number: $DESCRIPTION" \
   '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": false}' \
   "false"
 ```
 
-Invoke the Agent tool per dispatch_instructions (subagent_type: $RESEARCH_AGENT).
+Invoke the Agent tool per dispatch_instructions (subagent_type: general-research-agent).
 
 After Agent tool returns: read handoff (Stage 5). Increment cycle_count.
 
@@ -210,21 +167,21 @@ In-flight state. Exit with warning (same pattern as `researching`).
 
 #### State: `planned` or `implementing`
 
-Dispatch implement via named subagent with `orchestrator_mode: true` (resolved by task type in Stage 1b).
+Dispatch implement via named subagent with `orchestrator_mode: true`.
 
 ```bash
 plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
 ```
 
 ```
-dispatch_instructions = dispatch_agent "$IMPLEMENT_AGENT" \
+dispatch_instructions = dispatch_agent "general-implementation-agent" \
   "Implement task $task_number following the plan" \
   '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": true,
     "plan_path": "$plan_path"}' \
   "false"
 ```
 
-Invoke the Agent tool per dispatch_instructions (subagent_type: $IMPLEMENT_AGENT).
+Invoke the Agent tool per dispatch_instructions (subagent_type: general-implementation-agent).
 
 After Agent tool returns: read handoff. Increment cycle_count.
 
@@ -241,10 +198,10 @@ blocker_count=$(echo "$blockers" | jq 'length')
 
 **Sub-state: continuation available** (continuation != null AND has handoff_path):
 
-Dispatch implement with continuation context (resolved by task type in Stage 1b).
+Dispatch implement with continuation context.
 
 ```
-dispatch_instructions = dispatch_agent "$IMPLEMENT_AGENT" \
+dispatch_instructions = dispatch_agent "general-implementation-agent" \
   "Resume implementation for task $task_number from continuation handoff" \
   '{"task_number": N, ..., "orchestrator_mode": true,
     "plan_path": "$plan_path",
@@ -397,10 +354,10 @@ blocker_escalation() {
     '{"task_number": $num, "session_id": $session_id,
       "orchestrator_mode": true,
       "plan_path": $plan_path}')
-  dispatch_agent "$IMPLEMENT_AGENT" \
+  dispatch_agent "general-implementation-agent" \
     "Implement task $task_number following the revised plan" \
     "$implement_context" "false"
-  # SKILL.md invokes the Agent tool (subagent_type: $IMPLEMENT_AGENT)
+  # SKILL.md invokes the Agent tool (subagent_type: general-implementation-agent)
   # After Agent tool returns: read handoff
 
   return 0
@@ -485,10 +442,8 @@ This ensures context grows by only ~450 tokens per cycle regardless of artifact 
 
 | Operation | Agent Type | Mode |
 |-----------|-----------|------|
-| Research dispatch | `$RESEARCH_AGENT` (resolved by task type) | Named subagent |
+| Research dispatch | `general-research-agent` | Named subagent |
 | Plan dispatch | `planner-agent` | Named subagent |
-| Implement dispatch | `$IMPLEMENT_AGENT` (resolved by task type) | Named subagent, orchestrator_mode=true |
+| Implement dispatch | `general-implementation-agent` | Named subagent, orchestrator_mode=true |
 | Blocker research | (no type — fork inherits parent) | Fork (cache-warm) |
 | Plan revision | `reviser-agent` | Named subagent |
-
-Default agents: `general-research-agent`, `general-implementation-agent`. Extension agents resolved in Stage 1b.

@@ -48,13 +48,23 @@ fi
 
 Route to appropriate skill based on task type:
 
+**Core Types** (always available):
+
 | Task Type | Research Skill | Implementation Skill |
 |-----------|---------------|---------------------|
 | general | skill-researcher | skill-implementer |
 | meta | skill-researcher | skill-implementer |
 | markdown | skill-researcher | skill-implementer |
 
-**Note**: Additional languages (latex, typst) are available via extensions in `.claude/extensions/`.
+**Extension Types** (loaded from extension manifests):
+
+| Task Type | Research Skill | Implementation Skill |
+|-----------|---------------|---------------------|
+| lean4, lean | skill-lean-research | skill-lean-implementation |
+| neovim | skill-neovim-research | skill-neovim-implementation |
+| nix | skill-nix-research | skill-nix-implementation |
+
+**Dynamic resolution**: For task types not listed above, check `.claude/extensions/{task_type}/manifest.json` and read its `routing.research` and `routing.implement` entries for the task_type key.
 
 ### 3. Status Validation
 
