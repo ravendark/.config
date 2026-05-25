@@ -45,20 +45,25 @@
     {
       "project_number": 616,
       "project_name": "fix_archive_task_todo_cleanup",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "created": "2026-05-25T23:12:10Z",
-      "last_updated": "2026-05-25T23:18:42Z",
+      "last_updated": "2026-05-25T23:22:58Z",
       "dependencies": [],
       "artifacts": [
         {
           "path": "specs/616_fix_archive_task_todo_cleanup/reports/01_archive-todo-cleanup.md",
           "type": "report",
           "summary": "Step C Python regex matches legacy format (- #N:) that never exists in TODO.md. Actual format is ### N. Title blocks. Fix: replace with block removal anchored on ^### {N}\\. pattern."
+        },
+        {
+          "path": "specs/616_fix_archive_task_todo_cleanup/plans/01_archive-todo-plan.md",
+          "type": "plan",
+          "summary": "2-phase plan to fix broken Step C regex in archive-task.sh and sync extension copy"
         }
       ],
       "description": "The archive-task.sh script moves task directories to archive/ and updates state.json (removing from active_projects, adding to completed_projects) but does NOT remove the corresponding task entry block from TODO.md. This leaves stale [COMPLETED] entries in TODO.md after /todo runs. Fix: add a sed/awk step to archive-task.sh that removes the full task entry block (from ### {N}. to the next --- or ### delimiter) from TODO.md after archiving. Also update the extension copy at .claude/extensions/core/scripts/archive-task.sh.",
-      "session_id": "sess_1779750853_06a7d7"
+      "session_id": "sess_1779751216_b9508f"
     }
   ],
   "completed_projects": [],
