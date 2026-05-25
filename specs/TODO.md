@@ -11,16 +11,15 @@ next_project_number: 616
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,613,614 | -- | -- |
+| 1 | 78,87,613 | -- | orchestrate-progress |
 | 2 | 615 | 613 | orchestrate-progress |
 
 **Grouped by Topic** (indented = depends on parent):
 
-### orchestrate-progress
+### Orchestrate Progress
 
-613 [PLANNED] — structured_handoff_subtask_counts
-614 [PLANNED] — post_phase_subtask_validation
-  615 [NOT STARTED] — orchestrator_plan_inspection (depends: 613)
+613 [IMPLEMENTING] — Add structured subtask completion counts to .orchestrator-handoff
+  └─ 615 [NOT STARTED] — Have the orchestrator inspect the plan file between cycles (not j
 
 ### Uncategorized
 
@@ -31,7 +30,7 @@ next_project_number: 616
 
 ### 613. Add structured subtask counts to orchestrator handoff
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Topic**: orchestrate-progress
@@ -44,12 +43,13 @@ next_project_number: 616
 
 ### 614. Add post-phase subtask validation to implementation agents
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Topic**: orchestrate-progress
 - specs/614_post_phase_subtask_validation/reports/01_subtask-validation.md: [Research]
 - specs/614_post_phase_subtask_validation/plans/01_subtask-validation-plan.md: [Plan]
+- specs/614_post_phase_subtask_validation/summaries/01_subtask-validation-summary.md: [Summary]
 
 **Description**: Add lightweight post-phase validation to implementation agents that checks all `- [ ]` items in the current phase were addressed (completed, skipped with annotation, or deferred) before marking the phase `[COMPLETED]`. Currently the agent is instructed to check off items (Stage 4B-ii) but nothing validates compliance. Add a self-check step between Stage 4D (post-phase review) and Stage 5 (next phase) that counts unchecked items and either completes them or annotates why they were skipped. Files: `general-implementation-agent.md`, `neovim-implementation-agent.md`, `nix-implementation-agent.md`.
 

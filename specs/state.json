@@ -210,10 +210,10 @@
     {
       "project_number": 613,
       "project_name": "structured_handoff_subtask_counts",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "created": "2026-05-25T23:00:00Z",
-      "last_updated": "2026-05-25T22:32:41Z",
+      "last_updated": "2026-05-25T22:34:18Z",
       "dependencies": [],
       "topic": "orchestrate-progress",
       "artifacts": [
@@ -229,15 +229,15 @@
         }
       ],
       "description": "Add structured subtask completion counts to .orchestrator-handoff.json. Currently the handoff only contains summary and status fields. Add phases_completed/phases_total and per-phase subtask counts (completed/total) so the orchestrator knows exactly what was accomplished. Files: general-implementation-agent.md Stage 7 (.return-meta.json), skill-implementer.md (handoff reading), skill-orchestrate SKILL.md (handoff parsing).",
-      "session_id": "sess_1779748137_546bbc"
+      "session_id": "sess_1779748445_d548f4"
     },
     {
       "project_number": 614,
       "project_name": "post_phase_subtask_validation",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-25T23:00:00Z",
-      "last_updated": "2026-05-25T22:32:41Z",
+      "last_updated": "2026-05-25T22:41:52Z",
       "dependencies": [],
       "topic": "orchestrate-progress",
       "artifacts": [
@@ -250,10 +250,16 @@
           "path": "specs/614_post_phase_subtask_validation/plans/01_subtask-validation-plan.md",
           "type": "plan",
           "summary": "3-phase plan to add count-and-gate post-phase validation to all implementation agents and backport check-off instructions to neovim and nix agents"
+        },
+        {
+          "path": "specs/614_post_phase_subtask_validation/summaries/01_subtask-validation-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: mandatory count-and-gate subtask validation added to all 3 implementation agents"
         }
       ],
       "description": "Add lightweight post-phase validation to implementation agents that checks all - [ ] items in the current phase were addressed (completed, skipped with annotation, or deferred) before marking the phase [COMPLETED]. Currently the agent is instructed to check off items (Stage 4B-ii) but nothing validates compliance. Add a self-check step between Stage 4D (post-phase review) and Stage 5 (next phase) that counts unchecked items and either completes them or annotates why they were skipped. Files: general-implementation-agent.md, neovim-implementation-agent.md, nix-implementation-agent.md.",
-      "session_id": "sess_1779748137_546bbc"
+      "session_id": "sess_1779748445_d548f4",
+      "completion_summary": "Added mandatory count-and-gate subtask validation (Stage 4D-ii) to all three implementation agents (general, neovim, nix), replacing the advisory self-review with a three-step gate requiring all unchecked plan items to be either completed or annotated as deviations before phase transition. Also backported the Stage 4B-ii check-off instruction to the neovim and nix agents, which previously lacked it."
     },
     {
       "project_number": 615,
