@@ -1,7 +1,7 @@
 # Implementation Plan: Add Optional Prompt Parameter to /orchestrate
 
 - **Task**: 611 - add_prompt_to_orchestrate
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/611_add_prompt_to_orchestrate/reports/01_prompt-parameter-research.md
