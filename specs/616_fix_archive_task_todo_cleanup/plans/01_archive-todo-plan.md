@@ -1,7 +1,7 @@
 # Implementation Plan: Fix archive-task.sh TODO.md Cleanup
 
 - **Task**: 616 - Fix archive-task.sh TODO.md cleanup
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 0.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/616_fix_archive_task_todo_cleanup/reports/01_archive-todo-cleanup.md
