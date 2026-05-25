@@ -88,16 +88,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add check-off instruction and count-and-gate validation to neovim-implementation-agent.md [NOT STARTED]
+### Phase 2: Add check-off instruction and count-and-gate validation to neovim-implementation-agent.md [COMPLETED]
 
 **Goal**: Add the missing Stage 4B-ii check-off instruction (backported from general agent) after Step B.4, then restructure Stage 4D-ii to include the same count-and-gate validation with neovim-specific domain verification.
 
 **Tasks**:
-- [ ] **Task 2.1**: Read current Step B section (lines 133-153) and Stage 4D-ii (lines 173-182) in `neovim-implementation-agent.md`
-- [ ] **Task 2.2**: Insert a new `#### 4B-ii. Check Off Completed Items in Plan File` section after the existing Step B.4 (deviation annotation) block, adapted from the general agent's 4B-ii but without progress file references
-- [ ] **Task 2.3**: Replace Stage 4D-ii heading and content with the restructured count-and-gate version, adapted for neovim (no progress file, domain verification via `nvim --headless`)
-- [ ] **Task 2.4**: Ensure the domain verification step ("Verify Neovim starts without errors") is preserved as part of the restructured 4D-ii
-- [ ] **Task 2.5**: Read the modified file to confirm structural consistency
+- [x] **Task 2.1**: Read current Step B section (lines 133-153) and Stage 4D-ii (lines 173-182) in `neovim-implementation-agent.md` *(completed)*
+- [x] **Task 2.2**: Insert a new `#### 4B-ii. Check Off Completed Items in Plan File` section after the existing Step B.4 (deviation annotation) block, adapted from the general agent's 4B-ii but without progress file references *(completed)*
+- [x] **Task 2.3**: Replace Stage 4D-ii heading and content with the restructured count-and-gate version, adapted for neovim (no progress file, domain verification via `nvim --headless`) *(completed)*
+- [x] **Task 2.4**: Ensure the domain verification step ("Verify Neovim starts without errors") is preserved as part of the restructured 4D-ii *(completed)*
+- [x] **Task 2.5**: Read the modified file to confirm structural consistency *(completed)*
 
 **Timing**: 30 minutes
 
