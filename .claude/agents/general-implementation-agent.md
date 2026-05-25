@@ -194,17 +194,23 @@ Use the Edit tool with:
 
 Phase status lives ONLY in the heading. Do NOT add or edit a separate `**Status**:` line per phase.
 
-#### 4D-ii. Post-Phase Self-Review
+#### 4D-ii. Post-Phase Subtask Validation (Self-Check Gate)
 
-After marking a phase `[COMPLETED]`, perform a self-review before proceeding to the next phase:
+After marking a phase `[COMPLETED]`, perform a mandatory self-check before proceeding to the next phase:
 
-1. **Re-read the phase's task checklist** in the plan file (the `- [ ]` / `- [x]` checklist block for the current phase).
+**Step 1: Count Unchecked Items**
+Re-read the phase's Tasks checklist in the plan file (the `- [ ]` / `- [x]` checklist block for the current phase). Count items matching `- [ ]` that do NOT already have a deviation annotation (i.e., do not contain `*(deviation:` or `*(in progress — handoff)*`).
 
-2. **For each checklist item that remains unchecked** (`- [ ]`):
-   - If the item was intentionally skipped or altered, add a deviation entry to the progress file and annotate the checklist item inline (see Stage 4B-ii Step 4 for annotation format).
-   - If the item was overlooked, evaluate whether it should be completed before proceeding to the next phase.
+**Step 2: Address Each Unchecked Item**
+For each unchecked, unannotated item:
 
-3. **Record any deviations in the progress file** `deviations` array:
+a. **If the work was completed but not marked**: Update the checklist item:
+   - `- [x] **Task {P}.{N}**: {description} *(completed)*`
+
+b. **If the item was intentionally skipped or altered**: Annotate inline and record in the progress file `deviations` array:
+   - Skipped: `- [ ] **Task {P}.{N}**: {description} *(deviation: skipped — {reason})*`
+   - Altered: `- [x] **Task {P}.{N}**: {description} *(deviation: altered — {what changed})*`
+   - Deferred: `- [ ] **Task {P}.{N}**: {description} *(deviation: deferred to task {N})*`
    ```json
    {
      "task_id": "{P}.{N}",
@@ -215,14 +221,12 @@ After marking a phase `[COMPLETED]`, perform a self-review before proceeding to 
    }
    ```
 
-4. **Annotate the plan checklist inline** for each deviation:
-   - Skipped: `- [ ] **Task {P}.{N}**: {description} *(deviation: skipped — {reason})*`
-   - Altered: `- [x] **Task {P}.{N}**: {description} *(deviation: altered — {what changed})*`
-   - Deferred: `- [ ] **Task {P}.{N}**: {description} *(deviation: deferred to task {N})*`
+c. **If the work was overlooked**: Complete it now before proceeding, then mark `- [x] ... *(completed)*`. Note any skipped items in the progress file objective `note` field if applicable.
 
-5. **Note any skipped items** in the progress file objective `note` field if applicable.
+**Step 3: Verify Zero Unannotated Unchecked Items**
+After addressing all items, confirm no `- [ ]` items remain without annotation in the current phase's Tasks section. Only then proceed to Stage 4D-iii and the next phase (or Stage 5 if all phases are complete).
 
-Only then proceed to Stage 4D-iii and the next phase (or Stage 5 if all phases are complete).
+**Note**: If the plan file does not use `- [ ]` checklist syntax for the current phase, skip this step. The progress file remains the authoritative tracking mechanism.
 
 ---
 

@@ -1,7 +1,7 @@
 # Implementation Plan: Task #614
 
 - **Task**: 614 - post_phase_subtask_validation
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/614_post_phase_subtask_validation/reports/01_subtask-validation.md
@@ -62,16 +62,16 @@ No ROADMAP.md items directly correspond to this task. This falls under the broad
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Add count-and-gate validation to general-implementation-agent.md [NOT STARTED]
+### Phase 1: Add count-and-gate validation to general-implementation-agent.md [COMPLETED]
 
 **Goal**: Restructure Stage 4D-ii in the general implementation agent to include a mandatory three-step gate (count, address, verify) while preserving existing deviation annotation format and progress file references.
 
 **Tasks**:
-- [ ] **Task 1.1**: Read current Stage 4D-ii text (lines 197-225) in `general-implementation-agent.md`
-- [ ] **Task 1.2**: Replace Stage 4D-ii heading and content with restructured version that adds Step 1 (count unchecked/unannotated items), Step 2 (address each item with three paths: mark completed, annotate deviation, or complete now), and Step 3 (verify zero unannotated unchecked items remain)
-- [ ] **Task 1.3**: Preserve existing progress file references (deviations array, objective note field) within the restructured text
-- [ ] **Task 1.4**: Verify the note about "if plan file does not use checklist syntax, skip this step" is retained
-- [ ] **Task 1.5**: Read the modified file to confirm structural consistency with surrounding stages (4D, 4D-iii)
+- [x] **Task 1.1**: Read current Stage 4D-ii text (lines 197-225) in `general-implementation-agent.md` *(completed)*
+- [x] **Task 1.2**: Replace Stage 4D-ii heading and content with restructured version that adds Step 1 (count unchecked/unannotated items), Step 2 (address each item with three paths: mark completed, annotate deviation, or complete now), and Step 3 (verify zero unannotated unchecked items remain) *(completed)*
+- [x] **Task 1.3**: Preserve existing progress file references (deviations array, objective note field) within the restructured text *(completed)*
+- [x] **Task 1.4**: Verify the note about "if plan file does not use checklist syntax, skip this step" is retained *(completed)*
+- [x] **Task 1.5**: Read the modified file to confirm structural consistency with surrounding stages (4D, 4D-iii) *(completed)*
 
 **Timing**: 30 minutes
 
