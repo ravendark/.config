@@ -1,7 +1,7 @@
 ---
 description: Execute a task autonomously through its full lifecycle (research -> plan -> implement -> complete) without user confirmation between phases
 allowed-tools: Skill, Agent, Bash(jq:*), Bash(git:*), Read
-argument-hint: TASK_NUMBER
+argument-hint: TASK_NUMBER [PROMPT]
 model: opus
 ---
 
@@ -13,6 +13,7 @@ Implements fire-and-forget state machine: research -> plan -> implement -> compl
 ## Arguments
 
 - `$1` - Single task number (e.g., `42`)
+- `$2+` - Optional prompt/focus text (e.g., `focus on the LSP config`)
 
 ## Constraints
 
@@ -27,6 +28,14 @@ to `skill-orchestrate` via the Skill tool. Never run research/plan/implement dir
 command.
 
 ## Execution
+
+### STAGE 0: PARSE ARGS
+
+```bash
+source .claude/scripts/parse-command-args.sh "$ARGUMENTS"
+task_number=$(echo "$TASK_NUMBERS" | awk '{print $1}')
+focus_prompt="${FOCUS_PROMPT:-}"
+```
 
 ### CHECKPOINT 1: GATE IN
 
@@ -68,7 +77,8 @@ The delegation context passed to the skill must include:
     "description": "{DESCRIPTION}",
     "task_type": "{TASK_TYPE}"
   },
-  "orchestrator_mode": true
+  "orchestrator_mode": true,
+  "focus_prompt": "{FOCUS_PROMPT}"
 }
 ```
 

@@ -1,7 +1,7 @@
 # Implementation Plan: Add Optional Prompt Parameter to /orchestrate
 
 - **Task**: 611 - add_prompt_to_orchestrate
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/611_add_prompt_to_orchestrate/reports/01_prompt-parameter-research.md
@@ -70,22 +70,23 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Command Argument Parsing and Delegation Context [NOT STARTED]
+### Phase 1: Command Argument Parsing and Delegation Context [COMPLETED]
 
 **Goal**: Update both command files (active + extension copy) to parse the optional prompt from arguments and include it in the delegation context JSON.
 
 **Tasks**:
-- [ ] Update `argument-hint` frontmatter from `TASK_NUMBER` to `TASK_NUMBER [PROMPT]` in `.claude/commands/orchestrate.md`
-- [ ] Update the `## Arguments` section to document the optional prompt parameter (`$2+` - Optional prompt/focus text)
-- [ ] Add a new STAGE 0 (before CHECKPOINT 1) that sources `parse-command-args.sh` and extracts `task_number` and `focus_prompt`:
+- [x] Update `argument-hint` frontmatter from `TASK_NUMBER` to `TASK_NUMBER [PROMPT]` in `.claude/commands/orchestrate.md` *(completed)*
+- [x] Update the `## Arguments` section to document the optional prompt parameter (`$2+` - Optional prompt/focus text) *(completed)*
+- [x] Add a new STAGE 0 (before CHECKPOINT 1) that sources `parse-command-args.sh` and extracts `task_number` and `focus_prompt`:
   ```bash
   source .claude/scripts/parse-command-args.sh "$ARGUMENTS"
   task_number=$(echo "$TASK_NUMBERS" | awk '{print $1}')
   focus_prompt="${FOCUS_PROMPT:-}"
   ```
-- [ ] Add `"focus_prompt": "{FOCUS_PROMPT}"` field to the delegation context JSON in STAGE 2 (at the same level as `session_id` and `orchestrator_mode`)
-- [ ] Apply identical changes to `.claude/extensions/core/commands/orchestrate.md`
-- [ ] Verify both files remain byte-for-byte identical after edits
+  *(completed)*
+- [x] Add `"focus_prompt": "{FOCUS_PROMPT}"` field to the delegation context JSON in STAGE 2 (at the same level as `session_id` and `orchestrator_mode`) *(completed)*
+- [x] Apply identical changes to `.claude/extensions/core/commands/orchestrate.md` *(completed)*
+- [x] Verify both files remain byte-for-byte identical after edits *(completed)*
 
 **Timing**: 30 minutes
 
@@ -103,31 +104,37 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Skill Dispatch Prompt Threading [NOT STARTED]
+### Phase 2: Skill Dispatch Prompt Threading [COMPLETED]
 
 **Goal**: Update the skill state machine to extract `focus_prompt` from delegation context and append it to all sub-agent dispatch prompt strings.
 
 **Tasks**:
-- [ ] Add `focus_prompt` extraction in Stage 1 (Input Validation), after `session_id` extraction:
+- [x] Add `focus_prompt` extraction in Stage 1 (Input Validation), after `session_id` extraction:
   ```bash
   focus_prompt=$(echo "$delegation_context" | jq -r '.focus_prompt // ""')
   ```
-- [ ] Append `${focus_prompt:+. User focus: $focus_prompt}` to the research dispatch prompt in State `not_started`:
+  *(completed)*
+- [x] Append `${focus_prompt:+. User focus: $focus_prompt}` to the research dispatch prompt in State `not_started`:
   - From: `"Research task $task_number: $DESCRIPTION"`
   - To: `"Research task $task_number: $DESCRIPTION${focus_prompt:+. User focus: $focus_prompt}"`
-- [ ] Append the same suffix to the plan dispatch prompt in State `researched`:
+  *(completed)*
+- [x] Append the same suffix to the plan dispatch prompt in State `researched`:
   - From: `"Create implementation plan for task $task_number"`
   - To: `"Create implementation plan for task $task_number${focus_prompt:+. User focus: $focus_prompt}"`
-- [ ] Append the same suffix to the implement dispatch prompt in State `planned`/`implementing`:
+  *(completed)*
+- [x] Append the same suffix to the implement dispatch prompt in State `planned`/`implementing`:
   - From: `"Implement task $task_number following the plan"`
   - To: `"Implement task $task_number following the plan${focus_prompt:+. User focus: $focus_prompt}"`
-- [ ] Append the same suffix to the continuation dispatch prompt in State `partial` (sub-state: continuation available):
+  *(completed)*
+- [x] Append the same suffix to the continuation dispatch prompt in State `partial` (sub-state: continuation available):
   - From: `"Resume implementation for task $task_number from continuation handoff"`
   - To: `"Resume implementation for task $task_number from continuation handoff${focus_prompt:+. User focus: $focus_prompt}"`
-- [ ] Append the same suffix to the blocker escalation Step 5 re-implement dispatch prompt:
+  *(completed)*
+- [x] Append the same suffix to the blocker escalation Step 5 re-implement dispatch prompt:
   - From: `"Implement task $task_number following the revised plan"`
   - To: `"Implement task $task_number following the revised plan${focus_prompt:+. User focus: $focus_prompt}"`
-- [ ] Do NOT modify the blocker research prompt (Step 2) or plan revision prompt (Step 4) -- those are blocker-specific and should remain targeted
+  *(completed)*
+- [x] Do NOT modify the blocker research prompt (Step 2) or plan revision prompt (Step 4) -- those are blocker-specific and should remain targeted *(completed: verified unchanged)*
 
 **Timing**: 30 minutes
 
@@ -144,14 +151,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Documentation Update [NOT STARTED]
+### Phase 3: Documentation Update [COMPLETED]
 
 **Goal**: Update the CLAUDE.md command reference table to reflect the new syntax.
 
 **Tasks**:
-- [ ] Update the `/orchestrate` row in the Command Reference table in `.claude/CLAUDE.md`:
+- [x] Update the `/orchestrate` row in the Command Reference table in `.claude/CLAUDE.md`:
   - From: `| /orchestrate | /orchestrate N | Drive task autonomously...`
   - To: `| /orchestrate | /orchestrate N [prompt] | Drive task autonomously...`
+  *(completed)*
 
 **Timing**: 10 minutes
 

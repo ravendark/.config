@@ -30,6 +30,7 @@ Infrastructure (source as needed):
 source .claude/scripts/skill-base.sh
 task_number=$(echo "$delegation_context" | jq -r '.task_context.task_number')
 session_id=$(echo "$delegation_context" | jq -r '.session_id')
+focus_prompt=$(echo "$delegation_context" | jq -r '.focus_prompt // ""')
 
 # Read task state without blocking on terminal states (orchestrate handles them gracefully)
 PADDED_NUM=$(printf "%03d" "$task_number")
@@ -168,7 +169,7 @@ Dispatch research via named subagent (resolved by task type in Stage 1b).
 
 ```
 dispatch_instructions = dispatch_agent "$RESEARCH_AGENT" \
-  "Research task $task_number: $DESCRIPTION" \
+  "Research task $task_number: $DESCRIPTION${focus_prompt:+. User focus: $focus_prompt}" \
   '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": false}' \
   "false"
 ```
@@ -195,7 +196,7 @@ Dispatch planning via named subagent.
 research_artifacts=$(jq -c '[.active_projects[] | select(.project_number == N) | .artifacts // [] | .[] | select(.type == "report")] | .[0].path // ""' specs/state.json)
 
 dispatch_instructions = dispatch_agent "planner-agent" \
-  "Create implementation plan for task $task_number" \
+  "Create implementation plan for task $task_number${focus_prompt:+. User focus: $focus_prompt}" \
   '{"task_number": N, "task_type": "T", "session_id": "S", "research_artifacts": [...], "orchestrator_mode": false}' \
   "false"
 ```
@@ -218,7 +219,7 @@ plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
 
 ```
 dispatch_instructions = dispatch_agent "$IMPLEMENT_AGENT" \
-  "Implement task $task_number following the plan" \
+  "Implement task $task_number following the plan${focus_prompt:+. User focus: $focus_prompt}" \
   '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": true,
     "plan_path": "$plan_path"}' \
   "false"
@@ -245,7 +246,7 @@ Dispatch implement with continuation context (resolved by task type in Stage 1b)
 
 ```
 dispatch_instructions = dispatch_agent "$IMPLEMENT_AGENT" \
-  "Resume implementation for task $task_number from continuation handoff" \
+  "Resume implementation for task $task_number from continuation handoff${focus_prompt:+. User focus: $focus_prompt}" \
   '{"task_number": N, ..., "orchestrator_mode": true,
     "plan_path": "$plan_path",
     "continuation_context": {continuation_context_object}}' \
@@ -398,7 +399,7 @@ blocker_escalation() {
       "orchestrator_mode": true,
       "plan_path": $plan_path}')
   dispatch_agent "$IMPLEMENT_AGENT" \
-    "Implement task $task_number following the revised plan" \
+    "Implement task $task_number following the revised plan${focus_prompt:+. User focus: $focus_prompt}" \
     "$implement_context" "false"
   # SKILL.md invokes the Agent tool (subagent_type: $IMPLEMENT_AGENT)
   # After Agent tool returns: read handoff
