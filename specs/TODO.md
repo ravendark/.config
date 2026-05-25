@@ -17,7 +17,7 @@ next_project_number: 616
 
 ### Orchestrate Progress
 
-615 [NOT STARTED] — Have the orchestrator inspect the plan file between cycles (not j
+615 [RESEARCHED] — Have the orchestrator inspect the plan file between cycles (not j
 
 ### Uncategorized
 
@@ -56,10 +56,11 @@ next_project_number: 616
 
 ### 615. Add orchestrator plan inspection between cycles
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: 613
 - **Topic**: orchestrate-progress
+- specs/615_orchestrator_plan_inspection/reports/01_plan-inspection.md: [Research]
 
 **Description**: Have the orchestrator inspect the plan file between cycles (not just the handoff) to detect drift and decide if plan revision is needed. Currently the orchestrator only reads `.orchestrator-handoff.json` after each agent dispatch. With structured counts from task 613, add logic in `skill-orchestrate SKILL.md` to: (1) read phase completion percentages from the handoff, (2) if subtask completion < 70% in a phase, inspect the plan file for unchecked items vs. annotated deviations, (3) if significant drift detected (>30% deviations), trigger plan revision via reviser-agent before continuing. Files: `skill-orchestrate SKILL.md` (post-dispatch logic, lines 306-327).
 
