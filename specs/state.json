@@ -210,10 +210,10 @@
     {
       "project_number": 613,
       "project_name": "structured_handoff_subtask_counts",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "created": "2026-05-25T23:00:00Z",
-      "last_updated": "2026-05-25T22:24:28Z",
+      "last_updated": "2026-05-25T22:32:41Z",
       "dependencies": [],
       "topic": "orchestrate-progress",
       "artifacts": [
@@ -221,18 +221,23 @@
           "path": "specs/613_structured_handoff_subtask_counts/reports/01_handoff-subtask-counts.md",
           "type": "report",
           "summary": "Documents current handoff schema gaps, identifies 3-file minimal change (skill-base.sh, skill-implementer/SKILL.md, handoff-schema.md) to add top-level phases_completed/phases_total using env var pattern."
+        },
+        {
+          "path": "specs/613_structured_handoff_subtask_counts/plans/01_handoff-subtask-plan.md",
+          "type": "plan",
+          "summary": "4-phase plan to add phases_completed/phases_total as top-level fields in orchestrator handoff JSON via env var pattern in skill-base.sh"
         }
       ],
       "description": "Add structured subtask completion counts to .orchestrator-handoff.json. Currently the handoff only contains summary and status fields. Add phases_completed/phases_total and per-phase subtask counts (completed/total) so the orchestrator knows exactly what was accomplished. Files: general-implementation-agent.md Stage 7 (.return-meta.json), skill-implementer.md (handoff reading), skill-orchestrate SKILL.md (handoff parsing).",
-      "session_id": "sess_1779747566_6e92bd"
+      "session_id": "sess_1779748137_546bbc"
     },
     {
       "project_number": 614,
       "project_name": "post_phase_subtask_validation",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "created": "2026-05-25T23:00:00Z",
-      "last_updated": "2026-05-25T22:23:11Z",
+      "last_updated": "2026-05-25T22:32:41Z",
       "dependencies": [],
       "topic": "orchestrate-progress",
       "artifacts": [
@@ -240,10 +245,15 @@
           "path": "specs/614_post_phase_subtask_validation/reports/01_subtask-validation.md",
           "type": "report",
           "summary": "All three implementation agents share advisory Stage 4D-ii post-phase review. Phase marked COMPLETED before review runs, allowing unchecked items to pass. Fix: count-and-gate validation at insertion points in general (lines 197-225), neovim (173-182), nix (199-208) agents."
+        },
+        {
+          "path": "specs/614_post_phase_subtask_validation/plans/01_subtask-validation-plan.md",
+          "type": "plan",
+          "summary": "3-phase plan to add count-and-gate post-phase validation to all implementation agents and backport check-off instructions to neovim and nix agents"
         }
       ],
       "description": "Add lightweight post-phase validation to implementation agents that checks all - [ ] items in the current phase were addressed (completed, skipped with annotation, or deferred) before marking the phase [COMPLETED]. Currently the agent is instructed to check off items (Stage 4B-ii) but nothing validates compliance. Add a self-check step between Stage 4D (post-phase review) and Stage 5 (next phase) that counts unchecked items and either completes them or annotates why they were skipped. Files: general-implementation-agent.md, neovim-implementation-agent.md, nix-implementation-agent.md.",
-      "session_id": "sess_1779747566_6e92bd"
+      "session_id": "sess_1779748137_546bbc"
     },
     {
       "project_number": 615,
