@@ -1,5 +1,5 @@
 ---
-next_project_number: 612
+next_project_number: 616
 ---
 
 # TODO
@@ -11,9 +11,16 @@ next_project_number: 612
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,613,614 | -- | -- |
+| 2 | 615 | 613 | orchestrate-progress |
 
 **Grouped by Topic** (indented = depends on parent):
+
+### orchestrate-progress
+
+613 [RESEARCHED] — structured_handoff_subtask_counts
+614 [RESEARCHED] — post_phase_subtask_validation
+  615 [NOT STARTED] — orchestrator_plan_inspection (depends: 613)
 
 ### Uncategorized
 
@@ -21,6 +28,41 @@ next_project_number: 612
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 
 ## Tasks
+
+### 613. Add structured subtask counts to orchestrator handoff
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Topic**: orchestrate-progress
+- specs/613_structured_handoff_subtask_counts/reports/01_handoff-subtask-counts.md: [Research]
+
+**Description**: Add structured subtask completion counts to `.orchestrator-handoff.json`. Currently the handoff only contains `summary` and `status` fields. Add `phases_completed`/`phases_total` and per-phase subtask counts (`completed`/`total`) so the orchestrator knows exactly what was accomplished. Files: `general-implementation-agent.md` Stage 7 (`.return-meta.json`), `skill-implementer.md` (handoff reading), `skill-orchestrate SKILL.md` (handoff parsing).
+
+---
+
+### 614. Add post-phase subtask validation to implementation agents
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Topic**: orchestrate-progress
+- specs/614_post_phase_subtask_validation/reports/01_subtask-validation.md: [Research]
+
+**Description**: Add lightweight post-phase validation to implementation agents that checks all `- [ ]` items in the current phase were addressed (completed, skipped with annotation, or deferred) before marking the phase `[COMPLETED]`. Currently the agent is instructed to check off items (Stage 4B-ii) but nothing validates compliance. Add a self-check step between Stage 4D (post-phase review) and Stage 5 (next phase) that counts unchecked items and either completes them or annotates why they were skipped. Files: `general-implementation-agent.md`, `neovim-implementation-agent.md`, `nix-implementation-agent.md`.
+
+---
+
+### 615. Add orchestrator plan inspection between cycles
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: 613
+- **Topic**: orchestrate-progress
+
+**Description**: Have the orchestrator inspect the plan file between cycles (not just the handoff) to detect drift and decide if plan revision is needed. Currently the orchestrator only reads `.orchestrator-handoff.json` after each agent dispatch. With structured counts from task 613, add logic in `skill-orchestrate SKILL.md` to: (1) read phase completion percentages from the handoff, (2) if subtask completion < 70% in a phase, inspect the plan file for unchecked items vs. annotated deviations, (3) if significant drift detected (>30% deviations), trigger plan revision via reviser-agent before continuing. Files: `skill-orchestrate SKILL.md` (post-dispatch logic, lines 306-327).
+
+---
 
 ### 612. Sync missing scripts to core extension for loader deployment
 - **Effort**: 30 minutes
