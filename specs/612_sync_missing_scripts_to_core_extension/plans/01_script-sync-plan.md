@@ -1,7 +1,7 @@
 # Implementation Plan: Sync Missing Scripts to Core Extension
 
 - **Task**: 612 - sync_missing_scripts_to_core_extension
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Effort**: 0.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/612_sync_missing_scripts_to_core_extension/reports/01_script-sync-research.md
@@ -62,13 +62,13 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Copy Scripts to Extension Directory [NOT STARTED]
+### Phase 1: Copy Scripts to Extension Directory [COMPLETED]
 
 **Goal**: Place all 18 missing scripts in `.claude/extensions/core/scripts/`
 
 **Tasks**:
-- [ ] Verify all 18 scripts exist in `.claude/scripts/` (sanity check)
-- [ ] Copy all 18 scripts with permission preservation:
+- [x] Verify all 18 scripts exist in `.claude/scripts/` (sanity check) *(completed)*
+- [x] Copy all 18 scripts with permission preservation: *(completed)*
   - `archive-task.sh`
   - `command-gate-in.sh`
   - `command-gate-out.sh`
@@ -87,7 +87,7 @@ Phases within the same wave can execute in parallel.
   - `tier-selection.sh`
   - `validate-context-budgets.sh`
   - `vault-operation.sh`
-- [ ] Confirm all 18 files exist in `.claude/extensions/core/scripts/` after copy
+- [x] Confirm all 18 files exist in `.claude/extensions/core/scripts/` after copy *(completed)*
 
 **Timing**: 10 minutes
 
@@ -102,12 +102,12 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update manifest.json [NOT STARTED]
+### Phase 2: Update manifest.json [COMPLETED]
 
 **Goal**: Add all 18 script names to the `provides.scripts` array in alphabetical order
 
 **Tasks**:
-- [ ] Add the following 18 entries to `provides.scripts` array in `manifest.json` (inserted alphabetically among existing entries):
+- [x] Add the following 18 entries to `provides.scripts` array in `manifest.json` (inserted alphabetically among existing entries): *(completed)*
   - `"archive-task.sh"`
   - `"command-gate-in.sh"`
   - `"command-gate-out.sh"`
@@ -126,7 +126,7 @@ Phases within the same wave can execute in parallel.
   - `"tier-selection.sh"`
   - `"validate-context-budgets.sh"`
   - `"vault-operation.sh"`
-- [ ] Validate JSON is syntactically correct with `jq empty .claude/extensions/core/manifest.json`
+- [x] Validate JSON is syntactically correct with `jq empty .claude/extensions/core/manifest.json` *(completed)*
 
 **Timing**: 10 minutes
 
@@ -141,14 +141,14 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Cross-Verification [NOT STARTED]
+### Phase 3: Cross-Verification [COMPLETED]
 
 **Goal**: Confirm complete parity between `.claude/scripts/` and extension source
 
 **Tasks**:
-- [ ] Compare filesystem: `comm -23 <(ls .claude/scripts/*.sh | xargs -n1 basename | sort) <(ls .claude/extensions/core/scripts/*.sh | xargs -n1 basename | sort)` should return empty
-- [ ] Compare manifest to filesystem: verify every file in `.claude/extensions/core/scripts/` is listed in `provides.scripts` (and vice versa)
-- [ ] Spot-check one critical script (`postflight-workflow.sh`) to confirm content matches source
+- [x] Compare filesystem: `comm -23 <(ls .claude/scripts/*.sh | xargs -n1 basename | sort) <(ls .claude/extensions/core/scripts/*.sh | xargs -n1 basename | sort)` should return empty *(completed)*
+- [x] Compare manifest to filesystem: verify every file in `.claude/extensions/core/scripts/` is listed in `provides.scripts` (and vice versa) *(completed: 44 manifest entries, 44 filesystem files)*
+- [x] Spot-check one critical script (`postflight-workflow.sh`) to confirm content matches source *(completed: files match exactly)*
 
 **Timing**: 5 minutes
 

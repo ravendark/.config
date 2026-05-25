@@ -24709,3 +24709,20 @@
 [2026-05-25T15:00:26-07:00] Task directory: specs/612_sync_missing_scripts_to_core_extension
 [2026-05-25T15:00:26-07:00] Loop guard triggered: 3 >= 3
 [2026-05-25T15:00:26-07:00] Loop guard prevented continuation
+[2026-05-25T15:09:10-07:00] Postflight marker found at: specs/612_sync_missing_scripts_to_core_extension/.postflight-pending
+[2026-05-25T15:09:10-07:00] Task directory: specs/612_sync_missing_scripts_to_core_extension
+[2026-05-25T15:09:10-07:00] Loop guard initialized to 1
+[2026-05-25T15:09:10-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-25T15:10:30-07:00] Postflight marker found at: specs/612_sync_missing_scripts_to_core_extension/.postflight-pending
+[2026-05-25T15:10:30-07:00] Task directory: specs/612_sync_missing_scripts_to_core_extension
+[2026-05-25T15:10:30-07:00] Loop guard incremented to 2
+[2026-05-25T15:10:30-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-25T15:10:44-07:00] Postflight marker found at: specs/612_sync_missing_scripts_to_core_extension/.postflight-pending
+[2026-05-25T15:10:44-07:00] Task directory: specs/612_sync_missing_scripts_to_core_extension
+[2026-05-25T15:10:44-07:00] Loop guard incremented to 3
+[2026-05-25T15:10:44-07:00] Blocking stop: Postflight pending: status update, artifact linking, git commit
+[2026-05-25T15:10:55-07:00] Postflight marker found at: specs/612_sync_missing_scripts_to_core_extension/.postflight-pending
+[2026-05-25T15:10:55-07:00] Task directory: specs/612_sync_missing_scripts_to_core_extension
+[2026-05-25T15:10:55-07:00] Loop guard triggered: 3 >= 3
+[2026-05-25T15:10:55-07:00] Loop guard prevented continuation
+[2026-05-25T15:11:10-07:00] No postflight marker, allowing stop

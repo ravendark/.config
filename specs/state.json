@@ -180,10 +180,10 @@
     {
       "project_number": 612,
       "project_name": "sync_missing_scripts_to_core_extension",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "created": "2026-05-25T00:00:00Z",
-      "last_updated": "2026-05-25T22:01:01Z",
+      "last_updated": "2026-05-25T22:11:27Z",
       "dependencies": [],
       "artifacts": [
         {
@@ -195,11 +195,17 @@
           "path": "specs/612_sync_missing_scripts_to_core_extension/plans/01_script-sync-plan.md",
           "type": "plan",
           "summary": "3-phase plan to copy 18 missing scripts to core extension and update manifest.json provides.scripts array"
+        },
+        {
+          "path": "specs/612_sync_missing_scripts_to_core_extension/summaries/01_script-sync-summary.md",
+          "type": "summary",
+          "summary": "18 scripts synced to core extension, manifest updated from 26 to 44 entries"
         }
       ],
       "description": "18 scripts in .claude/scripts/ are missing from .claude/extensions/core/scripts/ and the core manifest provides.scripts array. This causes the <leader>al loader to not copy them to other projects, breaking all commands (which reference command-gate-in.sh, parse-command-args.sh, skill-base.sh, etc). Fix: copy the 18 missing scripts to the extension source directory and add them to manifest.json. Critical missing scripts: command-gate-in.sh, command-gate-out.sh, command-route-skill.sh, parse-command-args.sh, skill-base.sh, dispatch-agent.sh, generate-task-order.sh, archive-task.sh, vault-operation.sh, roadmap-sync.sh, roadmap-integration.sh, memory-harvest.sh, orphan-detection.sh, issue-grouping.sh, postflight-workflow.sh, rename-session.sh, tier-selection.sh, validate-context-budgets.sh.",
       "next_artifact_number": 2,
-      "session_id": "sess_1779746233_b051ab"
+      "session_id": "sess_1779746837_953f5a",
+      "completion_summary": "Copied 18 missing scripts from .claude/scripts/ to .claude/extensions/core/scripts/ with permission preservation and updated manifest.json provides.scripts array from 26 to 44 entries in alphabetical order. Full parity confirmed: zero diff, valid JSON, 44 manifest entries matching 44 filesystem files."
     }
   ],
   "completed_projects": [],

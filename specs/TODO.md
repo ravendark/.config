@@ -11,7 +11,7 @@ next_project_number: 612
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,612 | -- | -- |
+| 1 | 78,87 | -- | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -19,17 +19,17 @@ next_project_number: 612
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-612 [PLANNED] — 18 scripts in .claude/scripts/ are missing from .claude/extension
 
 ## Tasks
 
 ### 612. Sync missing scripts to core extension for loader deployment
 - **Effort**: 30 minutes
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Research**: [612_sync_missing_scripts_to_core_extension/reports/01_script-sync-research.md]
 - **Plan**: [612_sync_missing_scripts_to_core_extension/plans/01_script-sync-plan.md]
+- **Summary**: [612_sync_missing_scripts_to_core_extension/summaries/01_script-sync-summary.md]
 
 **Description**: 18 scripts in `.claude/scripts/` are missing from `.claude/extensions/core/scripts/` and the core manifest `provides.scripts` array. This causes the `<leader>al` loader to not copy them to other projects, breaking all commands (which reference `command-gate-in.sh`, `parse-command-args.sh`, `skill-base.sh`, etc). Fix: copy the 18 missing scripts to the extension source directory and add them to `manifest.json`. Critical missing: `command-gate-in.sh`, `command-gate-out.sh`, `command-route-skill.sh`, `parse-command-args.sh`, `skill-base.sh`, `dispatch-agent.sh`, `generate-task-order.sh`, `archive-task.sh`, `vault-operation.sh`, `roadmap-sync.sh`, `roadmap-integration.sh`, `memory-harvest.sh`, `orphan-detection.sh`, `issue-grouping.sh`, `postflight-workflow.sh`, `rename-session.sh`, `tier-selection.sh`, `validate-context-budgets.sh`.
 
