@@ -1,0 +1,16 @@
+{
+  "phase": 2,
+  "phase_name": "Test Block Removal",
+  "started_at": "2026-05-25T00:10:00Z",
+  "last_updated": "2026-05-25T00:15:00Z",
+  "objectives": [
+    {"id": 1, "description": "Test normal block removal with preceding and following blocks intact", "status": "done"},
+    {"id": 2, "description": "Test edge case: last task with no trailing ---", "status": "done"},
+    {"id": 3, "description": "Test partial number match safety (task 6 must not match ### 61.)", "status": "done"},
+    {"id": 4, "description": "Test task not found returns unchanged content", "status": "done"}
+  ],
+  "current_objective": 4,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

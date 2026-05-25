@@ -1,0 +1,16 @@
+{
+  "phase": 1,
+  "phase_name": "Fix Step C in archive-task.sh",
+  "started_at": "2026-05-25T00:00:00Z",
+  "last_updated": "2026-05-25T00:10:00Z",
+  "objectives": [
+    {"id": 1, "description": "Replace lines 113-137 in .claude/scripts/archive-task.sh with corrected Python heredoc using line-by-line block removal", "status": "done"},
+    {"id": 2, "description": "Verify fix preserves if [ -f \"$TODO_FILE\" ] guard and || true error semantics", "status": "done"},
+    {"id": 3, "description": "Copy fixed archive-task.sh to .claude/extensions/core/scripts/archive-task.sh", "status": "done"},
+    {"id": 4, "description": "Run diff to confirm both copies are identical after the fix", "status": "done"}
+  ],
+  "current_objective": 4,
+  "approaches_tried": [],
+  "handoff_count": 0,
+  "deviations": []
+}

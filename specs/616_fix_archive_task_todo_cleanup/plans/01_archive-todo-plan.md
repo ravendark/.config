@@ -1,7 +1,7 @@
 # Implementation Plan: Fix archive-task.sh TODO.md Cleanup
 
 - **Task**: 616 - Fix archive-task.sh TODO.md cleanup
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 0.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/616_fix_archive_task_todo_cleanup/reports/01_archive-todo-cleanup.md
@@ -65,23 +65,23 @@ No literature source referenced.
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Fix Step C in archive-task.sh [NOT STARTED]
+### Phase 1: Fix Step C in archive-task.sh [COMPLETED]
 
 **Goal**: Replace the broken Python regex block with a working line-by-line block removal that matches the actual `### N. Title` format in TODO.md.
 
 **Tasks**:
-- [ ] Replace lines 113-137 in `.claude/scripts/archive-task.sh` (the comment about wrong pattern plus the entire Python heredoc) with corrected Python heredoc
-- [ ] The replacement Python code must:
+- [x] Replace lines 113-137 in `.claude/scripts/archive-task.sh` (the comment about wrong pattern plus the entire Python heredoc) with corrected Python heredoc *(completed)*
+- [x] The replacement Python code must:
   - Use `^### {task_num}\. ` as block start anchor (with `re.escape` on task_num)
   - Iterate line-by-line, setting `in_block = True` when the start line is found
   - Skip all lines while `in_block` is True
   - End the block when `line.strip() == '---'` or a new `### ` heading is encountered or EOF
   - Consume the trailing `---` separator line (do not leave it behind)
   - Write the filtered content back to the file only if changes were made
-  - Print status messages matching the existing convention
-- [ ] Verify the fix preserves the `if [ -f "$TODO_FILE" ]` guard and `|| true` error semantics
-- [ ] Copy the fixed `.claude/scripts/archive-task.sh` over `.claude/extensions/core/scripts/archive-task.sh`
-- [ ] Run `diff` to confirm both copies are identical after the fix
+  - Print status messages matching the existing convention *(completed)*
+- [x] Verify the fix preserves the `if [ -f "$TODO_FILE" ]` guard and `|| true` error semantics *(completed)*
+- [x] Copy the fixed `.claude/scripts/archive-task.sh` over `.claude/extensions/core/scripts/archive-task.sh` *(completed)*
+- [x] Run `diff` to confirm both copies are identical after the fix *(completed)*
 
 **Timing**: 20 minutes
 
@@ -98,19 +98,19 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Test Block Removal [NOT STARTED]
+### Phase 2: Test Block Removal [COMPLETED]
 
 **Goal**: Verify the fixed Python logic correctly removes task blocks from a TODO.md-formatted test input.
 
 **Tasks**:
-- [ ] Create a test by running the Python snippet against a synthetic TODO.md string containing:
+- [x] Create a test by running the Python snippet against a synthetic TODO.md string containing:
   - A target task block (e.g., `### 616. Test Task`) with metadata lines and a `---` separator
   - A preceding task block that should remain intact
-  - A following task block that should remain intact
-- [ ] Verify the target block is fully removed (heading through `---`)
-- [ ] Verify surrounding blocks are untouched
-- [ ] Test edge case: target task is the last block (no trailing `---`)
-- [ ] Test edge case: partial number match (removing task 6 must not remove task 61)
+  - A following task block that should remain intact *(completed)*
+- [x] Verify the target block is fully removed (heading through `---`) *(completed)*
+- [x] Verify surrounding blocks are untouched *(completed)*
+- [x] Test edge case: target task is the last block (no trailing `---`) *(completed)*
+- [x] Test edge case: partial number match (removing task 6 must not remove task 61) *(completed)*
 
 **Timing**: 10 minutes
 
@@ -125,11 +125,11 @@ Phases within the same wave can execute in parallel.
 
 ## Testing & Validation
 
-- [ ] Run the fixed Python heredoc against a synthetic multi-block TODO.md to confirm correct block removal
-- [ ] Confirm partial number match safety (task 6 does not match `### 61.`)
-- [ ] Confirm last-task-in-file edge case (block at EOF with no trailing `---`)
-- [ ] Verify both script copies are identical via `diff`
-- [ ] Verify the `|| true` error semantics are preserved (script does not abort on Python failure)
+- [x] Run the fixed Python heredoc against a synthetic multi-block TODO.md to confirm correct block removal *(completed)*
+- [x] Confirm partial number match safety (task 6 does not match `### 61.`) *(completed)*
+- [x] Confirm last-task-in-file edge case (block at EOF with no trailing `---`) *(completed)*
+- [x] Verify both script copies are identical via `diff` *(completed)*
+- [x] Verify the `|| true` error semantics are preserved (script does not abort on Python failure) *(completed)*
 
 ## Artifacts & Outputs
 

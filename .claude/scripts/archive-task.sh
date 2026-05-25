@@ -110,8 +110,8 @@ echo "Removed task $task_number from active_projects"
 # --- C. Update TODO.md (remove completed/abandoned entry) ---
 # This is a best-effort step -- warn on failure but don't abort
 if [ -f "$TODO_FILE" ]; then
-  # Find the task entry lines (pattern: "- #N:" or "- **#N**:")
-  # Use a Python one-liner for reliable multi-line removal
+  # Remove the task block from TODO.md (format: "### N. Title" through next "---" separator)
+  # Use line-by-line removal for robustness with multi-line descriptions
   python3 - "$TODO_FILE" "$task_number" <<'PYEOF' 2>/dev/null || true
 import sys, re
 
@@ -121,19 +121,36 @@ task_num = sys.argv[2]
 with open(todo_path, 'r') as f:
     content = f.read()
 
-# Match task entry lines starting with "- #N:" or "  - #N:" or "- **#N**"
-pattern = re.compile(
-    r'^[ \t]*-[ \t]+(?:\*\*)?#' + re.escape(task_num) + r'(?:\*\*)?[:\s].*\n',
-    re.MULTILINE
-)
-new_content = pattern.sub('', content)
+# Line-by-line block removal anchored on "^### N. " (literal dot + space)
+# Handles: multi-line descriptions, last task without trailing "---", partial number matches
+lines = content.split('\n')
+start_pattern = re.compile(r'^### ' + re.escape(task_num) + r'\. ')
+in_block = False
+output_lines = []
+i = 0
+while i < len(lines):
+    line = lines[i]
+    if not in_block and start_pattern.match(line):
+        in_block = True
+        i += 1
+        continue
+    if in_block:
+        if line.strip() == '---':
+            in_block = False  # consume the separator line
+            i += 1
+            continue
+        i += 1
+        continue
+    output_lines.append(line)
+    i += 1
+new_content = '\n'.join(output_lines)
 
 if new_content != content:
     with open(todo_path, 'w') as f:
         f.write(new_content)
-    print(f"Removed task {task_num} entry from TODO.md")
+    print(f"Removed task {task_num} block from TODO.md")
 else:
-    print(f"Note: task {task_num} entry not found in TODO.md (skipped)", file=sys.stderr)
+    print(f"Note: task {task_num} block not found in TODO.md (skipped)", file=sys.stderr)
 PYEOF
 fi
 
