@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 617,
+  "next_project_number": 618,
   "active_projects": [
     {
       "project_number": 87,
@@ -41,6 +41,34 @@
       ],
       "session_id": "sess_1771006114_e73864",
       "planned": "2026-02-13T18:10:48Z"
+    },
+    {
+      "project_number": 617,
+      "project_name": "lean_lsp_first_verification",
+      "status": "completed",
+      "task_type": "meta",
+      "created": "2026-05-26T00:30:00Z",
+      "last_updated": "2026-05-25T12:00:00Z",
+      "dependencies": [],
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/617_lean_lsp_first_verification/reports/01_lsp-first-verification.md",
+          "summary": "Current state analysis of all 3 lean extension files, gap analysis identifying lean_verify as missing, 8 specific proposed changes with exact before/after text for implementing LSP-first verification policy"
+        },
+        {
+          "type": "plan",
+          "path": "specs/617_lean_lsp_first_verification/plans/01_lsp-first-plan.md",
+          "summary": "3-phase implementation plan with 8 targeted text edits across 3 lean extension files to implement LSP-first verification policy"
+        },
+        {
+          "type": "summary",
+          "path": "specs/617_lean_lsp_first_verification/summaries/01_lsp-first-summary.md",
+          "summary": "All 3 phases completed: lean_verify added to tool tables, three-tier verification cadence documented across all files, lean_multi_attempt positioned as pre-edit trial"
+        }
+      ],
+      "description": "Update lean extension to prefer lean-lsp MCP tools over lake build for per-step verification. Add lean_verify to tool docs, replace per-step lake build with lean_goal, position lean_multi_attempt as pre-edit trial, prefer lake build Module.Name over bare lake build, reserve full lake build for phase-end and final verification only. Files: lean4.md rules, lean-implementation-agent.md, lean-implementation-flow.md.",
+      "completion_summary": "Updated three lean extension files to implement LSP-first verification policy: added lean_verify to all tool tables, replaced per-step lake build with lean_goal + lean_verify across all three files, positioned lean_multi_attempt as pre-edit trial step, established three-tier cadence (per-step: lean_goal+lean_verify, phase-end: scoped lake build, final: full lake build)."
     },
     {
       "project_number": 616,

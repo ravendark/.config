@@ -52,8 +52,9 @@ This agent has access to:
 - `mcp__lean-lsp__lean_goal` - Proof state at position (MOST IMPORTANT - use constantly!)
 - `mcp__lean-lsp__lean_hover_info` - Type signature and docs for symbols
 - `mcp__lean-lsp__lean_completions` - IDE autocompletions
-- `mcp__lean-lsp__lean_multi_attempt` - Try multiple tactics without editing file
+- `mcp__lean-lsp__lean_multi_attempt` - Test tactics without editing (use BEFORE applying edits)
 - `mcp__lean-lsp__lean_local_search` - Fast local declaration search (verify lemmas exist)
+- `mcp__lean-lsp__lean_verify` - Axiom check + source scan; use fully qualified name e.g. `Ns.thm`
 - `mcp__lean-lsp__lean_term_goal` - Expected type at position
 - `mcp__lean-lsp__lean_declaration_file` - Get file where symbol is declared
 - `mcp__lean-lsp__lean_run_code` - Run standalone snippet
@@ -396,19 +397,22 @@ When approaching context limit:
 2. Always write final metadata to `specs/{N}_{SLUG}/.return-meta.json`
 3. Always return brief text summary (3-6 bullets), NOT JSON
 4. Always use `lean_goal` before and after each tactic application
-5. Always run `lake build` before returning implemented status
-6. Always verify proofs are actually complete ("no goals")
-7. **ALWAYS update plan file phase markers with Edit tool**
-8. Always create summary file before returning implemented status
-9. **NEVER call lean_diagnostic_messages or lean_file_outline**
-10. **Verify zero sorries in modified files before returning implemented**
-11. **Verify no new axioms introduced before returning implemented**
-12. **Include `## Plan Deviations` section** in implementation summary, populated from inline deviation annotations on plan checklist items. Use `- None (implementation followed plan)` when no deviations occurred.
+5. Use `lean_multi_attempt` BEFORE applying edits to trial candidate tactics
+6. Use `lean_verify` for axiom/sorry checks at the per-step level
+7. Prefer `lake build Module.Name` for phase-end verification (scoped, faster)
+8. Always run full `lake build` before returning implemented status (final verification only)
+9. Always verify proofs are actually complete ("no goals")
+10. **ALWAYS update plan file phase markers with Edit tool**
+11. Always create summary file before returning implemented status
+12. **NEVER call lean_diagnostic_messages or lean_file_outline**
+13. **Verify zero sorries in modified files before returning implemented**
+14. **Verify no new axioms introduced before returning implemented**
+15. **Include `## Plan Deviations` section** in implementation summary, populated from inline deviation annotations on plan checklist items. Use `- None (implementation followed plan)` when no deviations occurred.
 
 **MUST NOT**:
 1. Return JSON to the console
 2. Mark proof complete if goals remain
-3. Skip `lake build` verification
+3. Skip final `lake build` verification (scoped `lake build Module.Name` is acceptable for phase-end; only full `lake build` is mandatory at the final stage)
 4. Leave plan file with stale status markers
 5. Create empty or placeholder proofs (sorry, admit) or introduce axioms
 6. Ignore build errors

@@ -1,5 +1,5 @@
 ---
-next_project_number: 617
+next_project_number: 618
 ---
 
 # TODO
@@ -21,6 +21,19 @@ next_project_number: 617
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 
 ## Tasks
+
+### 617. Lean LSP-first verification policy for implementation agents
+- **Effort**: 1 hour
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Report**: [specs/617_lean_lsp_first_verification/reports/01_lsp-first-verification.md]
+- **Plan**: [specs/617_lean_lsp_first_verification/plans/01_lsp-first-plan.md]
+- **Summary**: [specs/617_lean_lsp_first_verification/summaries/01_lsp-first-summary.md]
+
+**Description**: Update lean extension rules, agent, and implementation flow to prefer lean-lsp MCP tools over `lake build` for per-step verification. Currently agents run `lake build` after every edit (3x per phase on large files). Changes: (1) Add `lean_verify` to essential MCP tools (currently undocumented), (2) Replace per-step `lake build` with `lean_goal` checks, (3) Position `lean_multi_attempt` as preferred pre-edit tactic trial before committing edits, (4) Prefer `lake build Module.Name` over bare `lake build` when full builds are needed, (5) Reserve full `lake build` for phase-end and final verification only. Files to modify: `.claude/extensions/lean/rules/lean4.md`, `.claude/extensions/lean/agents/lean-implementation-agent.md`, `.claude/extensions/lean/context/project/lean4/agents/lean-implementation-flow.md`.
+
+---
 
 ### 616. Fix archive-task.sh to remove archived entries from TODO.md
 - **Effort**: 30 minutes

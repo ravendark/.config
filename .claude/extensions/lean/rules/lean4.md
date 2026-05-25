@@ -18,6 +18,8 @@ Use `lean_goal` + `lake build` instead.
 | `lean_hover_info` | Type signatures + docs |
 | `lean_completions` | IDE autocomplete |
 | `lean_local_search` | Fast local declaration search |
+| `lean_verify` | Axiom check + source scan (use fully qualified name) |
+| `lean_multi_attempt` | Test tactics without editing - use BEFORE applying edits |
 
 ## Search Tools (Rate Limited)
 
@@ -40,8 +42,10 @@ Use `lean_goal` + `lake build` instead.
 ## Workflow Pattern
 
 1. After finding name: `lean_local_search` -> verify, `lean_hover_info` -> signature
-2. During proof: `lean_goal` constantly, `lean_multi_attempt` test tactics, `lake build`
-3. After editing: `lake build`, `lean_goal`
+2. During proof (inner loop): `lean_goal` constantly; `lean_multi_attempt` BEFORE editing; `lean_verify` for axiom/sorry check
+3. After editing a step: `lean_goal` to confirm; `lean_verify` if axiom safety needed
+4. Phase-end: `lake build Module.Name` (scoped); fall back to `lake build` if module name unknown
+5. Final verification only: `lake build` (full project)
 
 ## Common Tactics
 
@@ -51,7 +55,11 @@ Rewriting: `rw`, `simp only`, `conv`
 
 ## Build Commands
 
-`lake build` | `lake build Module.Name` | `lake clean && lake build`
+Prefer scoped: `lake build Module.Name` | Full project: `lake build` | Clean: `lake clean && lake build`
+
+**When to use each**:
+- `lake build Module.Name` -- phase-end verification (preferred; faster)
+- `lake build` -- final verification only (after all phases complete)
 
 ## Literature Fidelity
 

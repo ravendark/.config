@@ -98,16 +98,18 @@ For each proof/theorem in the phase:
    ```
    REPEAT until goals closed or stuck:
      a. Use lean_goal to see current state
-     b. Use lean_multi_attempt to try candidate tactics
+     b. Use lean_multi_attempt to trial candidate tactics WITHOUT editing (pre-edit trial)
      c. If promising tactic found, apply via Edit
-     d. If stuck, use lean_state_search, lean_hammer_premise
-     e. If still stuck, log state and return partial
+     d. After editing, use lean_goal to confirm goal progress; use lean_verify for axiom/sorry check
+     e. If stuck, use lean_state_search, lean_hammer_premise
+     f. If still stuck, log state and return partial
    ```
-5. **Verify step completion** with `lean_goal` and `lake build`
+5. **Verify step completion** with `lean_goal` (proof state) and `lean_verify` (axiom/sorry check); do NOT run `lake build` per-step
 
 ### 4C. Verify Phase Completion
 
-- Run `lake build` to verify full project builds
+- Run `lake build Module.Name` to verify the module compiles (preferred; faster than full build)
+- Fall back to `lake build` only if the module name is unknown or the phase spans multiple modules
 - Check verification criteria from plan
 
 ### 4D. Mark Phase Complete
@@ -118,10 +120,12 @@ Update phase status to `[COMPLETED]` or `[PARTIAL]` or `[BLOCKED]`.
 
 ## Stage 5: Run Final Build Verification
 
-After all phases complete:
+After all phases complete, run the full project build (mandatory -- this is the only required full build):
 ```bash
 lake build
 ```
+
+Note: Per-step verification uses `lean_goal` + `lean_verify`. Phase-end uses `lake build Module.Name`. Only this final stage requires full `lake build`.
 
 ---
 
