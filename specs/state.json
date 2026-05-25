@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 612,
+  "next_project_number": 613,
   "active_projects": [
     {
       "project_number": 87,
@@ -176,6 +176,25 @@
       "next_artifact_number": 1,
       "session_id": "sess_1779727224_7a0571",
       "completion_summary": "Added optional free-text prompt parameter to /orchestrate command that flows through the delegation chain to all sub-agent dispatches (research, plan, implement, resume, and blocker re-implement). Both command files (active + extension copy), the skill state machine, and CLAUDE.md command reference were updated."
+    },
+    {
+      "project_number": 612,
+      "project_name": "sync_missing_scripts_to_core_extension",
+      "status": "researched",
+      "task_type": "meta",
+      "created": "2026-05-25T00:00:00Z",
+      "last_updated": "2026-05-25T21:42:18Z",
+      "dependencies": [],
+      "artifacts": [
+        {
+          "path": "specs/612_sync_missing_scripts_to_core_extension/reports/01_script-sync-research.md",
+          "type": "report",
+          "summary": "18 scripts missing from core extension: all must be included (9 core infrastructure, 9 workflow utilities). postflight-workflow.sh is critical dependency for 3 existing wrapper scripts."
+        }
+      ],
+      "description": "18 scripts in .claude/scripts/ are missing from .claude/extensions/core/scripts/ and the core manifest provides.scripts array. This causes the <leader>al loader to not copy them to other projects, breaking all commands (which reference command-gate-in.sh, parse-command-args.sh, skill-base.sh, etc). Fix: copy the 18 missing scripts to the extension source directory and add them to manifest.json. Critical missing scripts: command-gate-in.sh, command-gate-out.sh, command-route-skill.sh, parse-command-args.sh, skill-base.sh, dispatch-agent.sh, generate-task-order.sh, archive-task.sh, vault-operation.sh, roadmap-sync.sh, roadmap-integration.sh, memory-harvest.sh, orphan-detection.sh, issue-grouping.sh, postflight-workflow.sh, rename-session.sh, tier-selection.sh, validate-context-budgets.sh.",
+      "next_artifact_number": 2,
+      "session_id": "sess_1779745079_70214b"
     }
   ],
   "completed_projects": [],
