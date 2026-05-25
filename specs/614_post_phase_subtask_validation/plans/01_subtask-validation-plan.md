@@ -114,16 +114,16 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Add check-off instruction and count-and-gate validation to nix-implementation-agent.md [NOT STARTED]
+### Phase 3: Add check-off instruction and count-and-gate validation to nix-implementation-agent.md [COMPLETED]
 
 **Goal**: Add the missing Stage 4B-ii check-off instruction (backported from general agent) after Step C.5, then restructure Stage 4D-ii to include the same count-and-gate validation with nix-specific domain verification.
 
 **Tasks**:
-- [ ] **Task 3.1**: Read current Step C section (lines 156-181) and Stage 4D-ii (lines 199-208) in `nix-implementation-agent.md`
-- [ ] **Task 3.2**: Insert a new `#### 4B-ii. Check Off Completed Items in Plan File` section after the existing Step C.5 (deviation annotation) block, adapted from the general agent's 4B-ii but without progress file references. Note: uses "C" step lettering, so the sub-stage label should reference the execution step appropriately
-- [ ] **Task 3.3**: Replace Stage 4D-ii heading and content with the restructured count-and-gate version, adapted for nix (no progress file, domain verification via `nix flake check`)
-- [ ] **Task 3.4**: Ensure the domain verification step ("Verify nix flake check passes") is preserved as part of the restructured 4D-ii
-- [ ] **Task 3.5**: Read the modified file to confirm structural consistency
+- [x] **Task 3.1**: Read current Step C section (lines 156-181) and Stage 4D-ii (lines 199-208) in `nix-implementation-agent.md` *(completed)*
+- [x] **Task 3.2**: Insert a new `#### 4C-ii. Check Off Completed Items in Plan File` section after the existing Step C.5 (deviation annotation) block, adapted from the general agent's 4B-ii but without progress file references. Note: uses "C" step lettering, so the sub-stage label references Step C.5 appropriately *(completed: labeled 4C-ii to match C step naming)*
+- [x] **Task 3.3**: Replace Stage 4D-ii heading and content with the restructured count-and-gate version, adapted for nix (no progress file, domain verification via `nix flake check`) *(completed)*
+- [x] **Task 3.4**: Ensure the domain verification step ("Verify nix flake check passes") is preserved as part of the restructured 4D-ii *(completed)*
+- [x] **Task 3.5**: Read the modified file to confirm structural consistency *(completed)*
 
 **Timing**: 30 minutes
 
