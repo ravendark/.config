@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 611,
+  "next_project_number": 612,
   "active_projects": [
     {
       "project_number": 87,
@@ -146,6 +146,19 @@
       "session_id": "sess_1779524044_6b7ae5",
       "next_artifact_number": 2,
       "completion_summary": "Applied context-protective lead pattern to 7 skills: removed format spec injection (cat -> @-reference), delegated memory retrieval to subagents, tightened prose in skill-orchestrator, delegated synthesis in team skills."
+    },
+    {
+      "project_number": 611,
+      "project_name": "add_prompt_to_orchestrate",
+      "status": "researched",
+      "task_type": "meta",
+      "created": "2026-05-25T00:00:00Z",
+      "last_updated": "2026-05-25T15:50:11Z",
+      "dependencies": [],
+      "artifacts": [],
+      "description": "Add optional prompt parameter to /orchestrate command. Current syntax: /orchestrate N. New syntax: /orchestrate N [prompt]. The prompt flows through the delegation chain: command parses args into task_number + prompt, includes prompt in delegation context JSON, skill extracts prompt and propagates to each sub-agent dispatch (research, plan, implement). Files to modify: .claude/commands/orchestrate.md, .claude/extensions/core/commands/orchestrate.md, .claude/skills/skill-orchestrate/SKILL.md, .claude/CLAUDE.md command reference.",
+      "next_artifact_number": 1,
+      "session_id": "sess_1779724197_7a4b82"
     }
   ],
   "completed_projects": [],

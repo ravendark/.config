@@ -1,17 +1,17 @@
 ---
-next_project_number: 608
+next_project_number: 612
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-23. Generated from state.json dependency graph.*
+*Updated 2026-05-25. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,611 | -- | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -19,8 +19,20 @@ next_project_number: 608
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
+611 [RESEARCHED] — Add optional prompt parameter to /orchestrate command. Current sy
 
 ## Tasks
+
+### 611. Add optional prompt parameter to /orchestrate command
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Report**: [specs/611_add_prompt_to_orchestrate/reports/01_prompt-parameter-research.md]
+
+**Description**: Add optional prompt parameter to /orchestrate command. Current syntax: `/orchestrate N`. New syntax: `/orchestrate N [prompt]`. The prompt flows through the delegation chain: command parses args into task_number + prompt, includes prompt in delegation context JSON, skill extracts prompt and propagates to each sub-agent dispatch (research, plan, implement). Files to modify: `.claude/commands/orchestrate.md`, `.claude/extensions/core/commands/orchestrate.md`, `.claude/skills/skill-orchestrate/SKILL.md`, `.claude/CLAUDE.md` command reference.
+
+---
 
 ### 608. Define context-protective lead pattern
 - **Effort**: TBD
