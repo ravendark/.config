@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 616,
+  "next_project_number": 617,
   "active_projects": [
     {
       "project_number": 87,
@@ -41,6 +41,17 @@
       ],
       "session_id": "sess_1771006114_e73864",
       "planned": "2026-02-13T18:10:48Z"
+    },
+    {
+      "project_number": 616,
+      "project_name": "fix_archive_task_todo_cleanup",
+      "status": "not_started",
+      "task_type": "meta",
+      "created": "2026-05-25T23:12:10Z",
+      "last_updated": "2026-05-25T23:12:10Z",
+      "dependencies": [],
+      "artifacts": [],
+      "description": "The archive-task.sh script moves task directories to archive/ and updates state.json (removing from active_projects, adding to completed_projects) but does NOT remove the corresponding task entry block from TODO.md. This leaves stale [COMPLETED] entries in TODO.md after /todo runs. Fix: add a sed/awk step to archive-task.sh that removes the full task entry block (from ### {N}. to the next --- or ### delimiter) from TODO.md after archiving. Also update the extension copy at .claude/extensions/core/scripts/archive-task.sh."
     }
   ],
   "completed_projects": [],
