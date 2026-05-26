@@ -1,17 +1,17 @@
 ---
-next_project_number: 619
+next_project_number: 620
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-05-25. Generated from state.json dependency graph.*
+*Updated 2026-05-26. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,619 | -- | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -19,9 +19,29 @@ next_project_number: 619
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-618 [COMPLETED] — picker_reload_extensions
+619 [NOT STARTED] — syncprotect_aware_extension_verification
 
 ## Tasks
+
+### 619. Syncprotect-aware extension verification
+- **Effort**: 1-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: neovim
+- **Dependencies**: None
+
+**Description**: Make the extension verification system syncprotect-aware and fix false-positive legacy core detection. Three tightly coupled changes:
+
+1. **verify.lua**: Load `.syncprotect` in `verify_extension()` and pass protected paths to `verify_rules()` and `verify_context()`. Skip protected paths instead of reporting them as "Missing rule" or "Missing context". Optionally report them as "protected" (informational, not warning). The `load_syncprotect()` function already exists in `loader.lua` -- extract to a shared helper so both modules can use it.
+
+2. **init.lua**: In `detect_legacy_core()`, read core's `manifest.provides.agents` list and only flag `.md` files that appear in that list. Currently ANY `.md` file in `.claude/agents/` triggers the legacy warning, causing false positives for custom project-specific agents like `port-agent.md`.
+
+3. **Shared helper**: Extract the syncprotect parsing logic from `loader.lua:load_syncprotect()` (lines 16-44) into a shared utility module so both `loader.lua` and `verify.lua` can use it without code duplication or tight coupling.
+
+**Observed symptoms** (in zed repo): `plan-format-enforcement.md` and `context/repo/project-overview.md` are listed in `.syncprotect` but flagged as "Missing rule" and "Missing context". `port-agent.md` triggers false "Legacy core detected" warning.
+
+**Files**: `lua/neotex/plugins/ai/shared/extensions/verify.lua`, `lua/neotex/plugins/ai/shared/extensions/init.lua`, `lua/neotex/plugins/ai/shared/extensions/loader.lua`
+
+---
 
 ### 618. Add reload option to extension picker
 - **Effort**: 1 hour
