@@ -166,16 +166,36 @@ function M.show_commands_picker(opts, config)
           actions.close(prompt_bufnr)
           local exts = require(extensions_module)
           if ext.status == "active" or ext.status == "update-available" then
-            exts.unload(ext.name, { confirm = true })
+            -- Show submenu for loaded extensions: Unload / Reload / Cancel
+            vim.schedule(function()
+              vim.ui.select(
+                { "Unload", "Reload", "Cancel" },
+                { prompt = "Extension: " .. ext.name },
+                function(choice)
+                  if choice == "Unload" then
+                    exts.unload(ext.name, { confirm = true })
+                  elseif choice == "Reload" then
+                    exts.reload(ext.name, {})
+                  end
+                  -- Reopen picker with cursor restore for all choices (including Cancel/nil)
+                  vim.defer_fn(function()
+                    M.show_commands_picker(
+                      vim.tbl_extend("force", opts, { _restore_extension_name = ext.name }),
+                      config
+                    )
+                  end, 100)
+                end
+              )
+            end)
           else
             exts.load(ext.name, { confirm = true })
+            vim.defer_fn(function()
+              M.show_commands_picker(
+                vim.tbl_extend("force", opts, { _restore_extension_name = ext.name }),
+                config
+              )
+            end, 100)
           end
-          vim.defer_fn(function()
-            M.show_commands_picker(
-              vim.tbl_extend("force", opts, { _restore_extension_name = ext.name }),
-              config
-            )
-          end, 100)
         end
       end)
 
