@@ -5,16 +5,21 @@
     {
       "project_number": 619,
       "project_name": "syncprotect_aware_extension_verification",
-      "status": "researched",
+      "status": "planned",
       "task_type": "neovim",
       "created": "2026-05-25T22:00:00Z",
-      "last_updated": "2026-05-26T03:20:40Z",
+      "last_updated": "2026-05-26T03:28:20Z",
       "dependencies": [],
       "artifacts": [
         {
           "type": "report",
           "path": "specs/619_syncprotect_aware_extension_verification/reports/01_syncprotect-aware-verification.md",
           "summary": "Research on making extension verification syncprotect-aware: path format analysis, shared helper extraction plan, detect_legacy_core fix approach, and specific line-level change locations"
+        },
+        {
+          "type": "plan",
+          "path": "specs/619_syncprotect_aware_extension_verification/plans/01_syncprotect-aware-verification.md",
+          "summary": "Implementation plan with 3 phases: verify.lua syncprotect support, init.lua call site wiring and detect_legacy_core fix, end-to-end validation"
         }
       ],
       "session_id": "sess_1748210400_research619"
