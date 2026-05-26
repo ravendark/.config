@@ -5,12 +5,19 @@
     {
       "project_number": 619,
       "project_name": "syncprotect_aware_extension_verification",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "neovim",
       "created": "2026-05-25T22:00:00Z",
-      "last_updated": "2026-05-25T22:00:00Z",
+      "last_updated": "2026-05-26T03:20:40Z",
       "dependencies": [],
-      "artifacts": []
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/619_syncprotect_aware_extension_verification/reports/01_syncprotect-aware-verification.md",
+          "summary": "Research on making extension verification syncprotect-aware: path format analysis, shared helper extraction plan, detect_legacy_core fix approach, and specific line-level change locations"
+        }
+      ],
+      "session_id": "sess_1748210400_research619"
     },
     {
       "project_number": 87,
@@ -83,7 +90,14 @@
         "complexity": "simple",
         "research_integrated": true,
         "plan_version": 1,
-        "dependency_waves": [[1], [2]],
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
         "reports_integrated": [
           {
             "path": "reports/01_picker-reload.md",
