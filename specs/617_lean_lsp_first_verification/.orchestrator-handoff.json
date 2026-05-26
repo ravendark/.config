@@ -1,9 +1,0 @@
-{
-  "status": "completed",
-  "summary": "Updated three lean extension files to implement LSP-first verification policy: added lean_verify to tool tables, replaced per-step lake build with lean_goal + lean_verify across all three files, positioned lean_multi_attempt as pre-edit trial step, established three-tier cadence (per-step: lean_goal+lean_verify, phase-end: scoped lake build, final: full lake build)",
-  "artifacts": [{"type": "summary", "path": "specs/617_lean_lsp_first_verification/summaries/01_lsp-first-summary.md"}],
-  "blockers": [],
-  "next_action_hint": "none",
-  "phases_completed": 3,
-  "phases_total": 3
-}

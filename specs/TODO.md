@@ -11,7 +11,7 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,619 | -- | -- |
+| 1 | 78,87 | -- | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -19,17 +19,17 @@ next_project_number: 620
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
-619 [PLANNED] — syncprotect_aware_extension_verification
 
 ## Tasks
 
 ### 619. Syncprotect-aware extension verification
 - **Effort**: 1-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: neovim
 - **Dependencies**: None
 - report: [Research on making extension verification syncprotect-aware]
 - specs/619_syncprotect_aware_extension_verification/plans/01_syncprotect-aware-verification.md: [Implementation plan with 3 phases]
+- specs/619_syncprotect_aware_extension_verification/summaries/01_syncprotect-aware-verification-summary.md: [Implementation summary]
 
 **Description**: Make the extension verification system syncprotect-aware and fix false-positive legacy core detection. Three tightly coupled changes:
 

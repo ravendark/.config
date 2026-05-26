@@ -5,10 +5,10 @@
     {
       "project_number": 619,
       "project_name": "syncprotect_aware_extension_verification",
-      "status": "planned",
+      "status": "completed",
       "task_type": "neovim",
       "created": "2026-05-25T22:00:00Z",
-      "last_updated": "2026-05-26T03:28:20Z",
+      "last_updated": "2026-05-26T03:36:49Z",
       "dependencies": [],
       "artifacts": [
         {
@@ -20,9 +20,15 @@
           "type": "plan",
           "path": "specs/619_syncprotect_aware_extension_verification/plans/01_syncprotect-aware-verification.md",
           "summary": "Implementation plan with 3 phases: verify.lua syncprotect support, init.lua call site wiring and detect_legacy_core fix, end-to-end validation"
+        },
+        {
+          "type": "summary",
+          "path": "specs/619_syncprotect_aware_extension_verification/summaries/01_syncprotect-aware-verification-summary.md",
+          "summary": "Implementation summary with verification results"
         }
       ],
-      "session_id": "sess_1748210400_research619"
+      "session_id": "sess_1748210400_research619",
+      "completion_summary": "Made verify.lua syncprotect-aware by adding protected_paths parameter to verify_rules(), verify_context(), and verify_extension(). Fixed detect_legacy_core() in init.lua to filter against the core manifest's agent list, preventing extension-managed agents from being falsely flagged as legacy core artifacts."
     },
     {
       "project_number": 87,
