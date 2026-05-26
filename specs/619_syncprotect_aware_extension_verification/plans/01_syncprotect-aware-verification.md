@@ -121,17 +121,17 @@ No literature source referenced.
 
 ---
 
-### Phase 3: End-to-end testing and validation [NOT STARTED]
+### Phase 3: End-to-end testing and validation [COMPLETED]
 
 **Goal**: Verify the complete integration works correctly across all scenarios.
 
 **Tasks**:
-- [ ] Verify Neovim starts cleanly with no extension verification warnings: `nvim --headless -c "lua require('neotex.plugins.ai.shared.extensions')" -c "q"`
-- [ ] Test with existing `.syncprotect` file: confirm protected rules and context files are not flagged
-- [ ] Test without `.syncprotect` file: confirm behavior is unchanged (empty protected_paths = no files skipped)
-- [ ] Verify `detect_legacy_core()` correctly identifies only core-declared agent files as legacy
-- [ ] Verify `detect_legacy_core()` does not flag extension-managed agents (nvim, nix, memory, etc.)
-- [ ] Run full extension verification: confirm `manager.verify_all()` produces no false positives for loaded extensions with syncprotected files
+- [x] Verify Neovim starts cleanly with no extension verification warnings: `nvim --headless -c "lua require('neotex.plugins.ai.shared.extensions')" -c "q"` *(completed)*
+- [x] Test with existing `.syncprotect` file: confirm protected rules and context files are not flagged *(completed: protecting README.md entry eliminates warnings as expected)*
+- [x] Test without `.syncprotect` file: confirm behavior is unchanged (empty protected_paths = no files skipped) *(completed: backward compat verified)*
+- [x] Verify `detect_legacy_core()` correctly identifies only core-declared agent files as legacy *(completed: core_agents set built from manifest)*
+- [x] Verify `detect_legacy_core()` does not flag extension-managed agents (nvim, nix, memory, etc.) *(completed: only core manifest agents flagged; nvim/nix agents not in core_agents set)*
+- [x] Run full extension verification: confirm `manager.verify_all()` produces no false positives for loaded extensions with syncprotected files *(completed)*
 
 **Timing**: 0.5 hours
 
