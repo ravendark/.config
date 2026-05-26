@@ -168,9 +168,10 @@ end
 --- to the real-extension model.
 --- @param project_dir string Project root directory
 --- @param config table Extension system configuration
+--- @param core_manifest table|nil Core extension manifest (used to filter out extension-managed agents)
 --- @return boolean is_legacy True when legacy core files are detected
 --- @return string|nil detail Human-readable description of what was found
-local function detect_legacy_core(project_dir, config)
+local function detect_legacy_core(project_dir, config, core_manifest)
   local target_dir = project_dir .. "/" .. config.base_dir
 
   -- Check whether core is already tracked in extensions.json
@@ -178,6 +179,21 @@ local function detect_legacy_core(project_dir, config)
   if state_mod.is_loaded(state, "core") then
     -- Core is already managed by the extension system; no legacy detection needed
     return false, nil
+  end
+
+  -- Build a set of agent filenames declared by the core manifest.
+  -- Only files in this set are considered "legacy core" indicators.
+  -- Extension-managed agents (nvim, nix, etc.) live in the same agents/ dir
+  -- and must not be flagged as legacy.
+  local core_agents = {}
+  if core_manifest
+    and core_manifest.provides
+    and core_manifest.provides.agents
+  then
+    for _, agent_file in ipairs(core_manifest.provides.agents) do
+      -- agent_file is a basename like "general-research-agent.md"
+      core_agents[agent_file] = true
+    end
   end
 
   -- Check for the most reliable indicator: agent files in the base .claude/agents/ dir.
@@ -192,7 +208,7 @@ local function detect_legacy_core(project_dir, config)
         if not name then
           break
         end
-        if type == "file" and name:match("%.md$") and name ~= ".gitkeep" then
+        if type == "file" and name:match("%.md$") and name ~= ".gitkeep" and core_agents[name] then
           return true, string.format(
             "Legacy core detected: '%s/%s' exists without extensions.json entry",
             agents_dir, name
@@ -243,7 +259,7 @@ function M.create(config)
     -- overwrite conflicts as usual -- the conflict count in the confirmation dialog
     -- communicates this to the user. This is not an error condition.
     if extension_name == "core" then
-      local is_legacy, legacy_detail = detect_legacy_core(project_dir, config)
+      local is_legacy, legacy_detail = detect_legacy_core(project_dir, config, ext_manifest)
       if is_legacy then
         vim.schedule(function()
           vim.notify(
@@ -542,7 +558,7 @@ function M.create(config)
     )
 
     -- Run post-load verification
-    local verification = verify_mod.verify_extension(extension_name, source_dir, target_dir, config)
+    local verification = verify_mod.verify_extension(extension_name, source_dir, target_dir, config, protected_paths)
     if verification.status ~= "passed" then
       verify_mod.notify_results(verification)
     end
@@ -822,7 +838,8 @@ function M.create(config)
       }
     end
 
-    return verify_mod.verify_extension(extension_name, extension.path, target_dir, config)
+    local protected_paths = loader_mod.load_syncprotect(project_dir, config.base_dir)
+    return verify_mod.verify_extension(extension_name, extension.path, target_dir, config, protected_paths)
   end
 
   --- Verify all loaded extensions

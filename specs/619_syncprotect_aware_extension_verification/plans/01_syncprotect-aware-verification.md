@@ -93,19 +93,19 @@ No literature source referenced.
 
 ---
 
-### Phase 2: Wire protected_paths through init.lua call sites [NOT STARTED]
+### Phase 2: Wire protected_paths through init.lua call sites [COMPLETED]
 
 **Goal**: Pass the `protected_paths` table to `verify_extension()` at both call sites in `init.lua`, and fix `detect_legacy_core()` to use the core manifest agent list.
 
 **Tasks**:
-- [ ] In `manager.load()` (around line 545), pass `protected_paths` as the fifth argument to `verify_mod.verify_extension(extension_name, source_dir, target_dir, config, protected_paths)` -- the variable is already available from line 373
-- [ ] In `manager.verify()` (around line 811-825), compute `protected_paths` via `local protected_paths = loader_mod.load_syncprotect(project_dir, config.base_dir)` before calling `verify_mod.verify_extension()`, then pass it as fifth argument
-- [ ] In `manager.verify_all()`, no changes needed (it calls `manager.verify()` which handles it)
-- [ ] Add `core_manifest` parameter to `detect_legacy_core(project_dir, config, core_manifest)`
-- [ ] Build a `core_agents` set from `core_manifest.provides.agents` with nil guards
-- [ ] Add `and core_agents[name]` condition to the file detection check (line 195)
-- [ ] Update the call site at line 246 to pass `ext_manifest` as third argument: `detect_legacy_core(project_dir, config, ext_manifest)`
-- [ ] Update LuaDoc for `detect_legacy_core()` to document the new parameter
+- [x] In `manager.load()` (around line 545), pass `protected_paths` as the fifth argument to `verify_mod.verify_extension(extension_name, source_dir, target_dir, config, protected_paths)` -- the variable is already available from line 373 *(completed)*
+- [x] In `manager.verify()` (around line 811-825), compute `protected_paths` via `local protected_paths = loader_mod.load_syncprotect(project_dir, config.base_dir)` before calling `verify_mod.verify_extension()`, then pass it as fifth argument *(completed)*
+- [x] In `manager.verify_all()`, no changes needed (it calls `manager.verify()` which handles it) *(completed)*
+- [x] Add `core_manifest` parameter to `detect_legacy_core(project_dir, config, core_manifest)` *(completed)*
+- [x] Build a `core_agents` set from `core_manifest.provides.agents` with nil guards *(completed)*
+- [x] Add `and core_agents[name]` condition to the file detection check (line 195) *(completed)*
+- [x] Update the call site at line 246 to pass `ext_manifest` as third argument: `detect_legacy_core(project_dir, config, ext_manifest)` *(completed)*
+- [x] Update LuaDoc for `detect_legacy_core()` to document the new parameter *(completed)*
 
 **Timing**: 0.5 hours
 
