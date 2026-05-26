@@ -119,11 +119,14 @@ end
 --- Verify all rule files exist
 --- @param manifest table Extension manifest
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table results Verification results
-local function verify_rules(manifest, target_dir)
+local function verify_rules(manifest, target_dir, protected_paths)
+  protected_paths = protected_paths or {}
   local results = {
     checked = 0,
     missing = {},
+    protected = {},
   }
 
   if not manifest.provides or not manifest.provides.rules then
@@ -135,7 +138,9 @@ local function verify_rules(manifest, target_dir)
   for _, rule_name in ipairs(manifest.provides.rules) do
     results.checked = results.checked + 1
     local rule_path = rules_dir .. "/" .. rule_name
-    if not file_exists(rule_path) then
+    if protected_paths["rules/" .. rule_name] then
+      table.insert(results.protected, rule_name)
+    elseif not file_exists(rule_path) then
       table.insert(results.missing, rule_name)
     end
   end
@@ -146,11 +151,14 @@ end
 --- Verify context files referenced in extension index-entries.json exist
 --- @param extension_dir string Extension source directory
 --- @param target_dir string Target base directory
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}
 --- @return table results Verification results
-local function verify_context(extension_dir, target_dir)
+local function verify_context(extension_dir, target_dir, protected_paths)
+  protected_paths = protected_paths or {}
   local results = {
     checked = 0,
     missing = {},
+    protected = {},
   }
 
   local index_path = extension_dir .. "/index-entries.json"
@@ -166,7 +174,9 @@ local function verify_context(extension_dir, target_dir)
     results.checked = results.checked + 1
     local normalized_path = normalize_index_path(entry.path)
     local context_path = context_dir .. "/" .. normalized_path
-    if not file_exists(context_path) then
+    if protected_paths["context/" .. normalized_path] then
+      table.insert(results.protected, entry.path)
+    elseif not file_exists(context_path) then
       table.insert(results.missing, entry.path)
     end
   end
@@ -344,8 +354,10 @@ end
 --- @param extension_dir string Extension source directory
 --- @param target_dir string Target base directory (.claude or .opencode)
 --- @param config table Extension system configuration
+--- @param protected_paths table|nil Set of protected relative paths {[path] = true}; defaults to {}
 --- @return table verification Verification report
-function M.verify_extension(extension_name, extension_dir, target_dir, config)
+function M.verify_extension(extension_name, extension_dir, target_dir, config, protected_paths)
+  protected_paths = protected_paths or {}
   local manifest_path = extension_dir .. "/manifest.json"
   local manifest = read_json(manifest_path)
 
@@ -402,7 +414,7 @@ function M.verify_extension(extension_name, extension_dir, target_dir, config)
   end
 
   -- Verify rules
-  local rule_results = verify_rules(manifest, target_dir)
+  local rule_results = verify_rules(manifest, target_dir, protected_paths)
   if #rule_results.missing > 0 then
     verification.rules = {
       passed = false,
@@ -415,7 +427,7 @@ function M.verify_extension(extension_name, extension_dir, target_dir, config)
   end
 
   -- Verify context files
-  local context_results = verify_context(extension_dir, target_dir)
+  local context_results = verify_context(extension_dir, target_dir, protected_paths)
   if #context_results.missing > 0 then
     verification.context = {
       passed = false,
@@ -451,9 +463,10 @@ function M.verify_extension(extension_name, extension_dir, target_dir, config)
     table.insert(verification.errors, "Index entries not merged into context/index.json")
   end
 
-  -- Verify opencode.json fragment-to-manifest consistency (only when manifest declares the merge target)
+  -- Verify opencode.json fragment-to-manifest consistency (only for opencode targets)
+  local is_opencode_target = target_dir:find("%.opencode") ~= nil
   local has_opencode_merge = manifest.merge_targets and manifest.merge_targets.opencode_json
-  local opencode_json_result = has_opencode_merge and verify_opencode_json_merge(extension_dir, manifest)
+  local opencode_json_result = is_opencode_target and has_opencode_merge and verify_opencode_json_merge(extension_dir, manifest)
   if opencode_json_result and not opencode_json_result.passed then
     verification.opencode_json = {
       passed = false,

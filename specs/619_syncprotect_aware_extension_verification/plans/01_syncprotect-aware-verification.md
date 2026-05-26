@@ -1,7 +1,7 @@
 # Implementation Plan: Syncprotect-Aware Extension Verification
 
 - **Task**: 619 - syncprotect_aware_extension_verification
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/619_syncprotect_aware_extension_verification/reports/01_syncprotect-aware-verification.md
@@ -64,21 +64,21 @@ No literature source referenced.
 | 2 | 2 | 1 |
 | 3 | 3 | 2 |
 
-### Phase 1: Make verify.lua syncprotect-aware [NOT STARTED]
+### Phase 1: Make verify.lua syncprotect-aware [COMPLETED]
 
 **Goal**: Update `verify_rules()`, `verify_context()`, and `M.verify_extension()` to accept and use `protected_paths`, skipping protected files instead of flagging them as missing.
 
 **Tasks**:
-- [ ] Add `protected_paths` as third parameter to `verify_rules(manifest, target_dir, protected_paths)` with default `protected_paths = protected_paths or {}`
-- [ ] In `verify_rules()`, add `protected = {}` to the results table initialization
-- [ ] In `verify_rules()`, before inserting into `results.missing`, check `if protected_paths["rules/" .. rule_name] then` and route to `results.protected` instead
-- [ ] Add `protected_paths` as third parameter to `verify_context(extension_dir, target_dir, protected_paths)` with default
-- [ ] In `verify_context()`, add `protected = {}` to the results table initialization
-- [ ] In `verify_context()`, before inserting into `results.missing`, check `if protected_paths["context/" .. normalized_path] then` and route to `results.protected` instead (use normalized path for lookup, original `entry.path` for the protected array)
-- [ ] Add optional `protected_paths` as fifth parameter to `M.verify_extension()` with default `{}`
-- [ ] Pass `protected_paths` through to `verify_rules(manifest, target_dir, protected_paths)` call
-- [ ] Pass `protected_paths` through to `verify_context(extension_dir, target_dir, protected_paths)` call
-- [ ] Update LuaDoc comments for all three functions to document the new parameter
+- [x] Add `protected_paths` as third parameter to `verify_rules(manifest, target_dir, protected_paths)` with default `protected_paths = protected_paths or {}` *(completed)*
+- [x] In `verify_rules()`, add `protected = {}` to the results table initialization *(completed)*
+- [x] In `verify_rules()`, before inserting into `results.missing`, check `if protected_paths["rules/" .. rule_name] then` and route to `results.protected` instead *(completed)*
+- [x] Add `protected_paths` as third parameter to `verify_context(extension_dir, target_dir, protected_paths)` with default *(completed)*
+- [x] In `verify_context()`, add `protected = {}` to the results table initialization *(completed)*
+- [x] In `verify_context()`, before inserting into `results.missing`, check `if protected_paths["context/" .. normalized_path] then` and route to `results.protected` instead (use normalized path for lookup, original `entry.path` for the protected array) *(completed)*
+- [x] Add optional `protected_paths` as fifth parameter to `M.verify_extension()` with default `{}` *(completed)*
+- [x] Pass `protected_paths` through to `verify_rules(manifest, target_dir, protected_paths)` call *(completed)*
+- [x] Pass `protected_paths` through to `verify_context(extension_dir, target_dir, protected_paths)` call *(completed)*
+- [x] Update LuaDoc comments for all three functions to document the new parameter *(completed)*
 
 **Timing**: 0.5 hours
 
