@@ -971,6 +971,19 @@ function M.create_special_entries(config)
     config = config,  -- Thread config for previewer access
   })
 
+  -- [Reload All] appears just above [Keyboard Shortcuts] (inserted after it due to descending sort)
+  table.insert(entries, {
+    is_reload_all = true,
+    name = "~~~reload_all",
+    display = string.format(
+      "%-40s %s",
+      "[Reload All]",
+      "Wipe and reload all loaded extensions"
+    ),
+    entry_type = "special",
+    config = config,
+  })
+
   return entries
 end
 

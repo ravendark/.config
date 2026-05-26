@@ -1,0 +1,14 @@
+{
+  "status": "completed",
+  "summary": "Added reload functionality to extension picker: vim.ui.select submenu (Unload/Reload/Cancel) for loaded extensions on CR, and [Reload All] special entry with dependency-safe reload loop and error summary notification.",
+  "artifacts": [
+    {
+      "type": "summary",
+      "path": "specs/618_picker_reload_extensions/summaries/01_picker-reload-summary.md"
+    }
+  ],
+  "blockers": [],
+  "next_action_hint": "none",
+  "phases_completed": 2,
+  "phases_total": 2
+}

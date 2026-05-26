@@ -98,18 +98,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Reload All special entry and handler [NOT STARTED]
+### Phase 2: Reload All special entry and handler [COMPLETED]
 
 **Goal**: Add a `[Reload All]` special entry to the picker and implement its handler to reload all loaded extensions in dependency-safe order.
 
 **Tasks**:
-- [ ] In `lua/neotex/plugins/ai/claude/commands/picker/display/entries.lua`, in `create_special_entries()` (lines 958-975), add a new entry **after** the `[Keyboard Shortcuts]` entry (so it appears just above it in the descending-sort picker)
-- [ ] The new entry uses: `is_reload_all = true`, `name = "~~~reload_all"`, display `"[Reload All]"` with description `"Wipe and reload all loaded extensions"`, `entry_type = "special"`
-- [ ] In `lua/neotex/plugins/ai/claude/commands/picker/init.lua`, add a handler block for `is_reload_all` between the `is_load_all` handler (line 124) and the `is_help` handler (line 127)
-- [ ] The handler: close picker, `vim.schedule` a function that gets `list_loaded()`, sorts with core last, iterates calling `exts.reload(ext_name, {})` on each, counts successes, shows summary notification, then reopens picker with `vim.defer_fn`
-- [ ] If `list_loaded()` returns empty, show a notification "No extensions loaded" and return early (no close/reopen)
-- [ ] Add `selection.value.is_reload_all` to all four guard conditions at lines 185, 209, 233, 257 (Ctrl-l, Ctrl-u, Ctrl-s, Ctrl-e handlers)
-- [ ] Verify: `[Reload All]` appears just above `[Keyboard Shortcuts]` in the picker
+- [x] **Task 2.1**: In `lua/neotex/plugins/ai/claude/commands/picker/display/entries.lua`, in `create_special_entries()`, add a new entry after the `[Keyboard Shortcuts]` entry *(completed)*
+- [x] **Task 2.2**: The new entry uses: `is_reload_all = true`, `name = "~~~reload_all"`, display `"[Reload All]"` with description `"Wipe and reload all loaded extensions"`, `entry_type = "special"` *(completed)*
+- [x] **Task 2.3**: In `lua/neotex/plugins/ai/claude/commands/picker/init.lua`, add a handler block for `is_reload_all` between the `is_load_all` handler and the `is_help` handler *(completed)*
+- [x] **Task 2.4**: The handler: close picker, `vim.schedule` a function that gets `list_loaded()`, sorts with core last, iterates calling `exts.reload(ext_name, {})` on each, counts successes, shows summary notification, then reopens picker with `vim.defer_fn` *(completed)*
+- [x] **Task 2.5**: If `list_loaded()` returns empty, show a notification "No extensions loaded" and return early (no close/reopen) *(completed)*
+- [x] **Task 2.6**: Add `selection.value.is_reload_all` to all four guard conditions (Ctrl-l, Ctrl-u, Ctrl-s, Ctrl-e handlers) *(completed)*
+- [x] **Task 2.7**: Verify: `[Reload All]` appears just above `[Keyboard Shortcuts]` in the picker *(completed: syntax verified via nvim --headless)*
 
 **Timing**: 30 minutes
 

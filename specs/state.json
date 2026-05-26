@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 618,
+  "next_project_number": 619,
   "active_projects": [
     {
       "project_number": 87,
@@ -41,6 +41,49 @@
       ],
       "session_id": "sess_1771006114_e73864",
       "planned": "2026-02-13T18:10:48Z"
+    },
+    {
+      "project_number": 618,
+      "project_name": "picker_reload_extensions",
+      "status": "completed",
+      "task_type": "neovim",
+      "created": "2026-05-26T01:10:00Z",
+      "last_updated": "2026-05-25T00:45:00Z",
+      "dependencies": [],
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/618_picker_reload_extensions/reports/01_picker-reload.md",
+          "summary": "Full architecture walkthrough: CR handler code, special entries pattern, extension manager API (reload exists, reload_all does not), safe reload ordering, and specific proposed code changes for both features"
+        },
+        {
+          "type": "plan",
+          "path": "specs/618_picker_reload_extensions/plans/01_picker-reload-plan.md",
+          "summary": "2-phase plan: submenu for loaded extensions (Unload/Reload/Cancel) and [Reload All] special entry with dependency-safe reload loop"
+        },
+        {
+          "type": "summary",
+          "path": "specs/618_picker_reload_extensions/summaries/01_picker-reload-summary.md",
+          "summary": "Both phases completed: vim.ui.select submenu for loaded extensions and [Reload All] entry with dependency-safe reload loop"
+        }
+      ],
+      "plan_metadata": {
+        "phases": 2,
+        "total_effort_hours": 1,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [[1], [2]],
+        "reports_integrated": [
+          {
+            "path": "reports/01_picker-reload.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-25"
+          }
+        ]
+      },
+      "description": "Add reload option to <leader>al extension picker. Phase 1: When <CR> on a loaded extension, show Unload/Reload/Cancel submenu instead of directly unloading. Phase 2: Add [Reload All] special entry above [Keyboard Shortcuts] to wipe and reload all currently loaded extensions and core system. Files: picker/init.lua (CR handler + reload-all action), display/entries.lua (new special entry).",
+      "completion_summary": "Added reload functionality to the extension picker: (1) pressing CR on a loaded extension now shows a vim.ui.select submenu with Unload/Reload/Cancel options wrapped in vim.schedule; (2) a new [Reload All] special entry reloads all loaded extensions in dependency-safe order (non-core first, core last) with error collection and summary notification. Both changes are scoped to picker/init.lua and picker/display/entries.lua."
     },
     {
       "project_number": 617,

@@ -123,6 +123,64 @@ function M.show_commands_picker(opts, config)
           return
         end
 
+        -- Reload All special entry: reload every loaded extension in dependency-safe order
+        if selection.value.is_reload_all then
+          local exts = require(extensions_module)
+          local loaded = exts.list_loaded()
+          if not loaded or #loaded == 0 then
+            vim.notify("No extensions loaded", vim.log.levels.INFO)
+            return
+          end
+          actions.close(prompt_bufnr)
+          vim.schedule(function()
+            -- Sort: non-core extensions first, core last
+            local sorted = {}
+            local core_exts = {}
+            for _, name in ipairs(loaded) do
+              if name == "core" then
+                table.insert(core_exts, name)
+              else
+                table.insert(sorted, name)
+              end
+            end
+            for _, name in ipairs(core_exts) do
+              table.insert(sorted, name)
+            end
+            -- Reload each extension
+            local success_count = 0
+            local errors = {}
+            for _, name in ipairs(sorted) do
+              local ok, err = exts.reload(name, {})
+              if ok then
+                success_count = success_count + 1
+              else
+                table.insert(errors, name .. ": " .. (err or "unknown error"))
+              end
+            end
+            -- Show summary notification
+            if #errors == 0 then
+              vim.notify(
+                string.format("Reloaded %d extension(s)", success_count),
+                vim.log.levels.INFO
+              )
+            else
+              vim.notify(
+                string.format(
+                  "Reloaded %d/%d extension(s). Errors: %s",
+                  success_count,
+                  #sorted,
+                  table.concat(errors, ", ")
+                ),
+                vim.log.levels.WARN
+              )
+            end
+            vim.defer_fn(function()
+              M.show_commands_picker(opts, config)
+            end, 100)
+          end)
+          return
+        end
+
         -- Help section: does nothing
         if selection.value.is_help then
           return
@@ -202,7 +260,7 @@ function M.show_commands_picker(opts, config)
       -- Load artifact locally with Ctrl-l
       map("i", "<C-l>", function()
         local selection = action_state.get_selected_entry()
-        if not selection or selection.value.is_help or selection.value.is_load_all or selection.value.is_heading then
+        if not selection or selection.value.is_help or selection.value.is_load_all or selection.value.is_reload_all or selection.value.is_heading then
           return
         end
 
@@ -226,7 +284,7 @@ function M.show_commands_picker(opts, config)
       -- Update from global with Ctrl-u
       map("i", "<C-u>", function()
         local selection = action_state.get_selected_entry()
-        if not selection or selection.value.is_help or selection.value.is_load_all or selection.value.is_heading then
+        if not selection or selection.value.is_help or selection.value.is_load_all or selection.value.is_reload_all or selection.value.is_heading then
           return
         end
 
@@ -250,7 +308,7 @@ function M.show_commands_picker(opts, config)
       -- Save to global with Ctrl-s
       map("i", "<C-s>", function()
         local selection = action_state.get_selected_entry()
-        if not selection or selection.value.is_help or selection.value.is_load_all or selection.value.is_heading then
+        if not selection or selection.value.is_help or selection.value.is_load_all or selection.value.is_reload_all or selection.value.is_heading then
           return
         end
 
@@ -274,7 +332,7 @@ function M.show_commands_picker(opts, config)
       -- Edit file with Ctrl-e
       map("i", "<C-e>", function()
         local selection = action_state.get_selected_entry()
-        if not selection or selection.value.is_help or selection.value.is_load_all or selection.value.is_heading then
+        if not selection or selection.value.is_help or selection.value.is_load_all or selection.value.is_reload_all or selection.value.is_heading then
           return
         end
 

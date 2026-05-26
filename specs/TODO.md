@@ -1,5 +1,5 @@
 ---
-next_project_number: 618
+next_project_number: 619
 ---
 
 # TODO
@@ -19,8 +19,22 @@ next_project_number: 618
 
 78 [PLANNED] — fix_himalaya_smtp_authentication_failure
 87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
+618 [COMPLETED] — picker_reload_extensions
 
 ## Tasks
+
+### 618. Add reload option to extension picker
+- **Effort**: 1 hour
+- **Status**: [COMPLETED]
+- **Task Type**: neovim
+- **Dependencies**: None
+- **Report**: [specs/618_picker_reload_extensions/reports/01_picker-reload.md]
+- **Plan**: [specs/618_picker_reload_extensions/plans/01_picker-reload-plan.md]
+- **Summary**: [specs/618_picker_reload_extensions/summaries/01_picker-reload-summary.md]
+
+**Description**: Add reload functionality to the `<leader>al` extension picker. Phase 1: When pressing `<CR>` on an already-loaded extension, show a `vim.ui.select` submenu with Unload/Reload/Cancel options instead of directly unloading. Reload calls the existing `manager.reload()` function at `extensions/init.lua:690-714`. Phase 2: Add a `[Reload All]` special entry just above `[Keyboard Shortcuts]` that wipes and reloads all currently loaded extensions and the core agent system. Files: `lua/neotex/plugins/ai/claude/commands/picker/init.lua` (CR handler at ~line 161, reload-all action), `lua/neotex/plugins/ai/claude/commands/picker/display/entries.lua` (new special entry above keyboard shortcuts).
+
+---
 
 ### 617. Lean LSP-first verification policy for implementation agents
 - **Effort**: 1 hour
