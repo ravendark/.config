@@ -25632,6 +25632,320 @@
       "description": "Have the orchestrator inspect the plan file between cycles (not just the handoff) to detect drift and decide if plan revision is needed. Currently the orchestrator only reads .orchestrator-handoff.json after each agent dispatch. With structured counts from task 613, add logic in skill-orchestrate SKILL.md to: (1) read phase completion percentages from the handoff, (2) if subtask completion < 70% in a phase, inspect the plan file for unchecked items vs. annotated deviations, (3) if significant drift detected (>30% deviations), trigger plan revision via reviser-agent before continuing. Files: skill-orchestrate SKILL.md (post-dispatch logic, lines 306-327).",
       "session_id": "sess_1779749683_b3047c",
       "completion_summary": "Added plan drift detection to skill-orchestrate: a two-gate system (arithmetic threshold check + fork inspection agent) detects when implement dispatches return partial with less than 70% phase completion, and conditionally invokes reviser-agent when deviation annotations exceed 30% of plan items. Extension copy synced."
+    },
+    {
+      "project_number": 616,
+      "project_name": "fix_archive_task_todo_cleanup",
+      "status": "completed",
+      "task_type": "meta",
+      "created": "2026-05-25T23:12:10Z",
+      "last_updated": "2026-05-25T23:33:19Z",
+      "dependencies": [],
+      "artifacts": [
+        {
+          "path": "specs/616_fix_archive_task_todo_cleanup/reports/01_archive-todo-cleanup.md",
+          "type": "report",
+          "summary": "Step C Python regex matches legacy format (- #N:) that never exists in TODO.md. Actual format is ### N. Title blocks. Fix: replace with block removal anchored on ^### {N}\\. pattern."
+        },
+        {
+          "path": "specs/616_fix_archive_task_todo_cleanup/plans/01_archive-todo-plan.md",
+          "type": "plan",
+          "summary": "2-phase plan to fix broken Step C regex in archive-task.sh and sync extension copy"
+        },
+        {
+          "path": "specs/616_fix_archive_task_todo_cleanup/summaries/01_archive-todo-summary.md",
+          "type": "summary",
+          "summary": "Fixed Step C regex, synced extension copy, verified with 4 test cases"
+        }
+      ],
+      "description": "The archive-task.sh script moves task directories to archive/ and updates state.json (removing from active_projects, adding to completed_projects) but does NOT remove the corresponding task entry block from TODO.md. This leaves stale [COMPLETED] entries in TODO.md after /todo runs. Fix: add a sed/awk step to archive-task.sh that removes the full task entry block (from ### {N}. to the next --- or ### delimiter) from TODO.md after archiving. Also update the extension copy at .claude/extensions/core/scripts/archive-task.sh.",
+      "session_id": "sess_1779751731_abfe99",
+      "completion_summary": "Fixed archive-task.sh Step C by replacing a Python regex that matched a non-existent '- #N:' format with a line-by-line block removal anchored on '^### N. ' to match the actual TODO.md block format. Both the primary script and extension copy were updated and verified identical."
+    },
+    {
+      "project_number": 617,
+      "project_name": "lean_lsp_first_verification",
+      "status": "completed",
+      "task_type": "meta",
+      "created": "2026-05-26T00:30:00Z",
+      "last_updated": "2026-05-25T12:00:00Z",
+      "dependencies": [],
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/617_lean_lsp_first_verification/reports/01_lsp-first-verification.md",
+          "summary": "Current state analysis of all 3 lean extension files, gap analysis identifying lean_verify as missing, 8 specific proposed changes with exact before/after text for implementing LSP-first verification policy"
+        },
+        {
+          "type": "plan",
+          "path": "specs/617_lean_lsp_first_verification/plans/01_lsp-first-plan.md",
+          "summary": "3-phase implementation plan with 8 targeted text edits across 3 lean extension files to implement LSP-first verification policy"
+        },
+        {
+          "type": "summary",
+          "path": "specs/617_lean_lsp_first_verification/summaries/01_lsp-first-summary.md",
+          "summary": "All 3 phases completed: lean_verify added to tool tables, three-tier verification cadence documented across all files, lean_multi_attempt positioned as pre-edit trial"
+        }
+      ],
+      "description": "Update lean extension to prefer lean-lsp MCP tools over lake build for per-step verification. Add lean_verify to tool docs, replace per-step lake build with lean_goal, position lean_multi_attempt as pre-edit trial, prefer lake build Module.Name over bare lake build, reserve full lake build for phase-end and final verification only. Files: lean4.md rules, lean-implementation-agent.md, lean-implementation-flow.md.",
+      "completion_summary": "Updated three lean extension files to implement LSP-first verification policy: added lean_verify to all tool tables, replaced per-step lake build with lean_goal + lean_verify across all three files, positioned lean_multi_attempt as pre-edit trial step, established three-tier cadence (per-step: lean_goal+lean_verify, phase-end: scoped lake build, final: full lake build)."
+    },
+    {
+      "project_number": 618,
+      "project_name": "picker_reload_extensions",
+      "status": "completed",
+      "task_type": "neovim",
+      "created": "2026-05-26T01:10:00Z",
+      "last_updated": "2026-05-25T00:45:00Z",
+      "dependencies": [],
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/618_picker_reload_extensions/reports/01_picker-reload.md",
+          "summary": "Full architecture walkthrough: CR handler code, special entries pattern, extension manager API (reload exists, reload_all does not), safe reload ordering, and specific proposed code changes for both features"
+        },
+        {
+          "type": "plan",
+          "path": "specs/618_picker_reload_extensions/plans/01_picker-reload-plan.md",
+          "summary": "2-phase plan: submenu for loaded extensions (Unload/Reload/Cancel) and [Reload All] special entry with dependency-safe reload loop"
+        },
+        {
+          "type": "summary",
+          "path": "specs/618_picker_reload_extensions/summaries/01_picker-reload-summary.md",
+          "summary": "Both phases completed: vim.ui.select submenu for loaded extensions and [Reload All] entry with dependency-safe reload loop"
+        }
+      ],
+      "plan_metadata": {
+        "phases": 2,
+        "total_effort_hours": 1,
+        "complexity": "simple",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_picker-reload.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-05-25"
+          }
+        ]
+      },
+      "description": "Add reload option to <leader>al extension picker. Phase 1: When <CR> on a loaded extension, show Unload/Reload/Cancel submenu instead of directly unloading. Phase 2: Add [Reload All] special entry above [Keyboard Shortcuts] to wipe and reload all currently loaded extensions and core system. Files: picker/init.lua (CR handler + reload-all action), display/entries.lua (new special entry).",
+      "completion_summary": "Added reload functionality to the extension picker: (1) pressing CR on a loaded extension now shows a vim.ui.select submenu with Unload/Reload/Cancel options wrapped in vim.schedule; (2) a new [Reload All] special entry reloads all loaded extensions in dependency-safe order (non-core first, core last) with error collection and summary notification. Both changes are scoped to picker/init.lua and picker/display/entries.lua."
+    },
+    {
+      "project_number": 619,
+      "project_name": "syncprotect_aware_extension_verification",
+      "status": "completed",
+      "task_type": "neovim",
+      "created": "2026-05-25T22:00:00Z",
+      "last_updated": "2026-05-26T03:36:49Z",
+      "dependencies": [],
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/619_syncprotect_aware_extension_verification/reports/01_syncprotect-aware-verification.md",
+          "summary": "Research on making extension verification syncprotect-aware: path format analysis, shared helper extraction plan, detect_legacy_core fix approach, and specific line-level change locations"
+        },
+        {
+          "type": "plan",
+          "path": "specs/619_syncprotect_aware_extension_verification/plans/01_syncprotect-aware-verification.md",
+          "summary": "Implementation plan with 3 phases: verify.lua syncprotect support, init.lua call site wiring and detect_legacy_core fix, end-to-end validation"
+        },
+        {
+          "type": "summary",
+          "path": "specs/619_syncprotect_aware_extension_verification/summaries/01_syncprotect-aware-verification-summary.md",
+          "summary": "Implementation summary with verification results"
+        }
+      ],
+      "session_id": "sess_1748210400_research619",
+      "completion_summary": "Made verify.lua syncprotect-aware by adding protected_paths parameter to verify_rules(), verify_context(), and verify_extension(). Fixed detect_legacy_core() in init.lua to filter against the core manifest's agent list, preventing extension-managed agents from being falsely flagged as legacy core artifacts."
+    },
+    {
+      "project_number": 620,
+      "project_name": "fix_task_order_generation",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Fix generate-task-order.sh to properly handle Task Order sections. Three sub-issues: (1) Completed tasks like #232 still appear in Task Order despite being terminal - verify the script properly excludes them. (2) The description field used in tree display may contain artifact paths instead of task descriptions - investigate why artifact-like content appears. (3) Ensure the script works correctly for projects with both auto-generated topic headings and hand-curated Track/Tier/Phase headings. The BimodalLogic project uses custom heading structure that diverges from the auto-generated format. Either (a) make the script preserve custom structure during regeneration, or (b) ensure projects configure state.json topics to produce equivalent auto-generated output. Also check that link-artifact-todo.sh is not incorrectly matching task numbers in the Task Order section (it uses grep for ### N. which should only match Tasks section, but verify).",
+      "dependencies": [],
+      "artifacts": [],
+      "created": "2026-06-01T17:07:06Z",
+      "completion_summary": "Fixed generate-task-order.sh: un-slugify project_name fallback, added /revise postflight trigger, updated documentation"
+    },
+    {
+      "project_number": 621,
+      "project_name": "add_revise_task_order_regeneration",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Add Task Order regeneration trigger to /revise postflight. The skill-reviser SKILL.md postflight (after Stage 9 git commit) does not call generate-task-order.sh --update-todo. Add a non-blocking call matching the pattern in skill-todo Stage 10.5. Also update the regeneration triggers table in state-management.md and task-order-format.md to document /revise as a trigger event.",
+      "dependencies": [
+        620
+      ],
+      "artifacts": [],
+      "created": "2026-06-01T17:07:10Z",
+      "completion_summary": "Already implemented as part of task 620 Phase 2 (Stage 7a in skill-reviser) and Phase 3 (state-management.md and task-order-format.md documentation updates)"
+    },
+    {
+      "project_number": 622,
+      "project_name": "fix_task_order_status_sync_pruning",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Fix Task Order status sync and completed task pruning. Three sub-issues: (1) update-task-status.sh Phase 3 uses grep pattern that may fail on hand-curated Task Order formats - make the pattern more robust. (2) Verify Mode B terminal transition regeneration is correctly triggering in practice (task 232 shows as COMPLETED in BimodalLogic Task Order, suggesting regeneration did not fire). (3) Investigate whether link-artifact-todo.sh or agents are incorrectly appending artifact paths (- **Plans**: [...], - **Research**: [...]) into the Task Order section instead of only into the Tasks section entries. The symptoms in BimodalLogic show artifact links embedded in Task Order tree entries.",
+      "dependencies": [
+        620
+      ],
+      "artifacts": [],
+      "created": "2026-06-01T17:07:18Z",
+      "last_updated": "2026-06-01T17:36:27Z",
+      "session_id": "sess_1780334913_bf063c",
+      "completion_summary": "Fixed Task Order status sync: added artifact-linking prohibition to prevent agent contamination of Task Order entries, wired lean extension implementer through update-task-status.sh for Mode B terminal regeneration"
+    },
+    {
+      "project_number": 623,
+      "project_name": "orchestrate_multi_task_dispatch",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Add multi-task argument support to /orchestrate command with dependency-aware execution ordering. (1) Update orchestrate.md STAGE 0 to use parse-command-args.sh for multi-task parsing with single-task fallthrough. (2) Add batch validation and dependency graph construction from state.json dependencies field. (3) Implement topological wave dispatch: tasks without inter-dependencies run in parallel via concurrent skill-orchestrate invocations; tasks with dependencies wait for predecessors to complete before launching. (4) Add consolidated output and batch commit for multi-task runs. (5) Update multi-task-operations.md with orchestrate-specific section covering dependency-aware dispatch vs pure-parallel. (6) Update CLAUDE.md command table to show new argument syntax (N[,N-N]).",
+      "dependencies": [],
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/623_orchestrate_multi_task_dispatch/reports/01_multi-task-orchestrate.md"
+        },
+        {
+          "type": "plan",
+          "path": "specs/623_orchestrate_multi_task_dispatch/plans/01_multi-task-orchestrate-plan.md",
+          "summary": "3-phase implementation plan: orchestrate.md multi-task dispatch with dependency-aware wave execution, multi-task-operations.md Section 13, CLAUDE.md command table update"
+        },
+        {
+          "type": "summary",
+          "path": "specs/623_orchestrate_multi_task_dispatch/summaries/01_multi-task-orchestrate-summary.md"
+        }
+      ],
+      "created": "2026-06-01T18:00:00Z",
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 2,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_multi-task-orchestrate.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-06-01"
+          }
+        ]
+      },
+      "completion_summary": "Added multi-task argument support to /orchestrate with dependency-aware wave dispatch: updated orchestrate.md with STAGE 0 multi-task parsing, batch validation, Kahn's algorithm wave assignment, and parallel wave execution; added Section 13 to multi-task-operations.md documenting wave dispatch rationale and comparison table; updated CLAUDE.md command table and multi-task syntax paragraph."
+    },
+    {
+      "project_number": 624,
+      "project_name": "orchestrate_postflight_status_sync",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Fix orchestrate command to properly update task status and regenerate Task Order after each agent dispatch. (1) Add postflight status update call in skill-orchestrate Stage 5 after handoff reading — map dispatch_status to operation and call skill_postflight_update() which triggers update-task-status.sh for state.json, TODO.md, and Task Order regeneration via Mode B. (2) Add orchestrate case to command-gate-out.sh case statement mapping to expected_status=completed as defensive backup. (3) Fix operator precedence issue on line 63-64 of command-gate-out.sh.",
+      "dependencies": [],
+      "created": "2026-06-01T22:00:00Z",
+      "last_updated": "2026-06-01T20:25:27Z",
+      "session_id": "sess_1780344969_ba9d48",
+      "completion_summary": "Added postflight status update call in skill-orchestrate Stage 5 to sync state.json, TODO.md, and Task Order after each agent dispatch. Fixed command-gate-out.sh to handle orchestrate operations and corrected operator precedence bug. Changes applied to both canonical and extension mirror copies."
+    },
+    {
+      "project_number": 625,
+      "project_name": "orchestrate_single_agent_multi_task",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Refactor skill-orchestrate to support multi-task mode where a single orchestrator agent manages all tasks instead of spawning one agent per task. Add multi-task code path to SKILL.md state machine: single agent receives all task numbers and dependency graph, tracks per-task phase in a compact status table, dispatches phase-specific workers (research-agent, planner-agent, impl-agent) directly using wave-based dependency-aware scheduling. Reduces orchestration overhead from O(N * 44k) to O(1 * 44k) tokens. Also fix TODO.md synchronization: ensure the single orchestrator properly calls update-task-status.sh to sync status markers in TODO.md (not just state.json) and calls link-artifact-todo.sh after artifact creation to link reports/plans/summaries in TODO.md task entries.",
+      "dependencies": [],
+      "created": "2026-06-01T23:00:00Z",
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/625_orchestrate_single_agent_multi_task/reports/01_orchestrate-refactor.md"
+        },
+        {
+          "type": "plan",
+          "path": "specs/625_orchestrate_single_agent_multi_task/plans/01_orchestrate-refactor.md"
+        },
+        {
+          "type": "summary",
+          "path": "specs/625_orchestrate_single_agent_multi_task/summaries/01_orchestrate-refactor-summary.md"
+        }
+      ],
+      "completion_summary": "Fixed artifact linking bug in SKILL.md Stage 5 (skill_link_artifacts was never called during orchestration); added multi-task mode to skill-orchestrate with Stages 0 and MT-1 through MT-5 for wave-based phase-aware dispatch; updated orchestrate.md Step 4 to use single skill dispatch instead of N instances; synced extension mirrors."
+    },
+    {
+      "project_number": 626,
+      "project_name": "orchestrate_command_single_dispatch",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Update orchestrate.md command multi-task dispatch to invoke skill-orchestrate once with all task numbers instead of once per task per wave. Move wave construction (Kahn's algorithm) from command into skill args or pass pre-computed waves. Update multi-task-operations.md Section 13 to document single-agent orchestration pattern.",
+      "dependencies": [
+        625
+      ],
+      "created": "2026-06-01T23:00:00Z",
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/626_orchestrate_command_single_dispatch/reports/01_command-single-dispatch.md"
+        },
+        {
+          "type": "plan",
+          "path": "specs/626_orchestrate_command_single_dispatch/plans/01_command-single-dispatch.md"
+        }
+      ],
+      "completion_summary": "Synced Section 13 (68 lines) from canonical multi-task-operations.md to extension mirror, completing single-agent multi-task dispatch documentation"
+    },
+    {
+      "project_number": 627,
+      "project_name": "fix_task_order_regeneration",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Fix Task Order regeneration after task creation. (1) Fix shift 3 bug in generate-task-order.sh line 53 that fails under set -euo pipefail when fewer than 3 follow-up args are provided. (2) Ensure task-creating commands (/task, /meta, /fix-it, /spawn, /errors) add new topics to active_topics array in state.json when assigning a topic not already present. (3) Verify the non-blocking generate-task-order.sh call in each task-creating command actually persists its output to TODO.md Task Order section.",
+      "dependencies": [],
+      "created": "2026-06-01T23:30:00Z",
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/627_fix_task_order_regeneration/reports/01_task-order-regen.md"
+        },
+        {
+          "type": "plan",
+          "path": "specs/627_fix_task_order_regeneration/plans/01_task-order-regen.md"
+        },
+        {
+          "type": "summary",
+          "path": "specs/627_fix_task_order_regeneration/summaries/01_task-order-regen-summary.md"
+        }
+      ],
+      "completion_summary": "Fixed shift 3/shift 2 argument-parsing bugs in generate-task-order.sh; added active_topics array maintenance to all five task-creating commands (task.md, meta-builder-agent.md, skill-fix-it, skill-spawn, errors.md); standardized task.md Part C invocation with bash + -f check pattern. All changes applied to project files and core extension mirrors."
     }
   ],
   "abandoned_projects": []
