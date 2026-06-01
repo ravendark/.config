@@ -35,7 +35,8 @@ return {
     -- Set server functions directly on opts (bypasses vim.g serialization limitation)
     local opts = require("opencode.config").opts
 
-    local attach_cmd = "opencode --port 3000"
+    local port = 3000 + (vim.fn.getpid() % 1000)
+    local attach_cmd = "opencode --port " .. port
     local opencode_win_opts = {
       win = {
         position = "right",
@@ -47,7 +48,7 @@ return {
       },
     }
     opts.server = {
-      port = 3000,
+      port = port,
       start = function()
         local term = require("snacks.terminal").get(attach_cmd, opencode_win_opts)
         if not term then

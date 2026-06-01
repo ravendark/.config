@@ -1,0 +1,9 @@
+{
+  "status": "planned",
+  "summary": "Created 2-phase plan: Phase 1 adds skill_postflight_update() call in SKILL.md Stage 5; Phase 2 fixes command-gate-out.sh (orchestrate case + operator precedence) in both canonical and extension mirror copies.",
+  "blockers": [],
+  "continuation_context": null,
+  "next_action_hint": "implement",
+  "phases_completed": 0,
+  "phases_total": 2
+}

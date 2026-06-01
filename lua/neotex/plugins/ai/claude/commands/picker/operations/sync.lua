@@ -876,7 +876,7 @@ function M.scan_all_artifacts(global_dir, project_dir, config)
   -- generate_opencode_json() regenerates opencode.json with all loaded extension agents.
   local root_file_names
   if base_dir == ".opencode" then
-    root_file_names = { "AGENTS.md", "OPENCODE.md", "settings.json", ".gitignore", "README.md", "QUICK-START.md", "opencode.json" }
+    root_file_names = { "AGENTS.md", "OPENCODE.md", "settings.json", ".gitignore", "README.md", "QUICK-START.md", "opencode.json", "package.json" }
   else
     root_file_names = {}
   end
@@ -892,9 +892,12 @@ function M.scan_all_artifacts(global_dir, project_dir, config)
       local_path = project_dir .. "/" .. base_dir .. "/" .. filename
     end
     if vim.fn.filereadable(global_path) == 1 then
-      -- Use merge-only for opencode.json (never overwrite existing project config)
+      -- Use install-only for config and dependency files (never overwrite
+      -- existing project versions — these contain project-specific hooks,
+      -- permissions, MCP servers, and package dependencies that must not be
+      -- clobbered by sync)
       local action
-      if filename == "opencode.json" then
+      if filename == "opencode.json" or filename == "settings.json" or filename == "package.json" then
         if vim.fn.filereadable(local_path) ~= 1 then
           action = "copy"
         elseif vim.fn.filereadable(local_path .. ".managed") == 1 then

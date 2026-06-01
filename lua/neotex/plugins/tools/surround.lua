@@ -23,21 +23,5 @@ return {
   "kylechui/nvim-surround", 
   version = "*",  -- Use the latest stable release 
   event = "BufReadPost",  -- Load when reading files (ready for text manipulation)
-  config = function()
-    require("nvim-surround").setup({
-      -- Configuration here (leave default for now)
-      keymaps = {
-        insert = "<C-g>s",
-        insert_line = "<C-g>S",
-        normal = "ys",
-        normal_cur = "yss",
-        normal_line = "yS",
-        normal_cur_line = "ySS",
-        visual = "S",
-        visual_line = "gS",
-        delete = "ds",
-        change = "cs",
-      },
-    })
-  end,
+  opts = {},
 }

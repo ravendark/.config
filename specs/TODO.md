@@ -11,9 +11,13 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,624 | -- | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
+
+### Agent System
+
+624 [PLANNED] — Fix orchestrate command to properly update task status and regene
 
 ### Uncategorized
 
@@ -21,6 +25,16 @@ next_project_number: 620
 87 [RESEARCHED] — investigate wezterm terminal directory change
 
 ## Tasks
+
+### 624. Fix orchestrate postflight status sync and Task Order regeneration
+- **Effort**: 1-2 hours
+- **Status**: [PLANNED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Fix orchestrate command to properly update task status and regenerate Task Order after each agent dispatch. (1) Add postflight status update call in skill-orchestrate Stage 5 after handoff reading — map dispatch_status to operation and call skill_postflight_update() which triggers update-task-status.sh for state.json, TODO.md, and Task Order regeneration via Mode B. (2) Add orchestrate case to command-gate-out.sh case statement mapping to expected_status=completed as defensive backup. (3) Fix operator precedence issue on line 63-64 of command-gate-out.sh.
+
+---
 
 ### 623. Add multi-task + dependency-aware dispatch to /orchestrate
 - **Effort**: 2-4 hours

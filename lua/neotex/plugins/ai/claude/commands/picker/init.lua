@@ -123,7 +123,7 @@ function M.show_commands_picker(opts, config)
           return
         end
 
-        -- Reload All special entry: reload every loaded extension in dependency-safe order
+        -- Reload All special entry: submenu for bulk operations
         if selection.value.is_reload_all then
           local exts = require(extensions_module)
           local loaded = exts.list_loaded()
@@ -133,50 +133,130 @@ function M.show_commands_picker(opts, config)
           end
           actions.close(prompt_bufnr)
           vim.schedule(function()
-            -- Sort: non-core extensions first, core last
-            local sorted = {}
-            local core_exts = {}
-            for _, name in ipairs(loaded) do
-              if name == "core" then
-                table.insert(core_exts, name)
-              else
-                table.insert(sorted, name)
+            vim.ui.select(
+              { "Reload All", "Unload All", "Step Through", "Cancel" },
+              { prompt = "Bulk action for " .. #loaded .. " loaded extension(s):" },
+              function(choice)
+                if not choice or choice == "Cancel" then
+                  vim.defer_fn(function()
+                    M.show_commands_picker(opts, config)
+                  end, 100)
+                  return
+                end
+
+                if choice == "Step Through" then
+                  vim.defer_fn(function()
+                    M.show_commands_picker(opts, config)
+                  end, 100)
+                  return
+                end
+
+                -- Build dependency graph for topological sort
+                local loaded_set = {}
+                for _, name in ipairs(loaded) do
+                  loaded_set[name] = true
+                end
+                local deps_of = {}
+                for _, name in ipairs(loaded) do
+                  local details = exts.get_details(name)
+                  local deps = {}
+                  if details and details.dependencies then
+                    for _, dep in ipairs(details.dependencies) do
+                      if loaded_set[dep] then
+                        table.insert(deps, dep)
+                      end
+                    end
+                  end
+                  deps_of[name] = deps
+                end
+                -- Topological sort (Kahn's): load_order has roots first (core), leaves last
+                local in_degree = {}
+                for _, name in ipairs(loaded) do
+                  in_degree[name] = 0
+                end
+                for _, name in ipairs(loaded) do
+                  for _, dep in ipairs(deps_of[name]) do
+                    in_degree[name] = (in_degree[name] or 0) + 1
+                  end
+                end
+                local load_order = {}
+                local queue = {}
+                for _, name in ipairs(loaded) do
+                  if in_degree[name] == 0 then
+                    table.insert(queue, name)
+                  end
+                end
+                while #queue > 0 do
+                  local name = table.remove(queue, 1)
+                  table.insert(load_order, name)
+                  for _, other in ipairs(loaded) do
+                    for _, dep in ipairs(deps_of[other]) do
+                      if dep == name then
+                        in_degree[other] = in_degree[other] - 1
+                        if in_degree[other] == 0 then
+                          table.insert(queue, other)
+                        end
+                      end
+                    end
+                  end
+                end
+                -- Unload in reverse order (leaves first, roots/core last)
+                local errors = {}
+                for i = #load_order, 1, -1 do
+                  local ok, err = exts.unload(load_order[i], { confirm = false })
+                  if not ok then
+                    table.insert(errors, load_order[i] .. ": " .. (err or "unknown"))
+                  end
+                end
+
+                if choice == "Unload All" then
+                  local unloaded = #load_order - #errors
+                  if #errors == 0 then
+                    vim.notify(
+                      string.format("Unloaded %d extension(s)", unloaded),
+                      vim.log.levels.INFO
+                    )
+                  else
+                    vim.notify(
+                      string.format("Unloaded %d/%d. Errors: %s",
+                        unloaded, #load_order, table.concat(errors, ", ")),
+                      vim.log.levels.WARN
+                    )
+                  end
+                  vim.defer_fn(function()
+                    M.show_commands_picker(opts, config)
+                  end, 100)
+                  return
+                end
+
+                -- Reload All: load in forward order (roots/core first, leaves last)
+                local success_count = 0
+                for _, name in ipairs(load_order) do
+                  local ok, err = exts.load(name, { confirm = false })
+                  if ok then
+                    success_count = success_count + 1
+                  else
+                    table.insert(errors, name .. ": " .. (err or "unknown"))
+                  end
+                end
+                local total = #load_order
+                if #errors == 0 then
+                  vim.notify(
+                    string.format("Reloaded %d extension(s)", success_count),
+                    vim.log.levels.INFO
+                  )
+                else
+                  vim.notify(
+                    string.format("Reloaded %d/%d. Errors: %s",
+                      success_count, total, table.concat(errors, ", ")),
+                    vim.log.levels.WARN
+                  )
+                end
+                vim.defer_fn(function()
+                  M.show_commands_picker(opts, config)
+                end, 100)
               end
-            end
-            for _, name in ipairs(core_exts) do
-              table.insert(sorted, name)
-            end
-            -- Reload each extension
-            local success_count = 0
-            local errors = {}
-            for _, name in ipairs(sorted) do
-              local ok, err = exts.reload(name, {})
-              if ok then
-                success_count = success_count + 1
-              else
-                table.insert(errors, name .. ": " .. (err or "unknown error"))
-              end
-            end
-            -- Show summary notification
-            if #errors == 0 then
-              vim.notify(
-                string.format("Reloaded %d extension(s)", success_count),
-                vim.log.levels.INFO
-              )
-            else
-              vim.notify(
-                string.format(
-                  "Reloaded %d/%d extension(s). Errors: %s",
-                  success_count,
-                  #sorted,
-                  table.concat(errors, ", ")
-                ),
-                vim.log.levels.WARN
-              )
-            end
-            vim.defer_fn(function()
-              M.show_commands_picker(opts, config)
-            end, 100)
+            )
           end)
           return
         end
@@ -231,11 +311,10 @@ function M.show_commands_picker(opts, config)
                 { prompt = "Extension: " .. ext.name },
                 function(choice)
                   if choice == "Unload" then
-                    exts.unload(ext.name, { confirm = true })
+                    exts.unload(ext.name, { confirm = false })
                   elseif choice == "Reload" then
                     exts.reload(ext.name, {})
                   end
-                  -- Reopen picker with cursor restore for all choices (including Cancel/nil)
                   vim.defer_fn(function()
                     M.show_commands_picker(
                       vim.tbl_extend("force", opts, { _restore_extension_name = ext.name }),
@@ -246,13 +325,23 @@ function M.show_commands_picker(opts, config)
               )
             end)
           else
-            exts.load(ext.name, { confirm = true })
-            vim.defer_fn(function()
-              M.show_commands_picker(
-                vim.tbl_extend("force", opts, { _restore_extension_name = ext.name }),
-                config
+            vim.schedule(function()
+              vim.ui.select(
+                { "Load", "Cancel" },
+                { prompt = "Extension: " .. ext.name },
+                function(choice)
+                  if choice == "Load" then
+                    exts.load(ext.name, { confirm = false })
+                  end
+                  vim.defer_fn(function()
+                    M.show_commands_picker(
+                      vim.tbl_extend("force", opts, { _restore_extension_name = ext.name }),
+                      config
+                    )
+                  end, 100)
+                end
               )
-            end, 100)
+            end)
           end
         end
       end)

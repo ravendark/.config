@@ -95,6 +95,25 @@ function M.opencode(global_dir)
       if ok then
         helpers_mod.notify("opencode.json: " .. (msg or "installed"), "INFO")
       end
+      local pkg_path = vim.fn.getcwd() .. "/.opencode/package.json"
+      local nm_path = vim.fn.getcwd() .. "/.opencode/node_modules"
+      if vim.fn.filereadable(pkg_path) == 1 and vim.fn.isdirectory(nm_path) ~= 1 then
+        helpers_mod.notify("Installing .opencode dependencies (npm install)...", "INFO")
+        vim.fn.jobstart({ "npm", "install" }, {
+          cwd = vim.fn.getcwd() .. "/.opencode",
+          on_exit = function(_, code)
+            if code == 0 then
+              vim.schedule(function()
+                helpers_mod.notify("opencode dependencies installed", "INFO")
+              end)
+            else
+              vim.schedule(function()
+                helpers_mod.notify("npm install failed (exit " .. code .. ")", "WARN")
+              end)
+            end
+          end,
+        })
+      end
     end,
   })
 end

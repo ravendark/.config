@@ -340,6 +340,22 @@ else
       invoke_drift_inspection "$task_number" "$plan_path" "$session_id"
     fi
   fi
+
+  # Postflight status update: trigger state.json + TODO.md Task Order regeneration
+  case "$dispatch_status" in
+    researched)
+      skill_postflight_update "$task_number" "research" "$session_id" "$dispatch_status"
+      ;;
+    planned)
+      skill_postflight_update "$task_number" "plan" "$session_id" "$dispatch_status"
+      ;;
+    implemented)
+      skill_postflight_update "$task_number" "implement" "$session_id" "$dispatch_status"
+      ;;
+    *)
+      echo "[orchestrate] Dispatch status '$dispatch_status' — no postflight update needed"
+      ;;
+  esac
 fi
 
 # Increment cycle_count

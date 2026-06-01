@@ -1,7 +1,19 @@
 {
   "version": "1.0.0",
-  "next_project_number": 624,
+  "next_project_number": 625,
   "active_projects": [
+    {
+      "project_number": 624,
+      "project_name": "orchestrate_postflight_status_sync",
+      "status": "planned",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Fix orchestrate command to properly update task status and regenerate Task Order after each agent dispatch. (1) Add postflight status update call in skill-orchestrate Stage 5 after handoff reading — map dispatch_status to operation and call skill_postflight_update() which triggers update-task-status.sh for state.json, TODO.md, and Task Order regeneration via Mode B. (2) Add orchestrate case to command-gate-out.sh case statement mapping to expected_status=completed as defensive backup. (3) Fix operator precedence issue on line 63-64 of command-gate-out.sh.",
+      "dependencies": [],
+      "created": "2026-06-01T22:00:00Z",
+      "last_updated": "2026-06-01T20:22:01Z",
+      "session_id": "sess_1780344969_ba9d48"
+    },
     {
       "project_number": 623,
       "project_name": "orchestrate_multi_task_dispatch",

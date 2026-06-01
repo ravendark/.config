@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "generated_at": "2026-05-15",
-  "entry_count": 9,
-  "total_tokens": 965,
+  "entry_count": 11,
+  "total_tokens": 1245,
   "entries": [
     {
       "id": "MEM-plan-delegation-required",
@@ -147,8 +147,8 @@
       "token_count": 90,
       "created": "2026-05-22",
       "modified": "2026-05-22",
-      "last_retrieved": "2026-05-23",
-      "retrieval_count": 1
+      "last_retrieved": "2026-05-25",
+      "retrieval_count": 3
     },
     {
       "id": "MEM-technique-validate-context-budgets-budget",
@@ -189,6 +189,47 @@
       "token_count": 76,
       "created": "2026-05-22",
       "modified": "2026-05-22",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-pattern-synthesis-fork-team-research",
+      "path": ".memory/10-Memories/MEM-pattern-synthesis-fork-team-research.md",
+      "title": "Synthesis fork pattern for team research: The lead should NOT read all teammate ",
+      "summary": "Synthesis fork pattern for team research: The lead should NOT read all teammate ",
+      "topic": "task-synthesis",
+      "category": "PATTERN",
+      "keywords": [
+        "synthesis-fork",
+        "team-research",
+        "context-protection",
+        "anonymous-fork",
+        "lead-agent"
+      ],
+      "token_count": 130,
+      "created": "2026-05-25",
+      "modified": "2026-05-25",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-pattern-synthesis-agent-team-research",
+      "path": ".memory/10-Memories/MEM-pattern-synthesis-agent-team-research.md",
+      "title": "When team skills (skill-team-research, skill-team-plan) need to synthesize outpu",
+      "summary": "When team skills (skill-team-research, skill-team-plan) need to synthesize outpu",
+      "topic": "task-synthesis",
+      "category": "PATTERN",
+      "keywords": [
+        "synthesis-agent",
+        "team-research",
+        "context-protection",
+        "lead-pattern",
+        "teammate-synthesis",
+        "skill-team-research"
+      ],
+      "token_count": 150,
+      "created": "2026-05-25",
+      "modified": "2026-05-25",
       "last_retrieved": null,
       "retrieval_count": 0
     }

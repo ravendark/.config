@@ -23,6 +23,8 @@ return {
         RenderMarkdownHtmlComment = { fg = "#928374", italic = true },
         ["@markup.strikethrough"] = { strikethrough = false },
         ["@markup.strikethrough.markdown_inline"] = { strikethrough = false },
+        ["@markup.math"] = { link = "Normal" },
+        ["@markup.math.markdown_inline"] = { link = "Normal" },
       }
     })
     vim.cmd("colorscheme gruvbox")

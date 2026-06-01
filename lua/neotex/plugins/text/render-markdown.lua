@@ -165,11 +165,7 @@ return {
       skip_heading = false,
     },
     latex = {
-      enabled = true,
-      converter = 'latex2text',
-      highlight = 'RenderMarkdownMath',
-      top_pad = 0,
-      bottom_pad = 0,
+      enabled = false,
     },
     html = {
       enabled = true,

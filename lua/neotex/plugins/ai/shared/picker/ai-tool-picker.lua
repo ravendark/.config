@@ -303,19 +303,23 @@ end
 function M.show_opencode_session_picker()
   -- Try to load OpenCode last session info for the "restore" option
   local last_session_data = atomic_read(opencode_session_file)
+  local cwd = vim.fn.getcwd()
   local age_text = ""
   local last_session_id = nil
   if last_session_data and last_session_data.session_id then
-    last_session_id = last_session_data.session_id
-    local age = os.time() - (last_session_data.timestamp or 0)
-    if age < 60 then
-      age_text = "just now"
-    elseif age < 3600 then
-      age_text = string.format("%d min ago", math.floor(age / 60))
-    elseif age < 86400 then
-      age_text = string.format("%d hr ago", math.floor(age / 3600))
-    else
-      age_text = string.format("%d days ago", math.floor(age / 86400))
+    -- Only use the session if it matches the current project directory
+    if last_session_data.cwd == cwd then
+      last_session_id = last_session_data.session_id
+      local age = os.time() - (last_session_data.timestamp or 0)
+      if age < 60 then
+        age_text = "just now"
+      elseif age < 3600 then
+        age_text = string.format("%d min ago", math.floor(age / 60))
+      elseif age < 86400 then
+        age_text = string.format("%d hr ago", math.floor(age / 3600))
+      else
+        age_text = string.format("%d days ago", math.floor(age / 86400))
+      end
     end
   end
 
@@ -394,17 +398,16 @@ function M.show_opencode_session_picker()
             if events_ok and events_mod.disconnect then
               events_mod.disconnect()
             end
-            local server_mod = require("opencode.server")
+            local server_mod = require("opencode.server.discovery")
             server_mod.get()
               :next(function(server)
-                server:select_session(last_session_id)
-                -- Register cleanup after server connection establishes terminal
                 vim.defer_fn(function()
+                  server:select_session(last_session_id)
                   local has, bufs = detect_active_opencode()
                   if has and bufs[1] then
                     _register_tool_cleanup("opencode", bufs[1])
                   end
-                end, 1500)
+                end, 500)
               end)
               :catch(function(err)
                 if err then
@@ -417,32 +420,36 @@ function M.show_opencode_session_picker()
               end)
           else
             vim.notify("No previous session found — opening session browser", vim.log.levels.INFO)
-            local events_ok, events_mod = pcall(require, "opencode.events")
-            if events_ok and events_mod.disconnect then
-              events_mod.disconnect()
-            end
-            opencode_mod.select_session()
-            -- Register cleanup after terminal appears via Server.get() -> start()
-            vim.defer_fn(function()
-              local has, bufs = detect_active_opencode()
-              if has and bufs[1] then
-                _register_tool_cleanup("opencode", bufs[1])
-              end
-            end, 1500)
+            require("opencode.ui.select_session").select_session()
+              :next(function(result)
+                if result and result.server then
+                  vim.defer_fn(function()
+                    result.server:select_session(result.session.id)
+                    local has, bufs = detect_active_opencode()
+                    if has and bufs[1] then
+                      _register_tool_cleanup("opencode", bufs[1])
+                    end
+                  end, 500)
+                end
+              end)
           end
         elseif choice == "browse" then
           local events_ok, events_mod = pcall(require, "opencode.events")
           if events_ok and events_mod.disconnect then
             events_mod.disconnect()
           end
-          opencode_mod.select_session()
-          -- Register cleanup after terminal appears via Server.get() -> start()
-          vim.defer_fn(function()
-            local has, bufs = detect_active_opencode()
-            if has and bufs[1] then
-              _register_tool_cleanup("opencode", bufs[1])
-            end
-          end, 1500)
+          require("opencode.ui.select_session").select_session()
+            :next(function(result)
+              if result and result.server then
+                vim.defer_fn(function()
+                  result.server:select_session(result.session.id)
+                  local has, bufs = detect_active_opencode()
+                  if has and bufs[1] then
+                    _register_tool_cleanup("opencode", bufs[1])
+                  end
+                end, 500)
+              end
+            end)
         end
       end)
       return true
@@ -559,6 +566,7 @@ function M.setup()
         atomic_write(opencode_session_file, {
           session_id = session_id,
           timestamp = os.time(),
+          cwd = vim.fn.getcwd(),
         })
       end
     end,
