@@ -30,14 +30,25 @@
     {
       "project_number": 626,
       "project_name": "orchestrate_command_single_dispatch",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "description": "Update orchestrate.md command multi-task dispatch to invoke skill-orchestrate once with all task numbers instead of once per task per wave. Move wave construction (Kahn's algorithm) from command into skill args or pass pre-computed waves. Update multi-task-operations.md Section 13 to document single-agent orchestration pattern.",
       "dependencies": [
         625
       ],
-      "created": "2026-06-01T23:00:00Z"
+      "created": "2026-06-01T23:00:00Z",
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/626_orchestrate_command_single_dispatch/reports/01_command-single-dispatch.md"
+        },
+        {
+          "type": "plan",
+          "path": "specs/626_orchestrate_command_single_dispatch/plans/01_command-single-dispatch.md"
+        }
+      ],
+      "completion_summary": "Synced Section 13 (68 lines) from canonical multi-task-operations.md to extension mirror, completing single-agent multi-task dispatch documentation"
     },
     {
       "project_number": 625,

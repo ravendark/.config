@@ -17,7 +17,7 @@ next_project_number: 620
 
 ### Agent System
 
-626 [NOT STARTED] — Update orchestrate.md command multi-task dispatch to invoke skill
+626 [COMPLETED] — Update orchestrate.md command multi-task dispatch to invoke skill
 
 ### Uncategorized
 
@@ -39,7 +39,7 @@ next_project_number: 620
 ---
 
 ### 626. Update orchestrate.md command for single-agent multi-task dispatch
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #625
 
