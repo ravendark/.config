@@ -17,7 +17,7 @@ next_project_number: 620
 
 ### Agent System
 
-622 [RESEARCHED] — Fix Task Order status sync and completed task pruning. Three sub-
+622 [COMPLETED] — Fix Task Order status sync and completed task pruning. Three sub-
 
 ### Uncategorized
 
@@ -41,9 +41,11 @@ next_project_number: 620
 
 ### 622. Fix Task Order status sync and completed task pruning
 - **Effort**: 2-4 hours
-- **Status**: [RESEARCHED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #620
+- **Plan**: [622_fix_task_order_status_sync_pruning/plans/01_status-sync-plan.md]
+- **Summary**: [622_fix_task_order_status_sync_pruning/summaries/01_status-sync-summary.md]
 
 **Description**: Fix Task Order status sync and completed task pruning. Three sub-issues: (1) update-task-status.sh Phase 3 uses grep pattern that may fail on hand-curated Task Order formats - make the pattern more robust. (2) Verify Mode B terminal transition regeneration is correctly triggering in practice (task 232 shows as COMPLETED in BimodalLogic Task Order, suggesting regeneration did not fire). (3) Investigate whether link-artifact-todo.sh or agents are incorrectly appending artifact paths (- **Plans**: [...], - **Research**: [...]) into the Task Order section instead of only into the Tasks section entries. The symptoms in BimodalLogic show artifact links embedded in Task Order tree entries.
 
