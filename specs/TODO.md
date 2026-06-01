@@ -11,14 +11,13 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,622,623 | -- | agent-system |
+| 1 | 78,87,622 | -- | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Agent System
 
 622 [RESEARCHED] — Fix Task Order status sync and completed task pruning. Three sub-
-623 [COMPLETED] — Add multi-task argument support to /orchestrate command with depe
 
 ### Uncategorized
 
