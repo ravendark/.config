@@ -108,53 +108,17 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Add active_topics Maintenance to Task-Creating Commands [IN PROGRESS]
+### Phase 2: Add active_topics Maintenance to Task-Creating Commands [COMPLETED]
 
 **Goal**: Ensure all five task-creating commands append new topic values to the `active_topics` array in state.json when the assigned topic is not already present.
 
 **Tasks**:
-- [ ] **task.md** (`.claude/commands/task.md`, around line 165-183): Add an explicit `active_topics` append step between step 4.5 (topic detection) and step 6 (state.json update). The prose at line 157 already documents intent ("append to state.json active_topics array before writing task entry") but the jq template omits it. Add a code block after the topic picker result showing the jq append pattern:
-  ```bash
-  # If new topic was entered, append to active_topics
-  if [[ -n "$topic" ]]; then
-    jq --arg t "$topic" '
-      if ((.active_topics // []) | index($t)) == null
-      then .active_topics = ((.active_topics // []) + [$t])
-      else . end' \
-      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-  fi
-  ```
-- [ ] **task.md** (`.claude/commands/task.md`, lines 208-213): Standardize the generate-task-order.sh call in Part C to match all other commands:
-  ```bash
-  if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-    bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-      2>/dev/null || echo "Note: Failed to regenerate Task Order section (non-fatal)" >&2
-  fi
-  ```
-- [ ] **meta-builder-agent.md** (`.claude/agents/meta-builder-agent.md`, around line 676-691): After the Topic Auto-Inference paragraph and before the state.json entry template, add an `active_topics` maintenance note and jq pattern. Since `/meta` creates multiple tasks, collect unique new topics and append all at once after all tasks are created (before the generate-task-order.sh call at line 1362):
-  ```bash
-  # After all tasks created, append any new topics to active_topics
-  for topic in "${new_topics[@]}"; do
-    jq --arg t "$topic" '
-      if ((.active_topics // []) | index($t)) == null
-      then .active_topics = ((.active_topics // []) + [$t])
-      else . end' \
-      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-  done
-  ```
-- [ ] **skill-fix-it/SKILL.md** (`.claude/skills/skill-fix-it/SKILL.md`, around line 451-479): After the Topic Auto-Inference section, add `active_topics` maintenance. Same batch pattern as meta: collect unique inferred topics, then append after all task entries are written (before the generate-task-order.sh call at line 517):
-  ```bash
-  # After all tasks created, append any new topics to active_topics
-  for topic in "${new_topics[@]}"; do
-    jq --arg t "$topic" '
-      if ((.active_topics // []) | index($t)) == null
-      then .active_topics = ((.active_topics // []) + [$t])
-      else . end' \
-      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-  done
-  ```
-- [ ] **skill-spawn/SKILL.md** (`.claude/skills/skill-spawn/SKILL.md`, around line 323-346): The spawn jq template does not include a `topic` field. Add topic inheritance from the parent task (if parent has a topic, spawned tasks inherit it). Add `active_topics` maintenance after all spawned tasks are written (before the generate-task-order.sh call at line 422). Since spawned tasks may not have topics, guard with `[[ -n "$topic" ]]`.
-- [ ] **errors.md** (`.claude/commands/errors.md`, around line 121-129): The `/errors` command creates tasks via inline `/task` calls (line 126), so topics flow through the `/task` command's existing logic. Add a note documenting this delegation and confirming that no separate `active_topics` update is needed here because `/task` handles it. If errors.md creates tasks directly (not via /task), add the same active_topics pattern.
+- [x] **task.md** (`.claude/commands/task.md`, around line 165-183): Add an explicit `active_topics` append step between step 4.5 (topic detection) and step 6 (state.json update). *(completed)*
+- [x] **task.md** (`.claude/commands/task.md`, lines 208-213): Standardize the generate-task-order.sh call in Part C to match all other commands. *(completed)*
+- [x] **meta-builder-agent.md** (`.claude/agents/meta-builder-agent.md`, around line 676-691): Add `active_topics` maintenance as step 4b after state.json update and before Task Order call. *(completed)*
+- [x] **skill-fix-it/SKILL.md** (`.claude/skills/skill-fix-it/SKILL.md`, around line 451-479): Add `active_topics` maintenance as Step 9.3 before the Task Order call (renamed to Step 9.4). *(completed)*
+- [x] **skill-spawn/SKILL.md** (`.claude/skills/skill-spawn/SKILL.md`, around line 323-346): Added topic inheritance from parent task in jq template; added active_topics maintenance as Stage 14a; renamed Task Order call to Stage 14b. *(completed)*
+- [x] **errors.md** (`.claude/commands/errors.md`, around line 121-129): Added note documenting that `/task` delegation handles `active_topics` maintenance. *(completed)*
 
 **Timing**: 1 hour
 
@@ -174,7 +138,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: End-to-End Verification and Testing [NOT STARTED]
+### Phase 3: End-to-End Verification and Testing [IN PROGRESS]
 
 **Goal**: Verify all changes work together and do not break existing functionality.
 

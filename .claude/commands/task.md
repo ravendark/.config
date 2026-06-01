@@ -157,6 +157,18 @@ When $ARGUMENTS contains a description (no flags).
    If "New topic..." selected: prompt for topic name (free-text via AskUserQuestion), then append to state.json `active_topics` array before writing task entry.
    If "Skip (no topic)": set `topic = null` (omit from task entry).
 
+   **Active Topics Maintenance**: After obtaining the topic, append it to `active_topics` if new:
+   ```bash
+   # If a topic was selected or entered, ensure it exists in active_topics
+   if [[ -n "$topic" ]]; then
+     jq --arg t "$topic" '
+       if ((.active_topics // []) | index($t)) == null
+       then .active_topics = ((.active_topics // []) + [$t])
+       else . end' \
+       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+   fi
+   ```
+
 5. **Create slug** from description:
    - Lowercase, replace spaces with underscores
    - Remove special characters
@@ -208,8 +220,10 @@ When $ARGUMENTS contains a description (no flags).
    **Part C - Update Task Order section** (non-blocking):
    ```bash
    # Update Task Order section (non-blocking)
-   gen_script=".claude/scripts/generate-task-order.sh"
-   "$gen_script" --update-todo specs/TODO.md specs/state.json 2>/dev/null || echo "Note: Failed to regenerate Task Order section (non-fatal)"
+   if [ -f ".claude/scripts/generate-task-order.sh" ]; then
+     bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
+       2>/dev/null || echo "Note: Failed to regenerate Task Order section (non-fatal)" >&2
+   fi
    ```
 
 8. **Git commit**:

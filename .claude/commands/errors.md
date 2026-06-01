@@ -128,6 +128,8 @@ For significant error patterns, create tasks:
 
 Note task numbers in report.
 
+**Topic Note**: Tasks are created via the `/task` command, which handles topic detection and `active_topics` array maintenance internally (Step 4.5 of Create Mode). No separate `active_topics` update is needed here.
+
 ### 4a. Update Task Order Section (Non-Blocking)
 
 After all fix tasks have been created, regenerate the Task Order section in TODO.md:

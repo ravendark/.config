@@ -509,7 +509,26 @@ Prepend new task entry to `## Tasks` section (new tasks at top):
 ---
 ```
 
-### Step 9.3: Update Task Order Section (Non-Blocking)
+### Step 9.3: Update active_topics (Non-Blocking)
+
+After all tasks have been written to state.json, append any new inferred topics to the `active_topics` array:
+
+```bash
+# Collect unique topics inferred for all created tasks
+# For each unique inferred topic, append to active_topics if not already present
+for topic in "${new_topics[@]}"; do
+  [[ -z "$topic" ]] && continue
+  jq --arg t "$topic" '
+    if ((.active_topics // []) | index($t)) == null
+    then .active_topics = ((.active_topics // []) + [$t])
+    else . end' \
+    specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+done
+```
+
+Where `new_topics` is the array of topic values auto-inferred during Step 9.1. Topics already in `active_topics` are skipped (idempotent). Topics that are empty/null are skipped via the `[[ -z "$topic" ]]` guard.
+
+### Step 9.4: Update Task Order Section (Non-Blocking)
 
 After all tasks have been written to state.json and TODO.md, regenerate the Task Order section:
 
