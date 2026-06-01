@@ -57,7 +57,7 @@ session_id="${POSITIONAL_ARGS[3]:-}"
 if [[ -z "$operation" || -z "$task_number" || -z "$target_status" || -z "$session_id" ]]; then
   echo "Usage: $0 <operation> <task_number> <target_status> <session_id> [--dry-run]" >&2
   echo "  operation:     preflight | postflight" >&2
-  echo "  target_status: research | plan | implement" >&2
+  echo "  target_status: research | plan | implement | revise" >&2
   exit 1
 fi
 
@@ -66,8 +66,8 @@ if [[ "$operation" != "preflight" && "$operation" != "postflight" ]]; then
   exit 1
 fi
 
-if [[ "$target_status" != "research" && "$target_status" != "plan" && "$target_status" != "implement" ]]; then
-  echo "Error: target_status must be 'research', 'plan', or 'implement', got '$target_status'" >&2
+if [[ "$target_status" != "research" && "$target_status" != "plan" && "$target_status" != "implement" && "$target_status" != "revise" ]]; then
+  echo "Error: target_status must be 'research', 'plan', 'implement', or 'revise', got '$target_status'" >&2
   exit 1
 fi
 
@@ -90,9 +90,11 @@ map_status() {
     preflight:research)   STATE_STATUS="researching";   TODO_STATUS="RESEARCHING" ;;
     preflight:plan)       STATE_STATUS="planning";      TODO_STATUS="PLANNING" ;;
     preflight:implement)  STATE_STATUS="implementing";  TODO_STATUS="IMPLEMENTING" ;;
+    preflight:revise)     STATE_STATUS="revising";      TODO_STATUS="REVISING" ;;
     postflight:research)  STATE_STATUS="researched";    TODO_STATUS="RESEARCHED" ;;
     postflight:plan)      STATE_STATUS="planned";       TODO_STATUS="PLANNED" ;;
     postflight:implement) STATE_STATUS="completed";     TODO_STATUS="COMPLETED" ;;
+    postflight:revise)    STATE_STATUS="revised";       TODO_STATUS="REVISED" ;;
     *)
       echo "Error: unknown operation:target_status combination '${op}:${target}'" >&2
       exit 1

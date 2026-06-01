@@ -61,9 +61,13 @@ description=$(echo "$task_data" | jq -r '.description // ""')
 
 ### Stage 2: Preflight
 
-No intermediate "revising" status is needed for revision. The task transitions directly to "planned" on success (via postflight). Skip preflight status update.
+Update task status to `[REVISING]` before beginning revision work:
 
-**Rationale**: Unlike `/plan` which sets "planning" as an intermediate status, `/revise` is lightweight enough that an intermediate status adds no value. The postflight script handles the final status update.
+```bash
+skill_preflight_update "$task_number" "revise" "$session_id"
+```
+
+This follows the same pattern as `/research`, `/plan`, and `/implement`, giving users immediate visibility that revision is underway.
 
 ---
 
@@ -290,10 +294,10 @@ fi
 
 **For Plan Revision** (status == "planned"):
 
-Update task status to "planned" using the centralized script:
+Update task status to "revised" using the centralized script:
 
 ```bash
-bash .claude/scripts/update-task-status.sh postflight $task_number plan $session_id
+bash .claude/scripts/update-task-status.sh postflight $task_number revise $session_id
 ```
 
 If the script exits non-zero, log error but continue (status update is best-effort for revise).
@@ -435,7 +439,7 @@ Plan revised for task {N}:
 - Preserved {X} completed phases, revised {Y} phases
 - Integrated {Z} new research reports
 - Created revised plan at specs/{NNN}_{SLUG}/plans/MM_{short-slug}.md
-- Status updated to [PLANNED]
+- Status updated to [REVISED]
 - Changes committed with session {session_id}
 ```
 

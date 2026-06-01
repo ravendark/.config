@@ -197,6 +197,11 @@ jq --arg state "$current_status" \
 
 Dispatch research via named subagent (resolved by task type in Stage 1b).
 
+```bash
+# Preflight: mark task as RESEARCHING before dispatch
+skill_preflight_update "$task_number" "research" "$session_id"
+```
+
 ```
 dispatch_instructions = dispatch_agent "$RESEARCH_AGENT" \
   "Research task $task_number: $DESCRIPTION${focus_prompt:+. User focus: $focus_prompt}" \
@@ -222,6 +227,11 @@ EXIT (partial)
 
 Dispatch planning via named subagent.
 
+```bash
+# Preflight: mark task as PLANNING before dispatch
+skill_preflight_update "$task_number" "plan" "$session_id"
+```
+
 ```
 research_artifacts=$(jq -c '[.active_projects[] | select(.project_number == N) | .artifacts // [] | .[] | select(.type == "report")] | .[0].path // ""' specs/state.json)
 
@@ -245,6 +255,11 @@ Dispatch implement via named subagent with `orchestrator_mode: true` (resolved b
 
 ```bash
 plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+```
+
+```bash
+# Preflight: mark task as IMPLEMENTING before dispatch
+skill_preflight_update "$task_number" "implement" "$session_id"
 ```
 
 ```
@@ -273,6 +288,11 @@ blocker_count=$(echo "$blockers" | jq 'length')
 **Sub-state: continuation available** (continuation != null AND has handoff_path):
 
 Dispatch implement with continuation context (resolved by task type in Stage 1b).
+
+```bash
+# Preflight: mark task as IMPLEMENTING before resume dispatch
+skill_preflight_update "$task_number" "implement" "$session_id"
+```
 
 ```
 dispatch_instructions = dispatch_agent "$IMPLEMENT_AGENT" \
@@ -559,6 +579,9 @@ blocker_escalation() {
     '{"task_number": $num, "session_id": $session_id,
       "orchestrator_mode": true,
       "plan_path": $plan_path}')
+  # Preflight: mark task as IMPLEMENTING before re-dispatch
+  skill_preflight_update "$task_number" "implement" "$session_id"
+
   dispatch_agent "$IMPLEMENT_AGENT" \
     "Implement task $task_number following the revised plan${focus_prompt:+. User focus: $focus_prompt}" \
     "$implement_context" "false"
@@ -914,6 +937,9 @@ for task_num in "${research_tasks[@]}"; do
     --arg session_id "${session_id}_${task_num}" \
     '{"task_number": $num, "task_type": $task_type, "session_id": $session_id, "orchestrator_mode": false}')
   
+  # Preflight: mark task as RESEARCHING before dispatch
+  skill_preflight_update "$task_num" "research" "${session_id}_${task_num}"
+
   # Invoke Agent tool: subagent_type=$r_agent
   # Dispatch: dispatch_agent "$r_agent" "Research task $task_num: $description" "$dispatch_context" "false"
   echo "[orchestrate-mt] Dispatching research for task $task_num -> $r_agent"
@@ -936,6 +962,9 @@ for task_num in "${plan_tasks[@]}"; do
     '{"task_number": $num, "task_type": $task_type, "session_id": $session_id,
       "research_artifacts": $research_artifacts, "orchestrator_mode": false}')
   
+  # Preflight: mark task as PLANNING before dispatch
+  skill_preflight_update "$task_num" "plan" "${session_id}_${task_num}"
+
   # Invoke Agent tool: subagent_type=planner-agent
   echo "[orchestrate-mt] Dispatching planning for task $task_num -> planner-agent"
 done
@@ -964,6 +993,9 @@ for task_num in "${implement_tasks[@]}"; do
     '{"task_number": $num, "task_type": $task_type, "session_id": $session_id,
       "orchestrator_mode": true, "plan_path": $plan_path, "continuation_context": $continuation}')
   
+  # Preflight: mark task as IMPLEMENTING before dispatch
+  skill_preflight_update "$task_num" "implement" "${session_id}_${task_num}"
+
   # Invoke Agent tool: subagent_type=$i_agent
   echo "[orchestrate-mt] Dispatching implement for task $task_num -> $i_agent"
 done

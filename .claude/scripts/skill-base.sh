@@ -270,7 +270,7 @@ skill_validate_artifact() {
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 7: Update status to completed variant
 # Usage: skill_postflight_update "$task_number" "$operation" "$session_id" "$status"
-# Only updates state when status is a success value (researched/planned/implemented)
+# Only updates state when status is a success value (researched/planned/revised/implemented)
 # Calls extension hook: hooks.postflight (after status update, non-blocking)
 skill_postflight_update() {
   local task_number="$1"
@@ -278,7 +278,7 @@ skill_postflight_update() {
   local session_id="$3"
   local status="$4"
   case "$status" in
-    researched|planned|implemented)
+    researched|planned|revised|implemented)
       bash .claude/scripts/update-task-status.sh postflight "$task_number" "$operation" "$session_id"
       ;;
     *)
