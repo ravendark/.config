@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "next_project_number": 620,
+  "next_project_number": 623,
   "active_projects": [
     {
       "project_number": 619,
@@ -176,6 +176,43 @@
       "description": "The archive-task.sh script moves task directories to archive/ and updates state.json (removing from active_projects, adding to completed_projects) but does NOT remove the corresponding task entry block from TODO.md. This leaves stale [COMPLETED] entries in TODO.md after /todo runs. Fix: add a sed/awk step to archive-task.sh that removes the full task entry block (from ### {N}. to the next --- or ### delimiter) from TODO.md after archiving. Also update the extension copy at .claude/extensions/core/scripts/archive-task.sh.",
       "session_id": "sess_1779751731_abfe99",
       "completion_summary": "Fixed archive-task.sh Step C by replacing a Python regex that matched a non-existent '- #N:' format with a line-by-line block removal anchored on '^### N. ' to match the actual TODO.md block format. Both the primary script and extension copy were updated and verified identical."
+    },
+    {
+      "project_number": 620,
+      "project_name": "fix_task_order_generation",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Fix generate-task-order.sh to properly handle Task Order sections. Three sub-issues: (1) Completed tasks like #232 still appear in Task Order despite being terminal - verify the script properly excludes them. (2) The description field used in tree display may contain artifact paths instead of task descriptions - investigate why artifact-like content appears. (3) Ensure the script works correctly for projects with both auto-generated topic headings and hand-curated Track/Tier/Phase headings. The BimodalLogic project uses custom heading structure that diverges from the auto-generated format. Either (a) make the script preserve custom structure during regeneration, or (b) ensure projects configure state.json topics to produce equivalent auto-generated output. Also check that link-artifact-todo.sh is not incorrectly matching task numbers in the Task Order section (it uses grep for ### N. which should only match Tasks section, but verify).",
+      "dependencies": [],
+      "artifacts": [],
+      "created": "2026-06-01T17:07:06Z"
+    },
+    {
+      "project_number": 621,
+      "project_name": "add_revise_task_order_regeneration",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Add Task Order regeneration trigger to /revise postflight. The skill-reviser SKILL.md postflight (after Stage 9 git commit) does not call generate-task-order.sh --update-todo. Add a non-blocking call matching the pattern in skill-todo Stage 10.5. Also update the regeneration triggers table in state-management.md and task-order-format.md to document /revise as a trigger event.",
+      "dependencies": [
+        620
+      ],
+      "artifacts": [],
+      "created": "2026-06-01T17:07:10Z"
+    },
+    {
+      "project_number": 622,
+      "project_name": "fix_task_order_status_sync_pruning",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Fix Task Order status sync and completed task pruning. Three sub-issues: (1) update-task-status.sh Phase 3 uses grep pattern that may fail on hand-curated Task Order formats - make the pattern more robust. (2) Verify Mode B terminal transition regeneration is correctly triggering in practice (task 232 shows as COMPLETED in BimodalLogic Task Order, suggesting regeneration did not fire). (3) Investigate whether link-artifact-todo.sh or agents are incorrectly appending artifact paths (- **Plans**: [...], - **Research**: [...]) into the Task Order section instead of only into the Tasks section entries. The symptoms in BimodalLogic show artifact links embedded in Task Order tree entries.",
+      "dependencies": [
+        620
+      ],
+      "artifacts": [],
+      "created": "2026-06-01T17:07:18Z"
     }
   ],
   "completed_projects": [],

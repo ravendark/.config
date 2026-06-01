@@ -6,14 +6,21 @@ next_project_number: 620
 
 ## Task Order
 
-*Updated 2026-05-26. Generated from state.json dependency graph.*
+*Updated 2026-06-01. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,620 | -- | agent-system |
+| 2 | 621,622 | 620 | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
+
+### Agent System
+
+620 [NOT STARTED] — Fix generate-task-order.sh to properly handle Task Order sections
+  └─ 621 [NOT STARTED] — Add Task Order regeneration trigger to /revise postflight. The sk
+  └─ 622 [NOT STARTED] — Fix Task Order status sync and completed task pruning. Three sub-
 
 ### Uncategorized
 
@@ -22,6 +29,36 @@ next_project_number: 620
 
 ## Tasks
 
+### 622. Fix Task Order status sync and completed task pruning
+- **Effort**: 2-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #620
+
+**Description**: Fix Task Order status sync and completed task pruning. Three sub-issues: (1) update-task-status.sh Phase 3 uses grep pattern that may fail on hand-curated Task Order formats - make the pattern more robust. (2) Verify Mode B terminal transition regeneration is correctly triggering in practice (task 232 shows as COMPLETED in BimodalLogic Task Order, suggesting regeneration did not fire). (3) Investigate whether link-artifact-todo.sh or agents are incorrectly appending artifact paths (- **Plans**: [...], - **Research**: [...]) into the Task Order section instead of only into the Tasks section entries. The symptoms in BimodalLogic show artifact links embedded in Task Order tree entries.
+
+---
+
+### 621. Add Task Order regeneration trigger to /revise postflight
+- **Effort**: <1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #620
+
+**Description**: Add Task Order regeneration trigger to /revise postflight. The skill-reviser SKILL.md postflight (after Stage 9 git commit) does not call generate-task-order.sh --update-todo. Add a non-blocking call matching the pattern in skill-todo Stage 10.5. Also update the regeneration triggers table in state-management.md and task-order-format.md to document /revise as a trigger event.
+
+---
+
+### 620. Fix generate-task-order.sh to handle Task Order sections
+- **Effort**: 2-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Fix generate-task-order.sh to properly handle Task Order sections. Three sub-issues: (1) Completed tasks like #232 still appear in Task Order despite being terminal - verify the script properly excludes them. (2) The description field used in tree display may contain artifact paths instead of task descriptions - investigate why artifact-like content appears. (3) Ensure the script works correctly for projects with both auto-generated topic headings and hand-curated Track/Tier/Phase headings. The BimodalLogic project uses custom heading structure that diverges from the auto-generated format. Either (a) make the script preserve custom structure during regeneration, or (b) ensure projects configure state.json topics to produce equivalent auto-generated output. Also check that link-artifact-todo.sh is not incorrectly matching task numbers in the Task Order section.
+
+---
+
 ### 619. Syncprotect-aware extension verification
 - **Effort**: 1-3 hours
 - **Status**: [COMPLETED]
@@ -29,7 +66,6 @@ next_project_number: 620
 - **Dependencies**: None
 - report: [Research on making extension verification syncprotect-aware]
 - specs/619_syncprotect_aware_extension_verification/plans/01_syncprotect-aware-verification.md: [Implementation plan with 3 phases]
-- specs/619_syncprotect_aware_extension_verification/summaries/01_syncprotect-aware-verification-summary.md: [Implementation summary]
 
 **Description**: Make the extension verification system syncprotect-aware and fix false-positive legacy core detection. Three tightly coupled changes:
 
