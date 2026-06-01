@@ -17,8 +17,8 @@ next_project_number: 620
 
 ### Agent System
 
-622 [NOT STARTED] — Fix Task Order status sync and completed task pruning. Three sub-
-623 [NOT STARTED] — Add multi-task argument support to /orchestrate command with depe
+622 [RESEARCHED] — Fix Task Order status sync and completed task pruning. Three sub-
+623 [COMPLETED] — Add multi-task argument support to /orchestrate command with depe
 
 ### Uncategorized
 
@@ -29,9 +29,12 @@ next_project_number: 620
 
 ### 623. Add multi-task + dependency-aware dispatch to /orchestrate
 - **Effort**: 2-4 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
+- **Report**: [specs/623_orchestrate_multi_task_dispatch/reports/01_multi-task-orchestrate.md]
+- **Plan**: [specs/623_orchestrate_multi_task_dispatch/plans/01_multi-task-orchestrate-plan.md]
+- **Summary**: [specs/623_orchestrate_multi_task_dispatch/summaries/01_multi-task-orchestrate-summary.md]
 
 **Description**: Add multi-task argument support to /orchestrate command with dependency-aware execution ordering. (1) Update orchestrate.md STAGE 0 to use parse-command-args.sh for multi-task parsing with single-task fallthrough. (2) Add batch validation and dependency graph construction from state.json dependencies field. (3) Implement topological wave dispatch: tasks without inter-dependencies run in parallel via concurrent skill-orchestrate invocations; tasks with dependencies wait for predecessors to complete before launching. (4) Add consolidated output and batch commit for multi-task runs. (5) Update multi-task-operations.md with orchestrate-specific section covering dependency-aware dispatch vs pure-parallel. (6) Update CLAUDE.md command table to show new argument syntax (N[,N-N]).
 
@@ -39,7 +42,7 @@ next_project_number: 620
 
 ### 622. Fix Task Order status sync and completed task pruning
 - **Effort**: 2-4 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #620
 

@@ -108,11 +108,11 @@ All commands use checkpoint-based execution: GATE IN (preflight) -> DELEGATE (sk
 | `/fix-it` | `/fix-it [PATH...]` | Scan for FIX:/NOTE:/TODO:/QUESTION: tags |
 | `/refresh` | `/refresh [--dry-run] [--force]` | Clean orphaned processes and old files |
 | `/tag` | `/tag [--patch|--minor|--major]` | Create semantic version tag (user-only) |
-| `/orchestrate` | `/orchestrate N [prompt]` | Drive task autonomously through full lifecycle (no confirmation gates) |
+| `/orchestrate` | `/orchestrate N[,N-N] [prompt]` | Drive task(s) autonomously through full lifecycle with dependency-aware wave dispatch |
 | `/spawn` | `/spawn N [blocker description]` | Spawn new tasks to unblock a blocked task |
 | `/merge` | `/merge` | Create pull/merge request for current branch |
 
-**Multi-task syntax**: `/research`, `/plan`, and `/implement` accept multiple task numbers using commas and ranges (e.g., `/research 7, 22-24, 59`). Each task is dispatched to the appropriate skill in parallel (one skill per task, each skill delegates to its own agent). Flags like `--team` and `--force` apply to all tasks. See `.claude/context/patterns/multi-task-operations.md` for the full specification.
+**Multi-task syntax**: `/research`, `/plan`, and `/implement` accept multiple task numbers using commas and ranges (e.g., `/research 7, 22-24, 59`). Each task is dispatched to the appropriate skill in parallel (one skill per task, each skill delegates to its own agent). Flags like `--team` and `--force` apply to all tasks. `/orchestrate` also accepts multiple task numbers (e.g., `/orchestrate 42, 43-45`), but uses **dependency-aware wave dispatch** instead of pure parallel: tasks are topologically sorted by their `dependencies` field in state.json and executed wave-by-wave, with tasks within each wave running in parallel. See `.claude/context/patterns/multi-task-operations.md` for the full specification.
 
 ### Utility Scripts
 

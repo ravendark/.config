@@ -5,13 +5,53 @@
     {
       "project_number": 623,
       "project_name": "orchestrate_multi_task_dispatch",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "description": "Add multi-task argument support to /orchestrate command with dependency-aware execution ordering. (1) Update orchestrate.md STAGE 0 to use parse-command-args.sh for multi-task parsing with single-task fallthrough. (2) Add batch validation and dependency graph construction from state.json dependencies field. (3) Implement topological wave dispatch: tasks without inter-dependencies run in parallel via concurrent skill-orchestrate invocations; tasks with dependencies wait for predecessors to complete before launching. (4) Add consolidated output and batch commit for multi-task runs. (5) Update multi-task-operations.md with orchestrate-specific section covering dependency-aware dispatch vs pure-parallel. (6) Update CLAUDE.md command table to show new argument syntax (N[,N-N]).",
       "dependencies": [],
-      "artifacts": [],
-      "created": "2026-06-01T18:00:00Z"
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/623_orchestrate_multi_task_dispatch/reports/01_multi-task-orchestrate.md"
+        },
+        {
+          "type": "plan",
+          "path": "specs/623_orchestrate_multi_task_dispatch/plans/01_multi-task-orchestrate-plan.md",
+          "summary": "3-phase implementation plan: orchestrate.md multi-task dispatch with dependency-aware wave execution, multi-task-operations.md Section 13, CLAUDE.md command table update"
+        },
+        {
+          "type": "summary",
+          "path": "specs/623_orchestrate_multi_task_dispatch/summaries/01_multi-task-orchestrate-summary.md"
+        }
+      ],
+      "created": "2026-06-01T18:00:00Z",
+      "plan_metadata": {
+        "phases": 3,
+        "total_effort_hours": 2,
+        "complexity": "medium",
+        "research_integrated": true,
+        "plan_version": 1,
+        "dependency_waves": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "reports_integrated": [
+          {
+            "path": "reports/01_multi-task-orchestrate.md",
+            "integrated_in_plan_version": 1,
+            "integrated_date": "2026-06-01"
+          }
+        ]
+      },
+      "completion_summary": "Added multi-task argument support to /orchestrate with dependency-aware wave dispatch: updated orchestrate.md with STAGE 0 multi-task parsing, batch validation, Kahn's algorithm wave assignment, and parallel wave execution; added Section 13 to multi-task-operations.md documenting wave dispatch rationale and comparison table; updated CLAUDE.md command table and multi-task syntax paragraph."
     },
     {
       "project_number": 619,
@@ -217,7 +257,7 @@
     {
       "project_number": 622,
       "project_name": "fix_task_order_status_sync_pruning",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "topic": "agent-system",
       "description": "Fix Task Order status sync and completed task pruning. Three sub-issues: (1) update-task-status.sh Phase 3 uses grep pattern that may fail on hand-curated Task Order formats - make the pattern more robust. (2) Verify Mode B terminal transition regeneration is correctly triggering in practice (task 232 shows as COMPLETED in BimodalLogic Task Order, suggesting regeneration did not fire). (3) Investigate whether link-artifact-todo.sh or agents are incorrectly appending artifact paths (- **Plans**: [...], - **Research**: [...]) into the Task Order section instead of only into the Tasks section entries. The symptoms in BimodalLogic show artifact links embedded in Task Order tree entries.",
@@ -225,7 +265,9 @@
         620
       ],
       "artifacts": [],
-      "created": "2026-06-01T17:07:18Z"
+      "created": "2026-06-01T17:07:18Z",
+      "last_updated": "2026-06-01T17:36:27Z",
+      "session_id": "sess_1780334913_bf063c"
     }
   ],
   "completed_projects": [],
