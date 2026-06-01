@@ -85,6 +85,7 @@ Events that trigger Task Order regeneration:
 | Task archival | `/todo` | `generate-task-order.sh --update-todo` (Step 5.8) |
 | Post-vault renumbering | `/todo` | `generate-task-order.sh --update-todo` (Step 5.8.8a) |
 | Codebase review | `/review` | `generate-task-order.sh --update-todo` (Section 6.5) |
+| Plan revision | `/revise` | `generate-task-order.sh --update-todo` (Stage 7a) |
 | Terminal status transition | Automated | `generate-task-order.sh --update-todo` (optional, via hooks) |
 | Task creation | `/task`, `/meta`, `/spawn`, `/fix-it`, `/errors` | `generate-task-order.sh --update-todo` (after all task entries created) |
 

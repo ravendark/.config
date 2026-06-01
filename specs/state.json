@@ -1,7 +1,18 @@
 {
   "version": "1.0.0",
-  "next_project_number": 623,
+  "next_project_number": 624,
   "active_projects": [
+    {
+      "project_number": 623,
+      "project_name": "orchestrate_multi_task_dispatch",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "description": "Add multi-task argument support to /orchestrate command with dependency-aware execution ordering. (1) Update orchestrate.md STAGE 0 to use parse-command-args.sh for multi-task parsing with single-task fallthrough. (2) Add batch validation and dependency graph construction from state.json dependencies field. (3) Implement topological wave dispatch: tasks without inter-dependencies run in parallel via concurrent skill-orchestrate invocations; tasks with dependencies wait for predecessors to complete before launching. (4) Add consolidated output and batch commit for multi-task runs. (5) Update multi-task-operations.md with orchestrate-specific section covering dependency-aware dispatch vs pure-parallel. (6) Update CLAUDE.md command table to show new argument syntax (N[,N-N]).",
+      "dependencies": [],
+      "artifacts": [],
+      "created": "2026-06-01T18:00:00Z"
+    },
     {
       "project_number": 619,
       "project_name": "syncprotect_aware_extension_verification",
@@ -180,7 +191,7 @@
     {
       "project_number": 620,
       "project_name": "fix_task_order_generation",
-      "status": "not_started",
+      "status": "implemented",
       "task_type": "meta",
       "topic": "agent-system",
       "description": "Fix generate-task-order.sh to properly handle Task Order sections. Three sub-issues: (1) Completed tasks like #232 still appear in Task Order despite being terminal - verify the script properly excludes them. (2) The description field used in tree display may contain artifact paths instead of task descriptions - investigate why artifact-like content appears. (3) Ensure the script works correctly for projects with both auto-generated topic headings and hand-curated Track/Tier/Phase headings. The BimodalLogic project uses custom heading structure that diverges from the auto-generated format. Either (a) make the script preserve custom structure during regeneration, or (b) ensure projects configure state.json topics to produce equivalent auto-generated output. Also check that link-artifact-todo.sh is not incorrectly matching task numbers in the Task Order section (it uses grep for ### N. which should only match Tasks section, but verify).",

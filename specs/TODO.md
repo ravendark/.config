@@ -11,23 +11,34 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,620 | -- | agent-system |
+| 1 | 78,87,620,623 | -- | agent-system |
 | 2 | 621,622 | 620 | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Agent System
 
-620 [NOT STARTED] — Fix generate-task-order.sh to properly handle Task Order sections
+620 [PLANNED] — Fix generate-task-order.sh to properly handle Task Order sections
   └─ 621 [NOT STARTED] — Add Task Order regeneration trigger to /revise postflight. The sk
   └─ 622 [NOT STARTED] — Fix Task Order status sync and completed task pruning. Three sub-
+623 [NOT STARTED] — Add multi-task argument support to /orchestrate command with depe
 
 ### Uncategorized
 
-78 [PLANNED] — fix_himalaya_smtp_authentication_failure
-87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
+78 [PLANNED] — fix himalaya smtp authentication failure
+87 [RESEARCHED] — investigate wezterm terminal directory change
 
 ## Tasks
+
+### 623. Add multi-task + dependency-aware dispatch to /orchestrate
+- **Effort**: 2-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
+
+**Description**: Add multi-task argument support to /orchestrate command with dependency-aware execution ordering. (1) Update orchestrate.md STAGE 0 to use parse-command-args.sh for multi-task parsing with single-task fallthrough. (2) Add batch validation and dependency graph construction from state.json dependencies field. (3) Implement topological wave dispatch: tasks without inter-dependencies run in parallel via concurrent skill-orchestrate invocations; tasks with dependencies wait for predecessors to complete before launching. (4) Add consolidated output and batch commit for multi-task runs. (5) Update multi-task-operations.md with orchestrate-specific section covering dependency-aware dispatch vs pure-parallel. (6) Update CLAUDE.md command table to show new argument syntax (N[,N-N]).
+
+---
 
 ### 622. Fix Task Order status sync and completed task pruning
 - **Effort**: 2-4 hours
@@ -51,8 +62,10 @@ next_project_number: 620
 
 ### 620. Fix generate-task-order.sh to handle Task Order sections
 - **Effort**: 2-4 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
+- **Research**: [specs/620_fix_task_order_generation/reports/01_task-order-research.md]
+- **Plan**: [specs/620_fix_task_order_generation/plans/01_fix-task-order.md]
 - **Dependencies**: None
 
 **Description**: Fix generate-task-order.sh to properly handle Task Order sections. Three sub-issues: (1) Completed tasks like #232 still appear in Task Order despite being terminal - verify the script properly excludes them. (2) The description field used in tree display may contain artifact paths instead of task descriptions - investigate why artifact-like content appears. (3) Ensure the script works correctly for projects with both auto-generated topic headings and hand-curated Track/Tier/Phase headings. The BimodalLogic project uses custom heading structure that diverges from the auto-generated format. Either (a) make the script preserve custom structure during regeneration, or (b) ensure projects configure state.json topics to produce equivalent auto-generated output. Also check that link-artifact-todo.sh is not incorrectly matching task numbers in the Task Order section.

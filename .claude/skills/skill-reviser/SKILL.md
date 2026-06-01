@@ -318,6 +318,39 @@ Then use Edit tool to update the description in TODO.md.
 
 ---
 
+### Stage 7a: Task Order Regeneration (Plan Revision Only)
+
+After the status update, regenerate the Task Order section in TODO.md so it reflects any
+description changes or dependency updates from the revised plan.
+
+This stage is **non-fatal** — a failure here does not block the `/revise` operation.
+
+**For Plan Revision** (status == "planned"):
+
+```bash
+if [ -f ".claude/scripts/generate-task-order.sh" ]; then
+  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
+    || { echo "Warning: Task Order regeneration failed (non-fatal)" >&2; }
+else
+  echo "Note: generate-task-order.sh not found -- skipping Task Order regeneration" >&2
+fi
+```
+
+**For Description Update** (status == "description_updated"):
+
+Run the same regeneration to ensure the Task Order reflects the new description:
+
+```bash
+if [ -f ".claude/scripts/generate-task-order.sh" ]; then
+  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
+    || { echo "Warning: Task Order regeneration failed (non-fatal)" >&2; }
+fi
+```
+
+**On partial/failed**: Skip this stage (do not regenerate when skill did not succeed).
+
+---
+
 ### Stage 8: Artifact Linking (Plan Revision Only)
 
 Add the new plan artifact to state.json.

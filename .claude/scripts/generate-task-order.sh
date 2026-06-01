@@ -141,6 +141,8 @@ build_graph() {
     local desc="${line#*|}"
     # Replace any embedded newlines in desc with space
     desc="${desc//$'\n'/ }"
+    # Un-slugify: replace underscores with spaces so project_name fallbacks display as readable text
+    desc="${desc//_/ }"
     [[ -n "$tn" ]] && task_desc["$tn"]="$desc"
   done <<< "$desc_data"
 

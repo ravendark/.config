@@ -340,7 +340,13 @@ while queue not empty:
 
 ## update-task-status.sh Integration
 
-Phase 3 of `update-task-status.sh` updates task status markers in the Task Order tree. It uses a two-mode strategy:
+Phase 3 of `update-task-status.sh` updates task status markers in the Task Order tree. It uses a two-mode strategy.
+
+**Full Regeneration Triggers**: In addition to Mode B below, the following commands trigger full Task Order regeneration via `generate-task-order.sh --update-todo`:
+- `/todo` — Task archival and post-vault renumbering (Steps 5.8 and 5.8.8a)
+- `/review` — Codebase review (Section 6.5)
+- `/revise` — Plan revision or description update (Stage 7a postflight)
+- `/task`, `/meta`, `/spawn`, `/fix-it`, `/errors` — After all new task entries are created
 
 ### Mode A: In-Place Status Update (non-terminal transitions)
 
