@@ -11,13 +11,12 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,621,622,623 | -- | agent-system |
+| 1 | 78,87,622,623 | -- | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Agent System
 
-621 [NOT STARTED] — Add Task Order regeneration trigger to /revise postflight. The sk
 622 [NOT STARTED] — Fix Task Order status sync and completed task pruning. Three sub-
 623 [NOT STARTED] — Add multi-task argument support to /orchestrate command with depe
 
@@ -50,7 +49,7 @@ next_project_number: 620
 
 ### 621. Add Task Order regeneration trigger to /revise postflight
 - **Effort**: <1 hour
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #620
 

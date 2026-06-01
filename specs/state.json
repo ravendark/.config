@@ -203,7 +203,7 @@
     {
       "project_number": 621,
       "project_name": "add_revise_task_order_regeneration",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "description": "Add Task Order regeneration trigger to /revise postflight. The skill-reviser SKILL.md postflight (after Stage 9 git commit) does not call generate-task-order.sh --update-todo. Add a non-blocking call matching the pattern in skill-todo Stage 10.5. Also update the regeneration triggers table in state-management.md and task-order-format.md to document /revise as a trigger event.",
@@ -211,7 +211,8 @@
         620
       ],
       "artifacts": [],
-      "created": "2026-06-01T17:07:10Z"
+      "created": "2026-06-01T17:07:10Z",
+      "completion_summary": "Already implemented as part of task 620 Phase 2 (Stage 7a in skill-reviser) and Phase 3 (state-management.md and task-order-format.md documentation updates)"
     },
     {
       "project_number": 622,
