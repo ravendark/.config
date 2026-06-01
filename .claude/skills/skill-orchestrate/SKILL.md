@@ -401,32 +401,8 @@ else
       ;;
   esac
 
-  # Artifact linking: extract artifact path/type from handoff and link in TODO.md + state.json
-  handoff_artifact_path=$(echo "$handoff" | jq -r '.artifacts[0].path // ""')
-  handoff_artifact_type=$(echo "$handoff" | jq -r '.artifacts[0].type // ""')
-  handoff_artifact_summary=$(echo "$handoff" | jq -r '.artifacts[0].summary // ""')
-  if [ -n "$handoff_artifact_path" ] && [ "$handoff_artifact_path" != "null" ]; then
-    case "$handoff_artifact_type" in
-      report)
-        field_name='**Research**'
-        next_field='**Plan**'
-        ;;
-      plan)
-        field_name='**Plan**'
-        next_field='**Description**'
-        ;;
-      summary)
-        field_name='**Summary**'
-        next_field='**Description**'
-        ;;
-      *)
-        field_name='**Summary**'
-        next_field='**Description**'
-        ;;
-    esac
-    skill_link_artifacts "$task_number" "$handoff_artifact_path" "$handoff_artifact_type" \
-      "$handoff_artifact_summary" "$field_name" "$next_field"
-  fi
+  # Artifact linking: delegate to shared helper in skill-base.sh
+  skill_link_artifact_from_handoff "$task_number" "$handoff"
 fi
 
 # Increment cycle_count
@@ -1038,32 +1014,8 @@ for task_num in "${research_tasks[@]}" "${plan_tasks[@]}" "${implement_tasks[@]}
       ;;
   esac
   
-  # Artifact linking (same logic as single-task Stage 5)
-  handoff_artifact_path=$(echo "$handoff" | jq -r '.artifacts[0].path // ""')
-  handoff_artifact_type=$(echo "$handoff" | jq -r '.artifacts[0].type // ""')
-  handoff_artifact_summary=$(echo "$handoff" | jq -r '.artifacts[0].summary // ""')
-  if [ -n "$handoff_artifact_path" ] && [ "$handoff_artifact_path" != "null" ]; then
-    case "$handoff_artifact_type" in
-      report)
-        field_name='**Research**'
-        next_field='**Plan**'
-        ;;
-      plan)
-        field_name='**Plan**'
-        next_field='**Description**'
-        ;;
-      summary)
-        field_name='**Summary**'
-        next_field='**Description**'
-        ;;
-      *)
-        field_name='**Summary**'
-        next_field='**Description**'
-        ;;
-    esac
-    skill_link_artifacts "$task_num" "$handoff_artifact_path" "$handoff_artifact_type" \
-      "$handoff_artifact_summary" "$field_name" "$next_field"
-  fi
+  # Artifact linking: delegate to shared helper in skill-base.sh
+  skill_link_artifact_from_handoff "$task_num" "$handoff"
   
   # Update multi-state current_statuses and move to completed/failed as appropriate
   # Re-read fresh status from state.json (postflight may have updated it)

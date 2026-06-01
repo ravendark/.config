@@ -367,6 +367,45 @@ skill_link_artifacts() {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
+# Orchestrator artifact linking: read artifact info from handoff JSON and link
+# Usage: skill_link_artifact_from_handoff "$task_number" "$handoff_json"
+# handoff_json: JSON string (e.g. contents of .orchestrator-handoff.json)
+# Maps artifact type to field_name/next_field and calls skill_link_artifacts.
+# Returns 0 immediately if artifact path is empty or null.
+# artifact type mapping:
+#   report  -> '**Research**' / '**Plan**'
+#   plan    -> '**Plan**' / '**Description**'
+#   summary -> '**Summary**' / '**Description**'  (default)
+skill_link_artifact_from_handoff() {
+  local task_number="$1"
+  local handoff_json="$2"
+  local handoff_artifact_path handoff_artifact_type handoff_artifact_summary
+  local field_name next_field
+  handoff_artifact_path=$(echo "$handoff_json" | jq -r '.artifacts[0].path // ""')
+  handoff_artifact_type=$(echo "$handoff_json" | jq -r '.artifacts[0].type // ""')
+  handoff_artifact_summary=$(echo "$handoff_json" | jq -r '.artifacts[0].summary // ""')
+  if [ -z "$handoff_artifact_path" ] || [ "$handoff_artifact_path" = "null" ]; then
+    return 0
+  fi
+  case "$handoff_artifact_type" in
+    report)
+      field_name='**Research**'
+      next_field='**Plan**'
+      ;;
+    plan)
+      field_name='**Plan**'
+      next_field='**Description**'
+      ;;
+    summary|*)
+      field_name='**Summary**'
+      next_field='**Description**'
+      ;;
+  esac
+  skill_link_artifacts "$task_number" "$handoff_artifact_path" "$handoff_artifact_type" \
+    "$handoff_artifact_summary" "$field_name" "$next_field"
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
 # Stage 9/10: Cleanup temporary files
 # Usage: skill_cleanup "$padded_num" "$project_name"
 # Removes .postflight-pending, .postflight-loop-guard, .return-meta.json
