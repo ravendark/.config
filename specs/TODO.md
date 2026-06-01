@@ -11,15 +11,13 @@ next_project_number: 633
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,630 | -- | workflow-refactor |
-| 2 | 631 | 630 | workflow-refactor |
+| 1 | 78,87,631 | -- | workflow-refactor |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Workflow Refactor
 
-630 [NOT STARTED] — consolidate orchestrate postflight
-  └─ 631 [NOT STARTED] — cleanup stale status docs
+631 [NOT STARTED] — cleanup stale status docs
 
 ### Uncategorized
 
@@ -79,10 +77,13 @@ next_project_number: 633
 
 ### 630. Consolidate orchestrate postflight with skill-base.sh pattern
 - **Effort**: 1-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: 628
 - **Topic**: workflow-refactor
+- **Research**: [630_consolidate_orchestrate_postflight/reports/01_consolidate-postflight.md]
+- **Plan**: [630_consolidate_orchestrate_postflight/plans/01_consolidate-postflight.md]
+- **Summary**: [630_consolidate_orchestrate_postflight/summaries/01_consolidate-postflight-summary.md]
 
 **Description**: The orchestrate skill has its own inline postflight logic (Stage 5 lines 368-413, Stage MT-4 lines 971-1058) that duplicates the pattern in `skill-base.sh`. Refactor to use the same `skill_link_artifacts()` and `skill_postflight_update()` functions consistently. Keep orchestrate-specific handling (handoff reading, drift detection) as orchestrate-specific code, but route the core status update through `skill-base.sh` to eliminate drift between the two parallel postflight paths.
 

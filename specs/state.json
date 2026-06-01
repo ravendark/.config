@@ -105,16 +105,34 @@
     {
       "project_number": 630,
       "project_name": "consolidate_orchestrate_postflight",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "effort": "1-3 hours",
       "created": "2026-06-01T23:10:00Z",
-      "last_updated": "2026-06-01T23:10:00Z",
+      "last_updated": "2026-06-01T23:52:39Z",
       "dependencies": [
         628
       ],
       "topic": "workflow-refactor",
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/630_consolidate_orchestrate_postflight/reports/01_consolidate-postflight.md",
+          "type": "report",
+          "summary": "Full duplication map, refactoring approach with code sketch, risk table, and edge case analysis"
+        },
+        {
+          "path": "specs/630_consolidate_orchestrate_postflight/plans/01_consolidate-postflight.md",
+          "type": "plan",
+          "summary": "Implementation plan for consolidating orchestrate postflight duplicate code"
+        },
+        {
+          "path": "specs/630_consolidate_orchestrate_postflight/summaries/01_consolidate-postflight-summary.md",
+          "type": "summary",
+          "summary": "Execution summary for task 630"
+        }
+      ],
+      "session_id": "sess_1780357272_59e91f",
+      "completion_summary": "Extracted duplicate 24-line artifact-type-to-field-name case block from SKILL.md Stage 5 and Stage MT-4 into shared skill_link_artifact_from_handoff() helper in skill-base.sh. Both call sites now use single-line delegation. Net reduction ~31 lines."
     },
     {
       "project_number": 631,
