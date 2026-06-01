@@ -5,7 +5,7 @@
     {
       "project_number": 627,
       "project_name": "fix_task_order_regeneration",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "description": "Fix Task Order regeneration after task creation. (1) Fix shift 3 bug in generate-task-order.sh line 53 that fails under set -euo pipefail when fewer than 3 follow-up args are provided. (2) Ensure task-creating commands (/task, /meta, /fix-it, /spawn, /errors) add new topics to active_topics array in state.json when assigning a topic not already present. (3) Verify the non-blocking generate-task-order.sh call in each task-creating command actually persists its output to TODO.md Task Order section.",
@@ -19,8 +19,13 @@
         {
           "type": "plan",
           "path": "specs/627_fix_task_order_regeneration/plans/01_task-order-regen.md"
+        },
+        {
+          "type": "summary",
+          "path": "specs/627_fix_task_order_regeneration/summaries/01_task-order-regen-summary.md"
         }
-      ]
+      ],
+      "completion_summary": "Fixed shift 3/shift 2 argument-parsing bugs in generate-task-order.sh; added active_topics array maintenance to all five task-creating commands (task.md, meta-builder-agent.md, skill-fix-it, skill-spawn, errors.md); standardized task.md Part C invocation with bash + -f check pattern. All changes applied to project files and core extension mirrors."
     },
     {
       "project_number": 626,

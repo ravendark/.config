@@ -11,14 +11,13 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,626,627 | -- | agent-system |
+| 1 | 78,87,626 | -- | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Agent System
 
 626 [NOT STARTED] — Update orchestrate.md command multi-task dispatch to invoke skill
-627 [PLANNED] — Fix Task Order regeneration after task creation. (1) Fix shift 3 
 
 ### Uncategorized
 
@@ -28,11 +27,12 @@ next_project_number: 620
 ## Tasks
 
 ### 627. Fix Task Order regeneration after task creation
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 - **Report**: [specs/627_fix_task_order_regeneration/reports/01_task-order-regen.md]
 - **Plan**: [specs/627_fix_task_order_regeneration/plans/01_task-order-regen.md]
+- **Summary**: [specs/627_fix_task_order_regeneration/summaries/01_task-order-regen-summary.md]
 
 **Description**: Fix Task Order regeneration after task creation. (1) Fix `shift 3` bug in `generate-task-order.sh` line 53 that fails under `set -euo pipefail` when fewer than 3 follow-up args are provided. (2) Ensure task-creating commands (`/task`, `/meta`, `/fix-it`, `/spawn`, `/errors`) add new topics to `active_topics` array in state.json when assigning a topic not already present. (3) Verify the non-blocking `generate-task-order.sh` call in each task-creating command actually persists its output to TODO.md Task Order section.
 

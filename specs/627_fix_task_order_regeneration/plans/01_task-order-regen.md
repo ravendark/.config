@@ -1,7 +1,7 @@
 # Implementation Plan: Task #627
 
 - **Task**: 627 - Fix Task Order regeneration after task creation
-- **Status**: [IN PROGRESS]
+- **Status**: [COMPLETED]
 - **Effort**: 2.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/627_fix_task_order_regeneration/reports/01_task-order-regen.md
@@ -138,28 +138,21 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: End-to-End Verification and Testing [IN PROGRESS]
+### Phase 3: End-to-End Verification and Testing [COMPLETED]
 
 **Goal**: Verify all changes work together and do not break existing functionality.
 
 **Tasks**:
-- [ ] Test `generate-task-order.sh` argument parsing with edge cases:
-  - `bash .claude/scripts/generate-task-order.sh --print` (should work)
-  - `bash .claude/scripts/generate-task-order.sh --update-todo` (should not crash, may fail gracefully on missing files)
-  - `bash .claude/scripts/generate-task-order.sh --update-todo specs/TODO.md` (should not crash)
-  - `bash .claude/scripts/generate-task-order.sh --update-todo specs/TODO.md specs/state.json` (should work fully)
-  - `bash .claude/scripts/generate-task-order.sh --goal` (should not crash)
-  - `bash .claude/scripts/generate-task-order.sh --goal "test goal" --print` (should work)
-- [ ] Test jq `active_topics` append pattern in isolation:
-  ```bash
-  echo '{"active_topics": ["agent-system"]}' | jq --arg t "new-topic" \
-    'if ((.active_topics // []) | index($t)) == null
-     then .active_topics = ((.active_topics // []) + [$t])
-     else . end'
-  ```
-  Confirm idempotency (running twice with same topic does not duplicate).
-- [ ] Verify no syntax errors in modified markdown files by checking that code fences are balanced
-- [ ] Run `bash .claude/scripts/generate-task-order.sh --update-todo specs/TODO.md specs/state.json` to confirm the full pipeline works after all changes
+- [x] Test `generate-task-order.sh` argument parsing with edge cases: *(completed: all 6 edge cases pass)*
+  - `bash .claude/scripts/generate-task-order.sh --print` (works)
+  - `bash .claude/scripts/generate-task-order.sh --update-todo` (no crash, uses defaults)
+  - `bash .claude/scripts/generate-task-order.sh --update-todo specs/TODO.md` (no crash)
+  - `bash .claude/scripts/generate-task-order.sh --update-todo specs/TODO.md specs/state.json` (works fully)
+  - `bash .claude/scripts/generate-task-order.sh --goal` (exits with usage msg, no shift crash)
+  - `bash .claude/scripts/generate-task-order.sh --goal "test goal" --print` (works)
+- [x] Test jq `active_topics` append pattern in isolation: *(completed: idempotency confirmed)*
+- [x] Verify no syntax errors in modified markdown files by checking that code fences are balanced *(completed: 4/5 files balanced; task.md imbalance is pre-existing)*
+- [x] Run `bash .claude/scripts/generate-task-order.sh --update-todo specs/TODO.md specs/state.json` to confirm the full pipeline works after all changes *(completed)*
 
 **Timing**: 30 minutes
 
@@ -175,13 +168,13 @@ Phases within the same wave can execute in parallel.
 
 ## Testing & Validation
 
-- [ ] `generate-task-order.sh --update-todo` with 0, 1, 2, and 3 args does not crash under `set -euo pipefail`
-- [ ] `generate-task-order.sh --goal` with 0 and 1 args does not crash
-- [ ] `generate-task-order.sh --print` continues to produce correct output
-- [ ] jq `active_topics` append is idempotent (no duplicates on repeat)
-- [ ] All five task-creating commands reference `active_topics` maintenance (grep verification)
-- [ ] `task.md` Part C uses the standardized `bash` + `-f` check pattern
-- [ ] Full Task Order regeneration against current specs/state.json succeeds
+- [x] `generate-task-order.sh --update-todo` with 0, 1, 2, and 3 args does not crash under `set -euo pipefail` *(verified)*
+- [x] `generate-task-order.sh --goal` with 0 and 1 args does not crash *(verified)*
+- [x] `generate-task-order.sh --print` continues to produce correct output *(verified)*
+- [x] jq `active_topics` append is idempotent (no duplicates on repeat) *(verified)*
+- [x] All five task-creating commands reference `active_topics` maintenance (grep verification) *(verified)*
+- [x] `task.md` Part C uses the standardized `bash` + `-f` check pattern *(verified)*
+- [x] Full Task Order regeneration against current specs/state.json succeeds *(verified)*
 
 ## Artifacts & Outputs
 
