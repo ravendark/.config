@@ -11,13 +11,9 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,622 | -- | agent-system |
+| 1 | 78,87 | -- | -- |
 
 **Grouped by Topic** (indented = depends on parent):
-
-### Agent System
-
-622 [COMPLETED] — Fix Task Order status sync and completed task pruning. Three sub-
 
 ### Uncategorized
 
