@@ -117,13 +117,13 @@ fi
 
 ---
 
-### Phase 2: Fix command-gate-out.sh (orchestrate case + operator precedence) [NOT STARTED]
+### Phase 2: Fix command-gate-out.sh (orchestrate case + operator precedence) [COMPLETED]
 
 **Goal**: Add `orchestrate` to the operation case statement and fix the `&&`/`||` operator precedence bug in the defensive correction guard. Apply to both canonical and extension mirror copies.
 
 **Tasks**:
-- [ ] Edit `.claude/scripts/command-gate-out.sh` to add `orchestrate)` case and fix precedence
-- [ ] Edit `.claude/extensions/core/scripts/command-gate-out.sh` with identical changes
+- [x] Edit `.claude/scripts/command-gate-out.sh` to add `orchestrate)` case and fix precedence *(completed)*
+- [x] Edit `.claude/extensions/core/scripts/command-gate-out.sh` with identical changes *(completed)*
 
 **File 1**: `.claude/scripts/command-gate-out.sh`
 **File 2**: `.claude/extensions/core/scripts/command-gate-out.sh`
