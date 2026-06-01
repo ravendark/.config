@@ -154,37 +154,91 @@ Generate the batch session ID:
 batch_session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 ```
 
-For each wave sequentially (Wave 0, then Wave 1, etc.):
+**MAX_TASKS Guard**: Before entering multi-task dispatch, check task count:
 
-1. **Check for skipped predecessors**: Before dispatching, check if any task in this wave has a predecessor that was skipped or failed. If yes, mark the task as skipped:
-   ```
-   for each task in wave:
-     for each dep in predecessors[task]:
-       if dep was skipped or failed:
-         skipped_tasks += (task: "predecessor $dep failed/skipped")
-         remove task from wave's dispatch list
-   ```
+```bash
+task_count=${#validated_tasks[@]}
+MAX_TASKS=8
+if [ "$task_count" -gt "$MAX_TASKS" ]; then
+  echo "[orchestrate] WARNING: $task_count tasks exceeds MAX_TASKS=$MAX_TASKS."
+  echo "Batching is not yet supported. Running with first $MAX_TASKS tasks only."
+  validated_tasks=("${validated_tasks[@]:0:$MAX_TASKS}")
+  # Recalculate waves for the trimmed task list
+fi
+```
 
-2. **Dispatch remaining wave tasks in parallel**: Invoke all tasks in the wave simultaneously via concurrent Skill tool calls:
-   ```
-   For each task_num in wave (not skipped):
-     Tool: Skill
-     Parameters:
-       skill: "skill-orchestrate"
-       args: "task_number={task_num} session_id={batch_session_id}_{task_num} orchestrator_mode=true focus_prompt={focus_prompt}"
-   ```
+**Single-Dispatch Multi-Task Mode**: Build the dependency graph JSON and waves JSON for passing to the skill, then invoke a single `skill-orchestrate` instance that manages all tasks internally:
 
-3. **Collect results**: After all parallel skill calls in the wave complete, record each task as succeeded or failed. A task is "failed" if its skill returns an error or its final status is not `completed`.
+```bash
+# Build dependency_graph JSON: {"task_num": [dep1, dep2], ...}
+dep_graph_json=$(jq -n '{}')
+for task_num in "${validated_tasks[@]}"; do
+  deps_array=$(jq -n --argjson deps "$(printf '%s\n' "${predecessors[$task_num]}" | jq -R . | jq -s .)" '$deps')
+  dep_graph_json=$(echo "$dep_graph_json" | jq --arg key "$task_num" --argjson deps "$deps_array" \
+    '. + {($key): $deps}')
+done
 
-4. **Continue to next wave**: If a task failed, its direct dependents in later waves are skipped (see Step 4.1 for next wave).
+# Build waves JSON: [[task_a, task_b], [task_c], ...]
+waves_json=$(jq -n '[]')
+for wave_tasks in "${waves[@]}"; do
+  wave_array=$(printf '%s\n' $wave_tasks | jq -R 'tonumber' | jq -s '.')
+  waves_json=$(echo "$waves_json" | jq --argjson wave "$wave_array" '. + [$wave]')
+done
+
+# Build task_numbers JSON array
+task_numbers_json=$(printf '%s\n' "${validated_tasks[@]}" | jq -R 'tonumber' | jq -s '.')
+```
+
+Invoke a single `skill-orchestrate` instance with all task context:
+
+```
+Tool: Skill
+Parameters:
+  skill: "skill-orchestrate"
+  args: "multi_task_mode=true task_numbers={task_numbers_json} waves={waves_json} dependency_graph={dep_graph_json} session_id={batch_session_id} focus_prompt={focus_prompt}"
+```
+
+The delegation context passed to the skill must include:
+```json
+{
+  "session_id": "{batch_session_id}",
+  "multi_task_mode": true,
+  "task_numbers": [42, 43, 44],
+  "waves": [[42], [43, 44]],
+  "dependency_graph": {"42": [], "43": [42], "44": [42]},
+  "focus_prompt": "{focus_prompt}"
+}
+```
+
+The skill manages wave-by-wave dispatch, per-task postflight (status sync + artifact linking), and writes results to `specs/.orchestrator-multi-state.json`.
 
 #### Step 5: Batch Git Commit and Consolidated Output
 
-After all waves complete, produce a batch git commit (non-blocking) and consolidated output.
+After the single `skill-orchestrate` invocation completes, read results from `specs/.orchestrator-multi-state.json` and produce a batch git commit (non-blocking) and consolidated output.
+
+```bash
+mt_state_file="specs/.orchestrator-multi-state.json"
+if [ -f "$mt_state_file" ]; then
+  completed_tasks=$(jq -r '.completed_tasks[]' "$mt_state_file" 2>/dev/null | tr '\n' ' ')
+  failed_tasks_json=$(jq -c '.failed_tasks // []' "$mt_state_file")
+  cycles_used=$(jq -r '.cycle_count // 0' "$mt_state_file")
+  max_cycles=$(jq -r '.max_cycles // 25' "$mt_state_file")
+  succeeded_count=$(jq '.completed_tasks | length' "$mt_state_file")
+  failed_count=$(jq '.failed_tasks | length' "$mt_state_file")
+else
+  echo "[orchestrate] WARNING: Multi-state file missing — skill may have been interrupted"
+  completed_tasks=""
+  failed_tasks_json="[]"
+  cycles_used=0
+  succeeded_count=0
+  failed_count=${#validated_tasks[@]}
+fi
+skipped_count=${#skipped_tasks[@]}
+```
 
 **Batch Git Commit**:
 
-Full success:
+Full success (all tasks completed):
 ```bash
 git add -A && git commit -m "orchestrate tasks {range_summary}: complete orchestration
 
@@ -197,8 +251,8 @@ Partial success:
 git add -A && git commit -m "orchestrate tasks {range_summary}: complete orchestration ({succeeded}/{total} succeeded)
 
 Tasks completed: {comma-separated succeeded list}
-Tasks failed: {num} ({reason})[, ...]
-Tasks skipped: {num} ({reason})[, ...]
+Tasks failed: {failed_count} (see multi-state log)
+Tasks skipped: {skipped_count}
 Session: {batch_session_id}"
 ```
 
@@ -209,21 +263,22 @@ Session: {batch_session_id}"
 
 Session: {batch_session_id}
 Tasks requested: {count}
-Succeeded: {count}
-Failed: {count}
-Skipped: {count}
+Succeeded: {succeeded_count}
+Failed: {failed_count}
+Skipped: {skipped_count}
+Cycles used: {cycles_used}/{max_cycles}
 
 ### Succeeded
 
-| Task | Title | Final Status | Cycles |
-|------|-------|--------------|--------|
-| #42 | task_title | [COMPLETED] | 3/5 |
+| Task | Title | Final Status |
+|------|-------|--------------|
+| #42 | task_title | [COMPLETED] |
 
 ### Failed
 
-| Task | Wave | Error |
-|------|------|-------|
-| #43 | 1 | Agent timeout after MAX_CYCLES |
+| Task | Error |
+|------|-------|
+| #43 | Partial: blockers present (no continuation) |
 
 ### Skipped
 

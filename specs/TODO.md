@@ -11,9 +11,14 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,626,627 | -- | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
+
+### Agent System
+
+626 [NOT STARTED] — Update orchestrate.md command multi-task dispatch to invoke skill
+627 [PLANNED] — Fix Task Order regeneration after task creation. (1) Fix shift 3 
 
 ### Uncategorized
 
@@ -21,6 +26,38 @@ next_project_number: 620
 87 [RESEARCHED] — investigate wezterm terminal directory change
 
 ## Tasks
+
+### 627. Fix Task Order regeneration after task creation
+- **Status**: [PLANNED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Report**: [specs/627_fix_task_order_regeneration/reports/01_task-order-regen.md]
+- **Plan**: [specs/627_fix_task_order_regeneration/plans/01_task-order-regen.md]
+
+**Description**: Fix Task Order regeneration after task creation. (1) Fix `shift 3` bug in `generate-task-order.sh` line 53 that fails under `set -euo pipefail` when fewer than 3 follow-up args are provided. (2) Ensure task-creating commands (`/task`, `/meta`, `/fix-it`, `/spawn`, `/errors`) add new topics to `active_topics` array in state.json when assigning a topic not already present. (3) Verify the non-blocking `generate-task-order.sh` call in each task-creating command actually persists its output to TODO.md Task Order section.
+
+---
+
+### 626. Update orchestrate.md command for single-agent multi-task dispatch
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #625
+
+**Description**: Update orchestrate.md command multi-task dispatch to invoke skill-orchestrate once with all task numbers instead of once per task per wave. Move wave construction (Kahn's algorithm) from command into skill args or pass pre-computed waves. Update multi-task-operations.md Section 13 to document single-agent orchestration pattern.
+
+---
+
+### 625. Refactor skill-orchestrate for single-agent multi-task orchestration
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Dependencies**: None
+- **Report**: [specs/625_orchestrate_single_agent_multi_task/reports/01_orchestrate-refactor.md]
+- **Plan**: [specs/625_orchestrate_single_agent_multi_task/plans/01_orchestrate-refactor.md]
+- **Summary**: [specs/625_orchestrate_single_agent_multi_task/summaries/01_orchestrate-refactor-summary.md]
+
+**Description**: Refactor skill-orchestrate to support multi-task mode where a single orchestrator agent manages all tasks instead of spawning one agent per task. Add multi-task code path to SKILL.md state machine: single agent receives all task numbers and dependency graph, tracks per-task phase in a compact status table, dispatches phase-specific workers (research-agent, planner-agent, impl-agent) directly using wave-based dependency-aware scheduling. Reduces orchestration overhead from O(N * 44k) to O(1 * 44k) tokens. Also fix TODO.md synchronization: ensure the single orchestrator properly calls update-task-status.sh to sync status markers in TODO.md (not just state.json) and calls link-artifact-todo.sh after artifact creation to link reports/plans/summaries in TODO.md task entries.
+
+---
 
 ### 624. Fix orchestrate postflight status sync and Task Order regeneration
 - **Effort**: 1-2 hours
