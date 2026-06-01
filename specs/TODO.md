@@ -11,13 +11,9 @@ next_project_number: 620
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,624 | -- | agent-system |
+| 1 | 78,87 | -- | -- |
 
 **Grouped by Topic** (indented = depends on parent):
-
-### Agent System
-
-624 [PLANNED] — Fix orchestrate command to properly update task status and regene
 
 ### Uncategorized
 
@@ -28,7 +24,7 @@ next_project_number: 620
 
 ### 624. Fix orchestrate postflight status sync and Task Order regeneration
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 
