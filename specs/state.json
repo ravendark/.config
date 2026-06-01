@@ -191,13 +191,14 @@
     {
       "project_number": 620,
       "project_name": "fix_task_order_generation",
-      "status": "implemented",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "description": "Fix generate-task-order.sh to properly handle Task Order sections. Three sub-issues: (1) Completed tasks like #232 still appear in Task Order despite being terminal - verify the script properly excludes them. (2) The description field used in tree display may contain artifact paths instead of task descriptions - investigate why artifact-like content appears. (3) Ensure the script works correctly for projects with both auto-generated topic headings and hand-curated Track/Tier/Phase headings. The BimodalLogic project uses custom heading structure that diverges from the auto-generated format. Either (a) make the script preserve custom structure during regeneration, or (b) ensure projects configure state.json topics to produce equivalent auto-generated output. Also check that link-artifact-todo.sh is not incorrectly matching task numbers in the Task Order section (it uses grep for ### N. which should only match Tasks section, but verify).",
       "dependencies": [],
       "artifacts": [],
-      "created": "2026-06-01T17:07:06Z"
+      "created": "2026-06-01T17:07:06Z",
+      "completion_summary": "Fixed generate-task-order.sh: un-slugify project_name fallback, added /revise postflight trigger, updated documentation"
     },
     {
       "project_number": 621,
