@@ -265,7 +265,6 @@
         ".claude/context/workflows/command-lifecycle.md",
         ".claude/context/workflows/preflight-postflight.md",
         ".claude/context/workflows/review-process.md",
-        ".claude/context/workflows/status-transitions.md",
         ".claude/context/workflows/task-breakdown.md",
         ".claude/scripts/check-extension-docs.sh",
         ".claude/scripts/check-vault-threshold.sh",
@@ -437,7 +436,6 @@
             "workflows/command-lifecycle.md",
             "workflows/preflight-postflight.md",
             "workflows/review-process.md",
-            "workflows/status-transitions.md",
             "workflows/task-breakdown.md",
             "index.schema.json"
           ]

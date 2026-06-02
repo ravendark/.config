@@ -2268,30 +2268,6 @@
       }
     },
     {
-      "path": "workflows/status-transitions.md",
-      "domain": "core",
-      "subdomain": "workflows",
-      "summary": "Valid task status transitions",
-      "line_count": 86,
-      "keywords": [
-        "workflows",
-        "status",
-        "transitions"
-      ],
-      "topics": [
-        "state"
-      ],
-      "load_when": {
-        "agents": [],
-        "task_types": [
-          "meta"
-        ],
-        "commands": [
-          "/task"
-        ]
-      }
-    },
-    {
       "path": "workflows/task-breakdown.md",
       "domain": "core",
       "subdomain": "workflows",

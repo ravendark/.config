@@ -2273,32 +2273,6 @@
       "token_cost_estimate": 1312
     },
     {
-      "path": "workflows/status-transitions.md",
-      "line_count": 86,
-      "load_when": {
-        "agents": [],
-        "commands": [
-          "/task"
-        ],
-        "task_types": [
-          "meta"
-        ]
-      },
-      "topics": [
-        "state"
-      ],
-      "domain": "core",
-      "keywords": [
-        "workflows",
-        "status",
-        "transitions"
-      ],
-      "subdomain": "workflows",
-      "summary": "Valid task status transitions",
-      "tier": 2,
-      "token_cost_estimate": 688
-    },
-    {
       "path": "workflows/task-breakdown.md",
       "line_count": 270,
       "load_when": {

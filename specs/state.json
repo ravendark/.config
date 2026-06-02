@@ -137,18 +137,30 @@
     {
       "project_number": 631,
       "project_name": "cleanup_stale_status_docs",
-      "status": "not_started",
+      "status": "implementing",
       "task_type": "meta",
       "effort": "1-3 hours",
       "created": "2026-06-01T23:10:00Z",
-      "last_updated": "2026-06-01T23:10:00Z",
+      "last_updated": "2026-06-02T00:04:29Z",
       "dependencies": [
         628,
         629,
         630
       ],
       "topic": "workflow-refactor",
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/631_cleanup_stale_status_docs/reports/01_stale-status-docs.md",
+          "type": "report",
+          "summary": "Per-file audit, status-sync-manager reference map, recommendations for each sub-task"
+        },
+        {
+          "path": "specs/631_cleanup_stale_status_docs/plans/01_stale-status-docs.md",
+          "type": "plan",
+          "summary": "Implementation plan with 5 phases and 4 dependency waves"
+        }
+      ],
+      "session_id": "sess_1780358127_d1657f"
     },
     {
       "project_number": 632,

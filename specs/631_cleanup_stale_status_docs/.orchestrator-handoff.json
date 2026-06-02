@@ -1,0 +1,14 @@
+{
+  "status": "planned",
+  "summary": "Created 5-phase plan to clean up stale status documentation: delete status-transitions.md and references, update status-markers.md to replace status-sync-manager instructions, add header note to inline-status-update.md, document orchestrate interaction in SKILL.md and state-management.md, and run verification. Estimated 2 hours total effort.",
+  "artifacts": [
+    {
+      "path": "specs/631_cleanup_stale_status_docs/plans/01_stale-status-docs.md",
+      "type": "plan",
+      "summary": "Implementation plan with 5 phases and 4 dependency waves"
+    }
+  ],
+  "blockers": [],
+  "continuation_context": null,
+  "next_action_hint": "implement"
+}

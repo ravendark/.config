@@ -17,7 +17,7 @@ next_project_number: 633
 
 ### Workflow Refactor
 
-631 [NOT STARTED] — cleanup stale status docs
+631 [IMPLEMENTING] — cleanup stale status docs
 
 ### Uncategorized
 
@@ -93,10 +93,12 @@ next_project_number: 633
 
 ### 631. Clean up stale status documentation and consolidate
 - **Effort**: 1-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Dependencies**: 628, 629, 630
 - **Topic**: workflow-refactor
+- **Research**: [631_cleanup_stale_status_docs/reports/01_stale-status-docs.md]
+- **Plan**: [631_cleanup_stale_status_docs/plans/01_stale-status-docs.md]
 
 **Description**: (a) Remove or redirect the deprecated `status-transitions.md` file. (b) Update `status-markers.md` to replace all "status-sync-manager" references with the current infrastructure (`update-task-status.sh` via `skill-base.sh`). (c) Evaluate whether `inline-status-update.md` should be removed or marked deprecated. (d) Update `skill-status-sync/SKILL.md` "standalone use only" note to document orchestrate's interaction. (e) Ensure `state-management.md` correctly documents the orchestrate flow. (f) Update any CLAUDE.md sections that reference outdated status sync patterns.
 
