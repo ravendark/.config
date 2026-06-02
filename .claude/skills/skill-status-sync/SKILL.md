@@ -27,6 +27,8 @@ Workflow skills (skill-researcher, skill-planner, skill-implementer, etc.) now h
 
 **Do NOT use this skill in workflow commands** (/research, /plan, /implement, /revise) - those commands now invoke a single skill that handles its own status updates.
 
+**Orchestrate interaction**: The `/orchestrate` command calls `skill_postflight_update()` from `skill-base.sh` after each lifecycle dispatch cycle. Orchestrate reads `state.json` for current task status, dispatches the next lifecycle phase (research, plan, implement), and uses `skill_postflight_update()` for status transitions. It does not invoke this skill.
+
 ## Trigger Conditions
 
 This skill activates when:

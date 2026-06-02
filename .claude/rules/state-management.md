@@ -40,6 +40,10 @@ Any non-terminal -> [EXPANDED] (when divided into subtasks)
 - Cannot transition from terminal states (completed, abandoned, expanded)
 - Cannot mark COMPLETED without all phases done
 
+### Orchestrate Flow
+
+`/orchestrate` drives tasks through successive lifecycle phases without user confirmation between phases. It reads `state.json` to determine current task status, dispatches to the appropriate skill (research, plan, implement), and calls `skill_postflight_update()` from `skill-base.sh` after each dispatch to record the transition. The cycle repeats (`researching -> researched -> planning -> planned -> implementing -> completed`) until the task reaches a terminal state or a blocker is encountered.
+
 ## Two-Phase Update Pattern
 
 When updating task status:

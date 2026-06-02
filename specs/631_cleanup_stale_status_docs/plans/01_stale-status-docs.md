@@ -102,7 +102,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Update status-markers.md to remove stale status-sync-manager content [NOT STARTED]
+### Phase 2: Update status-markers.md to remove stale status-sync-manager content [COMPLETED]
 
 **Goal**: Replace the "Status Update Protocol" section (lines 220-264) and "Atomic Synchronization" section (lines 268-276) with correct documentation describing `skill-base.sh` functions and `update-task-status.sh`. Also clean up the References section (lines 310-315) to remove references to deleted files.
 
@@ -134,7 +134,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Add header note to inline-status-update.md [NOT STARTED]
+### Phase 3: Add header note to inline-status-update.md [COMPLETED]
 
 **Goal**: Add a clarifying note at the top of `inline-status-update.md` identifying `skill-base.sh` as the primary status update path, with these jq patterns serving as reference/fallback documentation.
 
@@ -159,7 +159,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Update skill-status-sync/SKILL.md and rules/state-management.md [NOT STARTED]
+### Phase 4: Update skill-status-sync/SKILL.md and rules/state-management.md [COMPLETED]
 
 **Goal**: Document orchestrate interaction in the skill file and add an orchestrate flow subsection to the state management rule.
 
@@ -182,7 +182,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Verify and validate all changes [NOT STARTED]
+### Phase 5: Verify and validate all changes [COMPLETED]
 
 **Goal**: Run comprehensive verification to ensure all changes are consistent, no stale references remain in the modified files, and mirrors are in sync.
 
