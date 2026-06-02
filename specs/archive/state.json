@@ -25946,6 +25946,162 @@
         }
       ],
       "completion_summary": "Fixed shift 3/shift 2 argument-parsing bugs in generate-task-order.sh; added active_topics array maintenance to all five task-creating commands (task.md, meta-builder-agent.md, skill-fix-it, skill-spawn, errors.md); standardized task.md Part C invocation with bash + -f check pattern. All changes applied to project files and core extension mirrors."
+    },
+    {
+      "project_number": 628,
+      "project_name": "add_preflight_to_orchestrate",
+      "status": "completed",
+      "task_type": "meta",
+      "effort": "1-3 hours",
+      "created": "2026-06-01T23:10:00Z",
+      "last_updated": "2026-06-01T23:29:00Z",
+      "dependencies": [],
+      "topic": "workflow-refactor",
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "specs/628_add_preflight_to_orchestrate/reports/01_preflight-orchestrate-research.md",
+          "summary": "Analysis of missing preflight calls in skill-orchestrate: 5 single-task and 3 multi-task dispatch points identified"
+        },
+        {
+          "type": "plan",
+          "path": "specs/628_add_preflight_to_orchestrate/plans/01_preflight-implementation-plan.md",
+          "summary": "3-phase plan: 5 single-task + 3 multi-task preflight insertion points"
+        },
+        {
+          "type": "summary",
+          "path": "specs/628_add_preflight_to_orchestrate/summaries/01_preflight-implementation-summary.md",
+          "summary": "Implementation summary: 8 preflight calls added to skill-orchestrate"
+        }
+      ],
+      "session_id": "sess_1780355893_0b199c_628",
+      "completion_summary": "Added 8 skill_preflight_update calls to skill-orchestrate SKILL.md: 5 in single-task Stage 4 handlers and 3 in multi-task Stage MT-4 dispatch loops. Internal dispatches correctly excluded."
+    },
+    {
+      "project_number": 629,
+      "project_name": "add_revise_status_support",
+      "status": "completed",
+      "task_type": "meta",
+      "effort": "< 1 hour",
+      "created": "2026-06-01T23:10:00Z",
+      "last_updated": "2026-06-01T23:28:52Z",
+      "dependencies": [],
+      "topic": "workflow-refactor",
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "specs/629_add_revise_status_support/reports/01_revise-status-research.md",
+          "summary": "Analysis of changes needed in update-task-status.sh, skill-base.sh, and skill-reviser for revise support"
+        },
+        {
+          "type": "plan",
+          "path": "specs/629_add_revise_status_support/plans/01_revise-status-implementation.md",
+          "summary": "4-phase plan: extend update-task-status.sh, skill-base.sh, and skill-reviser for revise support"
+        },
+        {
+          "type": "summary",
+          "path": "specs/629_add_revise_status_support/summaries/01_revise-implementation-summary.md",
+          "summary": "Implementation summary: revise support added to 3 files"
+        }
+      ],
+      "session_id": "sess_1780355893_0b199c_629",
+      "completion_summary": "Added revise support to update-task-status.sh (preflight/postflight case entries), skill-base.sh (revised allow-list), and skill-reviser SKILL.md (preflight call + correct postflight target). Verified with dry-runs."
+    },
+    {
+      "project_number": 630,
+      "project_name": "consolidate_orchestrate_postflight",
+      "status": "completed",
+      "task_type": "meta",
+      "effort": "1-3 hours",
+      "created": "2026-06-01T23:10:00Z",
+      "last_updated": "2026-06-01T23:52:39Z",
+      "dependencies": [
+        628
+      ],
+      "topic": "workflow-refactor",
+      "artifacts": [
+        {
+          "path": "specs/630_consolidate_orchestrate_postflight/reports/01_consolidate-postflight.md",
+          "type": "report",
+          "summary": "Full duplication map, refactoring approach with code sketch, risk table, and edge case analysis"
+        },
+        {
+          "path": "specs/630_consolidate_orchestrate_postflight/plans/01_consolidate-postflight.md",
+          "type": "plan",
+          "summary": "Implementation plan for consolidating orchestrate postflight duplicate code"
+        },
+        {
+          "path": "specs/630_consolidate_orchestrate_postflight/summaries/01_consolidate-postflight-summary.md",
+          "type": "summary",
+          "summary": "Execution summary for task 630"
+        }
+      ],
+      "session_id": "sess_1780357272_59e91f",
+      "completion_summary": "Extracted duplicate 24-line artifact-type-to-field-name case block from SKILL.md Stage 5 and Stage MT-4 into shared skill_link_artifact_from_handoff() helper in skill-base.sh. Both call sites now use single-line delegation. Net reduction ~31 lines."
+    },
+    {
+      "project_number": 631,
+      "project_name": "cleanup_stale_status_docs",
+      "status": "completed",
+      "task_type": "meta",
+      "effort": "1-3 hours",
+      "created": "2026-06-01T23:10:00Z",
+      "last_updated": "2026-06-02T00:11:07Z",
+      "dependencies": [
+        628,
+        629,
+        630
+      ],
+      "topic": "workflow-refactor",
+      "artifacts": [
+        {
+          "path": "specs/631_cleanup_stale_status_docs/reports/01_stale-status-docs.md",
+          "type": "report",
+          "summary": "Per-file audit, status-sync-manager reference map, recommendations for each sub-task"
+        },
+        {
+          "path": "specs/631_cleanup_stale_status_docs/plans/01_stale-status-docs.md",
+          "type": "plan",
+          "summary": "Implementation plan with 5 phases and 4 dependency waves"
+        },
+        {
+          "path": "specs/631_cleanup_stale_status_docs/summaries/01_stale-status-docs-summary.md",
+          "type": "summary",
+          "summary": "Execution summary covering all 5 phases of documentation cleanup"
+        }
+      ],
+      "session_id": "sess_1780358127_d1657f",
+      "completion_summary": "Deleted deprecated status-transitions.md and all references. Replaced stale status-sync-manager instructions in status-markers.md with correct skill-base.sh documentation. Added header note to inline-status-update.md. Documented orchestrate interaction in skill-status-sync/SKILL.md and rules/state-management.md. All edits mirrored to core extension copies."
+    },
+    {
+      "project_number": 632,
+      "project_name": "fix_task_order_bootstrap",
+      "status": "completed",
+      "task_type": "meta",
+      "effort": "< 1 hour",
+      "created": "2026-06-01T23:30:00Z",
+      "last_updated": "2026-06-01T23:38:18Z",
+      "dependencies": [],
+      "topic": "workflow-refactor",
+      "artifacts": [
+        {
+          "type": "research",
+          "path": "specs/632_fix_task_order_bootstrap/reports/01_task-order-bootstrap-research.md",
+          "summary": "Analysis of generate-task-order.sh replace-only mode and bootstrap fix design"
+        },
+        {
+          "type": "plan",
+          "path": "specs/632_fix_task_order_bootstrap/plans/01_bootstrap-implementation-plan.md",
+          "summary": "3-phase plan: add bootstrap function, wire call site, verify"
+        },
+        {
+          "type": "summary",
+          "path": "specs/632_fix_task_order_bootstrap/summaries/01_bootstrap-implementation-summary.md",
+          "summary": "Implementation summary: bootstrap_task_order_section function added"
+        }
+      ],
+      "session_id": "sess_1780356554_9fde06",
+      "completion_summary": "Added bootstrap_task_order_section() to generate-task-order.sh that idempotently inserts ## Task Order before ## Tasks when missing. Fixes Task Order generation for all child projects."
     }
   ],
   "abandoned_projects": []
