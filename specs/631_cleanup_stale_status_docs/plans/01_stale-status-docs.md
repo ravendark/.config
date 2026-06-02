@@ -1,7 +1,7 @@
 # Implementation Plan: Task #631
 
 - **Task**: 631 - Clean up stale status documentation and consolidate
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/631_cleanup_stale_status_docs/reports/01_stale-status-docs.md
