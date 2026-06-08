@@ -1,0 +1,18 @@
+{
+  "phase": 3,
+  "phase_name": "Frontmatter and reference validation",
+  "started_at": "2026-06-08T03:38:00Z",
+  "last_updated": "2026-06-08T03:40:00Z",
+  "objectives": [
+    {"id": 1, "description": "Grep the new file for ^model: to confirm no model line exists in frontmatter", "status": "done"},
+    {"id": 2, "description": "Grep the new file for ^allowed-tools: to confirm no allowed-tools line exists", "status": "done"},
+    {"id": 3, "description": "Verify frontmatter YAML structure is parseable (use head -5 and check for --- delimiters)", "status": "done"},
+    {"id": 4, "description": "Extract all @-references from the new file and confirm each target file exists in .opencode/", "status": "done"},
+    {"id": 5, "description": "Confirm there are no remaining references to .claude/context/ or .claude/agents/", "status": "done"},
+    {"id": 6, "description": "Confirm there are no remaining references to Agent tool or Agent(...) dispatch syntax", "status": "done"},
+    {"id": 7, "description": "Compare the new file's content sections (heading-by-heading) against the source to confirm no semantic content was dropped", "status": "done"}
+  ],
+  "current_objective": 7,
+  "approaches_tried": [],
+  "handoff_count": 0
+}

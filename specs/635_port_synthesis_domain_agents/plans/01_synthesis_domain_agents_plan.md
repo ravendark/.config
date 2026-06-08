@@ -1,7 +1,7 @@
 # Implementation Plan: Port Synthesis Domain Agents
 
 - **Task**: 635 - port_synthesis_domain_agents
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 3 hours
 - **Dependencies**: 633 (port_core_script_infrastructure) - [COMPLETED]; 634 (port_orchestrator_system) - [RESEARCHED/PLANNED]
 - **Research Inputs**: specs/635_port_synthesis_domain_agents/reports/01_synthesis_domain_agents_research.md
@@ -67,18 +67,18 @@ No ROADMAP.md items directly map to this task. Task 635 is part of the porting c
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Read source and verify OpenCode context targets [NOT STARTED]
+### Phase 1: Read source and verify OpenCode context targets [COMPLETED]
 
 **Goal**: Confirm the source file structure and verify all target context files exist in `.opencode/`.
 
 **Tasks**:
-- [ ] Read `.claude/agents/synthesis-agent.md` (218 lines) to extract full content
-- [ ] Verify `.opencode/context/formats/report-format.md` exists
-- [ ] Verify `.opencode/context/formats/return-metadata-file.md` exists
-- [ ] Verify `.opencode/context/formats/plan-format.md` exists (referenced for future workflow_type use)
-- [ ] Verify `.opencode/context/repo/project-overview.md` exists (referenced in synthesis-agent context)
-- [ ] Read existing `.opencode/agent/subagents/planner-agent.md` to confirm the 2-field frontmatter pattern (name, description only)
-- [ ] Read `.opencode/docs/reference/standards/agent-frontmatter-standard.md` to confirm `model` and `allowed-tools` are NOT valid OpenCode frontmatter fields
+- [x] Read `.claude/agents/synthesis-agent.md` (218 lines) to extract full content
+- [x] Verify `.opencode/context/formats/report-format.md` exists
+- [x] Verify `.opencode/context/formats/return-metadata-file.md` exists
+- [x] Verify `.opencode/context/formats/plan-format.md` exists (referenced for future workflow_type use)
+- [x] Verify `.opencode/context/repo/project-overview.md` exists (referenced in synthesis-agent context)
+- [x] Read existing `.opencode/agent/subagents/planner-agent.md` to confirm the 2-field frontmatter pattern (name, description only)
+- [x] Read `.opencode/docs/reference/standards/agent-frontmatter-standard.md` to confirm `model` and `allowed-tools` are NOT valid OpenCode frontmatter fields
 
 **Timing**: 30 minutes
 
@@ -95,22 +95,22 @@ Phases within the same wave can execute in parallel.
 - Frontmatter pattern confirmed in at least one existing OpenCode subagent
 - Standard explicitly states `model` is unsupported and no optional fields are supported
 
-### Phase 2: Write the new synthesis-agent.md file [NOT STARTED]
+### Phase 2: Write the new synthesis-agent.md file [COMPLETED]
 
 **Goal**: Create `.opencode/agent/subagents/synthesis-agent.md` with the ported content.
 
 **Tasks**:
-- [ ] Create the new file at `.opencode/agent/subagents/synthesis-agent.md`
-- [ ] Write frontmatter with only `name: synthesis-agent` and `description: Multi-output synthesis for team skills. Reads all teammate finding files in its own fresh context, resolves conflicts, identifies gaps, and writes a unified research report.`
-- [ ] Port the Overview section verbatim
-- [ ] Update Context References from `.claude/context/formats/...` to `.opencode/context/formats/...`
-- [ ] Port the 9-stage Execution Flow verbatim
-- [ ] Port the Error Handling section verbatim
-- [ ] Port the Output Contract section verbatim
-- [ ] Update any references to "Agent tool" or "Agent(...)" to "Task tool" or "Task(...)" (OpenCode uses Task, not Agent)
-- [ ] Update references to the source system to point to `.opencode/` paths
-- [ ] Do NOT include `model: sonnet` in frontmatter
-- [ ] Do NOT include `allowed-tools: Read, Write` in frontmatter (OpenCode does not support this field; if tool restriction is needed, document the intent inline in the Overview)
+- [x] Create the new file at `.opencode/agent/subagents/synthesis-agent.md` *(completed)*
+- [x] Write frontmatter with only `name: synthesis-agent` and `description: Multi-output synthesis for team skills. Reads all teammate finding files in its own fresh context, resolves conflicts, identifies gaps, and writes a unified research report.` *(completed)*
+- [x] Port the Overview section verbatim *(completed)*
+- [x] Update Context References from `.claude/context/formats/...` to `.opencode/context/formats/...` *(completed)*
+- [x] Port the 9-stage Execution Flow verbatim *(completed)*
+- [x] Port the Error Handling section verbatim *(completed)*
+- [x] Port the Output Contract section verbatim *(completed)*
+- [x] Update any references to "Agent tool" or "Agent(...)" to "Task tool" or "Task(...)" (OpenCode uses Task, not Agent) *(completed: no Agent tool references in source)*
+- [x] Update references to the source system to point to `.opencode/` paths *(completed)*
+- [x] Do NOT include `model: sonnet` in frontmatter *(completed)*
+- [x] Do NOT include `allowed-tools: Read, Write` in frontmatter (OpenCode does not support this field; if tool restriction is needed, document the intent inline in the Overview) *(completed: documented inline as convention)*
 
 **Timing**: 1.5 hours
 
@@ -127,18 +127,18 @@ Phases within the same wave can execute in parallel.
 - All context references resolve to existing files in `.opencode/context/`
 - File length is approximately 210 lines (port of 218 lines, minus the 3 stripped frontmatter lines, plus minor OpenCode-specific adjustments)
 
-### Phase 3: Frontmatter and reference validation [NOT STARTED]
+### Phase 3: Frontmatter and reference validation [COMPLETED]
 
 **Goal**: Verify the new file conforms to OpenCode standards and all references are valid.
 
 **Tasks**:
-- [ ] Grep the new file for `^model:` to confirm no `model` line exists in frontmatter
-- [ ] Grep the new file for `^allowed-tools:` to confirm no `allowed-tools` line exists
-- [ ] Verify frontmatter YAML structure is parseable (use `head -5` and check for `---` delimiters)
-- [ ] Extract all `@-references` from the new file and confirm each target file exists in `.opencode/`
-- [ ] Confirm there are no remaining references to `.claude/context/` or `.claude/agents/`
-- [ ] Confirm there are no remaining references to "Agent tool" or `Agent(...)` dispatch syntax
-- [ ] Compare the new file's content sections (heading-by-heading) against the source to confirm no semantic content was dropped
+- [x] Grep the new file for `^model:` to confirm no `model` line exists in frontmatter *(completed: PASS)*
+- [x] Grep the new file for `^allowed-tools:` to confirm no `allowed-tools` line exists *(completed: PASS)*
+- [x] Verify frontmatter YAML structure is parseable (use `head -5` and check for `---` delimiters) *(completed: PASS)*
+- [x] Extract all `@-references` from the new file and confirm each target file exists in `.opencode/` *(completed: 4/4 resolved - report-format.md, return-metadata-file.md, plan-format.md, project-overview.md)*
+- [x] Confirm there are no remaining references to `.claude/context/` or `.claude/agents/` *(completed: PASS)*
+- [x] Confirm there are no remaining references to "Agent tool" or `Agent(...)` dispatch syntax *(completed: PASS - source had no Agent tool references)*
+- [x] Compare the new file's content sections (heading-by-heading) against the source to confirm no semantic content was dropped *(completed: PASS - all 32 headings match)*
 
 **Timing**: 30 minutes
 
@@ -154,7 +154,7 @@ Phases within the same wave can execute in parallel.
 - `grep -n "Agent tool\|Agent(" .opencode/agent/subagents/synthesis-agent.md` returns no matches
 - All `@-references` resolve to existing files
 
-### Phase 4: Smoke test and commit [NOT STARTED]
+### Phase 4: Smoke test and commit [IN PROGRESS]
 
 **Goal**: Confirm the OpenCode agent loader picks up the new synthesis-agent and commit the change.
 

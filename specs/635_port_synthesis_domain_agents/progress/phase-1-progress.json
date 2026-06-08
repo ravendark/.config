@@ -1,0 +1,18 @@
+{
+  "phase": 1,
+  "phase_name": "Read source and verify OpenCode context targets",
+  "started_at": "2026-06-08T03:30:00Z",
+  "last_updated": "2026-06-08T03:35:00Z",
+  "objectives": [
+    {"id": 1, "description": "Read .claude/agents/synthesis-agent.md (218 lines) to extract full content", "status": "done"},
+    {"id": 2, "description": "Verify .opencode/context/formats/report-format.md exists", "status": "done"},
+    {"id": 3, "description": "Verify .opencode/context/formats/return-metadata-file.md exists", "status": "done"},
+    {"id": 4, "description": "Verify .opencode/context/formats/plan-format.md exists (referenced for future workflow_type use)", "status": "done"},
+    {"id": 5, "description": "Verify .opencode/context/repo/project-overview.md exists (referenced in synthesis-agent context)", "status": "done"},
+    {"id": 6, "description": "Read existing .opencode/agent/subagents/planner-agent.md to confirm the 2-field frontmatter pattern (name, description only)", "status": "done"},
+    {"id": 7, "description": "Read .opencode/docs/reference/standards/agent-frontmatter-standard.md to confirm model and allowed-tools are NOT valid OpenCode frontmatter fields", "status": "done"}
+  ],
+  "current_objective": 7,
+  "approaches_tried": [],
+  "handoff_count": 0
+}

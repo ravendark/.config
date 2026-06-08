@@ -1,0 +1,22 @@
+{
+  "phase": 2,
+  "phase_name": "Write the new synthesis-agent.md file",
+  "started_at": "2026-06-08T03:35:00Z",
+  "last_updated": "2026-06-08T03:38:00Z",
+  "objectives": [
+    {"id": 1, "description": "Create the new file at .opencode/agent/subagents/synthesis-agent.md", "status": "done"},
+    {"id": 2, "description": "Write frontmatter with only name: synthesis-agent and description", "status": "done"},
+    {"id": 3, "description": "Port the Overview section verbatim", "status": "done"},
+    {"id": 4, "description": "Update Context References from .claude/context/ to .opencode/context/", "status": "done"},
+    {"id": 5, "description": "Port the 9-stage Execution Flow verbatim", "status": "done"},
+    {"id": 6, "description": "Port the Error Handling section verbatim", "status": "done"},
+    {"id": 7, "description": "Port the Output Contract section verbatim", "status": "done"},
+    {"id": 8, "description": "Update Agent tool / Agent(...) references to Task tool / Task(...)", "status": "done"},
+    {"id": 9, "description": "Update references to source system to .opencode/ paths", "status": "done"},
+    {"id": 10, "description": "Do NOT include model: sonnet in frontmatter", "status": "done"},
+    {"id": 11, "description": "Do NOT include allowed-tools: Read, Write in frontmatter", "status": "done"}
+  ],
+  "current_objective": 11,
+  "approaches_tried": [],
+  "handoff_count": 0
+}
