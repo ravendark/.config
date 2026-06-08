@@ -28,7 +28,7 @@ next_project_number: 639
 
 ### 638. Fix generate-task-order.sh to create Task Order section when missing
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
 

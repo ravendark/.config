@@ -5,15 +5,16 @@
     {
       "project_number": 638,
       "project_name": "fix_generate_task_order_missing_section",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-08T18:00:00Z",
-      "last_updated": "2026-06-08T18:00:00Z",
+      "last_updated": "2026-06-08T18:25:24Z",
       "session_id": "sess_1780939217_meta01",
       "dependencies": [],
-      "artifacts": []
+      "artifacts": [],
+      "completion_summary": "Applied bootstrap_task_order_section() and un-slugify fix to generate-task-order.sh in 4 downstream projects (cslib, BimodalHarness, BimodalLogic, ModelChecker). All copies now match the nvim reference."
     },
     {
       "project_number": 87,
