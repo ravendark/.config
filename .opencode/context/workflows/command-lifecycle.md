@@ -265,7 +265,7 @@ The `/task` command follows a different pattern from workflow commands since it 
 **Stage 2 (CreateTask):**
 - Read next_project_number from state.json using jq
 - Format TODO.md entry with proper metadata
-- Prepend new entry after `## Tasks` heading in TODO.md (insert at top, not bottom)
+- Append to correct priority section in TODO.md
 - Update state.json (increment next_project_number, add to active_projects)
 - Verify updates succeeded
 - Return task number to user
@@ -289,8 +289,7 @@ entry="### ${next_number}. ${description}
 
 ---"
 
-# Insert after ## Tasks heading in TODO.md (using Edit tool with heading-anchored pattern)
-# Use: oldString: "## Tasks\n" / newString: "## Tasks\n\n{entry}\n"
+# Append to TODO.md (using Edit tool)
 # Update state.json (using jq)
 jq '.next_project_number = (.next_project_number + 1) | 
     .active_projects += [...]' specs/state.json
@@ -400,9 +399,9 @@ When creating new checkpoint-based commands:
 
 - **State Management:** `.opencode/context/orchestration/state-management.md`
 - **Status Sync Skill:** `.opencode/skills/skill-status-sync.md`
-- **Research Agent:** `.opencode/agent/subagents/general-research-agent.md`
-- **Planner Agent:** `.opencode/agent/subagents/planner-agent.md`
-- **Implementation Agent:** `.opencode/agent/subagents/general-implementation-agent.md`
+- **Research Agent:** `.opencode/agents/general-research-agent.md`
+- **Planner Agent:** `.opencode/agents/planner-agent.md`
+- **Implementation Agent:** `.opencode/agents/general-implementation-agent.md`
 - **Command Files:** `.opencode/commands/{research,plan,revise,implement,task}.md`
 
 ## Validation

@@ -189,7 +189,7 @@
     {
       "project_number": 636,
       "project_name": "sync_context_rules_extensions_cleanup",
-      "status": "not_started",
+      "status": "implementing",
       "task_type": "meta",
       "effort": "2-3 hours",
       "created": "2026-06-07T00:00:00Z",
@@ -199,7 +199,16 @@
         634,
         635
       ],
-      "artifacts": []
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/636_sync_context_rules_extensions_cleanup/reports/01_sync-audit.md"
+        },
+        {
+          "type": "plan",
+          "path": "specs/636_sync_context_rules_extensions_cleanup/plans/01_sync-cleanup-plan.md"
+        }
+      ]
     },
     {
       "project_number": 637,

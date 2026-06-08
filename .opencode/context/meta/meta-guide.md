@@ -254,6 +254,6 @@ The `meta-builder-agent` is only invoked by `/meta` itself -- it is not used dur
 |------|---------|
 | `.opencode/commands/meta.md` | Command entry point with mode detection |
 | `.opencode/skills/skill-meta/SKILL.md` | Skill wrapper with delegation context |
-| `.opencode/agent/subagents/meta-builder-agent.md` | Full agent specification (source of truth) |
+| `.opencode/agents/meta-builder-agent.md` | Full agent specification (source of truth) |
 | `.opencode/docs/reference/standards/multi-task-creation-standard.md` | Multi-task creation standard |
 | `.opencode/docs/guides/component-selection.md` | Component selection guide (loaded during interview) |

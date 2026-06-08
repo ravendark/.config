@@ -568,7 +568,7 @@ Load context on-demand:
 ## References
 
 - **Command**: `.opencode/commands/implement.md`
-- **Agent**: `.opencode/agent/subagents/general-implementation-agent.md`
+- **Agent**: `.opencode/agents/general-implementation-agent.md`
 - **Return Format**: `.opencode/context/formats/subagent-return.md`
 - **Artifact Formats**: `.opencode/rules/artifact-formats.md`
 - **Delegation**: `.opencode/context/orchestration/delegation.md`

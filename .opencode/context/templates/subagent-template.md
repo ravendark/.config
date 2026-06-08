@@ -1,6 +1,6 @@
 # Subagent Template
 
-Canonical template for subagents invoked via the Task tool. See `.opencode/context/templates/agent-template.md` for the primary agent template - all subagents share the same structure.
+Canonical template for subagents invoked via the Agent tool. See `.opencode/context/templates/agent-template.md` for the primary agent template - all subagents share the same structure.
 
 ## Frontmatter
 
@@ -10,6 +10,7 @@ Subagents use the minimal agent frontmatter defined in `.opencode/docs/reference
 ---
 name: <subagent-name>
 description: <brief description of subagent purpose>
+model: opus
 ---
 ```
 
@@ -19,7 +20,7 @@ Subagents follow the same Stage 0 through Stage 7 execution flow documented in `
 
 ### Subagent-Specific Stage 1 (Parse Delegation Context)
 
-When the skill spawns a subagent via the Task tool, the subagent receives delegation context as the initial message:
+When the skill spawns a subagent via the Agent tool, the subagent receives delegation context as the initial message:
 
 ```json
 {
@@ -46,7 +47,7 @@ See `.opencode/context/formats/subagent-return.md` for the complete return-forma
 
 ## Depth Limits
 
-Subagents enforce `delegation_depth < 3` to prevent runaway recursion. A subagent at depth 2 may NOT spawn further subagents via the Task tool.
+Subagents enforce `delegation_depth < 3` to prevent runaway recursion. A subagent at depth 2 may NOT spawn further subagents via the Agent tool.
 
 ## Related Context
 

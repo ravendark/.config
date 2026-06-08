@@ -88,12 +88,22 @@ Before writing anything else, update the progress file to reflect exact current 
 }
 ```
 
+### 1.5. Annotate Plan File (Final Checkpoint)
+
+Before writing the handoff document, update the plan file to reflect exact current state:
+
+1. For each completed task in the current phase: ensure `- [x]` with `*(completed)*` annotation if not already annotated
+2. For the in-progress task (if any): append `*(in progress — handoff)*`
+3. For each deviation logged in the progress file `deviations` array: write the `annotation` value inline on the corresponding checklist item
+
+This ensures the plan file is a reliable resume point for successors even if the handoff artifact is lost.
+
 ### 2. Write Handoff Artifact
 
 Follow the template from `handoff-artifact.md`:
 
 ```markdown
-# Phase 3 Handoff - 02_01
+# Phase 3 Handoff - 20260504T120000Z
 
 ## Immediate Next Action
 Implement the date validator in validators/date.lua, following the pattern established by string and number validators.
@@ -106,6 +116,9 @@ Implement the date validator in validators/date.lua, following the pattern estab
 ## Key Decisions Made
 1. Use table-based registry: Allows runtime extension without modifying core code
 2. Return `(valid, error_message)` tuple: Consistent with Lua error handling patterns
+
+## Deviations from Plan
+- None
 
 ## What NOT to Try
 1. Schema-based validation: Overkill for current type set
@@ -134,14 +147,14 @@ Write metadata with:
   "partial_progress": {
     "stage": "context_exhaustion_handoff",
     "details": "Handoff written for successor. See handoff artifact for current state.",
-    "handoff_path": "specs/259_configure_feature/handoffs/02_01_implement-date-validator.md",
+    "handoff_path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260504T120000Z.md",
     "phases_completed": 2,
     "phases_total": 5
   },
   "artifacts": [
     {
       "type": "handoff",
-      "path": "specs/259_configure_feature/handoffs/02_01_implement-date-validator.md",
+      "path": "specs/259_configure_feature/handoffs/phase-3-handoff-20260504T120000Z.md",
       "summary": "Context exhaustion handoff for phase 3 with state and approach constraints"
     }
   ]
@@ -159,6 +172,7 @@ Write metadata with:
 3. **Skip the progress file update** — The progress file is the successor's primary resume point.
 4. **Include full file contents in handoffs** — Handoffs must be one screen (~40 lines). Reference files, don't inline them.
 5. **Hand off mid-edit** — Complete the current file operation before handing off. A handoff in the middle of an incomplete edit creates confusion.
+6. **Skip plan file annotation at handoff** — If you hand off without annotating the plan file, successors must re-discover which tasks were completed versus pending. Always annotate the plan before handing off.
 
 ### DO
 

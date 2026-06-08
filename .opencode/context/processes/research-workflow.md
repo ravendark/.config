@@ -558,7 +558,7 @@ Use most appropriate tool for each research task:
 ## References
 
 - **Command**: `.opencode/commands/research.md`
-- **Agent**: `.opencode/agent/subagents/general-research-agent.md`
+- **Agent**: `.opencode/agents/general-research-agent.md`
 - **Return Format**: `.opencode/context/formats/subagent-return.md`
 - **Artifact Formats**: `.opencode/rules/artifact-formats.md`
 - **Extension Context**: `.opencode/extensions/*/context/` (task-type-specific)

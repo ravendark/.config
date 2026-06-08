@@ -1,10 +1,10 @@
-# Anti-Stop Patterns for OpenCode Agent Systems
+# Anti-Stop Patterns for Claude Code Agent Systems
 
 ## Critical Background
 
 Claude interprets certain words and phrases as signals to stop execution immediately. This causes workflow delegation to fail when subagents return these patterns, because the orchestrator's postflight (status updates, git commits) never runs.
 
-**Root Cause**: OpenCode treats certain return values as "conversation complete" signals, halting execution before the calling skill/orchestrator can continue.
+**Root Cause**: Claude Code treats certain return values as "conversation complete" signals, halting execution before the calling skill/orchestrator can continue.
 
 **Impact**: Workflow commands like /research, /plan, /implement stop prematurely, leaving tasks in inconsistent states (e.g., [RESEARCHING] instead of [RESEARCHED]).
 
@@ -116,7 +116,7 @@ The status sync skill uses direct execution (Bash, Edit, Read) for atomic status
 
 When /meta creates new agents or skills, it must apply anti-stop patterns to the generated templates.
 
-**Location**: `.opencode/agent/subagents/meta-builder-agent.md`
+**Location**: `.opencode/agents/meta-builder-agent.md`
 
 ## Validation
 
@@ -126,16 +126,16 @@ Verify no forbidden patterns exist:
 
 ```bash
 # Check for "completed" status in agent return schemas
-grep '"status": "completed' .opencode/agent/subagents/*.md
+grep '"status": "completed' .opencode/agents/*.md
 
 # Check for "Task complete" in skill files
 grep -r "Task complete" .opencode/skills/
 
 # Check for "completed|partial|failed" pattern (old format)
-grep '"completed|partial|failed"' .opencode/agent/subagents/*.md
+grep '"completed|partial|failed"' .opencode/agents/*.md
 
 # Verify anti-stop language is present
-grep "triggers Claude stop behavior" .opencode/agent/subagents/*.md | wc -l
+grep "triggers Claude stop behavior" .opencode/agents/*.md | wc -l
 # Expected: 6 (one per agent file)
 ```
 
@@ -145,7 +145,7 @@ Add to CI/pre-commit hook:
 
 ```bash
 # Fail if any agent uses "completed" status
-if grep -q '"status": "completed' .opencode/agent/subagents/*.md; then
+if grep -q '"status": "completed' .opencode/agents/*.md; then
   echo "ERROR: Agent files contain forbidden 'completed' status value"
   exit 1
 fi

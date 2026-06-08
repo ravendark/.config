@@ -1,0 +1,14 @@
+{
+  "status": "planned",
+  "summary": "6-phase plan to sync ~96 stale context files, 12 missing files, 3 hook scripts, 2 manifest updates, 1 stale deletion, and settings.json backport from .claude/ to .opencode/",
+  "blockers": [],
+  "artifacts": [
+    {
+      "type": "plan",
+      "path": "specs/636_sync_context_rules_extensions_cleanup/plans/01_sync-cleanup-plan.md"
+    }
+  ],
+  "next_action_hint": "implement",
+  "phases_completed": 0,
+  "phases_total": 6
+}

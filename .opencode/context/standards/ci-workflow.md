@@ -45,9 +45,9 @@ The marker can appear anywhere in the commit message:
 | Research reports (.md) | No | No build impact |
 | Implementation plans (.md) | No | No build impact |
 | TODO.md / state.json | No | Task management only |
-| AGENTS.md updates | No | Configuration only |
+| CLAUDE.md updates | No | Configuration only |
 | Context files (.opencode/context/) | No | Documentation only |
-| Skills/agents (.opencode/skills/, .opencode/agent/subagents/) | No | Orchestration only |
+| Skills/agents (.opencode/skills/, .opencode/agents/) | No | Orchestration only |
 
 ## Task Lifecycle CI Triggers
 

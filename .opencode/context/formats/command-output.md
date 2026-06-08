@@ -432,7 +432,7 @@ High Priority:
 Medium Priority:
 - Task #266: Add export agent
   Path: specs/266_add_export_agent/
-- Task #267: Update AGENTS.md references
+- Task #267: Update CLAUDE.md references
   Path: specs/267_update_claudemd_references/
 
 Next Steps:

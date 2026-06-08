@@ -2,11 +2,15 @@
   "permissions": {
     "allow": [
       "Bash(git:*)",
+      "Bash(nvim *)",
+      "Bash(luac *)",
       "Bash(lake *)",
       "Bash(pdflatex *)",
       "Bash(latexmk *)",
       "Bash(bibtex *)",
       "Bash(biber *)",
+      "Bash(pnpm *)",
+      "Bash(npx *)",
       "Bash(cd *)",
       "Bash(ls *)",
       "Bash(mkdir *)",
@@ -40,7 +44,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r \".file_path // empty\" 2>/dev/null); if [[ \"$FILE\" == *\"state.json\"* ]]; then echo \"{\\\"permissionDecision\\\": \\\"allow\\\", \\\"permissionDecisionReason\\\": \\\"State file write\\\"}\"; else echo \"{\\\"permissionDecision\\\": \\\"allow\\\"}\"; fi'"
+            "command": "bash -c 'FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r \".file_path // empty\" 2>/dev/null); if [[ \"$FILE\" == *\"specs/state.json\"* ]]; then echo \"{\\\"permissionDecision\\\": \\\"allow\\\", \\\"permissionDecisionReason\\\": \\\"State file write\\\"}\"; else echo \"{\\\"permissionDecision\\\": \\\"allow\\\"}\"; fi'"
           }
         ]
       }
@@ -71,7 +75,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/wezterm-clear-task-number.sh 2>/dev/null || echo '{}'"
+            "command": "bash .claude/hooks/wezterm-clear-task-number.sh 2>/dev/null || echo '{}'",
+            "timeout": 5000
           }
         ]
       },
@@ -84,7 +89,8 @@
           },
           {
             "type": "command",
-            "command": "bash scripts/claude-ready-signal.sh 2>/dev/null || echo '{}'"
+            "command": "bash ~/.config/nvim/scripts/claude-ready-signal.sh 2>/dev/null || echo '{}'",
+            "timeout": 5000
           }
         ]
       }
@@ -99,7 +105,8 @@
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/claude-stop-notify.sh 2>/dev/null || echo '{}'"
+            "command": "bash .claude/hooks/claude-stop-notify.sh 2>/dev/null || echo '{}'",
+            "timeout": 5000
           },
           {
             "type": "command",
@@ -114,11 +121,13 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/wezterm-task-number.sh 2>/dev/null || echo '{}'"
+            "command": "bash .claude/hooks/wezterm-task-number.sh 2>/dev/null || echo '{}'",
+            "timeout": 5000
           },
           {
             "type": "command",
-            "command": "bash .claude/hooks/wezterm-preflight-status.sh 2>/dev/null || echo '{}'"
+            "command": "bash .claude/hooks/wezterm-preflight-status.sh 2>/dev/null || echo '{}'",
+            "timeout": 5000
           }
         ]
       }
@@ -141,7 +150,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/tts-notify.sh 2>/dev/null || echo '{}'"
+            "command": "bash .claude/hooks/tts-notify.sh 2>/dev/null || echo '{}'",
+            "timeout": 10000
           }
         ]
       }

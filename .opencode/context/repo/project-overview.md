@@ -30,8 +30,8 @@ specs/                       # Task management
     ├── plans/
     └── summaries/
 
-.opencode/                     # OpenCode configuration
-├── AGENTS.md               # Main reference
+.opencode/                     # Claude Code configuration
+├── CLAUDE.md               # Main reference
 ├── commands/               # Slash commands
 ├── skills/                 # Skill definitions
 ├── agents/                 # Agent definitions
@@ -65,6 +65,6 @@ See `.opencode/extensions/*/manifest.json` for available extensions, their capab
 
 ## Related Documentation
 
-- `.opencode/AGENTS.md` - Agent system configuration
+- `.opencode/CLAUDE.md` - Agent system configuration
 - `.opencode/extensions/` - Extension modules with project-specific context
-- `AGENTS.md` (project root) - Project-specific coding standards
+- `CLAUDE.md` (project root) - Project-specific coding standards

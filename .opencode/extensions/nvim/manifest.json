@@ -29,9 +29,15 @@
     "research": {
       "neovim": "skill-neovim-research"
     },
+    "plan": {
+      "neovim": "skill-planner"
+    },
     "implement": {
       "neovim": "skill-neovim-implementation"
     }
+  },
+  "hooks": {
+    "context_injection": "scripts/nvim-context.sh"
   },
   "merge_targets": {
     "opencode_md": {

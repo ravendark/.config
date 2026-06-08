@@ -21,8 +21,10 @@ return {
       line_length = 1000,  -- Lines longer than this trigger bigfile mode
       ---@param ctx {buf: number, ft: string}
       setup = function(ctx)
-        -- Exclude tex files from bigfile mode (preserves ftplugin keymaps)
-        if ctx.ft == "tex" then
+        -- Exclude tex/markdown from bigfile mode
+        -- tex: preserves ftplugin keymaps
+        -- markdown: legacy syntax misflags underscores in snake_case as broken emphasis
+        if ctx.ft == "tex" or ctx.ft == "markdown" then
           vim.bo[ctx.buf].filetype = ctx.ft
           return
         end

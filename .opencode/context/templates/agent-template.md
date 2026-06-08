@@ -12,6 +12,7 @@ All agents use the minimal frontmatter format defined in `.opencode/docs/referen
 ---
 name: <agent-name>
 description: <brief description of agent purpose>
+model: opus
 ---
 ```
 
@@ -19,7 +20,7 @@ description: <brief description of agent purpose>
 
 **Optional field**: `model` (values: `opus`, `sonnet`)
 
-**Do NOT include** these fields - they are not supported by the current Task tool:
+**Do NOT include** these fields - they are not supported by the current Agent tool:
 - `mode`
 - `version`
 - `temperature`
@@ -84,18 +85,21 @@ See `.opencode/rules/error-handling.md`. Agent-specific overrides documented her
 
 ### Research Agent
 
+- Typical model: `opus`
 - Primary artifact: `specs/{NNN}_{SLUG}/reports/MM_{short-slug}.md`
 - Key sources: web search, codebase exploration, MCP tools
 - Status transitions: `researching` -> `researched`
 
 ### Planning Agent
 
+- Typical model: `opus`
 - Primary artifact: `specs/{NNN}_{SLUG}/plans/MM_{short-slug}.md`
 - Plan format: see `.opencode/rules/plan-format-enforcement.md`
 - Status transitions: `planning` -> `planned`
 
 ### Implementation Agent
 
+- Typical model: (default, omit `model:` field)
 - Primary artifacts: source files, tests, configuration
 - Secondary artifact: `specs/{NNN}_{SLUG}/summaries/MM_{short-slug}-summary.md`
 - Phase-level git commits: `task {N} phase {P}: {name}`

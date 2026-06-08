@@ -98,7 +98,7 @@ routing:
 ---
 name: skill-{name}
 description: {One-line description}
-allowed-tools: Task
+allowed-tools: Agent
 context: fork
 agent: {agent-name}
 ---
@@ -164,7 +164,7 @@ session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 **CRITICAL**: Use the **Task** tool to spawn the subagent.
 
 ```
-Tool: Task (NOT Skill)
+Tool: Agent (NOT Skill, NOT Plan)
 Parameters:
   - subagent_type: "{agent-name}"
   - prompt: [Include task_context, delegation_context]
@@ -202,8 +202,8 @@ Return partial status if subagent times out.
 
 ### Generation Rules for Skills
 
-1. **Use thin wrapper pattern** - `context: fork`, `allowed-tools: Task`
-2. **Always use Task tool** - Never Skill tool for agent invocation
+1. **Use thin wrapper pattern** - `context: fork`, `allowed-tools: Agent`
+2. **Always use Agent tool** - Never Skill tool for agent invocation
 3. **Include session_id generation** - Portable bash command
 4. **Validate returns** - Check all required fields
 5. **Document trigger conditions** - When does this skill activate?
@@ -228,7 +228,7 @@ description: {One-line description}
 
 - **Name**: {name}-agent
 - **Purpose**: {What this agent does}
-- **Invoked By**: skill-{name} (via Task tool)
+- **Invoked By**: skill-{name} (via Agent tool)
 - **Return Format**: JSON (see subagent-return.md)
 
 ## Allowed Tools
@@ -348,7 +348,7 @@ Return ONLY valid JSON:
 
 ### Generation Rules for Agents
 
-1. **Include frontmatter** - Required for OpenCode recognition
+1. **Include frontmatter** - Required for Claude Code recognition
 2. **Document allowed tools** - List all tools the agent uses
 3. **Use @-references** - For context loading
 4. **Include execution stages** - Clear multi-stage workflow
@@ -399,7 +399,7 @@ ls .opencode/commands/{name}.md
 ls .opencode/skills/skill-{name}/SKILL.md
 
 # Agent
-ls .opencode/agent/subagents/{name}-agent.md
+ls .opencode/agents/{name}-agent.md
 ```
 
 ### 2. Frontmatter Validity
@@ -411,12 +411,12 @@ head -20 {file_path}
 ### 3. Anti-Stop Compliance
 ```bash
 # Should return 0 matches for generated agent
-grep '"status": "completed"' .opencode/agent/subagents/{name}-agent.md
+grep '"status": "completed"' .opencode/agents/{name}-agent.md
 ```
 
-### 4. Task Tool Usage (Skills)
+### 4. Agent Tool Usage (Skills)
 ```bash
-# Should find Task tool reference
+# Should find Agent tool reference
 grep -i "task tool" .opencode/skills/skill-{name}/SKILL.md
 ```
 

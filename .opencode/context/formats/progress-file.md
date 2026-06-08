@@ -74,7 +74,16 @@ specs/{N}_{SLUG}/
       "reason": "Works for basic types but needs custom extensions for domain types"
     }
   ],
-  "handoff_count": 0
+  "handoff_count": 0,
+  "deviations": [
+    {
+      "task_id": "3.2",
+      "description": "Brief description of the plan step",
+      "type": "skipped",
+      "reason": "One sentence explanation",
+      "annotation": "*(deviation: skipped — reason)*"
+    }
+  ]
 }
 ```
 
@@ -136,6 +145,24 @@ Each approach:
 
 **Purpose**: Prevents successor teammates from retrying approaches that already failed.
 
+### deviations (optional)
+
+**Type**: array of objects
+**Default**: `[]`
+**Description**: Log of plan steps that were skipped, altered, or deferred during this phase
+
+Each deviation:
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `task_id` | string | Yes | Plan task ID (e.g., "3.2" for Phase 3, Task 2) |
+| `description` | string | Yes | Brief description matching the plan checklist text |
+| `type` | enum | Yes | `"skipped"`, `"altered"`, or `"deferred"` |
+| `reason` | string | Yes | One-sentence explanation |
+| `annotation` | string | Yes | The exact inline annotation text written into the plan file |
+
+**Purpose**: Provides a structured log for the summary's `## Plan Deviations` section and handoff's `## Deviations from Plan` section.
+
 ### handoff_count (required)
 
 **Type**: integer
@@ -147,6 +174,7 @@ Teammates should update the progress file:
 
 1. **When starting a phase**: Create the file with objectives from the plan
 2. **After completing each objective**: Set status to `done`, update `current_objective`
+2.5. **After completing a phase (post-phase self-review)**: Re-read the phase task checklist in the plan. For each unchecked item that will not be completed, add a deviation entry. Write deviation annotations into the plan file checklist.
 3. **When an approach fails**: Add to `approaches_tried`
 4. **Before writing handoff**: Ensure progress file reflects current state
 5. **On handoff**: Increment `handoff_count`
@@ -239,7 +267,16 @@ The successor reads the progress file to understand exactly what was completed.
       "reason": "Works for primitives, need adaptation for domain types"
     }
   ],
-  "handoff_count": 1
+  "handoff_count": 1,
+  "deviations": [
+    {
+      "task_id": "3.4",
+      "description": "Integrate validators with main handler",
+      "type": "deferred",
+      "reason": "Handler refactor is blocked on a separate PR; deferring to task 261",
+      "annotation": "*(deviation: deferred to task 261)*"
+    }
+  ]
 }
 ```
 

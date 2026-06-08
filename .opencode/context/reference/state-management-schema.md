@@ -7,12 +7,22 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
 ```json
 {
   "next_project_number": 346,
+  "active_topics": [
+    "completeness",
+    "decidability",
+    "formula-refactor",
+    "frame-extensions",
+    "algebraic-representation",
+    "bilateral",
+    "agent-system"
+  ],
   "active_projects": [
     {
       "project_number": 334,
       "project_name": "task_slug_here",
       "status": "planned",
       "task_type": "general",
+      "topic": "completeness",
       "effort": "4 hours",
       "created": "2026-01-08T10:00:00Z",
       "last_updated": "2026-01-08T14:30:00Z",
@@ -55,6 +65,17 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
 
 ## Field Reference
 
+### Top-Level Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `next_project_number` | number | Yes | Next task number to assign |
+| `active_topics` | string[] | No | Canonical ordered list of topic taxonomy values. Used by task-creation commands to populate the topic picker and by `generate-task-order.sh` to determine topic rendering order. |
+| `active_projects` | array | Yes | All active (non-archived) task entries |
+| `repository_health` | object | No | Repository health assessment |
+| `vault_count` | number | No | Number of completed vault operations |
+| `vault_history` | array | No | History of vault operations |
+
 ### Project Entry Fields
 
 | Field | Type | Required | Description |
@@ -63,6 +84,7 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
 | `project_name` | string | Yes | Snake_case slug from title |
 | `status` | string | Yes | Current status (see Status Values) |
 | `task_type` | string | Yes | Task type for routing (see Task Type Values). Bare values (`meta`, `general`) or compound `extension:subtype` (`present:grant`, `founder:deck`) |
+| `topic` | string | No | Semantic domain of the task. Kebab-case value from the `active_topics` array (e.g., `"completeness"`, `"agent-system"`). Optional — absent means task appears under "Uncategorized" in Task Order. |
 | `effort` | string | No | Estimated effort |
 | `created` | string | Yes | ISO8601 creation timestamp |
 | `last_updated` | string | Yes | ISO8601 last update timestamp |
@@ -183,7 +205,7 @@ The `memory_candidates` array on task entries accumulates structured memory cand
 
 **Responsibility Split**:
 - **`/implement` (Producer)**: Reports what was changed factually
-- **`/todo` (Consumer)**: Evaluates content and decides what warrants AGENTS.md updates
+- **`/todo` (Consumer)**: Evaluates content and decides what warrants CLAUDE.md updates
 
 ### Dependencies Field
 
@@ -319,45 +341,13 @@ specs/{NNN}_{SLUG}/
 
 **Note**: Directory numbers use 3-digit zero-padding (e.g., `014_task_name`). Use `printf "%03d" $task_num` for path construction.
 
-**System-specific naming**: All tasks use `specs/{NNN}_{SLUG}/` (plain numbers, no prefix).
+**System-specific naming**: Claude Code uses `specs/{NNN}_{SLUG}/` (no prefix). OpenCode uses `specs/OC_{NNN}_{SLUG}/` (OC_ prefix).
 
 **Correct Pattern**:
 ```bash
 padded_num=$(printf "%03d" "$task_num")
 mkdir -p "specs/${padded_num}_${slug}/reports"
 write "specs/${padded_num}_${slug}/reports/01_research-findings.md"
-```
-
-## Recommended Order Section
-
-The `## Recommended Order` section in TODO.md provides a topologically-sorted list of active tasks.
-
-### Section Format
-```markdown
-## Recommended Order
-
-1. **995** -> plan + implement (unblocks 988, 989, 997)
-2. **996** -> research (independent)
-3. **997** -> implement (independent)
-```
-
-### Action Hint Derivation
-
-| Task Status | Action Hint |
-|-------------|-------------|
-| `not_started`, `researching` | `research` |
-| `researched`, `planning` | `plan` |
-| `planned`, `implementing`, `partial` | `implement` |
-| `completed` | `complete` |
-| `blocked` | `blocked` |
-| `abandoned`, `expanded` | `skip` |
-
-### Utility Script
-
-```bash
-.opencode/scripts/update-recommended-order.sh add TASK_NUM
-.opencode/scripts/update-recommended-order.sh remove TASK_NUM
-.opencode/scripts/update-recommended-order.sh refresh
 ```
 
 ## Examples

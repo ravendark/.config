@@ -61,7 +61,7 @@ session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 1. Determine target skill by language
 2. Prepare delegation context (session_id, depth, path)
 3. Invoke skill
-4. Skill invokes agent via Task tool
+4. Skill invokes agent via Agent tool
 5. Agent creates artifacts
 6. Return structured result (JSON or metadata file)
 
@@ -147,7 +147,7 @@ Session: {session_id}
 
 ### Handling Interrupted Agents
 
-When agent is interrupted (MCP abort, timeout, OpenCode abort), the early metadata pattern
+When agent is interrupted (MCP abort, timeout, Claude Code abort), the early metadata pattern
 ensures a metadata file exists. Postflight should handle this gracefully:
 
 **Detection**: Metadata file exists but `status: "in_progress"`

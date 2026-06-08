@@ -533,7 +533,7 @@ Load context on-demand:
 ## References
 
 - **Command**: `.opencode/commands/plan.md`
-- **Agent**: `.opencode/agent/subagents/planner-agent.md`
+- **Agent**: `.opencode/agents/planner-agent.md`
 - **Plan Format**: `.opencode/context/formats/plan-format.md`
 - **Return Format**: `.opencode/context/formats/subagent-return.md`
 - **Artifact Formats**: `.opencode/rules/artifact-formats.md`

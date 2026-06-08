@@ -44,9 +44,16 @@
     "research": {
       "nix": "skill-nix-research"
     },
+    "plan": {
+      "nix": "skill-planner"
+    },
     "implement": {
       "nix": "skill-nix-implementation"
     }
+  },
+  "hooks": {
+    "preflight": "scripts/nix-preflight.sh",
+    "context_injection": "scripts/nix-context.sh"
   },
   "mcp_servers": {
     "mcp-nixos": {

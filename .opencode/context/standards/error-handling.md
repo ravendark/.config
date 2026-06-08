@@ -1046,7 +1046,7 @@ validation:
 
 **Examples**:
 - `.opencode/command/research.md` - Command error handling
-- `.opencode/agent/subagents/` - Agent error handling examples
+- `.opencode/agents/` - Agent error handling examples
 
 ---
 

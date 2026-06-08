@@ -58,7 +58,7 @@ Headers appear above the question in the UI.
 | TODO Selection | todos | Not Title Case |
 | Confirm | Are you sure? | Question, not noun |
 | Orphans | Orphaned Directories Found in Specs | Too long |
-| AGENTS.md Updates | claude suggestions | Not Title Case |
+| CLAUDE.md Updates | claude suggestions | Not Title Case |
 
 ## Label Format Guidelines
 
