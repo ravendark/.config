@@ -21,7 +21,7 @@ next_project_number: 638
 
 78 [PLANNED] — fix himalaya smtp authentication failure
 87 [RESEARCHED] — investigate wezterm terminal directory change
-634 [NOT STARTED] — port orchestrator system
+634 [RESEARCHED] — port orchestrator system
   └─ 636 [NOT STARTED] — sync context rules extensions cleanup
     └─ 637 [NOT STARTED] — verification and drift detection
   └─ 637 [NOT STARTED] — verification and drift detection (see above)
@@ -55,9 +55,10 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 634. Port orchestrator system (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
+- **Research**: [634_port_orchestrator_system/reports/01_port_orchestrator_research.md]
 
 **Description**: Port the orchestrator system:
 - `/orchestrate` command definition
