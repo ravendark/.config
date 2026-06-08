@@ -101,11 +101,11 @@
     {
       "project_number": 635,
       "project_name": "port_synthesis_domain_agents",
-      "status": "researched",
+      "status": "planned",
       "task_type": "meta",
       "effort": "1-2 hours",
       "created": "2026-06-07T00:00:00Z",
-      "last_updated": "2026-06-08T03:20:10Z",
+      "last_updated": "2026-06-08T04:12:26Z",
       "dependencies": [
         633
       ],
@@ -114,9 +114,14 @@
           "path": "specs/635_port_synthesis_domain_agents/reports/01_synthesis_domain_agents_research.md",
           "type": "report",
           "summary": "Research report on porting synthesis domain agents: identifies that the core synthesis-agent (218 lines) is missing from .opencode/, while 24 domain-specific synthesis agents in present/founder extensions are content-equivalent. Recommended phased approach: Tier 1 (port synthesis-agent.md), Tier 2 (rewire team skills - out of scope)."
+        },
+        {
+          "path": "specs/635_port_synthesis_domain_agents/plans/01_synthesis_domain_agents_plan.md",
+          "type": "plan",
+          "summary": "Phased implementation plan to port the core synthesis-agent (218 lines) from .claude/agents/synthesis-agent.md to .opencode/agent/subagents/synthesis-agent.md. 4 phases: verify targets, write the new file, validate frontmatter/references, and smoke-test. Tier 2 skill rewiring and Tier 4 domain agent sweep are documented as out-of-scope follow-ups. Total effort: 3 hours."
         }
       ],
-      "session_id": "sess_1780888160_fbccf5",
+      "session_id": "sess_1780891769_6a6233",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
