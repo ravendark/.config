@@ -24,7 +24,7 @@ next_project_number: 638
 
 ### 633. Port core script infrastructure from .claude/ to .opencode/
 - **Effort**: 3-4 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: None
 
@@ -41,7 +41,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 634. Port orchestrator system (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
 
@@ -55,7 +55,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 635. Port synthesis and domain agents (.claude/ to .opencode/)
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
 
@@ -70,7 +70,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 636. Sync context, rules, extensions, and cleanup (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #633, #634, #635
 
@@ -85,7 +85,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 637. Verification and drift detection
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Dependencies**: Task #633, #634, #635, #636
 
