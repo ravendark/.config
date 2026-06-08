@@ -21,7 +21,7 @@ next_project_number: 638
 78 [PLANNED] — fix himalaya smtp authentication failure
 87 [RESEARCHED] — investigate wezterm terminal directory change
 636 [COMPLETED] — sync context rules extensions cleanup
-  └─ 637 [NOT STARTED] — verification and drift detection
+  └─ 637 [COMPLETED] — verification and drift detection
 
 ## Tasks
 
@@ -84,9 +84,12 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 636. Sync context, rules, extensions, and cleanup (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #633, #634, #635
+- **Research**: [636_sync_context_rules_extensions_cleanup/reports/01_sync-audit.md]
+- **Plan**: [636_sync_context_rules_extensions_cleanup/plans/01_sync-cleanup-plan.md]
+- **Summary**: [636_sync_context_rules_extensions_cleanup/summaries/01_sync-cleanup-summary.md]
 
 **Description**: Sync remaining components:
 - Context files that are stale in .opencode/
@@ -99,9 +102,12 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 637. Verification and drift detection
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #633, #634, #635, #636
+- **Research**: [637_verification_and_drift_detection/reports/01_parity-audit.md]
+- **Plan**: [637_verification_and_drift_detection/plans/01_verification-fix-plan.md]
+- **Summary**: [637_verification_and_drift_detection/summaries/01_verification-fix-summary.md]
 
 **Description**: End-to-end verification:
 - Compare all .claude/ vs .opencode/ components for parity

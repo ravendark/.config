@@ -193,7 +193,7 @@
       "task_type": "meta",
       "effort": "2-3 hours",
       "created": "2026-06-07T00:00:00Z",
-      "last_updated": "2026-06-07T00:00:00Z",
+      "last_updated": "2026-06-08T00:00:00Z",
       "dependencies": [
         633,
         634,
@@ -218,18 +218,32 @@
     {
       "project_number": 637,
       "project_name": "verification_and_drift_detection",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "effort": "1-2 hours",
       "created": "2026-06-07T00:00:00Z",
-      "last_updated": "2026-06-07T00:00:00Z",
+      "last_updated": "2026-06-08T00:00:00Z",
       "dependencies": [
         633,
         634,
         635,
         636
       ],
-      "artifacts": []
+      "artifacts": [
+        {
+          "type": "report",
+          "path": "specs/637_verification_and_drift_detection/reports/01_parity-audit.md"
+        },
+        {
+          "type": "plan",
+          "path": "specs/637_verification_and_drift_detection/plans/01_verification-fix-plan.md"
+        },
+        {
+          "type": "summary",
+          "path": "specs/637_verification_and_drift_detection/summaries/01_verification-fix-summary.md"
+        }
+      ],
+      "completion_summary": "Fixed all 5 opencode drift gaps: agent paths in nvim/nix opencode-agents.json, hook log dirs, validation script paths, synthesis-agent registration, and rules README cleanup"
     },
     {
       "project_number": 87,
