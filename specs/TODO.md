@@ -1,5 +1,5 @@
 ---
-next_project_number: 638
+next_project_number: 639
 ---
 
 # TODO
@@ -11,9 +11,13 @@ next_project_number: 638
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,638 | -- | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
+
+### Agent System
+
+638 [NOT STARTED] — fix generate task order missing section
 
 ### Uncategorized
 
@@ -22,10 +26,15 @@ next_project_number: 638
 
 ## Tasks
 
+### 638. Fix generate-task-order.sh to create Task Order section when missing
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
 
+**Description**: Fix `generate-task-order.sh` to handle the case where `## Task Order` doesn't exist in TODO.md. In `--update-todo` mode, if the `## Task Order` section is not found, INSERT it before the first `## Tasks` section instead of failing with a warning. This makes the script idempotent -- it creates the section on first run and replaces it on subsequent runs. Also verify the script generates clean output matching the BimodalLogic format (waves table + topic tree, no artifact links in task order entries). The issue was discovered when cslib's TODO.md was created without a Task Order section, and `generate-task-order.sh` could only replace (not create) that section.
 
-
-
+---
 
 ### 87. Investigate terminal directory change when opening neovim in wezterm
 - **Effort**: TBD
