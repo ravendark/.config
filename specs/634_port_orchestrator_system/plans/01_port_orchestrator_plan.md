@@ -1,7 +1,7 @@
 # Implementation Plan: Port Orchestrator System
 
 - **Task**: 634 - port_orchestrator_system
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Effort**: 8 hours
 - **Dependencies**: 633 (port_core_script_infrastructure) - [COMPLETED]
 - **Research Inputs**: specs/634_port_orchestrator_system/reports/01_port_orchestrator_research.md
@@ -79,7 +79,7 @@ This task is part of a sequential porting chain (633->634->635->636->637) mainta
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Port Architecture Documentation [NOT STARTED]
+### Phase 1: Port Architecture Documentation [COMPLETED]
 
 **Goal**: Port the three architecture documentation files that the orchestrator skill `@`-references, establishing the documentation foundation.
 
@@ -108,7 +108,7 @@ Phases within the same wave can execute in parallel.
 - `grep -l '\.claude/' .opencode/docs/architecture/orchestrate-state-machine.md .opencode/docs/architecture/handoff-schema.md .opencode/docs/architecture/dispatch-agent-spec.md` returns empty
 - Frontmatter (if any) is valid markdown
 
-### Phase 2A: Port skill-orchestrate - Single-Task State Machine [NOT STARTED]
+### Phase 2A: Port skill-orchestrate - Single-Task State Machine [COMPLETED]
 
 **Goal**: Port Stages 0-8 of the single-task state machine from `.claude/skills/skill-orchestrate/SKILL.md` to `.opencode/skills/skill-orchestrate/SKILL.md`. Stages cover input validation, routing resolution, preflight, state machine loop, all state handlers, handoff reading, and postflight.
 
@@ -137,7 +137,7 @@ Phases within the same wave can execute in parallel.
 - `grep 'Agent tool' .opencode/skills/skill-orchestrate/SKILL.md` returns no matches (or only in cases where Agent is a noun, not the tool name)
 - `grep 'wezterm-notify\|tts-notify' .opencode/skills/skill-orchestrate/SKILL.md` returns no matches
 
-### Phase 2B: Port skill-orchestrate - Multi-Task Mode [NOT STARTED]
+### Phase 2B: Port skill-orchestrate - Multi-Task Mode [COMPLETED]
 
 **Goal**: Port the multi-task mode (MT-1 through MT-5) sections of `skill-orchestrate`, which handle batch task input parsing, dependency graph construction, topological wave assignment, and wave execution.
 
@@ -162,7 +162,7 @@ Phases within the same wave can execute in parallel.
 - Kahn's algorithm structure is identical to `.claude/` version (logic unchanged)
 - Multi-task syntax examples in comments use `.opencode/` paths and `Task` tool
 
-### Phase 2C: Port skill-orchestrate - Drift Inspection and Blocker Escalation [NOT STARTED]
+### Phase 2C: Port skill-orchestrate - Drift Inspection and Blocker Escalation [COMPLETED]
 
 **Goal**: Port Stage 5a (drift inspection function) and Stage 6 (5-step blocker escalation sequence) of the state machine.
 
@@ -187,7 +187,7 @@ Phases within the same wave can execute in parallel.
 - Stage 6 (5-step escalation) is present with MAX_BLOCKER_ESCALATIONS=2
 - All escalation steps use `Task` tool (not `Agent`)
 
-### Phase 2D: Verify skill-orchestrate Integration with Shared Infrastructure [NOT STARTED]
+### Phase 2D: Verify skill-orchestrate Integration with Shared Infrastructure [COMPLETED]
 
 **Goal**: Verify the ported `skill-orchestrate` works with the task 633 shared infrastructure (`skill-base.sh`, `dispatch-agent.sh`, `command-gate-in/out.sh`, `parse-command-args.sh`, `postflight-workflow.sh`).
 
@@ -214,7 +214,7 @@ Phases within the same wave can execute in parallel.
 - No `.claude/` path references remain in the ported skill
 - No `Agent tool` references remain
 
-### Phase 3: Port /orchestrate Command [NOT STARTED]
+### Phase 3: Port /orchestrate Command [COMPLETED]
 
 **Goal**: Port `.claude/commands/orchestrate.md` (394 lines) to `.opencode/commands/orchestrate.md`, preserving multi-task wave dispatch, dependency-aware topological sort, and gate-in/gate-out checkpoints.
 
@@ -248,7 +248,7 @@ Phases within the same wave can execute in parallel.
 - Kahn's algorithm structure is identical to `.claude/` version
 - Anti-bypass constraint is present and explicit
 
-### Phase 4: End-to-End Verification [NOT STARTED]
+### Phase 4: End-to-End Verification [COMPLETED]
 
 **Goal**: Verify the ported orchestrator system works end-to-end with a simple task.
 

@@ -11,9 +11,9 @@ next_project_number: 638
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,634,635 | -- | -- |
-| 2 | 636 | 634,635 | -- |
-| 3 | 637 | 634,635,636 | -- |
+| 1 | 78,87,635 | -- | -- |
+| 2 | 636 | 635 | -- |
+| 3 | 637 | 635,636 | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -21,12 +21,9 @@ next_project_number: 638
 
 78 [PLANNED] — fix himalaya smtp authentication failure
 87 [RESEARCHED] — investigate wezterm terminal directory change
-634 [PLANNED] — port orchestrator system
+635 [NOT STARTED] — port synthesis domain agents
   └─ 636 [NOT STARTED] — sync context rules extensions cleanup
     └─ 637 [NOT STARTED] — verification and drift detection
-  └─ 637 [NOT STARTED] — verification and drift detection (see above)
-635 [NOT STARTED] — port synthesis domain agents
-  └─ 636 [NOT STARTED] — sync context rules extensions cleanup (see above)
   └─ 637 [NOT STARTED] — verification and drift detection (see above)
 
 ## Tasks
@@ -55,11 +52,12 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 634. Port orchestrator system (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
 - **Research**: [634_port_orchestrator_system/reports/01_port_orchestrator_research.md]
 - **Plan**: [634_port_orchestrator_system/plans/01_port_orchestrator_plan.md]
+- **Summary**: [634_port_orchestrator_system/summaries/01_port_orchestrator_implementation-summary.md]
 
 **Description**: Port the orchestrator system:
 - `/orchestrate` command definition
