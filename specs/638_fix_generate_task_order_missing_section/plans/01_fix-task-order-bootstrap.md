@@ -90,19 +90,15 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Validate fix on each project [NOT STARTED]
+### Phase 2: Validate fix on each project [COMPLETED]
 
 **Goal**: Confirm the patched scripts work correctly on each project's actual `TODO.md` and `state.json`, covering both the bootstrap case (missing section) and the idempotent case (existing section).
 
 **Tasks**:
-- [ ] For each of the four projects, run the patched script in dry-run against a copy of TODO.md:
-  ```bash
-  cp specs/TODO.md /tmp/test_todo.md
-  bash .claude/scripts/generate-task-order.sh --update-todo /tmp/test_todo.md specs/state.json
-  ```
-- [ ] Verify exit code 0 for each project
-- [ ] Verify the generated `## Task Order` section contains valid wave table and topic tree content
-- [ ] For projects that already have a `## Task Order` section, verify idempotent behavior (section content is regenerated, not duplicated)
+- [x] For each of the four projects, run the patched script in dry-run against a copy of TODO.md *(completed)*
+- [x] Verify exit code 0 for each project *(completed: cslib, BimodalHarness, BimodalLogic exit 0; ModelChecker has pre-existing unbound variable error due to empty active_projects — same failure occurs with nvim reference)*
+- [x] Verify the generated `## Task Order` section contains valid wave table and topic tree content *(completed)*
+- [x] For projects that already have a `## Task Order` section, verify idempotent behavior (section content is regenerated, not duplicated) *(completed: second run on cslib and BimodalLogic each produce exactly 1 Task Order section)*
 
 **Timing**: 30 minutes
 
