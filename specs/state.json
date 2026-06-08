@@ -189,7 +189,7 @@
     {
       "project_number": 636,
       "project_name": "sync_context_rules_extensions_cleanup",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "effort": "2-3 hours",
       "created": "2026-06-07T00:00:00Z",
@@ -207,8 +207,13 @@
         {
           "type": "plan",
           "path": "specs/636_sync_context_rules_extensions_cleanup/plans/01_sync-cleanup-plan.md"
+        },
+        {
+          "type": "summary",
+          "path": "specs/636_sync_context_rules_extensions_cleanup/summaries/01_sync-cleanup-summary.md"
         }
-      ]
+      ],
+      "completion_summary": "Synced 95 stale context files, copied 11 missing extension files, added 3 hook scripts with manifest updates, merged index.json (106->150 entries), and backported settings.json improvements from .opencode/ to .claude/"
     },
     {
       "project_number": 637,
