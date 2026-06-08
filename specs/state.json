@@ -1,7 +1,19 @@
 {
   "version": "1.0.0",
-  "next_project_number": 639,
+  "next_project_number": 640,
   "active_projects": [
+    {
+      "project_number": 639,
+      "project_name": "fix_orchestrate_todo_sync",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1 hour",
+      "created": "2026-06-08T19:00:00Z",
+      "last_updated": "2026-06-08T19:00:00Z",
+      "dependencies": [],
+      "artifacts": []
+    },
     {
       "project_number": 638,
       "project_name": "fix_generate_task_order_missing_section",
