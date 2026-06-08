@@ -11,8 +11,7 @@ next_project_number: 638
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,636 | -- | -- |
-| 2 | 637 | 636 | -- |
+| 1 | 78,87 | -- | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -20,102 +19,13 @@ next_project_number: 638
 
 78 [PLANNED] — fix himalaya smtp authentication failure
 87 [RESEARCHED] — investigate wezterm terminal directory change
-636 [COMPLETED] — sync context rules extensions cleanup
-  └─ 637 [COMPLETED] — verification and drift detection
 
 ## Tasks
 
-### 633. Port core script infrastructure from .claude/ to .opencode/
-- **Effort**: 3-4 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: None
 
-**Artifacts**:
-- [Research Report](633_port_core_script_infrastructure/reports/01_core_script_infra_research.md)
-- [Implementation Plan](633_port_core_script_infrastructure/plans/01_core_script_infra_plan.md)
-- **Summary**: [633_port_core_script_infrastructure/summaries/01_core_script_infra-summary.md]
 
-**Description**: Port all 14+ missing scripts from `.claude/scripts/` to `.opencode/scripts/`, including:
-- `skill-base.sh` (516 lines) - shared lifecycle functions, extension hooks, orchestrator_mode
-- Gate/routing scripts: `command-gate-in.sh`, `command-gate-out.sh`, `command-route-skill.sh`, `dispatch-agent.sh`
-- Unified postflight: `postflight-workflow.sh`
-- Support scripts: `archive-task.sh`, `generate-task-order.sh`, `tier-selection.sh`, `issue-grouping.sh`, `orphan-detection.sh`, `memory-harvest.sh`, `vault-operation.sh`, `validate-context-budgets.sh`, `parse-command-args.sh`
-- Roadmap scripts as applicable
 
-Adapt each script for `.opencode/` paths and conventions.
 
----
-
-### 634. Port orchestrator system (.claude/ to .opencode/)
-- **Effort**: 2-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: Task #633
-- **Research**: [634_port_orchestrator_system/reports/01_port_orchestrator_research.md]
-- **Plan**: [634_port_orchestrator_system/plans/01_port_orchestrator_plan.md]
-- **Summary**: [634_port_orchestrator_system/summaries/01_port_orchestrator_implementation-summary.md]
-
-**Description**: Port the orchestrator system:
-- `/orchestrate` command definition
-- `skill-orchestrate` skill (1129 lines)
-- Addition of orchestrator_mode to relevant skills
-- Any orchestrator-related agents
-
----
-
-### 635. Port synthesis and domain agents (.claude/ to .opencode/)
-- **Effort**: 1-2 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: Task #633
-- **Research**: [635_port_synthesis_domain_agents/reports/01_synthesis_domain_agents_research.md]
-- **Plan**: [635_port_synthesis_domain_agents/plans/01_synthesis_domain_agents_plan.md]
-- **Summary**: [635_port_synthesis_domain_agents/summaries/01_synthesis_domain_agents_implementation-summary.md]
-
-**Description**: Port synthesis and domain-specific agents:
-- `synthesis-agent.md`
-- `neovim-*` agents (implementation, research)
-- `nix-*` agents (implementation, research)
-- `lean-implementation-agent`
-- Update skill frontmatter to reference new agents
-
----
-
-### 636. Sync context, rules, extensions, and cleanup (.claude/ to .opencode/)
-- **Effort**: 2-3 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: Task #633, #634, #635
-- **Research**: [636_sync_context_rules_extensions_cleanup/reports/01_sync-audit.md]
-- **Plan**: [636_sync_context_rules_extensions_cleanup/plans/01_sync-cleanup-plan.md]
-- **Summary**: [636_sync_context_rules_extensions_cleanup/summaries/01_sync-cleanup-summary.md]
-
-**Description**: Sync remaining components:
-- Context files that are stale in .opencode/
-- Missing rules: `neovim-lua.md`, `nix.md`
-- Extension hooks in all manifests
-- Delete stale `status-transitions.md` from both locations (if applicable)
-- Sync settings.json
-
----
-
-### 637. Verification and drift detection
-- **Effort**: 1-2 hours
-- **Status**: [COMPLETED]
-- **Task Type**: meta
-- **Dependencies**: Task #633, #634, #635, #636
-- **Research**: [637_verification_and_drift_detection/reports/01_parity-audit.md]
-- **Plan**: [637_verification_and_drift_detection/plans/01_verification-fix-plan.md]
-- **Summary**: [637_verification_and_drift_detection/summaries/01_verification-fix-summary.md]
-
-**Description**: End-to-end verification:
-- Compare all .claude/ vs .opencode/ components for parity
-- Verify dependency integrity
-- Test key workflows
-- Report any remaining gaps
-
----
 
 ### 87. Investigate terminal directory change when opening neovim in wezterm
 - **Effort**: TBD
