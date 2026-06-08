@@ -5,14 +5,22 @@
     {
       "project_number": 639,
       "project_name": "fix_orchestrate_todo_sync",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1 hour",
       "created": "2026-06-08T19:00:00Z",
-      "last_updated": "2026-06-08T19:00:00Z",
+      "last_updated": "2026-06-08T18:41:16Z",
       "dependencies": [],
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/639_fix_orchestrate_todo_sync/summaries/01_fix-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary for task 639"
+        }
+      ],
+      "session_id": "sess_1780943406_504cdf",
+      "completion_summary": "Replaced 16 bash function references in skill-orchestrate/SKILL.md with standalone bash commands (update-task-status.sh, link-artifact-todo.sh) so the orchestrator agent properly syncs TODO.md status and links artifacts during /orchestrate."
     },
     {
       "project_number": 638,
