@@ -1,0 +1,18 @@
+{
+  "phase": 5,
+  "phase_name": "Port Tier 3/4 Review and Validation Scripts",
+  "started_at": "2026-06-07T19:35:00Z",
+  "last_updated": "2026-06-07T19:45:00Z",
+  "objectives": [
+    {"id": 1, "description": "Port roadmap-integration.sh (466 lines)", "status": "completed"},
+    {"id": 2, "description": "Port issue-grouping.sh (401 lines)", "status": "completed"},
+    {"id": 3, "description": "Port tier-selection.sh (306 lines)", "status": "completed"},
+    {"id": 4, "description": "Port roadmap-sync.sh (331 lines)", "status": "completed"},
+    {"id": 5, "description": "Port validate-context-budgets.sh (226 lines) with .opencode/context/index.json", "status": "completed"},
+    {"id": 6, "description": "Port vault-operation.sh (247 lines) - correctly references .opencode/scripts/generate-task-order.sh", "status": "completed"},
+    {"id": 7, "description": "Verify all 6 scripts pass syntax check and grep for stale paths", "status": "completed"}
+  ],
+  "current_objective": 7,
+  "approaches_tried": [],
+  "handoff_count": 0
+}

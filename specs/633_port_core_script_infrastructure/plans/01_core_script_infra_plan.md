@@ -1,7 +1,7 @@
 # Implementation Plan: Port Core Script Infrastructure
 
 - **Task**: 633 - port_core_script_infrastructure
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Effort**: 8 hours
 - **Dependencies**: None (infrastructure port, no upstream task dependencies)
 - **Research Inputs**: specs/633_port_core_script_infrastructure/reports/01_core_script_infra_research.md
@@ -67,7 +67,7 @@ No ROADMAP.md items are directly advanced by this task. This is infrastructure w
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Update Stale Dependency Scripts [NOT STARTED]
+### Phase 1: Update Stale Dependency Scripts [COMPLETED]
 
 **Goal**: Update the two stale scripts that other ported scripts depend on (`update-task-status.sh` and `update-plan-status.sh`). This phase must complete before any other porting work begins.
 
@@ -95,7 +95,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 2: Port Critical Foundational Scripts [NOT STARTED]
+### Phase 2: Port Critical Foundational Scripts [COMPLETED]
 
 **Goal**: Port the 5 sourceable/standalone scripts that form the core infrastructure foundation. `skill-base.sh` is the most critical -- it provides the shared lifecycle functions that all skills use. The other 4 scripts (`command-gate-in.sh`, `command-route-skill.sh`, `parse-command-args.sh`, `postflight-workflow.sh`) form the command checkpoint infrastructure.
 
@@ -137,7 +137,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Port Gateway Scripts and Update Postflight Wrappers [NOT STARTED]
+### Phase 3: Port Gateway Scripts and Update Postflight Wrappers [COMPLETED]
 
 **Goal**: Port the gateway scripts (`command-gate-out.sh`, `dispatch-agent.sh`) that depend on the foundational scripts from Phase 2, and update the 3 stale postflight scripts to thin wrappers around `postflight-workflow.sh`.
 
@@ -177,7 +177,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Port Tier 2 Workflow Scripts [NOT STARTED]
+### Phase 4: Port Tier 2 Workflow Scripts [COMPLETED]
 
 **Goal**: Port the workflow infrastructure scripts that depend on the foundational scripts from Phase 2 and the gateway scripts from Phase 3. Includes task ordering, archival, orphan detection, and memory harvesting.
 
@@ -216,7 +216,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 5: Port Tier 3/4 Review and Validation Scripts [NOT STARTED]
+### Phase 5: Port Tier 3/4 Review and Validation Scripts [COMPLETED]
 
 **Goal**: Port the remaining 5 scripts: `/review` components (path-independent data processors) and the validation script. `vault-operation.sh` in this wave depends on `generate-task-order.sh` from Phase 4.
 
@@ -257,7 +257,7 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 6: Verification and Cleanup [NOT STARTED]
+### Phase 6: Verification and Cleanup [COMPLETED]
 
 **Goal**: Run comprehensive verification across all 22 ported/updated scripts (17 new + 5 updated), ensure zero regressions, and run `.opencode/` validation scripts.
 

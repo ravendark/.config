@@ -5,14 +5,37 @@
     {
       "project_number": 633,
       "project_name": "port_core_script_infrastructure",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "effort": "3-4 hours",
       "created": "2026-06-07T00:00:00Z",
-      "last_updated": "2026-06-07T00:00:00Z",
+      "last_updated": "2026-06-08T02:23:15Z",
       "dependencies": [],
-      "artifacts": [],
-      "artifact_number": 2
+      "artifacts": [
+        {
+          "path": "specs/633_port_core_script_infrastructure/summaries/01_core_script_infra-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary documenting 17 ported scripts, 5 updated scripts, decisions made, and follow-up items"
+        }
+      ],
+      "artifact_number": 2,
+      "session_id": "sess_1780883911_02a34a",
+      "completion_summary": "Ported 17 missing scripts from .claude/scripts/ to .opencode/scripts/ and updated 5 stale .opencode/ scripts following a dependency-driven 6-phase plan. All 22 ported/updated scripts pass syntax checks; the 3 foundational sourced scripts load correctly with expected function exports; update-recommended-order.sh is preserved as the .opencode/ active task ordering system; 3 backup files preserve the original standalone postflight implementations.",
+      "memory_candidates": [
+        {
+          "content": "When porting scripts between dual-system architectures (.claude/ and .opencode/), use a dependency-driven phase ordering: (1) update stale shared-dependency scripts first (update-task-status.sh, update-plan-status.sh) since other scripts call into them, (2) port foundational scripts (skill-base.sh, command-gate-*, postflight-workflow.sh) since workflow/gateway scripts depend on them, (3) port gateway/wrapper scripts that depend on Phase 2, (4) port workflow scripts, (5) port review/validation scripts, (6) run global verification. Key substitutions: .claude/ -> .opencode/, .claude/context/ -> .opencode/context/, .claude/extensions/ -> .opencode/extensions/, Agent tool -> Task tool, CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS -> OPENCODE_EXPERIMENTAL_AGENT_TEAMS. Use sed for bulk path substitutions followed by manual grep for edge cases. Some scripts (orphan-detection.sh, archive-task.sh, issue-grouping.sh) are mostly path-independent and can be copied as-is.",
+          "category": "PATTERN",
+          "source_artifact": "specs/633_port_core_script_infrastructure/summaries/01_core_script_infra-summary.md",
+          "confidence": 0.9,
+          "suggested_keywords": [
+            "script-porting",
+            "dual-system",
+            "dependency-order",
+            "path-substitution",
+            "claude-opencode"
+          ]
+        }
+      ]
     },
     {
       "project_number": 634,

@@ -6,27 +6,41 @@ next_project_number: 638
 
 ## Task Order
 
-*Updated 2026-06-02. Generated from state.json dependency graph.*
+*Updated 2026-06-08. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,634,635 | -- | -- |
+| 2 | 636 | 634,635 | -- |
+| 3 | 637 | 634,635,636 | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
 ### Uncategorized
 
 78 [PLANNED] — fix himalaya smtp authentication failure
-87 [PLANNED] — investigate wezterm terminal directory change
+87 [RESEARCHED] — investigate wezterm terminal directory change
+634 [NOT STARTED] — port orchestrator system
+  └─ 636 [NOT STARTED] — sync context rules extensions cleanup
+    └─ 637 [NOT STARTED] — verification and drift detection
+  └─ 637 [NOT STARTED] — verification and drift detection (see above)
+635 [NOT STARTED] — port synthesis domain agents
+  └─ 636 [NOT STARTED] — sync context rules extensions cleanup (see above)
+  └─ 637 [NOT STARTED] — verification and drift detection (see above)
 
 ## Tasks
 
 ### 633. Port core script infrastructure from .claude/ to .opencode/
 - **Effort**: 3-4 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: None
+
+**Artifacts**:
+- [Research Report](633_port_core_script_infrastructure/reports/01_core_script_infra_research.md)
+- [Implementation Plan](633_port_core_script_infrastructure/plans/01_core_script_infra_plan.md)
+- **Summary**: [633_port_core_script_infrastructure/summaries/01_core_script_infra-summary.md]
 
 **Description**: Port all 14+ missing scripts from `.claude/scripts/` to `.opencode/scripts/`, including:
 - `skill-base.sh` (516 lines) - shared lifecycle functions, extension hooks, orchestrator_mode
@@ -41,7 +55,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 634. Port orchestrator system (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [NOT STARTED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
 
@@ -55,7 +69,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 635. Port synthesis and domain agents (.claude/ to .opencode/)
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [NOT STARTED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
 
@@ -70,7 +84,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 636. Sync context, rules, extensions, and cleanup (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [PLANNED]
+- **Status**: [NOT STARTED]
 - **Task Type**: meta
 - **Dependencies**: Task #633, #634, #635
 
@@ -85,7 +99,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 637. Verification and drift detection
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [NOT STARTED]
 - **Task Type**: meta
 - **Dependencies**: Task #633, #634, #635, #636
 

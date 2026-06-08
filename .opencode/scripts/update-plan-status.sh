@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # update-plan-status.sh - Centralized plan-level status update
-# Usage: .claude/scripts/update-plan-status.sh TASK_NUMBER PROJECT_NAME STATUS
+# Usage: .opencode/scripts/update-plan-status.sh TASK_NUMBER PROJECT_NAME STATUS
 #
-# STATUS values: IMPLEMENTING, COMPLETED, PARTIAL, NOT_STARTED
+# STATUS values: IMPLEMENTING, COMPLETED, PARTIAL, PLANNED, NOT_STARTED
 # Outputs: Updated plan file path on success, empty on failure/no-op
 
 set -euo pipefail
@@ -22,6 +22,7 @@ case "$new_status" in
     IMPLEMENTING|implementing) new_status="IMPLEMENTING" ;;
     COMPLETED|completed) new_status="COMPLETED" ;;
     PARTIAL|partial) new_status="PARTIAL" ;;
+    PLANNED|planned) new_status="PLANNED" ;;
     NOT_STARTED|not_started) new_status="NOT STARTED" ;;
     *) echo "Unknown status: $new_status" >&2; exit 1 ;;
 esac
@@ -62,6 +63,7 @@ updated_status=$(grep -m1 "^- \*\*Status\*\*:" "$plan_file" | sed 's/.*\[\([^]]*
 if [[ "$updated_status" == "$new_status" ]]; then
     echo "$plan_file"
 else
-    echo "Failed to update status in $plan_file" >&2
+    echo "Failed to update status in $plan_file (wanted '$new_status', got '$updated_status')" >&2
+    echo "Status line: $(grep -m1 'Status' "$plan_file" || echo '<none>')" >&2
     exit 1
 fi

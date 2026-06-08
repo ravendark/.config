@@ -5,15 +5,15 @@
 #   1. state.json (status field, timestamps, session_id)
 #   2. TODO.md task entry (- **Status**: [STATUS])
 #   3. TODO.md Task Order section (**{N}** [STATUS])
-#   4. Plan file (optional, via update-plan-status.sh)
+#   4. Plan file (for implement and plan operations, via update-plan-status.sh)
 #
 # Usage:
-#   .claude/scripts/update-task-status.sh <operation> <task_number> <target_status> <session_id> [--dry-run]
+#   .opencode/scripts/update-task-status.sh <operation> <task_number> <target_status> <session_id> [--dry-run]
 #
 # Arguments:
 #   operation     - "preflight" or "postflight"
 #   task_number   - Task number (integer)
-#   target_status - "research", "plan", or "implement"
+#   target_status - "research", "plan", "implement", or "revise"
 #   session_id    - Session identifier string
 #
 # Exit codes:
@@ -57,7 +57,7 @@ session_id="${POSITIONAL_ARGS[3]:-}"
 if [[ -z "$operation" || -z "$task_number" || -z "$target_status" || -z "$session_id" ]]; then
   echo "Usage: $0 <operation> <task_number> <target_status> <session_id> [--dry-run]" >&2
   echo "  operation:     preflight | postflight" >&2
-  echo "  target_status: research | plan | implement" >&2
+  echo "  target_status: research | plan | implement | revise" >&2
   exit 1
 fi
 
@@ -66,8 +66,8 @@ if [[ "$operation" != "preflight" && "$operation" != "postflight" ]]; then
   exit 1
 fi
 
-if [[ "$target_status" != "research" && "$target_status" != "plan" && "$target_status" != "implement" ]]; then
-  echo "Error: target_status must be 'research', 'plan', or 'implement', got '$target_status'" >&2
+if [[ "$target_status" != "research" && "$target_status" != "plan" && "$target_status" != "implement" && "$target_status" != "revise" ]]; then
+  echo "Error: target_status must be 'research', 'plan', 'implement', or 'revise', got '$target_status'" >&2
   exit 1
 fi
 
@@ -90,9 +90,11 @@ map_status() {
     preflight:research)   STATE_STATUS="researching";   TODO_STATUS="RESEARCHING" ;;
     preflight:plan)       STATE_STATUS="planning";      TODO_STATUS="PLANNING" ;;
     preflight:implement)  STATE_STATUS="implementing";  TODO_STATUS="IMPLEMENTING" ;;
+    preflight:revise)     STATE_STATUS="revising";      TODO_STATUS="REVISING" ;;
     postflight:research)  STATE_STATUS="researched";    TODO_STATUS="RESEARCHED" ;;
     postflight:plan)      STATE_STATUS="planned";       TODO_STATUS="PLANNED" ;;
     postflight:implement) STATE_STATUS="completed";     TODO_STATUS="COMPLETED" ;;
+    postflight:revise)    STATE_STATUS="revised";       TODO_STATUS="REVISED" ;;
     *)
       echo "Error: unknown operation:target_status combination '${op}:${target}'" >&2
       exit 1
@@ -241,18 +243,54 @@ update_todo_task_order() {
     return 1
   fi
 
-  # Find the line matching **{N}** with a status marker in Task Order
+  # Two-mode strategy per task-order-format.md:
+  # Mode B: Terminal transitions (COMPLETED, ABANDONED, EXPANDED) -> full regeneration via generate-task-order.sh
+  # Mode A: Non-terminal transitions -> in-place sed on tree line
+  if [[ "$TODO_STATUS" == "COMPLETED" || "$TODO_STATUS" == "ABANDONED" || "$TODO_STATUS" == "EXPANDED" ]]; then
+    # Mode B: Full regeneration (auto-prunes completed task from tree and waves)
+    local gen_script="$SCRIPT_DIR/generate-task-order.sh"
+    if [[ -x "$gen_script" ]]; then
+      if [[ "$DRY_RUN" == "true" ]]; then
+        echo "[dry-run] TODO.md Task Order: terminal status $TODO_STATUS -> would run generate-task-order.sh --update-todo"
+        return 0
+      fi
+      "$gen_script" --update-todo "$TODO_FILE" "$STATE_FILE" || {
+        echo "Warning: generate-task-order.sh failed (non-fatal)" >&2
+      }
+    else
+      echo "Warning: generate-task-order.sh not found at $gen_script -- Task Order not regenerated" >&2
+    fi
+    return 0
+  fi
+
+  # Mode A: In-place status update for non-terminal transitions
+  # Pattern matches tree lines at any indent level:
+  #   "148 [RESEARCHED] — ..."          (root-level, no indent)
+  #   "  └─ 147 [RESEARCHED] — ..."     (indented, depth 1)
+  #   "    └─ 143 [PARTIAL] — ..."      (indented, depth 2)
   local order_line
-  order_line=$(grep -n -E "^- \*\*${task_number}\*\* \[" "$TODO_FILE" | head -1 | cut -d: -f1)
+  order_line=$(grep -n -E "^\s*(└─ )?${task_number} \[" "$TODO_FILE" | head -1 | cut -d: -f1)
 
   if [[ -z "$order_line" ]]; then
-    echo "Warning: task $task_number not found in TODO.md Task Order section" >&2
+    echo "Warning: task $task_number not found in TODO.md Task Order tree -- falling back to full regeneration" >&2
+    local gen_script="$SCRIPT_DIR/generate-task-order.sh"
+    if [[ -x "$gen_script" ]]; then
+      if [[ "$DRY_RUN" == "true" ]]; then
+        echo "[dry-run] TODO.md Task Order: task not in tree, would run generate-task-order.sh --update-todo"
+        return 0
+      fi
+      "$gen_script" --update-todo "$TODO_FILE" "$STATE_FILE" 2>/dev/null || {
+        echo "Warning: generate-task-order.sh fallback failed (non-fatal)" >&2
+      }
+    else
+      echo "Warning: generate-task-order.sh not found at $gen_script -- Task Order not updated" >&2
+    fi
     return 0
   fi
 
   # Check if already at target
   local current_order_status
-  current_order_status=$(sed -n "${order_line}p" "$TODO_FILE" | sed 's/.*\[\([^]]*\)\].*/\1/')
+  current_order_status=$(sed -n "${order_line}p" "$TODO_FILE" | grep -oE '\[([A-Z ]+)\]' | head -1 | tr -d '[]')
 
   if [[ "$current_order_status" == "$TODO_STATUS" ]]; then
     if [[ "$DRY_RUN" == "true" ]]; then
@@ -271,18 +309,15 @@ update_todo_task_order() {
 }
 
 # ============================================================
-# PHASE 4: Plan file status (optional, implement only)
+# PHASE 4: Plan file status (for implement and plan operations)
 # ============================================================
 update_plan_file() {
-  # Only update plan file for implement operations
-  if [[ "$target_status" != "implement" ]]; then
-    return 0
-  fi
-
   local plan_status
-  case "$operation" in
-    preflight)  plan_status="IMPLEMENTING" ;;
-    postflight) plan_status="COMPLETED" ;;
+  case "${target_status}:${operation}" in
+    implement:preflight)  plan_status="IMPLEMENTING" ;;
+    implement:postflight) plan_status="COMPLETED" ;;
+    plan:postflight)      plan_status="PLANNED" ;;
+    *) return 0 ;;
   esac
 
   # Look up project_name from state.json
@@ -307,10 +342,10 @@ update_plan_file() {
     return 0
   fi
 
-  # Call existing script; non-fatal if it fails
   cd "$PROJECT_ROOT"
-  "$plan_script" "$task_number" "$project_name" "$plan_status" 2>/dev/null || {
-    echo "Warning: plan file update failed (non-fatal)" >&2
+  local plan_output
+  plan_output=$("$plan_script" "$task_number" "$project_name" "$plan_status" 2>&1) || {
+    echo "Warning: plan file update failed: $plan_output" >&2
   }
 }
 

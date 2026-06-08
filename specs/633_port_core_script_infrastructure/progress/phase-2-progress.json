@@ -1,0 +1,17 @@
+{
+  "phase": 2,
+  "phase_name": "Port Critical Foundational Scripts",
+  "started_at": "2026-06-07T19:05:00Z",
+  "last_updated": "2026-06-07T19:15:00Z",
+  "objectives": [
+    {"id": 1, "description": "Port skill-base.sh (516 lines) with .opencode/ path substitutions", "status": "completed"},
+    {"id": 2, "description": "Port command-gate-in.sh (73 lines)", "status": "completed"},
+    {"id": 3, "description": "Port command-route-skill.sh (66 lines)", "status": "completed"},
+    {"id": 4, "description": "Port parse-command-args.sh (135 lines)", "status": "completed"},
+    {"id": 5, "description": "Port postflight-workflow.sh (137 lines)", "status": "completed"},
+    {"id": 6, "description": "Verify all scripts pass syntax check, sourcing, and grep for stale paths", "status": "completed"}
+  ],
+  "current_objective": 6,
+  "approaches_tried": [],
+  "handoff_count": 0
+}

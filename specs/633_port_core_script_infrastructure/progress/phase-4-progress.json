@@ -1,0 +1,16 @@
+{
+  "phase": 4,
+  "phase_name": "Port Tier 2 Workflow Scripts",
+  "started_at": "2026-06-07T19:25:00Z",
+  "last_updated": "2026-06-07T19:35:00Z",
+  "objectives": [
+    {"id": 1, "description": "Port generate-task-order.sh (895 lines) with .opencode/ path substitutions", "status": "completed"},
+    {"id": 2, "description": "Port archive-task.sh (179 lines) - mostly path-independent", "status": "completed"},
+    {"id": 3, "description": "Port orphan-detection.sh (142 lines) - pure filesystem scanning", "status": "completed"},
+    {"id": 4, "description": "Port memory-harvest.sh (190 lines) - uses shared .memory/ paths", "status": "completed"},
+    {"id": 5, "description": "Verify all 4 scripts pass syntax check and grep for stale paths", "status": "completed"}
+  ],
+  "current_objective": 5,
+  "approaches_tried": [],
+  "handoff_count": 0
+}
