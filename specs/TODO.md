@@ -11,9 +11,8 @@ next_project_number: 638
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,635 | -- | -- |
-| 2 | 636 | 635 | -- |
-| 3 | 637 | 635,636 | -- |
+| 1 | 78,87,636 | -- | -- |
+| 2 | 637 | 636 | -- |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -21,10 +20,8 @@ next_project_number: 638
 
 78 [PLANNED] — fix himalaya smtp authentication failure
 87 [RESEARCHED] — investigate wezterm terminal directory change
-635 [PLANNED] — port synthesis domain agents
-  └─ 636 [NOT STARTED] — sync context rules extensions cleanup
-    └─ 637 [NOT STARTED] — verification and drift detection
-  └─ 637 [NOT STARTED] — verification and drift detection (see above)
+636 [NOT STARTED] — sync context rules extensions cleanup
+  └─ 637 [NOT STARTED] — verification and drift detection
 
 ## Tasks
 
@@ -69,11 +66,12 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 635. Port synthesis and domain agents (.claude/ to .opencode/)
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
 - **Research**: [635_port_synthesis_domain_agents/reports/01_synthesis_domain_agents_research.md]
 - **Plan**: [635_port_synthesis_domain_agents/plans/01_synthesis_domain_agents_plan.md]
+- **Summary**: [635_port_synthesis_domain_agents/summaries/01_synthesis_domain_agents_implementation-summary.md]
 
 **Description**: Port synthesis and domain-specific agents:
 - `synthesis-agent.md`

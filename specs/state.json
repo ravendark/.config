@@ -101,11 +101,11 @@
     {
       "project_number": 635,
       "project_name": "port_synthesis_domain_agents",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "effort": "1-2 hours",
       "created": "2026-06-07T00:00:00Z",
-      "last_updated": "2026-06-08T04:12:26Z",
+      "last_updated": "2026-06-08T04:59:27Z",
       "dependencies": [
         633
       ],
@@ -119,9 +119,14 @@
           "path": "specs/635_port_synthesis_domain_agents/plans/01_synthesis_domain_agents_plan.md",
           "type": "plan",
           "summary": "Phased implementation plan to port the core synthesis-agent (218 lines) from .claude/agents/synthesis-agent.md to .opencode/agent/subagents/synthesis-agent.md. 4 phases: verify targets, write the new file, validate frontmatter/references, and smoke-test. Tier 2 skill rewiring and Tier 4 domain agent sweep are documented as out-of-scope follow-ups. Total effort: 3 hours."
+        },
+        {
+          "path": "specs/635_port_synthesis_domain_agents/summaries/01_synthesis_domain_agents_implementation-summary.md",
+          "type": "summary",
+          "summary": "Ported synthesis-agent (218-line source) from .claude/agents/synthesis-agent.md to .opencode/agent/subagents/synthesis-agent.md (220 lines). All frontmatter stripped per OpenCode standard, paths updated, structural validation 9/9 PASS."
         }
       ],
-      "session_id": "sess_1780891769_6a6233",
+      "session_id": "sess_1780894040_23ec44",
       "next_artifact_number": 2,
       "memory_candidates": [
         {
@@ -150,8 +155,36 @@
             "port-pattern",
             "validation"
           ]
+        },
+        {
+          "content": "OpenCode agent frontmatter pattern: Only `name` and `description` fields are supported. The `model` field causes 'Model not found' errors because parseModel() splits on '/'. When porting from .claude/ to .opencode/: (1) strip `model:` line entirely, (2) strip `allowed-tools:` line entirely (document minimal tool surface inline in Overview instead, since OpenCode does not enforce tool restrictions via frontmatter), (3) update all `.claude/context/` path references to `.opencode/context/`, (4) update all `.claude/extensions/` to `.opencode/extensions/`, (5) replace `Agent tool`/`Agent(...)` with `Task tool`/`Task(...)`. Frontmatter is exactly 5 lines: `---` opener, `name:`, `description:`, `---` closer.",
+          "category": "PATTERN",
+          "source_artifact": "specs/635_port_synthesis_domain_agents/summaries/01_synthesis_domain_agents_implementation-summary.md",
+          "confidence": 0.95,
+          "suggested_keywords": [
+            "opencode",
+            "agent-frontmatter",
+            "port-pattern",
+            "model-field",
+            "allowed-tools",
+            "synthesis-agent"
+          ]
+        },
+        {
+          "content": "OpenCode static structural smoke test pattern for agent files: when live Task tool dispatch is not available in the agent's context, validate the agent file statically with: (1) `head -5` to verify `---` frontmatter delimiters, (2) `awk` to extract and count frontmatter fields (must be exactly 2: name, description), (3) `grep -nE '^model:|^allowed-tools:'` to confirm none of the unsupported fields exist, (4) extract all `@.opencode/path.md` references and verify each resolves to a real file, (5) `grep -n '\\.claude/'` to confirm no .claude/ path leakage, (6) heading-by-heading diff against source to confirm no semantic content dropped. This pattern works for any .opencode/agent/*/port task.",
+          "category": "WORKFLOW",
+          "source_artifact": "specs/635_port_synthesis_domain_agents/summaries/01_synthesis_domain_agents_implementation-summary.md",
+          "confidence": 0.85,
+          "suggested_keywords": [
+            "opencode",
+            "smoke-test",
+            "agent-validation",
+            "port-verification",
+            "static-validation"
+          ]
         }
-      ]
+      ],
+      "completion_summary": "Ported synthesis-agent (218-line source) from .claude/agents/synthesis-agent.md to .opencode/agent/subagents/synthesis-agent.md (220 lines). Stripped model: sonnet and allowed-tools: Read, Write from frontmatter per OpenCode standard, updated all 4 .claude/context/ references to .opencode/context/, added 2 new context references for future plan-synthesis support, and documented the minimal Read+Write tool-surface convention inline (since OpenCode does not enforce allowed-tools via frontmatter). All 9 stages of the execution flow, 4 error handling sub-sections, and the output contract were ported verbatim. Static structural validation: 9/9 checks PASS. Committed (40cd95d74, a0e2fb981)."
     },
     {
       "project_number": 636,
