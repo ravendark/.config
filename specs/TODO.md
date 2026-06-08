@@ -18,13 +18,13 @@ next_project_number: 638
 ### Uncategorized
 
 78 [PLANNED] — fix himalaya smtp authentication failure
-87 [RESEARCHED] — investigate wezterm terminal directory change
+87 [PLANNED] — investigate wezterm terminal directory change
 
 ## Tasks
 
 ### 633. Port core script infrastructure from .claude/ to .opencode/
 - **Effort**: 3-4 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: None
 
@@ -41,7 +41,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 634. Port orchestrator system (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
 
@@ -55,7 +55,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 635. Port synthesis and domain agents (.claude/ to .opencode/)
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #633
 
@@ -70,7 +70,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 636. Sync context, rules, extensions, and cleanup (.claude/ to .opencode/)
 - **Effort**: 2-3 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #633, #634, #635
 
@@ -85,7 +85,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 637. Verification and drift detection
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Dependencies**: Task #633, #634, #635, #636
 
@@ -99,7 +99,7 @@ Adapt each script for `.opencode/` paths and conventions.
 
 ### 87. Investigate terminal directory change when opening neovim in wezterm
 - **Effort**: TBD
-- **Status**: [RESEARCHED]
+- **Status**: [PLANNED]
 - **Research Started**: 2026-02-13
 - **Research Completed**: 2026-02-13
 - **Task Type**: neovim
