@@ -199,7 +199,7 @@ Dispatch research via named subagent (resolved by task type in Stage 1b).
 
 ```bash
 # Preflight: mark task as RESEARCHING before dispatch
-skill_preflight_update "$task_number" "research" "$session_id"
+bash .claude/scripts/update-task-status.sh preflight "$task_number" "research" "$session_id"
 ```
 
 ```
@@ -229,7 +229,7 @@ Dispatch planning via named subagent.
 
 ```bash
 # Preflight: mark task as PLANNING before dispatch
-skill_preflight_update "$task_number" "plan" "$session_id"
+bash .claude/scripts/update-task-status.sh preflight "$task_number" "plan" "$session_id"
 ```
 
 ```
@@ -259,7 +259,7 @@ plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
 
 ```bash
 # Preflight: mark task as IMPLEMENTING before dispatch
-skill_preflight_update "$task_number" "implement" "$session_id"
+bash .claude/scripts/update-task-status.sh preflight "$task_number" "implement" "$session_id"
 ```
 
 ```
@@ -291,7 +291,7 @@ Dispatch implement with continuation context (resolved by task type in Stage 1b)
 
 ```bash
 # Preflight: mark task as IMPLEMENTING before resume dispatch
-skill_preflight_update "$task_number" "implement" "$session_id"
+bash .claude/scripts/update-task-status.sh preflight "$task_number" "implement" "$session_id"
 ```
 
 ```
@@ -388,21 +388,41 @@ else
   # Postflight status update: trigger state.json + TODO.md Task Order regeneration
   case "$dispatch_status" in
     researched)
-      skill_postflight_update "$task_number" "research" "$session_id" "$dispatch_status"
+      bash .claude/scripts/update-task-status.sh postflight "$task_number" "research" "$session_id"
       ;;
     planned)
-      skill_postflight_update "$task_number" "plan" "$session_id" "$dispatch_status"
+      bash .claude/scripts/update-task-status.sh postflight "$task_number" "plan" "$session_id"
       ;;
     implemented)
-      skill_postflight_update "$task_number" "implement" "$session_id" "$dispatch_status"
+      bash .claude/scripts/update-task-status.sh postflight "$task_number" "implement" "$session_id"
       ;;
     *)
       echo "[orchestrate] Dispatch status '$dispatch_status' — no postflight update needed"
       ;;
   esac
 
-  # Artifact linking: delegate to shared helper in skill-base.sh
-  skill_link_artifact_from_handoff "$task_number" "$handoff"
+  # Artifact linking: extract from handoff and link in state.json + TODO.md
+  artifact_path=$(echo "$handoff" | jq -r '.artifacts[0].path // ""')
+  artifact_type=$(echo "$handoff" | jq -r '.artifacts[0].type // ""')
+  artifact_summary=$(echo "$handoff" | jq -r '.artifacts[0].summary // ""')
+  if [ -n "$artifact_path" ] && [ "$artifact_path" != "null" ]; then
+    # Step 1: Remove existing artifacts of same type (Issue #1132-safe pattern)
+    mkdir -p specs/tmp
+    jq --arg atype "$artifact_type" \
+      '(.active_projects[] | select(.project_number == '"$task_number"')).artifacts =
+        [(.active_projects[] | select(.project_number == '"$task_number"')).artifacts // [] | .[] | select(.type == $atype | not)]' \
+      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+    # Step 2: Add new artifact entry
+    jq --arg path "$artifact_path" --arg type "$artifact_type" --arg summary "$artifact_summary" \
+      '(.active_projects[] | select(.project_number == '"$task_number"')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
+      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+    # Step 3: Link in TODO.md
+    case "$artifact_type" in
+      report) bash .claude/scripts/link-artifact-todo.sh "$task_number" '**Research**' '**Plan**' "$artifact_path" ;;
+      plan)   bash .claude/scripts/link-artifact-todo.sh "$task_number" '**Plan**' '**Description**' "$artifact_path" ;;
+      summary) bash .claude/scripts/link-artifact-todo.sh "$task_number" '**Summary**' '**Description**' "$artifact_path" ;;
+    esac
+  fi
 fi
 
 # Increment cycle_count
@@ -556,7 +576,7 @@ blocker_escalation() {
       "orchestrator_mode": true,
       "plan_path": $plan_path}')
   # Preflight: mark task as IMPLEMENTING before re-dispatch
-  skill_preflight_update "$task_number" "implement" "$session_id"
+  bash .claude/scripts/update-task-status.sh preflight "$task_number" "implement" "$session_id"
 
   dispatch_agent "$IMPLEMENT_AGENT" \
     "Implement task $task_number following the revised plan${focus_prompt:+. User focus: $focus_prompt}" \
@@ -914,7 +934,7 @@ for task_num in "${research_tasks[@]}"; do
     '{"task_number": $num, "task_type": $task_type, "session_id": $session_id, "orchestrator_mode": false}')
   
   # Preflight: mark task as RESEARCHING before dispatch
-  skill_preflight_update "$task_num" "research" "${session_id}_${task_num}"
+  bash .claude/scripts/update-task-status.sh preflight "$task_num" "research" "${session_id}_${task_num}"
 
   # Invoke Agent tool: subagent_type=$r_agent
   # Dispatch: dispatch_agent "$r_agent" "Research task $task_num: $description" "$dispatch_context" "false"
@@ -939,7 +959,7 @@ for task_num in "${plan_tasks[@]}"; do
       "research_artifacts": $research_artifacts, "orchestrator_mode": false}')
   
   # Preflight: mark task as PLANNING before dispatch
-  skill_preflight_update "$task_num" "plan" "${session_id}_${task_num}"
+  bash .claude/scripts/update-task-status.sh preflight "$task_num" "plan" "${session_id}_${task_num}"
 
   # Invoke Agent tool: subagent_type=planner-agent
   echo "[orchestrate-mt] Dispatching planning for task $task_num -> planner-agent"
@@ -970,7 +990,7 @@ for task_num in "${implement_tasks[@]}"; do
       "orchestrator_mode": true, "plan_path": $plan_path, "continuation_context": $continuation}')
   
   # Preflight: mark task as IMPLEMENTING before dispatch
-  skill_preflight_update "$task_num" "implement" "${session_id}_${task_num}"
+  bash .claude/scripts/update-task-status.sh preflight "$task_num" "implement" "${session_id}_${task_num}"
 
   # Invoke Agent tool: subagent_type=$i_agent
   echo "[orchestrate-mt] Dispatching implement for task $task_num -> $i_agent"
@@ -998,15 +1018,15 @@ for task_num in "${research_tasks[@]}" "${plan_tasks[@]}" "${implement_tasks[@]}
   case "$dispatch_status" in
     researched)
       operation="research"
-      skill_postflight_update "$task_num" "research" "${session_id}_${task_num}" "$dispatch_status"
+      bash .claude/scripts/update-task-status.sh postflight "$task_num" "research" "${session_id}_${task_num}"
       ;;
     planned)
       operation="plan"
-      skill_postflight_update "$task_num" "plan" "${session_id}_${task_num}" "$dispatch_status"
+      bash .claude/scripts/update-task-status.sh postflight "$task_num" "plan" "${session_id}_${task_num}"
       ;;
     implemented)
       operation="implement"
-      skill_postflight_update "$task_num" "implement" "${session_id}_${task_num}" "$dispatch_status"
+      bash .claude/scripts/update-task-status.sh postflight "$task_num" "implement" "${session_id}_${task_num}"
       ;;
     *)
       operation="unknown"
@@ -1014,8 +1034,28 @@ for task_num in "${research_tasks[@]}" "${plan_tasks[@]}" "${implement_tasks[@]}
       ;;
   esac
   
-  # Artifact linking: delegate to shared helper in skill-base.sh
-  skill_link_artifact_from_handoff "$task_num" "$handoff"
+  # Artifact linking: extract from handoff and link in state.json + TODO.md
+  artifact_path=$(echo "$handoff" | jq -r '.artifacts[0].path // ""')
+  artifact_type=$(echo "$handoff" | jq -r '.artifacts[0].type // ""')
+  artifact_summary=$(echo "$handoff" | jq -r '.artifacts[0].summary // ""')
+  if [ -n "$artifact_path" ] && [ "$artifact_path" != "null" ]; then
+    # Step 1: Remove existing artifacts of same type (Issue #1132-safe pattern)
+    mkdir -p specs/tmp
+    jq --arg atype "$artifact_type" \
+      '(.active_projects[] | select(.project_number == '"$task_num"')).artifacts =
+        [(.active_projects[] | select(.project_number == '"$task_num"')).artifacts // [] | .[] | select(.type == $atype | not)]' \
+      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+    # Step 2: Add new artifact entry
+    jq --arg path "$artifact_path" --arg type "$artifact_type" --arg summary "$artifact_summary" \
+      '(.active_projects[] | select(.project_number == '"$task_num"')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
+      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+    # Step 3: Link in TODO.md
+    case "$artifact_type" in
+      report) bash .claude/scripts/link-artifact-todo.sh "$task_num" '**Research**' '**Plan**' "$artifact_path" ;;
+      plan)   bash .claude/scripts/link-artifact-todo.sh "$task_num" '**Plan**' '**Description**' "$artifact_path" ;;
+      summary) bash .claude/scripts/link-artifact-todo.sh "$task_num" '**Summary**' '**Description**' "$artifact_path" ;;
+    esac
+  fi
   
   # Update multi-state current_statuses and move to completed/failed as appropriate
   # Re-read fresh status from state.json (postflight may have updated it)
