@@ -1,5 +1,5 @@
 ---
-next_project_number: 633
+next_project_number: 638
 ---
 
 # TODO
@@ -22,11 +22,80 @@ next_project_number: 633
 
 ## Tasks
 
+### 633. Port core script infrastructure from .claude/ to .opencode/
+- **Effort**: 3-4 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: None
 
+**Description**: Port all 14+ missing scripts from `.claude/scripts/` to `.opencode/scripts/`, including:
+- `skill-base.sh` (516 lines) - shared lifecycle functions, extension hooks, orchestrator_mode
+- Gate/routing scripts: `command-gate-in.sh`, `command-gate-out.sh`, `command-route-skill.sh`, `dispatch-agent.sh`
+- Unified postflight: `postflight-workflow.sh`
+- Support scripts: `archive-task.sh`, `generate-task-order.sh`, `tier-selection.sh`, `issue-grouping.sh`, `orphan-detection.sh`, `memory-harvest.sh`, `vault-operation.sh`, `validate-context-budgets.sh`, `parse-command-args.sh`
+- Roadmap scripts as applicable
 
+Adapt each script for `.opencode/` paths and conventions.
 
+---
 
+### 634. Port orchestrator system (.claude/ to .opencode/)
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #633
 
+**Description**: Port the orchestrator system:
+- `/orchestrate` command definition
+- `skill-orchestrate` skill (1129 lines)
+- Addition of orchestrator_mode to relevant skills
+- Any orchestrator-related agents
+
+---
+
+### 635. Port synthesis and domain agents (.claude/ to .opencode/)
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #633
+
+**Description**: Port synthesis and domain-specific agents:
+- `synthesis-agent.md`
+- `neovim-*` agents (implementation, research)
+- `nix-*` agents (implementation, research)
+- `lean-implementation-agent`
+- Update skill frontmatter to reference new agents
+
+---
+
+### 636. Sync context, rules, extensions, and cleanup (.claude/ to .opencode/)
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #633, #634, #635
+
+**Description**: Sync remaining components:
+- Context files that are stale in .opencode/
+- Missing rules: `neovim-lua.md`, `nix.md`
+- Extension hooks in all manifests
+- Delete stale `status-transitions.md` from both locations (if applicable)
+- Sync settings.json
+
+---
+
+### 637. Verification and drift detection
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Dependencies**: Task #633, #634, #635, #636
+
+**Description**: End-to-end verification:
+- Compare all .claude/ vs .opencode/ components for parity
+- Verify dependency integrity
+- Test key workflows
+- Report any remaining gaps
+
+---
 
 ### 87. Investigate terminal directory change when opening neovim in wezterm
 - **Effort**: TBD

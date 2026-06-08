@@ -1,21 +1,33 @@
 {
   "status": "tasks_created",
-  "summary": "Created 2 tasks for WezTerm tab coloring and notification pipeline simplification: task 601 (simplify notification pipeline and merge status vocabulary) and task 602 (update wezterm.lua dim/bright color palette).",
+  "summary": "Created 5 tasks for porting .claude/ agent system upgrades to .opencode/: core script infrastructure (633), orchestrator system (634), synthesis and domain agents (635), context/rules/extensions sync (636), and verification (637).",
   "artifacts": [
     {
       "type": "task_entry",
       "path": "specs/TODO.md",
-      "summary": "Tasks #601 and #602 added to TODO.md"
+      "summary": "Tasks #633-637 added to TODO.md"
+    },
+    {
+      "type": "state_update",
+      "path": "specs/state.json",
+      "summary": "Tasks #633-637 added to state.json with dependency graph"
     }
   ],
   "metadata": {
-    "session_id": "sess_1779500000_wt_meta",
-    "duration_seconds": 120,
+    "session_id": "sess_20260607_meta_port",
+    "duration_seconds": 600,
     "agent_type": "meta-builder-agent",
-    "delegation_depth": 2,
+    "delegation_depth": 1,
     "delegation_path": ["orchestrator", "meta", "skill-meta", "meta-builder-agent"],
     "mode": "prompt",
-    "tasks_created": 2
+    "tasks_created": 5
   },
-  "next_steps": "Run /research 601 to begin research on the notification pipeline simplification"
+  "tasks": [
+    {"number": 633, "title": "Port core script infrastructure from .claude/ to .opencode/", "effort": "3-4 hours", "deps": [], "dir": "specs/633_port_core_script_infrastructure/"},
+    {"number": 634, "title": "Port orchestrator system (.claude/ to .opencode/)", "effort": "2-3 hours", "deps": [633], "dir": "specs/634_port_orchestrator_system/"},
+    {"number": 635, "title": "Port synthesis and domain agents (.claude/ to .opencode/)", "effort": "1-2 hours", "deps": [633], "dir": "specs/635_port_synthesis_domain_agents/"},
+    {"number": 636, "title": "Sync context, rules, extensions, and cleanup (.claude/ to .opencode/)", "effort": "2-3 hours", "deps": [633, 634, 635], "dir": "specs/636_sync_context_rules_extensions_cleanup/"},
+    {"number": 637, "title": "Verification and drift detection", "effort": "1-2 hours", "deps": [633, 634, 635, 636], "dir": "specs/637_verification_and_drift_detection/"}
+  ],
+  "next_steps": "Run /research 633 to begin research on foundational task (port core script infrastructure)"
 }
