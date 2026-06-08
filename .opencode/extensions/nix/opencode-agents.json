@@ -3,13 +3,13 @@
     "nix-implementation": {
       "description": "Implement Nix configuration changes from plans",
       "mode": "subagent",
-      "prompt": "{file:.opencode/agent/subagents/nix-implementation-agent.md}",
+      "prompt": "{file:.opencode/extensions/nix/agents/nix-implementation-agent.md}",
       "tools": {"write":true,"edit":true,"bash":true,"read":true,"glob":true,"grep":true}
     },
     "nix-research": {
       "description": "Research NixOS and Home Manager configuration tasks",
       "mode": "subagent",
-      "prompt": "{file:.opencode/agent/subagents/nix-research-agent.md}",
+      "prompt": "{file:.opencode/extensions/nix/agents/nix-research-agent.md}",
       "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
     }
   }

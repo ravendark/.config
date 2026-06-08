@@ -45,7 +45,7 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 
 # If no paths provided, scan all skill files
 if [[ ${#SKILL_PATHS[@]} -eq 0 ]]; then
-    mapfile -t SKILL_PATHS < <(find "$PROJECT_ROOT/.claude/skills" "$PROJECT_ROOT/.claude/extensions" -name "SKILL.md" -type f 2>/dev/null | sort)
+    mapfile -t SKILL_PATHS < <(find "$PROJECT_ROOT/.opencode/skills" "$PROJECT_ROOT/.opencode/extensions" -name "SKILL.md" -type f 2>/dev/null | sort)
 fi
 
 # Counters
@@ -165,6 +165,6 @@ if [[ $VIOLATIONS -eq 0 ]]; then
 else
     echo -e "${RED}Found $VIOLATIONS violation(s). See above for details.${NC}"
     echo ""
-    echo "Reference: .claude/context/standards/postflight-tool-restrictions.md"
+    echo "Reference: .opencode/context/standards/postflight-tool-restrictions.md"
     exit 1
 fi

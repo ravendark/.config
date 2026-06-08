@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # check-extension-docs.sh
 #
-# Doc-lint script that iterates .claude/extensions/*/ and flags:
+# Doc-lint script that iterates .opencode/extensions/*/ and flags:
 #   - missing README.md
 #   - missing EXTENSION.md
 #   - missing manifest.json
@@ -14,8 +14,8 @@
 #   1 - one or more extensions have failures
 #
 # Usage:
-#   bash .claude/scripts/check-extension-docs.sh
-#   bash .claude/scripts/check-extension-docs.sh --quiet   (suppress info output)
+#   bash .opencode/scripts/check-extension-docs.sh
+#   bash .opencode/scripts/check-extension-docs.sh --quiet   (suppress info output)
 
 set -uo pipefail
 
@@ -25,7 +25,7 @@ if [[ "${1:-}" == "--quiet" ]]; then
 fi
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-EXT_DIR="$REPO_ROOT/.claude/extensions"
+EXT_DIR="$REPO_ROOT/.opencode/extensions"
 
 if [[ ! -d "$EXT_DIR" ]]; then
   echo "ERROR: $EXT_DIR does not exist" >&2
@@ -157,7 +157,7 @@ check_readme_vs_manifest() {
   fi
 }
 
-echo "Checking .claude/extensions/ documentation..."
+echo "Checking .opencode/extensions/ documentation..."
 echo
 
 for ext_path in "$EXT_DIR"/*/; do

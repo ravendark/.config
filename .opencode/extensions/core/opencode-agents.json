@@ -41,6 +41,12 @@
       "mode": "subagent",
       "prompt": "{file:.opencode/agent/subagents/spawn-agent.md}",
       "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
+    },
+    "synthesis": {
+      "description": "Synthesizes multiple research or planning outputs from parallel teammates into a single coherent artifact",
+      "mode": "subagent",
+      "prompt": "{file:.opencode/agent/subagents/synthesis-agent.md}",
+      "tools": {"read":true,"write":true,"edit":true,"glob":true,"grep":true,"bash":true,"webfetch":true,"websearch":true}
     }
   }
 }

@@ -8,7 +8,7 @@
 # 4. Budget estimates per agent/task_type
 #
 # Usage: ./validate-index.sh [index-file]
-#        Default: .claude/context/index.json
+#        Default: .opencode/context/index.json
 
 set -euo pipefail
 
@@ -19,8 +19,8 @@ GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
 # Determine index file
-INDEX_FILE="${1:-.claude/context/index.json}"
-CONTEXT_DIR=".claude/context"
+INDEX_FILE="${1:-.opencode/context/index.json}"
+CONTEXT_DIR=".opencode/context"
 
 # Track warnings and errors
 WARNINGS=0
