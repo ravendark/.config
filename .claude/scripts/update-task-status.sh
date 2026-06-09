@@ -214,9 +214,9 @@ update_todo_task_entry() {
   # Calculate actual line number in file
   local actual_line=$((heading_line + status_line))
 
-  # Check if already at target
+  # Extract current status from the target line for idempotency check and dry-run display
   local current_todo_status
-  current_todo_status=$(sed -n "${actual_line}p" "$TODO_FILE" | sed 's/.*\[\([^]]*\)\].*/\1/')
+  current_todo_status=$(awk -v line="$actual_line" 'NR==line { match($0, /\[([A-Z ]+)\]/, arr); print arr[1]; exit }' "$TODO_FILE")
 
   if [[ "$current_todo_status" == "$TODO_STATUS" ]]; then
     if [[ "$DRY_RUN" == "true" ]]; then
@@ -230,8 +230,25 @@ update_todo_task_entry() {
     return 0
   fi
 
-  # Replace the status on that specific line
-  sed -i "${actual_line}s/\[${current_todo_status}\]/[${TODO_STATUS}]/" "$TODO_FILE"
+  # Single-pass awk: replace any well-formed [STATUS] on the target line
+  # sub() replaces first match; exit code reflects whether replacement was made
+  local new_status="$TODO_STATUS"
+  local replaced
+  replaced=$(awk -v line="$actual_line" -v new_status="$new_status" '
+    NR == line {
+      if (sub(/\[[A-Z ]+\]/, "[" new_status "]")) {
+        replaced = 1
+      }
+    }
+    { print }
+    END { exit (replaced ? 0 : 1) }
+  ' "$TODO_FILE") || {
+    echo "Warning: awk replacement found no [STATUS] pattern on line $actual_line of TODO.md task entry" >&2
+    return 1
+  }
+
+  printf '%s\n' "$replaced" > "$TMP_DIR/todo.md.tmp"
+  mv "$TMP_DIR/todo.md.tmp" "$TODO_FILE"
 }
 
 # ============================================================
@@ -288,9 +305,9 @@ update_todo_task_order() {
     return 0
   fi
 
-  # Check if already at target
+  # Extract current status from the target line for idempotency check and dry-run display
   local current_order_status
-  current_order_status=$(sed -n "${order_line}p" "$TODO_FILE" | grep -oE '\[([A-Z ]+)\]' | head -1 | tr -d '[]')
+  current_order_status=$(awk -v line="$order_line" 'NR==line { match($0, /\[([A-Z ]+)\]/, arr); print arr[1]; exit }' "$TODO_FILE")
 
   if [[ "$current_order_status" == "$TODO_STATUS" ]]; then
     if [[ "$DRY_RUN" == "true" ]]; then
@@ -304,8 +321,33 @@ update_todo_task_order() {
     return 0
   fi
 
-  # Replace the status on that specific line
-  sed -i "${order_line}s/\[${current_order_status}\]/[${TODO_STATUS}]/" "$TODO_FILE"
+  # Single-pass awk: replace any well-formed [STATUS] on the target line
+  # sub() replaces first match; exit code reflects whether replacement was made
+  local new_status="$TODO_STATUS"
+  local replaced
+  replaced=$(awk -v line="$order_line" -v new_status="$new_status" '
+    NR == line {
+      if (sub(/\[[A-Z ]+\]/, "[" new_status "]")) {
+        replaced = 1
+      }
+    }
+    { print }
+    END { exit (replaced ? 0 : 1) }
+  ' "$TODO_FILE") || {
+    echo "Warning: awk replacement found no [STATUS] pattern on line $order_line of TODO.md Task Order -- falling back to full regeneration" >&2
+    local gen_script="$SCRIPT_DIR/generate-task-order.sh"
+    if [[ -x "$gen_script" ]]; then
+      "$gen_script" --update-todo "$TODO_FILE" "$STATE_FILE" 2>/dev/null || {
+        echo "Warning: generate-task-order.sh fallback failed (non-fatal)" >&2
+      }
+    else
+      echo "Warning: generate-task-order.sh not found at $gen_script -- Task Order not updated" >&2
+    fi
+    return 0
+  }
+
+  printf '%s\n' "$replaced" > "$TMP_DIR/todo.md.tmp"
+  mv "$TMP_DIR/todo.md.tmp" "$TODO_FILE"
 }
 
 # ============================================================
