@@ -380,7 +380,7 @@ for task_idx, ext_deps in external_dependencies:
 - `dependency_map{}`: Map of task index -> [dependency indices] (internal)
 - `external_dependencies{}`: Map of task index -> [existing task numbers] (external)
 
-### Interview Stage 3.5: AnalyzeTopics (Topic Clustering)
+### Interview Stage 3.5: AnalyzeConsolidation (Task Consolidation)
 
 **Skip Condition**: Execute ONLY when:
 - User provided task_list with 2+ items (single task needs no consolidation)
@@ -465,7 +465,7 @@ If no groups have 2+ items (all tasks are independent):
 ```json
 {
   "question": "I found related tasks that could be consolidated. How should they be grouped?",
-  "header": "Topic Consolidation",
+  "header": "Task Consolidation",
   "multiSelect": false,
   "options": [
     {
@@ -549,6 +549,63 @@ Options per task:
 - Large: 3-6 hours
 - Very Large: > 6 hours (consider splitting)
 
+### Interview Stage 4.5: AssignTopic (Topic Assignment)
+
+**Purpose**: Assign a topic to all tasks in this batch. The topic is used to group tasks in the Task Order section of TODO.md. This uses an interactive picker based on the existing `active_topics` list in state.json, so the user can select an existing topic, create a new one, or skip topic assignment.
+
+**4.5.1: Read active_topics from state.json**
+
+```bash
+active_topics=$(jq -r '.active_topics[]?' specs/state.json)
+```
+
+If `active_topics` is empty or absent, proceed with only "New topic..." and "Skip (no topic)" options.
+
+**4.5.2: Build picker options**
+
+Construct the options array dynamically:
+1. One option per topic in `active_topics` (label = topic name, description = "Existing topic")
+2. "New topic..." option (free-text entry)
+3. "Skip (no topic)" option
+
+**4.5.3: Present AskUserQuestion**
+
+```json
+{
+  "question": "Assign a topic to these tasks?",
+  "header": "Topic",
+  "multiSelect": false,
+  "options": [
+    {"label": "{topic1}", "description": "Existing topic from active_topics"},
+    {"label": "{topic2}", "description": "Existing topic from active_topics"},
+    {"label": "New topic...", "description": "Enter a custom topic name (will be added to active_topics)"},
+    {"label": "Skip (no topic)", "description": "Tasks will appear under Uncategorized in Task Order"}
+  ]
+}
+```
+
+**4.5.4: Handle user response**
+
+**If user selects an existing topic**:
+- Set `batch_topic = selected_topic_name`
+
+**If user selects "New topic..."**:
+- Follow up with a free-text AskUserQuestion:
+```json
+{
+  "question": "Enter a topic name (use kebab-case, e.g. agent-system, lean-proofs):",
+  "header": "New Topic Name"
+}
+```
+- Set `batch_topic = user_input` (store in kebab-case)
+
+**If user selects "Skip (no topic)"**:
+- Set `batch_topic = null`
+
+**Capture**: `batch_topic` (string or null) — used in Stage 5 confirmation table and Stage 6 state.json entry.
+
+---
+
 ### Interview Stage 5: ReviewAndConfirm (CRITICAL)
 
 **MANDATORY**: User MUST confirm before any task creation.
@@ -571,7 +628,7 @@ Options per task:
 **Dependencies Legend**:
 - "Task {M}" = internal dependency on another new task in this batch
 - "#{ext_task}" = external dependency on existing task in TODO
-- Topics are auto-inferred from task title/description; user can revise by selecting "Revise"
+- Topic assigned via Stage 4.5 picker; applies to all tasks in this batch. User can revise by selecting "Revise".
 
 **Total Estimated Effort**: {sum} hours
 ```
@@ -673,7 +730,7 @@ for position, task_idx in enumerate(sorted_indices):
   # 3. Update TODO.md
 ```
 
-**Topic Auto-Inference**: Before building the state.json entry, run the keyword heuristic (same as `/task` topic inference) against each task's title and description. The inferred topic is shown in the Stage 5 confirmation table (Topic column). If the user selects "Revise", they can change topic assignments.
+**Topic Assignment**: Write `batch_topic` (from Stage 4.5) to the `"topic"` field in each state.json entry. If `batch_topic` is null (user selected "Skip"), omit the `topic` field.
 
 **state.json Entry** (with dependencies):
 ```json
