@@ -30,10 +30,11 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 STATE_FILE="$PROJECT_ROOT/specs/state.json"
 TODO_FILE="$PROJECT_ROOT/specs/TODO.md"
 TMP_DIR="$PROJECT_ROOT/specs/tmp"
+LOCK_FILE="$PROJECT_ROOT/specs/.state.json.lock"
 
 # --- Cleanup trap ---
 cleanup() {
-  rm -f "$TMP_DIR/state.json.tmp" "$TMP_DIR/todo.md.tmp" 2>/dev/null || true
+  rm -f "$TMP_DIR"/state.??????.json "$TMP_DIR"/todo.??????.md 2>/dev/null || true
 }
 trap cleanup EXIT
 
@@ -149,31 +150,43 @@ update_state_json() {
     echo "$task_number $(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$SCRIPT_DIR/../tmp/workflow-active"
   fi
 
-  # Use two-step jq pattern to avoid Issue #1132
-  # Step 1: Update status and timestamp
-  jq --arg num "$task_number" \
-     --arg status "$STATE_STATUS" \
-     --arg ts "$ts" \
-     --arg sid "$session_id" \
-    '(.active_projects[] | select(.project_number == ($num | tonumber))) |= . + {
-      status: $status,
-      last_updated: $ts,
-      session_id: $sid
-    }' "$STATE_FILE" > "$TMP_DIR/state.json.tmp"
+  # Acquire exclusive lock around the entire read-jq-write critical section.
+  # This prevents last-write-wins corruption when multiple agents call this script
+  # concurrently during multi-task orchestration waves.
+  (
+    flock -x -w 30 200 || { echo "Error: could not acquire state.json lock (timeout after 30s)" >&2; return 1; }
 
-  if [[ $? -ne 0 ]]; then
-    echo "Error: jq failed to update state.json" >&2
-    return 1
-  fi
+    local tmp
+    tmp=$(mktemp "$TMP_DIR/state.XXXXXX.json")
 
-  # Validate the output is valid JSON
-  if ! jq empty "$TMP_DIR/state.json.tmp" 2>/dev/null; then
-    echo "Error: jq produced invalid JSON for state.json" >&2
-    return 1
-  fi
+    # Use two-step jq pattern to avoid Issue #1132
+    # Step 1: Update status and timestamp
+    jq --arg num "$task_number" \
+       --arg status "$STATE_STATUS" \
+       --arg ts "$ts" \
+       --arg sid "$session_id" \
+      '(.active_projects[] | select(.project_number == ($num | tonumber))) |= . + {
+        status: $status,
+        last_updated: $ts,
+        session_id: $sid
+      }' "$STATE_FILE" > "$tmp"
 
-  # Atomic move
-  mv "$TMP_DIR/state.json.tmp" "$STATE_FILE"
+    if [[ $? -ne 0 ]]; then
+      echo "Error: jq failed to update state.json" >&2
+      rm -f "$tmp"
+      return 1
+    fi
+
+    # Validate the output is valid JSON
+    if ! jq empty "$tmp" 2>/dev/null; then
+      echo "Error: jq produced invalid JSON for state.json" >&2
+      rm -f "$tmp"
+      return 1
+    fi
+
+    # Atomic move
+    mv "$tmp" "$STATE_FILE"
+  ) 200>"$LOCK_FILE"
 }
 
 if ! update_state_json; then
@@ -247,8 +260,10 @@ update_todo_task_entry() {
     return 1
   }
 
-  printf '%s\n' "$replaced" > "$TMP_DIR/todo.md.tmp"
-  mv "$TMP_DIR/todo.md.tmp" "$TODO_FILE"
+  local tmp_todo
+  tmp_todo=$(mktemp "$TMP_DIR/todo.XXXXXX.md")
+  printf '%s\n' "$replaced" > "$tmp_todo"
+  mv "$tmp_todo" "$TODO_FILE"
 }
 
 # ============================================================
@@ -346,8 +361,10 @@ update_todo_task_order() {
     return 0
   }
 
-  printf '%s\n' "$replaced" > "$TMP_DIR/todo.md.tmp"
-  mv "$TMP_DIR/todo.md.tmp" "$TODO_FILE"
+  local tmp_todo
+  tmp_todo=$(mktemp "$TMP_DIR/todo.XXXXXX.md")
+  printf '%s\n' "$replaced" > "$tmp_todo"
+  mv "$tmp_todo" "$TODO_FILE"
 }
 
 # ============================================================
