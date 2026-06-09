@@ -205,7 +205,7 @@ bash .claude/scripts/update-task-status.sh preflight "$task_number" "research" "
 ```
 dispatch_instructions = dispatch_agent "$RESEARCH_AGENT" \
   "Research task $task_number: $DESCRIPTION${focus_prompt:+. User focus: $focus_prompt}" \
-  '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": false}' \
+  '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": true}' \
   "false"
 ```
 
@@ -237,7 +237,7 @@ research_artifacts=$(jq -c '[.active_projects[] | select(.project_number == N) |
 
 dispatch_instructions = dispatch_agent "planner-agent" \
   "Create implementation plan for task $task_number${focus_prompt:+. User focus: $focus_prompt}" \
-  '{"task_number": N, "task_type": "T", "session_id": "S", "research_artifacts": [...], "orchestrator_mode": false}' \
+  '{"task_number": N, "task_type": "T", "session_id": "S", "research_artifacts": [...], "orchestrator_mode": true}' \
   "false"
 ```
 
@@ -931,7 +931,7 @@ for task_num in "${research_tasks[@]}"; do
     --argjson num "$task_num" \
     --arg task_type "$task_type" \
     --arg session_id "${session_id}_${task_num}" \
-    '{"task_number": $num, "task_type": $task_type, "session_id": $session_id, "orchestrator_mode": false}')
+    '{"task_number": $num, "task_type": $task_type, "session_id": $session_id, "orchestrator_mode": true}')
   
   # Preflight: mark task as RESEARCHING before dispatch
   bash .claude/scripts/update-task-status.sh preflight "$task_num" "research" "${session_id}_${task_num}"
@@ -956,7 +956,7 @@ for task_num in "${plan_tasks[@]}"; do
     --arg session_id "${session_id}_${task_num}" \
     --argjson research_artifacts "[$research_artifacts]" \
     '{"task_number": $num, "task_type": $task_type, "session_id": $session_id,
-      "research_artifacts": $research_artifacts, "orchestrator_mode": false}')
+      "research_artifacts": $research_artifacts, "orchestrator_mode": true}')
   
   # Preflight: mark task as PLANNING before dispatch
   bash .claude/scripts/update-task-status.sh preflight "$task_num" "plan" "${session_id}_${task_num}"
