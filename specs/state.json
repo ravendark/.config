@@ -1,7 +1,69 @@
 {
   "version": "1.0.0",
-  "next_project_number": 640,
+  "next_project_number": 642,
   "active_projects": [
+    {
+      "project_number": 641,
+      "project_name": "meta_builder_topic_picker",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1-2 hours",
+      "created": "2026-06-08T23:55:00Z",
+      "last_updated": "2026-06-09T00:16:37Z",
+      "dependencies": [],
+      "description": "Fix meta-builder-agent topic assignment: replace nonexistent keyword heuristic with interactive topic picker using active_topics + New topic option",
+      "session_id": "sess_1780973700_641",
+      "artifacts": [
+        {
+          "path": "specs/641_meta_builder_topic_picker/reports/01_topic-picker-research.md",
+          "type": "report",
+          "summary": "Documents broken topic assignment, Stage 3.5 naming confusion, and batch topic picker integration plan"
+        },
+        {
+          "path": "specs/641_meta_builder_topic_picker/plans/01_topic-picker-plan.md",
+          "type": "plan",
+          "summary": "3-phase plan: core agent edits, cross-reference updates, verification"
+        },
+        {
+          "path": "specs/641_meta_builder_topic_picker/summaries/01_topic-picker-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: Stage 3.5 rename, Stage 4.5 topic picker, cross-reference updates"
+        }
+      ],
+      "completion_summary": "Replaced nonexistent keyword heuristic with interactive batch topic picker (Stage 4.5 AssignTopic) in meta-builder-agent.md; renamed Stage 3.5 from AnalyzeTopics to AnalyzeConsolidation; updated cross-references in 6 files"
+    },
+    {
+      "project_number": 640,
+      "project_name": "todo_topic_revision",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1-2 hours",
+      "created": "2026-06-08T23:55:00Z",
+      "last_updated": "2026-06-09T00:14:49Z",
+      "dependencies": [],
+      "description": "Add topic revision stage to /todo skill and New topic option to /task --sync backfill",
+      "session_id": "sess_1780973700_640",
+      "artifacts": [
+        {
+          "path": "specs/640_todo_topic_revision/reports/01_topic-revision-research.md",
+          "type": "report",
+          "summary": "Analysis of topic handling gaps in skill-todo and /task --sync with insertion points and patterns"
+        },
+        {
+          "path": "specs/640_todo_topic_revision/plans/01_topic-revision-plan.md",
+          "type": "plan",
+          "summary": "2-phase plan: SKILL.md topic stages + task.md backfill picker"
+        },
+        {
+          "path": "specs/640_todo_topic_revision/summaries/01_topic-revision-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary: SKILL.md topic revision stages + task.md Step 6.5 expansion"
+        }
+      ],
+      "completion_summary": "Added Stage 2.5 (TopicRevision) and Stage 10.3 (OrphanTopicCleanup) to skill-todo/SKILL.md; expanded /task --sync Step 6.5 with New topic option matching Step 4.5 canonical pattern"
+    },
     {
       "project_number": 639,
       "project_name": "fix_orchestrate_todo_sync",

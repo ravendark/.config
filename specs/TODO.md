@@ -1,12 +1,12 @@
 ---
-next_project_number: 640
+next_project_number: 642
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-06-08. Generated from state.json dependency graph.*
+*Updated 2026-06-09. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
@@ -21,6 +21,45 @@ next_project_number: 640
 87 [RESEARCHED] — investigate wezterm terminal directory change
 
 ## Tasks
+
+### 641. Fix meta-builder-agent topic assignment
+- **Effort**: 1-2 hours
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: None
+- **Research**: [641_meta_builder_topic_picker/reports/01_topic-picker-research.md]
+- **Plan**: [641_meta_builder_topic_picker/plans/01_topic-picker-plan.md]
+- **Summary**: [641_meta_builder_topic_picker/summaries/01_topic-picker-summary.md]
+
+**Description**: Replace the nonexistent "keyword heuristic (same as `/task` topic inference)" in `meta-builder-agent.md` with an actual interactive topic picker. The meta-builder currently references auto-inference that doesn't exist, so batch-created tasks via `/meta` silently skip topic assignment — all tasks end up under "Uncategorized" in Task Order.
+
+**Changes needed**:
+1. **Stage 5 (ReviewAndConfirm)**: Add a topic assignment step before the confirmation table. Present AskUserQuestion with options from `active_topics` + "New topic..." + "Skip". Allow batch assignment (all tasks get same topic) or per-task assignment.
+2. **Stage 5 confirmation table**: Ensure the Topic column displays assigned values so the user can verify before confirming.
+3. **Stage 6 (CreateTasks)**: Replace the "keyword heuristic" reference with writing the user-selected topic to each state.json entry's `topic` field.
+4. **Stage 3.5 UX clarity**: Consider renaming the "Topic Consolidation" header to "Task Consolidation" to avoid confusion with topic assignment — Stage 3.5 merges tasks, it doesn't assign topics.
+
+---
+
+### 640. Add topic revision stage to /todo skill
+- **Effort**: 1-2 hours
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: None
+- **Research**: [640_todo_topic_revision/reports/01_topic-revision-research.md]
+- **Plan**: [640_todo_topic_revision/plans/01_topic-revision-plan.md]
+- **Summary**: [640_todo_topic_revision/summaries/01_topic-revision-summary.md]
+
+**Description**: Add topic awareness to `skill-todo/SKILL.md` so that running `/todo` offers to assign or revise topic groupings. Currently the skill has zero topic handling — tasks without topics stay uncategorized forever unless the user manually edits state.json.
+
+**Changes needed**:
+1. **New stage in skill-todo** (between task scanning and archiving): Detect active tasks missing a `topic` field. If any found, present AskUserQuestion with existing `active_topics` + "New topic..." + "Skip all". Allow the user to assign topics to uncategorized tasks.
+2. **Orphan topic cleanup**: After archiving tasks, check if any `active_topics` values are no longer referenced by any active task. If so, present AskUserQuestion offering to remove orphaned topics from the `active_topics` array.
+3. **`/task --sync` Step 6.5**: Add "New topic..." option to the existing backfill picker (currently only shows existing `active_topics`, no way to create a new topic during sync).
+
+---
 
 ### 639. Fix /orchestrate TODO.md status sync and artifact linking
 - **Effort**: 1 hour

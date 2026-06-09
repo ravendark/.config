@@ -383,9 +383,55 @@ Parse task number and optional prompt:
    ' specs/state.json)
    ```
 
-   If any tasks need backfill, read `active_topics` from state.json and present **AskUserQuestion** multiSelect allowing the user to assign topics from the dynamic list. No auto-inference heuristic -- purely picker-based.
+   If any tasks need backfill, read `active_topics` from state.json and present **AskUserQuestion** per-task (mirrors Step 4.5 pattern):
 
-   Apply accepted assignments via jq `(.active_projects[] | select(.project_number == N)) |= . + {topic: "value"}`.
+   ```bash
+   existing_topics=$(jq -r '.active_topics // [] | .[]' specs/state.json)
+   ```
+
+   ```json
+   {
+     "question": "Assign a topic to task {N} ({project_name})?",
+     "header": "Topic Backfill ({i} of {total})",
+     "multiSelect": false,
+     "options": [
+       "... one option per active_topics entry ...",
+       { "label": "New topic...", "description": "Enter a custom topic name (will be added to active_topics)" },
+       { "label": "Skip (no topic)", "description": "Task will remain uncategorized" }
+     ]
+   }
+   ```
+
+   If "New topic..." is selected, follow up with a free-text prompt:
+   ```json
+   {
+     "question": "Enter a topic name for task {N}:",
+     "header": "New Topic",
+     "multiSelect": false,
+     "options": []
+   }
+   ```
+
+   **Active Topics Maintenance**: After obtaining the topic, append it to `active_topics` if new (same pattern as Step 4.5 lines 162-169):
+   ```bash
+   if [[ -n "$topic" ]]; then
+     jq --arg t "$topic" '
+       if ((.active_topics // []) | index($t)) == null
+       then .active_topics = ((.active_topics // []) + [$t])
+       else . end' \
+       specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
+   fi
+   ```
+
+   Apply accepted topic assignments via jq:
+   ```bash
+   jq --argjson n "$task_number" --arg t "$selected_topic" '
+     .active_projects |= map(
+       if .project_number == $n
+       then . + {topic: $t}
+       else . end
+     )' specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
+   ```
 
 7. Git commit: "sync: reconcile TODO.md and state.json"
 

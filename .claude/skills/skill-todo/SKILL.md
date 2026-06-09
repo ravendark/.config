@@ -16,7 +16,7 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
 
 <role>Direct execution skill for task archival operations with automated CHANGE_LOG updates and memory harvest suggestions.</role>
 
-<task>Parse arguments, scan for archivable tasks, update states, generate CHANGE_LOG entries, suggest memory harvesting from completed task artifacts.</task>
+<task>Parse arguments, scan for archivable tasks, assign topics to uncategorized tasks, update states, generate CHANGE_LOG entries, suggest memory harvesting from completed task artifacts. Includes topic revision stage to prompt for topic assignment before archival and orphan topic cleanup after archival.</task>
 
 <execution>
   <stage id="1" name="ParseArguments">
@@ -39,6 +39,77 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
     </process>
   </stage>
   
+  <stage id="2.5" name="TopicRevision">
+    <action>Prompt user to assign topics to active tasks missing a topic field</action>
+    <process>
+      1. Detect active non-terminal tasks without a topic field:
+         ```bash
+         missing_topics=$(jq -r '
+           .active_projects[] |
+           select(.status == "completed" | not) |
+           select(.status == "abandoned" | not) |
+           select(.status == "expanded" | not) |
+           select(.topic == null or .topic == "") |
+           "\(.project_number)|\(.project_name)"
+         ' specs/state.json)
+         ```
+
+      2. If no tasks need topic assignment (`missing_topics` is empty), skip this stage entirely with no prompt.
+
+      3. If uncategorized tasks found:
+         a. Read existing `active_topics` from state.json:
+            ```bash
+            existing_topics=$(jq -r '.active_topics // [] | .[]' specs/state.json)
+            ```
+
+         b. For each task missing a topic, present an **AskUserQuestion** picker:
+            ```json
+            {
+              "question": "Assign a topic to task {N} ({project_name})?",
+              "header": "Topic Assignment ({i} of {total})",
+              "multiSelect": false,
+              "options": [
+                "... one option per active_topics entry ...",
+                { "label": "New topic...", "description": "Enter a custom topic name (will be added to active_topics)" },
+                { "label": "Skip (no topic)", "description": "Task will remain uncategorized" }
+              ]
+            }
+            ```
+
+            Note: Build option list dynamically from `active_topics`. If `active_topics` is empty, show only "New topic..." and "Skip (no topic)".
+
+         c. If "New topic..." is selected: follow-up AskUserQuestion for free-text topic name:
+            ```json
+            {
+              "question": "Enter a topic name for task {N}:",
+              "header": "New Topic",
+              "multiSelect": false,
+              "options": []
+            }
+            ```
+            Then append the new topic to `active_topics` if not already present:
+            ```bash
+            jq --arg t "$new_topic" '
+              if ((.active_topics // []) | index($t)) == null
+              then .active_topics = ((.active_topics // []) + [$t])
+              else . end' \
+              specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
+            ```
+
+         d. If a topic was selected (not "Skip (no topic)"), write it to the task entry in state.json immediately:
+            ```bash
+            jq --argjson n "$task_number" --arg t "$selected_topic" '
+              .active_projects |= map(
+                if .project_number == $n
+                then . + {topic: $t}
+                else . end
+              )' specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
+            ```
+
+         e. Track total assignments made: `topic_assignments_count` (for Stage 16 output)
+    </process>
+  </stage>
+
   <stage id="3" name="DetectOrphans">
     <action>Detect orphaned directories and TODO.md orphans</action>
     <process>
@@ -189,6 +260,9 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
       If dry_run = true:
       1. Display comprehensive preview:
          - Tasks to archive (completed/abandoned counts)
+         - Topic revision: count of active non-terminal tasks missing a topic field
+           - Format: `Topic revision: {count} uncategorized tasks would be prompted`
+           - If none: `Topic revision: none (all active tasks have topics)`
          - Orphaned directories count
          - Misplaced directories count
          - Roadmap updates needed
@@ -633,6 +707,60 @@ ${transition_comment}
     <checkpoint>vault_check_complete output present; if vault_needed, sub-steps 9.1-9.4 executed</checkpoint>
   </stage>
 
+  <stage id="10.3" name="OrphanTopicCleanup">
+    <action>Remove topics from active_topics that are no longer referenced by any active non-terminal task</action>
+    <process>
+      1. Collect all topics currently referenced by active non-terminal tasks:
+         ```bash
+         referenced_topics=$(jq -r '
+           [.active_projects[] |
+             select(.status == "completed" | not) |
+             select(.status == "abandoned" | not) |
+             select(.status == "expanded" | not) |
+             select(.topic != null and .topic != "") |
+             .topic
+           ] | unique | .[]
+         ' specs/state.json)
+         ```
+
+      2. Find topics in `active_topics` not referenced by any remaining active task:
+         ```bash
+         orphan_topics=$(jq -r --argjson refs "$(jq '[.active_projects[] |
+           select(.status == "completed" | not) |
+           select(.status == "abandoned" | not) |
+           select(.status == "expanded" | not) |
+           select(.topic != null and .topic != "") |
+           .topic] | unique' specs/state.json)" '
+           (.active_topics // []) - $refs | .[]
+         ' specs/state.json)
+         ```
+
+      3. If no orphan topics found, skip this stage silently.
+
+      4. If orphan topics found, present an **AskUserQuestion** multiSelect:
+         ```json
+         {
+           "question": "The following topics are no longer used by any active task. Remove them from active_topics?",
+           "header": "Orphan Topic Cleanup",
+           "multiSelect": true,
+           "options": [
+             "... one option per orphan topic ...",
+             { "label": "Keep all (skip cleanup)", "value": "skip" }
+           ]
+         }
+         ```
+
+      5. Remove user-selected orphan topics from `active_topics` array:
+         ```bash
+         jq --argjson remove "$(printf '%s\n' $selected_orphans | jq -R . | jq -s .)" '
+           .active_topics = ((.active_topics // []) - $remove)
+         ' specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
+         ```
+
+      6. Track count of removed topics for Stage 16 output.
+    </process>
+  </stage>
+
   <stage id="10.5" name="RegenerateTaskOrder">
     <action>Regenerate Task Order section in TODO.md after task archival</action>
     <process>
@@ -751,6 +879,8 @@ ${transition_comment}
     <process>
       Display summary with counts for:
       - Archived tasks (completed/abandoned)
+      - Topic assignments: `{topic_assignments_count} topics assigned, {orphan_topics_removed} orphan topics removed`
+        - If zero: omit this line or display `Topic assignments: none`
       - Directory operations (orphans tracked/misplaced moved)
       - Updates applied (roadmap annotations/readme changes/changelog entries)
       - Memory harvest with tier breakdown:

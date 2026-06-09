@@ -1,7 +1,7 @@
 # Implementation Plan: Task #641
 
 - **Task**: 641 - Fix meta-builder-agent topic assignment -- replace nonexistent keyword heuristic with interactive topic picker
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/641_meta_builder_topic_picker/reports/01_topic-picker-research.md
