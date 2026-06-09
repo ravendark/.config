@@ -158,6 +158,21 @@ DRIFT_COMPLETION_THRESHOLD=0.70
 DRIFT_REVISION_THRESHOLD=0.30
 ```
 
+### Stage 2.5: Reconciliation Preflight
+
+Detect tasks stuck in in-flight states with completed artifacts (agent crashed before postflight).
+Runs after the loop guard is initialized and before the state machine loop, so promoted statuses
+are visible on the first cycle.
+
+```bash
+echo "[orchestrate] Stage 2.5: Running reconciliation preflight for task $task_number..."
+bash .claude/scripts/reconcile-task-status.sh "$task_number" "$session_id" && \
+  echo "[orchestrate] Reconciliation preflight complete" || \
+  echo "[orchestrate] WARNING: Reconciliation preflight encountered an error (non-fatal)"
+```
+
+---
+
 ### Stage 3: State Machine Loop
 
 The loop runs until a terminal condition is reached or MAX_CYCLES is hit.
@@ -739,7 +754,15 @@ for task_num in $(echo "$task_numbers_json" | jq -r '.[]'); do
   echo "[orchestrate-mt] Task $task_num: type=$ttype dir=$task_dir research=$r_agent implement=$i_agent"
 done
 
-# Read current status for each task
+# Reconciliation preflight: promote any tasks stuck in in-flight states with completed artifacts
+echo "[orchestrate-mt] Running reconciliation preflight for $task_count tasks..."
+for task_num in $(echo "$task_numbers_json" | jq -r '.[]'); do
+  bash .claude/scripts/reconcile-task-status.sh "$task_num" "${session_id}_${task_num}" || \
+    echo "[orchestrate-mt] WARNING: Reconciliation for task $task_num encountered an error (non-fatal)"
+done
+echo "[orchestrate-mt] Reconciliation preflight complete"
+
+# Read current status for each task (after reconciliation, so promoted statuses are visible)
 declare -A current_statuses
 for task_num in $(echo "$task_numbers_json" | jq -r '.[]'); do
   status=$(jq -r --argjson num "$task_num" \

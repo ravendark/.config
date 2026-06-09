@@ -1,24 +1,44 @@
 {
-  "session_id": "sess_1780973700_a3b1c2",
+  "session_id": "sess_1780978328_6507e6",
   "task_numbers": [
-    640,
-    641
+    644,
+    645
   ],
   "waves": [
     [
-      640,
-      641
+      644,
+      645
     ]
   ],
+  "dependency_graph": {
+    "644": [],
+    "645": []
+  },
   "cycle_count": 3,
   "max_cycles": 10,
   "failed_tasks": [],
   "completed_tasks": [
-    640,
-    641
+    644,
+    645
   ],
   "current_statuses": {
-    "640": "completed",
-    "641": "completed"
+    "644": "completed",
+    "645": "completed"
+  },
+  "task_types": {
+    "644": "meta",
+    "645": "meta"
+  },
+  "task_dirs": {
+    "644": "specs/644_reconciliation_preflight",
+    "645": "specs/645_parallel_write_safety"
+  },
+  "research_agents": {
+    "644": "general-research-agent",
+    "645": "general-research-agent"
+  },
+  "implement_agents": {
+    "644": "general-implementation-agent",
+    "645": "general-implementation-agent"
   }
 }

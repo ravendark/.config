@@ -1,7 +1,168 @@
 {
   "version": "1.0.0",
-  "next_project_number": 642,
+  "next_project_number": 647,
   "active_projects": [
+    {
+      "project_number": 646,
+      "project_name": "harden_todo_status_updates",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1-2 hours",
+      "created": "2026-06-09T01:00:00Z",
+      "last_updated": "2026-06-09T03:57:16Z",
+      "dependencies": [],
+      "description": "Replace brittle sed pattern matching in update-task-status.sh phase 2 with robust awk/line-number approach that does not fail silently when status text format varies",
+      "artifacts": [
+        {
+          "path": "specs/646_harden_todo_status_updates/reports/01_harden-todo-status.md",
+          "type": "report",
+          "summary": "Analysis of sed failure modes and awk replacement approach"
+        },
+        {
+          "path": "specs/646_harden_todo_status_updates/plans/01_harden-todo-status.md",
+          "type": "plan",
+          "summary": "3-phase plan: awk replacement for sed patterns"
+        },
+        {
+          "path": "specs/646_harden_todo_status_updates/summaries/01_implementation-summary.md",
+          "type": "summary",
+          "summary": "awk single-pass replacement for sed patterns"
+        }
+      ],
+      "session_id": "sess_1780976739_21f335_646",
+      "completion_summary": "Replaced brittle sed pattern matching in update-task-status.sh PHASE 2 and PHASE 3 Mode A with awk single-pass approach that detects failures instead of silently skipping"
+    },
+    {
+      "project_number": 645,
+      "project_name": "parallel_write_safety",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1-2 hours",
+      "created": "2026-06-09T01:00:00Z",
+      "last_updated": "2026-06-09T04:27:24Z",
+      "dependencies": [
+        643
+      ],
+      "description": "Fix parallel write safety for state.json: replace shared specs/tmp/state.json temp path with mktemp unique per write, add flock mutex around state.json write operations in update-task-status.sh to prevent last-write-wins corruption when multiple agents write concurrently",
+      "artifacts": [
+        {
+          "path": "specs/645_parallel_write_safety/reports/01_parallel-write-safety.md",
+          "type": "report",
+          "summary": "Full race condition analysis: 40+ shared-tmp call sites identified, flock/mktemp patterns validated, Python direct-write hazard documented, Option B (3-script fix) recommended"
+        },
+        {
+          "path": "specs/645_parallel_write_safety/plans/01_parallel-write-safety.md",
+          "type": "plan",
+          "summary": "4-phase plan for flock locking and mktemp unique temp files across 3 scripts"
+        },
+        {
+          "path": "specs/645_parallel_write_safety/summaries/01_parallel-write-safety-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary covering flock locking and mktemp for concurrent state.json write safety"
+        }
+      ],
+      "session_id": "sess_1780978328_6507e6_645",
+      "completion_summary": "Added flock mutex + mktemp to update-task-status.sh, postflight-workflow.sh, and skill-base.sh to eliminate last-write-wins corruption for concurrent state.json writes"
+    },
+    {
+      "project_number": 644,
+      "project_name": "reconciliation_preflight",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "2-3 hours",
+      "created": "2026-06-09T01:00:00Z",
+      "last_updated": "2026-06-09T04:27:23Z",
+      "dependencies": [
+        643
+      ],
+      "description": "Add reconciliation preflight to orchestrator: at the start of each /orchestrate invocation scan task directories for artifacts that exist but whose status has not been promoted, replay missed postflight to provide self-healing for crashed agents missed handoffs and interrupted sessions",
+      "artifacts": [
+        {
+          "path": "specs/644_reconciliation_preflight/reports/01_reconciliation-preflight.md",
+          "type": "report",
+          "summary": "Analysis of orchestrator failure scenarios, artifact-to-status mapping, detection heuristics, and insertion points for self-healing reconciliation preflight"
+        },
+        {
+          "path": "specs/644_reconciliation_preflight/plans/01_reconciliation-preflight.md",
+          "type": "plan",
+          "summary": "3-phase plan covering reconcile-task-status.sh creation, SKILL.md insertion at Stage 2.5 and MT-2, and end-to-end testing"
+        },
+        {
+          "path": "specs/644_reconciliation_preflight/summaries/01_reconciliation-preflight-summary.md",
+          "type": "summary",
+          "summary": "Implementation summary covering reconcile-task-status.sh creation, SKILL.md integration at Stage 2.5 and MT-2"
+        }
+      ],
+      "session_id": "sess_1780978328_6507e6_644",
+      "completion_summary": "Created reconcile-task-status.sh script and integrated reconciliation preflight into orchestrator SKILL.md at Stage 2.5 (single-task) and Stage MT-2 (multi-task) for self-healing crashed agent status"
+    },
+    {
+      "project_number": 643,
+      "project_name": "eliminate_dual_postflight",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1-2 hours",
+      "created": "2026-06-09T01:00:00Z",
+      "last_updated": "2026-06-09T04:04:54Z",
+      "dependencies": [
+        642
+      ],
+      "description": "Eliminate dual postflight ownership: when orchestrator_mode=true the skill should SKIP its own skill_postflight_update and only write the handoff JSON so the orchestrator exclusively owns status transitions in state.json and TODO.md",
+      "artifacts": [
+        {
+          "path": "specs/643_eliminate_dual_postflight/reports/01_eliminate-dual-postflight.md",
+          "type": "report",
+          "summary": "Dual postflight analysis with fix locations in skill-base.sh and 3 core skills"
+        },
+        {
+          "path": "specs/643_eliminate_dual_postflight/plans/01_eliminate-dual-postflight.md",
+          "type": "plan",
+          "summary": "2-phase plan: guard in skill-base.sh + 3 call site updates"
+        },
+        {
+          "path": "specs/643_eliminate_dual_postflight/summaries/01_implementation-summary.md",
+          "type": "summary",
+          "summary": "Dual postflight eliminated via orchestrator_mode guard"
+        }
+      ],
+      "session_id": "sess_1780976739_21f335_643",
+      "completion_summary": "Added orchestrator_mode guard to skill_postflight_update in skill-base.sh and updated 3 core skill call sites so orchestrator exclusively owns status transitions when orchestrator_mode=true"
+    },
+    {
+      "project_number": 642,
+      "project_name": "fix_orchestrator_mode_dispatch",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "30 minutes",
+      "created": "2026-06-09T01:00:00Z",
+      "last_updated": "2026-06-09T03:56:49Z",
+      "dependencies": [],
+      "description": "Fix orchestrator_mode=false for research/plan dispatch in skill-orchestrate/SKILL.md lines 934 and 959: change to orchestrator_mode true so handoff JSON is written and orchestrator postflight chain works for all phases not just implement",
+      "artifacts": [
+        {
+          "path": "specs/642_fix_orchestrator_mode_dispatch/reports/01_orchestrator-mode-dispatch.md",
+          "type": "report",
+          "summary": "Research report identifying 4 fix locations in skill-orchestrate/SKILL.md"
+        },
+        {
+          "path": "specs/642_fix_orchestrator_mode_dispatch/plans/01_fix-orchestrator-mode.md",
+          "type": "plan",
+          "summary": "1-phase plan: 4 line edits in SKILL.md"
+        },
+        {
+          "path": "specs/642_fix_orchestrator_mode_dispatch/summaries/01_implementation-summary.md",
+          "type": "summary",
+          "summary": "4 orchestrator_mode fixes in SKILL.md"
+        }
+      ],
+      "session_id": "sess_1780976739_21f335_642",
+      "completion_summary": "Fixed orchestrator_mode from false to true at 4 dispatch locations in skill-orchestrate/SKILL.md enabling handoff JSON for research and plan phases"
+    },
     {
       "project_number": 641,
       "project_name": "meta_builder_topic_picker",

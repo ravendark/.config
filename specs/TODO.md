@@ -1,5 +1,5 @@
 ---
-next_project_number: 642
+next_project_number: 647
 ---
 
 # TODO
@@ -21,6 +21,67 @@ next_project_number: 642
 87 [RESEARCHED] — investigate wezterm terminal directory change
 
 ## Tasks
+
+### 642. Fix orchestrator_mode=false for research/plan dispatch
+- **Effort**: 30 minutes
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: None
+
+**Description**: Fix orchestrator_mode=false for research/plan dispatch in skill-orchestrate/SKILL.md lines 934 and 959: change to orchestrator_mode true so handoff JSON is written and orchestrator postflight chain works for all phases not just implement.
+
+---
+
+### 643. Eliminate dual postflight ownership
+- **Effort**: 1-2 hours
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: Task 642 (Fix orchestrator_mode)
+
+**Description**: Eliminate dual postflight ownership: when orchestrator_mode=true the skill should SKIP its own skill_postflight_update and only write the handoff JSON so the orchestrator exclusively owns status transitions in state.json and TODO.md.
+
+---
+
+### 644. Add reconciliation preflight to orchestrator
+- **Effort**: 2-3 hours
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: Task 643 (Eliminate dual postflight)
+- **Research**: [644_reconciliation_preflight/reports/01_reconciliation-preflight.md]
+- **Plan**: [644_reconciliation_preflight/plans/01_reconciliation-preflight.md]
+- **Summary**: [644_reconciliation_preflight/summaries/01_reconciliation-preflight-summary.md]
+
+**Description**: Add reconciliation preflight to orchestrator: at the start of each /orchestrate invocation scan task directories for artifacts that exist but whose status has not been promoted, replay missed postflight to provide self-healing for crashed agents missed handoffs and interrupted sessions.
+
+---
+
+### 645. Fix parallel write safety for state.json
+- **Effort**: 1-2 hours
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: Task 643 (Eliminate dual postflight)
+- **Research**: [645_parallel_write_safety/reports/01_parallel-write-safety.md]
+- **Plan**: [645_parallel_write_safety/plans/01_parallel-write-safety.md]
+- **Summary**: [645_parallel_write_safety/summaries/01_parallel-write-safety-summary.md]
+
+**Description**: Fix parallel write safety for state.json: replace shared specs/tmp/state.json temp path with mktemp unique per write, add flock mutex around state.json write operations in update-task-status.sh to prevent last-write-wins corruption when multiple agents write concurrently.
+
+---
+
+### 646. Harden TODO.md status updates
+- **Effort**: 1-2 hours
+- **Status**: [COMPLETED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: None
+
+**Description**: Replace brittle sed pattern matching in update-task-status.sh phase 2 with robust awk/line-number approach that does not fail silently when status text format varies.
+
+---
 
 ### 641. Fix meta-builder-agent topic assignment
 - **Effort**: 1-2 hours
@@ -106,4 +167,3 @@ next_project_number: 642
 - **Plan**: [078_fix_himalaya_smtp_authentication_failure/plans/implementation-001.md]
 
 **Description**: Fix Gmail SMTP authentication failure when sending emails via Himalaya (<leader>me). Error: "Authentication failed: Code: 535, Enhanced code: 5.7.8, Message: Username and Password not accepted". The error occurs with TLS connection attempts and persists through multiple retry attempts. Identify and fix the root cause of the SMTP credential configuration.
-
