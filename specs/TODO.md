@@ -11,11 +11,10 @@ next_project_number: 653
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,647,650 | -- | wezterm-notifications, agent-system |
-| 2 | 648 | 647 | agent-system |
-| 3 | 649 | 648 | agent-system |
-| 4 | 651 | 649 | agent-system |
-| 5 | 652 | 649,651 | agent-system |
+| 1 | 78,87,648,650 | -- | wezterm-notifications, agent-system |
+| 2 | 649 | 648 | agent-system |
+| 3 | 651 | 649 | agent-system |
+| 4 | 652 | 649,651 | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -26,13 +25,12 @@ next_project_number: 653
 
 ### Agent System
 
-647 [IMPLEMENTING] — Enrich state.json schema to be the single complete source of trut
-  └─ 648 [NOT STARTED] — Create generate-todo.sh to generate entire TODO.md from state.jso
-    └─ 649 [NOT STARTED] — Simplify state update pipeline to state.json-only with TODO.md re
-      └─ 651 [NOT STARTED] — Update rules and documentation for new state.json-first architect
-        └─ 652 [NOT STARTED] — Post-validation cleanup: remove obsolete scripts after logging re
-      └─ 652 [NOT STARTED] — Post-validation cleanup: remove obsolete scripts after logging re (see above)
-650 [PLANNED] — Create update-phase-status.sh for phase-level plan tracking
+648 [RESEARCHED] — Create generate-todo.sh to generate entire TODO.md from state.jso
+  └─ 649 [NOT STARTED] — Simplify state update pipeline to state.json-only with TODO.md re
+    └─ 651 [NOT STARTED] — Update rules and documentation for new state.json-first architect
+      └─ 652 [NOT STARTED] — Post-validation cleanup: remove obsolete scripts after logging re
+    └─ 652 [NOT STARTED] — Post-validation cleanup: remove obsolete scripts after logging re (see above)
+650 [IMPLEMENTING] — Create update-phase-status.sh for phase-level plan tracking
 
 ## Tasks
 
@@ -60,7 +58,7 @@ next_project_number: 653
 
 ### 650. Create update-phase-status.sh for phase-level plan tracking
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: None
@@ -84,10 +82,11 @@ next_project_number: 653
 
 ### 648. Create generate-todo.sh to generate entire TODO.md from state.json
 - **Effort**: 2-3 hours
-- **Status**: [NOT STARTED]
+- **Status**: [RESEARCHED]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: Task 647
+- **Research**: [648_create_generate_todo_script/reports/01_generate-todo-research.md]
 
 **Description**: Create a single generate-todo.sh script that produces the entire TODO.md from state.json. Generates: YAML frontmatter (next_project_number), Task Order section (absorb/call existing generate-task-order.sh logic with Kahn wave computation and topic grouping), and Tasks section with all entries properly formatted (status markers, artifact links, descriptions, effort, dependencies). Terminal tasks included in Tasks section but excluded from Task Order. Add lightweight logging for post-validation review.
 
@@ -95,7 +94,7 @@ next_project_number: 653
 
 ### 647. Enrich state.json schema to be the single complete source of truth
 - **Effort**: 1-2 hours
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: None

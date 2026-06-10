@@ -6,12 +6,12 @@
       "project_number": 647,
       "project_name": "enrich_state_json_schema",
       "title": "Enrich state.json schema to be the single complete source of truth",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-10T22:38:18Z",
+      "last_updated": "2026-06-10T22:43:04Z",
       "dependencies": [],
       "description": "Add title field to all task entries in state.json (currently only project_name slug exists; human-readable titles live only in TODO.md headings). Migrate full descriptions from TODO.md where missing or truncated in state.json. Ensure all metadata needed for TODO.md generation is present: effort, task_type, dependencies, artifacts, descriptions. This makes state.json self-sufficient as the sole source of truth for generating TODO.md.",
       "artifacts": [
@@ -24,25 +24,38 @@
           "path": "specs/647_enrich_state_json_schema/plans/01_enrich-state-schema.md",
           "type": "plan",
           "summary": "4-phase plan for state.json enrichment"
+        },
+        {
+          "path": "specs/647_enrich_state_json_schema/summaries/01_enrichment-summary.md",
+          "type": "summary",
+          "summary": "Enrichment execution summary"
         }
       ],
-      "session_id": "sess_1781130828_de7a25_647"
+      "session_id": "sess_1781130828_de7a25_647",
+      "completion_summary": "State.json schema enriched to v1.1.0: added title to 11 tasks, description to 4 tasks, updated schema docs and generate-task-order.sh fallback chain"
     },
     {
       "project_number": 648,
       "project_name": "create_generate_todo_script",
       "title": "Create generate-todo.sh to generate entire TODO.md from state.json",
-      "status": "not_started",
+      "status": "researched",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "2-3 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-09T12:00:00Z",
+      "last_updated": "2026-06-10T22:46:35Z",
       "dependencies": [
         647
       ],
       "description": "Create a single generate-todo.sh script that produces the entire TODO.md from state.json. Generates: YAML frontmatter (next_project_number), Task Order section (absorb/call existing generate-task-order.sh logic with Kahn wave computation and topic grouping), and Tasks section with all entries properly formatted (status markers, artifact links, descriptions, effort, dependencies). Terminal tasks (completed/abandoned/expanded) included in Tasks section for history but excluded from Task Order. Add lightweight logging (timestamp, operation, success/failure) to a log file for post-validation review.",
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/648_create_generate_todo_script/reports/01_generate-todo-research.md",
+          "type": "report",
+          "summary": "Research on TODO.md generation from state.json"
+        }
+      ],
+      "session_id": "sess_1781130828_de7a25_648"
     },
     {
       "project_number": 649,
@@ -64,12 +77,12 @@
       "project_number": 650,
       "project_name": "create_update_phase_status_script",
       "title": "Create update-phase-status.sh for phase-level plan tracking",
-      "status": "planned",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-10T22:41:12Z",
+      "last_updated": "2026-06-10T22:43:16Z",
       "dependencies": [],
       "description": "Create update-phase-status.sh script for phase-level status tracking in plan files. Updates individual phase markers ([NOT STARTED] -> [IN PROGRESS] -> [COMPLETED]) as implementation progresses through each phase. Called by implementation agents at each phase boundary for real-time oversight. Keeps existing update-plan-status.sh for plan-level status (header). Integrates with skill-implementer and general-implementation-agent so phases are marked as they execute. Add logging of phase transitions for oversight.",
       "artifacts": [

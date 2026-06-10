@@ -42,9 +42,6 @@ return {
         position = "right",
         width = 0.40,
         enter = true,
-        on_win = function(win)
-          require("opencode.terminal").setup(win.win)
-        end,
       },
     }
     opts.server = {

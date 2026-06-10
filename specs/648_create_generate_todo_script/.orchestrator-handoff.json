@@ -1,0 +1,16 @@
+{
+  "status": "researched",
+  "summary": "Research complete for generate-todo.sh — mapped TODO.md structure section by section, verified state.json v1.1.0 has all fields needed for full generation, analyzed generate-task-order.sh integration strategy (call with --print rather than absorb), documented artifact rendering rules, dependency formatting, status mapping, edge cases for terminal tasks and missing fields, and recommended logging format matching existing .claude/logs/ convention",
+  "artifacts": [
+    {
+      "path": "specs/648_create_generate_todo_script/reports/01_generate-todo-research.md",
+      "type": "report",
+      "summary": "Research on TODO.md generation from state.json: full structure mapping, state.json field-to-rendering mapping, generate-task-order.sh integration approach, artifact rendering logic, edge cases, and logging format"
+    }
+  ],
+  "blockers": [],
+  "continuation_context": null,
+  "phases_completed": 0,
+  "phases_total": 0,
+  "next_action_hint": "plan"
+}

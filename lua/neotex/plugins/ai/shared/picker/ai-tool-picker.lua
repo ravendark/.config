@@ -23,6 +23,17 @@ local tool_prefs = {
 }
 
 -----------------------------------------------------------------------
+-- OPENCODE TOGGLE HELPER
+-----------------------------------------------------------------------
+
+local function opencode_toggle()
+  local ok, cfg = pcall(require, "opencode.config")
+  if ok and cfg.opts and cfg.opts.server and cfg.opts.server.toggle then
+    cfg.opts.server.toggle()
+  end
+end
+
+-----------------------------------------------------------------------
 -- DATA DIRECTORY & ATOMIC WRITE HELPERS
 -----------------------------------------------------------------------
 
@@ -213,8 +224,7 @@ function M.show_tool_picker()
       if has_oc then
         for _, buf in ipairs(oc_bufs) do
           if #vim.fn.win_findbuf(buf) > 0 then
-            local ok, opencode_mod = pcall(require, "opencode")
-            if ok then opencode_mod.toggle() end
+            opencode_toggle()
             break
           end
         end
@@ -323,8 +333,6 @@ function M.show_opencode_session_picker()
     end
   end
 
-  local opencode_mod = require("opencode")
-
   local options = {
     {
       display = "Create new session",
@@ -383,7 +391,7 @@ function M.show_opencode_session_picker()
 
         if choice == "new" then
           -- Toggle opens the terminal (defaults to new session in TUI)
-          opencode_mod.toggle()
+          opencode_toggle()
 
           -- Register active tool state after toggle creates the terminal
           vim.defer_fn(function()
@@ -484,8 +492,7 @@ function M.smart_toggle()
   -- Only OpenCode running → toggle it
   if has_opencode and not has_claude then
     _register_tool_cleanup("opencode", opencode_bufs[1])
-    local ok, opencode_mod = pcall(require, "opencode")
-    if ok then opencode_mod.toggle() end
+    opencode_toggle()
     return
   end
 
@@ -499,18 +506,16 @@ function M.smart_toggle()
     if #vim.fn.win_findbuf(buf) > 0 then opencode_vis = true; break end
   end
 
-  local ok, opencode_mod = pcall(require, "opencode")
-
   if opencode_vis and not claude_vis then
     -- just opencode → just claude: hide opencode, show claude
-    if ok then opencode_mod.toggle() end
+    opencode_toggle()
     vim.cmd("ClaudeCode")
   elseif claude_vis and not opencode_vis then
     -- just claude → neither: hide claude
     vim.cmd("ClaudeCode")
   else
     -- neither or both visible → just opencode: show opencode, hide claude
-    if not opencode_vis and ok then opencode_mod.toggle() end
+    if not opencode_vis then opencode_toggle() end
     if claude_vis then vim.cmd("ClaudeCode") end
   end
 end

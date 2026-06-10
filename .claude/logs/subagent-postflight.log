@@ -25624,3 +25624,76 @@
 [2026-06-09T10:58:57-07:00] No postflight marker, allowing stop
 [2026-06-09T10:59:29-07:00] No postflight marker, allowing stop
 [2026-06-09T11:00:26-07:00] No postflight marker, allowing stop
+[2026-06-09T17:59:12-07:00] Postflight marker found at: specs/647_enrich_state_json_schema/.postflight-pending
+[2026-06-09T17:59:12-07:00] Task directory: specs/647_enrich_state_json_schema
+[2026-06-09T17:59:12-07:00] Loop guard initialized to 1
+[2026-06-09T17:59:12-07:00] Blocking stop: Team research in progress: synthesis dispatch, status update, git commit pending
+[2026-06-09T17:59:17-07:00] Postflight marker found at: specs/647_enrich_state_json_schema/.postflight-pending
+[2026-06-09T17:59:17-07:00] Task directory: specs/647_enrich_state_json_schema
+[2026-06-09T17:59:17-07:00] Loop guard incremented to 2
+[2026-06-09T17:59:17-07:00] Blocking stop: Team research in progress: synthesis dispatch, status update, git commit pending
+[2026-06-09T17:59:21-07:00] Postflight marker found at: specs/647_enrich_state_json_schema/.postflight-pending
+[2026-06-09T17:59:21-07:00] Task directory: specs/647_enrich_state_json_schema
+[2026-06-09T17:59:21-07:00] Loop guard incremented to 3
+[2026-06-09T17:59:21-07:00] Blocking stop: Team research in progress: synthesis dispatch, status update, git commit pending
+[2026-06-09T17:59:24-07:00] Postflight marker found at: specs/647_enrich_state_json_schema/.postflight-pending
+[2026-06-09T17:59:24-07:00] Task directory: specs/647_enrich_state_json_schema
+[2026-06-09T17:59:24-07:00] Loop guard triggered: 3 >= 3
+[2026-06-09T17:59:24-07:00] Loop guard prevented continuation
+[2026-06-09T17:59:37-07:00] No postflight marker, allowing stop
+[2026-06-09T18:00:11-07:00] No postflight marker, allowing stop
+[2026-06-09T18:00:44-07:00] No postflight marker, allowing stop
+[2026-06-09T18:01:17-07:00] No postflight marker, allowing stop
+[2026-06-09T18:03:00-07:00] No postflight marker, allowing stop
+[2026-06-09T18:03:29-07:00] No postflight marker, allowing stop
+[2026-06-09T18:03:54-07:00] No postflight marker, allowing stop
+[2026-06-09T18:04:26-07:00] No postflight marker, allowing stop
+[2026-06-09T18:04:59-07:00] No postflight marker, allowing stop
+[2026-06-09T18:05:31-07:00] No postflight marker, allowing stop
+[2026-06-09T18:06:43-07:00] No postflight marker, allowing stop
+[2026-06-09T18:07:07-07:00] No postflight marker, allowing stop
+[2026-06-09T18:07:32-07:00] No postflight marker, allowing stop
+[2026-06-09T18:08:58-07:00] No postflight marker, allowing stop
+[2026-06-09T18:09:35-07:00] No postflight marker, allowing stop
+[2026-06-10T14:05:52-07:00] No postflight marker, allowing stop
+[2026-06-10T14:06:51-07:00] No postflight marker, allowing stop
+[2026-06-10T14:19:55-07:00] No postflight marker, allowing stop
+[2026-06-10T14:20:15-07:00] No postflight marker, allowing stop
+[2026-06-10T14:22:18-07:00] No postflight marker, allowing stop
+[2026-06-10T14:23:25-07:00] No postflight marker, allowing stop
+[2026-06-10T14:24:04-07:00] No postflight marker, allowing stop
+[2026-06-10T15:35:34-07:00] No postflight marker, allowing stop
+[2026-06-10T15:35:45-07:00] No postflight marker, allowing stop
+[2026-06-10T15:36:00-07:00] No postflight marker, allowing stop
+[2026-06-10T15:36:19-07:00] No postflight marker, allowing stop
+[2026-06-10T15:36:51-07:00] No postflight marker, allowing stop
+[2026-06-10T15:37:17-07:00] No postflight marker, allowing stop
+[2026-06-10T15:37:45-07:00] No postflight marker, allowing stop
+[2026-06-10T15:37:53-07:00] No postflight marker, allowing stop
+[2026-06-10T15:37:55-07:00] No postflight marker, allowing stop
+[2026-06-10T15:39:13-07:00] No postflight marker, allowing stop
+[2026-06-10T15:39:28-07:00] No postflight marker, allowing stop
+[2026-06-10T15:39:45-07:00] No postflight marker, allowing stop
+[2026-06-10T15:40:01-07:00] No postflight marker, allowing stop
+[2026-06-10T15:40:16-07:00] No postflight marker, allowing stop
+[2026-06-10T15:40:49-07:00] No postflight marker, allowing stop
+[2026-06-10T15:41:03-07:00] No postflight marker, allowing stop
+[2026-06-10T15:41:08-07:00] No postflight marker, allowing stop
+[2026-06-10T15:41:21-07:00] No postflight marker, allowing stop
+[2026-06-10T15:41:28-07:00] No postflight marker, allowing stop
+[2026-06-10T15:41:54-07:00] No postflight marker, allowing stop
+[2026-06-10T15:42:26-07:00] No postflight marker, allowing stop
+[2026-06-10T15:42:56-07:00] No postflight marker, allowing stop
+[2026-06-10T15:44:08-07:00] No postflight marker, allowing stop
+[2026-06-10T15:44:26-07:00] No postflight marker, allowing stop
+[2026-06-10T15:44:39-07:00] No postflight marker, allowing stop
+[2026-06-10T15:45:11-07:00] No postflight marker, allowing stop
+[2026-06-10T15:45:43-07:00] No postflight marker, allowing stop
+[2026-06-10T15:46:15-07:00] No postflight marker, allowing stop
+[2026-06-10T15:46:28-07:00] No postflight marker, allowing stop
+[2026-06-10T15:46:31-07:00] No postflight marker, allowing stop
+[2026-06-10T15:46:48-07:00] No postflight marker, allowing stop
+[2026-06-10T15:47:19-07:00] No postflight marker, allowing stop
+[2026-06-10T15:47:51-07:00] No postflight marker, allowing stop
+[2026-06-10T15:48:24-07:00] No postflight marker, allowing stop
+[2026-06-10T15:48:57-07:00] No postflight marker, allowing stop

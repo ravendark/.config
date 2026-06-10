@@ -124,6 +124,12 @@ Use the Edit tool with:
 
 Phase status lives ONLY in the heading. Do NOT add or edit a separate `**Status**:` line per phase.
 
+Optionally call the centralized script for logging (the Edit tool above remains the primary mechanism):
+```bash
+bash .claude/scripts/update-phase-status.sh "$task_number" "$PROJECT_NAME" "$phase_number" "IN_PROGRESS"
+```
+If the Bash call succeeds, the Edit tool call for phase status is redundant but harmless. The script provides centralized logging to `.claude/logs/phase-transitions.log`.
+
 **B. Execute Steps**
 
 For each step in the phase:
@@ -194,6 +200,12 @@ Use the Edit tool with:
 
 Phase status lives ONLY in the heading. Do NOT add or edit a separate `**Status**:` line per phase.
 
+Optionally call the centralized script for logging:
+```bash
+bash .claude/scripts/update-phase-status.sh "$task_number" "$PROJECT_NAME" "$phase_number" "COMPLETED"
+```
+The script logs the transition and is idempotent. If the script call fails, it is non-blocking — the Edit tool result is authoritative.
+
 #### 4D-ii. Post-Phase Subtask Validation (Self-Check Gate)
 
 After marking a phase `[COMPLETED]`, perform a mandatory self-check before proceeding to the next phase:
@@ -257,6 +269,12 @@ At the end of each successfully completed phase, write or update a handoff artif
 #### E. Handoff on Context Pressure (Stage 4C)
 
 If context pressure is detected during a phase (per Stage 4.5 monitoring), do NOT continue with more file operations. Instead:
+
+Before writing the handoff, mark the phase as PARTIAL using the centralized script:
+```bash
+bash .claude/scripts/update-phase-status.sh "$task_number" "$PROJECT_NAME" "$phase_number" "PARTIAL"
+```
+This logs the PARTIAL transition to `.claude/logs/phase-transitions.log` for oversight.
 
 1. **Update progress file** to reflect the exact current state:
    - Set current objective status to `in_progress` (or `done` if just completed)
@@ -428,10 +446,12 @@ Return 3-6 bullet points summarizing: phases executed, files created/modified, s
 
 ## Phase Checkpoint Protocol
 
+Phase-level status updates use the Edit tool (primary) and optionally `.claude/scripts/update-phase-status.sh` (for centralized logging). See Stage 4A, 4D, and 4E for the script call patterns. The script logs all transitions to `.claude/logs/phase-transitions.log`.
+
 For each phase in the implementation plan:
 
 1. **Read plan file**, identify current phase
-2. **Update phase status** to `[IN PROGRESS]` in plan file
+2. **Update phase status** to `[IN PROGRESS]` in plan file (Edit tool + optional script call per Stage 4A)
 3. **Execute phase steps** as documented
 4. **Update phase status** to `[COMPLETED]` (Stage 4D), then perform post-phase self-review (Stage 4D-ii) and write a progressive handoff (Stage 4D-iii)
 5. **Git commit** with message: `task {N} phase {P}: {phase_name}`

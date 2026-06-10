@@ -19,6 +19,7 @@ Reference (do not load eagerly):
 - `.claude/context/patterns/subagent-continuation-loop.md` - Continuation loop pattern
 - `.claude/context/patterns/context-exhaustion-detection.md` - Context exhaustion heuristics
 - `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- `.claude/scripts/update-phase-status.sh` - Phase-level status update script (called by subagent at phase boundaries)
 
 ---
 
@@ -83,6 +84,8 @@ Find the latest plan file to pass to the implementation agent:
 ```bash
 plan_path=$(ls -1 "specs/${PADDED_NUM}_${PROJECT_NAME}/plans/"*.md 2>/dev/null | sort -V | tail -1)
 ```
+
+**Note**: The subagent has access to `.claude/scripts/update-phase-status.sh` for phase-level status logging. It calls this script at phase boundaries (Stage 4A, 4D, 4E) alongside its Edit tool calls. The skill does not call this script — it is the subagent's responsibility.
 
 Prepare delegation context for the subagent:
 
@@ -198,6 +201,13 @@ git commit -m "task ${task_number} phase ${phases_completed}: implementation pro
 
 Session: ${session_id}
 " || echo "Note: Nothing to commit or commit failed (non-blocking)"
+```
+
+**Optional cross-check** (non-blocking): After reading `phases_completed` from `.return-meta.json`, you can verify by counting `[COMPLETED]` headings in the plan file:
+```bash
+# Non-blocking verification -- count mismatch is informational only
+actual_completed=$(grep -c "^### Phase.*\[COMPLETED\]" "$plan_path" 2>/dev/null || echo 0)
+[ "$actual_completed" != "$phases_completed" ] && echo "Note: plan shows $actual_completed completed phases, metadata reports $phases_completed (non-blocking)"
 ```
 
 #### Stage 7: Update Task Status (Postflight)
