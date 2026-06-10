@@ -448,6 +448,11 @@ current=$(cat specs/state.json)
 # Step 2: Use jq with slurpfile
 ```
 
+**Topic Auto-Inference**: Before writing each task entry, infer topic from file path and description:
+- Tags from `.claude/` files or `specs/` files → `"agent-system"`
+- Tags from extension paths (e.g., `.lua` files) → run keyword heuristic against tag content and file path
+- Use the same heuristic as `/task` topic inference
+
 **For fix-it task when has_note_dependency is TRUE**, include dependencies array:
 ```json
 {
@@ -455,42 +460,27 @@ current=$(cat specs/state.json)
   "project_name": "{slug}",
   "status": "not_started",
   "task_type": "{task_type}",
+  "topic": "{auto-inferred topic}",
   "dependencies": [learn_it_task_num]
 }
 ```
 
-**For all other tasks**, no dependencies field needed.
-
-#### 9.2: Update TODO.md
-
-Prepend new task entry to `## Tasks` section (new tasks at top):
-
-**Standard format (no dependency)**:
-```markdown
-### {N}. {Title}
-- **Effort**: {estimate}
-- **Status**: [NOT STARTED]
-- **Task Type**: {task_type}
-- **Started**: {timestamp}
-
-**Description**: {description}
-
----
+**For all other tasks**:
+```json
+{
+  "project_number": {N},
+  "project_name": "{slug}",
+  "status": "not_started",
+  "task_type": "{task_type}",
+  "topic": "{auto-inferred topic}"
+}
 ```
 
-**Fix-it task format when has_note_dependency is TRUE**:
-```markdown
-### {N}. {Title}
-- **Effort**: {estimate}
-- **Status**: [NOT STARTED]
-- **Task Type**: {task_type}
-- **Dependencies**: {learn_it_task_num}
-- **Started**: {timestamp}
+Note: Omit `"topic"` field if topic cannot be inferred (empty string from heuristic).
 
-**Description**: {description}
+#### 9.2: (Removed — state.json is authoritative for task entries)
 
----
-```
+The state.json update in Step 9.1 already writes the task data. TODO.md will be regenerated via generate-todo.sh in Step 9.4 after all state.json writes complete.
 
 ### Step 9.3: Update active_topics (Non-Blocking)
 
@@ -511,15 +501,13 @@ done
 
 Where `new_topics` is the array of topic values auto-inferred during Step 9.1. Topics already in `active_topics` are skipped (idempotent). Topics that are empty/null are skipped via the `[[ -z "$topic" ]]` guard.
 
-### Step 9.4: Update Task Order Section (Non-Blocking)
+### Step 9.4: Regenerate TODO.md (Non-Blocking)
 
-After all tasks have been written to state.json and TODO.md, regenerate the Task Order section:
+After all tasks have been written to state.json, regenerate the entire TODO.md from state.json:
 
 ```bash
-if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-    2>/dev/null || echo "Note: Failed to regenerate Task Order (non-fatal)" >&2
-fi
+bash .claude/scripts/generate-todo.sh \
+  2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
 ```
 
 ### Step 10: Display Results
@@ -533,12 +521,12 @@ Show summary of created tasks:
 
 ### Created Tasks
 
-| # | Type | Title | Language |
-|---|------|-------|----------|
-| {N} | fix-it | Fix issues from FIX:/NOTE: tags | {lang} |
-| {N+1} | learn-it | Update context files from NOTE: tags | meta |
-| {N+2} | todo | {title} | {lang} |
-| {N+3} | research | Research: {question title} | {lang} |
+| # | Type | Title | Language | Topic |
+|---|------|-------|----------|-------|
+| {N} | fix-it | Fix issues from FIX:/NOTE: tags | {lang} | {topic} |
+| {N+1} | learn-it | Update context files from NOTE: tags | meta | agent-system |
+| {N+2} | todo | {title} | {lang} | {topic} |
+| {N+3} | research | Research: {question title} | {lang} | {topic} |
 
 ---
 

@@ -352,13 +352,13 @@ if [ -n "$artifact_path" ]; then
 fi
 ```
 
-**Link artifact in TODO.md**: Use the `link-artifact-todo.sh` script (REQUIRED -- do NOT manually edit artifact links in TODO.md):
+**Regenerate TODO.md** from state.json (state.json artifact update was done in the step above):
 
 ```bash
-bash .claude/scripts/link-artifact-todo.sh $task_number '**Research**' '**Plan**' "$artifact_path"
+bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
 ```
 
-The script produces bracket-only `[path]` format. Never use markdown `[name](path)` format for artifact links. If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
+This regenerates TODO.md from state.json with correct bracket-only `[path]` format artifact links. Never use markdown `[name](path)` format for artifact links. If the script exits non-zero, log a warning but continue (regeneration errors are non-blocking).
 
 ---
 

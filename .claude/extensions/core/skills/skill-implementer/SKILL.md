@@ -515,13 +515,13 @@ if [ -n "$artifact_path" ]; then
 fi
 ```
 
-**Update TODO.md** (if implemented): Link artifact using the automated script:
+**Update TODO.md** (if implemented): Regenerate from state.json (state.json artifact update was done in the previous step):
 
 ```bash
-bash .claude/scripts/link-artifact-todo.sh $task_number '**Summary**' '**Description**' "$artifact_path"
+bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
 ```
 
-If the script exits non-zero, log a warning but continue (linking errors are non-blocking).
+If the script exits non-zero, log a warning but continue (regeneration errors are non-blocking).
 
 ---
 

@@ -1,7 +1,7 @@
 # Implementation Plan: Task #651
 
 - **Task**: 651 - Update rules and documentation for new state.json-first architecture
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: Tasks 649, 653 (state.json-first migration scripts)
 - **Research Inputs**: specs/651_update_rules_and_documentation/reports/01_docs-update-research.md

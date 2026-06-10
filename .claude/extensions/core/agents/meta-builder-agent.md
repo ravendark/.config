@@ -459,7 +459,7 @@ If no groups have 2+ items (all tasks are independent):
 - Skip to Stage 4 (no consolidation benefit)
 - Set: `topic_consolidation_skipped = true`
 
-**3.5.5: Present Task Consolidation Picker**
+**3.5.5: Present Topic Consolidation Picker**
 
 **Question** (via AskUserQuestion):
 ```json
@@ -747,60 +747,7 @@ for position, task_idx in enumerate(sorted_indices):
 
 Note: Include `"topic"` field only if a topic was inferred or assigned; omit if null/skipped.
 
-**TODO.md Entry Format**:
-```markdown
-### {N}. {Title}
-- **Effort**: {estimate}
-- **Status**: [NOT STARTED]
-- **Task Type**: {task_type}
-- **Dependencies**: Task #35, Task #34  OR  None
-
-**Description**: {description}
-
----
-```
-
-**TODO.md Batch Insertion Pattern**:
-
-Build all task entries in memory before inserting to preserve topological order:
-
-```python
-# After task number assignment, build the batch in sorted order
-batch_entries = []
-
-for position, task_idx in enumerate(sorted_indices):
-    task = task_list[task_idx - 1]
-    task_num = task_number_map[task_idx]
-
-    # Format dependencies (internal + external)
-    deps = dependencies[task_idx]  # Already merged in dependency resolution
-    if deps:
-        dep_str = ", ".join([f"Task #{d}" for d in sorted(deps)])
-    else:
-        dep_str = "None"
-
-    # Build entry (NOT STARTED status, no research link)
-    entry = f"""### {task_num}. {task['title']}
-- **Effort**: {task['effort']}
-- **Status**: [NOT STARTED]
-- **Task Type**: {task['task_type']}
-- **Dependencies**: {dep_str}
-
-**Description**: {task['description']}
-
----"""
-
-    batch_entries.append(entry)
-
-# Join all entries (foundational tasks first in the string)
-batch_markdown = "\n\n".join(batch_entries)
-
-# Insert entire batch after ## Tasks heading
-# This preserves order: first entry in batch appears first in file
-insert_after_heading("## Tasks", batch_markdown)
-```
-
-**Why batch insertion matters**: With prepend-each semantics, the last task created ends up at the top of TODO.md. Batch insertion ensures the first task in `sorted_indices` (foundational) appears first in the file. Users then see tasks in dependency order: complete the top task first.
+After all tasks are written to state.json, call `bash .claude/scripts/generate-todo.sh` to regenerate TODO.md. This handles frontmatter, task entries (in descending project_number order), and Task Order — all in one step.
 
 **Complexity Detection** (for DeliverSummary visualization):
 
@@ -1397,34 +1344,19 @@ Return ONLY valid JSON matching this schema:
 
 ## Stage 6: Status Updates (Interactive/Prompt Only)
 
-**TODO.md Batch Insertion** (all tasks in a single operation):
+**State.json-first TODO.md update** (all tasks regenerated in a single operation):
 
-1. **Build task entries batch** (in sorted order):
-   - Iterate over `sorted_indices` (foundational tasks first)
-   - Format each task entry using the TODO.md Entry Format (see Stage 6 CreateTasks)
-   - Collect all entries into a single markdown block
-
-2. **Insert batch into TODO.md**:
-   - Insert the entire batch after `## Tasks` heading (before existing tasks)
-   - This preserves topological order: foundational tasks appear higher in the file
-   - The batch as a whole is "prepended" to existing tasks
-
-3. **Include all required fields** in each entry
-
-4. **Update state.json**:
-   - Add to active_projects array
+1. **Update state.json** for all tasks:
+   - Add all tasks to active_projects array (foundational first, in dependency order)
    - Increment next_project_number
 
-4a. **Update Task Order section** (non-blocking):
-   Run the following to regenerate the Task Order in TODO.md after all tasks have been written:
-   ```bash
-   if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-     bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-       2>/dev/null || echo "Note: Failed to regenerate Task Order (non-fatal)" >&2
-   fi
-   ```
+2. (Removed — TODO.md batch insertion replaced by generate-todo.sh in step 3)
 
-4b. **Update active_topics** (after all tasks created, before Task Order call):
+3. **Include all required fields** in each state.json entry (see state.json Entry format above)
+
+4. (Removed — state.json update already done in step 1)
+
+4b. **Update active_topics** (after all tasks created, before generate-todo.sh call):
 
    Collect the set of unique new topics assigned across all created tasks, then append any not already in `active_topics`:
    ```bash
@@ -1440,6 +1372,13 @@ Return ONLY valid JSON matching this schema:
    ```
 
    Where `new_topics` is the array of topic values assigned during Stage 5/6. Topics already in `active_topics` are skipped (idempotent). Topics that are empty/null are skipped via the `[[ -z "$topic" ]]` guard.
+
+4a. **Regenerate TODO.md** (non-blocking):
+   After all tasks have been written to state.json and active_topics updated, regenerate TODO.md:
+   ```bash
+   bash .claude/scripts/generate-todo.sh \
+     2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
+   ```
 
 5. **Git Commit**:
 ```bash

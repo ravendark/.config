@@ -373,24 +373,15 @@ jq --argjson num "$next_num" \
    specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
 ```
 
-#### 5.4: Update TODO.md
+#### 5.4: (Removed — state.json is authoritative for task entries)
 
-Prepend new task entry to the Tasks section in TODO.md:
+The state.json update in Section 5.3 already writes the task data. TODO.md will be regenerated via generate-todo.sh in Section 5.5.
 
-```markdown
-### {N}. Generate project-overview.md [RESEARCHED]
-- **Description**: Generate project-overview.md for this repository based on automated scan and user interview findings
-- **Type**: meta
-- **Priority**: Medium
-- **Created**: {ISO_DATE}
-- **Research**: [specs/{NNN}_{SLUG}/reports/01_project-overview-scan.md]
-```
+#### 5.5: Regenerate TODO.md
 
-#### 5.5: Link Artifact
-
-Use the link-artifact-todo.sh script if available:
+Regenerate TODO.md from state.json to reflect the newly linked artifact:
 ```bash
-.claude/scripts/link-artifact-todo.sh "$next_num" "Research" "specs/${padded_num}_${task_slug}/reports/01_project-overview-scan.md"
+bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
 ```
 
 #### 5.6: Git Commit

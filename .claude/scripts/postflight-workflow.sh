@@ -141,4 +141,8 @@ jq --arg path "$artifact_path" \
   "$state_file" > "$tmp" && mv "$tmp" "$state_file"
 
 echo "  Artifact linked: $artifact_path"
+
+# Step 4: Regenerate TODO.md from state.json (new pipeline)
+bash "$(dirname "$0")/generate-todo.sh" || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
+
 echo "Done."

@@ -865,7 +865,14 @@ compute_connected_components
 if [[ -n "$GOAL_OVERRIDE" ]]; then
   GOAL_TEXT="$GOAL_OVERRIDE"
 elif [[ "$MODE" == "update" ]]; then
-  GOAL_TEXT=$(read_existing_goal)
+  # For --update-todo: first check state.json active_goal, then fall back to existing TODO.md goal
+  GOAL_TEXT=$(jq -r '.active_goal // ""' "$STATE_FILE" 2>/dev/null || echo "")
+  if [[ -z "$GOAL_TEXT" ]]; then
+    GOAL_TEXT=$(read_existing_goal)
+  fi
+elif [[ "$MODE" == "print" ]]; then
+  # For --print: read active_goal from state.json
+  GOAL_TEXT=$(jq -r '.active_goal // ""' "$STATE_FILE" 2>/dev/null || echo "")
 else
   GOAL_TEXT=""
 fi

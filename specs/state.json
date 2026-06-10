@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "next_project_number": 653,
+  "next_project_number": 657,
   "active_projects": [
     {
       "project_number": 647,
@@ -38,12 +38,12 @@
       "project_number": 648,
       "project_name": "create_generate_todo_script",
       "title": "Create generate-todo.sh to generate entire TODO.md from state.json",
-      "status": "researched",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "2-3 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-10T22:46:35Z",
+      "last_updated": "2026-06-10T23:01:05Z",
       "dependencies": [
         647
       ],
@@ -53,36 +53,65 @@
           "path": "specs/648_create_generate_todo_script/reports/01_generate-todo-research.md",
           "type": "report",
           "summary": "Research on TODO.md generation from state.json"
+        },
+        {
+          "path": "specs/648_create_generate_todo_script/plans/01_generate-todo-script.md",
+          "type": "plan",
+          "summary": "Phased plan for TODO.md generation script"
+        },
+        {
+          "path": "specs/648_create_generate_todo_script/summaries/01_generate-todo-summary.md",
+          "type": "summary",
+          "summary": "generate-todo.sh implementation summary"
         }
       ],
-      "session_id": "sess_1781130828_de7a25_648"
+      "session_id": "sess_1781130828_de7a25_648",
+      "completion_summary": "Created generate-todo.sh: generates entire TODO.md from state.json with Task Order delegation, atomic writes, logging, and --dry-run support"
     },
     {
       "project_number": 649,
       "project_name": "simplify_state_update_pipeline",
       "title": "Simplify state update pipeline to state.json-only with TODO.md regeneration",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "2-3 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-09T12:00:00Z",
+      "last_updated": "2026-06-10T23:19:21Z",
       "dependencies": [
         648
       ],
       "description": "Refactor update-task-status.sh to only update state.json + plan file status + call generate-todo.sh for regeneration. Remove all TODO.md awk/sed text surgery code (Phases 2 and 3). Simplify postflight-workflow.sh to update state.json artifacts only then call generate-todo.sh. Mark link-artifact-todo.sh as deprecated (artifacts tracked only in state.json, rendered by generate-todo.sh). Update skill-base.sh functions (skill_preflight_update, skill_postflight_update, skill_link_artifacts) to use simplified pipeline. Keep old code paths temporarily as logged fallbacks during transition period. Add deprecation logging so task 652 can verify old paths are unused.",
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/649_simplify_state_update_pipeline/reports/01_pipeline-simplification-research.md",
+          "type": "report",
+          "summary": "Pipeline simplification research"
+        },
+        {
+          "path": "specs/649_simplify_state_update_pipeline/plans/01_pipeline-simplification.md",
+          "type": "plan",
+          "summary": "5-phase plan for state.json-first pipeline refactor"
+        },
+        {
+          "path": "specs/649_simplify_state_update_pipeline/summaries/01_pipeline-simplification-summary.md",
+          "type": "summary",
+          "summary": "Pipeline simplification implementation summary"
+        }
+      ],
+      "session_id": "sess_1781130828_de7a25_649",
+      "completion_summary": "Simplified state update pipeline: update-task-status.sh now uses generate-todo.sh, skill-base.sh and postflight-workflow.sh updated, link-artifact-todo.sh deprecated with logging"
     },
     {
       "project_number": 650,
       "project_name": "create_update_phase_status_script",
       "title": "Create update-phase-status.sh for phase-level plan tracking",
-      "status": "implementing",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-10T22:43:16Z",
+      "last_updated": "2026-06-10T22:49:26Z",
       "dependencies": [],
       "description": "Create update-phase-status.sh script for phase-level status tracking in plan files. Updates individual phase markers ([NOT STARTED] -> [IN PROGRESS] -> [COMPLETED]) as implementation progresses through each phase. Called by implementation agents at each phase boundary for real-time oversight. Keeps existing update-plan-status.sh for plan-level status (header). Integrates with skill-implementer and general-implementation-agent so phases are marked as they execute. Add logging of phase transitions for oversight.",
       "artifacts": [
@@ -95,25 +124,50 @@
           "path": "specs/650_create_update_phase_status_script/plans/01_phase-status-script.md",
           "type": "plan",
           "summary": "4-phase plan for phase-level status tracking script"
+        },
+        {
+          "path": "specs/650_create_update_phase_status_script/summaries/01_phase-status-summary.md",
+          "type": "summary",
+          "summary": "Phase status script implementation summary"
         }
       ],
-      "session_id": "sess_1781130828_de7a25_650"
+      "session_id": "sess_1781130828_de7a25_650",
+      "completion_summary": "Created update-phase-status.sh with agent/skill integration and logging for phase-level plan tracking"
     },
     {
       "project_number": 651,
       "project_name": "update_rules_and_documentation",
       "title": "Update rules and documentation for new state.json-first architecture",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-09T12:00:00Z",
+      "last_updated": "2026-06-10T23:52:46Z",
       "dependencies": [
-        649
+        649,
+        653
       ],
-      "description": "Update state-management.md rules to reflect new architecture: state.json is sole writable truth, TODO.md is a generated artifact. Remove Two-Phase Update Pattern (no longer needed). Update CLAUDE.md agent system section. Update skill-status-sync to reference new pipeline. Update artifact-formats.md if artifact linking format changed. Update workflow-diagrams if they reference old dual-write flow. Ensure all documentation consistently describes the new flow: command -> state.json update -> generate-todo.sh -> TODO.md regenerated.",
-      "artifacts": []
+      "description": "Update rules and documentation for new state.json-first architecture. Remove Two-Phase Update Pattern from state-management.md (no longer needed). Update CLAUDE.md agent system section. Update skill-status-sync to reference new pipeline (remove all Edit-TODO.md instructions from K1-K3). Remove redundant TODO.md Edit instructions from extension skills: skill-nix-implementation (K4-K5), skill-neovim-implementation (K6-K7), skill-nix-research (K8), skill-neovim-research (K9). Remove TODO.md description Edit from skill-reviser (K10). Update skill-todo to use generate-todo.sh instead of Edit-based entry removal (K17-K18) and sed-based vault renumber/comment (K19-K20). Update archive-task.sh to call generate-todo.sh instead of Python entry removal. Update commands/implement.md to remove defensive TODO.md status correction (C10-C11). Update artifact-formats.md if linking format changed. Update workflow-diagrams if they reference old dual-write flow. Ensure all documentation consistently describes the new flow: command -> state.json update -> generate-todo.sh -> TODO.md regenerated.",
+      "artifacts": [
+        {
+          "path": "specs/651_update_rules_and_documentation/reports/01_docs-update-research.md",
+          "type": "report",
+          "summary": "Documentation update inventory for state.json-first architecture"
+        },
+        {
+          "path": "specs/651_update_rules_and_documentation/plans/01_docs-rules-update.md",
+          "type": "plan",
+          "summary": "5-phase plan for docs/rules update"
+        },
+        {
+          "path": "specs/651_update_rules_and_documentation/summaries/01_docs-rules-update-summary.md",
+          "type": "summary",
+          "summary": "Documentation and rules update summary"
+        }
+      ],
+      "session_id": "sess_1781130828_de7a25_651",
+      "completion_summary": "Updated 30 files: removed all Edit-TODO.md instructions from skills, replaced Two-Phase Update with State-First Update pattern in rules, updated architecture docs"
     },
     {
       "project_number": 652,
@@ -127,7 +181,8 @@
       "last_updated": "2026-06-09T12:00:00Z",
       "dependencies": [
         649,
-        651
+        651,
+        653
       ],
       "description": "After ~1 week of the new pipeline running, review logs to verify the new generate-todo.sh pipeline is working reliably. Check that: (1) no deprecation-logged old code paths are being hit, (2) TODO.md regeneration succeeds consistently, (3) no state.json/TODO.md sync drift. Then remove: link-artifact-todo.sh (fully replaced by state.json + regeneration), old TODO.md awk/sed manipulation code from update-task-status.sh, dead functions from skill-base.sh, any transitional compatibility shims. Clean up deprecation logging. Mark as deferred until validation period passes.",
       "artifacts": []
@@ -447,6 +502,89 @@
       "title": "Fix Himalaya SMTP authentication failure when sending emails",
       "description": "Fix Gmail SMTP authentication failure when sending emails via Himalaya (<leader>me). Error: Authentication failed: Code: 535, Enhanced code: 5.7.8, Message: Username and Password not accepted. The error occurs with TLS connection attempts and persists through multiple retry attempts. Identify and fix the root cause of the SMTP credential configuration.",
       "topic": "wezterm-notifications"
+    },
+    {
+      "project_number": 653,
+      "project_name": "update_task_creation_commands_state_first",
+      "title": "Update all task creation commands to state.json-first pattern",
+      "status": "completed",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "2-3 hours",
+      "created": "2026-06-10T12:00:00Z",
+      "last_updated": "2026-06-10T23:32:05Z",
+      "dependencies": [
+        649
+      ],
+      "description": "Update all task creation commands and agents to follow the state.json-first pattern: write to state.json, then call generate-todo.sh for regeneration. Currently 8 HIGH-priority writers create entries directly in TODO.md, which generate-todo.sh will silently overwrite. Files to update: (1) commands/task.md — Create, Recover, Followup, Expand, Sync, Abandon modes: replace all TODO.md Edit/sed operations with state.json updates + generate-todo.sh call. (2) commands/review.md — task creation and goal line: add active_goal field to state.json schema, replace TODO.md Edit with state.json update + generate-todo.sh. (3) skill-spawn/SKILL.md — child task creation, parent status/deps updates: replace 3 Edit operations with state.json writes + generate-todo.sh. (4) skill-fix-it/SKILL.md — fix-it task creation: replace TODO.md prepend with state.json write + generate-todo.sh. (5) skill-project-overview/SKILL.md — task creation + link-artifact-todo call: replace with state.json write + generate-todo.sh. (6) agents/meta-builder-agent.md — batch task creation: replace batch Edit insertion with state.json writes + generate-todo.sh. Also update archive-task.sh (Python entry removal) and vault-operation.sh (sed renumber/comment) to use generate-todo.sh instead of direct TODO.md manipulation.",
+      "artifacts": [
+        {
+          "path": "specs/653_update_task_creation_commands_state_first/reports/01_pipeline-audit.md",
+          "type": "report",
+          "summary": "Pipeline integrity audit identifying 8 HIGH-priority task creation writers needing state.json-first migration"
+        },
+        {
+          "path": "specs/653_update_task_creation_commands_state_first/plans/01_task-creation-state-first.md",
+          "type": "plan",
+          "summary": "6-phase plan for task creation command migration"
+        },
+        {
+          "path": "specs/653_update_task_creation_commands_state_first/summaries/01_task-creation-migration-summary.md",
+          "type": "summary",
+          "summary": "Task creation commands migration summary"
+        }
+      ],
+      "session_id": "sess_1781130828_de7a25_653",
+      "completion_summary": "Updated all task creation commands to state.json-first pattern: 17 files modified across commands, skills, agents, scripts, and extension copies"
+    },
+    {
+      "project_number": 654,
+      "project_name": "create_topic_management_utilities",
+      "title": "Create shared topic management utilities (manage-topics.sh + pattern doc)",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1-2 hours",
+      "created": "2026-06-10T23:50:00Z",
+      "last_updated": "2026-06-10T23:50:00Z",
+      "dependencies": [],
+      "description": "Create two shared topic management artifacts to replace ~200 lines of duplicated topic picker logic across commands:\n\n1. **manage-topics.sh** script with subcommands:\n   - `list`: Output active_topics from state.json as newline-delimited list\n   - `add TOPIC`: Add a new topic to the active_topics array (idempotent)\n   - `set TASK_NUM TOPIC`: Set the topic field on a task entry in state.json\n   - `validate TOPIC`: Check if topic exists in active_topics (exit 0/1)\n   Uses flock for write safety consistent with existing state.json write patterns.\n\n2. **topic-assignment-pattern.md** shared context pattern document describing:\n   - The canonical AskUserQuestion flow (read active_topics, build picker options, handle New topic/Skip responses)\n   - Three assignment modes: interactive (full picker), inherit (parent topic with fallback picker), suggest (auto-inferred topic pre-selected, user can override)\n   - State update instructions (call manage-topics.sh for mechanical operations)\n   - Commands reference this pattern instead of inlining 50 lines of picker instructions each.\n\nThis task creates the foundation; tasks 655 and 656 consume these utilities.",
+      "artifacts": [],
+      "session_id": ""
+    },
+    {
+      "project_number": 655,
+      "project_name": "refactor_existing_topic_pickers",
+      "title": "Refactor existing topic pickers to use shared utilities",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1-2 hours",
+      "created": "2026-06-10T23:50:00Z",
+      "last_updated": "2026-06-10T23:50:00Z",
+      "dependencies": [
+        654
+      ],
+      "description": "Replace duplicated inline topic picker logic in 4 existing commands/agents with references to the shared topic-assignment-pattern.md and calls to manage-topics.sh:\n\n1. **commands/task.md** (Step 4.5): Replace ~50 lines of inline picker instructions with reference to shared pattern (interactive mode)\n2. **agents/meta-builder-agent.md** (Stage 4.5 AssignTopic): Replace ~60 lines of batch picker instructions with reference to shared pattern (interactive mode, batch variant)\n3. **commands/task.md** (--sync Step 6.5): Replace backfill picker with reference to shared pattern (interactive mode per-task)\n4. **skills/skill-todo/SKILL.md** (Stage 2.5 TopicRevision): Replace revision picker with reference to shared pattern (interactive mode)\n\nEach location becomes: \"Follow the topic assignment pattern from @.claude/context/patterns/topic-assignment-pattern.md\" plus manage-topics.sh calls for state updates. Also update extension copies (.claude/extensions/core/) to match.\n\nNet reduction: ~200 lines of duplicated picker instructions replaced by pattern references.",
+      "artifacts": [],
+      "session_id": ""
+    },
+    {
+      "project_number": 656,
+      "project_name": "add_topic_assignment_gaps",
+      "title": "Add topic assignment to commands with missing or partial coverage",
+      "status": "not_started",
+      "task_type": "meta",
+      "topic": "agent-system",
+      "effort": "1-2 hours",
+      "created": "2026-06-10T23:50:00Z",
+      "last_updated": "2026-06-10T23:50:00Z",
+      "dependencies": [
+        654
+      ],
+      "description": "Add topic assignment to 6 task creation points that currently have missing or incomplete topic handling, using the shared topic-assignment-pattern.md and manage-topics.sh:\n\n1. **skill-fix-it/SKILL.md** (PARTIAL): Keep existing auto-inference heuristic as a suggestion, but add user confirmation via the shared pattern suggest mode. User can accept, override, or skip.\n2. **commands/review.md** (PARTIAL): Same as fix-it — auto-inference as suggestion + confirmation picker. Also add active_topics array update when new topics are created.\n3. **skills/skill-project-overview/SKILL.md** (MISSING): Add topic picker call using shared pattern interactive mode.\n4. **skills/skill-spawn/SKILL.md** (inherit, no fallback): Keep parent inheritance as primary, add fallback to shared pattern interactive mode when parent has no topic.\n5. **commands/task.md --expand** (inherit, no fallback): Same as spawn — inherit parent topic, fallback picker when parent is topicless.\n6. **commands/task.md --review** (inherit, no fallback): Same as spawn — inherit parent topic, fallback picker when parent is topicless.\n\nAlso update extension copies (.claude/extensions/core/) to match all changes.",
+      "artifacts": [],
+      "session_id": ""
     }
   ],
   "completed_projects": [],

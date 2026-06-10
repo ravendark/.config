@@ -1,7 +1,7 @@
 # Implementation Plan: Task #648
 
 - **Task**: 648 - Create generate-todo.sh to generate entire TODO.md from state.json
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: Task 647 (completed)
 - **Research Inputs**: specs/648_create_generate_todo_script/reports/01_generate-todo-research.md

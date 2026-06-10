@@ -1,6 +1,6 @@
 ---
 description: Create, recover, divide, sync, or abandon tasks
-allowed-tools: Read(specs/*), Edit(specs/TODO.md), Bash(jq:*), Bash(git:*), Bash(mv:*), Bash(date:*), Bash(sed:*), AskUserQuestion
+allowed-tools: Read(specs/*), Bash(jq:*), Bash(git:*), Bash(mv:*), Bash(date:*), Bash(bash:*), AskUserQuestion
 argument-hint: "description" | --recover N | --expand N | --sync | --abandon N | --review N
 model: opus
 ---
@@ -194,36 +194,10 @@ When $ARGUMENTS contains a description (no flags).
      mv specs/tmp/state.json specs/state.json
     ```
 
-7. **Update TODO.md** (TWO parts - frontmatter AND entry):
-
-   **Part A - Update frontmatter** (increment next_project_number):
+7. **Regenerate TODO.md** from state.json (handles frontmatter, task entries, and Task Order):
    ```bash
-   # Find and update next_project_number in YAML frontmatter
-   sed -i 's/^next_project_number: [0-9]*/next_project_number: {NEW_NUMBER}/' \
-     specs/TODO.md
-   ```
-
-   **Part B - Add task entry** by prepending to `## Tasks` section:
-   ```markdown
-   ### {N}. {Title}
-   - **Effort**: {estimate}
-   - **Status**: [NOT STARTED]
-   - **Task Type**: {task_type}
-
-   **Description**: {description}
-   ```
-
-   **Insertion**: Use sed or Edit to insert the new task entry immediately after the `## Tasks` line, so new tasks appear at the top of the list.
-
-   **CRITICAL**: Both state.json AND TODO.md frontmatter MUST have matching next_project_number values.
-
-   **Part C - Update Task Order section** (non-blocking):
-   ```bash
-   # Update Task Order section (non-blocking)
-   if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-     bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-       2>/dev/null || echo "Note: Failed to regenerate Task Order section (non-fatal)" >&2
-   fi
+   bash .claude/scripts/generate-todo.sh \
+     2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
    ```
 
 8. **Git commit**:
@@ -292,7 +266,11 @@ Parse task ranges after --recover (e.g., "343-345", "337, 343"):
    ```
    Note: Recovered directories always use 3-digit padding regardless of source format.
 
-   **Update TODO.md**: Prepend recovered task entry to `## Tasks` section
+   **Regenerate TODO.md** from state.json:
+   ```bash
+   bash .claude/scripts/generate-todo.sh \
+     2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
+   ```
 
 2. Git commit: "task: recover tasks {ranges}"
 
@@ -333,41 +311,41 @@ Parse task number and optional prompt:
       }' specs/state.json > specs/tmp/state.json && \
       mv specs/tmp/state.json specs/state.json
 
-    **Also update TODO.md**: Change task status to `[EXPANDED]`
+5. **Regenerate TODO.md** from state.json after all subtask state.json writes complete:
+   ```bash
+   bash .claude/scripts/generate-todo.sh \
+     2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
+   ```
 
-5. Git commit: "task {N}: expand into subtasks"
+6. Git commit: "task {N}: expand into subtasks"
 
 ## Sync Mode (--sync)
 
-1. **Read state.json task list via jq**:
+state.json is the authoritative source of truth. Sync validates integrity and regenerates TODO.md.
+
+1. **Validate state.json integrity**:
    ```bash
    state_tasks=$(jq -r '.active_projects[].project_number' specs/state.json | sort -n)
    state_next=$(jq -r '.next_project_number' specs/state.json)
+   # Verify state.json is valid JSON
+   jq empty specs/state.json || { echo "Error: state.json is invalid JSON"; exit 1; }
    ```
 
-2. **Read TODO.md task list via grep**:
+2. **Identify orphan TODO.md tasks** not in state.json (warn user only, do not auto-add):
    ```bash
    todo_tasks=$(grep -o "^### [0-9]\+\." specs/TODO.md | sed 's/[^0-9]//g' | sort -n)
-   todo_next=$(grep "^next_project_number:" specs/TODO.md | awk '{print $2}')
+   # Warn about tasks in TODO.md but not in state.json (orphans)
+   for task_num in $todo_tasks; do
+     if ! jq -e --argjson n "$task_num" '.active_projects[] | select(.project_number == $n)' specs/state.json > /dev/null 2>&1; then
+       echo "Warning: Task $task_num in TODO.md not found in state.json (orphan)"
+     fi
+   done
    ```
 
-3. **Compare entries for consistency**:
-   - Tasks in state.json but not TODO.md → Add to TODO.md
-   - Tasks in TODO.md but not state.json → Add to state.json or mark as orphaned
-   - next_project_number mismatch → Use higher value
-
-4. **Use git blame to determine "latest wins"** for conflicting data
-
-5. **Sync discrepancies**:
-   - Use jq to update state.json
-   - Use Edit to update TODO.md
-   - Ensure next_project_number matches in both files
-
-6. **Regenerate Task Order section** to correct any drift between Task Order tree status markers and state.json:
+3. **Regenerate TODO.md from state.json** (single authoritative operation):
    ```bash
-   # Regenerate Task Order to correct drift (status markers out of sync with state.json)
-   .claude/scripts/generate-task-order.sh --update-todo specs/TODO.md specs/state.json 2>/dev/null || \
-     echo "Warning: Task Order regeneration failed (non-fatal)"
+   bash .claude/scripts/generate-todo.sh \
+     2>/dev/null || echo "Warning: generate-todo.sh failed (non-fatal)" >&2
    ```
 
 6.5. **Topic backfill** for tasks missing the `topic` field:
@@ -652,8 +630,12 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
    } | if .topic == null then del(.topic) else . end] + .active_projects' \
      specs/state.json > specs/tmp/state.json && \
      mv specs/tmp/state.json specs/state.json
+```
 
-# Update TODO.md (add entry and update frontmatter)
+After all follow-up task state.json writes complete, **regenerate TODO.md**:
+```bash
+bash .claude/scripts/generate-todo.sh \
+  2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
 ```
 
 ### Step 9: Output Results
@@ -741,7 +723,11 @@ Parse task ranges:
       mv specs/tmp/state.json specs/state.json
     ```
 
-    **Update TODO.md**: Remove the task entry (abandoned tasks should not appear in TODO.md)
+   **Regenerate TODO.md** from state.json (abandoned task no longer in active_projects, so it will not be rendered):
+   ```bash
+   bash .claude/scripts/generate-todo.sh \
+     2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
+   ```
 
    **Move task directory to archive** (handle both legacy unpadded and new padded formats):
    ```bash

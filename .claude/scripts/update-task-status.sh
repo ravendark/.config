@@ -3,9 +3,9 @@
 #
 # Updates task status atomically across:
 #   1. state.json (status field, timestamps, session_id)
-#   2. TODO.md task entry (- **Status**: [STATUS])
-#   3. TODO.md Task Order section (**{N}** [STATUS])
-#   4. Plan file (for implement and plan operations, via update-plan-status.sh)
+#   2. TODO.md regeneration via generate-todo.sh (new pipeline, PIPELINE_MODE=new)
+#      OR: TODO.md task entry + Task Order via awk/sed (legacy, PIPELINE_MODE=legacy)
+#   3. Plan file (for implement and plan operations, via update-plan-status.sh)
 #
 # Usage:
 #   .claude/scripts/update-task-status.sh <operation> <task_number> <target_status> <session_id> [--dry-run]
@@ -16,13 +16,18 @@
 #   target_status - "research", "plan", or "implement"
 #   session_id    - Session identifier string
 #
+# Environment:
+#   PIPELINE_MODE  - "new" (default, use generate-todo.sh) or "legacy" (awk/sed fallback)
+#
 # Exit codes:
 #   0 - Success or no-op (already at target status)
 #   1 - Validation error (bad arguments)
 #   2 - state.json update failed
-#   3 - TODO.md update failed
 
 set -euo pipefail
+
+# --- Pipeline mode: "new" uses generate-todo.sh; "legacy" uses old awk/sed code ---
+PIPELINE_MODE="${PIPELINE_MODE:-new}"
 
 # --- Configuration ---
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -31,6 +36,14 @@ STATE_FILE="$PROJECT_ROOT/specs/state.json"
 TODO_FILE="$PROJECT_ROOT/specs/TODO.md"
 TMP_DIR="$PROJECT_ROOT/specs/tmp"
 LOCK_FILE="$PROJECT_ROOT/specs/.state.json.lock"
+DEPRECATION_LOG="$PROJECT_ROOT/.claude/logs/deprecation.log"
+
+# --- Deprecation logger ---
+log_deprecation() {
+  local context="$1"
+  mkdir -p "$(dirname "$DEPRECATION_LOG")"
+  echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] update-task-status: DEPRECATED $context" >> "$DEPRECATION_LOG"
+}
 
 # --- Cleanup trap ---
 cleanup() {
@@ -195,7 +208,24 @@ if ! update_state_json; then
 fi
 
 # ============================================================
-# PHASE 2: Update TODO.md task entry status
+# NEW PIPELINE: Regenerate TODO.md via generate-todo.sh
+# ============================================================
+regenerate_todo() {
+  local gen_script="$SCRIPT_DIR/generate-todo.sh"
+  if [[ "$DRY_RUN" == "true" ]]; then
+    echo "[dry-run] regenerate_todo: would call generate-todo.sh to regenerate TODO.md"
+    return 0
+  fi
+  if [[ -x "$gen_script" ]]; then
+    "$gen_script" || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
+  else
+    echo "WARNING: generate-todo.sh not found at $gen_script (non-fatal)" >&2
+  fi
+}
+
+# ============================================================
+# LEGACY PHASE 2: Update TODO.md task entry status
+# (Only runs when PIPELINE_MODE=legacy)
 # ============================================================
 update_todo_task_entry() {
   if [[ ! -f "$TODO_FILE" ]]; then
@@ -267,7 +297,8 @@ update_todo_task_entry() {
 }
 
 # ============================================================
-# PHASE 3: Update TODO.md Task Order section
+# LEGACY PHASE 3: Update TODO.md Task Order section
+# (Only runs when PIPELINE_MODE=legacy)
 # ============================================================
 update_todo_task_order() {
   if [[ ! -f "$TODO_FILE" ]]; then
@@ -409,14 +440,15 @@ update_plan_file() {
 }
 
 # Execute TODO.md updates
-todo_failed=false
-
-if ! update_todo_task_entry; then
-  todo_failed=true
-fi
-
-if ! update_todo_task_order; then
-  todo_failed=true
+if [[ "$PIPELINE_MODE" == "legacy" ]]; then
+  # Legacy path: awk/sed text surgery on TODO.md
+  # DEPRECATED: log usage for monitoring by task 652
+  log_deprecation "PIPELINE_MODE=legacy triggered for task $task_number op=$operation status=$target_status"
+  update_todo_task_entry || true
+  update_todo_task_order || true
+else
+  # New path: regenerate TODO.md from state.json via generate-todo.sh
+  regenerate_todo
 fi
 
 # Execute plan file update
@@ -445,11 +477,6 @@ if [[ "$operation" == "postflight" && "$DRY_RUN" != "true" ]]; then
 fi
 
 # Report result
-if [[ "$todo_failed" == "true" && "$DRY_RUN" != "true" ]]; then
-  echo "Warning: TODO.md updates had issues (state.json was updated successfully)" >&2
-  exit 3
-fi
-
 if [[ "$DRY_RUN" != "true" ]]; then
   echo "OK: task $task_number status -> $STATE_STATUS"
 fi

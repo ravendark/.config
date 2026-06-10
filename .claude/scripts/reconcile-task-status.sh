@@ -31,6 +31,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 STATE_FILE="$PROJECT_ROOT/specs/state.json"
+DEPRECATION_LOG="$PROJECT_ROOT/.claude/logs/deprecation.log"
 
 # --- Parse arguments ---
 DRY_RUN=false
@@ -151,8 +152,12 @@ link_artifact() {
 
   if [[ "$DRY_RUN" == "true" ]]; then
     echo "[reconcile] Would link artifact in TODO.md: $field_name -> $rel_path"
+    # DEPRECATED: link-artifact-todo.sh usage (task 649); deferred migration to task 652
     "$SCRIPT_DIR/link-artifact-todo.sh" "$task_number" "$field_name" "$next_field" "$rel_path" --dry-run || true
   else
+    # DEPRECATED: link-artifact-todo.sh usage (task 649); deferred migration to task 652
+    mkdir -p "$(dirname "$DEPRECATION_LOG")"
+    echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] reconcile-task-status: DEPRECATED link-artifact-todo.sh call task=$task_number field=$field_name path=$rel_path" >> "$DEPRECATION_LOG" 2>/dev/null || true
     "$SCRIPT_DIR/link-artifact-todo.sh" "$task_number" "$field_name" "$next_field" "$rel_path" || {
       echo "[reconcile] WARNING: link-artifact-todo.sh failed for $rel_path (non-fatal)" >&2
     }

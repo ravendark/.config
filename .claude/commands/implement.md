@@ -170,11 +170,10 @@ The following steps are implement-specific (not handled by command-gate-out.sh):
      '(.active_projects[] | select(.project_number == '"$task_number"')).completion_summary = $summary' \
      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
    ```
-   Add `- **Summary**: {completion_summary}` line to the task entry in TODO.md.
 
 5. **Verify Plan File Status Updated (Defensive)** — Only when `result.status == "implemented"`: If plan file doesn't show `[COMPLETED]`, call `update-plan-status.sh "$task_number" "$PROJECT_NAME" "COMPLETED"`.
 
-6. **Verify TODO.md Status (Defensive)** — Only when `result.status == "implemented"`: If `[IMPLEMENTING]` still present, apply correction to both task entry and Task Order.
+6. **Verify TODO.md Status (Defensive)** — Only when `result.status == "implemented"`: If `[IMPLEMENTING]` still present, call `bash .claude/scripts/generate-todo.sh` to regenerate TODO.md from state.json (which has the correct status).
 
 7. **Post-Delegation Takeover Detection**: Log a warning if the skill operated on non-specs files after the Agent tool returned (future enforcement).
 

@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 # link-artifact-todo.sh - Automate TODO.md artifact linking
 #
+# DEPRECATED: This script is deprecated in favor of generate-todo.sh.
+# Callers should instead call: bash .claude/scripts/generate-todo.sh
+# This script remains functional for backward compatibility.
+# Deprecation tracking: task 649; removal target: task 652.
+#
 # Implements the four-case artifact linking logic from
 # .claude/context/patterns/artifact-linking-todo.md
 #
@@ -30,6 +35,17 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 TODO_FILE="$PROJECT_ROOT/specs/TODO.md"
+DEPRECATION_LOG="$PROJECT_ROOT/.claude/logs/deprecation.log"
+
+# --- Deprecation logging ---
+# Log every invocation so task 652 can verify zero usage before removal
+if [[ "${1:-}" != "--dry-run" ]] || [[ $# -gt 1 ]]; then
+  mkdir -p "$(dirname "$DEPRECATION_LOG")"
+  _task="${1:-unknown}"
+  _field="${2:-unknown}"
+  _path="${4:-unknown}"
+  echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] link-artifact-todo: DEPRECATED task=$_task field=$_field path=$_path" >> "$DEPRECATION_LOG" 2>/dev/null || true
+fi
 
 # --- Parse arguments ---
 DRY_RUN=false

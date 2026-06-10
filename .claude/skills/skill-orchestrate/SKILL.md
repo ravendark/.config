@@ -431,12 +431,8 @@ else
     jq --arg path "$artifact_path" --arg type "$artifact_type" --arg summary "$artifact_summary" \
       '(.active_projects[] | select(.project_number == '"$task_number"')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-    # Step 3: Link in TODO.md
-    case "$artifact_type" in
-      report) bash .claude/scripts/link-artifact-todo.sh "$task_number" '**Research**' '**Plan**' "$artifact_path" ;;
-      plan)   bash .claude/scripts/link-artifact-todo.sh "$task_number" '**Plan**' '**Description**' "$artifact_path" ;;
-      summary) bash .claude/scripts/link-artifact-todo.sh "$task_number" '**Summary**' '**Description**' "$artifact_path" ;;
-    esac
+    # Step 3: Regenerate TODO.md from state.json (replaces link-artifact-todo.sh)
+    bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
   fi
 fi
 
@@ -1072,12 +1068,8 @@ for task_num in "${research_tasks[@]}" "${plan_tasks[@]}" "${implement_tasks[@]}
     jq --arg path "$artifact_path" --arg type "$artifact_type" --arg summary "$artifact_summary" \
       '(.active_projects[] | select(.project_number == '"$task_num"')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-    # Step 3: Link in TODO.md
-    case "$artifact_type" in
-      report) bash .claude/scripts/link-artifact-todo.sh "$task_num" '**Research**' '**Plan**' "$artifact_path" ;;
-      plan)   bash .claude/scripts/link-artifact-todo.sh "$task_num" '**Plan**' '**Description**' "$artifact_path" ;;
-      summary) bash .claude/scripts/link-artifact-todo.sh "$task_num" '**Summary**' '**Description**' "$artifact_path" ;;
-    esac
+    # Step 3: Regenerate TODO.md from state.json (replaces link-artifact-todo.sh)
+    bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
   fi
   
   # Update multi-state current_statuses and move to completed/failed as appropriate

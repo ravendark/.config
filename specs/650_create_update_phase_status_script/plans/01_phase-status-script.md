@@ -1,7 +1,7 @@
 # Implementation Plan: Task #650
 
 - **Task**: 650 - Create update-phase-status.sh for phase-level plan tracking
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 3 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/650_create_update_phase_status_script/reports/01_phase-status-research.md

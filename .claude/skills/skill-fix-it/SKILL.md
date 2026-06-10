@@ -478,36 +478,9 @@ current=$(cat specs/state.json)
 
 Note: Omit `"topic"` field if topic cannot be inferred (empty string from heuristic).
 
-#### 9.2: Update TODO.md
+#### 9.2: (Removed — state.json is authoritative for task entries)
 
-Prepend new task entry to `## Tasks` section (new tasks at top):
-
-**Standard format (no dependency)**:
-```markdown
-### {N}. {Title}
-- **Effort**: {estimate}
-- **Status**: [NOT STARTED]
-- **Task Type**: {task_type}
-- **Started**: {timestamp}
-
-**Description**: {description}
-
----
-```
-
-**Fix-it task format when has_note_dependency is TRUE**:
-```markdown
-### {N}. {Title}
-- **Effort**: {estimate}
-- **Status**: [NOT STARTED]
-- **Task Type**: {task_type}
-- **Dependencies**: {learn_it_task_num}
-- **Started**: {timestamp}
-
-**Description**: {description}
-
----
-```
+The state.json update in Step 9.1 already writes the task data. TODO.md will be regenerated via generate-todo.sh in Step 9.4 after all state.json writes complete.
 
 ### Step 9.3: Update active_topics (Non-Blocking)
 
@@ -528,15 +501,13 @@ done
 
 Where `new_topics` is the array of topic values auto-inferred during Step 9.1. Topics already in `active_topics` are skipped (idempotent). Topics that are empty/null are skipped via the `[[ -z "$topic" ]]` guard.
 
-### Step 9.4: Update Task Order Section (Non-Blocking)
+### Step 9.4: Regenerate TODO.md (Non-Blocking)
 
-After all tasks have been written to state.json and TODO.md, regenerate the Task Order section:
+After all tasks have been written to state.json, regenerate the entire TODO.md from state.json:
 
 ```bash
-if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-    2>/dev/null || echo "Note: Failed to regenerate Task Order (non-fatal)" >&2
-fi
+bash .claude/scripts/generate-todo.sh \
+  2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
 ```
 
 ### Step 10: Display Results

@@ -559,8 +559,11 @@ jq --arg num "$next_num" --arg slug "$slug" --arg title "$title" \
    specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
 ```
 
-**5. Update TODO.md:**
-Add task entry following existing format in TODO.md frontmatter section.
+**5. Regenerate TODO.md** from state.json after all task state.json writes complete:
+```bash
+bash .claude/scripts/generate-todo.sh \
+  2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
+```
 
 **6. Track in review state:**
 ```bash
@@ -596,38 +599,39 @@ If reviewing specific domains, update relevant registries:
 - `.claude/docs/registries/lean-files.md`
 - `.claude/docs/registries/documentation.md`
 
-### 6.5. Regenerate Task Order
+### 6.5. Regenerate TODO.md
 
-Regenerate the Task Order section in TODO.md using `generate-task-order.sh`. This replaces all manual pruning, insertion, and dependency chain management with a single script call.
+Regenerate TODO.md from state.json using `generate-todo.sh`. This regenerates the entire file including frontmatter, Task Order section, and all task entries.
 
 **Skip condition**: If `task_order_state.exists == false` AND no tasks were created in Section 5.6, skip this section entirely.
 
-**Run `generate-task-order.sh --update-todo`:**
+**Run `generate-todo.sh`:**
 ```bash
-# Regenerate Task Order from state.json (non-fatal)
-if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-    || { echo "Warning: Task Order regeneration failed (non-fatal)" >&2; }
+# Regenerate TODO.md from state.json (non-fatal)
+if [ -f ".claude/scripts/generate-todo.sh" ]; then
+  bash ".claude/scripts/generate-todo.sh" \
+    || { echo "Warning: TODO.md regeneration failed (non-fatal)" >&2; }
 else
-  echo "Note: generate-task-order.sh not found -- skipping Task Order regeneration" >&2
+  echo "Note: generate-todo.sh not found -- skipping TODO.md regeneration" >&2
 fi
 ```
 
 **What the script does**:
 - Reads current task statuses from `specs/state.json`
-- Builds wave assignment (topological sort by dependency level)
+- Regenerates YAML frontmatter with correct next_project_number
+- Builds wave assignment (topological sort by dependency level) via generate-task-order.sh --print
 - Builds dependency tree entries with indentation
 - Writes the complete `## Task Order` section in wave+tree format
-- Preserves the goal statement if one exists in the current Task Order
+- Writes all task entries in descending project_number order
 
 **Track result**:
 - `task_order_regenerated`: true if script ran successfully, false if skipped or failed
 
-**Non-fatal**: If the script fails, log the warning and continue to Section 6.7. Task Order regeneration failure does not block the review workflow.
+**Non-fatal**: If the script fails, log the warning and continue to Section 6.7. TODO.md regeneration failure does not block the review workflow.
 
 ### 6.6. (Removed)
 
-Task insertion into the Task Order is now handled automatically by Section 6.5 (`generate-task-order.sh --update-todo`). The script reads `specs/state.json` directly, so any tasks created in Section 5.6 are already included in the regenerated Task Order. No separate insertion step is needed.
+Task insertion into the Task Order is now handled automatically by Section 6.5 (`generate-todo.sh`). The script reads `specs/state.json` directly, so any tasks created in Section 5.6 are already included in the regenerated TODO.md. No separate insertion step is needed.
 
 ### 6.7. Interactive Task Order Management
 
@@ -711,11 +715,15 @@ This gives the user context before the goal statement prompt.
 }
 ```
 
-Apply selected goal:
-```
-# Use Edit tool to replace goal line in TODO.md
-old_string = "**Goal**: {old_goal}"
-new_string = "**Goal**: {selected_goal}"
+Apply selected goal by writing to state.json and regenerating TODO.md:
+```bash
+# Write active_goal to state.json
+jq --arg goal "$selected_goal" '.active_goal = $goal' \
+  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+
+# Regenerate TODO.md to render the updated goal
+bash .claude/scripts/generate-todo.sh \
+  2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
 ```
 
 ### 7. Git Commit
@@ -773,7 +781,7 @@ This command implements the multi-task creation pattern. See `.claude/docs/refer
 | Confirmation | Yes | Implicit via selection |
 | State Updates | Yes | Atomic updates (Section 5.6.3) |
 
-**Note**: Task Order management uses `generate-task-order.sh --update-todo` (Section 6.5) for regeneration. Dependencies are derived from `state.json` and rendered automatically in the wave+tree format. Goal statement override is available via Section 6.7.3.
+**Note**: TODO.md management uses `generate-todo.sh` (Section 6.5) for full regeneration. Dependencies are derived from `state.json` and rendered automatically in the wave+tree format. Goal statement override is available via Section 6.7.3.
 
 ### 8. Output
 

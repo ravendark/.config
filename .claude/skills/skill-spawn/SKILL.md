@@ -89,14 +89,9 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
 
 ---
 
-### Stage 3: Update TODO.md Parent Status
+### Stage 3: (Removed — state.json is authoritative for status)
 
-Use Edit tool to change status marker to `[BLOCKED]` if not already blocked.
-
-```markdown
-old_string: - **Status**: [{current_status}]
-new_string: - **Status**: [BLOCKED]
-```
+The state.json update in Stage 2 already sets status to "blocked". TODO.md will be regenerated via generate-todo.sh in Stage 14b after all task writes complete.
 
 ---
 
@@ -357,24 +352,9 @@ jq --argjson next "$((next_num + task_count))" \
 
 ---
 
-### Stage 12: Update TODO.md with New Task Entries
+### Stage 12: (Removed — state.json is authoritative for task entries)
 
-Insert new task entries after the Tasks header, in topological order:
-
-```markdown
-### {NEW_TASK_NUM}. {Title}
-- **Effort**: {estimate}
-- **Status**: [RESEARCHED]
-- **Task Type**: {task_type}
-- **Dependencies**: Task #{dep1}, Task #{dep2}  OR  None
-- **Parent Task**: #{parent_task_number}
-- **Started**: {timestamp}
-- **Research**: [02_spawn-analysis.md]({parent_dir}/reports/02_spawn-analysis.md)
-
-**Description**: {full description}
-```
-
-Use Edit tool to insert each task entry at the top of the Tasks section (after `## Tasks` header).
+The state.json updates in Stage 11 already write all task data. TODO.md will be regenerated via generate-todo.sh in Stage 14b after all task writes complete.
 
 ---
 
@@ -399,22 +379,9 @@ jq --argjson new_deps "$new_task_nums" \
 
 ---
 
-### Stage 14: Update Parent Task Dependencies in TODO.md
+### Stage 14: (Removed — state.json is authoritative for dependencies)
 
-Edit the parent task entry to add/update the Dependencies line:
-
-```markdown
-# If no Dependencies line exists, add after Status line:
-old_string: - **Status**: [BLOCKED]
-new_string: - **Status**: [BLOCKED]
-- **Dependencies**: Task #242, Task #243
-
-# If Dependencies line exists, update it:
-old_string: - **Dependencies**: None
-new_string: - **Dependencies**: Task #242, Task #243
-```
-
-Use Edit tool to update the parent task entry.
+The state.json update in Stage 13 already writes the dependencies array. TODO.md will be regenerated via generate-todo.sh in Stage 14b after all task writes complete.
 
 ---
 
@@ -435,15 +402,13 @@ fi
 
 ---
 
-### Stage 14b: Update Task Order Section (Non-Blocking)
+### Stage 14b: Regenerate TODO.md (Non-Blocking)
 
-After all new tasks have been written to state.json and TODO.md, regenerate the Task Order section:
+After all state.json writes are complete (parent status blocked, new tasks, parent dependencies), regenerate the entire TODO.md from state.json. This single call replaces all direct TODO.md writes:
 
 ```bash
-if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-    2>/dev/null || echo "Note: Failed to regenerate Task Order (non-fatal)" >&2
-fi
+bash .claude/scripts/generate-todo.sh \
+  2>/dev/null || echo "Note: Failed to regenerate TODO.md (non-fatal)" >&2
 ```
 
 ---
