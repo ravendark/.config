@@ -133,7 +133,7 @@ build_graph() {
     select(.status == "completed" | not) |
     select(.status == "abandoned" | not) |
     select(.status == "expanded" | not) |
-    "\(.project_number)|\((.description // .project_name) | ltrimstr(" ") | .[0:65])"
+    "\(.project_number)|\((.title // .description // .project_name) | ltrimstr(" ") | .[0:65])"
   ' "$STATE_FILE" 2>/dev/null)
 
   # Load descriptions into task_desc map

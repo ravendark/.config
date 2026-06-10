@@ -2,10 +2,13 @@
 
 Complete schema reference for state.json, TODO.md, and artifact formats. For behavioral rules (transitions, update patterns), see `.claude/rules/state-management.md`.
 
+**Schema version**: 1.1.0 (added `title` and `description` as required fields on all task entries)
+
 ## state.json Full Structure
 
 ```json
 {
+  "version": "1.1.0",
   "next_project_number": 346,
   "active_topics": [
     "completeness",
@@ -20,6 +23,7 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
     {
       "project_number": 334,
       "project_name": "task_slug_here",
+      "title": "Human-readable task title here",
       "status": "planned",
       "task_type": "general",
       "topic": "completeness",
@@ -27,6 +31,7 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
       "created": "2026-01-08T10:00:00Z",
       "last_updated": "2026-01-08T14:30:00Z",
       "dependencies": [332, 333],
+      "description": "Full task description with complete detail. May be multiline.",
       "artifacts": [
         {
           "type": "research",
@@ -81,7 +86,8 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `project_number` | number | Yes | Unique task identifier |
-| `project_name` | string | Yes | Snake_case slug from title |
+| `project_name` | string | Yes | Snake_case filesystem slug derived from the task title. Used for directory names (e.g., `specs/334_task_slug_here/`). Distinct from `title` which is the human-readable display text. |
+| `title` | string | Yes | Human-readable task title from creation. Used for TODO.md heading generation (e.g., `### 334. My Task Title [PLANNED]`). Natural language, may contain spaces and punctuation. Distinct from `project_name` which is the filesystem slug. |
 | `status` | string | Yes | Current status (see Status Values) |
 | `task_type` | string | Yes | Task type for routing (see Task Type Values). Bare values (`meta`, `general`) or compound `extension:subtype` (`present:grant`, `founder:deck`) |
 | `topic` | string | No | Semantic domain of the task. Kebab-case value from the `active_topics` array (e.g., `"completeness"`, `"agent-system"`). Optional — absent means task appears under "Uncategorized" in Task Order. |
@@ -89,8 +95,11 @@ Complete schema reference for state.json, TODO.md, and artifact formats. For beh
 | `created` | string | Yes | ISO8601 creation timestamp |
 | `last_updated` | string | Yes | ISO8601 last update timestamp |
 | `dependencies` | array | No | Array of task numbers this depends on |
+| `description` | string | Yes | Full task description. Stored as-is; may contain subsections, bullet lists, or multiline content. Used for TODO.md **Description** block generation. |
 | `artifacts` | array | No | Array of artifact objects |
 | `next_artifact_number` | number | No | Next artifact sequence number (default: 1) |
+
+**Note on `project_name` vs `title`**: These fields serve different purposes. `project_name` is a filesystem-safe slug (snake_case, no spaces) used in directory paths. `title` is the human-readable display text shown in TODO.md headings and Task Order. Both are required. New task creation scripts set both from the user-supplied title: `project_name` is derived by lowercasing and replacing spaces with underscores; `title` is stored verbatim.
 
 ### task_type Field
 
@@ -357,10 +366,13 @@ write "specs/${padded_num}_${slug}/reports/01_research-findings.md"
 {
   "project_number": 500,
   "project_name": "implement_new_feature",
+  "title": "Implement new feature",
   "status": "not_started",
   "task_type": "general",
   "created": "2026-02-25T10:00:00Z",
   "last_updated": "2026-02-25T10:00:00Z",
+  "dependencies": [],
+  "description": "Full description of the new feature to implement.",
   "artifacts": []
 }
 ```
@@ -370,11 +382,13 @@ write "specs/${padded_num}_${slug}/reports/01_research-findings.md"
 {
   "project_number": 502,
   "project_name": "integrate_feature",
+  "title": "Integrate feature into main pipeline",
   "status": "not_started",
   "task_type": "general",
   "dependencies": [500, 501],
   "created": "2026-02-25T10:30:00Z",
   "last_updated": "2026-02-25T10:30:00Z",
+  "description": "Integrate the new feature from task 500 with the main pipeline from task 501.",
   "artifacts": []
 }
 ```
@@ -384,10 +398,12 @@ write "specs/${padded_num}_${slug}/reports/01_research-findings.md"
 {
   "project_number": 510,
   "project_name": "add_merge_command",
+  "title": "Add /merge command for PR creation",
   "status": "completed",
   "task_type": "meta",
   "created": "2026-02-26T09:00:00Z",
   "last_updated": "2026-02-26T12:00:00Z",
+  "description": "Create a /merge command that detects GitHub vs GitLab and creates the appropriate pull/merge request.",
   "artifacts": [
     {
       "type": "implementation",

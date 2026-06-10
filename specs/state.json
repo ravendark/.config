@@ -1,17 +1,17 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "next_project_number": 653,
   "active_projects": [
     {
       "project_number": 647,
       "project_name": "enrich_state_json_schema",
       "title": "Enrich state.json schema to be the single complete source of truth",
-      "status": "researched",
+      "status": "implementing",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-10T01:09:05Z",
+      "last_updated": "2026-06-10T22:38:18Z",
       "dependencies": [],
       "description": "Add title field to all task entries in state.json (currently only project_name slug exists; human-readable titles live only in TODO.md headings). Migrate full descriptions from TODO.md where missing or truncated in state.json. Ensure all metadata needed for TODO.md generation is present: effort, task_type, dependencies, artifacts, descriptions. This makes state.json self-sufficient as the sole source of truth for generating TODO.md.",
       "artifacts": [
@@ -19,9 +19,14 @@
           "path": "specs/647_enrich_state_json_schema/reports/01_team-research.md",
           "type": "research",
           "summary": "Team research with 2 teammates: schema enrichment analysis"
+        },
+        {
+          "path": "specs/647_enrich_state_json_schema/plans/01_enrich-state-schema.md",
+          "type": "plan",
+          "summary": "4-phase plan for state.json enrichment"
         }
       ],
-      "session_id": "sess_1781085600_647res"
+      "session_id": "sess_1781130828_de7a25_647"
     },
     {
       "project_number": 648,
@@ -59,15 +64,27 @@
       "project_number": 650,
       "project_name": "create_update_phase_status_script",
       "title": "Create update-phase-status.sh for phase-level plan tracking",
-      "status": "not_started",
+      "status": "planned",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-09T12:00:00Z",
-      "last_updated": "2026-06-09T12:00:00Z",
+      "last_updated": "2026-06-10T22:41:12Z",
       "dependencies": [],
       "description": "Create update-phase-status.sh script for phase-level status tracking in plan files. Updates individual phase markers ([NOT STARTED] -> [IN PROGRESS] -> [COMPLETED]) as implementation progresses through each phase. Called by implementation agents at each phase boundary for real-time oversight. Keeps existing update-plan-status.sh for plan-level status (header). Integrates with skill-implementer and general-implementation-agent so phases are marked as they execute. Add logging of phase transitions for oversight.",
-      "artifacts": []
+      "artifacts": [
+        {
+          "path": "specs/650_create_update_phase_status_script/reports/01_phase-status-research.md",
+          "type": "report",
+          "summary": "Research on phase-level status tracking"
+        },
+        {
+          "path": "specs/650_create_update_phase_status_script/plans/01_phase-status-script.md",
+          "type": "plan",
+          "summary": "4-phase plan for phase-level status tracking script"
+        }
+      ],
+      "session_id": "sess_1781130828_de7a25_650"
     },
     {
       "project_number": 651,
@@ -131,7 +148,8 @@
         }
       ],
       "session_id": "sess_1780976739_21f335_646",
-      "completion_summary": "Replaced brittle sed pattern matching in update-task-status.sh PHASE 2 and PHASE 3 Mode A with awk single-pass approach that detects failures instead of silently skipping"
+      "completion_summary": "Replaced brittle sed pattern matching in update-task-status.sh PHASE 2 and PHASE 3 Mode A with awk single-pass approach that detects failures instead of silently skipping",
+      "title": "Harden TODO.md status updates"
     },
     {
       "project_number": 645,
@@ -164,7 +182,8 @@
         }
       ],
       "session_id": "sess_1780978328_6507e6_645",
-      "completion_summary": "Added flock mutex + mktemp to update-task-status.sh, postflight-workflow.sh, and skill-base.sh to eliminate last-write-wins corruption for concurrent state.json writes"
+      "completion_summary": "Added flock mutex + mktemp to update-task-status.sh, postflight-workflow.sh, and skill-base.sh to eliminate last-write-wins corruption for concurrent state.json writes",
+      "title": "Fix parallel write safety for state.json"
     },
     {
       "project_number": 644,
@@ -197,7 +216,8 @@
         }
       ],
       "session_id": "sess_1780978328_6507e6_644",
-      "completion_summary": "Created reconcile-task-status.sh script and integrated reconciliation preflight into orchestrator SKILL.md at Stage 2.5 (single-task) and Stage MT-2 (multi-task) for self-healing crashed agent status"
+      "completion_summary": "Created reconcile-task-status.sh script and integrated reconciliation preflight into orchestrator SKILL.md at Stage 2.5 (single-task) and Stage MT-2 (multi-task) for self-healing crashed agent status",
+      "title": "Add reconciliation preflight to orchestrator"
     },
     {
       "project_number": 643,
@@ -230,7 +250,8 @@
         }
       ],
       "session_id": "sess_1780976739_21f335_643",
-      "completion_summary": "Added orchestrator_mode guard to skill_postflight_update in skill-base.sh and updated 3 core skill call sites so orchestrator exclusively owns status transitions when orchestrator_mode=true"
+      "completion_summary": "Added orchestrator_mode guard to skill_postflight_update in skill-base.sh and updated 3 core skill call sites so orchestrator exclusively owns status transitions when orchestrator_mode=true",
+      "title": "Eliminate dual postflight ownership"
     },
     {
       "project_number": 642,
@@ -261,7 +282,8 @@
         }
       ],
       "session_id": "sess_1780976739_21f335_642",
-      "completion_summary": "Fixed orchestrator_mode from false to true at 4 dispatch locations in skill-orchestrate/SKILL.md enabling handoff JSON for research and plan phases"
+      "completion_summary": "Fixed orchestrator_mode from false to true at 4 dispatch locations in skill-orchestrate/SKILL.md enabling handoff JSON for research and plan phases",
+      "title": "Fix orchestrator_mode=false for research/plan dispatch"
     },
     {
       "project_number": 641,
@@ -292,7 +314,8 @@
           "summary": "Implementation summary: Stage 3.5 rename, Stage 4.5 topic picker, cross-reference updates"
         }
       ],
-      "completion_summary": "Replaced nonexistent keyword heuristic with interactive batch topic picker (Stage 4.5 AssignTopic) in meta-builder-agent.md; renamed Stage 3.5 from AnalyzeTopics to AnalyzeConsolidation; updated cross-references in 6 files"
+      "completion_summary": "Replaced nonexistent keyword heuristic with interactive batch topic picker (Stage 4.5 AssignTopic) in meta-builder-agent.md; renamed Stage 3.5 from AnalyzeTopics to AnalyzeConsolidation; updated cross-references in 6 files",
+      "title": "Fix meta-builder-agent topic assignment"
     },
     {
       "project_number": 640,
@@ -323,7 +346,8 @@
           "summary": "Implementation summary: SKILL.md topic revision stages + task.md Step 6.5 expansion"
         }
       ],
-      "completion_summary": "Added Stage 2.5 (TopicRevision) and Stage 10.3 (OrphanTopicCleanup) to skill-todo/SKILL.md; expanded /task --sync Step 6.5 with New topic option matching Step 4.5 canonical pattern"
+      "completion_summary": "Added Stage 2.5 (TopicRevision) and Stage 10.3 (OrphanTopicCleanup) to skill-todo/SKILL.md; expanded /task --sync Step 6.5 with New topic option matching Step 4.5 canonical pattern",
+      "title": "Add topic revision stage to /todo skill"
     },
     {
       "project_number": 639,
@@ -343,7 +367,9 @@
         }
       ],
       "session_id": "sess_1780943406_504cdf",
-      "completion_summary": "Replaced 16 bash function references in skill-orchestrate/SKILL.md with standalone bash commands (update-task-status.sh, link-artifact-todo.sh) so the orchestrator agent properly syncs TODO.md status and links artifacts during /orchestrate."
+      "completion_summary": "Replaced 16 bash function references in skill-orchestrate/SKILL.md with standalone bash commands (update-task-status.sh, link-artifact-todo.sh) so the orchestrator agent properly syncs TODO.md status and links artifacts during /orchestrate.",
+      "title": "Fix /orchestrate TODO.md status sync and artifact linking",
+      "description": "Replace bash function references in skill-orchestrate/SKILL.md with explicit, standalone bash commands that the orchestrator agent can execute directly via the Bash tool. The orchestrator currently updates state.json correctly but never updates TODO.md status markers or links artifacts because it treats skill_preflight_update, skill_postflight_update, and skill_link_artifact_from_handoff as pseudocode rather than callable functions (they require source skill-base.sh which agents don't run). Changes needed in both single-task (Stages 4-5) and multi-task (Stages MT-3/MT-4) sections."
     },
     {
       "project_number": 638,
@@ -357,7 +383,9 @@
       "session_id": "sess_1780939217_meta01",
       "dependencies": [],
       "artifacts": [],
-      "completion_summary": "Applied bootstrap_task_order_section() and un-slugify fix to generate-task-order.sh in 4 downstream projects (cslib, BimodalHarness, BimodalLogic, ModelChecker). All copies now match the nvim reference."
+      "completion_summary": "Applied bootstrap_task_order_section() and un-slugify fix to generate-task-order.sh in 4 downstream projects (cslib, BimodalHarness, BimodalLogic, ModelChecker). All copies now match the nvim reference.",
+      "title": "Fix generate-task-order.sh to create Task Order section when missing",
+      "description": "Fix generate-task-order.sh to handle the case where ## Task Order doesn't exist in TODO.md. In --update-todo mode, if the ## Task Order section is not found, INSERT it before the first ## Tasks section instead of failing with a warning. This makes the script idempotent -- it creates the section on first run and replaces it on subsequent runs. Also verify the script generates clean output matching the BimodalLogic format (waves table + topic tree, no artifact links in task order entries)."
     },
     {
       "project_number": 87,
@@ -373,7 +401,12 @@
           "path": "specs/087_investigate_wezterm_terminal_directory_change/reports/research-001.md",
           "summary": "Comprehensive analysis of Neovim and WezTerm configurations showing no automatic directory-changing behavior"
         }
-      ]
+      ],
+      "title": "Investigate terminal directory change when opening neovim in wezterm",
+      "description": "Investigate why the terminal working directory changes to a project root when opening neovim sessions in wezterm from the home directory (~). Determine whether this behavior is caused by neovim or wezterm (configured in ~/.dotfiles/config/). Identify if any functionality depends on this behavior before modifying it. Goal is to avoid changing the terminal directory unless necessary.",
+      "effort": "TBD",
+      "topic": "wezterm-notifications",
+      "dependencies": []
     },
     {
       "project_number": 78,
@@ -397,7 +430,10 @@
         }
       ],
       "session_id": "sess_1771006114_e73864",
-      "planned": "2026-02-13T18:10:48Z"
+      "planned": "2026-02-13T18:10:48Z",
+      "title": "Fix Himalaya SMTP authentication failure when sending emails",
+      "description": "Fix Gmail SMTP authentication failure when sending emails via Himalaya (<leader>me). Error: Authentication failed: Code: 535, Enhanced code: 5.7.8, Message: Username and Password not accepted. The error occurs with TLS connection attempts and persists through multiple retry attempts. Identify and fix the root cause of the SMTP credential configuration.",
+      "topic": "wezterm-notifications"
     }
   ],
   "completed_projects": [],

@@ -11,7 +11,7 @@ next_project_number: 653
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,647,650 | -- | agent-system |
+| 1 | 78,87,647,650 | -- | wezterm-notifications, agent-system |
 | 2 | 648 | 647 | agent-system |
 | 3 | 649 | 648 | agent-system |
 | 4 | 651 | 649 | agent-system |
@@ -19,20 +19,20 @@ next_project_number: 653
 
 **Grouped by Topic** (indented = depends on parent):
 
+### Wezterm Notifications
+
+78 [PLANNED] — Fix Himalaya SMTP authentication failure when sending emails
+87 [RESEARCHED] — Investigate terminal directory change when opening neovim in wezt
+
 ### Agent System
 
-647 [RESEARCHED] — Add title field to all task entries in state.json (currently only
-  └─ 648 [NOT STARTED] — Create a single generate-todo.sh script that produces the entire 
-    └─ 649 [NOT STARTED] — Refactor update-task-status.sh to only update state.json + plan f
-      └─ 651 [NOT STARTED] — Update state-management.md rules to reflect new architecture: sta
-        └─ 652 [NOT STARTED] — After ~1 week of the new pipeline running, review logs to verify 
-      └─ 652 [NOT STARTED] — After ~1 week of the new pipeline running, review logs to verify  (see above)
-650 [NOT STARTED] — Create update-phase-status.sh script for phase-level status track
-
-### Uncategorized
-
-78 [PLANNED] — fix_himalaya_smtp_authentication_failure
-87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
+647 [IMPLEMENTING] — Enrich state.json schema to be the single complete source of trut
+  └─ 648 [NOT STARTED] — Create generate-todo.sh to generate entire TODO.md from state.jso
+    └─ 649 [NOT STARTED] — Simplify state update pipeline to state.json-only with TODO.md re
+      └─ 651 [NOT STARTED] — Update rules and documentation for new state.json-first architect
+        └─ 652 [NOT STARTED] — Post-validation cleanup: remove obsolete scripts after logging re
+      └─ 652 [NOT STARTED] — Post-validation cleanup: remove obsolete scripts after logging re (see above)
+650 [PLANNED] — Create update-phase-status.sh for phase-level plan tracking
 
 ## Tasks
 
@@ -60,10 +60,12 @@ next_project_number: 653
 
 ### 650. Create update-phase-status.sh for phase-level plan tracking
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: None
+- **Research**: [650_create_update_phase_status_script/reports/01_phase-status-research.md]
+- **Plan**: [650_create_update_phase_status_script/plans/01_phase-status-script.md]
 
 **Description**: Create update-phase-status.sh script for phase-level status tracking in plan files. Updates individual phase markers ([NOT STARTED] -> [IN PROGRESS] -> [COMPLETED]) as implementation progresses through each phase. Called by implementation agents at each phase boundary for real-time oversight. Keeps existing update-plan-status.sh for plan-level status (header). Add logging of phase transitions for oversight.
 
@@ -93,11 +95,12 @@ next_project_number: 653
 
 ### 647. Enrich state.json schema to be the single complete source of truth
 - **Effort**: 1-2 hours
-- **Status**: [RESEARCHED]
+- **Status**: [IMPLEMENTING]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: None
 - **Research**: [647_enrich_state_json_schema/reports/01_team-research.md]
+- **Plan**: [647_enrich_state_json_schema/plans/01_enrich-state-schema.md]
 
 **Description**: Add title field to all task entries in state.json (currently only project_name slug exists; human-readable titles live only in TODO.md headings). Migrate full descriptions from TODO.md where missing or truncated in state.json. Ensure all metadata needed for TODO.md generation is present: effort, task_type, dependencies, artifacts, descriptions. This makes state.json self-sufficient as the sole source of truth for generating TODO.md.
 
