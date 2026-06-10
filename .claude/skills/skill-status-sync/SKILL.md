@@ -103,12 +103,16 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg status "{target_status}" \
   }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
-3. **Update TODO.md status marker**:
-   - Find task entry: `grep -n "^### {task_number}\." specs/TODO.md`
-   - Use Edit tool to change `[OLD_STATUS]` to `[NEW_STATUS]`
+3. **Regenerate TODO.md**:
+
+```bash
+bash .claude/scripts/generate-todo.sh
+```
+
+`update-task-status.sh` calls `generate-todo.sh` automatically when invoked. For standalone corrections, call `generate-todo.sh` directly after updating state.json. Never use the Edit tool on TODO.md for status changes.
 
 **Status Mapping**:
-| state.json | TODO.md |
+| state.json | TODO.md (rendered by generate-todo.sh) |
 |------------|---------|
 | not_started | [NOT STARTED] |
 | researching | [RESEARCHING] |
@@ -152,14 +156,12 @@ jq --arg path "{artifact_path}" \
   specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
-3. **Update TODO.md status marker**:
-   - Use Edit to change status: `[RESEARCHING]` -> `[RESEARCHED]`
+3. **Regenerate TODO.md**:
 
-4. **Link artifacts in TODO.md**:
-   - Add research/plan/summary links in appropriate location
+`update-task-status.sh` (called in step 1 above) already calls `generate-todo.sh` internally. Artifacts added to state.json in step 2 will be rendered in TODO.md on the next `generate-todo.sh` call. For standalone corrections, call `generate-todo.sh` directly after all state.json updates are complete.
 
 **Status Mapping**:
-| state.json | TODO.md |
+| state.json | TODO.md (rendered by generate-todo.sh) |
 |------------|---------|
 | researched | [RESEARCHED] |
 | planned | [PLANNED] |
@@ -202,20 +204,15 @@ jq --arg path "{artifact_path}" \
   specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
-3. **Add link to TODO.md** using Edit tool:
+3. **Regenerate TODO.md**:
 
-| Type | Format in TODO.md |
-|------|-------------------|
-| research | Count-aware format (see "Artifact Linking Format" in state-management.md) |
-| plan | Count-aware format (see "Artifact Linking Format" in state-management.md) |
-| summary | Count-aware format (see "Artifact Linking Format" in state-management.md) |
+After updating state.json artifacts in step 2, call `generate-todo.sh` to render the artifact links in TODO.md:
 
-**Count-Aware Logic**: Use inline format for 1 artifact, multi-line list for 2+. See state-management.md for detection patterns and insertion examples.
+```bash
+bash .claude/scripts/generate-todo.sh
+```
 
-**Insertion order**:
-- research: after Language line
-- plan: after Research line (or Language if no Research)
-- summary: after Plan line
+Artifacts in the state.json `artifacts` array are automatically rendered by `generate-todo.sh` using count-aware format (inline for 1 artifact, multi-line list for 2+). Do not use the Edit tool on TODO.md for artifact links.
 
 **Return**: JSON object with status "linked" or "skipped".
 

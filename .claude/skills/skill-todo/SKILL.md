@@ -313,23 +313,10 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
       2. Update specs/state.json:
          - Remove from active_projects array
 
-      3. Update specs/TODO.md:
-         - Remove archived entries (both regular and TODO.md orphans)
-         - Pattern to match task entry start:
-           ```lua
-           -- Match both "### OC_N. " and "### N. " formats
-           local task_start_pattern = "###%s+(OC_)?(%d+)%.%s+"
-           ```
-         - For each task to remove:
-           a. Find entry start (header line)
-           b. Find entry end (next task header or end of Active Tasks section)
-           c. Extract complete entry including all lines
-           d. Validate entry matches expected format before removal
-         - Use Edit tool to remove validated entries:
-           ```lua
-           -- Remove the matched section
-           edit_file("specs/TODO.md", old_entry_content, "")
-           ```
+      3. Regenerate specs/TODO.md:
+         - `archive-task.sh` (called in step 1-2 above) already calls `generate-todo.sh` internally.
+         - Archived tasks are no longer in `active_projects`, so `generate-todo.sh` will not render them.
+         - Do NOT use the Edit tool to remove TODO.md entries directly; the regeneration handles this.
          - Note: next_project_number should NOT be decremented when removing orphans
            (numbering continues from highest used number)
 
@@ -615,26 +602,8 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          done
          ```
 
-         Update TODO.md entries:
-         ```bash
-         for mapping in $(echo "$renumber_mappings" | jq -c '.[]'); do
-           old_num=$(echo "$mapping" | jq -r '.old')
-           new_num=$(echo "$mapping" | jq -r '.new')
-
-           old_padded=$(printf "%04d" "$old_num")
-           new_padded=$(printf "%03d" "$new_num")
-
-           # Update task headers: ### 1001. Title -> ### 1. Title
-           sed -i "s/^### ${old_num}\./### ${new_num}./" specs/TODO.md
-
-           # Update artifact links with directory references
-           sed -i "s|${old_padded}_|${new_padded}_|g" specs/TODO.md
-           sed -i "s|${old_num}_|${new_padded}_|g" specs/TODO.md
-
-           # Update dependency references
-           sed -i "s|Task #${old_num}|Task #${new_num}|g" specs/TODO.md
-         done
-         ```
+         (TODO.md will be regenerated via `generate-todo.sh` in sub-step 9.4 after all state.json
+         renumbering is complete. Do not update TODO.md here via sed.)
 
       9.4. **ResetState** (if vault_approved=true)
 
@@ -682,22 +651,13 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          mv specs/state.json.tmp specs/state.json
          ```
 
-         Add vault transition comment to TODO.md:
+         Regenerate TODO.md from state.json after all renumbering is complete:
          ```bash
-         current_date=$(date +"%Y-%m-%d")
-         transition_comment="<!-- Vault transition: ${current_date} - Tasks 1-$((next_num - renumber_count - 1)) archived to ${vault_path}/ -->"
-
-         # Insert after frontmatter or at top of file
-         if grep -q "^---$" specs/TODO.md; then
-           # Has frontmatter, insert after closing ---
-           sed -i "/^---$/,/^---$/{/^---$/{n;a\\
-${transition_comment}
-}}" specs/TODO.md
-         else
-           # No frontmatter, insert at top
-           sed -i "1i${transition_comment}" specs/TODO.md
-         fi
+         bash .claude/scripts/generate-todo.sh
          ```
+
+         This regeneration renders the updated task numbers and artifact paths from state.json.
+         The vault transition is reflected by the renumbered entries in the generated output.
 
          After sub-step 9.4 completes, continue to Stage 11 (UpdateRoadmap).
 

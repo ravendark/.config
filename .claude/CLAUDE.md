@@ -121,7 +121,7 @@ All commands use checkpoint-based execution: GATE IN (preflight) -> DELEGATE (sk
 
 ## State Synchronization
 
-TODO.md and state.json must stay synchronized. Update state.json first (machine state), then TODO.md (user-facing).
+TODO.md is generated from state.json. Update state.json first, then call `bash .claude/scripts/generate-todo.sh` to regenerate TODO.md. The `update-task-status.sh` script calls `generate-todo.sh` internally, so explicit calls are only needed after manual state.json edits.
 
 ### state.json Structure
 ```json

@@ -6,10 +6,10 @@ paths: specs/**/*
 
 ## File Synchronization
 
-TODO.md and state.json MUST stay synchronized. Any update to one requires updating the other.
+TODO.md is generated from state.json. Agents update state.json only; `generate-todo.sh` handles TODO.md synchronization. Never edit TODO.md directly for status or artifact changes.
 
 ### Canonical Sources
-- **state.json**: Machine-readable source of truth
+- **state.json**: Machine-readable source of truth and sole authoritative state
   - next_project_number
   - active_projects array with status, task_type, topic (optional per-task field)
   - active_topics top-level string array: canonical topic taxonomy for task grouping in Task Order
@@ -44,25 +44,21 @@ Any non-terminal -> [EXPANDED] (when divided into subtasks)
 
 `/orchestrate` drives tasks through successive lifecycle phases without user confirmation between phases. It reads `state.json` to determine current task status, dispatches to the appropriate skill (research, plan, implement), and calls `skill_postflight_update()` from `skill-base.sh` after each dispatch to record the transition. The cycle repeats (`researching -> researched -> planning -> planned -> implementing -> completed`) until the task reaches a terminal state or a blocker is encountered.
 
-## Two-Phase Update Pattern
+## State-First Update Pattern
 
 When updating task status:
 
-### Phase 1: Prepare
-```
-1. Read current state.json
-2. Read current TODO.md
-3. Validate task exists in both
-4. Prepare updated content in memory
-5. Validate updates are consistent
-```
+1. **Write state.json** via `jq` (machine state is the sole source of truth)
+2. **Regenerate TODO.md** by calling `bash .claude/scripts/generate-todo.sh`
 
-### Phase 2: Commit
-```
-1. Write state.json (machine state first)
-2. Write TODO.md (user-facing second)
-3. Verify both writes succeeded
-4. If either fails: log error, preserve original state
+`update-task-status.sh` performs both steps automatically. Agents must not Edit TODO.md directly for status or artifact changes — `generate-todo.sh` handles all TODO.md rendering from state.json.
+
+```bash
+# Full state-first update (preferred)
+bash .claude/scripts/update-task-status.sh postflight "$task_number" implement "$session_id"
+
+# Manual regeneration after state.json update
+bash .claude/scripts/generate-todo.sh
 ```
 
 ## Task Order Synchronization

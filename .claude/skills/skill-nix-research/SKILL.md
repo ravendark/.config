@@ -177,7 +177,7 @@ bash .claude/scripts/update-task-status.sh postflight "$task_number" research "$
 
 Add artifact to state.json with summary.
 
-**Update TODO.md**: Link artifact using count-aware format. Apply the four-case Edit logic from `@.claude/context/patterns/artifact-linking-todo.md` with `field_name=**Research**`, `next_field=**Plan**`.
+Add artifact to state.json. Artifacts in state.json are rendered in TODO.md by `generate-todo.sh`, which is called automatically by `update-task-status.sh`. Call `bash .claude/scripts/generate-todo.sh` if additional state.json changes are made after the script runs.
 
 ---
 

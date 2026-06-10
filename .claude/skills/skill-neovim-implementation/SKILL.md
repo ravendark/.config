@@ -248,7 +248,7 @@ TODO.md stays as `[IMPLEMENTING]`.
 
 Add implementation artifacts to state.json.
 
-**Update TODO.md**: Link artifact using count-aware format. Apply the four-case Edit logic from `@.claude/context/patterns/artifact-linking-todo.md` with `field_name=**Summary**`, `next_field=**Description**`.
+Add artifact to state.json. Artifacts in state.json are rendered in TODO.md by `generate-todo.sh`, which is called automatically by `update-task-status.sh`. Call `bash .claude/scripts/generate-todo.sh` if additional state.json changes are made after the script runs.
 
 ---
 
@@ -316,7 +316,7 @@ After the agent returns, this skill MUST NOT:
 The postflight phase is LIMITED TO:
 - Reading agent metadata file
 - Updating state.json via jq
-- Updating TODO.md status marker via Edit
+- Calling `generate-todo.sh` to regenerate TODO.md (via `update-task-status.sh`)
 - Linking artifacts in state.json
 - Git commit
 - Cleanup of temp/marker files
