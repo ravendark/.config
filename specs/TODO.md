@@ -1,26 +1,107 @@
 ---
-next_project_number: 647
+next_project_number: 653
 ---
 
 # TODO
 
 ## Task Order
 
-*Updated 2026-06-09. Generated from state.json dependency graph.*
+*Updated 2026-06-10. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87 | -- | -- |
+| 1 | 78,87,647,650 | -- | agent-system |
+| 2 | 648 | 647 | agent-system |
+| 3 | 649 | 648 | agent-system |
+| 4 | 651 | 649 | agent-system |
+| 5 | 652 | 649,651 | agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
 
+### Agent System
+
+647 [RESEARCHED] — Add title field to all task entries in state.json (currently only
+  └─ 648 [NOT STARTED] — Create a single generate-todo.sh script that produces the entire 
+    └─ 649 [NOT STARTED] — Refactor update-task-status.sh to only update state.json + plan f
+      └─ 651 [NOT STARTED] — Update state-management.md rules to reflect new architecture: sta
+        └─ 652 [NOT STARTED] — After ~1 week of the new pipeline running, review logs to verify 
+      └─ 652 [NOT STARTED] — After ~1 week of the new pipeline running, review logs to verify  (see above)
+650 [NOT STARTED] — Create update-phase-status.sh script for phase-level status track
+
 ### Uncategorized
 
-78 [PLANNED] — fix himalaya smtp authentication failure
-87 [RESEARCHED] — investigate wezterm terminal directory change
+78 [PLANNED] — fix_himalaya_smtp_authentication_failure
+87 [RESEARCHED] — investigate_wezterm_terminal_directory_change
 
 ## Tasks
+
+### 652. Post-validation cleanup: remove obsolete scripts after logging review
+- **Effort**: 1 hour
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: Task 649, Task 651
+
+**Description**: After ~1 week of the new pipeline running, review logs to verify the new generate-todo.sh pipeline is working reliably. Check that: (1) no deprecation-logged old code paths are being hit, (2) TODO.md regeneration succeeds consistently, (3) no state.json/TODO.md sync drift. Then remove: link-artifact-todo.sh (fully replaced by state.json + regeneration), old TODO.md awk/sed manipulation code from update-task-status.sh, dead functions from skill-base.sh, any transitional compatibility shims. Clean up deprecation logging.
+
+---
+
+### 651. Update rules and documentation for new state.json-first architecture
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: Task 649
+
+**Description**: Update state-management.md rules to reflect new architecture: state.json is sole writable truth, TODO.md is a generated artifact. Remove Two-Phase Update Pattern (no longer needed). Update CLAUDE.md agent system section. Update skill-status-sync to reference new pipeline. Update artifact-formats.md if artifact linking format changed. Ensure all documentation consistently describes the new flow: command -> state.json update -> generate-todo.sh -> TODO.md regenerated.
+
+---
+
+### 650. Create update-phase-status.sh for phase-level plan tracking
+- **Effort**: 1-2 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: None
+
+**Description**: Create update-phase-status.sh script for phase-level status tracking in plan files. Updates individual phase markers ([NOT STARTED] -> [IN PROGRESS] -> [COMPLETED]) as implementation progresses through each phase. Called by implementation agents at each phase boundary for real-time oversight. Keeps existing update-plan-status.sh for plan-level status (header). Add logging of phase transitions for oversight.
+
+---
+
+### 649. Simplify state update pipeline to state.json-only with TODO.md regeneration
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: Task 648
+
+**Description**: Refactor update-task-status.sh to only update state.json + plan file status + call generate-todo.sh for regeneration. Remove all TODO.md awk/sed text surgery code (Phases 2 and 3). Simplify postflight-workflow.sh to update state.json artifacts only then call generate-todo.sh. Mark link-artifact-todo.sh as deprecated. Update skill-base.sh functions to use simplified pipeline. Keep old code paths temporarily as logged fallbacks during transition period.
+
+---
+
+### 648. Create generate-todo.sh to generate entire TODO.md from state.json
+- **Effort**: 2-3 hours
+- **Status**: [NOT STARTED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: Task 647
+
+**Description**: Create a single generate-todo.sh script that produces the entire TODO.md from state.json. Generates: YAML frontmatter (next_project_number), Task Order section (absorb/call existing generate-task-order.sh logic with Kahn wave computation and topic grouping), and Tasks section with all entries properly formatted (status markers, artifact links, descriptions, effort, dependencies). Terminal tasks included in Tasks section but excluded from Task Order. Add lightweight logging for post-validation review.
+
+---
+
+### 647. Enrich state.json schema to be the single complete source of truth
+- **Effort**: 1-2 hours
+- **Status**: [RESEARCHED]
+- **Task Type**: meta
+- **Topic**: agent-system
+- **Dependencies**: None
+- **Research**: [647_enrich_state_json_schema/reports/01_team-research.md]
+
+**Description**: Add title field to all task entries in state.json (currently only project_name slug exists; human-readable titles live only in TODO.md headings). Migrate full descriptions from TODO.md where missing or truncated in state.json. Ensure all metadata needed for TODO.md generation is present: effort, task_type, dependencies, artifacts, descriptions. This makes state.json self-sufficient as the sole source of truth for generating TODO.md.
+
+---
 
 ### 642. Fix orchestrator_mode=false for research/plan dispatch
 - **Effort**: 30 minutes
