@@ -144,8 +144,6 @@ build_graph() {
     local desc="${line#*|}"
     # Replace any embedded newlines in desc with space
     desc="${desc//$'\n'/ }"
-    # Un-slugify: replace underscores with spaces so project_name fallbacks display as readable text
-    desc="${desc//_/ }"
     [[ -n "$tn" ]] && task_desc["$tn"]="$desc"
   done <<< "$desc_data"
 
@@ -416,9 +414,11 @@ generate_grouped_section() {
         _print_topic_node "$tn" 0
       fi
     done
-    # Print any remaining unvisited topic tasks that weren't reachable from roots
+    # Print any remaining unvisited topic tasks that weren't reachable from roots.
+    # Check _globally_visited (not just _topic_section_visited) to avoid re-rendering
+    # tasks already shown as children in a prior topic section.
     for tn in "${topic_tasks[@]}"; do
-      if [[ -z "${_topic_section_visited[$tn]+x}" ]]; then
+      if [[ -z "${_topic_section_visited[$tn]+x}" && -z "${_globally_visited[$tn]+x}" ]]; then
         _print_topic_node "$tn" 0
       fi
     done
@@ -481,7 +481,6 @@ _print_topic_node() {
   if [[ -n "${_globally_visited[$task_num]+x}" && "$depth" -gt 0 ]]; then
     local task_topic_val="${task_topic[$task_num]:-}"
     if [[ -n "$task_topic_val" && "$task_topic_val" != "$_current_section_topic" ]]; then
-      # Shorten desc to first 40 chars for cross-topic annotation
       local short_desc="${desc:0:40}"
       echo "${prefix}${task_num} [${status_display}] — (${task_topic_val}: ${short_desc}) (see above)"
     else
@@ -490,21 +489,48 @@ _print_topic_node() {
     return
   fi
 
-  echo "${prefix}${task_num} [${status_display}] — ${desc}"
+  # Collect cross-topic dependencies of this task for inline annotation
+  local -a cross_topic_deps=()
+  local deps="${task_deps[$task_num]:-}"
+  local dep_topic=""
+  if [[ -n "$deps" ]]; then
+    read -ra dep_array <<< "$deps"
+    for dep in "${dep_array[@]}"; do
+      [[ -z "$dep" ]] && continue
+      [[ -z "${task_status[$dep]+x}" ]] && continue
+      dep_topic="${task_topic[$dep]:-}"
+      if [[ -n "$_current_section_topic" && -n "$dep_topic" && "$dep_topic" != "$_current_section_topic" ]]; then
+        cross_topic_deps+=("$dep")
+      fi
+    done
+  fi
+
+  # Print task line with optional cross-topic dep annotation
+  local suffix=""
+  if [[ ${#cross_topic_deps[@]} -gt 0 ]]; then
+    local ct_list
+    ct_list=$(printf '%s, ' "${cross_topic_deps[@]}")
+    ct_list="${ct_list%, }"
+    suffix=" (dep: ${ct_list})"
+  fi
+  echo "${prefix}${task_num} [${status_display}] — ${desc}${suffix}"
   _topic_section_visited["$task_num"]=1
   _globally_visited["$task_num"]=1
 
-  # Print this task's active successors (tasks that depend on this task, indented below)
-  local deps="${task_successors[$task_num]:-}"
-  if [[ -n "$deps" ]]; then
-    local sorted_deps
-    sorted_deps=$(echo "$deps" | tr ' ' '\n' | sort -n | tr '\n' ' ')
-    read -ra dep_array <<< "$sorted_deps"
-    for dep in "${dep_array[@]}"; do
-      [[ -z "$dep" ]] && continue
-      if [[ -n "${task_status[$dep]+x}" ]]; then
-        _print_topic_node "$dep" $((depth + 1))
+  # Recurse into same-topic successors only
+  local successors="${task_successors[$task_num]:-}"
+  if [[ -n "$successors" ]]; then
+    local sorted_succs
+    sorted_succs=$(echo "$successors" | tr ' ' '\n' | sort -n | tr '\n' ' ')
+    read -ra succ_array <<< "$sorted_succs"
+    for succ in "${succ_array[@]}"; do
+      [[ -z "$succ" ]] && continue
+      [[ -z "${task_status[$succ]+x}" ]] && continue
+      local succ_topic="${task_topic[$succ]:-}"
+      if [[ -n "$_current_section_topic" && -n "$succ_topic" && "$succ_topic" != "$_current_section_topic" ]]; then
+        continue
       fi
+      _print_topic_node "$succ" $((depth + 1))
     done
   fi
 }
@@ -812,45 +838,6 @@ replace_section() {
 }
 
 # ============================================================================
-# Bootstrap Task Order Section
-# ============================================================================
-
-# bootstrap_task_order_section: if ## Task Order is missing from TODO_FILE,
-# insert a blank placeholder before ## Tasks (or at EOF if ## Tasks absent).
-# This makes replace_section() work on first run for new projects.
-bootstrap_task_order_section() {
-  # Idempotent: do nothing if section already present
-  if grep -q "^## Task Order$" "$TODO_FILE"; then
-    return 0
-  fi
-
-  echo "INFO: ## Task Order section missing — bootstrapping in $TODO_FILE" >&2
-
-  local tasks_line
-  tasks_line=$(grep -n "^## Tasks$" "$TODO_FILE" | head -1 | cut -d: -f1) || true
-
-  local tmp_file
-  tmp_file=$(mktemp)
-
-  if [[ -n "$tasks_line" ]]; then
-    # Insert before ## Tasks
-    if [[ "$tasks_line" -gt 1 ]]; then
-      head -n "$((tasks_line - 1))" "$TODO_FILE" > "$tmp_file"
-    else
-      : > "$tmp_file"
-    fi
-    printf '## Task Order\n\n' >> "$tmp_file"
-    tail -n +"${tasks_line}" "$TODO_FILE" >> "$tmp_file"
-  else
-    # No ## Tasks heading — append to end of file
-    cp "$TODO_FILE" "$tmp_file"
-    printf '\n## Task Order\n\n' >> "$tmp_file"
-  fi
-
-  mv "$tmp_file" "$TODO_FILE"
-}
-
-# ============================================================================
 # Main
 # ============================================================================
 
@@ -889,7 +876,6 @@ SECTION_CONTENT=$(generate_section "$GOAL_TEXT")
 if [[ "$MODE" == "print" ]]; then
   echo "$SECTION_CONTENT"
 elif [[ "$MODE" == "update" ]]; then
-  bootstrap_task_order_section
   replace_section "$SECTION_CONTENT"
   echo "OK: Task Order section updated in $TODO_FILE"
 fi

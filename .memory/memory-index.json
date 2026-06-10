@@ -1,8 +1,8 @@
 {
   "version": "1.0.0",
   "generated_at": "2026-05-15",
-  "entry_count": 11,
-  "total_tokens": 1245,
+  "entry_count": 18,
+  "total_tokens": 2616,
   "entries": [
     {
       "id": "MEM-plan-delegation-required",
@@ -230,6 +230,149 @@
       "token_count": 150,
       "created": "2026-05-25",
       "modified": "2026-05-25",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-pattern-script-porting-dual-system",
+      "path": ".memory/10-Memories/MEM-pattern-script-porting-dual-system.md",
+      "title": "When porting scripts between dual-system architectures (.claude/ and .opencode/)",
+      "summary": "When porting scripts between dual-system architectures (.claude/ and .opencode/)",
+      "topic": "task-script",
+      "category": "PATTERN",
+      "keywords": [
+        "script-porting",
+        "dual-system",
+        "dependency-order",
+        "path-substitution",
+        "claude-opencode"
+      ],
+      "token_count": 261,
+      "created": "2026-06-08",
+      "modified": "2026-06-08",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-pattern-orchestrator-system-skill-orchestrate",
+      "path": ".memory/10-Memories/MEM-pattern-orchestrator-system-skill-orchestrate.md",
+      "title": "The .claude/ agent system has TWO distinct orchestrator concepts: (1) skill-orch",
+      "summary": "The .claude/ agent system has TWO distinct orchestrator concepts: (1) skill-orch",
+      "topic": "task-orchestrator",
+      "category": "PATTERN",
+      "keywords": [
+        "orchestrator-system",
+        "skill-orchestrate",
+        "skill-orchestrator",
+        "lifecycle-state-machine",
+        "routing-skill",
+        "dual-system"
+      ],
+      "token_count": 178,
+      "created": "2026-06-08",
+      "modified": "2026-06-08",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-pattern-orchestrator-porting",
+      "path": ".memory/10-Memories/MEM-pattern-orchestrator-porting.md",
+      "title": "When porting the orchestrator system from .claude/ to .opencode/, the dependency",
+      "summary": "When porting the orchestrator system from .claude/ to .opencode/, the dependency",
+      "topic": "task-orchestrator",
+      "category": "PATTERN",
+      "keywords": [
+        "orchestrator",
+        "porting",
+        "state-machine",
+        "skill-orchestrate",
+        "dependency-driven"
+      ],
+      "token_count": 166,
+      "created": "2026-06-08",
+      "modified": "2026-06-08",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-pattern-synthesis-agent-opencode",
+      "path": ".memory/10-Memories/MEM-pattern-synthesis-agent-opencode.md",
+      "title": "OpenCode's synthesis-agent pattern differs from .claude/: (1) The .claude/ team-",
+      "summary": "OpenCode's synthesis-agent pattern differs from .claude/: (1) The .claude/ team-",
+      "topic": "task-synthesis",
+      "category": "PATTERN",
+      "keywords": [
+        "synthesis-agent",
+        "opencode",
+        "team-mode",
+        "context-protection",
+        "port-pattern",
+        "team-research"
+      ],
+      "token_count": 193,
+      "created": "2026-06-08",
+      "modified": "2026-06-08",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-standard-opencode-agent-frontmatter",
+      "path": ".memory/10-Memories/MEM-standard-opencode-agent-frontmatter.md",
+      "title": "OpenCode agent frontmatter must NOT include the 'model:' field",
+      "summary": "OpenCode agent frontmatter must NOT include the 'model:' field",
+      "topic": "task-opencode",
+      "category": "STANDARD",
+      "keywords": [
+        "opencode",
+        "agent-frontmatter",
+        "model-field",
+        "port-pattern",
+        "validation"
+      ],
+      "token_count": 182,
+      "created": "2026-06-08",
+      "modified": "2026-06-08",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-pattern-opencode-agent-frontmatter",
+      "path": ".memory/10-Memories/MEM-pattern-opencode-agent-frontmatter.md",
+      "title": "OpenCode agent frontmatter pattern: Only `name` and `description` fields are sup",
+      "summary": "OpenCode agent frontmatter pattern: Only `name` and `description` fields are sup",
+      "topic": "task-opencode",
+      "category": "PATTERN",
+      "keywords": [
+        "opencode",
+        "agent-frontmatter",
+        "port-pattern",
+        "model-field",
+        "allowed-tools",
+        "synthesis-agent"
+      ],
+      "token_count": 197,
+      "created": "2026-06-08",
+      "modified": "2026-06-08",
+      "last_retrieved": null,
+      "retrieval_count": 0
+    },
+    {
+      "id": "MEM-workflow-opencode-smoke-test",
+      "path": ".memory/10-Memories/MEM-workflow-opencode-smoke-test.md",
+      "title": "OpenCode static structural smoke test pattern for agent files: when live Task to",
+      "summary": "OpenCode static structural smoke test pattern for agent files: when live Task to",
+      "topic": "task-opencode",
+      "category": "WORKFLOW",
+      "keywords": [
+        "opencode",
+        "smoke-test",
+        "agent-validation",
+        "port-verification",
+        "static-validation"
+      ],
+      "token_count": 194,
+      "created": "2026-06-08",
+      "modified": "2026-06-08",
       "last_retrieved": null,
       "retrieval_count": 0
     }

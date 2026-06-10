@@ -145,7 +145,7 @@ skill_validate_artifact "$SUBAGENT_STATUS" "$ARTIFACT_PATH" "plan"
 
 ```bash
 # Step 1: Update status
-skill_postflight_update "$task_number" "plan" "$session_id" "$SUBAGENT_STATUS"
+skill_postflight_update "$task_number" "plan" "$session_id" "$SUBAGENT_STATUS" "$orchestrator_mode"
 
 # Step 2: Write orchestrator handoff (only if orchestrator_mode=true)
 skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \

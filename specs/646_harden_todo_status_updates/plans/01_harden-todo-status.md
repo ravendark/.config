@@ -1,7 +1,7 @@
 # Implementation Plan: Task #646
 
 - **Task**: 646 - Harden TODO.md Status Updates
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 1.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/646_harden_todo_status_updates/reports/01_harden-todo-status.md

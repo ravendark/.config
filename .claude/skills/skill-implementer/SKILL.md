@@ -206,7 +206,7 @@ Session: ${session_id}
 
 ```bash
 # Step 1: Update status via centralized script
-skill_postflight_update "$task_number" "implement" "$session_id" "$SUBAGENT_STATUS"
+skill_postflight_update "$task_number" "implement" "$session_id" "$SUBAGENT_STATUS" "$orchestrator_mode"
 
 # Step 2: Add completion_summary
 if [ -n "$completion_summary" ]; then

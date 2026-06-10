@@ -68,11 +68,8 @@
   },
   "mcp_servers": {
     "lean-lsp": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "lean-lsp-mcp@latest"
-      ]
+      "command": "uvx",
+      "args": ["lean-lsp-mcp"]
     }
   },
   "hooks": {}

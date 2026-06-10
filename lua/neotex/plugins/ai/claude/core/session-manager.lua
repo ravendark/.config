@@ -336,8 +336,13 @@ function M.resume_session(session_id)
     { module = "ai-claude", action = "resume_session" }
   )
 
-  -- Direct command execution with fallback
-  local command = "claude --resume " .. session_id
+  -- Build resume command, inheriting base flags from claude-code.nvim config
+  local base_cmd = "claude"
+  local cc_ok, cc = pcall(require, "claude-code")
+  if cc_ok and cc.config and cc.config.command then
+    base_cmd = cc.config.command
+  end
+  local command = base_cmd .. " --resume " .. session_id
   local success = false
 
   -- Check if Claude Code is already open and close it first to ensure clean session switch

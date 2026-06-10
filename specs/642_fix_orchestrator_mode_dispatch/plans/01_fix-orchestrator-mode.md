@@ -1,7 +1,7 @@
 # Implementation Plan: Task #642 -- Fix Orchestrator Mode Dispatch
 
 - **Task**: 642 - Fix orchestrator_mode=false for research/plan dispatch
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 0.5 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/642_fix_orchestrator_mode_dispatch/reports/01_orchestrator-mode-dispatch.md

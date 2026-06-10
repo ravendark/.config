@@ -146,7 +146,7 @@ skill_validate_artifact "$SUBAGENT_STATUS" "$ARTIFACT_PATH" "report"
 
 ```bash
 # Step 1: Update status
-skill_postflight_update "$task_number" "research" "$session_id" "$SUBAGENT_STATUS"
+skill_postflight_update "$task_number" "research" "$session_id" "$SUBAGENT_STATUS" "$orchestrator_mode"
 
 # Step 2: Increment sequence counter (research only)
 if [ "$SUBAGENT_STATUS" = "researched" ]; then
