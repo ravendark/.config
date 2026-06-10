@@ -143,18 +143,18 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 3: Integration validation and idempotency [IN PROGRESS]
+### Phase 3: Integration validation and idempotency [COMPLETED]
 
 **Goal**: Validate that the generated TODO.md matches the current format and that the script is idempotent.
 
 **Tasks**:
-- [ ] Run `bash .claude/scripts/generate-todo.sh --dry-run > /tmp/generated-todo.md` and diff against current `specs/TODO.md`
-- [ ] Analyze diff output and identify formatting discrepancies (field order, whitespace, separator placement, artifact link format, description rendering)
-- [ ] Fix any discrepancies found in the script (adjust printf formatting, field ordering, whitespace, trailing newlines)
-- [ ] Re-run dry-run and verify diff is minimal (only expected differences: Task Order timestamp, possibly status changes from concurrent operations)
-- [ ] Test idempotency: run generate-todo.sh to write TODO.md, then run again and verify `diff` shows no changes
-- [ ] Verify terminal tasks (completed/abandoned/expanded) appear in Tasks section but not in Task Order output
-- [ ] Verify the `---` separator appears between task entries but not after the last entry
+- [x] Run `bash .claude/scripts/generate-todo.sh --dry-run > /tmp/generated-todo.md` and diff against current `specs/TODO.md` *(completed: remaining diffs are expected data differences from state.json enrichment)*
+- [x] Analyze diff output and identify formatting discrepancies (field order, whitespace, separator placement, artifact link format, description rendering) *(completed: fixed blank line before ## Tasks section)*
+- [x] Fix any discrepancies found in the script (adjust printf formatting, field ordering, whitespace, trailing newlines) *(completed: added blank line after Task Order section output)*
+- [x] Re-run dry-run and verify diff is minimal (only expected differences: Task Order timestamp, possibly status changes from concurrent operations) *(completed: only data differences from state.json enrichment remain)*
+- [x] Test idempotency: run generate-todo.sh to write TODO.md, then run again and verify `diff` shows no changes *(completed: two consecutive runs produce identical output)*
+- [x] Verify terminal tasks (completed/abandoned/expanded) appear in Tasks section but not in Task Order output *(completed: 11 terminal tasks in Tasks section, 0 in Task Order)*
+- [x] Verify the `---` separator appears between task entries but not after the last entry *(completed: last entry has no trailing separator)*
 
 **Timing**: 45 minutes
 
@@ -170,20 +170,20 @@ Phases within the same wave can execute in parallel.
 
 ---
 
-### Phase 4: Edge case handling and robustness [NOT STARTED]
+### Phase 4: Edge case handling and robustness [COMPLETED]
 
 **Goal**: Handle all edge cases gracefully: missing optional fields, empty artifacts, title fallback, and special characters in descriptions.
 
 **Tasks**:
-- [ ] Add title fallback: if `title` is null/empty, derive from `project_name` by replacing underscores with spaces and capitalizing first word
-- [ ] Handle missing optional fields: omit `- **Effort**:` line when effort is null/empty, omit `- **Topic**:` line when topic is null/empty
-- [ ] Handle empty/missing dependencies: render `None` when dependencies array is empty or absent
-- [ ] Handle tasks with no artifacts: skip all artifact link lines when artifacts array is empty or absent
-- [ ] Handle tasks with multiple artifacts of the same type: use multi-line list format per count-aware linking rules
-- [ ] Handle empty description: omit the `**Description**:` block entirely when description is null/empty
-- [ ] Handle description with embedded newlines: emit as-is since TODO.md is markdown
-- [ ] Test with a synthetic state.json entry that has all fields missing/empty to verify graceful handling
-- [ ] Verify unknown artifact types render as `**{Capitalized_type}**:` with path
+- [x] Add title fallback: if `title` is null/empty, derive from `project_name` by replacing underscores with spaces and capitalizing first word *(completed)*
+- [x] Handle missing optional fields: omit `- **Effort**:` line when effort is null/empty, omit `- **Topic**:` line when topic is null/empty *(completed)*
+- [x] Handle empty/missing dependencies: render `None` when dependencies array is empty or absent *(completed)*
+- [x] Handle tasks with no artifacts: skip all artifact link lines when artifacts array is empty or absent *(completed)*
+- [x] Handle tasks with multiple artifacts of the same type: use multi-line list format per count-aware linking rules *(completed: both research and report types merge under Research group)*
+- [x] Handle empty description: omit the `**Description**:` block entirely when description is null/empty *(completed)*
+- [x] Handle description with embedded newlines: emit as-is since TODO.md is markdown *(completed)*
+- [x] Test with a synthetic state.json entry that has all fields missing/empty to verify graceful handling *(completed: null values handled gracefully)*
+- [x] Verify unknown artifact types render as `**{Capitalized_type}**:` with path *(completed: Dataset, Notes etc render correctly)*
 
 **Timing**: 30 minutes
 
