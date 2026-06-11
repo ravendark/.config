@@ -16,7 +16,7 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
 
 <role>Direct execution skill for task archival operations with automated CHANGE_LOG updates and memory harvest suggestions.</role>
 
-<task>Parse arguments, scan for archivable tasks, assign topics to uncategorized tasks, update states, generate CHANGE_LOG entries, suggest memory harvesting from completed task artifacts. Includes topic revision stage to prompt for topic assignment before archival and orphan topic cleanup after archival.</task>
+<task>Parse arguments, scan for archivable tasks, update states, generate CHANGE_LOG entries, suggest memory harvesting from completed task artifacts.</task>
 
 <execution>
   <stage id="1" name="ParseArguments">
@@ -40,73 +40,28 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
   </stage>
   
   <stage id="2.5" name="TopicRevision">
-    <action>Prompt user to assign topics to active tasks missing a topic field</action>
+    <action>Optional: backfill topics on active tasks missing the topic field</action>
     <process>
-      1. Detect active non-terminal tasks without a topic field:
-         ```bash
-         missing_topics=$(jq -r '
-           .active_projects[] |
-           select(.status == "completed" | not) |
-           select(.status == "abandoned" | not) |
-           select(.status == "expanded" | not) |
-           select(.topic == null or .topic == "") |
-           "\(.project_number)|\(.project_name)"
-         ' specs/state.json)
-         ```
+      Detect active tasks without a topic:
+      ```bash
+      missing=$(jq -r '.active_projects[] |
+        select(.status == "completed" | not) |
+        select(.status == "abandoned" | not) |
+        select(.status == "expanded" | not) |
+        select(.topic == null or .topic == "") |
+        "\(.project_number)|\(.project_name)"' specs/state.json)
+      ```
 
-      2. If no tasks need topic assignment (`missing_topics` is empty), skip this stage entirely with no prompt.
+      If no tasks need backfill, skip this stage.
 
-      3. If uncategorized tasks found:
-         a. Read existing `active_topics` from state.json:
-            ```bash
-            existing_topics=$(jq -r '.active_topics // [] | .[]' specs/state.json)
-            ```
+      For each task needing a topic, follow the topic assignment pattern from
+      @.claude/context/patterns/topic-assignment-pattern.md (Mode A, per-task backfill).
+      Use header "Topic Backfill ({i} of {total})".
 
-         b. For each task missing a topic, present an **AskUserQuestion** picker:
-            ```json
-            {
-              "question": "Assign a topic to task {N} ({project_name})?",
-              "header": "Topic Assignment ({i} of {total})",
-              "multiSelect": false,
-              "options": [
-                "... one option per active_topics entry ...",
-                { "label": "New topic...", "description": "Enter a custom topic name (will be added to active_topics)" },
-                { "label": "Skip (no topic)", "description": "Task will remain uncategorized" }
-              ]
-            }
-            ```
-
-            Note: Build option list dynamically from `active_topics`. If `active_topics` is empty, show only "New topic..." and "Skip (no topic)".
-
-         c. If "New topic..." is selected: follow-up AskUserQuestion for free-text topic name:
-            ```json
-            {
-              "question": "Enter a topic name for task {N}:",
-              "header": "New Topic",
-              "multiSelect": false,
-              "options": []
-            }
-            ```
-            Then append the new topic to `active_topics` if not already present:
-            ```bash
-            jq --arg t "$new_topic" '
-              if ((.active_topics // []) | index($t)) == null
-              then .active_topics = ((.active_topics // []) + [$t])
-              else . end' \
-              specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
-            ```
-
-         d. If a topic was selected (not "Skip (no topic)"), write it to the task entry in state.json immediately:
-            ```bash
-            jq --argjson n "$task_number" --arg t "$selected_topic" '
-              .active_projects |= map(
-                if .project_number == $n
-                then . + {topic: $t}
-                else . end
-              )' specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
-            ```
-
-         e. Track total assignments made: `topic_assignments_count` (for Stage 16 output)
+      After each selection:
+      ```bash
+      bash .claude/scripts/manage-topics.sh set "$task_num" "$topic"
+      ```
     </process>
   </stage>
 
@@ -260,9 +215,6 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
       If dry_run = true:
       1. Display comprehensive preview:
          - Tasks to archive (completed/abandoned counts)
-         - Topic revision: count of active non-terminal tasks missing a topic field
-           - Format: `Topic revision: {count} uncategorized tasks would be prompted`
-           - If none: `Topic revision: none (all active tasks have topics)`
          - Orphaned directories count
          - Misplaced directories count
          - Roadmap updates needed
@@ -313,10 +265,23 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
       2. Update specs/state.json:
          - Remove from active_projects array
 
-      3. Regenerate specs/TODO.md:
-         - `archive-task.sh` (called in step 1-2 above) already calls `generate-todo.sh` internally.
-         - Archived tasks are no longer in `active_projects`, so `generate-todo.sh` will not render them.
-         - Do NOT use the Edit tool to remove TODO.md entries directly; the regeneration handles this.
+      3. Update specs/TODO.md:
+         - Remove archived entries (both regular and TODO.md orphans)
+         - Pattern to match task entry start:
+           ```lua
+           -- Match both "### OC_N. " and "### N. " formats
+           local task_start_pattern = "###%s+(OC_)?(%d+)%.%s+"
+           ```
+         - For each task to remove:
+           a. Find entry start (header line)
+           b. Find entry end (next task header or end of Active Tasks section)
+           c. Extract complete entry including all lines
+           d. Validate entry matches expected format before removal
+         - Use Edit tool to remove validated entries:
+           ```lua
+           -- Remove the matched section
+           edit_file("specs/TODO.md", old_entry_content, "")
+           ```
          - Note: next_project_number should NOT be decremented when removing orphans
            (numbering continues from highest used number)
 
@@ -602,8 +567,26 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          done
          ```
 
-         (TODO.md will be regenerated via `generate-todo.sh` in sub-step 9.4 after all state.json
-         renumbering is complete. Do not update TODO.md here via sed.)
+         Update TODO.md entries:
+         ```bash
+         for mapping in $(echo "$renumber_mappings" | jq -c '.[]'); do
+           old_num=$(echo "$mapping" | jq -r '.old')
+           new_num=$(echo "$mapping" | jq -r '.new')
+
+           old_padded=$(printf "%04d" "$old_num")
+           new_padded=$(printf "%03d" "$new_num")
+
+           # Update task headers: ### 1001. Title -> ### 1. Title
+           sed -i "s/^### ${old_num}\./### ${new_num}./" specs/TODO.md
+
+           # Update artifact links with directory references
+           sed -i "s|${old_padded}_|${new_padded}_|g" specs/TODO.md
+           sed -i "s|${old_num}_|${new_padded}_|g" specs/TODO.md
+
+           # Update dependency references
+           sed -i "s|Task #${old_num}|Task #${new_num}|g" specs/TODO.md
+         done
+         ```
 
       9.4. **ResetState** (if vault_approved=true)
 
@@ -651,13 +634,22 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
          mv specs/state.json.tmp specs/state.json
          ```
 
-         Regenerate TODO.md from state.json after all renumbering is complete:
+         Add vault transition comment to TODO.md:
          ```bash
-         bash .claude/scripts/generate-todo.sh
-         ```
+         current_date=$(date +"%Y-%m-%d")
+         transition_comment="<!-- Vault transition: ${current_date} - Tasks 1-$((next_num - renumber_count - 1)) archived to ${vault_path}/ -->"
 
-         This regeneration renders the updated task numbers and artifact paths from state.json.
-         The vault transition is reflected by the renumbered entries in the generated output.
+         # Insert after frontmatter or at top of file
+         if grep -q "^---$" specs/TODO.md; then
+           # Has frontmatter, insert after closing ---
+           sed -i "/^---$/,/^---$/{/^---$/{n;a\\
+${transition_comment}
+}}" specs/TODO.md
+         else
+           # No frontmatter, insert at top
+           sed -i "1i${transition_comment}" specs/TODO.md
+         fi
+         ```
 
          After sub-step 9.4 completes, continue to Stage 11 (UpdateRoadmap).
 
@@ -665,90 +657,6 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
            (vault_needed=false OR vault operations 9.1-9.4 completed) -->
     </process>
     <checkpoint>vault_check_complete output present; if vault_needed, sub-steps 9.1-9.4 executed</checkpoint>
-  </stage>
-
-  <stage id="10.3" name="OrphanTopicCleanup">
-    <action>Remove topics from active_topics that are no longer referenced by any active non-terminal task</action>
-    <process>
-      1. Collect all topics currently referenced by active non-terminal tasks:
-         ```bash
-         referenced_topics=$(jq -r '
-           [.active_projects[] |
-             select(.status == "completed" | not) |
-             select(.status == "abandoned" | not) |
-             select(.status == "expanded" | not) |
-             select(.topic != null and .topic != "") |
-             .topic
-           ] | unique | .[]
-         ' specs/state.json)
-         ```
-
-      2. Find topics in `active_topics` not referenced by any remaining active task:
-         ```bash
-         orphan_topics=$(jq -r --argjson refs "$(jq '[.active_projects[] |
-           select(.status == "completed" | not) |
-           select(.status == "abandoned" | not) |
-           select(.status == "expanded" | not) |
-           select(.topic != null and .topic != "") |
-           .topic] | unique' specs/state.json)" '
-           (.active_topics // []) - $refs | .[]
-         ' specs/state.json)
-         ```
-
-      3. If no orphan topics found, skip this stage silently.
-
-      4. If orphan topics found, present an **AskUserQuestion** multiSelect:
-         ```json
-         {
-           "question": "The following topics are no longer used by any active task. Remove them from active_topics?",
-           "header": "Orphan Topic Cleanup",
-           "multiSelect": true,
-           "options": [
-             "... one option per orphan topic ...",
-             { "label": "Keep all (skip cleanup)", "value": "skip" }
-           ]
-         }
-         ```
-
-      5. Remove user-selected orphan topics from `active_topics` array:
-         ```bash
-         jq --argjson remove "$(printf '%s\n' $selected_orphans | jq -R . | jq -s .)" '
-           .active_topics = ((.active_topics // []) - $remove)
-         ' specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
-         ```
-
-      6. Track count of removed topics for Stage 16 output.
-    </process>
-  </stage>
-
-  <stage id="10.5" name="RegenerateTaskOrder">
-    <action>Regenerate Task Order section in TODO.md after task archival</action>
-    <process>
-      1. Run generate-task-order.sh --update-todo (non-fatal):
-         ```bash
-         if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-           bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-             || { echo "Warning: Task Order regeneration failed (non-fatal)" >&2; }
-         else
-           echo "Note: generate-task-order.sh not found -- skipping Task Order regeneration" >&2
-         fi
-         ```
-
-      2. If vault operation was performed (vault_approved=true), run regeneration again after renumbering:
-         ```bash
-         # Post-vault re-run (non-fatal)
-         if [ "$vault_approved" = "true" ] && [ -f ".claude/scripts/generate-task-order.sh" ]; then
-           bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-             || { echo "Warning: Post-vault Task Order regeneration failed (non-fatal)" >&2; }
-         fi
-         ```
-
-      3. Track result for commit message:
-         - task_order_regenerated: true if script ran successfully, false if skipped or failed
-
-      Note: This stage is non-fatal. If generate-task-order.sh is absent or fails, log the
-      warning and proceed to Stage 11. Task archival is never blocked by Task Order regeneration.
-    </process>
   </stage>
 
   <stage id="11" name="UpdateRoadmap">
@@ -829,8 +737,6 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
       1. **Pre-commit vault safety net**: If next_project_number > 1000 and vault_count unchanged, block commit with error directing back to Stage 10 sub-step 9
       2. `git add -A`
       3. Commit: `todo: archive {N} tasks` with counts for completed, abandoned, roadmap, orphans, misplaced, readme, memories
-         - When task_order_regenerated=true (from Stage 10.5), append ", regenerate task order" to commit message
-         - Example: `todo: archive 3 tasks, update 2 roadmap items, regenerate task order`
     </process>
   </stage>
   
@@ -839,8 +745,6 @@ Direct execution skill for archiving tasks, updating CHANGE_LOG.md, and suggesti
     <process>
       Display summary with counts for:
       - Archived tasks (completed/abandoned)
-      - Topic assignments: `{topic_assignments_count} topics assigned, {orphan_topics_removed} orphan topics removed`
-        - If zero: omit this line or display `Topic assignments: none`
       - Directory operations (orphans tracked/misplaced moved)
       - Updates applied (roadmap annotations/readme changes/changelog entries)
       - Memory harvest with tier breakdown:

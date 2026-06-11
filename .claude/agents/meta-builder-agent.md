@@ -551,56 +551,10 @@ Options per task:
 
 ### Interview Stage 4.5: AssignTopic (Topic Assignment)
 
-**Purpose**: Assign a topic to all tasks in this batch. The topic is used to group tasks in the Task Order section of TODO.md. This uses an interactive picker based on the existing `active_topics` list in state.json, so the user can select an existing topic, create a new one, or skip topic assignment.
+**Purpose**: Assign a topic to all tasks in this batch for Task Order grouping in TODO.md.
 
-**4.5.1: Read active_topics from state.json**
-
-```bash
-active_topics=$(jq -r '.active_topics[]?' specs/state.json)
-```
-
-If `active_topics` is empty or absent, proceed with only "New topic..." and "Skip (no topic)" options.
-
-**4.5.2: Build picker options**
-
-Construct the options array dynamically:
-1. One option per topic in `active_topics` (label = topic name, description = "Existing topic")
-2. "New topic..." option (free-text entry)
-3. "Skip (no topic)" option
-
-**4.5.3: Present AskUserQuestion**
-
-```json
-{
-  "question": "Assign a topic to these tasks?",
-  "header": "Topic",
-  "multiSelect": false,
-  "options": [
-    {"label": "{topic1}", "description": "Existing topic from active_topics"},
-    {"label": "{topic2}", "description": "Existing topic from active_topics"},
-    {"label": "New topic...", "description": "Enter a custom topic name (will be added to active_topics)"},
-    {"label": "Skip (no topic)", "description": "Tasks will appear under Uncategorized in Task Order"}
-  ]
-}
-```
-
-**4.5.4: Handle user response**
-
-**If user selects an existing topic**:
-- Set `batch_topic = selected_topic_name`
-
-**If user selects "New topic..."**:
-- Follow up with a free-text AskUserQuestion:
-```json
-{
-  "question": "Enter a topic name (use kebab-case, e.g. agent-system, lean-proofs):",
-  "header": "New Topic Name"
-}
-```
-- Set `batch_topic = user_input` (store in kebab-case)
-
-**If user selects "Skip (no topic)"**:
-- Set `batch_topic = null`
+Follow @.claude/context/patterns/topic-assignment-pattern.md (Mode A: Interactive, batch variant).
+Note: question wording is plural — "Assign a topic to these tasks?".
 
 **Capture**: `batch_topic` (string or null) — used in Stage 5 confirmation table and Stage 6 state.json entry.
 
@@ -1358,20 +1312,20 @@ Return ONLY valid JSON matching this schema:
 
 4b. **Update active_topics** (after all tasks created, before generate-todo.sh call):
 
-   Collect the set of unique new topics assigned across all created tasks, then append any not already in `active_topics`:
+   Ensure each new topic is registered in active_topics, then assign to each task:
    ```bash
-   # Append each new topic to active_topics if not already present
    for topic in "${new_topics[@]}"; do
      [[ -z "$topic" ]] && continue
-     jq --arg t "$topic" '
-       if ((.active_topics // []) | index($t)) == null
-       then .active_topics = ((.active_topics // []) + [$t])
-       else . end' \
-       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+     bash .claude/scripts/manage-topics.sh add "$topic"
    done
    ```
 
-   Where `new_topics` is the array of topic values assigned during Stage 5/6. Topics already in `active_topics` are skipped (idempotent). Topics that are empty/null are skipped via the `[[ -z "$topic" ]]` guard.
+   Then for each created task:
+   ```bash
+   bash .claude/scripts/manage-topics.sh set "$task_num" "$batch_topic"
+   ```
+
+   Topics already in `active_topics` are skipped by `manage-topics.sh add` (idempotent). Empty/null topics are skipped via the `[[ -z "$topic" ]]` guard.
 
 4a. **Regenerate TODO.md** (non-blocking):
    After all tasks have been written to state.json and active_topics updated, regenerate TODO.md:

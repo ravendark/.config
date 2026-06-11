@@ -130,43 +130,14 @@ When $ARGUMENTS contains a description (no flags).
    - "founder", "go-to-market", "gtm" → founder
    - Otherwise → general
 
-4.5. **Detect topic** from `active_topics` in state.json:
+4.5. **Assign topic** to this task:
 
-   Read existing topics from state.json:
+   Follow @.claude/context/patterns/topic-assignment-pattern.md (Mode A: Interactive).
+   Capture the selected topic in `$topic`.
+
+   After topic selection:
    ```bash
-   existing_topics=$(jq -r '.active_topics // [] | .[]' specs/state.json)
-   ```
-
-   Build AskUserQuestion picker options dynamically from `active_topics`. If `active_topics` is empty, show only fallback options:
-
-   ```json
-   {
-     "question": "Assign a topic to this task?",
-     "header": "Topic Assignment",
-     "multiSelect": false,
-     "options": [
-       "... one option per active_topics entry ...",
-       { "label": "New topic...", "description": "Enter a custom topic name (will be added to active_topics)" },
-       { "label": "Skip (no topic)", "description": "Task will appear under Uncategorized in Task Order" }
-     ]
-   }
-   ```
-
-   Note: Show only topics from `active_topics` in state.json (not a hardcoded list). When `active_topics` is empty, show only "New topic..." and "Skip (no topic)".
-
-   If "New topic..." selected: prompt for topic name (free-text via AskUserQuestion), then append to state.json `active_topics` array before writing task entry.
-   If "Skip (no topic)": set `topic = null` (omit from task entry).
-
-   **Active Topics Maintenance**: After obtaining the topic, append it to `active_topics` if new:
-   ```bash
-   # If a topic was selected or entered, ensure it exists in active_topics
-   if [[ -n "$topic" ]]; then
-     jq --arg t "$topic" '
-       if ((.active_topics // []) | index($t)) == null
-       then .active_topics = ((.active_topics // []) + [$t])
-       else . end' \
-       specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-   fi
+   bash .claude/scripts/manage-topics.sh set "$next_num" "$topic"
    ```
 
 5. **Create slug** from description:
@@ -361,54 +332,13 @@ state.json is the authoritative source of truth. Sync validates integrity and re
    ' specs/state.json)
    ```
 
-   If any tasks need backfill, read `active_topics` from state.json and present **AskUserQuestion** per-task (mirrors Step 4.5 pattern):
+   If any tasks need backfill, follow @.claude/context/patterns/topic-assignment-pattern.md
+   (Mode A: Interactive, per-task backfill variant). Loop over detected tasks with header
+   "Topic Backfill ({i} of {total})".
 
+   After each topic selection:
    ```bash
-   existing_topics=$(jq -r '.active_topics // [] | .[]' specs/state.json)
-   ```
-
-   ```json
-   {
-     "question": "Assign a topic to task {N} ({project_name})?",
-     "header": "Topic Backfill ({i} of {total})",
-     "multiSelect": false,
-     "options": [
-       "... one option per active_topics entry ...",
-       { "label": "New topic...", "description": "Enter a custom topic name (will be added to active_topics)" },
-       { "label": "Skip (no topic)", "description": "Task will remain uncategorized" }
-     ]
-   }
-   ```
-
-   If "New topic..." is selected, follow up with a free-text prompt:
-   ```json
-   {
-     "question": "Enter a topic name for task {N}:",
-     "header": "New Topic",
-     "multiSelect": false,
-     "options": []
-   }
-   ```
-
-   **Active Topics Maintenance**: After obtaining the topic, append it to `active_topics` if new (same pattern as Step 4.5 lines 162-169):
-   ```bash
-   if [[ -n "$topic" ]]; then
-     jq --arg t "$topic" '
-       if ((.active_topics // []) | index($t)) == null
-       then .active_topics = ((.active_topics // []) + [$t])
-       else . end' \
-       specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
-   fi
-   ```
-
-   Apply accepted topic assignments via jq:
-   ```bash
-   jq --argjson n "$task_number" --arg t "$selected_topic" '
-     .active_projects |= map(
-       if .project_number == $n
-       then . + {topic: $t}
-       else . end
-     )' specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
+   bash .claude/scripts/manage-topics.sh set "$task_num" "$topic"
    ```
 
 7. Git commit: "sync: reconcile TODO.md and state.json"
