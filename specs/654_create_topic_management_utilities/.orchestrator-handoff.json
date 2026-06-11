@@ -1,0 +1,16 @@
+{
+  "status": "researched",
+  "summary": "Topic picker logic is duplicated across 6 files (~147 lines). Three assignment modes identified: interactive (full picker in /task and /meta), inherit (parent topic in --expand/--recover/spawn), and suggest (auto-infer from file path in /review and /fix-it). The active_topics maintenance jq snippet is copy-pasted verbatim 5 times. No flock is used; the convention is tmp-file atomic write. manage-topics.sh belongs in .claude/scripts/ and topic-assignment-pattern.md belongs in .claude/context/patterns/.",
+  "blockers": [],
+  "continuation_context": null,
+  "next_action_hint": "plan",
+  "phases_completed": 1,
+  "phases_total": 1,
+  "artifacts": [
+    {
+      "path": "specs/654_create_topic_management_utilities/reports/01_topic-management-research.md",
+      "type": "report",
+      "summary": "Research findings: all topic picker locations cataloged with line ranges, three modes characterized, script conventions documented, proposed manage-topics.sh interface defined"
+    }
+  ]
+}

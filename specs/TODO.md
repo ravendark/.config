@@ -6,7 +6,7 @@ next_project_number: 657
 
 ## Task Order
 
-*Updated 2026-06-10. Generated from state.json dependency graph.*
+*Updated 2026-06-11. Generated from state.json dependency graph.*
 
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
@@ -18,15 +18,15 @@ next_project_number: 657
 
 ### Wezterm Notifications
 
-78 [PLANNED] — Fix Himalaya SMTP authentication failure when sending emails
-87 [RESEARCHED] — Investigate terminal directory change when opening neovim in wezt
+78 [PLANNED] — Fix Gmail SMTP authentication failure when sending emails via Him
+87 [RESEARCHED] — Investigate why the terminal working directory changes to a proje
 
 ### Agent System
 
-652 [NOT STARTED] — Post-validation cleanup: remove obsolete scripts after logging re
-654 [NOT STARTED] — Create shared topic management utilities (manage-topics.sh + patt
-  └─ 655 [NOT STARTED] — Refactor existing topic pickers to use shared utilities
-  └─ 656 [NOT STARTED] — Add topic assignment to commands with missing or partial coverage
+652 [NOT STARTED] — After ~1 week of the new pipeline running, review logs to verify 
+654 [PLANNED] — Create two shared topic management artifacts to replace ~200 line
+  └─ 655 [NOT STARTED] — Replace duplicated inline topic picker logic in 4 existing comman
+  └─ 656 [NOT STARTED] — Add topic assignment to 6 task creation points that currently hav
 
 ## Tasks
 
@@ -72,10 +72,11 @@ Net reduction: ~200 lines of duplicated picker instructions replaced by pattern 
 
 ### 654. Create shared topic management utilities (manage-topics.sh + pattern doc)
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [PLANNED]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: None
+- **Plan**: [654_create_topic_management_utilities/plans/01_topic-management-plan.md]
 
 **Description**: Create two shared topic management artifacts to replace ~200 lines of duplicated topic picker logic across commands:
 
@@ -129,6 +130,7 @@ This task creates the foundation; tasks 655 and 656 consume these utilities.
 - **Dependencies**: Task 649, Task 653
 - **Research**: [651_update_rules_and_documentation/reports/01_docs-update-research.md]
 - **Plan**: [651_update_rules_and_documentation/plans/01_docs-rules-update.md]
+- **Summary**: [651_update_rules_and_documentation/summaries/01_docs-rules-update-summary.md]
 
 **Description**: Update rules and documentation for new state.json-first architecture. Remove Two-Phase Update Pattern from state-management.md (no longer needed). Update CLAUDE.md agent system section. Update skill-status-sync to reference new pipeline (remove all Edit-TODO.md instructions from K1-K3). Remove redundant TODO.md Edit instructions from extension skills: skill-nix-implementation (K4-K5), skill-neovim-implementation (K6-K7), skill-nix-research (K8), skill-neovim-research (K9). Remove TODO.md description Edit from skill-reviser (K10). Update skill-todo to use generate-todo.sh instead of Edit-based entry removal (K17-K18) and sed-based vault renumber/comment (K19-K20). Update archive-task.sh to call generate-todo.sh instead of Python entry removal. Update commands/implement.md to remove defensive TODO.md status correction (C10-C11). Update artifact-formats.md if linking format changed. Update workflow-diagrams if they reference old dual-write flow. Ensure all documentation consistently describes the new flow: command -> state.json update -> generate-todo.sh -> TODO.md regenerated.
 

@@ -541,16 +541,22 @@
       "project_number": 654,
       "project_name": "create_topic_management_utilities",
       "title": "Create shared topic management utilities (manage-topics.sh + pattern doc)",
-      "status": "not_started",
+      "status": "planned",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-10T23:50:00Z",
-      "last_updated": "2026-06-10T23:50:00Z",
+      "last_updated": "2026-06-11T00:12:00Z",
       "dependencies": [],
       "description": "Create two shared topic management artifacts to replace ~200 lines of duplicated topic picker logic across commands:\n\n1. **manage-topics.sh** script with subcommands:\n   - `list`: Output active_topics from state.json as newline-delimited list\n   - `add TOPIC`: Add a new topic to the active_topics array (idempotent)\n   - `set TASK_NUM TOPIC`: Set the topic field on a task entry in state.json\n   - `validate TOPIC`: Check if topic exists in active_topics (exit 0/1)\n   Uses flock for write safety consistent with existing state.json write patterns.\n\n2. **topic-assignment-pattern.md** shared context pattern document describing:\n   - The canonical AskUserQuestion flow (read active_topics, build picker options, handle New topic/Skip responses)\n   - Three assignment modes: interactive (full picker), inherit (parent topic with fallback picker), suggest (auto-inferred topic pre-selected, user can override)\n   - State update instructions (call manage-topics.sh for mechanical operations)\n   - Commands reference this pattern instead of inlining 50 lines of picker instructions each.\n\nThis task creates the foundation; tasks 655 and 656 consume these utilities.",
-      "artifacts": [],
-      "session_id": ""
+      "artifacts": [
+        {
+          "path": "specs/654_create_topic_management_utilities/plans/01_topic-management-plan.md",
+          "type": "plan",
+          "summary": "4-phase implementation plan for manage-topics.sh script and topic-assignment-pattern.md context document"
+        }
+      ],
+      "session_id": "sess_1781136382_1e76bb"
     },
     {
       "project_number": 655,
