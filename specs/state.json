@@ -541,12 +541,12 @@
       "project_number": 654,
       "project_name": "create_topic_management_utilities",
       "title": "Create shared topic management utilities (manage-topics.sh + pattern doc)",
-      "status": "planned",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-10T23:50:00Z",
-      "last_updated": "2026-06-11T00:12:00Z",
+      "last_updated": "2026-06-11T00:17:05Z",
       "dependencies": [],
       "description": "Create two shared topic management artifacts to replace ~200 lines of duplicated topic picker logic across commands:\n\n1. **manage-topics.sh** script with subcommands:\n   - `list`: Output active_topics from state.json as newline-delimited list\n   - `add TOPIC`: Add a new topic to the active_topics array (idempotent)\n   - `set TASK_NUM TOPIC`: Set the topic field on a task entry in state.json\n   - `validate TOPIC`: Check if topic exists in active_topics (exit 0/1)\n   Uses flock for write safety consistent with existing state.json write patterns.\n\n2. **topic-assignment-pattern.md** shared context pattern document describing:\n   - The canonical AskUserQuestion flow (read active_topics, build picker options, handle New topic/Skip responses)\n   - Three assignment modes: interactive (full picker), inherit (parent topic with fallback picker), suggest (auto-inferred topic pre-selected, user can override)\n   - State update instructions (call manage-topics.sh for mechanical operations)\n   - Commands reference this pattern instead of inlining 50 lines of picker instructions each.\n\nThis task creates the foundation; tasks 655 and 656 consume these utilities.",
       "artifacts": [
@@ -556,41 +556,44 @@
           "summary": "4-phase implementation plan for manage-topics.sh script and topic-assignment-pattern.md context document"
         }
       ],
-      "session_id": "sess_1781136382_1e76bb"
+      "session_id": "sess_1749607200_a3b2c1_654",
+      "completion_summary": "Created manage-topics.sh (list/add/set/validate subcommands) and topic-assignment-pattern.md (Interactive/Inherit/Suggest modes). Registered in context index. All verification tests passed."
     },
     {
       "project_number": 655,
       "project_name": "refactor_existing_topic_pickers",
       "title": "Refactor existing topic pickers to use shared utilities",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-10T23:50:00Z",
-      "last_updated": "2026-06-10T23:50:00Z",
+      "last_updated": "2026-06-11T00:28:51Z",
       "dependencies": [
         654
       ],
       "description": "Replace duplicated inline topic picker logic in 4 existing commands/agents with references to the shared topic-assignment-pattern.md and calls to manage-topics.sh:\n\n1. **commands/task.md** (Step 4.5): Replace ~50 lines of inline picker instructions with reference to shared pattern (interactive mode)\n2. **agents/meta-builder-agent.md** (Stage 4.5 AssignTopic): Replace ~60 lines of batch picker instructions with reference to shared pattern (interactive mode, batch variant)\n3. **commands/task.md** (--sync Step 6.5): Replace backfill picker with reference to shared pattern (interactive mode per-task)\n4. **skills/skill-todo/SKILL.md** (Stage 2.5 TopicRevision): Replace revision picker with reference to shared pattern (interactive mode)\n\nEach location becomes: \"Follow the topic assignment pattern from @.claude/context/patterns/topic-assignment-pattern.md\" plus manage-topics.sh calls for state updates. Also update extension copies (.claude/extensions/core/) to match.\n\nNet reduction: ~200 lines of duplicated picker instructions replaced by pattern references.",
       "artifacts": [],
-      "session_id": ""
+      "session_id": "sess_1749607200_a3b2c1_655",
+      "completion_summary": "Replaced inline topic picker logic in 4 locations across 3 files with pattern references and manage-topics.sh calls. Net -131 lines of duplication. Added Stage 2.5 TopicRevision to skill-todo. All extension copies synced."
     },
     {
       "project_number": 656,
       "project_name": "add_topic_assignment_gaps",
       "title": "Add topic assignment to commands with missing or partial coverage",
-      "status": "not_started",
+      "status": "completed",
       "task_type": "meta",
       "topic": "agent-system",
       "effort": "1-2 hours",
       "created": "2026-06-10T23:50:00Z",
-      "last_updated": "2026-06-10T23:50:00Z",
+      "last_updated": "2026-06-11T00:35:39Z",
       "dependencies": [
         654
       ],
       "description": "Add topic assignment to 6 task creation points that currently have missing or incomplete topic handling, using the shared topic-assignment-pattern.md and manage-topics.sh:\n\n1. **skill-fix-it/SKILL.md** (PARTIAL): Keep existing auto-inference heuristic as a suggestion, but add user confirmation via the shared pattern suggest mode. User can accept, override, or skip.\n2. **commands/review.md** (PARTIAL): Same as fix-it — auto-inference as suggestion + confirmation picker. Also add active_topics array update when new topics are created.\n3. **skills/skill-project-overview/SKILL.md** (MISSING): Add topic picker call using shared pattern interactive mode.\n4. **skills/skill-spawn/SKILL.md** (inherit, no fallback): Keep parent inheritance as primary, add fallback to shared pattern interactive mode when parent has no topic.\n5. **commands/task.md --expand** (inherit, no fallback): Same as spawn — inherit parent topic, fallback picker when parent is topicless.\n6. **commands/task.md --review** (inherit, no fallback): Same as spawn — inherit parent topic, fallback picker when parent is topicless.\n\nAlso update extension copies (.claude/extensions/core/) to match all changes.",
       "artifacts": [],
-      "session_id": ""
+      "session_id": "sess_1749607200_a3b2c1_656",
+      "completion_summary": "Added topic assignment to 6 creation points: Mode C suggest-wrap for fix-it and review, Mode A picker-insert for project-overview, Mode B inherit-with-fallback for spawn/--expand/--review. All extension copies synced."
     }
   ],
   "completed_projects": [],

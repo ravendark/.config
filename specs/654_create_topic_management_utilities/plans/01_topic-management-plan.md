@@ -1,7 +1,7 @@
 # Implementation Plan: Create Topic Management Utilities
 
 - **Task**: 654 - create_topic_management_utilities
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/654_create_topic_management_utilities/reports/01_topic-management-research.md

@@ -1,0 +1,59 @@
+{
+  "session_id": "sess_1749607200_a3b2c1",
+  "task_numbers": [
+    654,
+    655,
+    656
+  ],
+  "waves": [
+    [
+      654
+    ],
+    [
+      655,
+      656
+    ]
+  ],
+  "dependency_graph": {
+    "654": [],
+    "655": [
+      654
+    ],
+    "656": [
+      654
+    ]
+  },
+  "task_types": {
+    "654": "meta",
+    "655": "meta",
+    "656": "meta"
+  },
+  "task_dirs": {
+    "654": "specs/654_create_topic_management_utilities",
+    "655": "specs/655_refactor_existing_topic_pickers",
+    "656": "specs/656_add_topic_assignment_gaps"
+  },
+  "research_agents": {
+    "654": "general-research-agent",
+    "655": "general-research-agent",
+    "656": "general-research-agent"
+  },
+  "implement_agents": {
+    "654": "general-implementation-agent",
+    "655": "general-implementation-agent",
+    "656": "general-implementation-agent"
+  },
+  "current_statuses": {
+    "654": "completed",
+    "655": "completed",
+    "656": "completed"
+  },
+  "cycle_count": 9,
+  "max_cycles": 15,
+  "failed_tasks": [],
+  "completed_tasks": [
+    654,
+    655,
+    656
+  ]
+}

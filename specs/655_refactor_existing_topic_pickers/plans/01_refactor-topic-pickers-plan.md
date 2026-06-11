@@ -1,7 +1,7 @@
 # Implementation Plan: Task #655
 
 - **Task**: 655 - refactor_existing_topic_pickers
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 2 hours
 - **Dependencies**: Task 654 (create_topic_management_utilities) -- COMPLETED
 - **Research Inputs**: specs/655_refactor_existing_topic_pickers/reports/01_refactor-topic-pickers.md

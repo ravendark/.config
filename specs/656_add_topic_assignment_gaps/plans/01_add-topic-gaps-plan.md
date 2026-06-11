@@ -1,7 +1,7 @@
 # Implementation Plan: Task #656
 
 - **Task**: 656 - Add topic assignment to 6 task creation points with missing/incomplete handling
-- **Status**: [IMPLEMENTING]
+- **Status**: [COMPLETED]
 - **Effort**: 5 hours
 - **Dependencies**: Task 654 (manage-topics.sh and topic-assignment-pattern.md -- already completed)
 - **Research Inputs**: specs/656_add_topic_assignment_gaps/reports/01_add-topic-gaps.md
