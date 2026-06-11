@@ -29,10 +29,6 @@ set -e
 
 # Guard: ensure specs/tmp/ exists (prevents failures on fresh checkouts)
 mkdir -p specs/tmp
-TMP_DIR="specs/tmp"
-
-# Cleanup trap: remove any leftover mktemp files on exit
-trap 'rm -f "$TMP_DIR"/state.??????.json 2>/dev/null' EXIT
 
 # Parse arguments — handle both 3-arg (TASK_NUMBER ARTIFACT_PATH OPERATION_TYPE)
 # and 4-arg (TASK_NUMBER ARTIFACT_PATH ARTIFACT_SUMMARY OPERATION_TYPE) forms
@@ -113,36 +109,29 @@ echo "Updating task $task_number with $operation_type artifact..."
 
 # Step 1: Update status and timestamps
 # Note: timestamp_field is a dynamic key — use jq --arg to inject safely
-tmp=$(mktemp "$TMP_DIR/state.XXXXXX.json")
 jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
    --arg status "$status_value" \
    --arg ts_field "$timestamp_field" \
   '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
     status: $status,
     last_updated: $ts
-  } + {($ts_field): $ts}' "$state_file" > "$tmp" && mv "$tmp" "$state_file"
+  } + {($ts_field): $ts}' "$state_file" > specs/tmp/state.json && mv specs/tmp/state.json "$state_file"
 
 echo "  Status updated to '$status_value'"
 
 # Step 2: Filter out existing artifacts of this type (two-step pattern for Issue #1132)
 # Safe pattern: select(.type == "X" | not) instead of select(.type != "X")
-tmp=$(mktemp "$TMP_DIR/state.XXXXXX.json")
 jq --arg atype "$artifact_type" \
   '(.active_projects[] | select(.project_number == '$task_number')).artifacts =
     [(.active_projects[] | select(.project_number == '$task_number')).artifacts // [] | .[] | select(.type == $atype | not)]' \
-  "$state_file" > "$tmp" && mv "$tmp" "$state_file"
+  "$state_file" > specs/tmp/state.json && mv specs/tmp/state.json "$state_file"
 
 # Step 3: Add new artifact
-tmp=$(mktemp "$TMP_DIR/state.XXXXXX.json")
 jq --arg path "$artifact_path" \
    --arg summary "$artifact_summary" \
    --arg atype "$artifact_type" \
   '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $atype, "summary": $summary}]' \
-  "$state_file" > "$tmp" && mv "$tmp" "$state_file"
+  "$state_file" > specs/tmp/state.json && mv specs/tmp/state.json "$state_file"
 
 echo "  Artifact linked: $artifact_path"
-
-# Step 4: Regenerate TODO.md from state.json (new pipeline)
-bash "$(dirname "$0")/generate-todo.sh" || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
-
 echo "Done."

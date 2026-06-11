@@ -86,9 +86,19 @@ team_size=${team_size:-2}
 
 Update task status to "planning" BEFORE spawning teammates.
 
+**Update state.json**:
 ```bash
-bash .claude/scripts/update-task-status.sh preflight "$task_number" plan "$session_id"
+jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --arg status "planning" \
+   --arg sid "$session_id" \
+  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
+    status: $status,
+    last_updated: $ts,
+    session_id: $sid
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
+
+**Update TODO.md**: Change status marker to `[PLANNING]`.
 
 ---
 
@@ -173,9 +183,23 @@ run_padded=$(printf "%02d" "$artifact_number")
 
 ---
 
+### Stage 5b: Load Research Context
+
+Load research report if available:
+
+```bash
+padded_num=$(printf "%03d" "$task_number")
+research_content=""
+if [ -n "$research_path" ] && [ -f "$research_path" ]; then
+  research_content=$(cat "$research_path")
+fi
+```
+
+---
+
 ### Stage 5: Spawn Planning Wave
 
-Create teammate prompts and spawn wave. Pass `artifact_number`, `teammate_letter`, and `research_path` (as @-reference) to each teammate. Do NOT read the research file content into the lead — teammates read it in their own contexts.
+Create teammate prompts and spawn wave. Pass `artifact_number` and `teammate_letter` to each teammate.
 
 **Delegation context for teammates**:
 ```json
@@ -199,12 +223,18 @@ Focus on incremental delivery with verification at each phase.
 Each phase should deliver working, tested functionality.
 Consider dependencies between phases.
 
-Read the research report for context: @{research_path}
+Research findings:
+{research_content}
 
 Output your plan to:
 specs/{NNN}_{SLUG}/plans/{run_padded}_candidate-a.md
 
-Follow the plan format in @.claude/context/formats/plan-format.md
+Format: Standard implementation plan format with:
+- Overview
+- Phases with status markers [NOT STARTED]
+- Tasks with file modifications
+- Verification steps per phase
+- Estimated effort
 ```
 
 **Teammate B - Plan Version B (Alternative Boundaries)**:
@@ -220,7 +250,8 @@ Consider different phase boundaries or ordering.
 Look for opportunities to parallelize phases.
 Focus on risk mitigation through early verification.
 
-Read the research report for context: @{research_path}
+Research findings:
+{research_content}
 
 Do NOT duplicate Teammate A's exact phase structure.
 Provide a meaningfully different approach.
@@ -228,7 +259,7 @@ Provide a meaningfully different approach.
 Output your plan to:
 specs/{NNN}_{SLUG}/plans/{run_padded}_candidate-b.md
 
-Follow the plan format in @.claude/context/formats/plan-format.md
+Format: Same as Teammate A
 ```
 
 **Teammate C - Risk/Dependency Analysis (if team_size >= 3)**:
@@ -246,7 +277,8 @@ Identify:
 - High-risk phases requiring extra verification
 - External dependencies that could block progress
 
-Read the research report for context: @{research_path}
+Research findings:
+{research_content}
 
 Output your analysis to:
 specs/{NNN}_{SLUG}/plans/{run_padded}_risk-analysis.md
@@ -284,24 +316,18 @@ On timeout:
 
 ---
 
-### Stage 7: Collect Teammate Result Paths
+### Stage 7: Collect Teammate Results
 
-After all teammates complete, collect only the file paths of completed candidate plans. Do NOT read the files themselves — delegate to synthesis-agent.
+Read each teammate's output file:
 
 ```bash
+teammate_results=[]
 padded_num=$(printf "%03d" "$task_number")
-candidate_paths=""
-completed_count=0
-failed_count=0
 
 for candidate in a b; do
   file="specs/${padded_num}_${project_name}/plans/${run_padded}_candidate-${candidate}.md"
   if [ -f "$file" ]; then
-    candidate_paths="${candidate_paths}
-- @${file}"
-    completed_count=$((completed_count + 1))
-  else
-    failed_count=$((failed_count + 1))
+    teammate_results+=("...")
   fi
 done
 
@@ -309,95 +335,146 @@ done
 if [ "$team_size" -ge 3 ]; then
   file="specs/${padded_num}_${project_name}/plans/${run_padded}_risk-analysis.md"
   if [ -f "$file" ]; then
-    candidate_paths="${candidate_paths}
-- @${file}"
+    teammate_results+=("...")
   fi
 fi
-
-output_path="specs/${padded_num}_${project_name}/plans/${run_padded}_implementation-plan.md"
-mkdir -p "specs/${padded_num}_${project_name}/plans/"
-```
-
-**Lead context growth from this stage**: ~100 tokens per candidate (file paths only, no content).
-
----
-
-### Stage 8: Dispatch Synthesis Agent
-
-Dispatch the synthesis agent with candidate plan paths as @-references. The synthesis agent reads all candidate files in its own fresh context and writes the unified plan.
-
-```
-Agent(
-  subagent_type: "synthesis-agent",
-  prompt: "Synthesize team planning for task {task_number}: {description}
-
-## Candidate Plans
-
-Read each of the following candidate plan files:
-{candidate_paths}
-
-## Context
-
-Task description: {description}
-Task type: {task_type}
-Team size: {team_size}
-Research report: @{research_path} (read for context if provided)
-
-## Output
-
-Write the unified implementation plan to:
-{output_path}
-
-Follow the plan format in @.claude/context/formats/plan-format.md
-
-Include a Trade-off Analysis section comparing candidate approaches and explaining which elements were selected and why.
-
-## Return
-
-After writing the plan, return a compact summary (under 200 words) with:
-- Selected approach and rationale
-- Phase count in final plan
-- Key trade-offs resolved
-- Full path to the written plan",
-  model: "{teammate_model}",
-  timeout: 900
-)
 ```
 
 ---
 
-### Stage 9: Record Synthesis Result
+### Stage 8: Synthesize Plans
 
-Receive the compact summary (under 200 words) from the synthesis agent and extract:
+Lead synthesizes plan candidates:
 
-- `artifact_path`: The output path reported by the synthesis agent
-- `synthesis_summary`: The compact text summary
+1. **Compare phase structures** from candidates A and B
+2. **Evaluate trade-offs** between approaches
+3. **Incorporate risk analysis** (if available)
+4. **Select best elements** from each candidate
+5. **Identify parallelization opportunities**
 
-Store these for postflight use. The lead does NOT read the unified plan file.
+**Trade-off Comparison**:
+- Phase count and estimated effort
+- Risk profile
+- Dependency complexity
+- Parallelization potential
 
-**Lead context growth from synthesis**: ~200 tokens (synthesis summary only).
+---
 
-On synthesis failure:
-- Set `artifact_path` to the most complete candidate plan (prefer candidate-a)
-- Set `synthesis_failed = true` for postflight metadata
-- Continue to postflight with `partial` status
+### Stage 9: Create Final Plan
+
+Write synthesized plan:
+
+```markdown
+# Implementation Plan: Task #{N}
+
+**Task**: {title}
+**Version**: {run_padded}
+**Created**: {ISO_DATE}
+**Task Type**: {task_type}
+**Mode**: Team Planning ({team_size} teammates)
+
+## Overview
+
+{Synthesized approach based on candidate evaluation}
+
+## Trade-off Analysis
+
+### Candidate A (Incremental Delivery)
+- Phases: {N}
+- Estimated effort: {hours}
+- Strengths: {list}
+- Weaknesses: {list}
+
+### Candidate B (Alternative)
+- Phases: {N}
+- Estimated effort: {hours}
+- Strengths: {list}
+- Weaknesses: {list}
+
+### Selected Approach
+{Explanation of why chosen elements were selected}
+
+## Phases
+
+### Phase 1: {Name} [NOT STARTED]
+
+**Estimated effort**: {hours}
+
+**Objectives**:
+1. {Objective}
+
+**Files to modify**:
+- `path/to/file` - {changes}
+
+**Steps**:
+1. {Step}
+
+**Verification**:
+- {How to verify}
+
+---
+
+{Additional phases...}
+
+## Dependencies
+
+- {Dependency}
+
+## Risks and Mitigations
+
+| Risk | Impact | Mitigation |
+|------|--------|------------|
+
+## Success Criteria
+
+- [ ] {Criterion}
+
+## Team Planning Metadata
+
+| Teammate | Role | Status |
+|----------|------|--------|
+| A | Incremental plan | completed |
+| B | Alternative plan | completed |
+```
+
+Output to: `specs/{NNN}_{SLUG}/plans/{RR}_implementation-plan.md`
 
 ---
 
 ### Stage 10: Update Status (Postflight)
 
-Update task status to "planned" using skill-base.sh functions:
+Update task status to "planned":
+
+**Update state.json**:
+```bash
+jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --arg status "planned" \
+  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
+    status: $status,
+    last_updated: $ts,
+    planned: $ts
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+```
+
+**Update TODO.md**: Change status marker to `[PLANNED]`.
+
+**Link artifact**:
+```bash
+padded_num=$(printf "%03d" "$task_number")
+jq --arg path "specs/${padded_num}_${project_name}/plans/${run_padded}_implementation-plan.md" \
+   --arg type "plan" \
+   --arg summary "Team planning with ${team_size} teammates and trade-off analysis" \
+  '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
+  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+```
+
+**Update TODO.md**: Regenerate from state.json (state.json artifact update was done in the previous step):
 
 ```bash
-source .claude/scripts/skill-base.sh
-
-# Step 1: Update status in state.json and TODO.md
-skill_postflight_update "$task_number" "plan" "$session_id" "planned"
-
-# Step 2: Link synthesis artifact in state.json and TODO.md
-artifact_summary="Team planning with ${team_size} teammates and trade-off analysis"
-skill_link_artifacts "$task_number" "$artifact_path" "plan" "$artifact_summary" "'**Plan**'" "'**Description**'"
+bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
 ```
+
+If the script exits non-zero, log a warning but continue (regeneration errors are non-blocking).
 
 ---
 
@@ -518,43 +595,22 @@ Team planning completed for task 412:
 
 ---
 
-## MUST NOT (Context Protection)
-
-The lead MUST NOT accumulate excessive context during planning or synthesis. Specifically:
-
-1. **Lead MUST NOT read research report content** -- pass `@{research_path}` reference to teammates
-2. **Lead MUST NOT read candidate plan files** -- delegate to synthesis-agent (Stage 8)
-3. **Lead MUST NOT perform synthesis inline** -- synthesis is done by synthesis-agent
-4. **Lead MUST NOT write the unified plan** -- synthesis-agent writes the plan
-
-The postflight phase is LIMITED TO:
-- Reading teammate file paths (metadata only, not file content)
-- Dispatching synthesis-agent with file paths as @-references
-- Receiving compact synthesis summary (~200 words)
-- Updating state.json via skill-base.sh functions
-- Updating TODO.md status via skill-base.sh functions
-- Linking artifacts in state.json
-- Git commit
-- Cleanup of temp/marker files
-
-**Context budget target**: Lead context growth above baseline should stay under ~1,500 tokens:
-- jq state extraction: ~200 tokens
-- Delegation context: ~500 tokens
-- Teammate handoff metadata (file paths): ~400 tokens
-- Synthesis summary returned: ~200 tokens
-- Routing overhead: ~200 tokens
-
-Reference: @.claude/context/patterns/context-protective-lead.md
-
----
-
 ## MUST NOT (Postflight Boundary)
 
-After synthesis completes and the plan is written, this skill MUST NOT:
+After teammates complete and plans are synthesized, this skill MUST NOT:
 
 1. **Edit source files** - All planning work is done by teammates
 2. **Run build/test commands** - Verification is done by teammates
 3. **Analyze task requirements** - Analysis is teammate work
-4. **Use research tools** - Research is for teammate use only
+4. **Write plan files** - Artifact creation is done during synthesis, not postflight
+5. **Use research tools** - Research is for teammate use only
+
+The postflight phase is LIMITED TO:
+- Reading teammate metadata files
+- Updating state.json via jq
+- Updating TODO.md status marker via Edit
+- Linking artifacts in state.json
+- Git commit
+- Cleanup of temp/marker files
 
 Reference: @.claude/context/standards/postflight-tool-restrictions.md

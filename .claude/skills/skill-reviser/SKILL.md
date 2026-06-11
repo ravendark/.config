@@ -19,8 +19,9 @@ Reference (do not load eagerly):
 - Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
 - Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
 - Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.claude/context/formats/plan-format.md` - Plan file format specification
 
-Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent. The subagent reads @.claude/context/formats/plan-format.md in its own context.
+Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
 
 ## Trigger Conditions
 
@@ -61,13 +62,9 @@ description=$(echo "$task_data" | jq -r '.description // ""')
 
 ### Stage 2: Preflight
 
-Update task status to `[REVISING]` before beginning revision work:
+No intermediate "revising" status is needed for revision. The task transitions directly to "planned" on success (via postflight). Skip preflight status update.
 
-```bash
-skill_preflight_update "$task_number" "revise" "$session_id"
-```
-
-This follows the same pattern as `/research`, `/plan`, and `/implement`, giving users immediate visibility that revision is underway.
+**Rationale**: Unlike `/plan` which sets "planning" as an intermediate status, `/revise` is lightweight enough that an intermediate status adds no value. The postflight script handles the final status update.
 
 ---
 
@@ -180,6 +177,18 @@ fi
 
 ---
 
+### Stage 4b: Read and Inject Format Specification
+
+Read the plan format file and prepare it for injection into the subagent prompt. This ensures the subagent always has the full format specification in its context.
+
+```bash
+format_content=$(cat .claude/context/formats/plan-format.md)
+```
+
+The format content will be included as a delimited section in the Stage 5 prompt.
+
+---
+
 ### Stage 5: Prepare Delegation Context and Invoke Subagent
 
 **CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
@@ -214,17 +223,24 @@ Parameters:
   - subagent_type: "reviser-agent"
   - prompt: [Include task_context, delegation_context, existing_plan_path, new_research_paths,
              revision_reason, metadata_file_path,
-             AND the format reference as shown below]
+             AND the format specification from Stage 4b as shown below]
   - description: "Execute plan revision for task {N}"
 ```
 
-**Format Reference**: Include a format reference in the prompt (subagent reads it in its own context):
+**Format Injection**: Include the format specification from Stage 4b in the prompt as a clearly-delimited section:
 
 ```
-Follow the plan format specification in @.claude/context/formats/plan-format.md
+<artifact-format-specification>
+## CRITICAL: Plan Format Requirements
+
+You MUST follow this format specification exactly when writing the plan artifact.
+Non-compliance will be caught by postflight validation.
+
+{format_content from Stage 4b}
+</artifact-format-specification>
 ```
 
-Place this reference AFTER the delegation context JSON and BEFORE any other instructions.
+Place this section AFTER the delegation context JSON and BEFORE any other instructions.
 
 **DO NOT** use `Skill(reviser-agent)` - this will FAIL.
 
@@ -294,10 +310,10 @@ fi
 
 **For Plan Revision** (status == "planned"):
 
-Update task status to "revised" using the centralized script:
+Update task status to "planned" using the centralized script:
 
 ```bash
-bash .claude/scripts/update-task-status.sh postflight $task_number revise $session_id
+bash .claude/scripts/update-task-status.sh postflight $task_number plan $session_id
 ```
 
 If the script exits non-zero, log error but continue (status update is best-effort for revise).
@@ -325,39 +341,6 @@ bash .claude/scripts/generate-todo.sh
 
 ---
 
-### Stage 7a: Task Order Regeneration (Plan Revision Only)
-
-After the status update, regenerate the Task Order section in TODO.md so it reflects any
-description changes or dependency updates from the revised plan.
-
-This stage is **non-fatal** — a failure here does not block the `/revise` operation.
-
-**For Plan Revision** (status == "planned"):
-
-```bash
-if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-    || { echo "Warning: Task Order regeneration failed (non-fatal)" >&2; }
-else
-  echo "Note: generate-task-order.sh not found -- skipping Task Order regeneration" >&2
-fi
-```
-
-**For Description Update** (status == "description_updated"):
-
-Run the same regeneration to ensure the Task Order reflects the new description:
-
-```bash
-if [ -f ".claude/scripts/generate-task-order.sh" ]; then
-  bash ".claude/scripts/generate-task-order.sh" --update-todo specs/TODO.md specs/state.json \
-    || { echo "Warning: Task Order regeneration failed (non-fatal)" >&2; }
-fi
-```
-
-**On partial/failed**: Skip this stage (do not regenerate when skill did not succeed).
-
----
-
 ### Stage 8: Artifact Linking (Plan Revision Only)
 
 Add the new plan artifact to state.json.
@@ -380,13 +363,29 @@ if [ -n "$artifact_path" ]; then
 fi
 ```
 
-**Update TODO.md**: Regenerate from state.json (state.json artifact update was done in previous step):
+**Update TODO.md**: Regenerate from state.json (state.json artifact update was done in the previous step):
 
 ```bash
 bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
 ```
 
 If the script exits non-zero, log a warning but continue (regeneration errors are non-blocking).
+
+---
+
+### Stage 8a: Lifecycle TTS Notification
+
+Fire TTS and WezTerm tab coloring after artifact linking is complete:
+
+```bash
+lifecycle_script=".claude/scripts/lifecycle-notify.sh"
+if [ -f "$lifecycle_script" ]; then
+    bash "$lifecycle_script" "$STATE_STATUS" &
+fi
+```
+
+Non-blocking: called in background after artifacts are linked. Speaks "Tab N STATUS"
+(e.g., "Tab 3 planned") to announce the lifecycle transition.
 
 ---
 
@@ -442,7 +441,7 @@ Plan revised for task {N}:
 - Preserved {X} completed phases, revised {Y} phases
 - Integrated {Z} new research reports
 - Created revised plan at specs/{NNN}_{SLUG}/plans/MM_{short-slug}.md
-- Status updated to [REVISED]
+- Status updated to [PLANNED]
 - Changes committed with session {session_id}
 ```
 
@@ -479,18 +478,6 @@ If jq commands fail with INVALID_CHARACTER or syntax error (Issue #1132):
 ### Subagent Timeout
 Return partial status if subagent times out (default 1800s).
 Keep status unchanged for resume.
-
----
-
-## MUST NOT (Context Protection)
-
-Before delegating to the subagent, MUST NOT load file content into the lead context for passthrough. Specifically:
-
-1. **MUST NOT `cat` format spec files** -- pass `@.claude/context/formats/plan-format.md` reference to subagent instead
-
-**Context budget target**: Lead context growth above baseline should stay under ~400 tokens for preflight.
-
-Reference: @.claude/context/patterns/context-protective-lead.md
 
 ---
 

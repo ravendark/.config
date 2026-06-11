@@ -8,50 +8,21 @@ Team orchestration uses a wave-based model where agents work in parallel within 
 
 ## Wave Execution Model
 
-Team research uses a two-wave model: Wave 1 for parallel research, Wave 2 for informed critique.
-
 ```
-Wave 1 (parallel research):
-+----------------+  +----------------+  +----------------+
-| Teammate A     |  | Teammate B     |  | Teammate D     |
-| Primary Angle  |  | Alternatives   |  | Horizons       |
-+-------+--------+  +-------+--------+  +-------+--------+
-        |                   |                   |
-        +-------------------+-------------------+
-                           |
-                    (findings collected)
-                           |
-Wave 2 (informed critique):
-                    +----------------+
-                    | Teammate C     |
-                    | Critic         |
-                    | (reads A,B,D)  |
-                    +-------+--------+
+Wave 1:
++----------------+  +----------------+  +----------------+  +----------------+
+| Teammate A     |  | Teammate B     |  | Teammate C     |  | Teammate D     |
+| Primary Angle  |  | Alternatives   |  | Critic         |  | Horizons       |
++-------+--------+  +-------+--------+  +-------+--------+  +-------+--------+
+        |                   |                   |                   |
+        +-------------------+-------------------+-------------------+
                            |
                     +------+------+
                     |   Lead      |
                     | Synthesis   |
                     +------+------+
-```
-
-**Dynamic team sizing** controls which teammates are spawned in Wave 1:
-- `team_size == 2`: Wave 1 = A only; Wave 2 = Critic
-- `team_size == 3`: Wave 1 = A + B; Wave 2 = Critic (default)
-- `team_size == 4`: Wave 1 = A + B + D; Wave 2 = Critic
-
-The Critic always runs in Wave 2 with access to Wave 1 findings. This enables targeted, informed critique rather than generic skepticism.
-
-## Domain Context Injection
-
-When a task's `task_type` matches a loaded extension, the lead queries `.claude/context/index.json` for domain-specific context paths and injects them into all teammate prompts as a "Domain Context" section. This ensures team research teammates have the same domain knowledge as single-agent research agents (which use domain-specific agent definitions).
-
-```bash
-# Query index.json for domain context matching the task type
-domain_agent_paths=$(jq -r --arg tt "$task_type" '
-  .entries[] | select(
-    any(.load_when.languages[]?; . == $tt) or
-    any(.load_when.task_types[]?; . == $tt)
-  ) | .path' .claude/context/index.json)
+                           |
+              (Optional Wave 2 if gaps exist)
 ```
 
 ## Coordination Responsibilities
@@ -95,23 +66,6 @@ Each teammate is responsible for:
    - Write results to assigned output file
    - Include confidence level
    - Note any blockers or issues
-
-## Exploit/Explore Modes
-
-Team research supports optional mode hints via `--exploit` and `--explore` flags that shape teammate prompt generation:
-
-| Mode | Flag | Teammate A | Teammate B | Teammate D |
-|------|------|------------|------------|------------|
-| **Default** | (none) | Implementation approaches | Alternative patterns | Strategic alignment |
-| **Exploit** | `--exploit` | Deep-dive into best approach | Stress-test and validate | Feasibility assessment |
-| **Explore** | `--explore` | Breadth-first survey | Unconventional alternatives | Unexplored approaches |
-
-**When to use each mode**:
-- **Exploit**: When a promising approach is identified and needs thorough investigation. "Focus many agents on different parts of a single idea."
-- **Explore**: When current approaches are blocked or insufficient. "Search for new ideas."
-- **Default/mixed**: When the situation is unclear. The focus prompt provides additional direction.
-
-Modes are optional hints -- when neither flag is set, the default balanced behavior applies. The focus prompt provides further direction within any mode.
 
 ## Dependency Analysis
 
@@ -185,89 +139,8 @@ Team mode uses approximately 5x tokens compared to single-agent:
 
 ## Best Practices
 
-1. **Default to 3 teammates** - Primary + Alternatives + Critic; use `--fast` for 2 or `--hard` for 4
+1. **Minimize team size** - Default to 2 teammates, increase only when needed
 2. **Clear role separation** - Avoid overlap between teammate responsibilities
 3. **Run-scoped outputs** - Use unique paths to avoid conflicts
 4. **Graceful degradation** - Always have single-agent fallback
 5. **Targeted commits** - Use git staging scope to avoid race conditions
-6. **Domain context injection** - Always inject domain context when task_type has an extension
-7. **Critic in Wave 2** - The Critic always reads Wave 1 findings before critiquing
-
-## Synthesis Agent Pattern
-
-After all Wave 1 and Wave 2 teammates complete, the lead dispatches `synthesis-agent` to read
-all teammate finding files in a fresh context and write the unified report. The lead NEVER reads
-teammate finding files directly.
-
-```
-Wave 1 (parallel research):
-+------------+  +------------+  +------------+
-| Teammate A |  | Teammate B |  | Teammate D |
-+------+-----+  +------+-----+  +------+-----+
-       |                |               |
-       +----------------+---------------+
-                        |
-                (paths collected — no file reading)
-                        |
-Wave 2 (informed critique):
-                 +------------+
-                 | Teammate C |
-                 | (Critic)   |
-                 +------+-----+
-                        |
-                 (path collected)
-                        |
-Synthesis Wave (delegated):
-                 +------------------+
-                 | synthesis-agent  |
-                 | (fresh context)  |
-                 | Reads all files  |
-                 | Writes report    |
-                 +------+-----------+
-                        |
-                 (~200-word summary)
-                        |
-                 +------+------+
-                 |   Lead      |
-                 | (postflight)|
-                 +-------------+
-```
-
-The lead's context growth from synthesis is ~200 tokens (the returned summary), not 7-21k tokens
-from reading all teammate files inline.
-
-**Key principle**: The lead collects file paths (not file content) from completed teammates, then
-delegates all reading and synthesis to `synthesis-agent` via:
-
-```
-Agent(
-  subagent_type: "synthesis-agent",
-  prompt: [dispatch prompt with teammate paths as @-references],
-  model: "${teammate_model}",
-  timeout: 1200
-)
-```
-
-See `.claude/context/reference/team-wave-helpers.md` (Synthesis Agent Dispatch section) for the
-full dispatch prompt template and expected return format.
-
-**Context Protection**: Lead context overhead for the complete synthesis cycle:
-- Teammate path collection: ~400 tokens (file paths only, no content)
-- Synthesis dispatch prompt: ~300 tokens
-- Synthesis agent return summary: ~200 tokens
-- Total synthesis context growth: ~900 tokens (vs. 7-21k with inline synthesis)
-
-## Context Discipline
-
-For context budget limits and synthesis delegation guidance (forking a dedicated synthesis agent instead of having the lead read all teammate outputs inline), see `patterns/context-protective-lead.md`.
-
-## Future Work (Tier 3)
-
-The following improvements were identified during task 607 research but deferred due to higher implementation risk or need for measurement data:
-
-- **Domain-specialized teammate roles**: Extension manifests define specialized roles (e.g., lean-tactic-hunter, lean-library-scout) instead of generic Primary/Alternatives
-- **Team profiles**: Named configurations in `.claude/context/team-profiles/` (default.json, exploit.json, explore.json, lean-proof.json) auto-selected by task type
-- **Auto-routing to team research**: When repeated blockers are detected on the same task, auto-escalate from single-agent to team research with cost controls and circuit breakers
-- **Structured decision matrices**: Replace prose synthesis with quantified comparison matrices (approaches as rows, evaluation criteria as columns, with scores and evidence)
-- **Measurement infrastructure**: A/B comparison between single-agent and team research quality to validate that more agents produce better results
-- **Cross-command propagation**: Extend exploit/explore framework to team-plan and team-implement

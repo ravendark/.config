@@ -11,8 +11,7 @@ next_project_number: 657
 **Dependency Waves**:
 | Wave | Tasks | Blocked by | Topics |
 |------|-------|------------|--------|
-| 1 | 78,87,652,654 | -- | wezterm-notifications, agent-system |
-| 2 | 655,656 | 654 | agent-system |
+| 1 | 78,87,652 | -- | wezterm-notifications, agent-system |
 
 **Grouped by Topic** (indented = depends on parent):
 
@@ -24,15 +23,12 @@ next_project_number: 657
 ### Agent System
 
 652 [NOT STARTED] — After ~1 week of the new pipeline running, review logs to verify 
-654 [PLANNED] — Create two shared topic management artifacts to replace ~200 line
-  └─ 655 [NOT STARTED] — Replace duplicated inline topic picker logic in 4 existing comman
-  └─ 656 [NOT STARTED] — Add topic assignment to 6 task creation points that currently hav
 
 ## Tasks
 
 ### 656. Add topic assignment to commands with missing or partial coverage
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: Task 654
@@ -52,7 +48,7 @@ Also update extension copies (.claude/extensions/core/) to match all changes.
 
 ### 655. Refactor existing topic pickers to use shared utilities
 - **Effort**: 1-2 hours
-- **Status**: [NOT STARTED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: Task 654
@@ -72,7 +68,7 @@ Net reduction: ~200 lines of duplicated picker instructions replaced by pattern 
 
 ### 654. Create shared topic management utilities (manage-topics.sh + pattern doc)
 - **Effort**: 1-2 hours
-- **Status**: [PLANNED]
+- **Status**: [COMPLETED]
 - **Task Type**: meta
 - **Topic**: agent-system
 - **Dependencies**: None

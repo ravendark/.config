@@ -111,7 +111,7 @@ session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 
 ### 3. Invoke Subagent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the subagent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
 The `agent` field in frontmatter specifies the target subagent.
 
@@ -243,7 +243,7 @@ Prepare delegation context with task details.
 
 ### 3. Invoke Subagent
 
-**CRITICAL**: You MUST use the **Task** tool to spawn the subagent.
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
 **Required Tool Invocation**:
 ```

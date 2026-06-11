@@ -592,6 +592,13 @@ function M.copy_manifest(manifest, source_dir, target_dir, extension_name)
   local source_path = source_dir .. "/manifest.json"
   local target_path = target_dir .. "/extensions/" .. extension_name .. "/manifest.json"
 
+  -- Skip when source and target resolve to the same file (home repo)
+  local source_real = vim.uv.fs_realpath(source_path)
+  local target_real = vim.uv.fs_realpath(target_path)
+  if source_real and target_real and source_real == target_real then
+    return copied_files, created_dirs
+  end
+
   if vim.fn.filereadable(source_path) ~= 1 then
     return copied_files, created_dirs
   end

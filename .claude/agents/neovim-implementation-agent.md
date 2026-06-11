@@ -152,25 +152,6 @@ For each step in the phase:
    - Altered: `- [x] **Task {P}.{N}**: {description} *(deviation: altered — {what changed})*`
    - Deferred: `- [ ] **Task {P}.{N}**: {description} *(deviation: deferred to task {N})*`
 
-#### 4B-ii. Check Off Completed Items in Plan File
-
-After completing each step, update the plan file to reflect completed work:
-
-1. **Locate the current phase's Tasks section** in the plan file
-2. **For each objective just completed**: Edit the corresponding checklist item:
-   - old_string: `- [ ] **Task {P}.{N}**: {description}`
-   - new_string: `- [x] **Task {P}.{N}**: {description} *(completed)*`
-   
-   If a brief completion note adds value, append it:
-   - new_string: `- [x] **Task {P}.{N}**: {description} *(completed: {brief note})*`
-
-3. **For the current in-progress objective** (if any): Leave as `- [ ]` but optionally append a note:
-   - `- [ ] **Task {P}.{N}**: {description} *(in progress)*`
-
-4. **For a step being deviated from** (skipped, altered, or deferred during execution): Annotate the checklist item inline (see Step B.4 for format).
-
-**Note**: If the plan file does not use `- [ ]` checklist syntax for the current phase, skip this step.
-
 **C. Verify Phase Completion**
 
 ```bash
@@ -189,27 +170,16 @@ Use the Edit tool with:
 
 Phase status lives ONLY in the heading. Do NOT add or edit a separate `**Status**:` line per phase.
 
-#### 4D-ii. Post-Phase Subtask Validation (Self-Check Gate)
+#### 4D-ii. Post-Phase Self-Review
 
-After marking a phase `[COMPLETED]`, perform a mandatory self-check before proceeding to the next phase:
+After marking a phase `[COMPLETED]`, perform a self-review before proceeding to the next phase:
 
-**Step 1: Count Unchecked Items**
-Re-read the phase's Tasks checklist in the plan file. Count items matching `- [ ]` that do NOT already have a deviation annotation (i.e., do not contain `*(deviation:` or `*(in progress — handoff)*`).
+1. **Re-read the phase's task checklist** in the plan file.
+2. **For each checklist item that remains unchecked** (`- [ ]`): determine if it was intentionally skipped/altered or overlooked. Annotate deviations inline (see Step B.4 for format).
+3. **Record any deviations** inline on plan checklist items.
+4. **Verify Neovim starts without errors** after all phase changes before proceeding (`nvim --headless -c "lua print('OK')" -c "q"`).
 
-**Step 2: Address Each Unchecked Item**
-For each unchecked, unannotated item:
-
-a. **If the work was completed but not marked**: Update the checklist item:
-   - `- [x] **Task {P}.{N}**: {description} *(completed)*`
-
-b. **If the item was intentionally skipped or altered**: Annotate inline (see Step B.4 for format).
-
-c. **If the work was overlooked**: Complete it now before proceeding, then mark `- [x] ... *(completed)*`.
-
-**Step 3: Verify Zero Unannotated Unchecked Items**
-After addressing all items, confirm no `- [ ]` items remain without annotation in the current phase's Tasks section. Then **verify Neovim starts without errors** (`nvim --headless -c "lua print('OK')" -c "q"`). Only then proceed to Stage 4D-iii and the next phase (or Stage 5 if all phases are complete).
-
-**Note**: If the plan file does not use `- [ ]` checklist syntax for the current phase, skip Steps 1-3 and proceed directly to the Neovim verification.
+Only then proceed to Stage 4D-iii and the next phase (or Stage 5 if all phases are complete).
 
 ---
 

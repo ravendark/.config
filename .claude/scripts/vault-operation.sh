@@ -158,6 +158,14 @@ if [ "$renumber_count" -gt 0 ]; then
       echo "Note: no directory found for task $old_num (skipped directory rename)"
     fi
 
+    # Update TODO.md entries -- replace old task number with new
+    if [ -f "$TODO_FILE" ]; then
+      # Use sed to replace task number references in TODO.md
+      sed -i "s/#${old_num}:/#${new_num}:/g" "$TODO_FILE" 2>/dev/null || true
+      sed -i "s/#${old_num} /#${new_num} /g" "$TODO_FILE" 2>/dev/null || true
+      sed -i "s/(Task ${old_num})/(Task ${new_num})/g" "$TODO_FILE" 2>/dev/null || true
+    fi
+
     tasks_renumbered=$((tasks_renumbered + 1))
     echo "Renumbered task $old_num -> $new_num ($task_name)"
 
@@ -184,15 +192,48 @@ mv "${state_json}.tmp" "$state_json"
 echo "Reset next_project_number to $new_next_num (was $next_num)"
 echo "Updated vault_count to $new_vault_num"
 
-# --- Step 5.8.8a: Regenerate TODO.md from state.json ---
-# All state.json renumbering is complete. Regenerate TODO.md with correct task numbers.
-GENERATE_TODO="$SCRIPT_DIR/generate-todo.sh"
-if [ -f "$GENERATE_TODO" ]; then
-  bash "$GENERATE_TODO" \
-    || { echo "Warning: Post-vault TODO.md regeneration failed (non-fatal)" >&2; }
-  echo "Regenerated TODO.md after vault renumbering"
+# --- Step 5.8.9: Add transition comment to TODO.md ---
+if [ -f "$TODO_FILE" ]; then
+  current_date=$(date +"%Y-%m-%d")
+  comment="<!-- Vault transition: ${current_date} - Archived to ${vault_path}/ -->"
+
+  # Insert comment after the frontmatter (after the closing ---)
+  python3 - "$TODO_FILE" "$comment" <<'PYEOF' 2>/dev/null || true
+import sys
+
+todo_path = sys.argv[1]
+comment = sys.argv[2]
+
+with open(todo_path, 'r') as f:
+    content = f.read()
+
+# Find end of YAML frontmatter (second ---)
+lines = content.split('\n')
+in_frontmatter = False
+insert_after = 0
+for i, line in enumerate(lines):
+    if line.strip() == '---':
+        if not in_frontmatter:
+            in_frontmatter = True
+        else:
+            insert_after = i + 1
+            break
+
+if insert_after > 0:
+    lines.insert(insert_after, comment)
+    with open(todo_path, 'w') as f:
+        f.write('\n'.join(lines))
+    print(f"Added vault transition comment to TODO.md")
+PYEOF
+fi
+
+# --- Step 5.8.8a: Re-run Task Order Regeneration ---
+if [ -f "$GENERATE_TASK_ORDER" ]; then
+  bash "$GENERATE_TASK_ORDER" --update-todo "$TODO_FILE" "$state_json" \
+    || { echo "Warning: Post-vault Task Order regeneration failed (non-fatal)" >&2; }
+  echo "Regenerated Task Order after vault renumbering"
 else
-  echo "Note: generate-todo.sh not found -- skipping TODO.md regeneration" >&2
+  echo "Note: generate-task-order.sh not found -- skipping Task Order regeneration" >&2
 fi
 
 # --- Output summary ---

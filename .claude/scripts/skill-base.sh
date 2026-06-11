@@ -269,25 +269,16 @@ skill_validate_artifact() {
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Stage 7: Update status to completed variant
-# Usage: skill_postflight_update "$task_number" "$operation" "$session_id" "$status" ["$orchestrator_mode"]
-# Only updates state when status is a success value (researched/planned/revised/implemented)
-# When orchestrator_mode="true", skips update-task-status.sh (orchestrator owns status transitions)
-# but still runs the extension hook so domain hooks are not bypassed.
+# Usage: skill_postflight_update "$task_number" "$operation" "$session_id" "$status"
+# Only updates state when status is a success value (researched/planned/implemented)
 # Calls extension hook: hooks.postflight (after status update, non-blocking)
 skill_postflight_update() {
   local task_number="$1"
   local operation="$2"
   local session_id="$3"
   local status="$4"
-  local orchestrator_mode="${5:-false}"
-  if [ "$orchestrator_mode" = "true" ]; then
-    echo "[skill-base] orchestrator_mode=true — skipping update-task-status.sh (orchestrator owns status transitions)"
-    # Extension hook: postflight (still runs even in orchestrator_mode)
-    skill_run_extension_hook "postflight" "$task_number" "${TASK_TYPE:-}" "${TASK_DIR:-}" "$session_id" "$operation"
-    return 0
-  fi
   case "$status" in
-    researched|planned|revised|implemented)
+    researched|planned|implemented)
       bash .claude/scripts/update-task-status.sh postflight "$task_number" "$operation" "$session_id"
       ;;
     *)
@@ -304,20 +295,17 @@ skill_postflight_update() {
 # Research is the only operation that advances the sequence counter.
 skill_increment_artifact_number() {
   local task_number="$1"
-  mkdir -p specs/tmp
   python3 -c "
-import json, os, tempfile
+import json
 with open('specs/state.json', 'r') as f:
     state = json.load(f)
 for p in state['active_projects']:
     if p['project_number'] == $task_number:
         p['next_artifact_number'] = p.get('next_artifact_number', 1) + 1
         break
-fd, tmp = tempfile.mkstemp(suffix='.json', prefix='state.', dir='specs/tmp')
-with os.fdopen(fd, 'w') as f:
+with open('specs/state.json', 'w') as f:
     json.dump(state, f, indent=2)
     f.write('\n')
-os.replace(tmp, 'specs/state.json')
 "
 }
 
@@ -329,9 +317,8 @@ skill_propagate_memory_candidates() {
   local task_number="$1"
   local memory_candidates="$2"
   if [ "$memory_candidates" != "[]" ] && [ -n "$memory_candidates" ]; then
-    mkdir -p specs/tmp
     python3 -c "
-import json, os, tempfile
+import json
 with open('specs/state.json', 'r') as f:
     state = json.load(f)
 new_candidates = json.loads('''$memory_candidates''')
@@ -340,11 +327,9 @@ for p in state['active_projects']:
         existing = p.get('memory_candidates', [])
         p['memory_candidates'] = existing + new_candidates
         break
-fd, tmp = tempfile.mkstemp(suffix='.json', prefix='state.', dir='specs/tmp')
-with os.fdopen(fd, 'w') as f:
+with open('specs/state.json', 'w') as f:
     json.dump(state, f, indent=2)
     f.write('\n')
-os.replace(tmp, 'specs/state.json')
 "
   fi
 }
@@ -364,63 +349,20 @@ skill_link_artifacts() {
   local field_name="${5:-'**Summary**'}"
   local next_field="${6:-'**Description**'}"
   if [ -n "$artifact_path" ]; then
-    mkdir -p specs/tmp
-    local tmp
     # Step 1: Remove existing artifacts of same type (use "| not" pattern — Issue #1132 safe)
-    tmp=$(mktemp specs/tmp/state.XXXXXX.json)
     jq --arg atype "$artifact_type" \
       '(.active_projects[] | select(.project_number == '"$task_number"')).artifacts =
         [(.active_projects[] | select(.project_number == '"$task_number"')).artifacts // [] | .[] | select(.type == $atype | not)]' \
-      specs/state.json > "$tmp" && mv "$tmp" specs/state.json
+      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
     # Step 2: Add new artifact entry
-    tmp=$(mktemp specs/tmp/state.XXXXXX.json)
     jq --arg path "$artifact_path" \
        --arg type "$artifact_type" \
        --arg summary "$artifact_summary" \
       '(.active_projects[] | select(.project_number == '"$task_number"')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
-      specs/state.json > "$tmp" && mv "$tmp" specs/state.json
+      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
     # Regenerate TODO.md from state.json (replaces link-artifact-todo.sh call)
     bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)"
   fi
-}
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Orchestrator artifact linking: read artifact info from handoff JSON and link
-# Usage: skill_link_artifact_from_handoff "$task_number" "$handoff_json"
-# handoff_json: JSON string (e.g. contents of .orchestrator-handoff.json)
-# Maps artifact type to field_name/next_field and calls skill_link_artifacts.
-# Returns 0 immediately if artifact path is empty or null.
-# artifact type mapping:
-#   report  -> '**Research**' / '**Plan**'
-#   plan    -> '**Plan**' / '**Description**'
-#   summary -> '**Summary**' / '**Description**'  (default)
-skill_link_artifact_from_handoff() {
-  local task_number="$1"
-  local handoff_json="$2"
-  local handoff_artifact_path handoff_artifact_type handoff_artifact_summary
-  local field_name next_field
-  handoff_artifact_path=$(echo "$handoff_json" | jq -r '.artifacts[0].path // ""')
-  handoff_artifact_type=$(echo "$handoff_json" | jq -r '.artifacts[0].type // ""')
-  handoff_artifact_summary=$(echo "$handoff_json" | jq -r '.artifacts[0].summary // ""')
-  if [ -z "$handoff_artifact_path" ] || [ "$handoff_artifact_path" = "null" ]; then
-    return 0
-  fi
-  case "$handoff_artifact_type" in
-    report)
-      field_name='**Research**'
-      next_field='**Plan**'
-      ;;
-    plan)
-      field_name='**Plan**'
-      next_field='**Description**'
-      ;;
-    summary|*)
-      field_name='**Summary**'
-      next_field='**Description**'
-      ;;
-  esac
-  skill_link_artifacts "$task_number" "$handoff_artifact_path" "$handoff_artifact_type" \
-    "$handoff_artifact_summary" "$field_name" "$next_field"
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

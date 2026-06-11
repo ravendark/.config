@@ -2,21 +2,37 @@
 name: skill-planner
 description: Create phased implementation plans from research findings. Invoke when a task needs an implementation plan.
 allowed-tools: Agent, Bash, Edit, Read, Write
+# Original context (now loaded by subagent):
+#   - .claude/context/formats/plan-format.md
+#   - .claude/context/workflows/task-breakdown.md
+# Original tools (now used by subagent):
+#   - Read, Write, Edit, Glob, Grep
 ---
 
 # Planner Skill
 
 Thin wrapper that delegates plan creation to `planner-agent` subagent.
 
-**IMPORTANT**: Skill-internal postflight pattern — this skill handles all postflight operations after
-the subagent returns, eliminating the "continue" prompt issue.
+**IMPORTANT**: This skill implements the skill-internal postflight pattern. After the subagent returns,
+this skill handles all postflight operations (status update, artifact linking, git commit) before returning.
+This eliminates the "continue" prompt issue between skill return and orchestrator.
 
 ## Context References
 
 Reference (do not load eagerly):
-- `.claude/context/formats/return-metadata-file.md` - Metadata file schema
-- `.claude/context/patterns/postflight-control.md` - Marker file protocol
-- `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+- Path: `.claude/context/formats/return-metadata-file.md` - Metadata file schema
+- Path: `.claude/context/patterns/postflight-control.md` - Marker file protocol
+- Path: `.claude/context/patterns/file-metadata-exchange.md` - File I/O helpers
+- Path: `.claude/context/patterns/jq-escaping-workarounds.md` - jq escaping patterns (Issue #1132)
+
+Note: This skill is a thin wrapper with internal postflight. Context is loaded by the delegated agent.
+
+## Trigger Conditions
+
+This skill activates when:
+- Task status is any non-terminal state (not completed, not abandoned)
+- /plan command is invoked
+- Implementation approach needs to be formalized
 
 ---
 
@@ -24,57 +40,136 @@ Reference (do not load eagerly):
 
 ### Stage 1: Input Validation
 
+Validate required inputs:
+- `task_number` - Must be provided and exist in state.json
+- Task status must allow planning
+
 ```bash
-source .claude/scripts/skill-base.sh
-skill_validate_input "$task_number"
-# Exports: TASK_TYPE, TASK_STATUS, PROJECT_NAME, DESCRIPTION, PADDED_NUM, TASK_DIR
+# Lookup task
+task_data=$(jq -r --argjson num "$task_number" \
+  '.active_projects[] | select(.project_number == $num)' \
+  specs/state.json)
+
+# Validate exists
+if [ -z "$task_data" ]; then
+  return error "Task $task_number not found"
+fi
+
+# Extract fields
+task_type=$(echo "$task_data" | jq -r '.task_type // "general"')
+status=$(echo "$task_data" | jq -r '.status')
+project_name=$(echo "$task_data" | jq -r '.project_name')
+description=$(echo "$task_data" | jq -r '.description // ""')
+
+# Validate status (only block terminal states)
+if [ "$status" = "completed" ] || [ "$status" = "abandoned" ] || [ "$status" = "expanded" ]; then
+  return error "Task is in terminal state [$status]"
+fi
 ```
+
+---
 
 ### Stage 2: Preflight Status Update
 
+Update task status to "planning" BEFORE invoking subagent.
+
+The centralized script handles state.json, TODO.md task entry status marker, and TODO.md Task Order status marker atomically:
+
 ```bash
-skill_preflight_update "$task_number" "plan" "$session_id"
+bash .claude/scripts/update-task-status.sh preflight $task_number plan $session_id
 ```
 
-If the script exits non-zero, stop execution. Exit code 2 = state.json failure; exit code 3 = TODO.md failure.
+If the script exits non-zero, stop execution and return error. Exit code 2 indicates state.json failure; exit code 3 indicates TODO.md failure.
+
+---
 
 ### Stage 3: Create Postflight Marker
 
+Create the marker file to prevent premature termination:
+
 ```bash
-skill_create_postflight_marker "$PADDED_NUM" "$PROJECT_NAME" "$session_id" "skill-planner" "plan"
+# Ensure task directory exists
+padded_num=$(printf "%03d" "$task_number")
+mkdir -p "specs/${padded_num}_${project_name}"
+
+cat > "specs/${padded_num}_${project_name}/.postflight-pending" << EOF
+{
+  "session_id": "${session_id}",
+  "skill": "skill-planner",
+  "task_number": ${task_number},
+  "operation": "plan",
+  "reason": "Postflight pending: status update, artifact linking, git commit",
+  "created": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "stop_hook_active": false
+}
+EOF
 ```
+
+---
 
 ### Stage 3a: Calculate Artifact Number
 
-Planner uses "prev" mode — shares the same round as the preceding research.
+Read `next_artifact_number` from state.json and use (current-1) since plan stays in the same round as research:
 
 ```bash
-skill_read_artifact_number "$task_number" "$PADDED_NUM" "$PROJECT_NAME" "plans/" "prev"
-# Exports: ARTIFACT_NUMBER, ARTIFACT_PADDED
+# Read next_artifact_number from state.json
+next_num=$(jq -r --argjson num "$task_number" \
+  '.active_projects[] | select(.project_number == $num) | .next_artifact_number // 1' \
+  specs/state.json)
+
+# Plan uses (current - 1) to stay in the same round as research
+# If next_artifact_number is 1 (no research yet), use 1
+if [ "$next_num" -le 1 ]; then
+  artifact_number=1
+else
+  artifact_number=$((next_num - 1))
+fi
+
+# Fallback for legacy tasks: count existing plan artifacts
+if [ "$next_num" = "null" ] || [ -z "$next_num" ]; then
+  padded_num=$(printf "%03d" "$task_number")
+  count=$(ls "specs/${padded_num}_${project_name}/plans/"*[0-9][0-9]*.md 2>/dev/null | wc -l)
+  artifact_number=$((count + 1))
+fi
+
+artifact_padded=$(printf "%02d" "$artifact_number")
 ```
 
-**Note**: Plan does NOT increment `next_artifact_number`. Only research advances the sequence.
+**Note**: Plan does NOT increment `next_artifact_number` in state.json. Only research advances the sequence. Plan uses `(current - 1)` to share the same round number as the preceding research.
 
-### Stage 4a: Clean Flag (Pass-Through)
+---
 
-Extract clean_flag for pass-through to subagent prompt. Do NOT run memory-retrieve.sh here — delegate to subagent.
+### Stage 4a: Memory Retrieval (Auto)
+
+Retrieve relevant memories from the memory system to inject into the delegation context.
+
+**Skip if**: `clean_flag` is true in the delegation context (from `--clean` command flag).
 
 ```bash
-clean_flag="${clean_flag:-false}"
+# Check clean_flag
+if [ "$clean_flag" != "true" ]; then
+  memory_context=$(bash .claude/scripts/memory-retrieve.sh "$description" "$task_type" "" 2>/dev/null) || memory_context=""
+fi
+
+# memory_context will be empty string if:
+# - clean_flag is true (skipped)
+# - memory-index.json missing or empty
+# - no keywords matched any entries
+# - script exited with error
 ```
+
+If `memory_context` is non-empty, it will be injected into the Stage 5 prompt alongside the format specification from Stage 4b. If empty, no memory block is injected.
+
+---
 
 ### Stage 4: Prepare Delegation Context
-
-Extract orchestrator_mode early:
-
-```bash
-orchestrator_mode=$(echo "$delegation_context" | jq -r '.orchestrator_mode // "false"' 2>/dev/null || echo "false")
-```
 
 **Prior plan discovery**: Find the latest existing plan file (if any) to pass as reference context.
 
 ```bash
-prior_plan_path=$(ls -1 "specs/${PADDED_NUM}_${PROJECT_NAME}/plans/"*.md 2>/dev/null | sort -V | tail -1)
+# Discover prior plan (if any)
+padded_num=$(printf "%03d" "$task_number")
+prior_plan_path=$(ls -1 "specs/${padded_num}_${project_name}/plans/"*.md 2>/dev/null | sort -V | tail -1)
 # prior_plan_path will be empty if no prior plans exist
 ```
 
@@ -88,99 +183,237 @@ Prepare delegation context for the subagent:
   "timeout": 1800,
   "task_context": {
     "task_number": N,
-    "task_name": "{PROJECT_NAME}",
-    "description": "{DESCRIPTION}",
-    "task_type": "{TASK_TYPE}"
+    "task_name": "{project_name}",
+    "description": "{description}",
+    "task_type": "{task_type}"
   },
-  "artifact_number": "{ARTIFACT_PADDED}",
-  "effort_flag": "{effort_flag or null}",
-  "model_flag": "{model_flag or null}",
-  "orchestrator_mode": false,
-  "roadmap_flag": "{roadmap_flag or false}",
+  "artifact_number": "{artifact_number from Stage 3a}",
+  "effort_flag": "{effort_flag from command, null if not set}",
+  "model_flag": "{model_flag from command, null if not set}",
+  "roadmap_flag": "{roadmap_flag from command, false if not set}",
   "research_path": "{path to research report if exists}",
-  "prior_plan_path": "{prior_plan_path or empty}",
+  "prior_plan_path": "{path to latest prior plan if exists}",
   "roadmap_path": "specs/ROADMAP.md",
-  "clean_flag": "{clean_flag}",
   "metadata_file_path": "specs/{NNN}_{SLUG}/.return-meta.json"
 }
 ```
 
-**Model/Effort Flags**: Pass `model_flag` as `model` parameter on the Agent tool if set. Include `effort_flag` as prompt context for reasoning depth if set.
+**Note**: The `artifact_number` field tells the agent which sequence number to use for artifact naming (e.g., `01`, `02`). Plan uses `(next_artifact_number - 1)` to share the same round as the preceding research.
+
+**Model/Effort Flags**: If `model_flag` is set (haiku, sonnet, opus), pass it as the `model` parameter on the Agent tool to override the agent's frontmatter default. If `effort_flag` is set (fast, hard), include it as prompt context for reasoning depth guidance.
+
+---
+
+### Stage 4b: Read and Inject Format Specification
+
+Read the plan format file and prepare it for injection into the subagent prompt. This ensures the subagent always has the full format specification in its context, regardless of whether it reads the file itself.
+
+```bash
+format_content=$(cat .claude/context/formats/plan-format.md)
+```
+
+The format content will be included as a delimited section in the Stage 5 prompt (see below).
+
+---
 
 ### Stage 5: Invoke Subagent
 
-**CRITICAL**: Use the **Agent** tool (`subagent_type: "planner-agent"`).
+**CRITICAL**: You MUST use the **Agent** tool to spawn the subagent.
 
-Build the prompt with these blocks in order:
-1. Delegation context JSON
-2. Task-specific instructions including:
-   - "Follow the plan format in @.claude/context/formats/plan-format.md"
-   - If `clean_flag` is not "true": "Run `bash .claude/scripts/memory-retrieve.sh '{DESCRIPTION}' '{TASK_TYPE}' ''` to retrieve relevant memories and incorporate them."
+**Required Tool Invocation**:
+```
+Tool: Agent (NOT Skill, NOT Plan)
+Parameters:
+  - subagent_type: "planner-agent"
+  - prompt: [Include task_context, delegation_context, research_path, metadata_file_path,
+             AND the format specification from Stage 4b as shown below]
+  - description: "Execute planning for task {N}"
+```
 
-**DO NOT** use `Skill(planner-agent)` or `Agent(subagent_type: "Plan")` — `Plan` is a built-in read-only subagent that CANNOT write files.
+**Format Injection**: Include the format specification from Stage 4b in the prompt as a clearly-delimited section:
+
+```
+<artifact-format-specification>
+## CRITICAL: Plan Format Requirements
+
+You MUST follow this format specification exactly when writing the plan artifact.
+Non-compliance will be caught by postflight validation.
+
+{format_content from Stage 4b}
+</artifact-format-specification>
+```
+
+Place this section AFTER the delegation context JSON and BEFORE any other instructions.
+
+**Memory Context Injection**: If `memory_context` from Stage 4a is non-empty, include it in the prompt as a separate block:
+
+```
+{memory_context from Stage 4a -- already wrapped in <memory-context> tags}
+```
+
+Place the memory context block AFTER the format specification and BEFORE the task-specific instructions. Do NOT inject an empty `<memory-context>` block when no memories were retrieved.
+
+**DO NOT** use `Skill(planner-agent)` - this will FAIL.
+
+The subagent will:
+- Load planning context files
+- Analyze task requirements and research
+- Decompose into logical phases
+- Identify risks and mitigations
+- Create plan in `specs/{NNN}_{SLUG}/plans/`
+- Write metadata to `specs/{NNN}_{SLUG}/.return-meta.json`
+- Return a brief text summary (NOT JSON)
+
+---
 
 ### Stage 5b: Self-Execution Fallback
 
-If you performed work WITHOUT using the Agent tool, write `.return-meta.json` with status `"planned"` before proceeding to postflight. If you used the Agent tool, skip this stage.
+**CRITICAL**: If you performed the work above WITHOUT using the Agent tool (i.e., you read files,
+wrote artifacts, or updated metadata directly instead of spawning a subagent), you MUST write a
+`.return-meta.json` file now before proceeding to postflight. Use the schema from
+`return-metadata-file.md` with status value `"planned"` and the appropriate artifact information.
+
+If you DID use the Agent tool (Stage 5), skip this stage -- the subagent already wrote the metadata.
 
 ---
 
 ## Postflight (ALWAYS EXECUTE)
 
-### Stage 6: Read Metadata File
+The following stages MUST execute after work is complete, whether the work was done by a
+subagent (Stage 5) or inline (Stage 5b). Do NOT skip these stages for any reason.
+
+### Stage 6: Parse Subagent Return (Read Metadata File)
+
+Read the metadata file:
 
 ```bash
-source .claude/scripts/skill-base.sh
-skill_read_metadata "$PADDED_NUM" "$PROJECT_NAME"
-# Exports: SUBAGENT_STATUS, ARTIFACT_PATH, ARTIFACT_TYPE, ARTIFACT_SUMMARY, MEMORY_CANDIDATES
+metadata_file="specs/${padded_num}_${project_name}/.return-meta.json"
+
+if [ -f "$metadata_file" ] && jq empty "$metadata_file" 2>/dev/null; then
+    status=$(jq -r '.status' "$metadata_file")
+    artifact_path=$(jq -r '.artifacts[0].path // ""' "$metadata_file")
+    artifact_type=$(jq -r '.artifacts[0].type // ""' "$metadata_file")
+    artifact_summary=$(jq -r '.artifacts[0].summary // ""' "$metadata_file")
+else
+    echo "Error: Invalid or missing metadata file"
+    status="failed"
+fi
 ```
+
+---
 
 ### Stage 6a: Validate Artifact Content
 
+If subagent status is "planned" and `artifact_path` is non-empty, validate the plan artifact against format requirements. This is **non-blocking** -- warnings are logged but do not prevent postflight from completing.
+
 ```bash
-skill_validate_artifact "$SUBAGENT_STATUS" "$ARTIFACT_PATH" "plan"
+if [ "$status" = "planned" ] && [ -n "$artifact_path" ] && [ -f "$artifact_path" ]; then
+    echo "Validating plan artifact..."
+    if ! bash .claude/scripts/validate-artifact.sh "$artifact_path" plan --fix; then
+        echo "WARNING: Plan artifact has format issues (non-blocking). Review output above."
+    fi
+fi
 ```
+
+**Note**: The `--fix` flag attempts auto-repair of missing metadata fields. Validation failures are logged but do not block status update or git commit.
+
+---
 
 ### Stage 7: Update Task Status (Postflight)
 
-```bash
-# Step 1: Update status
-skill_postflight_update "$task_number" "plan" "$session_id" "$SUBAGENT_STATUS" "$orchestrator_mode"
+If subagent status is "planned", update state.json and TODO.md atomically using the centralized script:
 
-# Step 2: Write orchestrator handoff (only if orchestrator_mode=true)
-skill_write_orchestrator_handoff "$orchestrator_mode" "$PADDED_NUM" "$PROJECT_NAME" \
-  "plan" "$SUBAGENT_STATUS" "$ARTIFACT_SUMMARY" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "implement"
+```bash
+bash .claude/scripts/update-task-status.sh postflight $task_number plan $session_id
 ```
 
-**On partial/failed**: `skill_postflight_update` skips non-success statuses — status remains "planning" for resume.
+If the script exits non-zero, log a warning but continue with artifact linking and git commit (postflight errors are non-blocking).
+
+**On partial/failed**: Keep status as "planning" for resume (do not call the script).
+
+---
 
 ### Stage 8: Link Artifacts
 
+Add artifact to state.json with summary.
+
+**IMPORTANT**: Use two-step jq pattern to avoid Issue #1132 escaping bug. See `jq-escaping-workarounds.md`.
+
 ```bash
-skill_link_artifacts "$task_number" "$ARTIFACT_PATH" "$ARTIFACT_TYPE" "$ARTIFACT_SUMMARY" '**Plan**' '**Description**'
+if [ -n "$artifact_path" ]; then
+    # Step 1: Filter out existing plan artifacts (use "| not" pattern to avoid != escaping - Issue #1132)
+    jq '(.active_projects[] | select(.project_number == '$task_number')).artifacts =
+        [(.active_projects[] | select(.project_number == '$task_number')).artifacts // [] | .[] | select(.type == "plan" | not)]' \
+      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+
+    # Step 2: Add new plan artifact
+    jq --arg path "$artifact_path" \
+       --arg type "$artifact_type" \
+       --arg summary "$artifact_summary" \
+      '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
+      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+fi
 ```
 
+**Update TODO.md**: Regenerate from state.json (state.json artifact update was done in the previous step):
+
+```bash
+bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
+```
+
+If the script exits non-zero, log a warning but continue (regeneration errors are non-blocking).
+
+---
+
+### Stage 8a: Lifecycle TTS Notification
+
+Fire TTS and WezTerm tab coloring after artifact linking is complete:
+
+```bash
+lifecycle_script=".claude/scripts/lifecycle-notify.sh"
+if [ -f "$lifecycle_script" ]; then
+    bash "$lifecycle_script" "$STATE_STATUS" &
+fi
+```
+
+Non-blocking: called in background after artifacts are linked. Speaks "Tab N STATUS"
+(e.g., "Tab 3 planned") to announce the lifecycle transition.
+
+---
+
 ### Stage 9: Git Commit
+
+Commit changes with session ID:
 
 ```bash
 git add -A
 git commit -m "task ${task_number}: create implementation plan
 
-Session: ${session_id}"
+Session: ${session_id}
 ```
+
+---
 
 ### Stage 10: Cleanup
 
+Remove marker and metadata files:
+
 ```bash
-skill_cleanup "$PADDED_NUM" "$PROJECT_NAME"
+rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
+rm -f "specs/${padded_num}_${project_name}/.postflight-loop-guard"
+rm -f "specs/${padded_num}_${project_name}/.return-meta.json"
 ```
+
+---
 
 ### Stage 11: Return Brief Summary
 
-Return a brief text summary (NOT JSON):
+Return a brief text summary (NOT JSON). Example:
+
 ```
 Plan created for task {N}:
 - {phase_count} phases defined, {estimated_hours} hours estimated
+- Key phases: {phase names}
 - Created plan at specs/{NNN}_{SLUG}/plans/MM_{short-slug}.md
 - Status updated to [PLANNED]
 - Changes committed
@@ -190,31 +423,84 @@ Plan created for task {N}:
 
 ## Error Handling
 
-- **Task not found or terminal state**: Exit immediately with error
-- **Metadata missing**: Keep status "planning", do not cleanup marker, report error
-- **Git commit failure**: Non-blocking (log and continue)
-- **jq parse failure** (Issue #1132): Log to errors.json, retry with two-step pattern (already in skill_link_artifacts)
-- **Subagent timeout**: Return partial; keep status "planning" for resume
+### Input Validation Errors
+Return immediately with error message if task not found or status invalid.
 
----
+### Metadata File Missing
+If subagent didn't write metadata file:
+1. Keep status as "planning"
+2. Do not cleanup postflight marker
+3. Report error to user
 
-## MUST NOT (Context Protection)
+### Git Commit Failure
+Non-blocking: Log failure but continue with success response.
 
-Before delegating to the subagent, MUST NOT load file content into the lead context for passthrough. Specifically:
+### jq Parse Failure
+If jq commands fail with INVALID_CHARACTER or syntax error (Issue #1132):
+1. Log to errors.json:
+```bash
+jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --arg sid "$session_id" \
+   --arg msg "jq parse error in postflight artifact linking" \
+   --argjson task "$task_number" \
+  '.errors += [{
+    "id": ("err_" + ($ts | gsub("[^0-9]"; ""))),
+    "timestamp": $ts,
+    "type": "jq_parse_failure",
+    "severity": "medium",
+    "message": $msg,
+    "context": {"session_id": $sid, "command": "/plan", "task": $task, "checkpoint": "GATE_OUT"},
+    "recovery": {"suggested_action": "Use two-step jq pattern from jq-escaping-workarounds.md", "auto_recoverable": true},
+    "fix_status": "unfixed"
+  }]' specs/errors.json > specs/tmp/errors.json && mv specs/tmp/errors.json specs/errors.json
+```
+2. Retry with two-step pattern (already implemented in Stage 8)
 
-1. **MUST NOT `cat` format spec files** -- pass `@.claude/context/formats/plan-format.md` reference to subagent instead
-2. **MUST NOT run `memory-retrieve.sh`** -- instruct subagent to run it in its own context
-
-**Context budget target**: Lead context growth above baseline should stay under ~400 tokens for preflight.
-
-Reference: @.claude/context/patterns/context-protective-lead.md
+### Subagent Timeout
+Return partial status if subagent times out (default 1800s).
+Keep status as "planning" for resume.
 
 ---
 
 ## MUST NOT (Postflight Boundary)
 
-After the agent returns, MUST NOT: edit source files, run build/test, use research tools, analyze task requirements, or write plan files.
+After the agent returns, this skill MUST NOT:
 
-Postflight is LIMITED TO: reading metadata, calling update-task-status.sh, linking artifacts, git commit, cleanup.
+1. **Edit source files** - All planning work is done by agent
+2. **Run build/test commands** - Verification is done by agent
+3. **Use research tools** - Web/codebase search is for agent use only
+4. **Analyze task requirements** - Analysis is agent work
+5. **Write plan files** - Artifact creation is agent work
+
+The postflight phase is LIMITED TO:
+- Reading agent metadata file
+- Updating status via `update-task-status.sh` (handles state.json + TODO.md atomically)
+- Linking artifacts in state.json
+- Git commit
+- Cleanup of temp/marker files
 
 Reference: @.claude/context/standards/postflight-tool-restrictions.md
+
+---
+
+## Return Format
+
+This skill returns a **brief text summary** (NOT JSON). The JSON metadata is written to the file and processed internally.
+
+Example successful return:
+```
+Plan created for task 414:
+- 5 phases defined, 2.5 hours estimated
+- Covers: agent structure, execution flow, error handling, examples, verification
+- Created plan at specs/414_create_planner_agent/plans/MM_{short-slug}.md
+- Status updated to [PLANNED]
+- Changes committed with session sess_1736700000_abc123
+```
+
+Example partial return:
+```
+Plan partially created for task 414:
+- 3 of 5 phases defined before timeout
+- Partial plan saved at specs/414_create_planner_agent/plans/MM_{short-slug}.md
+- Status remains [PLANNING] - run /plan 414 to complete
+```

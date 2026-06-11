@@ -43,10 +43,7 @@ Task management and agent orchestration for project development. For comprehensi
 - `[RESEARCHING]` -> `[RESEARCHED]` - Research phase
 - `[PLANNING]` -> `[PLANNED]` - Planning phase
 - `[IMPLEMENTING]` -> `[COMPLETED]` - Implementation phase
-- `[BLOCKED]`, `[PARTIAL]` - Exception states (non-terminal)
-- `[COMPLETED]`, `[ABANDONED]`, `[EXPANDED]` - Terminal states
-
-**Transition model**: Any command can run from any non-terminal status. Only terminal states (completed, abandoned, expanded) block transitions.
+- `[BLOCKED]`, `[ABANDONED]`, `[PARTIAL]`, `[EXPANDED]` - Terminal/exception states
 
 ### Artifact Paths
 ```
@@ -88,6 +85,8 @@ When an extension is loaded, its routing entries are merged into the command tab
 
 Extensions can declare dependencies on other extensions via the `dependencies` array in manifest.json. Dependencies are auto-loaded silently when the parent extension is loaded, with circular detection and a depth limit of 5. See `.claude/context/guides/extension-development.md` for details.
 
+Extensions may also declare lifecycle hooks in a top-level `hooks` object in `manifest.json` (distinct from `provides.hooks` which are file-copy targets). Hook scripts run at skill lifecycle stages (preflight, context_injection, verification, postflight) via `skill-base.sh`. See `.claude/docs/guides/creating-extensions.md#lifecycle-hooks` for the hook schema and execution contract.
+
 ## Command Reference
 
 All commands use checkpoint-based execution: GATE IN (preflight) -> DELEGATE (skill/agent) -> GATE OUT (postflight) -> COMMIT.
@@ -108,11 +107,11 @@ All commands use checkpoint-based execution: GATE IN (preflight) -> DELEGATE (sk
 | `/fix-it` | `/fix-it [PATH...]` | Scan for FIX:/NOTE:/TODO:/QUESTION: tags |
 | `/refresh` | `/refresh [--dry-run] [--force]` | Clean orphaned processes and old files |
 | `/tag` | `/tag [--patch|--minor|--major]` | Create semantic version tag (user-only) |
-| `/orchestrate` | `/orchestrate N[,N-N] [prompt]` | Drive task(s) autonomously through full lifecycle with dependency-aware wave dispatch |
+| `/orchestrate` | `/orchestrate N` | Drive task autonomously through full lifecycle (no confirmation gates) |
 | `/spawn` | `/spawn N [blocker description]` | Spawn new tasks to unblock a blocked task |
 | `/merge` | `/merge` | Create pull/merge request for current branch |
 
-**Multi-task syntax**: `/research`, `/plan`, and `/implement` accept multiple task numbers using commas and ranges (e.g., `/research 7, 22-24, 59`). Each task is dispatched to the appropriate skill in parallel (one skill per task, each skill delegates to its own agent). Flags like `--team` and `--force` apply to all tasks. `/orchestrate` also accepts multiple task numbers (e.g., `/orchestrate 42, 43-45`), but uses **dependency-aware wave dispatch** instead of pure parallel: tasks are topologically sorted by their `dependencies` field in state.json and executed wave-by-wave, with tasks within each wave running in parallel. See `.claude/context/patterns/multi-task-operations.md` for the full specification.
+**Multi-task syntax**: `/research`, `/plan`, and `/implement` accept multiple task numbers using commas and ranges (e.g., `/research 7, 22-24, 59`). Each task is processed by a separate agent in parallel. Flags like `--team` and `--force` apply to all tasks. See `.claude/context/patterns/multi-task-operations.md` for the full specification.
 
 ### Utility Scripts
 
@@ -486,8 +485,8 @@ This project includes Neovim configuration development support via the nvim exte
 
 | Skill | Agent | Model | Purpose |
 |-------|-------|-------|---------|
-| skill-neovim-research | neovim-research-agent | sonnet | Neovim/plugin research |
-| skill-neovim-implementation | neovim-implementation-agent | sonnet | Neovim configuration implementation |
+| skill-neovim-research | neovim-research-agent | opus | Neovim/plugin research |
+| skill-neovim-implementation | neovim-implementation-agent | - | Neovim configuration implementation |
 
 ### Rules
 

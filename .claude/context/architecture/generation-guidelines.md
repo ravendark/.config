@@ -161,7 +161,7 @@ session_id="sess_$(date +%s)_$(od -An -N3 -tx1 /dev/urandom | tr -d ' ')"
 
 ### 3. Invoke Subagent
 
-**CRITICAL**: Use the **Task** tool to spawn the subagent.
+**CRITICAL**: Use the **Agent** tool to spawn the subagent.
 
 ```
 Tool: Agent (NOT Skill, NOT Plan)

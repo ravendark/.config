@@ -44,10 +44,6 @@ the successor agent reads markdown prose.
     }
   ],
 
-  "phases_completed": 3,
-
-  "phases_total": 4,
-
   "blockers": [
     {
       "description": "What is blocking implementation — be specific enough that a research fork can investigate this without additional context",
@@ -107,19 +103,6 @@ The orchestrator reads this to understand cycle outcome without reading full art
 List of artifacts written by this cycle. The orchestrator uses these to populate delegation
 context for the next cycle (e.g., plan path for implement dispatch).
 
-### `phases_completed` (optional, integer, default 0)
-Number of implementation phases completed in this dispatch cycle. Written by `skill-implementer`
-postflight for both `implemented` and `partial` statuses. Zero when not applicable (research,
-plan, revise) or when the implementing agent did not track phases.
-
-### `phases_total` (optional, integer, default 0)
-Total number of implementation phases in the plan. Written by `skill-implementer` postflight
-alongside `phases_completed`. Zero when not applicable or not tracked.
-
-**Note**: When `status = "partial"`, `phases_completed`/`phases_total` appear both at the top
-level AND inside `continuation_context`. The top-level fields give the orchestrator immediate
-visibility; `continuation_context` preserves them for the successor agent dispatch.
-
 ### `blockers` (optional)
 Non-empty only when `status = "partial"` or `status = "blocked"`. Each blocker entry must
 contain enough context for a research fork to investigate without reading full artifacts.
@@ -162,7 +145,6 @@ Field-level budgets:
 |-------|-----------|
 | `summary` | ~100 |
 | `artifacts` (all entries) | ~50 |
-| `phases_completed` + `phases_total` | ~5 |
 | `blockers` (all entries) | ~100 |
 | `decisions_made` (all entries) | ~50 |
 | `dead_ends` (all entries) | ~50 |
@@ -299,8 +281,6 @@ during its state machine loop. It reads ONLY the 400-token handoff object.
   "artifacts": [
     {"type": "summary", "path": "specs/593_extract_shared_workflow_utilities/summaries/01_extraction-summary.md"}
   ],
-  "phases_completed": 3,
-  "phases_total": 3,
   "blockers": [],
   "next_action_hint": "none",
   "files_modified": [

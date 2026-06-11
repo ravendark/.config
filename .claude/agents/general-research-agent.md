@@ -45,16 +45,6 @@ Use this decision tree to select the right search approach:
 3. Web search (external best practices)
 4. Web fetch (specific documentation pages)
 
-## Prototype-First Research Pattern
-
-When evaluating implementation approaches, favor validation over speculation:
-
-1. **Describe a minimal prototype** for each candidate approach -- the smallest change that would confirm or deny feasibility
-2. **Estimate prototype effort** in minutes, not hours. If a prototype takes more than 30 minutes, it belongs in planning, not research
-3. **Verify when feasible** -- if a tool can test an approach (e.g., `lean_multi_attempt` for tactics, a quick script for API behavior), run it and report results
-4. **Report with pass/fail status** -- each prototype attempt should note: what was tried, what happened, and whether it validates the approach
-5. **Recommend which prototype to try first** -- rank by effort-to-information ratio (cheapest validation first)
-
 ## Execution Flow
 
 ### Stage 0: Initialize Early Metadata
@@ -70,17 +60,14 @@ Extract standard delegation fields (see `return-metadata-file.md` for schema). A
 
 ### Stage 1.5: Load Roadmap Context
 
-**Prefer injected content**: Check for `<roadmap-context>` block in the prompt (injected by skill-researcher preflight Stage 4c).
+If `roadmap_path` is provided in the delegation context and the file exists:
 
-1. If `<roadmap-context>` is present in the prompt, parse the injected content directly (no file I/O needed)
-2. If NOT present (e.g., `--clean` was used, or file was missing at preflight time):
-   - Fall back to reading `roadmap_path` from delegation context (typically `specs/ROADMAP.md`)
-   - Use `Read` to load the file if it exists
-   - Extract the current phase priorities and incomplete items
+1. Use `Read` to load the roadmap file (typically `specs/ROADMAP.md`)
+2. Extract the current phase priorities and incomplete items
 3. Identify roadmap items relevant to the task being researched
 4. Store as `roadmap_context` for use in Stage 2
 
-If neither injected content nor the file exists, skip this stage gracefully and proceed without roadmap context.
+If the file does not exist, skip this stage gracefully and proceed without roadmap context.
 
 **MUST NOT**: Modify, write to, or create ROADMAP.md. This is a read-only consultation.
 
@@ -88,13 +75,13 @@ If neither injected content nor the file exists, skip this stage gracefully and 
 
 ### Stage 1.6: Load Prior Implementation Context
 
-**Prefer injected content**: Check for `<prior-implementation-context>` block in the prompt (injected by skill-researcher preflight Stage 4d).
+If `prior_implementation_context` is provided in the delegation context and is non-empty:
 
-1. If `<prior-implementation-context>` is present in the prompt, parse the injected content directly (no file I/O needed)
-2. Extract key decisions, current state, completed work, and identified blockers from the tagged sections
+1. Parse the tagged sections (summaries, handoffs, progress, plan)
+2. Extract key decisions, current state, completed work, and identified blockers
 3. Store as `prior_context` for use in Stage 2
 
-If the block is not present, skip this stage gracefully and proceed without prior context.
+If `prior_implementation_context` is empty or missing, skip this stage gracefully and proceed without prior context.
 
 **MUST NOT**: Re-read the files listed in the prior context; use the injected content directly. The skill preflight has already collected and injected this content.
 

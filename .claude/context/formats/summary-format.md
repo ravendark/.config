@@ -16,10 +16,9 @@
 1. **Overview** – 2-3 sentences on scope and context.
 2. **What Changed** – bullets of key changes/deltas.
 3. **Decisions** – bullets of decisions made.
-4. **Plan Deviations** – bullets of plan steps skipped, altered, or deferred (use `- None (implementation followed plan)` when no deviations occurred).
-5. **Impacts** – bullets on downstream effects.
-6. **Follow-ups** – bullets with owners/due dates if applicable.
-7. **References** – paths to artifacts informing the summary.
+4. **Impacts** – bullets on downstream effects.
+5. **Follow-ups** – bullets with owners/due dates if applicable.
+6. **References** – paths to artifacts informing the summary.
 
 ## Writing Guidance
 - Keep concise (<= 1 page).
@@ -44,10 +43,6 @@
 
 ## Decisions
 - ...
-
-## Plan Deviations
-- **Task {P}.{N}** skipped: {reason}
-- **Task {P}.{N}** altered: {what changed and why}
 
 ## Impacts
 - ...

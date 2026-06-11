@@ -18,8 +18,6 @@ Planning agent for creating phased implementation plans from task descriptions a
 - `@.claude/CLAUDE.md` - Project configuration and conventions
 - `@.claude/context/patterns/context-discovery.md` - Use with agent=`planner-agent`, command=`/plan`
 - `@.claude/context/formats/roadmap-format.md` - Roadmap structure (when roadmap_path provided)
-- `@.claude/extensions/lean/context/project/lean4/standards/literature-fidelity-policy.md` - Literature fidelity for Lean tasks (when task_type is lean4)
-- `@.claude/extensions/formal/context/project/logic/standards/literature-fidelity-policy.md` - Literature fidelity for formal tasks (when task_type is formal)
 - Prior plan loaded at Stage 2a when `prior_plan_path` provided (reference only, not template)
 
 ## Execution Flow
@@ -81,39 +79,14 @@ If the file does not exist, skip this stage gracefully and proceed without roadm
 
 If `roadmap_flag` is `true` in the delegation context:
 
-1. **ROADMAP.md must exist** - If it was not loaded in Stage 2.5 (file missing), log a warning
-   and proceed without roadmap phases. The flag has no effect without an existing ROADMAP.md.
-2. When ROADMAP.md exists, the plan MUST include roadmap integration at three levels:
-
-   **a. First phase: "Roadmap Assessment and Initial Update"**
-   - Read current ROADMAP.md state and identify which items this task will advance
-   - Update items that can be confidently marked based on already-completed dependencies
-     or prior work (use `- [x]` with completion annotation `*(Completed: Task {N}, {DATE})*`)
-   - Add planning annotations for items that will be addressed in subsequent phases
-   - Record the before-state for final reconciliation
-
-   **b. Per-phase roadmap step in each core phase**
-   - Each core implementation phase MUST include a final checklist item:
-     `- [ ] Update ROADMAP.md: mark any items completed by this phase`
-   - The item should reference specific roadmap items when known at plan time
-   - Example: `- [ ] Update ROADMAP.md: mark "Agent frontmatter validation" complete`
-   - If a phase does not advance any roadmap items, the step reads:
-     `- [ ] Update ROADMAP.md: no items to update (verify)`
-
-   **c. Last phase: "Final ROADMAP.md Reconciliation"**
-   - Verify all completed items are properly annotated with
-     `*(Completed: Task {N}, {DATE})*`
-   - Add any new roadmap items discovered during implementation
-   - Update phase progress (count completed vs total items per phase)
-   - Ensure no items were missed by per-phase updates
-
-3. These roadmap phases wrap the core implementation phases. The dependency chain is:
-   roadmap-assessment (Phase 1) -> core phases (with per-phase roadmap steps) ->
-   roadmap-reconciliation (final phase, depends on all core phases)
+1. **ROADMAP.md must exist** - If it was not loaded in Stage 2.5 (file missing), log a warning and proceed without roadmap phases. The flag has no effect without an existing ROADMAP.md.
+2. When ROADMAP.md exists, the plan MUST include two additional phases:
+   - **First phase**: "Review and Snapshot ROADMAP.md" - Read current ROADMAP.md state, identify which items this task will advance, record the before-state for comparison
+   - **Last phase**: "Update ROADMAP.md" - Mark completed items with `- [x]` and completion annotation `*(Completed: Task {N}, {DATE})*`, add any new items discovered during implementation, update phase progress
+3. These roadmap phases wrap the core implementation phases. The dependency chain is: roadmap-review (Phase 1) -> core phases -> roadmap-update (final phase, depends on all core phases)
 4. All other plan construction proceeds as usual (Stages 3-5)
 
-If `roadmap_flag` is `false` or not present, skip this stage entirely. Plan construction is
-unchanged.
+If `roadmap_flag` is `false` or not present, skip this stage entirely. Plan construction is unchanged.
 
 ### Stage 3: Analyze Task Scope and Complexity
 
@@ -173,36 +146,6 @@ Apply task-breakdown.md guidelines:
    - Consider roadmap ordering when sequencing phases
    - Identify opportunities to advance adjacent roadmap items
 
-### Stage 4.5: Literature-Guided Phase Structuring
-
-When the task type is `lean4` or `formal` AND the research report or task description references a literature source (paper, textbook, proof sketch):
-
-1. **Extract the literature's proof structure** from the research report
-   - The lean-research-agent or formal-research-agent should have documented this in a "Literature Proof Structure" section
-   - If the research report includes a step-by-step map, use it directly
-   - If no structured extraction exists, read the relevant source and identify major proof steps
-
-2. **Mirror the literature's decomposition in plan phases**
-   - Each major literature step or proof section should correspond to a plan phase
-   - Do NOT reorganize the literature's structure into a "more efficient" ordering
-   - Do NOT merge multiple literature steps into one phase unless they are genuinely trivial
-   - Preserve the literature's lemma boundaries: if the source proves Lemma A then Lemma B then combines them, create separate phases for each
-
-3. **Label phases with literature references**
-   - Phase names should reference the source: "Phase 2: Prove completeness (Theorem 3.2 in [source])"
-   - Include the literature step number or section in each phase description
-   - This enables the implementation agent to trace each phase back to its source
-
-4. **Handle gaps between literature and formalization**
-   - If a literature step requires infrastructure not in the source (e.g., Lean type definitions, Mathlib imports), add a setup phase BEFORE the literature-mirroring phases
-   - If the literature omits "obvious" steps, add explicit phases for them with a note: "Implicit in [source], Step N"
-
-**When no literature source is referenced**, skip this stage entirely. Standard phase decomposition from Stage 4 applies.
-
-**Cross-references**:
-- Lean extension: `literature-fidelity-policy.md` (anti-patterns, escalation protocol)
-- Formal extension: `literature-fidelity-policy.md` (step translation protocol, domain-specific guidance)
-
 ### Stage 5: Create Plan File
 
 Create directory if needed:
@@ -245,10 +188,6 @@ Write plan file following plan-format.md structure:
 ### Roadmap Alignment
 
 {If roadmap was loaded: list roadmap items this plan advances. If no roadmap: "No ROADMAP.md found."}
-
-### Literature Source Mapping
-
-{If literature-guided (Stage 4.5 applied): table mapping each plan phase to its literature step/theorem/section. If not literature-guided: "No literature source referenced."}
 
 ## Goals & Non-Goals
 

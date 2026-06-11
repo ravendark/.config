@@ -133,7 +133,7 @@ build_graph() {
     select(.status == "completed" | not) |
     select(.status == "abandoned" | not) |
     select(.status == "expanded" | not) |
-    "\(.project_number)|\((.title // .description // .project_name) | ltrimstr(" ") | .[0:65])"
+    "\(.project_number)|\((.description // .project_name) | ltrimstr(" ") | .[0:65])"
   ' "$STATE_FILE" 2>/dev/null)
 
   # Load descriptions into task_desc map
@@ -414,11 +414,9 @@ generate_grouped_section() {
         _print_topic_node "$tn" 0
       fi
     done
-    # Print any remaining unvisited topic tasks that weren't reachable from roots.
-    # Check _globally_visited (not just _topic_section_visited) to avoid re-rendering
-    # tasks already shown as children in a prior topic section.
+    # Print any remaining unvisited topic tasks that weren't reachable from roots
     for tn in "${topic_tasks[@]}"; do
-      if [[ -z "${_topic_section_visited[$tn]+x}" && -z "${_globally_visited[$tn]+x}" ]]; then
+      if [[ -z "${_topic_section_visited[$tn]+x}" ]]; then
         _print_topic_node "$tn" 0
       fi
     done
@@ -481,6 +479,7 @@ _print_topic_node() {
   if [[ -n "${_globally_visited[$task_num]+x}" && "$depth" -gt 0 ]]; then
     local task_topic_val="${task_topic[$task_num]:-}"
     if [[ -n "$task_topic_val" && "$task_topic_val" != "$_current_section_topic" ]]; then
+      # Shorten desc to first 40 chars for cross-topic annotation
       local short_desc="${desc:0:40}"
       echo "${prefix}${task_num} [${status_display}] — (${task_topic_val}: ${short_desc}) (see above)"
     else
@@ -489,48 +488,21 @@ _print_topic_node() {
     return
   fi
 
-  # Collect cross-topic dependencies of this task for inline annotation
-  local -a cross_topic_deps=()
-  local deps="${task_deps[$task_num]:-}"
-  local dep_topic=""
-  if [[ -n "$deps" ]]; then
-    read -ra dep_array <<< "$deps"
-    for dep in "${dep_array[@]}"; do
-      [[ -z "$dep" ]] && continue
-      [[ -z "${task_status[$dep]+x}" ]] && continue
-      dep_topic="${task_topic[$dep]:-}"
-      if [[ -n "$_current_section_topic" && -n "$dep_topic" && "$dep_topic" != "$_current_section_topic" ]]; then
-        cross_topic_deps+=("$dep")
-      fi
-    done
-  fi
-
-  # Print task line with optional cross-topic dep annotation
-  local suffix=""
-  if [[ ${#cross_topic_deps[@]} -gt 0 ]]; then
-    local ct_list
-    ct_list=$(printf '%s, ' "${cross_topic_deps[@]}")
-    ct_list="${ct_list%, }"
-    suffix=" (dep: ${ct_list})"
-  fi
-  echo "${prefix}${task_num} [${status_display}] — ${desc}${suffix}"
+  echo "${prefix}${task_num} [${status_display}] — ${desc}"
   _topic_section_visited["$task_num"]=1
   _globally_visited["$task_num"]=1
 
-  # Recurse into same-topic successors only
-  local successors="${task_successors[$task_num]:-}"
-  if [[ -n "$successors" ]]; then
-    local sorted_succs
-    sorted_succs=$(echo "$successors" | tr ' ' '\n' | sort -n | tr '\n' ' ')
-    read -ra succ_array <<< "$sorted_succs"
-    for succ in "${succ_array[@]}"; do
-      [[ -z "$succ" ]] && continue
-      [[ -z "${task_status[$succ]+x}" ]] && continue
-      local succ_topic="${task_topic[$succ]:-}"
-      if [[ -n "$_current_section_topic" && -n "$succ_topic" && "$succ_topic" != "$_current_section_topic" ]]; then
-        continue
+  # Print this task's active successors (tasks that depend on this task, indented below)
+  local deps="${task_successors[$task_num]:-}"
+  if [[ -n "$deps" ]]; then
+    local sorted_deps
+    sorted_deps=$(echo "$deps" | tr ' ' '\n' | sort -n | tr '\n' ' ')
+    read -ra dep_array <<< "$sorted_deps"
+    for dep in "${dep_array[@]}"; do
+      [[ -z "$dep" ]] && continue
+      if [[ -n "${task_status[$dep]+x}" ]]; then
+        _print_topic_node "$dep" $((depth + 1))
       fi
-      _print_topic_node "$succ" $((depth + 1))
     done
   fi
 }
@@ -865,14 +837,7 @@ compute_connected_components
 if [[ -n "$GOAL_OVERRIDE" ]]; then
   GOAL_TEXT="$GOAL_OVERRIDE"
 elif [[ "$MODE" == "update" ]]; then
-  # For --update-todo: first check state.json active_goal, then fall back to existing TODO.md goal
-  GOAL_TEXT=$(jq -r '.active_goal // ""' "$STATE_FILE" 2>/dev/null || echo "")
-  if [[ -z "$GOAL_TEXT" ]]; then
-    GOAL_TEXT=$(read_existing_goal)
-  fi
-elif [[ "$MODE" == "print" ]]; then
-  # For --print: read active_goal from state.json
-  GOAL_TEXT=$(jq -r '.active_goal // ""' "$STATE_FILE" 2>/dev/null || echo "")
+  GOAL_TEXT=$(read_existing_goal)
 else
   GOAL_TEXT=""
 fi

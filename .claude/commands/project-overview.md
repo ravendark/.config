@@ -1,7 +1,7 @@
 ---
 description: Analyze repository and create task to generate project-overview.md
 allowed-tools: Skill
-model: sonnet
+model: opus
 ---
 
 # /project-overview Command

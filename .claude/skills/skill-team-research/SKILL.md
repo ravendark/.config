@@ -3,13 +3,15 @@ name: skill-team-research
 description: Orchestrate multi-agent research with wave-based parallel execution. Spawns 2-4 teammates for diverse investigation angles and synthesizes findings.
 allowed-tools: Agent, Bash, Edit, Read, Write
 # This skill uses Agent tool for team coordination (available when CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1)
-# Synthesis is delegated to synthesis-agent (runs in fresh context, reads all teammate files there)
-# Lead context stays under ~1,500 tokens above baseline; synthesis adds only the returned summary (~200 tokens)
+# Context loaded by lead during synthesis:
+#   - .claude/context/patterns/team-orchestration.md
+#   - .claude/context/formats/team-metadata-extension.md
+#   - .claude/context/reference/team-wave-helpers.md
 ---
 
 # Team Research Skill
 
-Multi-agent research with wave-based parallelization. Spawns 2-4 teammates to investigate complementary angles, then delegates synthesis to a named synthesis agent that reads teammate findings in its own fresh context.
+Multi-agent research with wave-based parallelization. Spawns 2-4 teammates to investigate complementary angles, then synthesizes findings into a unified report.
 
 **Task-Type-Aware Routing**: Teammates are spawned with task-type-appropriate prompts and tools. Meta tasks focus on .claude/ system patterns; general tasks use web search and codebase exploration.
 
@@ -17,11 +19,11 @@ Multi-agent research with wave-based parallelization. Spawns 2-4 teammates to in
 
 ## Context References
 
-Reference (load as needed):
+Reference (load as needed during synthesis):
 - Path: `.claude/context/patterns/team-orchestration.md` - Wave coordination patterns
 - Path: `.claude/context/formats/team-metadata-extension.md` - Team result schema
 - Path: `.claude/context/formats/return-metadata-file.md` - Base metadata schema
-- Path: `.claude/context/reference/team-wave-helpers.md` - Teammate prompt templates and synthesis dispatch template
+- Path: `.claude/context/reference/team-wave-helpers.md` - Reusable wave patterns
 
 ## Trigger Conditions
 
@@ -36,7 +38,7 @@ This skill activates when:
 |-----------|------|----------|-------------|
 | `task_number` | integer | Yes | Task to research |
 | `focus_prompt` | string | No | Optional focus for research |
-| `team_size` | integer | No | Number of teammates (2-4, default 3). Derived from effort flags when not explicitly set: `--fast` = 2, default = 3, `--hard` = 4. Explicit `--team-size N` overrides effort-derived value. |
+| `team_size` | integer | No | Number of teammates (2-4, default 2) |
 | `session_id` | string | Yes | Session ID for tracking |
 | `model_flag` | string | No | Model override (haiku, sonnet, opus). If set, use instead of default |
 | `effort_flag` | string | No | Effort level (fast, hard). Passed as prompt context |
@@ -49,7 +51,7 @@ This skill activates when:
 
 Validate required inputs:
 - `task_number` - Must exist in state.json
-- `team_size` - Derived from effort flags, overridable via `--team-size N`, clamped to [2, 4]
+- `team_size` - Clamp to range [2, 4], default 2
 
 ```bash
 # Lookup task
@@ -67,24 +69,8 @@ status=$(echo "$task_data" | jq -r '.status')
 project_name=$(echo "$task_data" | jq -r '.project_name')
 description=$(echo "$task_data" | jq -r '.description // ""')
 
-# Dynamic team sizing based on effort flags
-# Default: 3 (Primary + Alternatives + Critic); --fast: 2; --hard: 4
-if [ "$effort_flag" = "fast" ]; then
-  team_size=2
-elif [ "$effort_flag" = "hard" ]; then
-  team_size=4
-else
-  team_size=3
-fi
-
-# Explicit --team-size N override takes precedence over effort-derived value
-if [ -n "$user_team_size" ] && [ "$user_team_size" -gt 0 ] 2>/dev/null; then
-  team_size="$user_team_size"
-fi
-
-# Clamp to valid range [2, 4]
-[ "$team_size" -lt 2 ] && team_size=2
-[ "$team_size" -gt 4 ] && team_size=4
+# Team research always uses 4 teammates (Primary, Alternatives, Critic, Horizons)
+team_size=4
 ```
 
 ---
@@ -93,9 +79,19 @@ fi
 
 Update task status to "researching" BEFORE spawning teammates.
 
+**Update state.json**:
 ```bash
-bash .claude/scripts/update-task-status.sh preflight "$task_number" research "$session_id"
+jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --arg status "researching" \
+   --arg sid "$session_id" \
+  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
+    status: $status,
+    last_updated: $ts,
+    session_id: $sid
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
+
+**Update TODO.md**: Change status marker to `[RESEARCHING]`.
 
 ---
 
@@ -114,7 +110,7 @@ cat > "specs/${padded_num}_${project_name}/.postflight-pending" << EOF
   "task_number": ${task_number},
   "operation": "team-research",
   "team_size": ${team_size},
-  "reason": "Team research in progress: synthesis dispatch, status update, git commit pending"
+  "reason": "Team research in progress: synthesis, status update, git commit pending"
 }
 EOF
 ```
@@ -173,9 +169,9 @@ run_padded=$(printf "%02d" "$artifact_number")
 
 ---
 
-### Stage 5b: Task Type Routing and Domain Context Injection
+### Stage 5b: Task Type Routing Decision
 
-Determine task-type-specific configuration and inject domain context into teammate prompts:
+Determine task-type-specific configuration for teammate prompts:
 
 ```bash
 # Route by task type
@@ -197,75 +193,141 @@ teammate_model="${model_flag:-sonnet}"
 
 # Prepare model preference line for prompts (secondary guidance)
 model_preference_line="Model preference: Use Claude ${teammate_model^} 4.6 for this analysis."
-
-# Domain context injection: when task_type matches a loaded extension,
-# query index.json for domain agent context paths and available MCP tools.
-domain_context_section=""
-domain_agent_paths=$(jq -r --arg tt "$task_type" '
-  .entries[] | select(
-    any(.load_when.languages[]?; . == $tt) or
-    any(.load_when.task_types[]?; . == $tt)
-  ) | .path' .claude/context/index.json 2>/dev/null)
-
-if [ -n "$domain_agent_paths" ]; then
-  domain_context_section="## Domain Context
-
-The following domain-specific context files are relevant to this task type (${task_type}).
-Read them for domain-specific patterns, tools, and standards:
-
-$(echo "$domain_agent_paths" | while read -r p; do echo "- @.claude/context/$p"; done)
-
-Use domain-specific tools and search strategies described in these files."
-fi
-
-# Exploit/Explore mode detection
-research_mode="default"
-if [ "$EXPLOIT_FLAG" = "true" ]; then
-  research_mode="exploit"
-elif [ "$EXPLORE_FLAG" = "true" ]; then
-  research_mode="explore"
-fi
 ```
 
 ---
 
-### Stage 5: Spawn Wave 1 Research Teammates
+### Stage 5: Spawn Research Wave
 
-Create teammate prompts using templates from `.claude/context/reference/team-wave-helpers.md`
-(see "Team Research Teammate Prompts" section). Fill in placeholder values from Stage 5b:
-`{task_number}`, `{description}`, `{model_preference_line}`, `{domain_context_section}`,
-`{run_padded}`, `{NNN}`, `{SLUG}`, `{focus_prompt}`, `{roadmap_path}`.
+Create teammate prompts and spawn wave. Pass `artifact_number` and `teammate_letter` to each teammate.
 
-Apply mode-specific instruction variant based on `research_mode` (default/exploit/explore).
+**Delegation context for teammates**:
+```json
+{
+  "artifact_number": "{run_padded}",
+  "teammate_letter": "a",
+  "artifact_pattern": "{NN}_teammate-{letter}-findings.md",
+  "roadmap_path": "specs/ROADMAP.md"
+}
+```
 
-**Wave 1 conditional spawning based on `team_size`** (Critic excluded -- see Stage 6a):
-- **Teammate A** (Primary): Always spawned in Wave 1
-- **Teammate B** (Alternatives): Spawned in Wave 1 when team_size >= 3
-- **Teammate D** (Horizons): Spawned in Wave 1 when team_size >= 4
+**Teammate A - Primary Angle**:
+```
+Research task {task_number}: {description}
 
-Wave 1 composition:
-- `team_size == 2`: Spawn A only (Critic joins in Wave 2)
-- `team_size == 3`: Spawn A + B (Critic joins in Wave 2)
-- `team_size == 4`: Spawn A + B + D (Critic joins in Wave 2)
+{model_preference_line}
 
-**Spawn teammates using Agent tool** with `model: "${teammate_model}"`.
+Artifact number: {run_padded}
+Teammate letter: a
 
-**IMPORTANT**: Pass the `model` parameter to enforce model selection. The `model_preference_line`
-in prompts serves as secondary guidance only.
+Focus on implementation approaches and patterns.
+Challenge assumptions and provide specific examples.
+Consider {focus_prompt} if provided.
 
-**Synthesis uses base number without letter**: After all teammates complete, the synthesis report
-uses `{run_padded}_{slug}.md` (e.g., `01_team-research.md`).
+Output your findings to:
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-a-findings.md
+
+Format: Markdown with clear sections for:
+- Key Findings
+- Recommended Approach
+- Evidence/Examples
+- Confidence Level (high/medium/low)
+```
+
+**Teammate B - Alternative Approaches**:
+```
+Research task {task_number}: {description}
+
+{model_preference_line}
+
+Artifact number: {run_padded}
+Teammate letter: b
+
+Focus on alternative patterns and prior art.
+Look for existing solutions we could adapt.
+Do NOT duplicate Teammate A's focus on primary approaches.
+
+Output your findings to:
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-b-findings.md
+
+Format: Same as Teammate A
+```
+
+**Teammate C - Critic (always present)**:
+```
+Research task {task_number}: {description}
+
+{model_preference_line}
+
+Artifact number: {run_padded}
+Teammate letter: c
+
+You are the Critic. Your job is to identify gaps, shortcomings, and blind spots in the research.
+Focus on:
+- What assumptions haven't been validated?
+- What could the other researchers be missing or getting wrong?
+- Are there known limitations in the proposed approaches?
+- Is the task scope complete, or are there important aspects being overlooked?
+- What questions should be asked but aren't being asked?
+
+Do NOT duplicate risk analysis (implementation risks). Focus on research quality and completeness.
+
+Output your findings to:
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-c-findings.md
+
+Format: Same as Teammate A
+```
+
+**Teammate D - Horizons (always present)**:
+```
+Research task {task_number}: {description}
+
+{model_preference_line}
+
+Artifact number: {run_padded}
+Teammate letter: d
+
+You are the Horizons researcher. Your job is to think about long-term alignment and strategic direction.
+
+Read the project roadmap at {roadmap_path} (from delegation context) if it exists.
+If the roadmap file does not exist, contribute general strategic thinking about project direction.
+
+Focus on:
+- Does the proposed approach align with the project's long-term goals and priorities?
+- Are there opportunities to advance adjacent roadmap items simultaneously?
+- Could the task be scoped differently to better serve the project trajectory?
+- What creative or unconventional approaches might better serve the long-term vision?
+- What strategic challenges remain that this task could help address?
+
+Think outside the box. Challenge conventional approaches where a better path exists.
+
+Output your findings to:
+specs/{NNN}_{SLUG}/reports/{run_padded}_teammate-d-findings.md
+
+Format: Same as Teammate A
+```
 
 ---
 
-### Stage 6: Wait for Wave 1 Completion
+**Spawn teammates using Agent tool**.
 
-Wait for Wave 1 teammates (A, and optionally B, D) to complete or timeout:
+**IMPORTANT**: Pass the `model` parameter to enforce model selection:
+- Use `model: "${teammate_model}"` (from Stage 5b: model_flag if provided, otherwise "sonnet" as default)
+
+The `model_preference_line` in prompts serves as secondary guidance only. The `model` parameter on Agent tool is the enforced selection.
+
+**Synthesis uses base number without letter**: After all teammates complete, the synthesis report uses `{run_padded}_{slug}.md` (e.g., `01_team-research.md`).
+
+---
+
+### Stage 6: Wait for Wave Completion
+
+Wait for all teammates to complete or timeout:
 
 ```
 Timeout: 30 minutes for Wave 1
 
-While not all Wave 1 teammates complete and not timed out:
+While not all complete and not timed out:
   - Check teammate completion status
   - Collect completed results
   - Wait 30 seconds between checks
@@ -277,179 +339,146 @@ On timeout:
 
 ---
 
-### Stage 6a: Spawn Wave 2 Critic
+### Stage 7: Collect Teammate Results
 
-After Wave 1 completes, collect the output file paths from completed Wave 1 teammates and spawn
-the Critic. Use the Critic prompt template from `.claude/context/reference/team-wave-helpers.md`
-(see "Teammate C — Critic" template). Populate `{wave1_findings}` with the actual paths of
-completed Wave 1 output files.
+Read each teammate's output file using run-scoped paths:
 
 ```bash
-# Collect Wave 1 output paths
+teammate_results=[]
 padded_num=$(printf "%03d" "$task_number")
-wave1_findings=""
 
-for teammate in a b d; do
+for teammate in a b c d; do
+  # Use run-scoped path
   file="specs/${padded_num}_${project_name}/reports/${run_padded}_teammate-${teammate}-findings.md"
   if [ -f "$file" ]; then
-    wave1_findings="${wave1_findings}
-- ${file}"
+    # Parse findings
+    # Extract confidence level
+    # Check for conflicts with other teammates
+    teammate_results+=("...")
   fi
 done
 ```
 
-**Spawn Critic using Agent tool** with `model: "${teammate_model}"`.
+---
 
-Wait for Critic to complete (timeout: 15 minutes for Wave 2).
+### Stage 8: Synthesize Findings
 
-On timeout: Continue with Wave 1 results only; note missing Critic in synthesis dispatch.
+Lead synthesizes all teammate results:
+
+1. **Extract key findings** from each teammate
+2. **Detect conflicts** between findings
+3. **Resolve conflicts** with evidence-based judgment
+4. **Identify gaps** in coverage
+5. **Decide on Wave 2** if significant gaps exist (not implemented in v1)
+
+**Conflict Resolution**:
+- Compare findings across teammates
+- Log conflicts found
+- Make judgment call based on evidence strength
+- Document resolution reasoning
 
 ---
 
-### Stage 7: Collect Teammate Handoff Metadata
+### Stage 9: Create Unified Report
 
-After both Wave 1 and Wave 2 (Critic) complete, collect only the file paths of completed
-teammate finding files. Do NOT read the files themselves — this is delegated to synthesis-agent.
+Write synthesized report:
 
-```bash
-padded_num=$(printf "%03d" "$task_number")
-teammate_paths=()
+```markdown
+# Research Report: Task #{N}
 
-# Build teammate list based on team_size
-teammates=("a" "c")  # A (Primary) and C (Critic) always included
-if [ "$team_size" -ge 3 ]; then
-  teammates=("a" "b" "c")  # Add B (Alternatives)
-fi
-if [ "$team_size" -ge 4 ]; then
-  teammates=("a" "b" "c" "d")  # Add D (Horizons)
-fi
+**Task**: {title}
+**Date**: {ISO_DATE}
+**Mode**: Team Research ({team_size} teammates)
 
-completed_count=0
-failed_count=0
+## Summary
 
-for teammate in "${teammates[@]}"; do
-  file="specs/${padded_num}_${project_name}/reports/${run_padded}_teammate-${teammate}-findings.md"
-  if [ -f "$file" ]; then
-    teammate_paths+=("$file")
-    completed_count=$((completed_count + 1))
-  else
-    failed_count=$((failed_count + 1))
-  fi
-done
+{Synthesized summary of findings}
 
-# Build @-reference list for synthesis dispatch
-teammate_at_refs=""
-for path in "${teammate_paths[@]}"; do
-  teammate_at_refs="${teammate_at_refs}
-- @${path}"
-done
+## Key Findings
+
+### Primary Approach (from Teammate A)
+{Findings}
+
+### Alternative Approaches (from Teammate B)
+{Findings}
+
+### Gaps and Shortcomings (from Critic)
+{Findings}
+
+### Strategic Horizons (from Horizons)
+{Findings}
+
+## Synthesis
+
+### Conflicts Resolved
+{List of conflicts and how they were resolved}
+
+### Gaps Identified
+{List of any remaining gaps}
+
+### Recommendations
+{Synthesized recommendations}
+
+## Teammate Contributions
+
+| Teammate | Angle | Status | Confidence |
+|----------|-------|--------|------------|
+| A | Primary | completed | high |
+| B | Alternatives | completed | medium |
+| C | Critic | completed | high |
+| D | Horizons | completed | medium |
+
+## References
+
+{Sources cited by teammates}
 ```
 
-**Lead context growth from this stage**: ~100 tokens per teammate (file paths only, no content).
-
----
-
-### Stage 8: Dispatch Synthesis Agent
-
-Dispatch the synthesis agent with teammate file paths as @-references. The synthesis agent reads
-all finding files in its own fresh context. See dispatch template in
-`.claude/context/reference/team-wave-helpers.md` (see "Synthesis Agent Dispatch" section).
-
-Determine prior artifacts for the task (any prior reports or plans at
-`specs/{NNN}_{SLUG}/reports/` or `specs/{NNN}_{SLUG}/plans/` from previous rounds):
-
-```bash
-output_path="specs/${padded_num}_${project_name}/reports/${run_padded}_team-research.md"
-mkdir -p "specs/${padded_num}_${project_name}/reports/"
-```
-
-Dispatch:
-```
-Agent(
-  subagent_type: "synthesis-agent",
-  prompt: "Synthesize research for task {task_number}: {description}
-
-## Teammate Findings
-
-Read each of the following teammate finding files:
-{teammate_at_refs}
-
-## Context
-
-Task description: {description}
-Focus prompt: {focus_prompt}
-Research mode: {research_mode}
-Team size: {team_size}
-
-## Additional Context
-
-Read for task context:
-- @specs/TODO.md
-- @specs/ROADMAP.md (read if it exists; skip if not)
-
-## Output
-
-Write the unified research report to:
-{output_path}
-
-Follow the format in @.claude/context/formats/report-format.md
-
-## Return
-
-After writing the report, return a compact summary (under 200 words) with:
-- Top 3 unified findings
-- Conflicts resolved (count and brief description)
-- Gaps identified (count and brief description)
-- Overall confidence level (high/medium/low)
-- Full path to the written report",
-  model: "${teammate_model}",
-  timeout: 1200
-)
-```
-
-**On synthesis failure**: See Error Handling section below.
-
----
-
-### Stage 9: Record Synthesis Result
-
-Receive the compact summary (under 200 words) from the synthesis agent and extract:
-
-- `artifact_path`: The output path reported by the synthesis agent
-- `synthesis_summary`: The compact text summary
-- `confidence`: Overall confidence level (high/medium/low)
-
-Store these for postflight use. The lead does NOT read the unified report file.
-
-**Lead context growth from synthesis**: ~200 tokens (synthesis summary only).
-
-On synthesis failure (agent returned error or did not write the report):
-- Set `artifact_path` to the most complete raw teammate finding (prefer Teammate A)
-- Set `synthesis_failed = true` for postflight metadata
-- Continue to postflight with `partial` status
+Output to: `specs/{NNN}_{SLUG}/reports/{RR}_team-research.md`
 
 ---
 
 ### Stage 10: Update Status (Postflight)
 
-Update task status to "researched" using skill-base.sh functions:
+Update task status to "researched":
 
+**Update state.json** (includes incrementing `next_artifact_number`):
 ```bash
-source .claude/scripts/skill-base.sh
-
-# Step 1: Update status in state.json and TODO.md
-skill_postflight_update "$task_number" "research" "$session_id" "researched"
+# Step 1: Update status and timestamps
+jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --arg status "researched" \
+  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
+    status: $status,
+    last_updated: $ts,
+    researched: $ts
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 
 # Step 2: Increment next_artifact_number (team research advances the sequence)
-skill_increment_artifact_number "$task_number"
-
-# Step 3: Link synthesis artifact in state.json and TODO.md
-artifact_summary="Team research with ${team_size} teammates"
-skill_link_artifacts "$task_number" "$artifact_path" "research" "$artifact_summary" "'**Research**'" "'**Plan**'"
+jq '(.active_projects[] | select(.project_number == '$task_number')).next_artifact_number =
+    (((.active_projects[] | select(.project_number == '$task_number')).next_artifact_number // 1) + 1)' \
+  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
 
-**Note**: Team research (like single-agent research) is the only operation that increments
-`next_artifact_number`. Team plan and team implement use `(current - 1)` to stay in the same round.
+**Note**: Team research (like single-agent research) is the only operation that increments `next_artifact_number`. Team plan and team implement use `(current - 1)` to stay in the same "round".
+
+**Update TODO.md**: Change status marker from `[RESEARCHING]` to `[RESEARCHED]` via Edit tool.
+
+**Link artifact in state.json**:
+```bash
+padded_num=$(printf "%03d" "$task_number")
+jq --arg path "specs/${padded_num}_${project_name}/reports/${run_padded}_team-research.md" \
+   --arg type "research" \
+   --arg summary "Team research with ${team_size} teammates" \
+  '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
+  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+```
+
+**Regenerate TODO.md** from state.json (state.json artifact update was done in the step above):
+
+```bash
+bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
+```
+
+This regenerates TODO.md from state.json, automatically reflecting the newly linked artifact. If the script exits non-zero, log a warning but continue (regeneration errors are non-blocking).
 
 ---
 
@@ -470,17 +499,19 @@ Write team execution metadata:
   ],
   "team_execution": {
     "enabled": true,
-    "wave_count": 2,
+    "wave_count": 1,
     "teammates_spawned": {team_size},
     "teammates_completed": {completed_count},
     "teammates_failed": {failed_count},
     "token_usage_multiplier": 5.0,
     "degraded_to_single": false
   },
+  "teammate_results": [...],
   "synthesis": {
-    "agent": "synthesis-agent",
-    "confidence": "{confidence}",
-    "summary": "{synthesis_summary}"
+    "conflicts_found": {N},
+    "conflicts_resolved": {N},
+    "gaps_identified": {N},
+    "wave_2_triggered": false
   },
   "metadata": {
     "session_id": "{session_id}",
@@ -516,8 +547,9 @@ Session: ${session_id}
 Remove marker and temporary files:
 
 ```bash
-source .claude/scripts/skill-base.sh
-skill_cleanup "$padded_num" "$project_name"
+padded_num=$(printf "%03d" "$task_number")
+rm -f "specs/${padded_num}_${project_name}/.postflight-pending"
+rm -f "specs/${padded_num}_${project_name}/.return-meta.json"
 # Keep teammate findings files for reference
 ```
 
@@ -548,14 +580,13 @@ Team research completed for task {N}:
 
 ### Teammate Timeout
 - Continue with available results
-- Note timeout in synthesis dispatch (synthesis agent handles the missing file gracefully)
-- Mark result as partial if critical teammate missing (Teammate A)
+- Note timeout in synthesis
+- Mark result as partial if critical teammate missing
 
 ### Synthesis Failure
-- Preserve raw teammate findings (they are already on disk)
-- Set artifact_path to most complete raw finding (prefer Teammate A)
+- Preserve raw teammate findings
 - Mark status as partial
-- Log: "Synthesis failed: {reason}. Raw teammate findings preserved."
+- Provide raw findings to user
 
 ### Git Commit Failure
 - Non-blocking: log and continue
@@ -581,35 +612,22 @@ Team research completed for task 412:
 
 ---
 
-## MUST NOT (Context Protection)
+## MUST NOT (Postflight Boundary)
 
-The lead MUST NOT accumulate excessive context during synthesis or postflight. Specifically:
+After teammates complete and findings are synthesized, this skill MUST NOT:
 
-1. **Lead MUST NOT read teammate finding files** — delegate to synthesis-agent (Stage 8)
-2. **Lead MUST NOT perform synthesis analysis inline** — synthesis is done by synthesis-agent
-3. **Lead MUST NOT write the unified report** — synthesis-agent writes the report
-4. **Lead MUST NOT use WebSearch/WebFetch** — research tools are for teammate use only
-5. **Lead MUST NOT edit source files** — all research work is done by teammates
-6. **Lead MUST NOT run build/test commands** — verification is done by teammates
-7. **Lead MUST NOT analyze or grep source** — analysis is teammate work
+1. **Edit source files** - All research work is done by teammates
+2. **Run build/test commands** - Verification is done by teammates
+3. **Use WebSearch/WebFetch** - Research tools are for teammate use only
+4. **Analyze or grep source** - Analysis is teammate work
+5. **Write reports** - Artifact creation is done during synthesis, not postflight
 
 The postflight phase is LIMITED TO:
-- Reading teammate file paths (metadata only, not file content)
-- Dispatching synthesis-agent with file paths as @-references
-- Receiving compact synthesis summary (~200 words)
-- Updating state.json via skill-base.sh functions
-- Updating TODO.md status via skill-base.sh functions
+- Reading teammate metadata files
+- Updating state.json via jq
+- Updating TODO.md status marker via Edit
 - Linking artifacts in state.json
 - Git commit
 - Cleanup of temp/marker files
 
-**Context budget target**: Lead context growth above baseline should stay under 1,500 tokens
-for the full operation:
-- jq state extraction: ~200 tokens
-- Delegation context: ~500 tokens
-- Teammate handoff metadata (file paths): ~400 tokens
-- Synthesis summary returned: ~200 tokens
-- Routing overhead: ~200 tokens
-
-Reference: @.claude/context/patterns/context-protective-lead.md
 Reference: @.claude/context/standards/postflight-tool-restrictions.md

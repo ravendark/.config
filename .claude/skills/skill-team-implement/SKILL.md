@@ -92,9 +92,19 @@ team_size=${team_size:-2}
 
 Update task status to "implementing" BEFORE spawning teammates.
 
+**Update state.json**:
 ```bash
-bash .claude/scripts/update-task-status.sh preflight "$task_number" implement "$session_id"
+jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --arg status "implementing" \
+   --arg sid "$session_id" \
+  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
+    status: $status,
+    last_updated: $ts,
+    session_id: $sid
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
 ```
+
+**Update TODO.md**: Change status marker to `[IMPLEMENTING]`.
 
 ---
 
@@ -263,9 +273,9 @@ if waves is empty:
 
 ### Stage 7: Spawn Phase Implementers
 
-For each wave, spawn teammates for parallelizable phases (up to team_size). Pass the plan file as an @-reference so each teammate reads it in their own context. Do NOT read or extract plan content into the lead.
+For each wave, spawn teammates for parallelizable phases (up to team_size):
 
-> **CRITICAL: Plan Reference, Not Content** -- The lead MUST NOT extract `{phase_details}`, `{files_list}`, `{steps_from_plan}`, or `{verification_criteria}` from the plan file by reading it. Instead, instruct each phase implementer to read the plan at `@{plan_path}` and implement the specified phase number. Source file reading and codebase exploration remain the sub-agent's responsibility.
+> **CRITICAL: Template Population from Plan Text Only** -- All template variables (`{phase_details}`, `{files_list}`, `{steps_from_plan}`, `{verification_criteria}`) MUST be populated by extracting text from the plan file. The lead agent MUST NOT read source files, run grep/glob, or use MCP tools to populate these fields. The sub-agent will read source files after it is spawned.
 
 **Phase Implementer Prompt Template**:
 ```
@@ -273,19 +283,24 @@ Implement phase {P} of task {task_number}: {phase_name}
 
 {model_preference_line}
 
-## Plan
+## Plan Context
+{phase_details from plan}
 
-Read the full implementation plan at @{plan_path} and implement Phase {P}.
+## Files to Modify
+{files_list}
 
-Follow all steps, file modifications, and verification criteria defined for Phase {P} in the plan.
+## Steps
+{steps_from_plan}
+
+## Verification
+{verification_criteria}
 
 ## Instructions
-1. Read @{plan_path} to find Phase {P} details
-2. Read existing source files before modifying
-3. Execute steps in order as defined in the plan
-4. Verify completion with the criteria in the plan
-5. Update phase status in plan file to [COMPLETED]
-6. Write results to: specs/{NNN}_{SLUG}/phases/{RR}_phase-{P}-results.md
+1. Read existing files before modifying
+2. Execute steps in order
+3. Verify completion with criteria
+4. Update phase status in plan file to [COMPLETED]
+5. Write results to: specs/{NNN}_{SLUG}/phases/{RR}_phase-{P}-results.md
 
 ## On Error
 If build/test fails:
@@ -396,85 +411,97 @@ Session: ${session_id}
 
 ---
 
-### Stage 11: Delegate Summary Creation to Synthesis Agent
+### Stage 11: Create Implementation Summary
 
-After all waves complete, collect phase result file paths and dispatch a synthesis agent to write the implementation summary. Do NOT read phase result files into the lead.
+After all waves complete, write summary:
 
-```bash
-padded_num=$(printf "%03d" "$task_number")
-phase_result_paths=""
-for result_file in "specs/${padded_num}_${project_name}/phases/${run_padded}_phase-"*.md; do
-  if [ -f "$result_file" ]; then
-    phase_result_paths="${phase_result_paths}
-- @${result_file}"
-  fi
-done
+```markdown
+# Implementation Summary: Task #{N}
 
-summary_path="specs/${padded_num}_${project_name}/summaries/${run_padded}_implementation-summary.md"
-mkdir -p "specs/${padded_num}_${project_name}/summaries/"
+**Completed**: {ISO_DATE}
+**Mode**: Team Implementation ({team_size} max concurrent teammates)
+**Duration**: {time}
+
+## Wave Execution
+
+### Wave 1
+- Phase 1: {status} ({teammate})
+- Phase 2: {status} ({teammate})
+- Phase 3: {status} ({teammate})
+
+### Wave 2
+- Phase 4: {status} ({teammate})
+- Phase 5: {status} ({teammate})
+
+### Wave 3
+- Phase 6: {status} ({teammate})
+
+## Changes Made
+
+{Summary of changes from all phases}
+
+## Files Modified
+
+- `path/to/file` - {change description}
+
+## Verification
+
+- Build: {Pass/Fail}
+- Tests: {Pass/Fail/N/A}
+
+## Team Metrics
+
+| Metric | Value |
+|--------|-------|
+| Total phases | {N} |
+| Waves executed | {N} |
+| Max parallelism | {N} |
+| Debugger invocations | {N} |
+| Total teammates spawned | {N} |
+
+## Notes
+
+{Any issues, blockers, or follow-up items}
 ```
 
-Dispatch synthesis agent:
-
-```
-Agent(
-  subagent_type: "synthesis-agent",
-  prompt: "Create an implementation summary for task {task_number}: {description}
-
-## Phase Results
-
-Read each of the following phase result files:
-{phase_result_paths}
-
-## Context
-
-Plan: @{plan_path}
-Task description: {description}
-Waves executed: {wave_count}
-Max parallelism: {team_size}
-Debugger invocations: {debugger_count}
-
-## Output
-
-Write the implementation summary to:
-{summary_path}
-
-Follow the summary format in @.claude/context/formats/summary-format.md
-
-Include wave execution details, files modified, verification results, and team metrics.
-
-## Return
-
-After writing the summary, return a compact summary (under 200 words) with:
-- Overall outcome (phases completed/partial/blocked)
-- Key changes made
-- Verification status
-- Full path to the written summary",
-  model: "{teammate_model}",
-  timeout: 600
-)
-```
-
-Receive the compact summary from the synthesis agent. The lead does NOT read the summary file.
-
-On synthesis failure: Set `artifact_path` to empty and `synthesis_failed = true`.
+Output to: `specs/{NNN}_{SLUG}/summaries/{RR}_implementation-summary.md`
 
 ---
 
 ### Stage 12: Update Status (Postflight)
 
-Update task status to "implemented" using skill-base.sh functions:
+Update task status to "completed":
+
+**Update state.json**:
+```bash
+jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+   --arg status "completed" \
+  '(.active_projects[] | select(.project_number == '$task_number')) |= . + {
+    status: $status,
+    last_updated: $ts,
+    completed: $ts
+  }' specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+```
+
+**Update TODO.md**: Change status marker to `[COMPLETED]`.
+
+**Link artifact**:
+```bash
+padded_num=$(printf "%03d" "$task_number")
+jq --arg path "specs/${padded_num}_${project_name}/summaries/${run_padded}_implementation-summary.md" \
+   --arg type "summary" \
+   --arg summary "Team implementation with ${team_size} max concurrent teammates" \
+  '(.active_projects[] | select(.project_number == '$task_number')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
+  specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+```
+
+**Update TODO.md**: Regenerate from state.json (state.json artifact update was done in the previous step):
 
 ```bash
-source .claude/scripts/skill-base.sh
-
-# Step 1: Update status in state.json and TODO.md
-skill_postflight_update "$task_number" "implement" "$session_id" "implemented"
-
-# Step 2: Link synthesis artifact in state.json and TODO.md
-artifact_summary="Team implementation with ${team_size} max concurrent teammates"
-skill_link_artifacts "$task_number" "$summary_path" "summary" "$artifact_summary" "'**Summary**'" "'**Description**'"
+bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
 ```
+
+If the script exits non-zero, log a warning but continue (regeneration errors are non-blocking).
 
 ---
 
@@ -626,35 +653,6 @@ Team implementation partially completed for task 412:
 
 ---
 
-## MUST NOT (Context Protection)
-
-The lead MUST NOT accumulate excessive context during phase coordination or summary creation. Specifically:
-
-1. **Lead MUST NOT read plan content for injection** -- pass `@{plan_path}` reference to phase implementers
-2. **Lead MUST NOT read phase result files** -- delegate to synthesis-agent (Stage 11)
-3. **Lead MUST NOT write the implementation summary** -- synthesis-agent writes the summary
-4. **Lead MUST NOT perform inline analysis of phase results** -- synthesis is done by synthesis-agent
-
-The postflight phase is LIMITED TO:
-- Collecting phase result file paths (not content)
-- Dispatching synthesis-agent with file paths as @-references
-- Receiving compact synthesis summary (~200 words)
-- Updating state.json via skill-base.sh functions
-- Updating TODO.md status via skill-base.sh functions
-- Linking artifacts in state.json
-- Git commit
-- Cleanup of temp/marker files
-
-**Context budget target**: Lead context growth above baseline should stay under ~800 tokens:
-- jq state extraction: ~200 tokens
-- Phase result file paths: ~200 tokens
-- Synthesis summary returned: ~200 tokens
-- Routing overhead: ~200 tokens
-
-Reference: @.claude/context/patterns/context-protective-lead.md
-
----
-
 ## MUST NOT (Postflight Boundary)
 
 After teammates complete phase execution -- whether with status implemented, partial, or failed -- this skill MUST proceed immediately to postflight operations. The skill MUST NOT:
@@ -663,9 +661,17 @@ After teammates complete phase execution -- whether with status implemented, par
 2. **Run build/test commands** - Verification is done by teammates
 3. **Use MCP tools** - Domain tools are for teammate use only
 4. **Analyze or grep source** - Analysis is teammate work
-5. **Write summary/reports** - Summary creation is delegated to synthesis-agent (Stage 11)
+5. **Write summary/reports** - Artifact creation is done by teammates
 
 > **PROHIBITION**: If a teammate returned partial or failed status, the lead skill MUST NOT attempt to continue, complete, or "fill in" the teammate's work. Report the partial/failed status and let the user re-run `/implement` to resume.
+
+The postflight phase is LIMITED TO:
+- Reading teammate metadata files
+- Updating state.json via jq
+- Updating TODO.md status marker via Edit
+- Linking artifacts in state.json
+- Git commit
+- Cleanup of temp/marker files
 
 Reference: @.claude/context/standards/postflight-tool-restrictions.md
 
@@ -682,7 +688,8 @@ Before spawning phase implementer teammates, this skill MUST NOT:
 5. **Run build or test commands** - Verification is done by sub-agents
 
 The pre-delegation phase is LIMITED TO:
-- Extracting task state via `jq` (NOT reading the full state.json or TODO.md)
-- Extracting phase dependency metadata from plan text (phase numbers, depends-on fields only)
-- Passing `@{plan_path}` reference to phase implementers (NOT reading plan content into lead)
+- Reading the plan file to extract phases, dependencies, and template variables
+- Reading state.json and TODO.md for status updates
+- Parsing phase dependency graphs from plan text
+- Populating prompt templates with plan-extracted content
 - Spawning sub-agents with delegation context

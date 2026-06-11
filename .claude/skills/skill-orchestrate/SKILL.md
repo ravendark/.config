@@ -158,21 +158,6 @@ DRIFT_COMPLETION_THRESHOLD=0.70
 DRIFT_REVISION_THRESHOLD=0.30
 ```
 
-### Stage 2.5: Reconciliation Preflight
-
-Detect tasks stuck in in-flight states with completed artifacts (agent crashed before postflight).
-Runs after the loop guard is initialized and before the state machine loop, so promoted statuses
-are visible on the first cycle.
-
-```bash
-echo "[orchestrate] Stage 2.5: Running reconciliation preflight for task $task_number..."
-bash .claude/scripts/reconcile-task-status.sh "$task_number" "$session_id" && \
-  echo "[orchestrate] Reconciliation preflight complete" || \
-  echo "[orchestrate] WARNING: Reconciliation preflight encountered an error (non-fatal)"
-```
-
----
-
 ### Stage 3: State Machine Loop
 
 The loop runs until a terminal condition is reached or MAX_CYCLES is hit.
@@ -212,15 +197,10 @@ jq --arg state "$current_status" \
 
 Dispatch research via named subagent (resolved by task type in Stage 1b).
 
-```bash
-# Preflight: mark task as RESEARCHING before dispatch
-bash .claude/scripts/update-task-status.sh preflight "$task_number" "research" "$session_id"
-```
-
 ```
 dispatch_instructions = dispatch_agent "$RESEARCH_AGENT" \
   "Research task $task_number: $DESCRIPTION${focus_prompt:+. User focus: $focus_prompt}" \
-  '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": true}' \
+  '{"task_number": N, "task_type": "T", "session_id": "S", "orchestrator_mode": false}' \
   "false"
 ```
 
@@ -242,17 +222,12 @@ EXIT (partial)
 
 Dispatch planning via named subagent.
 
-```bash
-# Preflight: mark task as PLANNING before dispatch
-bash .claude/scripts/update-task-status.sh preflight "$task_number" "plan" "$session_id"
-```
-
 ```
 research_artifacts=$(jq -c '[.active_projects[] | select(.project_number == N) | .artifacts // [] | .[] | select(.type == "report")] | .[0].path // ""' specs/state.json)
 
 dispatch_instructions = dispatch_agent "planner-agent" \
   "Create implementation plan for task $task_number${focus_prompt:+. User focus: $focus_prompt}" \
-  '{"task_number": N, "task_type": "T", "session_id": "S", "research_artifacts": [...], "orchestrator_mode": true}' \
+  '{"task_number": N, "task_type": "T", "session_id": "S", "research_artifacts": [...], "orchestrator_mode": false}' \
   "false"
 ```
 
@@ -270,11 +245,6 @@ Dispatch implement via named subagent with `orchestrator_mode: true` (resolved b
 
 ```bash
 plan_path=$(ls -1 "${TASK_DIR}/plans/"*.md 2>/dev/null | sort -V | tail -1)
-```
-
-```bash
-# Preflight: mark task as IMPLEMENTING before dispatch
-bash .claude/scripts/update-task-status.sh preflight "$task_number" "implement" "$session_id"
 ```
 
 ```
@@ -303,11 +273,6 @@ blocker_count=$(echo "$blockers" | jq 'length')
 **Sub-state: continuation available** (continuation != null AND has handoff_path):
 
 Dispatch implement with continuation context (resolved by task type in Stage 1b).
-
-```bash
-# Preflight: mark task as IMPLEMENTING before resume dispatch
-bash .claude/scripts/update-task-status.sh preflight "$task_number" "implement" "$session_id"
-```
 
 ```
 dispatch_instructions = dispatch_agent "$IMPLEMENT_AGENT" \
@@ -403,36 +368,44 @@ else
   # Postflight status update: trigger state.json + TODO.md Task Order regeneration
   case "$dispatch_status" in
     researched)
-      bash .claude/scripts/update-task-status.sh postflight "$task_number" "research" "$session_id"
+      skill_postflight_update "$task_number" "research" "$session_id" "$dispatch_status"
       ;;
     planned)
-      bash .claude/scripts/update-task-status.sh postflight "$task_number" "plan" "$session_id"
+      skill_postflight_update "$task_number" "plan" "$session_id" "$dispatch_status"
       ;;
     implemented)
-      bash .claude/scripts/update-task-status.sh postflight "$task_number" "implement" "$session_id"
+      skill_postflight_update "$task_number" "implement" "$session_id" "$dispatch_status"
       ;;
     *)
       echo "[orchestrate] Dispatch status '$dispatch_status' — no postflight update needed"
       ;;
   esac
 
-  # Artifact linking: extract from handoff and link in state.json + TODO.md
-  artifact_path=$(echo "$handoff" | jq -r '.artifacts[0].path // ""')
-  artifact_type=$(echo "$handoff" | jq -r '.artifacts[0].type // ""')
-  artifact_summary=$(echo "$handoff" | jq -r '.artifacts[0].summary // ""')
-  if [ -n "$artifact_path" ] && [ "$artifact_path" != "null" ]; then
-    # Step 1: Remove existing artifacts of same type (Issue #1132-safe pattern)
-    mkdir -p specs/tmp
-    jq --arg atype "$artifact_type" \
-      '(.active_projects[] | select(.project_number == '"$task_number"')).artifacts =
-        [(.active_projects[] | select(.project_number == '"$task_number"')).artifacts // [] | .[] | select(.type == $atype | not)]' \
-      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-    # Step 2: Add new artifact entry
-    jq --arg path "$artifact_path" --arg type "$artifact_type" --arg summary "$artifact_summary" \
-      '(.active_projects[] | select(.project_number == '"$task_number"')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
-      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-    # Step 3: Regenerate TODO.md from state.json (replaces link-artifact-todo.sh)
-    bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
+  # Artifact linking: extract artifact path/type from handoff and link in TODO.md + state.json
+  handoff_artifact_path=$(echo "$handoff" | jq -r '.artifacts[0].path // ""')
+  handoff_artifact_type=$(echo "$handoff" | jq -r '.artifacts[0].type // ""')
+  handoff_artifact_summary=$(echo "$handoff" | jq -r '.artifacts[0].summary // ""')
+  if [ -n "$handoff_artifact_path" ] && [ "$handoff_artifact_path" != "null" ]; then
+    case "$handoff_artifact_type" in
+      report)
+        field_name='**Research**'
+        next_field='**Plan**'
+        ;;
+      plan)
+        field_name='**Plan**'
+        next_field='**Description**'
+        ;;
+      summary)
+        field_name='**Summary**'
+        next_field='**Description**'
+        ;;
+      *)
+        field_name='**Summary**'
+        next_field='**Description**'
+        ;;
+    esac
+    skill_link_artifacts "$task_number" "$handoff_artifact_path" "$handoff_artifact_type" \
+      "$handoff_artifact_summary" "$field_name" "$next_field"
   fi
 fi
 
@@ -586,9 +559,6 @@ blocker_escalation() {
     '{"task_number": $num, "session_id": $session_id,
       "orchestrator_mode": true,
       "plan_path": $plan_path}')
-  # Preflight: mark task as IMPLEMENTING before re-dispatch
-  bash .claude/scripts/update-task-status.sh preflight "$task_number" "implement" "$session_id"
-
   dispatch_agent "$IMPLEMENT_AGENT" \
     "Implement task $task_number following the revised plan${focus_prompt:+. User focus: $focus_prompt}" \
     "$implement_context" "false"
@@ -750,15 +720,7 @@ for task_num in $(echo "$task_numbers_json" | jq -r '.[]'); do
   echo "[orchestrate-mt] Task $task_num: type=$ttype dir=$task_dir research=$r_agent implement=$i_agent"
 done
 
-# Reconciliation preflight: promote any tasks stuck in in-flight states with completed artifacts
-echo "[orchestrate-mt] Running reconciliation preflight for $task_count tasks..."
-for task_num in $(echo "$task_numbers_json" | jq -r '.[]'); do
-  bash .claude/scripts/reconcile-task-status.sh "$task_num" "${session_id}_${task_num}" || \
-    echo "[orchestrate-mt] WARNING: Reconciliation for task $task_num encountered an error (non-fatal)"
-done
-echo "[orchestrate-mt] Reconciliation preflight complete"
-
-# Read current status for each task (after reconciliation, so promoted statuses are visible)
+# Read current status for each task
 declare -A current_statuses
 for task_num in $(echo "$task_numbers_json" | jq -r '.[]'); do
   status=$(jq -r --argjson num "$task_num" \
@@ -950,11 +912,8 @@ for task_num in "${research_tasks[@]}"; do
     --argjson num "$task_num" \
     --arg task_type "$task_type" \
     --arg session_id "${session_id}_${task_num}" \
-    '{"task_number": $num, "task_type": $task_type, "session_id": $session_id, "orchestrator_mode": true}')
+    '{"task_number": $num, "task_type": $task_type, "session_id": $session_id, "orchestrator_mode": false}')
   
-  # Preflight: mark task as RESEARCHING before dispatch
-  bash .claude/scripts/update-task-status.sh preflight "$task_num" "research" "${session_id}_${task_num}"
-
   # Invoke Agent tool: subagent_type=$r_agent
   # Dispatch: dispatch_agent "$r_agent" "Research task $task_num: $description" "$dispatch_context" "false"
   echo "[orchestrate-mt] Dispatching research for task $task_num -> $r_agent"
@@ -975,11 +934,8 @@ for task_num in "${plan_tasks[@]}"; do
     --arg session_id "${session_id}_${task_num}" \
     --argjson research_artifacts "[$research_artifacts]" \
     '{"task_number": $num, "task_type": $task_type, "session_id": $session_id,
-      "research_artifacts": $research_artifacts, "orchestrator_mode": true}')
+      "research_artifacts": $research_artifacts, "orchestrator_mode": false}')
   
-  # Preflight: mark task as PLANNING before dispatch
-  bash .claude/scripts/update-task-status.sh preflight "$task_num" "plan" "${session_id}_${task_num}"
-
   # Invoke Agent tool: subagent_type=planner-agent
   echo "[orchestrate-mt] Dispatching planning for task $task_num -> planner-agent"
 done
@@ -1008,9 +964,6 @@ for task_num in "${implement_tasks[@]}"; do
     '{"task_number": $num, "task_type": $task_type, "session_id": $session_id,
       "orchestrator_mode": true, "plan_path": $plan_path, "continuation_context": $continuation}')
   
-  # Preflight: mark task as IMPLEMENTING before dispatch
-  bash .claude/scripts/update-task-status.sh preflight "$task_num" "implement" "${session_id}_${task_num}"
-
   # Invoke Agent tool: subagent_type=$i_agent
   echo "[orchestrate-mt] Dispatching implement for task $task_num -> $i_agent"
 done
@@ -1037,15 +990,15 @@ for task_num in "${research_tasks[@]}" "${plan_tasks[@]}" "${implement_tasks[@]}
   case "$dispatch_status" in
     researched)
       operation="research"
-      bash .claude/scripts/update-task-status.sh postflight "$task_num" "research" "${session_id}_${task_num}"
+      skill_postflight_update "$task_num" "research" "${session_id}_${task_num}" "$dispatch_status"
       ;;
     planned)
       operation="plan"
-      bash .claude/scripts/update-task-status.sh postflight "$task_num" "plan" "${session_id}_${task_num}"
+      skill_postflight_update "$task_num" "plan" "${session_id}_${task_num}" "$dispatch_status"
       ;;
     implemented)
       operation="implement"
-      bash .claude/scripts/update-task-status.sh postflight "$task_num" "implement" "${session_id}_${task_num}"
+      skill_postflight_update "$task_num" "implement" "${session_id}_${task_num}" "$dispatch_status"
       ;;
     *)
       operation="unknown"
@@ -1053,23 +1006,31 @@ for task_num in "${research_tasks[@]}" "${plan_tasks[@]}" "${implement_tasks[@]}
       ;;
   esac
   
-  # Artifact linking: extract from handoff and link in state.json + TODO.md
-  artifact_path=$(echo "$handoff" | jq -r '.artifacts[0].path // ""')
-  artifact_type=$(echo "$handoff" | jq -r '.artifacts[0].type // ""')
-  artifact_summary=$(echo "$handoff" | jq -r '.artifacts[0].summary // ""')
-  if [ -n "$artifact_path" ] && [ "$artifact_path" != "null" ]; then
-    # Step 1: Remove existing artifacts of same type (Issue #1132-safe pattern)
-    mkdir -p specs/tmp
-    jq --arg atype "$artifact_type" \
-      '(.active_projects[] | select(.project_number == '"$task_num"')).artifacts =
-        [(.active_projects[] | select(.project_number == '"$task_num"')).artifacts // [] | .[] | select(.type == $atype | not)]' \
-      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-    # Step 2: Add new artifact entry
-    jq --arg path "$artifact_path" --arg type "$artifact_type" --arg summary "$artifact_summary" \
-      '(.active_projects[] | select(.project_number == '"$task_num"')).artifacts += [{"path": $path, "type": $type, "summary": $summary}]' \
-      specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-    # Step 3: Regenerate TODO.md from state.json (replaces link-artifact-todo.sh)
-    bash .claude/scripts/generate-todo.sh || echo "WARNING: generate-todo.sh failed (non-fatal)" >&2
+  # Artifact linking (same logic as single-task Stage 5)
+  handoff_artifact_path=$(echo "$handoff" | jq -r '.artifacts[0].path // ""')
+  handoff_artifact_type=$(echo "$handoff" | jq -r '.artifacts[0].type // ""')
+  handoff_artifact_summary=$(echo "$handoff" | jq -r '.artifacts[0].summary // ""')
+  if [ -n "$handoff_artifact_path" ] && [ "$handoff_artifact_path" != "null" ]; then
+    case "$handoff_artifact_type" in
+      report)
+        field_name='**Research**'
+        next_field='**Plan**'
+        ;;
+      plan)
+        field_name='**Plan**'
+        next_field='**Description**'
+        ;;
+      summary)
+        field_name='**Summary**'
+        next_field='**Description**'
+        ;;
+      *)
+        field_name='**Summary**'
+        next_field='**Description**'
+        ;;
+    esac
+    skill_link_artifacts "$task_num" "$handoff_artifact_path" "$handoff_artifact_type" \
+      "$handoff_artifact_summary" "$field_name" "$next_field"
   fi
   
   # Update multi-state current_statuses and move to completed/failed as appropriate
