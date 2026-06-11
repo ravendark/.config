@@ -516,35 +516,47 @@ next_num=$(jq -r '.next_project_number' specs/state.json)
 slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | cut -c1-40)
 ```
 
-**3. Infer topic from file path and description:**
+**3. Infer topic from file path, then confirm via Mode C suggest-wrap:**
 
-Use extension-aware path matching to assign topic before writing state.json:
+Use extension-aware path matching to infer topic, then present a 3-option confirm:
 
 ```bash
-# Read active_topics from state.json
-active_topics=$(jq -r '.active_topics // [] | .[]' specs/state.json)
-
 # Path heuristic (extension-aware)
 inferred_topic=""
 if echo "$file_path" | grep -qE "^\.claude/|^specs/"; then
-  # Agent-system files: check if "meta" or "agent-system" is in active_topics
-  for t in $active_topics; do
-    case "$t" in meta|agent-system) inferred_topic="$t"; break;; esac
-  done
+  inferred_topic="agent-system"
 elif echo "$file_path" | grep -qE "^lua/|^after/"; then
-  # Neovim Lua files: check active_topics for neovim-related topics
-  for t in $active_topics; do
-    case "$t" in *neovim*|*nvim*|*lua*) inferred_topic="$t"; break;; esac
-  done
+  inferred_topic="neovim"
+elif echo "$file_path" | grep -qE "^home/|^modules/"; then
+  inferred_topic="nix-config"
 fi
-# Fallback: no topic assigned (inferred_topic remains "")
 ```
+
+If `inferred_topic` is non-empty, show Mode C confirm via AskUserQuestion:
+```json
+{
+  "question": "Topic for this task?",
+  "header": "Topic Confirm",
+  "multiSelect": false,
+  "options": [
+    {"label": "Accept: {inferred_topic}", "description": "Use auto-inferred topic"},
+    {"label": "Override...", "description": "Enter a different topic name"},
+    {"label": "Skip (no topic)", "description": "Create task without a topic"}
+  ]
+}
+```
+
+- If user selects "Accept: {inferred_topic}" → `topic="$inferred_topic"`
+- If user selects "Override..." → show free-text follow-up: `{"question": "Enter topic name (lowercase, kebab-case):"}` and capture result as `topic`
+- If user selects "Skip (no topic)" → `topic=""`
+
+If `inferred_topic` is empty, skip confirm entirely and set `topic=""`.
 
 **4. Add task to state.json:**
 ```bash
 jq --arg num "$next_num" --arg slug "$slug" --arg title "$title" \
    --arg desc "$description" --arg tt "$task_type" --arg prio "$priority" \
-   --arg topic "$inferred_topic" \
+   --arg topic "$topic" \
    '.active_projects += [{
      "project_number": ($num | tonumber),
      "project_name": $slug,
@@ -557,6 +569,15 @@ jq --arg num "$next_num" --arg slug "$slug" --arg title "$title" \
    } | if .topic == null then del(.topic) else . end] |
    .next_project_number = (($num | tonumber) + 1)' \
    specs/state.json > specs/state.json.tmp && mv specs/state.json.tmp specs/state.json
+```
+
+**4b. Update active_topics via manage-topics.sh** (after task entry exists in state.json):
+```bash
+# Assign topic to the newly created task and add to active_topics (non-blocking)
+if [[ -n "$topic" ]]; then
+  bash .claude/scripts/manage-topics.sh set "$next_num" "$topic" \
+    2>/dev/null || echo "Warning: manage-topics.sh set failed for task $next_num (non-fatal)" >&2
+fi
 ```
 
 **5. Regenerate TODO.md** from state.json after all task state.json writes complete:

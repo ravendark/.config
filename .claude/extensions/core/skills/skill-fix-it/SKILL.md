@@ -448,10 +448,41 @@ current=$(cat specs/state.json)
 # Step 2: Use jq with slurpfile
 ```
 
-**Topic Auto-Inference**: Before writing each task entry, infer topic from file path and description:
-- Tags from `.claude/` files or `specs/` files → `"agent-system"`
-- Tags from extension paths (e.g., `.lua` files) → run keyword heuristic against tag content and file path
-- Use the same heuristic as `/task` topic inference
+**Topic Auto-Inference and Confirm (Mode C Suggest-Wrap)**: Before writing each task entry, infer topic from file path and description, then ask user to confirm:
+
+```bash
+# Infer topic from source file paths for this task
+inferred_topic=""
+for tag_path in "${task_file_paths[@]}"; do
+  if [[ "$tag_path" == .claude/* || "$tag_path" == specs/* ]]; then
+    inferred_topic="agent-system"; break
+  elif [[ "$tag_path" == lua/* || "$tag_path" == after/* ]]; then
+    inferred_topic="neovim"; break
+  elif [[ "$tag_path" == home/* || "$tag_path" == modules/* ]]; then
+    inferred_topic="nix-config"; break
+  fi
+done
+```
+
+If `inferred_topic` is non-empty, show Mode C confirm via AskUserQuestion:
+```json
+{
+  "question": "Topic for this task?",
+  "header": "Topic Confirm",
+  "multiSelect": false,
+  "options": [
+    {"label": "Accept: {inferred_topic}", "description": "Use auto-inferred topic"},
+    {"label": "Override...", "description": "Enter a different topic name"},
+    {"label": "Skip (no topic)", "description": "Create task without a topic"}
+  ]
+}
+```
+
+- If user selects "Accept: {inferred_topic}" → `topic="$inferred_topic"`
+- If user selects "Override..." → show free-text follow-up: `{"question": "Enter topic name (lowercase, kebab-case):"}` and capture result as `topic`
+- If user selects "Skip (no topic)" → `topic=""`
+
+If `inferred_topic` is empty, skip confirm entirely and set `topic=""`.
 
 **For fix-it task when has_note_dependency is TRUE**, include dependencies array:
 ```json
@@ -482,24 +513,20 @@ Note: Omit `"topic"` field if topic cannot be inferred (empty string from heuris
 
 The state.json update in Step 9.1 already writes the task data. TODO.md will be regenerated via generate-todo.sh in Step 9.4 after all state.json writes complete.
 
-### Step 9.3: Update active_topics (Non-Blocking)
+### Step 9.3: Assign Topics via manage-topics.sh (Non-Blocking)
 
-After all tasks have been written to state.json, append any new inferred topics to the `active_topics` array:
+After each task has been written to state.json, assign the confirmed topic via `manage-topics.sh set`. The `set` subcommand also calls `add` internally, so no standalone `add` call is needed:
 
 ```bash
-# Collect unique topics inferred for all created tasks
-# For each unique inferred topic, append to active_topics if not already present
-for topic in "${new_topics[@]}"; do
-  [[ -z "$topic" ]] && continue
-  jq --arg t "$topic" '
-    if ((.active_topics // []) | index($t)) == null
-    then .active_topics = ((.active_topics // []) + [$t])
-    else . end' \
-    specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
-done
+# For each task created, call set AFTER the task entry exists in state.json
+# topic is the value from Mode C confirm in Step 9.1 (may be "" if user skipped)
+if [[ -n "$topic" ]]; then
+  bash .claude/scripts/manage-topics.sh set "$task_num" "$topic" \
+    2>/dev/null || echo "Warning: manage-topics.sh set failed for task $task_num (non-fatal)" >&2
+fi
 ```
 
-Where `new_topics` is the array of topic values auto-inferred during Step 9.1. Topics already in `active_topics` are skipped (idempotent). Topics that are empty/null are skipped via the `[[ -z "$topic" ]]` guard.
+The `manage-topics.sh set` call updates both the task entry's `topic` field and the `active_topics` array atomically. Topics that are empty/null are skipped via the `[[ -n "$topic" ]]` guard.
 
 ### Step 9.4: Regenerate TODO.md (Non-Blocking)
 

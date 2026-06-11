@@ -58,6 +58,30 @@ description=$(echo "$task_data" | jq -r '.description // ""')
 parent_topic=$(echo "$task_data" | jq -r '.topic // ""')  # Inherited by spawned tasks
 ```
 
+**Mode B Fallback Picker**: If `parent_topic` is empty, the parent task has no topic. Show a full Mode A interactive picker to let the user assign one now (which will also be inherited by spawned tasks):
+
+```bash
+if [[ -z "$parent_topic" ]]; then
+  # Get existing active topics from state.json
+  mapfile -t existing_topics < <(bash .claude/scripts/manage-topics.sh list)
+  # Show Mode A picker (existing topics + "New topic..." + "Skip (no topic)")
+fi
+```
+
+AskUserQuestion:
+```json
+{
+  "question": "Assign a topic to this task (will be inherited by spawned tasks)?",
+  "header": "Topic",
+  "multiSelect": false,
+  "options": ["<existing-topic-1>", "<existing-topic-2>", "New topic...", "Skip (no topic)"]
+}
+```
+
+- If user selects an existing topic → `parent_topic="$selected"`
+- If user selects "New topic..." → show free-text follow-up and capture as `parent_topic`
+- If user selects "Skip (no topic)" → `parent_topic=""` (no topic assigned)
+
 ---
 
 ### Stage 2: Preflight Status Update
@@ -385,18 +409,18 @@ The state.json update in Stage 13 already writes the dependencies array. TODO.md
 
 ---
 
-### Stage 14a: Update active_topics (Non-Blocking)
+### Stage 14a: Assign Topics via manage-topics.sh (Non-Blocking)
 
-If the parent task has a topic, ensure it is present in the `active_topics` array:
+For each new task created in Stage 11, assign the inherited `parent_topic` via `manage-topics.sh set`. The `set` subcommand updates both the task's `topic` field and the `active_topics` array atomically (must be called AFTER the task entry exists in state.json from Stage 11):
 
 ```bash
-# Append inherited parent topic to active_topics if not already present
+# Call set for each new task (parent_topic already written to each task entry in Stage 11)
 if [[ -n "$parent_topic" ]]; then
-  jq --arg t "$parent_topic" '
-    if ((.active_topics // []) | index($t)) == null
-    then .active_topics = ((.active_topics // []) + [$t])
-    else . end' \
-    specs/state.json > specs/tmp/state.json && mv specs/tmp/state.json specs/state.json
+  for idx in $(echo "$dependency_order" | jq -r '.[]'); do
+    new_task_num=${task_num_map[$idx]}
+    bash .claude/scripts/manage-topics.sh set "$new_task_num" "$parent_topic" \
+      2>/dev/null || echo "Warning: manage-topics.sh set failed for task $new_task_num (non-fatal)" >&2
+  done
 fi
 ```
 

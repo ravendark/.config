@@ -267,9 +267,34 @@ Parse task number and optional prompt:
      specs/state.json)
    ```
 
+   **Mode B Fallback Picker**: If `parent_topic` is empty, show a full Mode A interactive picker:
+   ```bash
+   if [[ -z "$parent_topic" ]]; then
+     mapfile -t existing_topics < <(bash .claude/scripts/manage-topics.sh list)
+     # Show AskUserQuestion picker (existing topics + "New topic..." + "Skip (no topic)")
+   fi
+   ```
+   AskUserQuestion:
+   ```json
+   {
+     "question": "Assign a topic to subtasks (parent has none)?",
+     "header": "Topic",
+     "multiSelect": false,
+     "options": ["<existing-topic-1>", "<existing-topic-2>", "New topic...", "Skip (no topic)"]
+   }
+   ```
+   - If user selects an existing topic → `parent_topic="$selected"`
+   - If user selects "New topic..." → free-text follow-up, capture as `parent_topic`
+   - If user selects "Skip (no topic)" → `parent_topic=""` (no topic assigned)
+
 3. **Create 2-5 subtasks** using the Create Task jq pattern for each, inheriting parent topic:
    ```bash
    # Include "topic": parent_topic in each subtask jq entry (if parent has a topic)
+   # After each subtask entry is written to state.json, call manage-topics.sh set:
+   if [[ -n "$parent_topic" ]]; then
+     bash .claude/scripts/manage-topics.sh set "$subtask_num" "$parent_topic" \
+       2>/dev/null || echo "Warning: manage-topics.sh set failed (non-fatal)" >&2
+   fi
    ```
 
 4. **Update original task** to reference subtasks and set status to expanded:
@@ -531,6 +556,30 @@ parent_topic=$(jq -r --arg num "$task_number" \
   specs/state.json)
 ```
 
+### Step 7.6: Fallback Topic Picker
+
+If `parent_topic` is empty, the parent task has no topic. Show a full Mode A interactive picker:
+```bash
+if [[ -z "$parent_topic" ]]; then
+  mapfile -t existing_topics < <(bash .claude/scripts/manage-topics.sh list)
+  # Show AskUserQuestion picker (existing topics + "New topic..." + "Skip (no topic)")
+fi
+```
+
+AskUserQuestion:
+```json
+{
+  "question": "Assign a topic to follow-up tasks (parent has none)?",
+  "header": "Topic",
+  "multiSelect": false,
+  "options": ["<existing-topic-1>", "<existing-topic-2>", "New topic...", "Skip (no topic)"]
+}
+```
+
+- If user selects an existing topic → `parent_topic="$selected"`
+- If user selects "New topic..." → free-text follow-up, capture as `parent_topic`
+- If user selects "Skip (no topic)" → `parent_topic=""` (no topic assigned)
+
 ### Step 8: Create Selected Follow-up Tasks
 
 For each selected task, use the Create Task jq pattern:
@@ -560,6 +609,12 @@ jq --arg ts "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
    } | if .topic == null then del(.topic) else . end] + .active_projects' \
      specs/state.json > specs/tmp/state.json && \
      mv specs/tmp/state.json specs/state.json
+
+# After state.json write, assign topic via manage-topics.sh (non-blocking)
+if [[ -n "$parent_topic" ]]; then
+  bash .claude/scripts/manage-topics.sh set "$next_num" "$parent_topic" \
+    2>/dev/null || echo "Warning: manage-topics.sh set failed for task $next_num (non-fatal)" >&2
+fi
 ```
 
 After all follow-up task state.json writes complete, **regenerate TODO.md**:
