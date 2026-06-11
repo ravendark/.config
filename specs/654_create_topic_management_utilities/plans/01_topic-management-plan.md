@@ -1,7 +1,7 @@
 # Implementation Plan: Create Topic Management Utilities
 
 - **Task**: 654 - create_topic_management_utilities
-- **Status**: [NOT STARTED]
+- **Status**: [IMPLEMENTING]
 - **Effort**: 2 hours
 - **Dependencies**: None
 - **Research Inputs**: specs/654_create_topic_management_utilities/reports/01_topic-management-research.md
@@ -49,7 +49,7 @@ Topic picker logic is duplicated across 6 files (~147 lines) in the `.claude/` a
 
 Phases within the same wave can execute in parallel.
 
-### Phase 1: Create manage-topics.sh [NOT STARTED]
+### Phase 1: Create manage-topics.sh [COMPLETED]
 
 - **Goal:** Produce a working `.claude/scripts/manage-topics.sh` with four subcommands: `list`, `add TOPIC`, `set TASK_NUM TOPIC`, `validate TOPIC`.
 - **Tasks:**
@@ -67,7 +67,7 @@ Phases within the same wave can execute in parallel.
 - **Timing:** 45 minutes
 - **Depends on:** none
 
-### Phase 2: Create topic-assignment-pattern.md [NOT STARTED]
+### Phase 2: Create topic-assignment-pattern.md [COMPLETED]
 
 - **Goal:** Produce a complete pattern document at `.claude/context/patterns/topic-assignment-pattern.md` that commands can reference instead of inlining picker logic.
 - **Tasks:**
@@ -93,7 +93,7 @@ Phases within the same wave can execute in parallel.
 - **Timing:** 45 minutes
 - **Depends on:** 1
 
-### Phase 3: Register in context index [NOT STARTED]
+### Phase 3: Register in context index [COMPLETED]
 
 - **Goal:** Add `topic-assignment-pattern.md` to `.claude/context/index.json` so agents load it when relevant.
 - **Tasks:**
@@ -111,7 +111,7 @@ Phases within the same wave can execute in parallel.
 - **Timing:** 15 minutes
 - **Depends on:** 2
 
-### Phase 4: Verification [NOT STARTED]
+### Phase 4: Verification [COMPLETED]
 
 - **Goal:** Confirm all deliverables work correctly against live state.json.
 - **Tasks:**
